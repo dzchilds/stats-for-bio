@@ -1,30 +1,232 @@
 --- 
-title: "A Minimal Book Example"
-author: "Yihui Xie"
+title: "APS 240: Data Analysis and Statistics with R"
+author: "Dylan Z. Childs"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
-output: bookdown::gitbook
+output:
+  bookdown::gitbook:
+    includes:
+      in_header: extras.css
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-github-repo: rstudio/bookdown-demo
-description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+github-repo: dzchilds/stats-for-bio
+description: "Course book for Data Analysis and Statistics with R (APS 240) in the Department of Animal and Plant Sciences, University of Sheffield "
 ---
 
-# Prerequisites
+# Course information and overview
 
-This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports, e.g., a math equation $a^2 + b^2 = c^2$.
+This is the online course book for the __Data Analysis and Statistics with R__ ([APS 240](https://www.shef.ac.uk/aps/currentug/level2/aps240)) module. You should be able to view this website in any modern desktop browser, as well as on your phone or tablet device. The site is self-contained---it contains all the material you are expected to learn this year.
 
-For now, you have to install the development versions of **bookdown** from Github:
+[Dylan Childs](https://www.shef.ac.uk/aps/staff-and-students/acadstaff/childs) is the course co-coordinator. Please [email him](mailto:d.childs@sheffield.ac.uk?Subject=APS%20133%20general%20query) if you have have any general queries about the course. [Andrew Beckerman](https://www.shef.ac.uk/aps/staff-and-students/acadstaff/beckerman) is the second course instructor. The Teaching Assistants this year are Ross Booton, Rob Goodsell, Bethan Hindle, and Simon Mills.
 
-```{r eval=FALSE}
-devtools::install_github("rstudio/bookdown")
+## Why do a data analysis course? {#why-data-analysis}
+
+To do science yourself, or to understand the science other people do, you need some understanding of the principles of experimental design, data collection, data presentation and data analysis. That doesn’t mean becoming a maths wizard, or a computer genius, it means knowing how to take sensible decisions about designing studies and collecting data, and then being able to interpret those data correctly. Sometimes the methods required are extremely simple, sometimes more complex. You aren’t expected to get to grips with all of them, but what we hope to do in the course is to give you a good practical grasp of the core techniques that are widely used in biology and environmental sciences. You should then be equipped to use these techniques intelligently and, equally importantly, know when they are not appropriate, and when you need to seek help to find the correct way to design or analyse your study.
+
+You should, with some work on your part, acquire a set of skills which you will use various stages throughout the remainder of your course, in practicals, field courses and in your project work. These same skills will almost certainly also be useful after your degree, whether doing biology, or something completely different. We live in a world that is increasingly flooded with data, and people who know how to make sense of this are in high demand. The R statistical programming environment underpins much of this analysis, both in academic and commercial settings. Learning the basic principles of data analysis, implemented in R, can only improve your employment prospects and opportunities for further study following your undergraduate training. 
+
+## Course overview {#overview}
+
+### Aims {#aims}
+
+This course has two main, and equal, aims. The first is to provide a basic training in the use of statistical methods and computers (R!) to analyse biological data. The second is to introduce some of the principles of experimental design, sampling, data interpretation, graphical presentation and scientific writing relevant to the biological and environmental sciences.
+
+### Objectives {#objectives}
+
+By the end of the course you should be familiar with the principles and use of a range of basic statistical techniques and be able to use the R programming language to carry out appropriate analyses of different types of biological data, and make sensible interpretation of the results. You should be able to relate the ways in which data are collected (by different designs of sampling or experiment) to the types of statistical methods that can be used to analyse those data. In combination with the skills you developed in [APS 135](https://www.shef.ac.uk/aps/currentug/level1/aps135), you should be able to decide on appropriate ways of presenting sets of data graphically and be able to produce good quality scientific figures and incorporate these, along with statistical results, into a formal report, using the correct format and style.
+
+### Assumed background {#assumed-background}
+
+You are assumed to be familiar with the use of personal computers on the University network, and with the use of R for data input, manipulation and plotting introduced in [APS 135](https://www.shef.ac.uk/aps/currentug/level1/aps135). If you are unsure about these basic methods, then you will need to revise the material covered in the Level 1 IT practicals.
+
+**Don't worry if you are one of the Environmental Sciences students joining us from Geography. We will provide extra sessions at the beginning of the course to help you learn the fundamentals of R needed in this course.**
+
+### Methods {#methods}
+
+The course is designed as a ‘self-teaching’ module, allowing you flexibility in the rate at which you work through the material each week. The course runs over semester 1 (weeks 1-12). The first eight weeks consists of one 1.5h hour supported IT practical per week, one self-study practical per week, and one extra reading per week. The remaining four weeks are devoted to the short data analysis project, general revision, and the final exam.
+
+The **supported IT practicals** take place in the APS IT rooms, Perak IT labs and B56. In each of these sessions there will be help available from demonstrators and staff, but it is up to you to work through the practical. You may use either a University computer or your own laptop to complete these practicals (but see the warning below). You are expected to make use of the computing facilities around the University or your own laptop to complete practical work if you do not manage to finish them during a timetabled session.
+
+You will work on the **self-study practicals** in your own time, using either the University computing facilities or your own laptop (again, see the warning below). These practicals are designed to consolidate and extend the work covered in the supported IT practicals. You are free---encouraged, in fact---to work through these in groups. Demonstrators and staff can also answer any questions you have about the self-study practicals during the timetabled sessions.
+
+You are welcome to use your own computer to complete the supported and self-study IT practicals. However, keep in mind that the University computers are the only "officially supported" platform. If you run into a problem using your own computer, the demonstrators and staff will try to help resolve these if there is time. Unfortunately, if these prove to be intractable, you will have to use the University computing facilities. It is not fair on other students for teaching staff to spend valuable contact time trying to solve installation/setup problems.
+
+There is also one **extra reading** to complete in most weeks. These will usually be relatively short, focusing on ideas and concepts, rather then using R. They provide background information, or more detailed discussion, relating to the topics you are covering at that point in the course. These do not usually contain computer-based exercises. However, they are an integral part of the course and you should take time to work through them and ensure you understand the ideas within.
+
+#### Non-assessed material
+
+Although every practical session and extra reading topic is important---in the sense that each contains material that will help you analyse the data you collect in field courses, practicals and projects---we want to avoid creating too much of an assessment burden in this course. To this end, the material in some of the self-study practicals and extra readings will not be formally assessed. These parts of the course are flagged as "Not Assessed" on the [course schedule](./{{site.course-schedule}}).
+
+### What is required of you? {#what-is-required-of-you}
+
+A willingness to learn and to take responsibility for your learning! Data analysis is not the easiest subject in the world, but neither is is the most difficult, and what you learn in this course will form the basis for much of what you do in field course, practical and project work that follows. 
+
+The minimum requirement for the course is that you:
+
+-   attend your designated practical session each week (please ensure that you arrive on time and sign the register, or you will be recorded as absent)
+
+-   complete the self-study practicals and keep on top of the extra reading
+
+-   complete the teaching material for each week before the next practical class
+
+-   check through your answers to questions in the teaching material using the MOLE self-test exercises provided each week
+
+How you work through the practical material is fairly flexible, but in each session you should aim to complete most, if not all, of the tutorial in that practical session. If you don’t then you should finish off the tutorial in your own time before the next practical. Remember, the self-study practicals are designed to consolidate and extend the work covered in the supported IT practicals. These are not optional and each one needs to be completed in the week where it is listed.
+
+If you have problems with any of the work, then staff will help you during the practical sessions, even if it is not the topic designated for that session, so if you need to catch up, or get help with something you didn’t understand there will be opportunities to do so. You can also welcome to ask questions about the self-study practicals and the extra reading during the practical sessions.
+
+A word of advice: Don’t let the flexibility of the course tempt you into letting a backlog of work build up. This will compromise your ability to do the assessed work when it is set.
+
+Remember, **the total study time nominally associated with a 10 credit module is 100 hours**. This means there is an expectation that you will spend significant time outside the timetabled practical classes working on this module. You should aim to spend about 6 hours each week completing the IT practicals, working through the self-study IT sessions, reading the extra material, and later, working on the assessed project. This leaves you about 30 hours to revise for the formal exam.
+
+### Assessment {#assessment}
+
+Assessment of the course will have two components. The first is a short data analysis project, the second an open book, assessed, practical class (well, yes, OK, it’s an exam!). Both will take place towards the end of the course, and full details will be given as the course progresses.
+
+## How to use the teaching material {#how-to-use-the-teaching-material}
+
+### The online course book {#printed-material}
+
+All of the teaching material will be made available through a single online course book (this website). You should bookmark this now if you haven't already done so. There are a couple of good reasons for delivering the course material this way: 
+
+-   **Practicality**: Many of the exercises that you will complete require you to build a previous example in the course material. Copying the relevant R code from the course website and pasting it into your script is much more efficient, and less error-prone, than copying by eye from a printed page. A website also allows us to cross-reference topics and link to outside sources of reading.
+
+-   **Permanence**: Experience suggests that many of you will want to refer to the material in this course after you graduate. However, bits of paper are easy to lose, and because the R landscape is always changing, some elements of the course may be less relevant in a few years time. By putting everything on a website, we can ensure that you will always be able to access a familiar, but up-to-date data analysis course.
+
+There are three different sorts of page on the course website, covering the supported IT practicals, self-study IT practicals, and the extra readings. These are ordered such that, together, they form a complete introduction to data analysis text book. Each page of the website is effectively a chapter of this book. You should work through these in the appropriate order, given on the [course schedule](./{{site.course-schedule}}). In most weeks we start with a supported IT practical, which is then followed by a self-study practical and an extra reading. The only exception is week 1, when the supported IT practical occurs place in between two readings. 
+
+In addition, we will provide a template R script for each practical session, which is linked to at the beginning of the relevant page. These are designed to help you organise the R script that you will need to prepare in each practical.
+
+### Printed material: what you get and what you do with it {#printed-material}
+
+There is a small amount of printed material in this course:
+
+-   **Cheat sheets**: We will supply you with copies of the `dplyr` and `ggplot2` [cheat sheets](https://www.rstudio.com/resources/cheatsheets/) produced by the people who build RStudio . It may help you to refer to these when you need use either the `dplyr` or `ggplot2` packages in a practical.
+
+-   **Assessment information**: Although much of the assessment will be done on the computer, any information relating to the assessments will be produced in printed form on exciting pink paper, so you can’t miss it!
+
+### How to make best use of the teaching material {#how-to-make-best-use-of-it}
+
+DO:
+
+-   Take each page from the start and work through it, following the instructions, but also **think about what you are doing!** Work at your own pace; you are not being assessed on whether you can do the practical in a particular time.
+
+-   Ask teaching staff in the practicals if there are things that you don’t follow, or when things don’t seem to come out the way they should---that’s what we’re there for!
+
+-   Be prepared to experiment to solve any problems that you encounter. You can't break your R or RStudio by generating errors (well, one can, but it's quite hard to do). When you run into a problem, go back to the line of code that generated the first error and try making a change.
+
+-   Collaborate! If you are not sure you understand something feel free to discuss it with a friend — more often than not this is exactly how scientists resolve and clarify problems in their experimental design and analysis.
+
+-   Complete each week’s work before the next week’s session. You may be able to complete some sessions quite quickly, others may take more time and require more work on your own outside the timetabled periods.
+
+DON’T:
+
+-   Just copy what someone else tells you to do without understanding why you are doing it. You need to understand it for yourself (and you’ll be on your own in the exam).
+
+-   Skip practicals or extra reading and get behind schedule — there is too much material to assimilate all at once when you get to the assessments. Like all skills it is something you have practice.
+
+### Conventions used in the course material {#conventions}
+
+The teaching material, as far as possible, uses a standard set of conventions to differentiate between various sorts of information, action and instruction:
+
+#### Text, instructions, and explanations
+
+Normal text, instructions, explanations etc. are written in the same type as this document, we will tend to use bold for emphasis and italics to highlight specific technical terms when they are first introduced (italics will also crop up with Latin names from time to time, but this is unlikely to produce too much confusion!)
+
+When we want to say something REALLY IMPORTANT---e.g., we are summarising the key learning outcomes or giving you a set of instructions---we place the text inside a grey filled box, like this one: 
+
+<div class="well">
+Here is some important text telling you to do something or remember something important.
+</div>
+
+Don't ignore these.
+
+We use block quotations to indicate an example of how a particular statistical result should be presented when you write it in a report: e.g.
+
+> The mean lengths of male and female locusts differed significantly (t=4.04, df=15, p=0.001), with males being significantly larger.
+
+At various points in the text you will come across text in different coloured boxes. These follow the same conventions introduced in the R component of APS 135:
+
+```{block, type='exercise-box'}
+#### Green boxes
+These contain one or more __exercises__. You should complete these exercises as you work through each IT practical and self-study session. They serve to introduce new ideas or consolidate one that has already been introduced.
 ```
 
-Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading `#`.
+```{block, type='advanced-box'}
+#### Blue boxes
+These contain __supplementary information__ or an __advanced topic__. They aim to offer a not-too-technical discussion of how or why something works the way it does. These are things that it may be useful to know, or at least know about. These are not generally meant to be read as part of the main text.
+```
 
-To compile this example to PDF, you need to install XeLaTeX.
+```{block, type='warning-box'}
+#### Yellow boxes
+These contain a __warning__ or flag a common __gotcha__ that may trip you up. These boxes aim to highlight potential pitfalls and show you how to avoid them. These are not generally meant to be read as part of the main text. You will avoid mistakes now and in the future if pay close attention to these.
+```
+
+#### R code, files and RStudio
+
+`This typeface` is used to distinguish R code within a sentence of text: e.g. "We use the `summary` function to obtain information about an object produced by the `lm` function."
+
+A sequence of selections from an RStudio menu is indicated as follows: e.g. **File ▶ New File ▶ R Script**
+
+File names referred to in general text are given in upper case in the normal typeface: e.g. MYFILE.CSV.
+
+### Feedback {#feedback}
+
+There are a number of ways in which you can obtain feedback on how well you understand the course material
+
+#### Self-assessment questions:
+
+At various points in the course material there are questions for you to answer. When you reach one of these, you should be in a position to answer the question —- so make a note of the answer! When you’ve completed the session, you can then check your answers using the ‘self-test’ for that particular session on MOLE. You will see if you have the correct answer and in some cases you will also get some additional explanation as to why that answer is right (or wrong!).
+
+#### Each other:
+
+Discussing what you are doing with someone as you go along, or working through a problem with someone else, can help clarify your understanding. Please bear in mind, however, that you learn little or nothing by simply copying information from someone else, and when it comes to the assessed project, it must be your own work.
+
+#### Staff:
+
+In the practicals you will have opportunities to ask questions and discuss what you are doing with staff and teaching assistants. They are not just there to help you with the practical. You should use them to help you work through any problems you have with the course material, both "conceptual" and "practical". There will also be an opportunity to have topics you raise discussed in later practicals.
+
+### Help sessions {#help}
+
+We will run an open 'help' session every Wednesday from 12-2.00pm, in the B56 IT Room in APS. An instructor will be on hand during this period to answer specific questions about the course material. This room holds about 40 students, so please only attend if you require one-to-one assistance, i.e, don't just use this session to complete unfinished practicals (unless you are stuck).
+
+### Overall… {#overall}
+
+We hope that the material is clear and easy to use, and that you find the course useful, or even enjoy it!
+
+In a text of this size, which is continually being improved and updated, errors do creep in; if you find something you think is wrong please tell us. If it’s not wrong we will be happy to explain why, and if it is then you will save yourself and others a lot of confusion. Similarly, if you have any comments or suggestions for improving the teaching materials please let us know.
+
+## Health and safety using display screen equipment {#health-and-safety}
+
+Although using a computer may not seem like a particularly risky activity you should be aware that you can suffer ill effects if you work at a computer for long periods without observing a few sensible precautions. The standard guidelines are as follows:
+
+-   Make sure that your equipment is properly adjusted:
+
+    -   ensure that your lower back is well supported by adjusting the
+        seat back height
+
+    -   adjust your chair seat height so that your forearms are level
+        when using the keyboard
+
+    -   make sure that the front edge of the keyboard is at least 8-10
+        cm away from the edge of the desk
+
+    -   if you are using a mouse, have it far enough away from the edge
+        of the desk so that your wrist is supported whilst you use it.
+        If you can learn to use the mouse with either hand then this can
+        help avoid strains
+
+-   Do not have your screen positioned in such a way that there is glare
+    or reflections from the windows or room lights on the screen.
+
+-   Maintain good posture.
+
+-   Take regular breaks away from the computer. It is recommended that
+    you take about 10 minutes break every hour.
+
+Most Departments will have a Display Screen Trainer or Advisor, who can offer specific advice if you are using a display screen for a substantial amount of time, or if you experience, or anticipate, specific problems.
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages

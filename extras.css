@@ -1,0 +1,37 @@
+<style type="text/css">
+.exercise-box {
+    color: #eee8d5;
+    background: #859900;
+    padding: 2px 18px 12px 18px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    margin: 18px 0px 24px 0px;
+}
+.warning-box {
+    color: #eee8d5;
+    background: #b58900;
+    padding: 2px 18px 12px 18px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    margin: 18px 0px 24px 0px;
+}
+.advanced-box {
+    color: #eee8d5;
+    background: #268bd2;
+    padding: 2px 18px 12px 18px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    margin: 18px 0px 24px 0px;
+}
+.box-text {
+  color: #586e75;
+  background-color: #fdf6e3;
+  margin:  0px -15px -9px -15px;
+  padding: 10px 15px 9px 15px;
+  border-radius: 0px 0px 6px 6px;
+}
+</style>
+
+
+
+
