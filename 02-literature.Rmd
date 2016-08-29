@@ -1,6 +1,0 @@
-# (PART) Part I {-}
-
-# Revision
-
-Here is a review of existing methods.
-
