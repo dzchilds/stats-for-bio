@@ -1,2 +1,19 @@
 # Syllabus and assessment
 
+## Principles (I)
+
+* Recognise the correct definition of a statistical population, a population parameter, a sample, and a point estimate (also called a statistic).
+
+* Explain what sampling error is (in non-technical terms), and explain why it is important to quantify this.
+
+* Recognise the difference between the distribution of a sample, and the sampling distribution of an estimate (or statistic) derived from that sample.
+
+* Explain, in non-technical terms, the difference between the standard deviation (a propery of a sample) and the standard error (a property of a sampling distribution).
+
+* Calculate the standard error of a sample mean when the population distribution of the focal variable follows a normal distribution.
+
+You are **not** expected to be able to explain or use the bootstrap.
+
+## Principles (II)
+
+
