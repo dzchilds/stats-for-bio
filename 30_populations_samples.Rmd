@@ -6,6 +6,10 @@
 > 
 > [Davidian and Louis (2012)](https://doi.org/10.1126/science.1218685)
 
+```{r}
+getwd()
+```
+
 
 ## Populations and samples {#pops-and-samps}
 
@@ -228,7 +232,7 @@ Download the MORPH_WEIGHTS.CSV file from MOLE and place it in your working direc
 </div>
 
 ```{r, echo = FALSE}
-morph.weights <- read.csv(file = "./_data_files/MORPH_WEIGHTS.CSV")
+morph.weights <- read.csv(file = "./data_csv/MORPH_WEIGHTS.CSV")
 ```
 
 We read in the data and then carried out a few 'sanity checks' in that last exercise. **Always check your data after you have read it in**. There is no point messing about with the likes of `dplyr` and `ggplot2`, or carrying out a statistical analysis, until we have done this. If we don't understand how our data is organised, there is very real risk that we will make a lot of easily avoidable mistakes.

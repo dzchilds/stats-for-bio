@@ -1,6 +1,7 @@
 bookdown::gitbook:
   css: style.css
   config:
+    split_by: section
     toc:
       collapse: section
       before: |

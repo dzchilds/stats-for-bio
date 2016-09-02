@@ -1,3 +1,5 @@
-This is a minimal example of a book based on R Markdown and **bookdown** (https://github.com/rstudio/bookdown). Please see the page "Get Started" at https://bookdown.org/ for how to compile this example.
+This is the course book for the Data Analysis in R course in the Department of Animal and Plant Sciences at the University of Sheffield. It is written using R Markdown and **bookdown** (https://github.com/rstudio/bookdown).
 
-You can find the preview of this example at https://bookdown.org/yihui/bookdown-demo/
+### Notes for the author
+
+*   Do not place files in any directory ending in "_files". This will get moved into "_bookdown_files" and will not be tracked by git.
