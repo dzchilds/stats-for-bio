@@ -15,11 +15,16 @@
 
 As Hooke’s observation suggests, science cannot proceed on theory alone. The information we gather about a system both stimulates questions and ideas about it and, in turn, can also allow us to test these ideas. In fact the idea of measuring and counting things is so familiar to us that it is easy to start a project without giving much thought to something as apparently mundane as the nature, quantity and resolution of the data we intend to collect. It is worth considering, however, as the nature, quantity and quality of the data in a study determine both the types of analyses that can be carried out, and the confidence we can have in any conclusions that are drawn. We will spend quite a lot of time considering the statistical tools that can help you extract information from your data, but no statitical wizardry can extract information that isn’t somewhere in the data to begin with.
 
-So what is there to say about data? The first point to note is that, properly, the word data is the plural of datum (a single, usually numerical, piece of information) …so we should say “the data are…” not “the data is …”. However, the use of the word in the singular is becoming widespread, and you will increasingly commonly hear it used in this way.
+So what is there to say about data? The first point to note is that, properly, the word data is the plural of datum (a single, often numerical, piece of information) ...so we should say “the data are...” not “the data is...”. However, the use of the word in the singular is becoming widespread, and you will commonly hear it used in this way. ['Grammar nazis'](http://www.urbandictionary.com/define.php?term=Grammar%20Nazi) really don't like this though, so it's worth knowing what the "correct" subject-verb agreement looks like.  
 
 The second point is that there are many different sorts of data. Examples include spatial maps of the occurance of a particular species or environmental variable, DNA sequences or even the whole genomes of individuals, and networks of feeding relationships among species (i.e. food webs). These kinds of data can be very challenging to analyse. In this course we are concerned with relatively simple kinds of data. 
 
-When we collect data it is typically organised as a set of one or more related **variables**. Remember, statisticians use the word 'variable' to refer to any characteristic that can be measured, counted or experimentally controlled. Collectively, a set of related variables are often referred to as a **data set** (or just 'the data', if we are feeling lazy).
+When we collect data it is typically organised as a set of one or more related statistical **variables**. Remember, statisticians use the word 'variable' to refer to any characteristic that can be measured, counted or experimentally controlled. Collectively, a set of related variables are referred to as a **data set** (or just 'the data', if we are feeling lazy). So in the spatial map example, a minimal data set might comprise two variables containing the x and y position of sample locations, along with a third variable denoting the presence / absence of a species.
+
+```{block, type='advanced-box'}
+#### Data and variables in R
+Remember what you learnt last year about data frames and vectors? When using R, we often (not always!) store each data set as a **data frame**. Each column in the data frame is one of R's **vectors** (numeric, character, etc). These columns correspond to a statistical variables in our data set. This simple connection between abstract statistical concepts and the concrete objects in R is not coincidence -- R was designed first and foremost to analyse data.
+```
 
 ## Revision: Types of variable {#var-types}
 
@@ -27,7 +32,7 @@ Again, because we handle data of one sort or another so frequently, we often don
 
 Last year we learned that the variables that comprise a data set can be classified as being either __numeric__ or __categorical__: categorical variables have values that describe a characteristic of an observation, like 'what type' or 'which category'; numeric variables have values that describe a measurable quantity as a number, like 'how many' or 'how much'. Categorical variables can be further characterised according to whether or not they have a natural order (__nominal__ vs. __ordinal__ variables), and numeric variables can be further characterised according to the type of scale they are meaured on (__interval__ vs. __ratio__ scales).
 
-We'll now review these classifications.
+Let's review these classifications.
 
 ### Nominal (categorical) variables
 
@@ -69,7 +74,7 @@ We always have to define some kind of coding scheme to represent the different c
 
 -   Numeric codes are arbitrary and should not be used as numbers for mathematical operations. For example, it is meaningless to say 2 ("male") is larger than 1 ("female"), or $2 + 1 = 3$. R has a special way of representing categorical variables (called 'factors') so it assumes that any variable containing numeric values is meant to treated as a number. 
 
-Our advice is to always use words (e.g., 'female' vs. 'male'), not numbers, to describe the different categories when you are preparing your data for analysis. if you don't do this you are much more likely to make a silly mistake when carrying out an analysis of those data.
+So here's the warning: **always** use words (e.g., 'female' vs. 'male'), not numbers, to describe the different categories when you are preparing your data for analysis. You are much more likely to make a silly mistake when carrying out an analysis if you don't do this, because R will try to treat the offending categorical variable as a number.
 ```
 
 ### Interval scale (numeric) variables
@@ -100,47 +105,6 @@ In general, ratio data is the data type best suited for statistical analysis. Bu
 It is this last question that should really come first when thinking about a study. What sort of data do we need to answer the question we are interested in? If it is clear at the outset that data on a rank scale will not be sufficiently detailed to enable us to answer the question then we must either develop a better way of collecting the data, or abandon that approach altogether. If you know the data you are able to collect cannot address the question, then you would be better doing something else, so it is good to work that out in advance.
 
 And an obvious, but important point: you can always convert measurements taken on a ratio scale to an interval scale, but you cannot do the reverse. Similarly, you can convert interval scale data to ordinal data, but you cannot do the reverse. In general, it is a good idea to avoid such conversions if you can, as they inevitably result in a loss of information.
-
-### Recognising types of data
-
-The following table gives a number of measurements taken in the course of a study of a woodland ecosystem. What type of variable results from the measurements taken in each case?
-
----------------------------------------------------------------------------
-**Measurement**               **Units**                      **Data type?**
----------------------------   ---------------------------    --------------
-Height of tree                Metres
-
-Particulate deposits          Scale of 1 to 5
-(pollution) on leaves         (very ligh to very dark)
-
-Age of tree                   Number of annual rings 
-                              (one ring formed each year)
-                              
-Month of bud break            Month no. 1 (Jan) - 12 (Dec)
-
-Leaf shape                    1 - oval, 2 - lanceolate, 
-                              3 - palmate, 4 - pinnate
-
-Number of species of aphid    Number of spp.
-on a tree
-
-Average number of aphids      Individuals on 20 leaves
-per leaf
-
-Time of day of highest        Time
-light intensity under leaves  
-
-Occurrence of fungal          Heavy (>50% of leaves),
-infection on the leaves       Light (<50% of leaves), 
-                              Absent (no infection)
-
-Tree species                  Latin name
-
-Aspect of ground on which     Degrees (0-360)
-each lime tree occurs 
-
-Bracken in random quadrats    Visual estimate of % coverage
----------------------------------------------------------------------------
 
 ## Accuracy and precision {#accuracy-precision}
 
