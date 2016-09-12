@@ -1,0 +1,167 @@
+# Comparing populations
+
+Scientific enquiry involves asking questions and collecting information to answer these questions. One of the commonest kinds of question that we ask as biologists is: ‘Is there a difference between the measurements from two samples?’ For example:
+
+‘Do male and female locusts differ in length?’
+
+‘Do maize plants photosynthesise at different rates at 25°C and 20°C?’
+
+‘Do eagle owls feed on rats of different sizes during winter and summer?’
+
+‘Do streams running through conifer forests differ in pH from those running through deciduous forests?’
+
+'Do purple and green plant morphs differ in their biomass?'
+
+In order to answer these kinds of questions we need to step through the same kind of process discussed last week. We have to: (1) decide which variables we need to measure; (2) decide which population parameters are relevant; (3) design a suitable experiment or gather representative samples; (4) use the samples to learn about the populations.
+
+Today we will assume that we already know how to go about steps 1-3. Our focus is on step 4: using the samples to learn about the populations. We want to understand the problem of how to determine whether or not two populations are different in some way.
+
+## Comparing two population means: fundamental ideas
+
+### Defining the question
+
+It is much easier to understand the different parts of this problem if we work with a concrete example. We'll use the purple plant / green plant situation from last week, focussing on the dry weight biomass of our imaginary plants (rather than their frequency). We hypothesised that perhaps the two morphs have different growth habits, and so we measured the biomass of individuals in a sample of each morph. The focal variable is dry weight biomass (a numeric variable, measured on a ratio scale).
+
+Last week, we looked at how to quantify uncertainty in a single estimate of the population mean biomass of a morph. This week, we want to compare the biomass samples of the two morphs to address the question: 'Do purple and green plant morphs differ in their dry weight biomass?'. However, as it is currently framed, this question is a little too vague. The first thing we have to do is define what we mean by 'different'.
+
+```{r, echo = FALSE}
+morph.weights <- read.csv(file = "./data_csv/MORPH_WEIGHTS.CSV")
+```
+
+As always, it is a very good idea to plot the data. We could do this in a variety of ways, but since we only have two groups (purple and green morphs), we may as well summarise the full sample distribution of each morph. The data are in the MORPH_WEIGHTS.CSV file, which we have read into R using the `read.csv` function. We stored the data in a data frame called `morph.weights`. Here is some `ggplot2` code to make the required plot:  
+```{r two-morph-dist}
+ggplot(morph.weights, aes(x = weight)) + 
+  geom_dotplot(binwidth = 30) + 
+  facet_wrap(~pmorph, ncol = 1)
+```
+
+(Hopefully this plot will also remind you how to use the `facet_wrap` function to make a multipanel plot, based on the values of particular variable--`pmorph` in this case).
+
+What does this plot suggest? We are interested in the degree of similarity (or not!) of the two sample distributions. There is a lot of overlap in the dry weights of each morph, but in general we can say that: (1) green morph individuals tend to have higher dry weights than purple morphs, and (2) the green morphs seem to be more variable than purple morphs.
+
+We can get a better handle of these patterns by calculating the sample means and standard deviations of the two samples to evaluate their central tendency and spread, respectively. We know how to use `dplyr` functions `group_by` and `summarise` to do this:
+```{r}
+descrip.stats <- 
+  morph.weights %>% 
+  group_by(pmorph) %>%
+  summarise(wght.mean = mean(weight), wght.sd = sd(weight))
+descrip.stats
+```
+
+(If you are confused by this, ask a demonstrator to explain how it works).
+
+These descriptive statistics back up our visual impressions of the data: green morph individuals are larger than purple morphs (sample means: 787 vs. 658 grams), and green morphs are more variable than purple morphs (sample SDs: 118 vs. 114 grams). Remember, these numbers are just point estimates derived from limited samples. If we sampled the populations again, sampling variation would ensure that we end up with different estimates. This means we are not yet in a position to conclude that green morphs are bigger than purple morphs.
+
+Let's return to our question: 'Do purple and green morphs differ in their dry weight biomass?'. We said this question was a little too vague, and that we needed to define what we meant by 'different'. One way in which the sample distributions seem to be different is with respect to their spread, and so one possible refinement of this question would be to ask whether this difference is 'real', or simply arises from sampling variation. There are circumstances where it is scientifically interesting to compare variability. However, it is much more common to focus on differences in the central tendency of samples.
+
+By looking at the central tendency of different samples, we can evaluate whether or not something we have measured increases or decreases, on average, among different populations. Many scientifically relevant questions are addressed by making this assessment. When someone uses a statistical test or model to 'compare samples', what they are usually doing is evaluating whether or not the central tendency of the populations are different. We typically make this assessment by evaluating the strength of evidence for the presence of **a difference in the population means** of the focal populations. 
+
+The question we want to address is therefore: 'What is the strength of evidence for a difference in the population mean biomass of purple and green plant morphs?' In practise, this boils down to a another question: 'Is there a statistically significant difference between their means.'
+
+We will now turn to the idea of **statistical significance**. We will also see how to evaluate statistical significance by calculating a **p-value** under a suitable **null hypothesis**.
+
+### How do we evaluate statistical significance?
+
+```{r, echo = FALSE}
+set.seed(27081975)
+nperm <- 2000
+perm.out <- numeric(nperm)
+perm.eg <- list()
+data.i <- morph.weights
+ids <- morph.weights$pmorph
+for (i in 1:nperm) {
+  morph.labels <- sample(ids, replace = FALSE)
+  perm.out[i] <- 
+    mutate(data.i, pmorph = morph.labels) %>% 
+    group_by(pmorph) %>% summarise(mean = mean(weight)) %$% diff(mean)
+  if (i <= 3) {
+    perm.eg[[i]] <- morph.weights$weight
+    names(perm.eg[[i]]) <- morph.labels
+  }
+}
+names(perm.eg) <- paste("Sample", 1:3)
+```
+
+In order to assess the strength of evidence for the presence of a difference between the population means of two groups, we have to do something that, at first glance, looks very strange. We can break this down into four steps:
+
+1. We assume that there is actually no difference between the population means. That is, we hypothesise that all the data are sampled from a pair of populations that are characterised by a single, shared population mean.
+
+2. Next, we use information in the sample to help us work out what would happen if we were to repeatedly take samples in this hypothetical situation.
+
+3. We then ask, 'if there is no difference between the two groups, what is the probability that we would observe a difference that is the same as, or more extreme than, the one we actually observed in the sample?'
+
+4. If the observed difference is sufficiently improbable, then we conclude that we have found a 'statistically significant' result. A statistically significant result is one that is inconsistent with the hypothesis of no difference.
+
+(We will discuss how to define 'sufficiently improbable' below)
+
+There are different ways to go about realising this process. We'll look at two of these today. Regardless of the details, they work by trying to evaluate what happens when we repeatedly sample from a population where the effect of interest (i.e. a difference in means) is absent. If you can understand this fundamental idea you are well on your way to understanding how frequentist statistics works. Don't worry if this all seems very abstract (it is)--we are not expecting you to understand it at this point.
+
+Let's return to our example to see how this might work in practise.
+
+### A permutation test
+
+In our example, a hypothesis of 'no difference' between the mean dry weights of purple and green morphs has the following implication. It means both morphs are really sampled from the same population, and as such, the labels 'purple' and 'green' are meaningless. These labels may as well have been randomly assigned to each individual. This suggests that we can evaluate the statistical significance of the observed difference as follows:
+
+1. Make a copy of the original sample of purple and green dry weights, but do so by randomly assigning the labels 'purple' and 'green' to this new copy of the data. Do this in such a way that the original sample sizes are preserved.
+
+(We have to preserve the original sample sizes because we want to mimic the sampling process that we actually used. The process of assigning random lablels is called permutation)
+
+2. Repeat this permutation scheme until we have a large number of artificial samples; 1000-10000 randomly permuted samples may be sufficient.
+
+3. For each permuted sample, calculate whatever sample statistic is of interest. In this case, we want the *difference* between the mean dry weight of purple and green morphs in each sample.
+
+4. Compare the observed sample statistic (i.e. the difference between the mean dry weights) to the distribution of sample statistic from the randomly permutated samples.
+
+This scheme is called a permutation test, because it involves random permutation of the group labels. Why is it useful? *Each unique random permutation yields an observation from the sampling distribution of the difference among sample means, under the assumption that this difference is really zero in the population.* This means we can assess whether an observed difference is consistent with the hypothesis of no difference by looking at where it lies relative to this sampling distribution. 
+
+We have implemented a permutation test in R using the purple/green morph dataset for you, using `r nperm` permutations. We won't show you the R code because it uses a few tricks you haven't been taught, but we can look at a couple of permuted samples to get a sense of how this works: 
+```{r, echo=FALSE}
+perm.eg[1:2]
+```
+The data from each permutation are stored as numeric vectors, in  which each element of the vector is named (these are the labels). Notice that the set of numbers does not change among the permuted samples. The only difference between them is the labelling of the numbers. The difference between the mean dry weights in the first permutation is `r perm.out[1]`. This difference is `r perm.out[2]` in the second sample.
+
+What we really care about here is distribution of these differences. This is an approximation to the the sampling distribution of the difference between means. Here is a histogram that summarises the `r nperm` mean differences from the permuted samples:
+```{r, echo=FALSE, fig.height=3}
+ggplot(data.frame(perm.out), aes(x = perm.out)) + 
+  geom_histogram(fill = grey(0.4), binwidth = 12) +   
+  geom_vline(xintercept = diff(descrip.stats$wght.mean), colour = "red") + 
+  xlab("Difference between means of permuted samples")
+```
+
+Notice that this distribution is centred at zero. This makes sense--if we take a set of numbers and randomly allocate them to groups, on average, we expect the difference between the mean of these groups to be zero. The red line shows the location of the observed difference between purple and green morph mean dry weights. The relevant feature here is the location of this observed difference within the sampling distribution.
+
+```{r, echo=FALSE}
+nlower <- sum(perm.out <=  diff(descrip.stats$wght.mean))
+nhgher <- sum(perm.out >= -diff(descrip.stats$wght.mean))
+```
+
+What does this figure tell us? It looks like the observed difference is very unlikely to have arisen through sampling variation, under the assumption that the population means of the two groups are identical. We can say this because the observed difference lies at the end of one 'tail' of the sampling distribution. We need to be able to make a more precise statement than this though.
+
+Only `r nlower` out of the `r nperm` permutations ended up being equal to, or 'more extreme' (i.e., more negative), than the observed difference. The probability of finding a difference in the means equal to or more negative than the observed difference (denoted *p*) is therefore, *p*=`r nlower/nperm` (`r 100*nlower/nperm`%). This probability has a special name. It is called the **p-value**. A p-value is defined as the probability of obtaining a result equal to or 'more extreme' than what was actually observed, assuming that the hypothesis under consideration is true.
+
+We have to be careful at this point. The test we just did is called a 'one-tailed' test, because we only looked at one end (the tail) of the sampling distribution. However, we did not set out to test whether purple plants were smaller on average than green plants. We set out to assess whether they are different, but we never made a statement about the direction of the effect. This means we also have to consider the possibility of an effect in the opposite direction to what was observed. 
+
+To do this, we have to count up the cases that fall into the upper and lower tails of the distribution, where each tail is defined by the region that lies beyond the absolute value of the observed difference, on the positive and negative halves of the x axis:
+```{r, echo=FALSE, fig.height=3}
+ggplot(data.frame(perm.out), aes(x = perm.out)) + 
+  geom_histogram(fill = grey(0.4), binwidth = 12) +   
+  geom_vline(xintercept =  diff(descrip.stats$wght.mean), colour = "red") + 
+  geom_vline(xintercept = -diff(descrip.stats$wght.mean), colour = "red") + 
+  xlab("Difference between means of permuted samples")
+```
+
+When we do this, we find that `r nlower+nhgher` out of the `r nperm` permutations lie beyond the observed difference, and so the new p-value is *p*=`r (nlower+nhgher)/nperm` (`r 100*(nlower+nhgher)/nperm`%). This kind of test--where we look at both tails of the sampling distribution--is called a 'two-tailed' test. We discuss the reasoning for and against using a one- or two-tailed test in this week's self-directed practical.
+
+#### The significance of p-values
+
+What are we supposed to do with the finding *p*=`r (nlower+nhgher)/nperm`? This is the probability of obtaining a result equal to or 'more extreme' than what was actually observed, assuming that the hypothesis under consideration is true. The hypothesis under consideration is one of no effect, and so a low p-value can be interpreted as evidence for an effect being present. In our example, the low p-value is evidence for a difference among the population mean dry weights of purple and green morphs.
+
+One question remains: How small does a p-value have to be before we are happy to conclude that the effect is probably present? In practise, we do this by applying a threshold, called a **significance level**. If the p-value is less than the chosen significance level we say the result is said to be **statistically significant**. Most often (in biology at least), we use a significance level of *p*<0.05 (5%). Why? The short answer is that this is just a convention. We will return to the use of p-values and the concept of statistical significance later.
+
+#### The null hypothesis
+
+Permutation tests are reasonably straightforward to apply in simple situations, but can be tricky to apply in a more complex setting. We are not expecting you be able to implement a permutation test yourself. We used it to demonstrate how frequentist statistics works. The details vary from one problem to the next, but ultimately, if we are using frequentist ideas we always have to find a way to do the following: 1) assume that there is actually no 'effect', where an effect is expressed in terms of one or more population parameters, 2) work out what would happen if we were to repeatedly take samples from a population in this hypothetical situation, 3) evaluate how likely our observation would be under the hypothesis of no effect.
+
+When using frequentist statistics we are always asking what would happen if we continually sample from a population *in the absence of the effect we are interested in*. This idea of a hypthetical 'no effect' situation is so important that it has a special name; it is called **the null hypothesis**. Every kind of statistical test (in this course at least) has a very specific null hypothesis associated with it. You can only fully understand the resuts of a statistical test if you understand the null hypothesis it relies on. We will remind you about the null hypothesis and introduce the related concept of the alternative hypothesis at the end of this chapter.
+
+

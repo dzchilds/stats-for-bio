@@ -1,4 +1,4 @@
-# (PART) Background and Statistical Concepts {-} 
+# (PART) Statistical Concepts {-} 
 
 # The scientific process
 
