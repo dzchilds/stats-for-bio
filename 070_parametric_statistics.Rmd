@@ -1,13 +1,16 @@
-# (PART) Simple parametric statistics {-} 
+# (PART) Introduction to Parametric Statistics {-} 
 
-# Parametric statistics
+# What are "parametric statistics"?
 
-Most of the statistical tools that we will teach you in this course are **parameteric statistics**. The word 'parametric' refers to the fact that most of the statistical models and tests that we will learn about are based on some kind of mathematical model of the population. The precise details of the models are defined by their parameters. We aren't going to study these models in any great detail, because this is supposed to be a practical course.
+Most of the statistical tools that we will teach you in this course are different examples **parameteric statistics** techniques. The word 'parametric' refers to the fact that most of the statistical models and tests that we will learn about are based on some kind of mathematical model of the population. The precise details of the models are defined by their parameters. We aren't going to study these models in any great detail, because this is supposed to be a practical course.
 
 We will talk about the assumptions of the underlying models though. These are important and we can't afford to ignore them.
 
-## The normal distribution {#parametric-stats}
+## Mathematical models {#math-models}
 
+[[FINISH ME]]
+
+## The normal distribution {#parametric-stats}
 
 In this course, this assumption is essentially always the same: we assume that the variable follows a **normal distribution**. If you studied A-level statistics you should know all about this. If not, you may have come across it without realising: the normal distribution is sometimes called the 'Gaussian distribution' or more colloquially, 'the bell-shaped curve'.
 

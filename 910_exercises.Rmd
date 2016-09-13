@@ -16,9 +16,7 @@ knitr::kable(
 )
 ```
 
-
-
-## Statistical concepts
+## Week2: Statistical concepts
 
 ### Sampling distributions
 
@@ -53,7 +51,135 @@ The somewhat depressing conclusion from this investigation is that we have to in
 
 Use the R code above to investigate how large a bootstrap sample needs to be to reliably estimate the standard error. Start with a bootstrap sample size of 10, and gradually increase it, calculating the standard error each time you do so. How many bootstrap samples are needed to reliably estimate the SE to one decimal place?
 
-## Simple comparisons
+## Week 3: *t*-tests
+
+You should work through the exercises step-by-step, following the instructions carefully. At various points we will interupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 't-tests 1'.   
+
+### Eagle owls and Norway rats
+
+```{r, eval = FALSE, echo = FALSE}
+ratskulls <- read.csv("./data_csv/RATSKULL.CSV")
+ggplot(ratskulls, aes(x = Weight)) + 
+  geom_dotplot() + facet_wrap(~Season, ncol = 1)
+t.test(Weight ~ Season, data = ratskulls)
+```
+
+A dataset containing information about the sizes of Norway rat skulls in the pellets of Scandinavian eagle-owls is available in the RATSKULL.CSV file (you may have come across this before). The data comprise a column of rat skull sizes (measured in grams) and a column of codes indicating the season when a particular skull sample was taken. These data were collected in order to evaluate whether there is a difference between sizes of rats eaten in summer and winter. That is, we want to know if there is a statistically significant difference between the mean rat skull sizes in the winter and summer samples.
+
+Download the RATSKULL.CSV file from MOLE and **place it in your working directory** (this is the location you set at the beginning of this practical). Read the data in RATSKULL.CSV into an R data frame, remembering to assign the data frame a name. Ask a demonstrator to remind you how to do this if you have forgotten, or look over the instructions for reading in the MORPH_WEIGHTS.CSV file from the last practical.
+
+As always, we should always start by *looking at the data* — both visually and in terms of its descriptive statistics:
+
+**Inspection.** Use the `View` function and `dplyr` function `glimpse` to visually inspect the raw data. What are the names given to rat skull size variable and the season indicator variable? What values does the season indicator variable take?
+
+**Descriptive statistics.** Use the appropriate `dplyr` functions (`group_by` and `summarise`) to calculate the sample size, sample mean and standard deviation of each sample. HINT: you will need to use the `mean`, `sd` and `length` functions to help you do this.
+
+**Graphs.** Use `ggplot2` to construct a pair of dot plots, one above the other, to summarise the winter and summer skull size distributions. HINT: you will need to use `geom_dotplot` and the `facet_wrap` functions to do this; look over the plant morph example from the beginning of this practical to see how to use these.
+
+Using the dot plots, and the descriptive statistics, conduct an informal evaluation of the assumptions of the t-test. You should re-read the relevant section above if you can't remember what these are.
+
+<div class="well">
+**MOLE question**
+
+Do you feel the data conform acceptably to the assumptions? If not, explain why.
+</div>
+
+Let's carry on, assuming that we are confident that it is OK to use a two sample t-test to compare the sample means. Use the R `t.test` function to carry out this evaluation now.
+
+<div class="well">
+**MOLE question**
+
+Write a concise but complete conclusion summarizing the results of the test.
+
+Is this what you expected from looking at the distributions of data in the two samples?
+
+Suggest two possible biological reasons for the result you observe.
+</div>
+
+### Fungal infection in French beans
+
+```{r, echo=FALSE, eval=FALSE}
+sandy <- c(2.3, 2.4, 2.5, 2.6, 2.8, 2.7, 3.1, 2.3, 2.5)
+clay  <- c(2.3, 2.5, 2.8, 3.2, 2.9, 3.1, 3.2)
+t.test(sandy, clay)
+beans <- data.frame(glucosamine = c(sandy, clay),
+                    soil = rep(c("sandy","clay"), c(length(sandy), length(clay))))
+write.csv(beans, file = "./course-data/FRENCH_BEANS.CSV", row.names = FALSE)
+```
+
+A plant pathologist noticed that fungal infection in roots of French beans (*Phaseolus vulgaris*) was rather variable among crops and hypothesized that infection might be affected by the soil type: in particular whether the beans were grown on clayey or sandy soils. Root samples were taken from beans growing in each soil type and fungal infection was measured indirectly by measuring the amount of glucosamine in the roots. Glucosamine is a fungal sugar which is polymerised into chitin which forms the cell walls of most fungi.
+
+The glucosamine concentrations ($\mu$g g$^{-1}$ root dry weight) recorded from the samples were:
+
+  ------------ ----- ----- ----- ----- ----- ----- ----- ----- -----
+  Sandy soil    2.3   2.4   2.5   2.6   2.8   2.7   3.1   2.3   2.5
+  Clay soil     2.3   2.5   2.8   3.2   2.9   3.1   3.2        
+  ------------ ----- ----- ----- ----- ----- ----- ----- ----- -----
+
+Download the FRENCH_BEANS.CSV file from MOLE and place it in your working directory. Read the data into an R data frame (remember to give this a name!), inspect the data, generate some summary statistics (means and SDs) and then plot the data, just as you did in the last exercise. This should be quick to achieve--just copy and paste the code you produced, and edit this where required.
+
+Use a t-test to decide whether there is a significant difference between the amount of infection of bean roots in the two different soils.
+
+<div class="well">
+**MOLE question**
+
+Make a note of the results:
+
+Mean for plants on clay soil = ?
+
+Mean for plants on sandy soil = ?
+
+t = ?
+
+d.f. = ? 
+
+p = ? 
+</div>
+
+<div class="well">
+**MOLE question**
+
+Write a statement of the result of the test suitable for inclusion in the results section of the plant pathologist's report.
+</div>
+
+### Sheep, grass and nature reserves
+
+The management committee of a nature reserve wants to manage some large grassland areas of the reserve using low density sheep grazing to prevent the grass becoming too long and making the habitat unsuitable for some of the low-growing herbaceous plants for which the reserve is important. Before implementing the plan they conduct a pilot experiment using some fenced plots on the reserve, to test whether low density sheep grazing affects various species of plants.
+
+One problem is that the area is very variable - some parts are wetter than others, and the plants of interest are not particularly evenly distributed. There is also a limit to the number of plots (and sheep) they can use in the experiment. In order to make the maximum use of the resources and, take some account of the variability in the habitat the experiment is set up by randomly placing eight fenced plots around the reserve, with each plot being divided in half by a fence down the middle. Sheep are introduced to one half of each plot (the half being randomly selected in each case), and allowed to graze for the appropriate period of the year. The other half is left ungrazed.
+
+<div class="well">
+**MOLE question**
+
+Why is this a better design than just having separate grazed and ungrazed plots positioned at random?
+</div>
+
+Over the next 2 years, the abundances of various plants in the in the plots are surveyed.
+
+The data below give the numbers of gentians from each of the eight half-plots with sheep, and the corresponding ungrazed halves after one year of the experiment. 
+
+  ----------- -------- -------- -------- -------- -------- -------- -------- --------
+  Treatment                                                                  
+               Plot 1   Plot 2   Plot 3   Plot 4   Plot 5   Plot 6   Plot 7   Plot 8
+  Grazed         27       1        16       8        10       19       30       9
+  Ungrazed       14       6        17       5        0        11       21       6
+  ----------- -------- -------- -------- -------- -------- -------- -------- --------
+  
+These data are stored in GENTIANS_GRAZING.CSV. Test whether there is any evidence for an effect of sheep grazing on the numbers of gentians.
+
+<div class="well">
+**MOLE question**
+
+What is your conclusion?
+</div>
+
+<div class="well">
+**MOLE question**
+
+What other comparison would it be useful to be able to make in order to reach a satisfactory conclusion about the effects of grazing?  What test would you do for this?
+</div>
+
+
 
 ## Regression
 

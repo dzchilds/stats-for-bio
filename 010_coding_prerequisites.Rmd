@@ -1,29 +1,39 @@
 # (PART) Prerequisites {-} 
 
-# R prerequisites
-
-## Working with data in R {#R-data}
+# Programming prerequisites
 
 Before you work through the rest of this course, it will be useful to revise some of the basic R skills you developed last year:
 
 <div class="well">
-Don't worry if you are an Environmental Sciences student joining us from Geography. We will run extra catch-up sessions for the first three weeks to help you learn the basic R skills needed to do this course, though we won't cover everything the APS students did last year. The material in this section won't make much sense at the moment, but it will after the first three weeks (we promise).
+Don't worry if you are an Environmental Sciences student joining us from Geography. We will run extra catch-up sessions for the first few weeks to help you learn the basic R skills needed to do this course, though we won't cover everything the APS students did last year. The material in this section won't make much sense at the moment, but it will after the first few weeks (we promise).
 </div>
 
-#### Using packages
+## Starting an R session
 
-Remember, R packages extend the basic functionality of R so that you can do more with it. A package bundles together R code, data, and documentation in a way that is easy to use and share with other users. Last year we learned how to use some of the functions provided by the `dplyr` package (for data manipulation) and the `ggplot2` package (for plotting), and we applied these to datasets bundled up in the `nasaweather` package. We are occasionally going to use the `dplyr` and `ggplot2` packages again this year, so you need to remember how to use R's package system in order to access these.
+[[COMPLETE ME]]
 
-You can revise how to use the package system in the [packages]({{site.baseurl-L1}}/help-packages.html) topic. It isn't difficult to use, and we will obviously help you if you run into difficulties. Remember, installing a package, and then loading and attaching the package, are different activities. You only have to install it once, but you have to load the package each time you want to use it in a new R session (i.e. every time you start RStudio).
+## Using packages
 
-#### Reading data into R
+R packages extend the basic functionality of R so that you can do more with it. A package bundles together R code, data, and documentation in a way that is easy to use and share with other users. Last year we learned how to use some of the functions provided by the `dplyr` package (for data manipulation) and the `ggplot2` package (for making plots). We are going to use the `dplyr` and `ggplot2` packages again this year, so you need to understand R's package system in order to access these. You can revise how to use the package system in the [packages](http://dzchilds.github.io/aps-data-analysis-L1/help-packages.html) topic. It isn't difficult to use, and we will obviously help you if you run into difficulties. 
+
+Installing a package is done via the `install.packages` function, e.g.
+```{r, eval=FALSE}
+install.packages("dplyr")
+```
+Loading and attaching the package a package happens via the `library` function, e.g.
+```{r, eval=FALSE}
+library("dplyr")
+```
+The key point---which seems to cause endless confusion---is that installing a package, and then loading and attaching the package, are different activities. You only have to install it once onto your computer, but you have to load a package every time you want to use it in a new R session (i.e. every time you start up RStudio). Your scripts should 
+
+## Reading data into R
 
 Last year we made extensive use of several datasets that reside inside various R packages. This was useful because it meant we could use the data without first reading it into R, meaning that we could concentrate on developing your R skills rather than fixing data input errors. We don't have the luxury of doing this when we work with our own data, and so this year, we will adopt more realistic practises. Whenever you need to work with a dataset, you will have to first download it (from MOLE), and then read it into R. Each dataset is stored as a Comma Separated Value ('CSV') text file, and so you will need to use the `read.csv` function to read it in. You can revise how all of this works in the relevant section of the [data frames]({{site.baseurl-L1}}/data-frames.html#access-data) topic. 
 
-#### Data frames
+## Data frames
 
 When you read data into R using a function like `read.csv`, it places that data into a data frame. The data frame is the most important type of object in R. Remember, a data frame is table-like object that collects together different variables, storing each of them as a named column. We can access the data inside a data frame by referring to particular columns and rows. You can revise how to work with data frames in the [data frames]({{site.baseurl-L1}}/data-frames.html#access-data) topic. The main things to remind yourself about are the `View` function for inspecting a data frame, and the `$` operator for accessing a single column of a data frame. You might also want to revise the `tbl_df` and the `glimpse` functions from the `dplyr` package (but this is not critical).
 
-#### Anything else? 
+## Anything else? 
 
 We will use functions from the `dplyr` package from time-to-time to manipulate data, and we will use the `ggplot2` package to make plots of our data and summarise statistical models. However, we will remind you which functions you need to use to solve a particular problem as the course unfolds, so there is no need to revise all of this material now. If you want to be extra-prepared, our advice is to work through the [quick introduction to ggplot2]({{site.baseurl-L1}}/ggplot2-intro.html#quick) to remind yourself of the logic of plotting with `ggplot2`.

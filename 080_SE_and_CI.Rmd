@@ -4,7 +4,7 @@
 
 Let's return to our example. In order to construct our bootstrap sampling distribution we pretended that the sample was the true population. A 'parametric' version of this procedure starts by making an assumption about the mathematical form of the population distribution of focal variable. We then use estimates of the parameters which describe the population to understand what would happen if we were to repeatedly resample it. Those estimates are derived from the sample.
 
-NORMALITY
+[[NORMALITY AGAIN]]
 
 So what can we say about the standard error of the sample mean, when it is calculated for a normally distributed variable? It turns out, that when we resample from a normally distributed variable, there is a very simple formula for the standard error of the mean. Here it is:
 $$

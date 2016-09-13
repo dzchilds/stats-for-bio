@@ -1,4 +1,4 @@
-# Data and variables
+# Data, variables and distributions
 
 > *The truth is the science of nature has been already too long made
 > only a work of the Brain and the Fancy. It is now high time that it
@@ -15,7 +15,7 @@
 
 As Hooke’s observation suggests, science cannot proceed on theory alone. The information we gather about a system both stimulates questions and ideas about it and, in turn, can also allow us to test these ideas. In fact the idea of measuring and counting things is so familiar to us that it is easy to start a project without giving much thought to something as apparently mundane as the nature, quantity and resolution of the data we intend to collect. It is worth considering, however, as the nature, quantity and quality of the data in a study determine both the types of analyses that can be carried out, and the confidence we can have in any conclusions that are drawn. We will spend quite a lot of time considering the statistical tools that can help you extract information from your data, but no statitical wizardry can extract information that isn’t somewhere in the data to begin with.
 
-So what is there to say about data? The first point to note is that, properly, the word data is the plural of datum (a single, often numerical, piece of information) ...so we should say “the data are...” not “the data is...”. However, the use of the word in the singular is becoming widespread, and you will commonly hear it used in this way. ['Grammar nazis'](http://www.urbandictionary.com/define.php?term=Grammar%20Nazi) really don't like this though, so it's worth knowing what the "correct" subject-verb agreement looks like.  
+So what is there to say about data? The first point to note is that, properly, the word data is the plural of datum (a single, often numerical, piece of information) ...so we should say “the data are...” not “the data is...”. However, the use of the word in the singular is becoming widespread, and you will commonly hear it used in this way. [Grammar Nazis](http://www.urbandictionary.com/define.php?term=Grammar%20Nazi) really don't like this though, so it's worth knowing what the "correct" subject-verb agreement looks like if you want to avoid incurring their wrath.  
 
 The second point is that there are many different sorts of data. Examples include spatial maps of the occurance of a particular species or environmental variable, DNA sequences or even the whole genomes of individuals, and networks of feeding relationships among species (i.e. food webs). These kinds of data can be very challenging to analyse. In this course we are concerned with relatively simple kinds of data. 
 
@@ -105,6 +105,13 @@ In general, ratio data is the data type best suited for statistical analysis. Bu
 It is this last question that should really come first when thinking about a study. What sort of data do we need to answer the question we are interested in? If it is clear at the outset that data on a rank scale will not be sufficiently detailed to enable us to answer the question then we must either develop a better way of collecting the data, or abandon that approach altogether. If you know the data you are able to collect cannot address the question, then you would be better doing something else, so it is good to work that out in advance.
 
 And an obvious, but important point: you can always convert measurements taken on a ratio scale to an interval scale, but you cannot do the reverse. Similarly, you can convert interval scale data to ordinal data, but you cannot do the reverse. In general, it is a good idea to avoid such conversions if you can, as they inevitably result in a loss of information.
+
+## Distributions {#revision-distributions}
+
+We touched on the idea of a distribution last year: in statistics, a distribution is a statement about the frequency with which different values of a variable are observed. 
+
+The mean and variance of a population are both examples of population parameters. These describe the central tendancy ('which values are most common?') and the dispersion ('how variable are the values') of a distribution.
+
 
 ## Accuracy and precision {#accuracy-precision}
 

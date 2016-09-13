@@ -1,0 +1,75 @@
+# Populations and samples
+
+> Statistics is the science of learning from data, and of measuring, controlling, 
+> and communicating uncertainty; and it thereby provides the navigation essential 
+> for controlling the course of scientific and societal advances
+> 
+> [Davidian and Louis (2012)](https://doi.org/10.1126/science.1218685)
+
+[[FINISH ME]]
+
+## Populations {#populations}
+
+The word '**population**' has much a broader meaning in statistics than it does in biology. When a biologist talks about a population they are referring to a group of individuals of a particular species who interbreed. In statistics, a population is a much more abstract concept. It refers to any group of items that share certain attributes or properties. This idea is best understood by example:
+
+-   The readers of this book are an example of a population. APS students have a common interest in biology, they are mostly in their late teens and early 20s, they tend to have similar educational backgrounds and career aspirations. They are more similar to one another than randomly chosen members of the UK population.
+
+-   Peatland regions in the UK is another example. There are many peatland sites in the UK. Although their ecology varies from one location to the next, they are all similar in certain respects---e.g. they are generally characterised by low-growing vegetation and acidic soils.
+
+-   A population of plants or animals---as understood by biologists---can of course also be thought of as a statistical population. The individuals that comprise a biological population share common behaviours, physiology and life histories. Much of organismal biology is concerned with learning about these kinds of properties of individuals.
+
+The primary goal of a statistical analysis is to learn something about a population of interest. The population is defined by the investigator, and the 'something' can be anything they know how to measure. 
+
+For example, a social scientist might be interested in understanding the political attitudes of university students, a climate change scientist might want to know how much carbon is stored in UK peatland areas, and a behavioural ecologist might want to understand how much time individuals spend foraging for food and searching for mates.
+
+## How do we learn about populations?
+
+These examples involve very different populations and questions. Nonetheless, there are fundamental commonalities in how they can be addressed using statistical ideas. We can break the process down into a number of steps:
+
+**Step 1: Refine your questions, hypotheses and predictions**
+
+[[COMPLETE ME]]
+
+**Step 2: Decide which variables are you interested in**
+
+The second step is to decide which features of the population you need to learn about. In essence this comes down to refining your question, i.e. which variable (or variables) do I need to measure to address a research question? In the examples above, these would be things like, a standardised measure of political attitude, the mass of carbon stored per unit area, or the body mass of individuals in a biological population. Sometimes we are interested in more than the properties of individual variables. Instead, we might want to understand the relationship between two or more variables.
+
+**Step 3: Decide which population parameters are relevant**
+
+Once we have decided which variable (or variables) to study, we have to decide which **population parameter** is relevant. A population parameter is a numeric quantity that describes something about the distribution of one or more variables in the population. That is, it summarises some aspect of the population.
+
+A simple, but important, population parameter is the population mean. We often want to learn about the population mean because it allows us to answer questions such as "how many are there?" or "how much of something is present?". Much of this course is about asking questions of population means. Other population parameters may be important though, e.g.
+
+*   The goal of statistical genetics is to partition variablity among individuals---we want to know how much phenotypic variation is due to genetic vs. non-genetic sources. In this case, it is the population variance that we want to learn about. 
+
+*   If we are trying to understand how two variables are associated, some kind of correlation coefficient (we'll learn more about this later) might be the right population parameter to focus on. 
+
+**Step 4: Gather a representative sample**
+
+The type of statistics we use in this course is called 'frequentist statistics' (you don't have to remember that). Within this framework population parameters are conceptualised as fixed but unknown quantities. Our goal is to learn about them by collecting data.  
+
+If we could measure every object in a population we wouldn't need statistics. We could just calculate the quantity we needed using an exhaustive sample and we'd have our answer. In the real world we face all kinds of resource constraints. We have limited time and money to invest on any given problem, no matter how important it is. This means that instead of trying to measure every item in a population, we instead study a **sample** of that population. A sample is just a subset of the wider population, which has been chosen so that it is representative of that population. 
+
+That word "representative" is very important. If we can't collect a representative sample of the population then it is very difficult to infer anything useful about it. For example, if we want to understand the reproductive characteristics of our favourite study organism, but we only sample young or old individuals, it will be very difficult to generalise our findings to the wider population. The reproductive performance of most organisms changes as they age, so if we only measure young individuals, we haven't learnt anything about older individuals, and vice versa.
+
+The process of generating reliable samples forms part of experimental design and sampling theory. These are large, rather technical parts of statistics. It's certainly beyond the scope of this course to study them in any great deal. Nonethless, we will touch a few of the more important practical aspects as we move through this course.
+
+**Step 5: Estimate the population parameter(s)**
+
+Once we have a representative sample we can calculate something called a **point estimate** of the population parameter (or parameters) we're interested in. Remember, the population parameter is unknown. That's why we collect samples. A point estimate is just a number that represents our "best guess" its true value. For example, if we are interested in a population mean, then the obvious point estimate to use is the mean of sample we collected. This is just "the average" you learned to calculate in school.
+
+By the way, people often just say "estimate" instead of "point estimate" because writing "point estimate" all the time is tedious. It's fine to do this. People also colloquially refer to point estimates as "statistics". This is probably best avoided as it is somewhat ambiguous. The exact terminology isn't really all that important to be honest---we'll mostly use the word "estimate" from now on.
+
+**Step 6: Quantify the uncertainty of estimate(s)**
+
+A point estimate of a population parameter is virtually useless on its own because it is derived from a limited sample of the wider population. Even if we are very careful about how we sample the population, there is no way to guarantee that the composition of our sample exactly matches that of the population. This means that any estimate we derive from a sample will be imperfect, in the sense that it won't exactly match the true population value.
+
+So there is always uncertainty associated with any estimate of a population parameter. What can we do about this? 
+
+**Step 7: Answer the question!**
+
+This means that we have to be very careful if we want to answer a seemingly simple question such as, "Is the more than 200 tonnes of carbon per hectare stored in the peatland of the Peak District?" 
+
+
+[[FINISH ME]]
+
