@@ -58,14 +58,11 @@ That leaves the 3^rd^ assumption. This is best evaluated by plotting the distrib
 
 ### Carrying out a one-sample *t*-test in R
 
-<div class="advanced-box">
-#### A bit more about degrees of freedom
-<div class="box-text">
+```{block, type='advanced-box'}
+**A bit more about degrees of freedom**
 
 [[UPDATE THIS]]
-
-</div>
-</div>
+```
 
 ### Summarising the result of a one-sample *t*-test
 
@@ -91,11 +88,8 @@ There are a number of common questions that arise when presenting *t*-test resul
 
 4.  **When should I use asterisks instead of $p$ values?** You will also sometimes see the ranges of probabilities coded with asterisks: * for p<0.05...0.01, ** for p=0.01...0.001, and *** for p<0.001. This is common in tables and on figures as it is a more compact and visually obvious representation than numbers, but you would never use it in the text of a report.
 
-<div class="warning-box">
-#### p = 0.0000? It’s impossible! 
-<div class="box-text">
-Some computer packages (e.g. Minitab) will sometimes give a probability of p=0.000. This does not mean the probability was actually zero. A probability of zero would mean something was impossible - and since you cannot show something to be impossible by taking samples, you should never say this. If you actually know something is impossible for good biological, or other, reasons then you do not need to test it using statistics. When a computer package such as Minitab says p=0.000 it just means that the probability was 'very small'.
+```{block, type='warning-box'}
+**p = 0.0000? It’s impossible!** 
 
-[[R SMALL p]]
-</div>
-</div>
+Some computer packages (e.g. Minitab) will sometimes give a probability of p=0.000. This does not mean the probability was actually zero. A probability of zero would mean something was impossible - and since you cannot show something to be impossible by taking samples, you should never say this. If you actually know something is impossible for good biological, or other, reasons then you do not need to test it using statistics. When a computer package such as Minitab says p=0.000 it just means that the probability was 'very small'.
+```

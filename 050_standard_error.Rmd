@@ -189,30 +189,30 @@ Although it may seem like cheating (it's not!), this process really does produce
 
 Here is how to implement it in R to construct a sampling distribution for the estimated dry weight of purple morphs (no hats or paper required):
 ```{r}
-purp.weights <- filter(morph.weights, pmorph == "purple")$weight 
-boot.samp <- replicate(10000, mean(sample(purp.weights, replace = TRUE)))
+#purp.weights <- filter(morph.weights, pmorph == "purple")$weight 
+#boot.samp <- replicate(10000, mean(sample(purp.weights, replace = TRUE)))
 ```
 All we did here was extract the sample of purple morph dry weights---using `filter` to subset the data, and `$` to grab the `weights` column---and then use functions called `sample` and `replicate` to generate a bootstrapped sampling distribution for the mean (we generated 10000 samples). You don't have to understand this R code, but ask a demonstrator if you want to know more about it. 
 
 Let's take a quick look at the first 10 values:
 ```{r}
-round(head(boot.samp, 10))
+#round(head(boot.samp, 10))
 ```
 These numbers represents different values of the sample mean that we would expect to generate if we repeated the data collection exercise. We can use this bootstrapped sampling distribution in a number of ways. As always, it is a good idea to plot it first get a sense of what it looks like. A histogram is a good choice here, because we have a large number of samples:
 ```{r}
-plot.df <- data.frame(boot.samp) # 'ggplot' expects a data frame 
-ggplot(plot.df, aes(x = boot.samp)) + geom_histogram(binwidth = 5) 
+#plot.df <- data.frame(boot.samp) # 'ggplot' expects a data frame 
+#ggplot(plot.df, aes(x = boot.samp)) + geom_histogram(binwidth = 5) 
 ```
 
 The mean of the sampling distribution looks to be round about 655 grams--very close to the sample mean. We can of course calculate this in R: 
 ```{r}
-round(mean(boot.samp))
+#round(mean(boot.samp))
 ```
 This is the same as the sample statistic (the sample mean, in this case). This will always be the case if we construct a large enough sample, as the bootstrapping procedure assumes that the 'true' population mean is equal to the sample mean.
 
 A more useful quantity is the bootstrapped standard error (SE). Since this is the standard deviation of the sampling distribution, we just apply the `sd` function to the bootstrap sampling distribution to calculate it:
 ```{r}
-round(sd(boot.samp), 1)
+#round(sd(boot.samp), 1)
 ```
 This quantity is a standarised measure of uncertainty that we require. A large SE implies that our sample size was too small to reliably estimate the population mean. Whenever we report a point estimate of a mean, we should also report the standard error. For example,
 

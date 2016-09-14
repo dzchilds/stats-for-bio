@@ -2,11 +2,11 @@
 
 # Programming prerequisites
 
-Before you work through the rest of this course, it will be useful to revise some of the basic R skills you developed last year:
-
-<div class="well">
+```{block, type='do-something'}
 Don't worry if you are an Environmental Sciences student joining us from Geography. We will run extra catch-up sessions for the first few weeks to help you learn the basic R skills needed to do this course, though we won't cover everything the APS students did last year. The material in this section won't make much sense at the moment, but it will after the first few weeks (we promise).
-</div>
+```
+
+Before you work through this course, you should revise some of the basic R skills developed last year...
 
 ## Starting an R session
 

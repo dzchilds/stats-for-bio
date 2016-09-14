@@ -34,30 +34,29 @@ In order to study the biomass of individuals in our hypothetical population, we 
 
 Notice that our definition of 'the population' is slightly different than before. Now we are imagining that each morph is a seperate population. Let's assume that we have sampled the dry weight (in grams) of 25 representative individuals of each morph.
 
-We have have generated a dataset to represent this situation, stored in a Comma Seperated Value (CSV) text file called 'MORPH_WEIGHTS.CSV'. 
-
-<div class="exercise-box">
-#### Exercise: Investigate the dataset
-<div class="box-text">
-Download the MORPH_WEIGHTS.CSV file from MOLE and place it in your working directory (this is the location you set at the beginning of this practical). Next, make sure that you can do the following:
-
-* Read the data in MORPH_WEIGHTS.CSV into an R data frame using `read.csv`, assigning the data frame the name `morph.weights`.
-
-(Hint: Use RStudio to help you do this. In the 'Environment' tab there is a dropdown menu called 'Import Dataset'. Click on this, select 'From Text File...', click on the MORPH_WEIGHTS.CSV file, and then then change the suggested name to 'morph.weights'. You should then need to copy the `read.csv` command that RStudio sends to the Console into your script.)
-
-* Use the `glimpse` function from `dplyr` to inspect the structure of `morph.weights`. How many variables are in the dataset. What are their names? What kind of variables are they?
-
-* Use the `View` function to inspect the data. How many rows are in the dataset--does this number make sense to you? Are the values of the different variables as you would expect them to be?
-</div>
-</div>
-
 ```{r, echo = FALSE}
 morph.weights <- read.csv(file = "./data_csv/MORPH_WEIGHTS.CSV")
 ```
 
-We read in the data and then carried out a few 'sanity checks' in that last exercise. **Always check your data after you have read it in**. There is no point messing about with the likes of `dplyr` and `ggplot2`, or carrying out a statistical analysis, until we have done this. If we don't understand how our data is organised, there is very real risk that we will make a lot of easily avoidable mistakes.
+```{block, type='do-something'}
+You should work through this exampe from now on...
+```
 
-The next step is to calculate some simple descriptive statistics for each morph. We need to know the sample means--these are our 'best guesses' of the population means--and it may be useful to know something about the variability of the samples. The sample standard deviation is a good measure of the latter. Here is a reminder of how to do this using `dplyr`:
+We have have generated a dataset to represent this situation, stored in a Comma Seperated Value (CSV) text file called 'MORPH_WEIGHTS.CSV'. Download the MORPH_WEIGHTS.CSV file from MOLE and place it in your working directory. Don't forget to set your working directory first! Then run through the following steps:
+
+*   Read the data into an R data frame using `read.csv`, assigning the data frame the name `morph.weights`. 
+
+*   Use the `glimpse` function from `dplyr` to inspect the structure of `morph.weights`. How many variables are in the dataset. What are their names? What kind of variables are they?
+
+* Use the `View` function to inspect the data. How many rows are in the dataset--does this number make sense to you? Are the values of the different variables as you would expect them to be?
+
+**Always check your data after you have read it in**. 
+
+The point of all this is to 'sanity check' the data, i.e. to make sure we understand the data and that there are no obvious problems with it. There is really no point messing about with the likes of `dplyr` and `ggplot2`, or carrying out a statistical analysis, until we have done this. If we don't understand how our data is organised, there is very real risk that we will make a lot of easily avoidable mistakes.
+
+What you should have found is that `morph.weights` contains two columns / variables: `pmorph` and `weight`. The `pmorph` variable is just a categorical variable (a 'factor', in R-speak) that labels the colur of each plant, and the `weight` variable is a numeric variable that contains the weight of each plant. There are 25 observations of each plant morph, so the data frame has 50 rows.  
+
+The next step is to calculate some simple descriptive statistics for each morph. We need to know the sample means as these are our 'best guesses' of the population means. It may be useful to know something about the variability of the samples, which can be summarised by the sample standard deviation is a good measure of the latter. Here is a reminder of how to do this using `dplyr`:
 ```{r}
 temporary <- group_by(morph.weights, pmorph)
 summarise(temporary, mean = mean(weight), stan.dev = sd(weight))
@@ -88,7 +87,6 @@ You should always explore your data visually before carrying out any kind of sta
 
 We are going to focus on just the purple morph data from now on. Let's return to our original question: How do we characterise the precision of the estimated mean dry weight of purple morphs (658 grams)?
 
-
 It is much easier to understand the different parts of this problem if we work with a concrete example. We'll use the purple plant / green plant situation from last week, focussing on the dry weight biomass of our imaginary plants (rather than their frequency). We hypothesised that perhaps the two morphs have different growth habits, and so we measured the biomass of individuals in a sample of each morph. The focal variable is dry weight biomass (a numeric variable, measured on a ratio scale).
 
 Last week, we looked at how to quantify uncertainty in a single estimate of the population mean biomass of a morph. This week, we want to compare the biomass samples of the two morphs to address the question: 'Do purple and green plant morphs differ in their dry weight biomass?'. However, as it is currently framed, this question is a little too vague. The first thing we have to do is define what we mean by 'different'.
@@ -117,8 +115,6 @@ descrip.stats <-
 descrip.stats
 ```
 
-(If you are confused by this, ask a demonstrator to explain how it works).
-
 These descriptive statistics back up our visual impressions of the data: green morph individuals are larger than purple morphs (sample means: 787 vs. 658 grams), and green morphs are more variable than purple morphs (sample SDs: 118 vs. 114 grams). Remember, these numbers are just point estimates derived from limited samples. If we sampled the populations again, sampling variation would ensure that we end up with different estimates. This means we are not yet in a position to conclude that green morphs are bigger than purple morphs.
 
 Let's return to our question: 'Do purple and green morphs differ in their dry weight biomass?'. We said this question was a little too vague, and that we needed to define what we meant by 'different'. One way in which the sample distributions seem to be different is with respect to their spread, and so one possible refinement of this question would be to ask whether this difference is 'real', or simply arises from sampling variation. There are circumstances where it is scientifically interesting to compare variability. However, it is much more common to focus on differences in the central tendency of samples.
@@ -128,6 +124,12 @@ By looking at the central tendency of different samples, we can evaluate whether
 The question we want to address is therefore: 'What is the strength of evidence for a difference in the population mean biomass of purple and green plant morphs?' In practise, this boils down to a another question: 'Is there a statistically significant difference between their means.'
 
 We will now turn to the idea of **statistical significance**. We will also see how to evaluate statistical significance by calculating a **p-value** under a suitable **null hypothesis**.
+
+```{block, type='do-something'}
+**Don't panic...**
+
+The ideas in these next couple of sections are really quite abstract and can be difficult to understand. We are not expecting you to understand them straight away, and you certainly won't be asked to explain them in an assessment. 
+```
 
 ### How do we evaluate statistical significance?
 
@@ -155,15 +157,15 @@ In order to assess the strength of evidence for the presence of a difference bet
 
 1. We assume that there is actually no difference between the population means. That is, we hypothesise that all the data are sampled from a pair of populations that are characterised by a single, shared population mean.
 
-2. Next, we use information in the sample to help us work out what would happen if we were to repeatedly take samples in this hypothetical situation.
+2. Next, we use information in the sample to help us work out what would happen if we were to repeatedly take samples in this hypothetical situation of 'no difference between samples'. This usually involves calculating a sampling distribution of some kind of test statistic.
 
-3. We then ask, 'if there is no difference between the two groups, what is the probability that we would observe a difference that is the same as, or more extreme than, the one we actually observed in the sample?'
+3. We then ask, 'if there is no difference between the two groups, what is the probability that we would observe a difference that is the same as, or more extreme than, the one we actually observed in the true sample?'
 
-4. If the observed difference is sufficiently improbable, then we conclude that we have found a 'statistically significant' result. A statistically significant result is one that is inconsistent with the hypothesis of no difference.
+4. If the observed difference is sufficiently improbable, then we conclude that we have found a 'statistically significant' result. A statistically significant result is therefore one that is inconsistent with the hypothesis of no difference.
 
 (We will discuss how to define 'sufficiently improbable' below)
 
-There are different ways to go about realising this process. We'll look at two of these today. Regardless of the details, they work by trying to evaluate what happens when we repeatedly sample from a population where the effect of interest (i.e. a difference in means) is absent. If you can understand this fundamental idea you are well on your way to understanding how frequentist statistics works. Don't worry if this all seems very abstract (it is)--we are not expecting you to understand it at this point.
+There are many different ways to go about realising this process. We'll look at one of these today. Regardless of the details, they all work by trying to evaluate what happens when we repeatedly sample from a population where the effect of interest (e.g. a difference between means) *is absent*. That sounds odd, but if you can understand this fundamental idea you are well on your way to understanding how frequentist statistics works. 
 
 Let's return to our example to see how this might work in practise.
 

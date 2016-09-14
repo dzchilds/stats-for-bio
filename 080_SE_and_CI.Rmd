@@ -12,7 +12,7 @@ SE = \frac{\text{Standard deviation of the sample}}{\sqrt{\text{Sample size}}} =
 $$
 Notice that this only depends on the properties of the original sample, that is, the sample standard deviation and the sample size. This means that as long as we are happy with the normality assumption, we can go ahead and calculate a standard error for a point estimate of the mean without resorting to fancy tools like the bootstrap. Here is how to do this using R: 
 ```{r}
-n <- length(purp.weights) # get the sample size
-round(sd(purp.weights)/sqrt(n), 1)
+# n <- length(purp.weights) # get the sample size
+# round(sd(purp.weights)/sqrt(n), 1)
 ```
 That's all we need to do. This returns a value of 22.8, which is reassuringly close to the bootstrapped value of 22.3. They aren't identical, because each estimate of the SE relies on a different procedure, but they are very close.

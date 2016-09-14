@@ -22,8 +22,8 @@ The second point is that there are many different sorts of data. Examples includ
 When we collect data it is typically organised as a set of one or more related statistical **variables**. Remember, statisticians use the word 'variable' to refer to any characteristic that can be measured, counted or experimentally controlled. Collectively, a set of related variables are referred to as a **data set** (or just 'the data', if we are feeling lazy). So in the spatial map example, a minimal data set might comprise two variables containing the x and y position of sample locations, along with a third variable denoting the presence / absence of a species.
 
 ```{block, type='advanced-box'}
-#### Data and variables in R
-Remember what you learnt last year about data frames and vectors? When using R, we often (not always!) store each data set as a **data frame**. Each column in the data frame is one of R's **vectors** (numeric, character, etc). These columns correspond to a statistical variables in our data set. This simple connection between abstract statistical concepts and the concrete objects in R is not coincidence -- R was designed first and foremost to analyse data.
+**Data and variables in R**
+Remember what you learnt last year about data frames and vectors? When using R, we often store each data set in a **data frame**. Each column in the data frame is one of R's **vectors** (numeric, character, etc). These columns correspond to the statistical variables in our data set. This simple connection between abstract statistical concepts and the concrete objects in R is not coincidence -- R was designed first and foremost to analyse data.
 ```
 
 ## Revision: Types of variable {#var-types}
@@ -66,7 +66,7 @@ Rank orderings are also ordinal data. For example the order in which runners fin
 In both situations you can say something about the relationships between categories: in the first example, the larger the score the more aggressive the response; in the second example the greater the rank the slower the runner. However, you can’t say that the gap between the first runner and the second was the same as between the second and third (even though 2-1=3-2) and you can’t say that a score of 2 is twice as aggressive as a score of 1.
 
 ```{block, type='warning-box'}
-#### How should you code different categories?
+**How should you code different categories?**
 
 We always have to define some kind of coding scheme to represent the different categories of a nominal/ordinal variables. It was once common practise to assign numbers to different categories (e.g. Female=1, Male=2) for handling data in computerised form. This method was sensible in the early days of computer-based data analysis because it allowed data to be stored efficiently---numbers take up less space in memory than words. However, this efficiency argument is much less relevant on a modern computer with many Gb of memory. There *are* good reasons to avoid numeric coding schemes though:
 
@@ -92,7 +92,7 @@ Ratio scale variables have a true zero and known and consistent mathematical rel
 These are the variables we are most used to, because physical quantities are often measured on a ratio scale. For example, length, weight, or numbers of organisms are usually measured on a ratio scale. You can add, subtract, multiply and divide this sort of data and get meaningful results.
 
 ```{block, type='advanced-box'}
-#### Continuous or discontinuous?
+**Continuous or discontinuous?**
 A common confusion with numeric data concerns whether the data are on continuous or discontinuous scales. Ratio data can be either. Many biological ratio data are discrete, and therefore discontinuous (i.e. only certain discrete values are possible in the original data).  Count data are the most obvious example, e.g. the number of eggs found in a nest, the number of plants recorded in a quadrat, or number of heartbeats counted in a minute; these can only comprise whole numbers, 'in between' values are not possible. However, the distinction between continuous and discontinuous data is often not clear cut -- even 'continuous' variables such as weight are made discontinuous in reality by the fact that our measuring apparatus is of limited resolution (i.e. a balance may weigh to the nearest 0.01 g). The fact that data may be discontinuous does not mean they are necessarily ordinal data.
 ```
 

@@ -2,7 +2,7 @@
 
 # Exercises 
 
-## Data and variables
+## Week 2: Data and variables
 
 ### What kind of variable is it?
 
@@ -16,7 +16,7 @@ knitr::kable(
 )
 ```
 
-## Week2: Statistical concepts
+## Week 2: Statistical concepts
 
 ### Sampling distributions
 
@@ -78,15 +78,15 @@ As always, we should always start by *looking at the data* — both visually and
 
 Using the dot plots, and the descriptive statistics, conduct an informal evaluation of the assumptions of the t-test. You should re-read the relevant section above if you can't remember what these are.
 
-<div class="well">
+```{block, type='do-something'}
 **MOLE question**
 
 Do you feel the data conform acceptably to the assumptions? If not, explain why.
-</div>
+```
 
 Let's carry on, assuming that we are confident that it is OK to use a two sample t-test to compare the sample means. Use the R `t.test` function to carry out this evaluation now.
 
-<div class="well">
+```{block, type='do-something'}
 **MOLE question**
 
 Write a concise but complete conclusion summarizing the results of the test.
@@ -94,7 +94,7 @@ Write a concise but complete conclusion summarizing the results of the test.
 Is this what you expected from looking at the distributions of data in the two samples?
 
 Suggest two possible biological reasons for the result you observe.
-</div>
+```
 
 ### Fungal infection in French beans
 
@@ -120,7 +120,7 @@ Download the FRENCH_BEANS.CSV file from MOLE and place it in your working direct
 
 Use a t-test to decide whether there is a significant difference between the amount of infection of bean roots in the two different soils.
 
-<div class="well">
+```{block, type='do-something'}
 **MOLE question**
 
 Make a note of the results:
@@ -134,13 +134,13 @@ t = ?
 d.f. = ? 
 
 p = ? 
-</div>
+```
 
-<div class="well">
+```{block, type='do-something'}
 **MOLE question**
 
 Write a statement of the result of the test suitable for inclusion in the results section of the plant pathologist's report.
-</div>
+```
 
 ### Sheep, grass and nature reserves
 
@@ -148,11 +148,11 @@ The management committee of a nature reserve wants to manage some large grasslan
 
 One problem is that the area is very variable - some parts are wetter than others, and the plants of interest are not particularly evenly distributed. There is also a limit to the number of plots (and sheep) they can use in the experiment. In order to make the maximum use of the resources and, take some account of the variability in the habitat the experiment is set up by randomly placing eight fenced plots around the reserve, with each plot being divided in half by a fence down the middle. Sheep are introduced to one half of each plot (the half being randomly selected in each case), and allowed to graze for the appropriate period of the year. The other half is left ungrazed.
 
-<div class="well">
+```{block, type='do-something'}
 **MOLE question**
 
 Why is this a better design than just having separate grazed and ungrazed plots positioned at random?
-</div>
+```
 
 Over the next 2 years, the abundances of various plants in the in the plots are surveyed.
 
@@ -167,19 +167,17 @@ The data below give the numbers of gentians from each of the eight half-plots wi
   
 These data are stored in GENTIANS_GRAZING.CSV. Test whether there is any evidence for an effect of sheep grazing on the numbers of gentians.
 
-<div class="well">
+```{block, type='do-something'}
 **MOLE question**
 
 What is your conclusion?
-</div>
+```
 
-<div class="well">
+```{block, type='do-something'}
 **MOLE question**
 
 What other comparison would it be useful to be able to make in order to reach a satisfactory conclusion about the effects of grazing?  What test would you do for this?
-</div>
-
-
+```
 
 ## Regression
 

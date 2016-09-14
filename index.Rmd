@@ -137,32 +137,30 @@ Normal text, instructions, explanations etc. are written in the same type as thi
 
 When we want to say something REALLY IMPORTANT---e.g., we are summarising the key learning outcomes or giving you a set of instructions---we place the text inside a grey filled box, like this one: 
 
-<div class="well">
-Here is some important text telling you to do something or remember something important.
-</div>
+```{block, type='do-something'}
+**Brown boxes**
 
-Don't ignore these.
+Here is some important text telling you to do something or remember something important. Sometimes it just contains a warning that the next bit will be hard...
+```
+
+Don't ignore these. At various points in the text you will also come across different coloured boxes that contain supplementary information:
+
+```{block, type='advanced-box'}
+**Blue boxes**
+
+These contain __supplementary information__ or an __advanced topic__. They aim to offer a not-too-technical discussion of how or why something works the way it does. These are things that it may be useful to know, or at least know about. These are not generally meant to be read as part of the main text.
+```
+
+```{block, type='warning-box'}
+**Red boxes**
+
+These contain a __warning__ or flag a common __gotcha__ that may trip you up. These boxes aim to highlight potential pitfalls and show you how to avoid them. These are not generally meant to be read as part of the main text. You will avoid mistakes now and in the future if pay close attention to these.
+```
 
 We use block quotations to indicate an example of how a particular statistical result should be presented when you write it in a report: e.g.
 
 > The mean lengths of male and female locusts differed significantly (t=4.04, df=15, p=0.001), with males being significantly larger.
 
-At various points in the text you will come across text in different coloured boxes. These follow the same conventions introduced in the R component of APS 135:
-
-```{block, type='exercise-box'}
-#### Green boxes
-These contain one or more __exercises__. You should complete these exercises as you work through each IT practical and self-study session. They serve to introduce new ideas or consolidate one that has already been introduced.
-```
-
-```{block, type='advanced-box'}
-#### Blue boxes
-These contain __supplementary information__ or an __advanced topic__. They aim to offer a not-too-technical discussion of how or why something works the way it does. These are things that it may be useful to know, or at least know about. These are not generally meant to be read as part of the main text.
-```
-
-```{block, type='warning-box'}
-#### Yellow boxes
-These contain a __warning__ or flag a common __gotcha__ that may trip you up. These boxes aim to highlight potential pitfalls and show you how to avoid them. These are not generally meant to be read as part of the main text. You will avoid mistakes now and in the future if pay close attention to these.
-```
 
 #### R code, files and RStudio
 
