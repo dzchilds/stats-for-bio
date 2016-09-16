@@ -1,11 +1,43 @@
 # Tips and FAQs {#tips-faqs}
 
-## Starting a new session
+## Common error messages
+
+If you forget to do this, you will see a lot of errors along the lines of "Error: could not find function..." when you try to use `dplyr` or `ggplot`.
+
+## Fixing erros 
+
+If you find that you are running into errors when you work on a particular exercise, go back to the beginning of the R code that addresses the exercise, and run it one chunk at a time, paying close attention to the output at the Console. You need to find out where the error first happens in order to fix it.
+
+Use the demonstrators for help! If you are stuck, or not really sure what an exercise is asking you to do, ask us. That's what we are here for. There is a lot of expertise in the room, and no one is expecting you to be able to do everything in a practical without a little help now and again.
 
 ## Staying organised
 
-## Fixing errors
+**Make sure you add copious comments to your R script**
 
-## FAQs
+As well as using comments to remind you what you are doing, use comments such as `## t-test exercise ##` to delineate different parts of your script. Trust us, if you don't do this, you will have no idea what a script was meant to be doing when you return to it several weeks/months/years later.
 
+**Use white space to help organise your R script**
+
+R ignores blank lines, tabs and newlines so we can use these to make a script easier *for us* to read. It is really hard to read R code when it is all bunched up together. Remember that you can split a single R expression over multiple lines. If you're not sure how to do this look at the examples in the book---we do this a lot when using `dplyr` and `ggplot2`.
+
+We generally put each part of a `dplyr` 'pipeline' (each seperated by `%>%`) onto a new line, e.g
+
+```{r, eval=FALSE}
+summarised_data <- 
+  my_great_data %>% 
+  group_by(x_variable) %>% 
+  summarise(mean = mean(y_variable), samp_size = n())
+```
+
+We generally put each part of a `ggplot2` plot (each seperated by `+`) onto a new line, e.g.
+
+```{r, }
+ggplot(my_great_data, aes(y = y_variable)) +
+  geom_histogram(fill = "grey") +
+  facet_wrap(~ x_variable)
+```
+
+**Clean up failed experiments**
+
+Learning 'by doing' is much better than learning by just reading or listening to lectures. That's why we encourage you to work through the examples in the book and where possible, to experiment with your code to learn how it works. However, make sure that you remove failed 'experiments' and duplicate code. By the end of a session you want to have a well-organised, functioning R script. You should be able to highlight the whole thing, submit it to the console, and watch it run without any errors occuring.
 

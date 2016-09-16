@@ -1,0 +1,463 @@
+# (PART) Associations {-} 
+
+# Simple regression
+
+The simple statistical tools we have encountered so far have been concerned with comparing the mean(s) of a numeric variable (e.g. plant weight, skull size, glucosamine concentrations) in some way. This can be done either with respect to an expected value (i.e. one-sample *t*-test), or among two groups (i.e. paired-sample *t*-test and two-sample *t*-test). In the latter case we are interested in how the mean of the numeric variable differs among two different groups defined by the values of a categorical variable. The categorical variable often encode information about different experimental treatments, but they could also represent something that we have measured in a non-experimental, observational study (e.g. habitat type, high vs. low elevation). 
+
+(If we needed to, we could evaluate differences in means of more than two categories by using a related, but more sophisticated, tool called Analysis of Variance (ANOVA). We'll get to this later in the course.) 
+
+One way to think about these kinds of tools and is to conceptualise them as considering a relationship between between a numeric and categorical variable. Specifically, they ask how the mean of the numeric variable changes among the categories. This chapter is about a different kind of question. What should we do when two numeric variables have been measured **on the same objects/individuals** in a study? For example, we could sample fish and measure their length and weight, we could surveu grassland plots and measure soil pH and species diversity, or we migt manipulate temperature and measure enzyme activity in bed bugs.
+
+In each of these settings we want to understand the relationship between the two different numeric variables. We may be interested in knowing:
+
+```{r, echo = FALSE}
+x <- data.frame(x = seq(-2, 2, length.out = 50))
+set.seed(27081975)
+```
+
+Are the variables related or not?
+
+```{r, echo = FALSE, fig.width=6}
+bind_rows(mutate(x, y = 3 + x + rnorm(n(), sd = 0.5), labs = "Related"),
+          mutate(x, y = 3 +     rnorm(n(), sd = 1.0), labs = "Unrelated")) %>% 
+  ggplot(aes(x = x, y = y)) + geom_point() + facet_wrap(~labs, nrow = 1)
+```
+
+Is the relationship a straight line or a curve?
+
+```{r, echo = FALSE, fig.width=6}
+bind_rows(mutate(x, y = 3 + x + rnorm(n(), sd = 0.5), labs = "Straight"),
+          mutate(x, y = 4.5 + .8*x - .6*x^2 + rnorm(n(), sd = 0.45), labs = "Curved")) %>% 
+  ggplot(aes(x = x, y = y)) + geom_point() + facet_wrap(~labs, nrow = 1)
+```
+
+Is it positive or negative?
+
+```{r, echo = FALSE, fig.width=6}
+bind_rows(mutate(x, y = 3 + x + rnorm(n(), sd = 0.5), labs = "Positive"),
+          mutate(x, y = 3 - x + rnorm(n(), sd = 0.5), labs = "Negative")) %>% 
+  ggplot(aes(x = x, y = y)) + geom_point() + facet_wrap(~labs, nrow = 1)
+```
+
+Although sometimes it may be obvious that there is a relationship between two variables from a plot of one against the other, at other times it may not.
+
+```{r, echo=FALSE, fig.width=6}
+x <- data.frame(x = rnorm(50))
+bind_rows(mutate(x, y = 3 + 0.3 * x + rnorm(n(), sd = 0.5), labs = "Related"),
+          mutate(x, y = 3 + 0.2 * x + rnorm(n(), sd = 0.5), labs = "Unrelated")) %>% 
+  ggplot(aes(x = x, y = y)) + geom_point() + facet_wrap(~labs, nrow = 1)
+```
+
+You might not be very confident in judging which, if either, of these plots provides evidence of a positive relationship between the two variables. 
+
+Clearly it would be useful to have a measure of how likely it is that the relationships we think we see could have arisen as a result of sampling variation. In addition to judging the significance of a relationship, we may also be interested in describing the relationship mathematically – i.e. finding the equation of the best fitting line through the data. Regression techniques allow you to do this. In fact, using regression, the relationship on the left would be judged significant, the one on the right would not. 
+## Understanding regression: an example {#understand-regression}
+
+A plant physiologist studying the process of germination in the broad bean (*Vicia faba*) is interested in the relationship between the activity of the enzyme amylase, and the temperature at which the germinating beans are kept. As part of this work she carries out an experiment to find the relationship between glucose release (from the breakdown of starch by amylase) and temperature (over the range 2 - 20C). The data obtained from such an experiment are given below.
+
+||||||||||||
+|:---------------------------------------|:--|:----|:----|:----|:----|:----|:----|:----|:----|:----|
+| Temperature ($C$)                      | 2 | 4   | 6   | 8   | 10  | 12  | 14  | 16  | 18  | 20  |
+| Glucose ($\mu g$ $mg^{-1}$ dry weight) | 1 | 0.5 | 2.5 | 1.5 | 3.2 | 4.3 | 2.5 | 3.5 | 2.8 | 5.6 |
+
+The data are in a CSV file called GLUCOSE.CSV. The first column (`Temperature`) contains the information about the temperature treatments, and the second column (`Glucose`) contain the glucose measurements.
+
+(Notice that we still refer to the different temperatures as 'treatments'. This is perfectly reasonable here as these data are from an experiment where temperature was controlled by the investigator. Indeed, if we had replicated the experiment at each temperature we could even analyse the data using a one-way ANOVA. This wouldn't result in the most powerful of analyses because we would be ignoring the natural ordering in the temperature treatments, but it wouldn't be completely hopeless. Nonetheless, a regression is a much better choice of statistical model in an experiment of this sort.)
+
+```{block, type='do-something'}
+**Work through the germination example**
+
+You should begin working through the *Vicia* germination example from this point. To do this, you will need to download the GLUCOSE.CSV file from MOLE, placing it in your working directory. 
+```
+
+Once you have downloaded the data it into an R data frame, giving it the name `vicia.germ`:
+```{r, echo=FALSE}
+vicia.germ <- read.csv(file = "./data_csv/GLUCOSE.CSV")
+```
+As always, make sure you use `View`, `glimpse`, etc to examine the data before you proceed.
+
+First of all, as with most analyses, we should visuaise the data set. We just need to produce a simple scatter plot, which is easy to do with `ggplot2`:
+```{r, fig.width=4}
+ggplot(vicia.germ, aes(x = Temperature, y = Glucose)) + 
+  geom_point()
+```
+
+The plot clearly suggests that there is some sort of positive relationship which might reasonably be described by a straight line.
+
+```{block, type='warning-box'}
+**Variables and axes**
+
+Be careful when you produce a scatter plot to summarise data in a regression analysis. You need to make sure the two variables are plotted the right way around with respect to the $x$ and $y$ axes. We place the 'dependent' (or 'response') variable on the $y$ axis and the 'independent' (or 'predictor') variable on the $x$ axis. We will explain these terms a bit more in a moment. For now, just make a mental note of the fact that there is a right and wrong way to plot the data for a regression. Nothing says "I don't know what I'm doing" as effectively as plotting the variables on the wrong axes.
+```
+
+What we want to do is work out whether there a statistically significant relationship between temperature and glucose release (and hence, presumably, amylase activity). If there is, we might also want to find the equation that describes the relationship. We will return to the mechanics of actually doing this later. But first, keeping the example in mind, we will consider the basic ideas of what regression does, and for what sort of data it is suitable.
+
+## What does simple linear regression do?
+
+Simple linear regression finds the straight-line relationship which best describes the dependence of one variable (the **dependent variable**) on the other (the **independent variable**). Another way to think about simple linear regression is that it allows us to predict how one variable (the **response variable**) responds to another (the **predictor variable** ).
+
+These are essentially equivalent descriptions of simple linear regression, which only differ in the nomenclature they use to describe the variables involved (dependent vs. independent / response vs. predictor). To avoid confusion, we will stick with dependent vs. independent dichotomy in this course.
+
+What does the word 'simple' mean in this context? A simple linear regression is a regression model which only accounts for one independent variable. If more than one independent variable is considered, the correct term to describe the resulting model is 'multiple regression'. We are only concerned with simple regression in this session. 
+
+A simple linear regression describes the response of the dependent variable to a unit change in the value of the independent variable. This is why, when presenting such data graphically, the independent variable goes on the $x$-axis and the dependent variable on the $y$-axis. In our example, we are interested in the dependence of glucose release on temperature---i.e., what is the response of glucose release to temperature--- and so glucose release is the dependent variable ($y$) and temperature is the independent variable ($x$).
+
+How to select which is to be used as the dependent and which as the independent variable is often, as here, fairly straightforward. *A priori* (before conducting the experiment), we can reasonably suppose that changes in temperature may cause changes in enzyme activity, but the reverse seems pretty unlikely. More importantly, temperature was manipulated in this experiment, so it absolutely must be designated the independent variable.
+
+However, it may not always so clear cut when we are working with data from an observational study. These problems will be discussed in more detail later. There is one important point to be aware of now however: in regression it matters which way round you choose the dependent and independent
+variables. If you have two variables A and B, the relationship you find from a regression will not be the same for A against B as for B against A.
+
+## How does it work?
+
+If you draw a straight line through a set of points on a graph then, unless they form a perfect straight line, some points will lie close to the line and others further away. The vertical distances between the fitted line and each point (i.e. measured parallel to the $y$-axis) are called the *residuals*. The residuals are the ‘bits left over’ after the line has been fitted---i.e. the distances from individual points to the fitted line---and they give an indication of how well the line fits the data. If all the points lay in a perfect straight line there would be no residuals as the line would pass through all the points. If many of the residuals are large then this indicates that the data are quite scattered around the line.
+
+Regression works by finding the line which leaves the smallest total of the residuals. In fact, to be strictly correct, it minimises the sum of the squared residuals. The following illustration indicates the principle of this process:
+
+```{r, fig.width=4, echo = FALSE}
+set.seed(27081976)
+
+exp.data <- 
+  data.frame(x = seq(-2, +2, length = 12)) %>% 
+  mutate(y = x + rnorm(n(), sd = 1), y = y - mean(y))
+
+lm.mod <- lm(y ~ x, data = exp.data)
+
+mod.data <- data.frame(x = seq(-2.2, +2.2, length.out = 25))
+all.mod.data <- list()
+
+all.mod.data[[1]] <- 
+  mod.data %>% 
+  mutate(y = mean(exp.data$y), labs = "A")
+all.mod.data[[2]] <- 
+  mod.data %>% 
+  mutate(y = 0.5*x*coef(lm.mod)[2], labs = "B")
+all.mod.data[[3]] <- 
+  mod.data %>% 
+  mutate(y = 1.6*x*coef(lm.mod)[2], labs = "D")
+all.mod.data[[4]] <- 
+  mod.data %>%  
+  mutate(y = predict.lm(lm.mod, newdata = .), labs = "C")
+
+all.mod.data <- bind_rows(all.mod.data)
+
+ggplot(all.mod.data, aes(x = x, y = y)) + 
+  geom_point(data = exp.data, colour = "blue") + 
+  geom_line() + facet_wrap(~labs, nrow = 2)
+```
+
+The data are identical in all four graphs, but in the top left left hand graph a horizontal line (i.e. no effect of $x$ on $y$) has been fitted, while on the remaining three graphs sloping lines of different magnitude have been fitted. To keep the example simple, we assume we know the true intercept of the line, which is at $y=0$, so all four lines pass through $x=0$, $y=0$ (i.e. the 'origin').
+
+```{block, type='do-something'}
+** Which line is best?
+
+One of the four lines is the 'line of best' fit from a regression analysis. Spend a few moments looking at the four figures. Which line seems to fit the data best? Why do you think this line is 'best'?
+```
+
+Regression works by finding the intercept and slope that minimises the vertical distances between the line and each observation. Actually, it minimises something called the 'sum of squares' of these distances---more on that in a moment. First, we should visualise these distances:
+```{r, fig.width=4, echo = FALSE}
+all.exp.data <- list()
+
+all.exp.data[[1]] <- 
+  exp.data %>% 
+  mutate(yend = mean(exp.data$y), labs = "A")
+all.exp.data[[2]] <- 
+  exp.data %>% 
+  mutate(yend = 0.5*x*coef(lm.mod)[2], labs = "B")
+all.exp.data[[3]] <- 
+  exp.data %>% 
+  mutate(yend = 1.6*x*coef(lm.mod)[2], labs = "D")
+all.exp.data[[4]] <- 
+  exp.data %>%  
+  mutate(yend = predict.lm(lm.mod, newdata = .), labs = "C")
+
+all.exp.data <- bind_rows(all.exp.data)
+
+ggplot(all.exp.data, aes(x = x, y = y)) + 
+  geom_segment(colour = "darkgrey",
+               aes(xend = x, y = y, yend = yend)) + 
+  geom_line(data = all.mod.data) + 
+  geom_point(data = exp.data, colour = "blue") + 
+  facet_wrap(~labs, nrow = 2)
+```
+
+Notice we said that it is the vertical distance that matters, not the perpendicular distance from the line. That's...
+
+You should be able to see that, for the horizontal line, taking all the residual distances, squaring these, and adding them up will produce a greater residual sum of squares than doing the same with the sloping lines. This suggests that the sloping lines fit the data better. The line with the *lowest* residual sum of squares is the best line, because it ‘explains’ more of the variation in the dependent variable.
+
+Which one is best though? To understand this we need to calculate the residual sum of squares for each line. These are...
+```{r, echo = FALSE}
+all.exp.data %>% 
+  rename(Line = labs) %>% group_by(Line) %>% 
+  summarise('   Residual Sum of Squares' = sum((y-yend)^2)) %>% as.data.frame
+```
+So it looks like the line in panel C is the best fitting line among the candidates--in fact, it is the best fit line among all possible candidates. Did you manage to guess this by looking at the lines and the raw data? If not, think about why you got the answer wrong (and ask a demonstrator if you can't see why you got it wrong).
+
+A final comment. It is really important that you understand what a residual from a regression represents. Residuals pop up a lot when evaluating statistical models (not just regression). For example, the assumptions of simple linear regression models are typically evaluated in terms of the properties of their residuals. We're going to learn how to do this in the next chapter. For thsi reason, you should ask a TA for help if you are still not sure what a residual is.
+
+## What do you get out of a regression?
+
+The results from a regression analysis will tell us (among other things):
+
+-   whether there is a statistically significant relationship between the $x$ and $y$ variables. That is, a regression analysis will tell you whether the association is likely to be real, or just a chance outcome resulting from sampling variation. 
+
+-   the equation of the straight line that best describes the values of the $y$ (dependent) variable as a function of the $x$ (independent) variable.
+
+The equation for a straight line relationship is:
+
+$$y = a + b x$$
+
+where: $y$ is the dependent variable, $x$ is the independent variable, $a$ is the value at which the line crosses the $y$ axis, $b$ is the slope of the line. The slope of the line tells us the amount by which $y$ changes for a change of one unit in $x$)
+
+If the value of $b$ is positive (i.e. a plus sign in the above equation) this means the line slopes upwards to the right. A negative slope ($y = a - bx$) means the line slopes downwards to the right. The diagram below shows the derivation of an equation for a straight line.
+
+```{r, fig.width=4, echo = FALSE}
+I <- 1
+S <- 2/3
+data.frame(x    = c(0, 3), 
+           y    = c(I, I), 
+           xend = c(3, 3), 
+           yend = c(I, I + 3 * S)) %>%
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_segment(colour = "darkgrey") + 
+  geom_abline(intercept = I, slope = S, linetype = 2) + 
+  scale_x_continuous(limits = c(-0.25, 3.5)) + 
+  scale_y_continuous(limits = c(-0.25, 4.0)) + 
+  xlab("Independent variable (x)") + ylab("Dependent variable (y)") + 
+  annotate("text", x = 0.2, y = 3.9, hjust=0, parse = TRUE, label = "b==Delta*y/Delta*x") + 
+  annotate("text", x = 1.6, y = 3.9, hjust=0, parse = TRUE, label = "b==2/3") +
+  annotate("text", x = 0.2, y = 3.5, hjust=0, parse = TRUE, label = "a==1") + 
+  annotate("text", x = 0.2, y = 2.9, hjust=0, parse = TRUE, label = "y==1+0.667*x") + 
+  annotate("text", x = 1.5, y = 0.7, hjust=0, parse = TRUE, label = "Delta*x==3") + 
+  annotate("text", x = 2.1, y = 1.8, hjust=0, parse = TRUE, label = "Delta*y==2") +
+  geom_hline(yintercept = 0) + geom_vline(xintercept = 0)
+rm(I, S)
+```
+
+Having the equation for a relationship allows you to predict the value of the $y$ variable for any value of $x$. For example, in the enzyme example, our physiologist might be interested in getting an equation which would allow her to predict the amount of glucose released at any temperature, even if she had not carried out experiments at that precise temperature (e.g. 5C). Such predictions can be made by hand (see below) or using R (details later).
+
+In the above diagram, the regression equation is: $y = 1 + 0.66 x$. So to find the value of $y$ at $x = 2$ you get: $y = 1 + (0.667 \times 2) = 2.32$. Obviously, by finding $y$ values for 2 (or preferably 3) different $x$ values from the equation, the actual line can easily be plotted on a graph by hand if required---plot the values and join the dots!
+
+N.B.: The relationship you are looking at may only be linear over a certain range of the data (i.e. we would be surprised if amylase activity continued to increase at the same rate up to 100C). So when fitting a straight line you should not normally extend the line beyond the range of the original data, and be very wary of using the equation to predict $y$ values outside the range of the $x$ variable from which the line was derived.
+
+## The assumptions of regression
+
+Simple linear regression is a type of parametric model, which means it makes a number of assumptions (some of which are often ignored at times in the biological literature!). Let's skim through them and then consider each one in more detail:
+
+1.    **Independence.** The residuals must be independent.
+
+2.    **Measurement scale.** The dependent $y$ variable is measured on an interval or ratio scale.
+
+3.    **Linearity** The relationship between the independent $x$ variable and the dependent $y$ variable is linear.
+
+4.    **Normality.** The residuals are drawn from a normal distribution.
+
+5.    **Constant variance.** The variance of the residuals is constant.
+
+6.    **Measurement error.** The values of the independent $x$ variable are determined with negligible error.
+
+What are these all about? There seem to be lots of assumptions, but most are straightforward to deal with. 
+
+1.    Another way of stating the first assumption is that the value of each residual does not depend on the value of any others. This can be difficult to check. If the data are from an experiment and we made sure to properly randomise the treatments, it should be OK. If the data are observational, then we need to be more careful. The reason this assumption matters is because, if the residuals are not independent, any p-values we generate will not be reliable (they will typically be too small).
+
+2.    The data type of $y$ should be straightforward.
+
+3.  Obviously there is little point in fitting a straight line to data which clearly don’t form a straight line relationship. There may also be circumstances in which it is theoretically unlikely (or impossible) for a relationship to be linear, e.g. the length and weight of an animal will not be well described by a linear relationship because weight is generally a cubic function of length. If the data fail this assumption (not uncommon with biological data) then sometimes applying a mathematical transformation of $x$ (and maybe $y$ too) can help. We will discuss this idea later in the course.
+
+4.    This is a bit less obvious. It essentially means that for each value of $x$ we would expect there to be a range of responses in $y$---e.g. for a given temperature we wouldn’t expect all beans to release exactly the same amount of glucose---which follow a normal distribution. In fact, it is the distribution of the deviations of $y$ from the fitted line (the residuals) that are assumed to be normal. This means that we can generally only test this assumption *after* the line has been fitted. It does not make sense to evaluate this assumption by looking at the raw $y$ values.
+
+5.    This assumption essentially means the variance of the residuals is not related to the value of the independent $x$ variable. It is violated if the scatter of the data (size of the residuals) increases or decreases markedly as $x$ gets larger. If the data fail this assumption (not uncommon with biological data) then sometimes applying a mathematical transformation of $y$ will help-–-but we have to be careful not to introduce other problems. We will discuss this idea later in the course.
+
+6.    It is often hard to obtain the $x$ values with absolutely no error (random variation), but hopefully the error will at least be smaller than that in the $y$ values. So for example, in this experiment, the temperature values (set by the experimenter) almost certainly have little error, but the glucose release is likely to have much greater error, both through measurement error, and also because of real biological variation between beans.
+
+```{block, type='advanced-box'}
+**Checking the assumptions of regression**
+
+Assumption 2 (measurement scale) is easy to evaluate. Assumptions 1 (independence) and 6 (measurement error) are features of the experimental design and the data collection protocol. They generally can not be explicitly checked by looking at the data; you have to think about the data and see if there are any obvious reasons why they might not be valid. 
+
+There are a special set of tools, called 'regression diagnostics', that allow us to evaluate the remaining assumptions. We are going to study these in the next chapter, so for now we will rely on simple, but less effective means: assumptions 3 (linearity) and 5 (equal variance) can be informally evaluated by looking at a scatter plot of the data; assumption 4 (normality) can be checked by looking at the distribution of the residuals from the fitted the regression model.
+```
+
+## Carrying out regression with R {#regression-R}
+
+OK, let's return to our example and see how to carry out a simple regresion in R.
+
+
+
+### Checking the assumptions
+
+The data are on ratio (glucose release, $\mu g$ $mg^{-1}$ dry weight) and interval (temperature, °C) scales, the assumption of negligible measurement error seems perfectly reasonable, and without more knowledge of the experimental design, we have to assume that the independence assumption is met. As noted above, it is better to evaluate the remaining assumptions using regression diagnostics, but let's proceed using rough checks that rely on inspection of a scatter plot of the data:
+```{r, fig.width=4}
+ggplot(vicia.germ, aes(x = Temperature, y = Glucose)) + 
+  geom_point()
+```
+
+The scatter plot suggests that the relationship between $x$ and $y$ is linear, and the scatter in $y$ neither increases nor decreases substantially with increasing values of $x$. It is quite had to judge whether there is anything obviously wrong with the normality assumption using this plot---we will check this assumption more carefully in a moment by looking at the residuals. 
+
+### Model fitting and significance tests
+
+Now that we understand roughly how simple linear regression works, and since the data appear to meet the requirements of this model, we can finally move on to some results. Carrying out a regression analysis in R is really no different from ANOVA. It is a two step process. The first step is a model fitting step. This is where R calculates the best fit intercept and slope, along with additional information needed to generate the results in step two.
+
+Once again, we carry out the model fitting step using the `lm` function (remember, the data are in `vicia.germ`, `Temperature` is the independent variable, and `Glucose` is the dependent variable):
+```{r} 
+vicia.model <- lm(Glucose ~ Temperature, data = vicia.germ)
+```
+This should appear very familiar by now. We have to assign two arguments:
+
+1. The first argument is a **formula** (i.e. it includes a 'tilde' symbol: `~`). The variable name on the left of the `~` should be the dependent variable and the variable name on the right should be the independent variable (`Glucose` and `Temperature`, respectively).
+
+2. The second argument is the name of the data frame that contains the two variables listed in the formula (`vicia.germ`).
+
+```{block, type='advanced-box'}
+**How does R knows we want to carry out a regression?**
+
+How does R know we want to use regression? After all, we didn't specify this anywhere. The answer is that R looks at what type of variable `Temperature` is. It is numeric, and so R automatically carries out a regression. If it had been a factor (i.e. a categorical variable) R would have carried out a different kind of analysis, called a one-way ANOVA. We'll learn about ANOVA later. 
+
+Most of the models that we examine in this course are very similar, and can all be fitted using the `lm` function. The only thing that really distinguishes them is type of variables that appear to the right of the `~` in a formula: if they are factors (categorical variables) we end up carrying out ANOVA, while numeric variables lead to a regression. The key message is that you have to keep a close eye on the type of variables you are modelling to understand what kind of model R will fit.
+```
+
+As usual, we assigned the result a name (`vicia.model`) so that `vicia.model` now refers to a fitted model object. When looking at ANOVA, we said that printing this object to console wasn't very useful. What happens if we print a regression model object to the console?
+```{r}
+vicia.model
+```
+Just as with ANOVA, this prints a summary of the model we fitted and some information about the 'coefficients' of the model. The coefficients, when working with a simple regression, are the intercept and slope of the fitted line: the intercept is always labelled `(Intercept)` and the slope is labelled with the name of the independent variable (`Temperature` in this case). We'll come back to these coefficients once we have looked at how to compute *p*-values.
+
+```{r, echo=FALSE}
+anova.out <- capture.output(anova(vicia.model))
+```
+
+We usually fit a regression model so that we can determine whether the slope (and perhaps, the intercept) is significantly different from zero---i.e. we want to know if the relationship between the $x$ and $y$ variables are really associated. Surprisingly, we use the `anova` function to do this. Why do we use the `anova` function? It turns out that the basic idea of ANOVA---the assessment of statistical significance of model terms via comparisons of variance---can be applied to any kind of model object created by `lm`, including a simple regression model.
+
+As usual, all we have to do is pass the `anova` function one argument: the name of the fitted regression model object:
+```{r}
+anova(vicia.model)
+```
+The first line just informs us that we are looking at an ANOVA table, i.e. a table of statistical results from an analysis of variance. Just remember, this doesn't necessarily mean we are dealing with an ANOVA model---i.e., an ANOVA model is one in which the independent variable(s) is (are) categorical.
+
+The second line reminds us what variable we analysed (the dependent variable). The important part of the output is the table at the end:
+```{r, echo = FALSE}
+invisible(sapply(anova.out[4:6], function(line) cat(line, "\n")))
+```
+This summarises the parts of the analysis of variance calculations, as it applies to a regression model. These should be familiar to you: `Df` -- degrees of freedom, `Sum Sq` -- the sum of squares, `Mean Sq` -- the mean square, `F value` -- the *F*-statistic (i.e. variance ratio), `Pr(>F)` -- the p-value).
+
+The *F*-statistic (variance ratio) is the most important term. When working with a regression model, this is related to how much variability in the data is explained when we include the best fit slope term in the model. Larger values indicate a stronger relationship between $x$ and $y$. The p-value gives the probability that the relationship could have arisen through sampling variation, if in fact there were no real association: a p-value of less than 0.05 indicates a less than 1 in 20 chance of the result being due to chance, and we take this as evidence that the relationship is real.
+
+#### Extracting a little more information
+
+```{r, echo = FALSE}
+summary.out <- capture.output(summary(vicia.model))
+```
+
+There is a second function, called `summary`, that can be used to extract a little more information from the fitted regression model:
+```{r}
+summary(vicia.model)
+```
+This is easiest to understand if we step through the constituent parts of the output. The first couple of lines just remind us about the model we fitted
+```{r, echo = FALSE}
+invisible(sapply(summary.out[2:3], function(line) cat(line, "\n")))
+```
+The next couple of lines aren't really all that useful---they summarise some properties of the residuals--so we'll ignore these.
+
+The next few lines comprise a table that summarises some useful information about the coefficients of the model (the intercept and slope):
+```{r, echo = FALSE}
+invisible(sapply(summary.out[9:12], function(line) cat(line, "\n")))
+```
+The `Estimate` column shows us the estimated the intercept and slope of the regression. We saw these earlier when we printed the fitted model object to the console.
+
+Staying with this table, the next three columns (`Std. Error`, `t value` and `Pr(>|t|)`) show us the standard error associated with each coefficient, the corresponding *t*-statistics, and the *p*-values. Remember standard errors? These are a measure of the variability of the sampling distribution associated with something we estimate from a sample. We discussed these in the context of sample means. It turns out that one can calculate a standard error for many different kinds of quantities, including the intercept and slope of a regression model. And just as with a mean, we can use the standard errors to evaluate the significance of the coefficients via *t*-statistics.
+
+In this case, the *p*-values associated with these *t*-statistics indicate that the intercept is not significantly different from zero (*p*>0.05), but that the slope is significantly different from zero (*p*<0.01). Notice that the *p*-value associated with the slope coefficient is the same as the one we found when we used the `anova` function. This is not a coincidence---`anova` and `summary` test the same thing when working with regression models.
+
+The only other part of the output from summary that is of interest now is the line containing the `Multiple R-squared` value:
+```{r, echo=FALSE}
+invisible(sapply(summary.out[17], function(line) cat(line, "\n")))
+```
+This shows the $R$-squared ($R^{2}$) of our model. It tells you what proportion (sometimes expressed as a percentage) of the variation in the data is explained, or accounted for, by the fitted line. If $R^{2}=1$ the line passes through all the points on the graph (all the variation is accounted for) and if $R^{2}\approx 0\%$ the line explains little or none of the variation in the data.
+
+(The `Adjusted R-squared:` value can be ignored in this analysis---it is used when doing a form of regression called *multiple regression*, in which there is more than one $x$ variable. We will not be dealing with multiple regression here.)
+
+The $R^{2}$ value here is 0.64. This is very respectable, but still indicates that there are other sources of variation (differences between beans, inaccuracies in the assay technique, etc.) which remain unexplained by the line.
+
+#### Residual analysis
+
+There are various situations in which we need to be able to extract the residuals from a fitted model. We'll look at one example now. Remember the 5th assumption: the residuals are drawn from a normal distribution. How might we examine the distributional assumptions of the regression? We can do this with a dot plot or histogram of the residuals, if know how to extract these from a model. This is easy in R---we use the `resid` function:
+```{r}
+resid(vicia.model)
+```
+This just extracts a numeric vector containing the residuals and prints them to the console. In order to plot these we need to put them inside a data frame (`ggplot2` only works with data frames), and store the result:
+```{r}
+resid.data <- data.frame(Residuals = resid(vicia.model))
+```
+
+Once we have extracted the residuals into a data frame we just use `ggplot2` in the usual way to plot them. We'll use a dot plot, as there aren't many residuals:
+```{r, fig.width=4, }
+ggplot(resid.data, aes(x = Residuals)) + geom_dotplot(binwidth = 0.3)
+```
+It is hard to know if these are normally distributed when we only have 10 observations, but there is nothing that screams 'non-normal' here.
+
+## Presenting results {#present-results}
+
+From the preceding analysis we can conclude...
+
+> There is a significant positive relationship between the incubation temperature (°C) and glucose released ($\mu g mg^{-1}$ dry weight) in germinating bean seeds ($y=0.52+0.20x$,  F=14, d.f.=1,8, *p*<0.01).
+
+Don't forget to quote both degrees of freedom in the result. These are obtained from the ANOVA table produced by `anova` and should be given as the slope degrees of freedom first (which is always 1), followed by the error degrees of freedom.
+
+If the results are being presented only in the text it is usually appropriate to specify the regression equation as well as the significance of the relationship as this allows the reader to see in which direction and how steep the relationship is, and to use the equation in further calculations. It may also be useful to give the units of measurement---though these should already be stated in the Methods.
+
+###
+
+Often, however, you will want to present the results as a figure, showing the original data and the fitted regression line. In this case, most of the statistical detail can go in the figure legend instead.
+
+We already know how to make a scatter plot. The only new trick we need to learn is how to add the fitted line. Remember the output from the summary table---this gave us the intercept and slope of the best fit line. We could extract these (the is a function called `coef` that does this), and using our knowledge of the equation of a straight line, use them to then calculate a series of points on the fitted line. However, there is an easier way to do this using the `predict` function. 
+```{block, type='do-something'}
+Don't worry too much if this next segment on predictions is confusing. It looks more complicated than it is, but you may have to come back to it a few times before it all sinks in. At first reading, try to focus on the logic of the calculations without worrying too much about the details.
+```
+
+In order to use `predict` we have to let R know the values of the independent variable for which we want predictions. In the bean example the temperature was varied from 2-20 °C, so it makes sense to predict glucose concentrations over this range. Therefore the first step in making predictions is to generate a sequence of values from 2 to 20, placing these inside a data frame:
+```{r}
+pred.data <- data.frame(Temperature = seq(2, 20, length.out = 25))
+```
+We learned about the `seq` function last year. Here, we used it to make a sequence of 25 evenly spaced numbers from 2 to 20. If you can't remember what it does, ask a demonstrator to explain it to you (and use `View` to look at `pred.data`). Notice that we gave the sequence the exact same name as the independent variable in the regression (`Temperature`). **This is important**: the name of the numeric sequence we plan to make predictions from has to match the name of the independent variable in the fitted model object.
+
+Once we have set up a data frame to predict from (`pred.data`) we are ready to use the `predict` function:
+```{r}
+predict(vicia.model, pred.data)
+```
+This take two arguments: the first is the name of the model object (`vicia.model`); the second is the data frame (`pred.data`) containing the values of the independent variable at which we want to make predictions. The predict function generated the predicted values in a numeric vector and printed these to the console.
+
+To be useful, we need to capture these somehow, and because we want to use `ggplot2`, these need to be kept inside a data frame. We can use mutate to do this:
+```{r}
+pred.data <- mutate(pred.data, Glucose = predict(vicia.model, pred.data))
+```
+
+Look at the first 10 rows of the resulting data frame:
+```{r, echo = FALSE}
+head(pred.data, 10)
+```
+The `pred.data` is set out much like the data frame containing the experimental data. It has two columns, called `Glucose` and `Temperature`, but instead of data, it contains predictions from the model. Plotting these predictions along with the data is now easy:
+```{r, fig.width=4}
+ggplot(pred.data, aes(x = Temperature, y = Glucose)) + 
+  geom_line() + geom_point(data = vicia.germ) + 
+  xlab("Temperature (°C)") + ylab("Glucose concentration")
+```
+Notice that we have to make `ggplot2` use the `vicia.germ` data (i.e. the raw data) when adding the points. 
+
+Let's summarise what we did: 1) using `seq` and `data.frame`, we made a data frame with one column containing the values of the independent variable we want predictions at; 2) we then used the `predict` function to generate these predictions, adding them to the prediction data with `mutate`; 3) finally, we used `ggplot2` to plot the predicted values of the dependent variable against the independent variable, remembering to include the data.
+
+```{r, eval = FALSE, echo = FALSE}
+data.frame(Temperature = seq(2, 20, length.out = 25)) %>% 
+  mutate(Glucose = predict(vicia.model, .)) %>% 
+  ggplot(aes(x = Temperature, y = Glucose)) + 
+    geom_line() + geom_point(data = vicia.germ) + 
+    xlab("Temperature (°C)") + ylab("Glucose concentration")
+```
+
+## What about causation? {#causation}
+
+No discussion of regression would be complete without a little homily on the fact that just because you observe a (significant) relationship between two variables this does not necessarily mean that the two variables are causally linked. If we find a negative relationship between the density of oligochaete worms (the dependent variable) and the density of trout (the independent variable) in a sample of different streams, this need not indicate that the trout reduce the numbers of oligochaetes by predation - in fact oligochaete numbers are often very high in slow-flowing, silty streams where they live in the sediments, trout prefer faster flowing, well oxygenated, stony streams - so a negative correlation could occur simply for that reason. There are many situations in biology where a relationship between two variables can occur not because there is a causal link between them but because each is related to a third variable (e.g. habitat).
+
+This difficulty must always be borne in mind when interpreting relationships between variables in data collected from non-experimental situations. However, it is often assumed that because of this problem regression analysis can never be used to infer a causal link. This is incorrect. What is important is how the data are generated, not the statistical model used to analyse them. If a set of ten plants were randomly assigned to be grown under ten different light intensities, with all other conditions held constant, then it would be entirely proper to analyse the resulting data (for, let us say, plant height) by a regression of plant height ($y$) against light level ($x$) and, if a significant positive straight-line relationship was found, to conclude that increased light level caused increased plant height. 
+
+Of course this conclusion still depends on the fact that another factor (e.g. temperature) isn’t varying along with light and causing the effect. But the fact that you are experimentally producing an effect, in plants randomly allocated to each light level (i.e. plants in which it is highly improbable that the heights happened to be positively related to light levels at the start) which gives you the confidence to draw a conclusion about causality.
+
+

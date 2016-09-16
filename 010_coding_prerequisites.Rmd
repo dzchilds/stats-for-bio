@@ -2,15 +2,36 @@
 
 # Programming prerequisites
 
+This chapter gives a quick overview of the prerequisate R skills needed for this course (we studied these last year). We will use these skills this year, so you may need to spend revising them if you feel that you're a little rusty.
+
 ```{block, type='do-something'}
 Don't worry if you are an Environmental Sciences student joining us from Geography. We will run extra catch-up sessions for the first few weeks to help you learn the basic R skills needed to do this course, though we won't cover everything the APS students did last year. The material in this section won't make much sense at the moment, but it will after the first few weeks (we promise).
 ```
 
-Before you work through this course, you should revise some of the basic R skills developed last year...
+## Starting an R session in RStudio
 
-## Starting an R session
+1. Open up RStudio and set your working directory. You should do this via the RStudio menu system: **Session ▶ Set Working Directory ▶ Choose Working Directory...**. Make sure that you choose a sensible location. This is where you will store your data and R scripts, so it needs to be somewhere you can find and access again each time you use R. If you want to keep life simple, it is a good idea to use the same location in every practical.
 
-[[COMPLETE ME]]
+2. Open up a new R script using the RStudio menu system: **File ▶ New File ▶ R Script**. Don't create a any other kind of file.
+
+3. There are a couple of things that need appear at the start of every script. Add these to the top of your new script before you do anything else. You should always clear the workspace with `rm`, and load up any packages you plan to use:
+
+```{r, eval=FALSE}
+# clear the workspace so that we have a 'clean sheet'
+rm(list = ls())
+
+# load and attach the packages we want to use...
+# 1. 'dplyr' for data manipulation
+library(dplyr)
+# 2. 'ggplot2' for plotting
+library(ggplot2)
+```
+
+4. Now run the preamble section of the script, i.e. highlight everything and hit **Ctrl+Enter**. If the `library` commands didn't work it suggests that you have not previously installed the relevant package. Install the package (see below) and try rerunning the script.
+
+5. Once the pramble bit of the scruipt is working you should save the script. Look at the label of the tab the scripr lives in. This will probably be called something like *Untitled1*, and it the label will be red. This is RStudio telling you that you have not saved the file yet.  
+
+You are now ready to start developing your new script.
 
 ## Using packages
 
@@ -24,7 +45,7 @@ Loading and attaching the package a package happens via the `library` function, 
 ```{r, eval=FALSE}
 library("dplyr")
 ```
-The key point---which seems to cause endless confusion---is that installing a package, and then loading and attaching the package, are different activities. You only have to install it once onto your computer, but you have to load a package every time you want to use it in a new R session (i.e. every time you start up RStudio). Your scripts should 
+The key point---which seems to cause endless confusion---is that installing a package, and then loading and attaching the package, are different activities. You only have to install it once onto your computer, but you have to load a package every time you want to use it in a new R session (i.e. every time you start up RStudio).
 
 ## Reading data into R
 

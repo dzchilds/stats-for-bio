@@ -181,3 +181,59 @@ What other comparison would it be useful to be able to make in order to reach a 
 
 ## Regression
 
+### Partridges and hedgrows {#exercise}
+
+```{block, type='do-something'}
+Make a note of your answers so that you can complete the associated MOLE quiz, which is called 'regression 1'.   
+```
+
+```{r, echo = FALSE, eval = FALSE}
+partridge <-read.csv(file = "./course-data/PARTRIDG.CSV")
+ggplot(partridge, aes(x = Hedgerow, y = Partridge)) + geom_point()
+partridge.model <- lm(Partridge ~ Hedgerow, data = partridge)
+anova(partridge.model)
+summary(partridge.model)
+plot(partridge.model)
+```
+
+Hedgerows are the main nesting habitat of the grey partridge (*Perdix perdix*). A survey was carried out to establish whether the abundance of hedgerows in agricultural land had an effect on the abundance of grey partridge. From an area of agricultural land covering several farms, twelve plots were selected which had land uses as similar as possible but differed, as evident from preliminary inspection, in the density of hedgerows (km hedgerow per km^2^). Plots were deliberately selected to cover a wide range of hedgerow densities. The total hedgerow lengths, and exact plot areas, were measured by use of large scale maps. The density of partridges was established by visiting all fields in a study plot once immediately after dawn and once just before dusk, when partridges are feeding and therefore most likely to be seen. Counts of birds observed were made on each visit and the dawn and dusk data were averaged to give a value for partridge abundance for each study plot.
+
+The data are stored in a CSV file PARTRIDG.CSV. The density of hedgerows (km per km^2^) is in the `Hedgerow` variable and the density of partridges (no. per km) is in the `Partridge` variable. Read in the data and take a look at it using the `View` function.
+
+```{block, type='do-something'}
+**MOLE question**
+
+Which way round should the variables be?
+
+-   Independent ($x$):
+
+-   Dependent ($y$):
+```
+
+Make a scatter plot to allow you to evaluate the assumptions.
+
+```{block, type='do-something'}
+**MOLE question**
+
+1.  If there is a relationship does it look linear? 
+
+2.  Ratio or interval data? 
+
+3.  Independent variable $y$ likely to be normally distributed for each $x$?
+
+4.  Variance increases or decreases markedly with increasing $x$?
+
+5.  Errors in $x$ likely to be small compared to those in $y$?
+```
+
+If everything is OK, or roughly so, then carry out a regression on the relationship between hedgerow density and partridge density.
+
+```{block, type='do-something'}
+**MOLE question**
+
+Summarise the results of your analysis in words.
+```
+
+Finish up by preparing a figure that summarises the data and the best fit line estimated from the regression.
+
+

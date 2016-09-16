@@ -1,0 +1,7 @@
+# Correlation
+
+## Why two different methods?
+
+Correlation and regression are both concerned with describing relationships between two variables, but they are somewhat different techniques, and each is appropriate under different circumstances. This often causes confusion. Which technique is required for a particular data set depends on both the form of the data, and on the purpose of the analysis, since the two techniques make different assumptions about the data, and also yield different information. We will return to the problem of how to decide which technique is appropriate after you have become familiar with the essential features of both.
+
+
