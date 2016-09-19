@@ -1,11 +1,9 @@
-# (PART) Prerequisites {-} 
-
 # Programming prerequisites
 
 This chapter gives a quick overview of the prerequisate R skills needed for this course (we studied these last year). We will use these skills this year, so you may need to spend revising them if you feel that you're a little rusty.
 
 ```{block, type='do-something'}
-Don't worry if you are an Environmental Sciences student joining us from Geography. We will run extra catch-up sessions for the first few weeks to help you learn the basic R skills needed to do this course, though we won't cover everything the APS students did last year. The material in this section won't make much sense at the moment, but it will after the first few weeks (we promise).
+Remember, if you are an Environmental Sciences student joining us from Geography we *will* help you catch up in the first few weeks. The material in this section won't make any sense to you at the moment. We promise that it will after the first few weeks.
 ```
 
 ## Starting an R session in RStudio

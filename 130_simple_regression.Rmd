@@ -2,20 +2,38 @@
 
 # Simple regression
 
-The simple statistical tools we have encountered so far have been concerned with comparing the mean(s) of a numeric variable (e.g. plant weight, skull size, glucosamine concentrations) in some way. This can be done either with respect to an expected value (i.e. one-sample *t*-test), or among two groups (i.e. paired-sample *t*-test and two-sample *t*-test). In the latter case we are interested in how the mean of the numeric variable differs among two different groups defined by the values of a categorical variable. The categorical variable often encode information about different experimental treatments, but they could also represent something that we have measured in a non-experimental, observational study (e.g. habitat type, high vs. low elevation). 
+The simple statistical tests we encountered so far have been concerned with how to the compare mean(s) of numeric variables in some way. We now know how to...
 
-(If we needed to, we could evaluate differences in means of more than two categories by using a related, but more sophisticated, tool called Analysis of Variance (ANOVA). We'll get to this later in the course.) 
+-   compare one mean to any particular value, via the one-sample *t*-test
 
-One way to think about these kinds of tools and is to conceptualise them as considering a relationship between between a numeric and categorical variable. Specifically, they ask how the mean of the numeric variable changes among the categories. This chapter is about a different kind of question. What should we do when two numeric variables have been measured **on the same objects/individuals** in a study? For example, we could sample fish and measure their length and weight, we could surveu grassland plots and measure soil pH and species diversity, or we migt manipulate temperature and measure enzyme activity in bed bugs.
+-   compare means among two groups or experimental conditions, via the two-sample *t*-test. 
 
-In each of these settings we want to understand the relationship between the two different numeric variables. We may be interested in knowing:
+(What about the paired-sample *t*-test? This also evaluates differences among two conditions, but is really a special type of one-sample *t*-test because it evaluates whether the mean change *within* objects is different from 0)
+
+One way to think about the two-sample and paired-sample *t*-tests is that they evaluate whether or not a numeric variable changes, an average, among two groups or experimental conditions. We saw that in R, the two different groups/conditions can be encoded by the values of a categorical variable. We use a formula involving the numeric (`num_var`) and categorical (`cat_var`) variables to set up the test (e.g. `num_var ~ cat_var`). There is a good reason for doing things this way. It reflects the fact that we can conceptualise the two-sample and paired-sample *t*-tests as considering a *relationship* between between a numeric and categorical variable. 
+
+(By the way, it is perfectly possible to evaluate differences among means in more than two categories, but we should do this using a more sophisticated tool called Analysis of Variance [ANOVA]. We'll learn about ANOVA in later chapters...) 
+
+This chapter is about a different kind of relationship. The question we want to address is---what should we do when numeric variables have been measured (or manipulated) from the objects/individuals in a study? One very powerful tool 
+
+## Introduction to the problem
+
+We often need to explore the relationship between numeric variables. For example...
+
+-   we might sample fish and measure their length and weight
+
+-   we could survey grassland plots and measure soil pH and species diversity
+
+-   we may manipulate temperature and measure enzyme activity in bed bugs
+
+In each of these settings we want to understand the relationship between the numeric variables we measured. We may be interested in knowing:
 
 ```{r, echo = FALSE}
 x <- data.frame(x = seq(-2, 2, length.out = 50))
 set.seed(27081975)
 ```
 
-Are the variables related or not?
+Are the variables related or not? There's not much point studying a relationship that isn't there.
 
 ```{r, echo = FALSE, fig.width=6}
 bind_rows(mutate(x, y = 3 + x + rnorm(n(), sd = 0.5), labs = "Related"),
@@ -23,19 +41,19 @@ bind_rows(mutate(x, y = 3 + x + rnorm(n(), sd = 0.5), labs = "Related"),
   ggplot(aes(x = x, y = y)) + geom_point() + facet_wrap(~labs, nrow = 1)
 ```
 
-Is the relationship a straight line or a curve?
-
-```{r, echo = FALSE, fig.width=6}
-bind_rows(mutate(x, y = 3 + x + rnorm(n(), sd = 0.5), labs = "Straight"),
-          mutate(x, y = 4.5 + .8*x - .6*x^2 + rnorm(n(), sd = 0.45), labs = "Curved")) %>% 
-  ggplot(aes(x = x, y = y)) + geom_point() + facet_wrap(~labs, nrow = 1)
-```
-
-Is it positive or negative?
+Is the relationship positive or negative? Sometimes we can answer a substantive scientific question just by knowing the direction of a relationship.
 
 ```{r, echo = FALSE, fig.width=6}
 bind_rows(mutate(x, y = 3 + x + rnorm(n(), sd = 0.5), labs = "Positive"),
           mutate(x, y = 3 - x + rnorm(n(), sd = 0.5), labs = "Negative")) %>% 
+  ggplot(aes(x = x, y = y)) + geom_point() + facet_wrap(~labs, nrow = 1)
+```
+
+Is the relationship a straight line or a curve? The form of a relationship may be important if we want to make predictions.
+
+```{r, echo = FALSE, fig.width=6}
+bind_rows(mutate(x, y = 3 + x + rnorm(n(), sd = 0.5), labs = "Straight"),
+          mutate(x, y = 4.5 + .8*x - .6*x^2 + rnorm(n(), sd = 0.45), labs = "Curved")) %>% 
   ggplot(aes(x = x, y = y)) + geom_point() + facet_wrap(~labs, nrow = 1)
 ```
 
@@ -48,68 +66,43 @@ bind_rows(mutate(x, y = 3 + 0.3 * x + rnorm(n(), sd = 0.5), labs = "Related"),
   ggplot(aes(x = x, y = y)) + geom_point() + facet_wrap(~labs, nrow = 1)
 ```
 
-You might not be very confident in judging which, if either, of these plots provides evidence of a positive relationship between the two variables. 
+You might not be very confident in judging which, if either, of these plots provides evidence of a positive relationship between the two variables. Maybe the pattern the we perceive can just be explained by our old friend sampling variation, or maybe it can't. Clearly it would be useful to have a measure of how likely it is that the relationship we think we see could have arisen as a result of sampling variation. In addition to judging the statistical significance of a relationship, we may also be interested in describing the relationship mathematically – i.e. finding the equation of the best fitting line through the data. 
 
-Clearly it would be useful to have a measure of how likely it is that the relationships we think we see could have arisen as a result of sampling variation. In addition to judging the significance of a relationship, we may also be interested in describing the relationship mathematically – i.e. finding the equation of the best fitting line through the data. Regression techniques allow you to do this. In fact, using regression, the relationship on the left would be judged significant, the one on the right would not. 
-## Understanding regression: an example {#understand-regression}
+A linear regression analysis allows you to do all this (and more). 
 
-A plant physiologist studying the process of germination in the broad bean (*Vicia faba*) is interested in the relationship between the activity of the enzyme amylase, and the temperature at which the germinating beans are kept. As part of this work she carries out an experiment to find the relationship between glucose release (from the breakdown of starch by amylase) and temperature (over the range 2 - 20C). The data obtained from such an experiment are given below.
+## What does linear regression do?
 
-||||||||||||
-|:---------------------------------------|:--|:----|:----|:----|:----|:----|:----|:----|:----|:----|
-| Temperature ($C$)                      | 2 | 4   | 6   | 8   | 10  | 12  | 14  | 16  | 18  | 20  |
-| Glucose ($\mu g$ $mg^{-1}$ dry weight) | 1 | 0.5 | 2.5 | 1.5 | 3.2 | 4.3 | 2.5 | 3.5 | 2.8 | 5.6 |
+**Simple linear regression** finds the straight-line relationship which best describes the dependence of one variable (the **dependent variable**) on the other (the **independent variable**). 
 
-The data are in a CSV file called GLUCOSE.CSV. The first column (`Temperature`) contains the information about the temperature treatments, and the second column (`Glucose`) contain the glucose measurements.
+-   What does the word 'simple' mean here? A simple linear regression is a regression model which only accounts for one independent variable. If more than one independent variable is considered, the correct term to describe the resulting model is 'multiple regression'. We'll only look at simple regression in this chapter.
 
-(Notice that we still refer to the different temperatures as 'treatments'. This is perfectly reasonable here as these data are from an experiment where temperature was controlled by the investigator. Indeed, if we had replicated the experiment at each temperature we could even analyse the data using a one-way ANOVA. This wouldn't result in the most powerful of analyses because we would be ignoring the natural ordering in the temperature treatments, but it wouldn't be completely hopeless. Nonetheless, a regression is a much better choice of statistical model in an experiment of this sort.)
+-   What does the word linear mean here? [[FINISH ME]]
+
+It soon becomes tedious reading/writing 'simple linear regression' all the time, so to simplify things, we'll often just write 'regression'. Just keep in mind that we're always talking about simple linear regression in this chapter. 
+
+A simple linear regression describes the response of the dependent variable to a unit change in the value of the independent variable. It is also conventional to label the dependent variable as '$y$' and the independent variable as '$x$'. When we present such data graphically, the independent variable goes on the $x$-axis and the dependent variable on the $y$-axis. Try not to forget these conventions!
+
+How to select which is to be used as the dependent and which as the independent variable is fairly straightforward in an experimental setting. 
+
+[[Explain the experiment]]
+
+Temperature was manipulated in this experiment, so it absolutely must be designated the independent variable. Moreover, *a priori* (before conducting the experiment), we can reasonably suppose that changes in temperature may cause changes in enzyme activity, but the reverse seems pretty unlikely.
+
+However, it may not always so clear cut when we are working with data from an observational study. These problems will be discussed in more detail later. There is one important point to be aware of now however: in regression it matters which way round you choose the dependent and independent variables. If you have two variables A and B, the relationship you find from a regression will not be the same for A against B as for B against A.
 
 ```{block, type='do-something'}
-**Work through the germination example**
+**'dependent vs. independent'  or 'response vs. predictor'?**
 
-You should begin working through the *Vicia* germination example from this point. To do this, you will need to download the GLUCOSE.CSV file from MOLE, placing it in your working directory. 
+Another way to describe linear regression is that it allows us to predict how one variable (the **response variable**) responds to another (the **predictor variable**). The dependent vs. independent  and response vs. predictor conventions for variables in a regression are essentialy equivalent. The only differ in the nomenclature they use to describe the variables involved. 
+
+To avoid confusion, we will stick with dependent vs. independent naming convention in this course.
 ```
-
-Once you have downloaded the data it into an R data frame, giving it the name `vicia.germ`:
-```{r, echo=FALSE}
-vicia.germ <- read.csv(file = "./data_csv/GLUCOSE.CSV")
-```
-As always, make sure you use `View`, `glimpse`, etc to examine the data before you proceed.
-
-First of all, as with most analyses, we should visuaise the data set. We just need to produce a simple scatter plot, which is easy to do with `ggplot2`:
-```{r, fig.width=4}
-ggplot(vicia.germ, aes(x = Temperature, y = Glucose)) + 
-  geom_point()
-```
-
-The plot clearly suggests that there is some sort of positive relationship which might reasonably be described by a straight line.
-
-```{block, type='warning-box'}
-**Variables and axes**
-
-Be careful when you produce a scatter plot to summarise data in a regression analysis. You need to make sure the two variables are plotted the right way around with respect to the $x$ and $y$ axes. We place the 'dependent' (or 'response') variable on the $y$ axis and the 'independent' (or 'predictor') variable on the $x$ axis. We will explain these terms a bit more in a moment. For now, just make a mental note of the fact that there is a right and wrong way to plot the data for a regression. Nothing says "I don't know what I'm doing" as effectively as plotting the variables on the wrong axes.
-```
-
-What we want to do is work out whether there a statistically significant relationship between temperature and glucose release (and hence, presumably, amylase activity). If there is, we might also want to find the equation that describes the relationship. We will return to the mechanics of actually doing this later. But first, keeping the example in mind, we will consider the basic ideas of what regression does, and for what sort of data it is suitable.
-
-## What does simple linear regression do?
-
-Simple linear regression finds the straight-line relationship which best describes the dependence of one variable (the **dependent variable**) on the other (the **independent variable**). Another way to think about simple linear regression is that it allows us to predict how one variable (the **response variable**) responds to another (the **predictor variable** ).
-
-These are essentially equivalent descriptions of simple linear regression, which only differ in the nomenclature they use to describe the variables involved (dependent vs. independent / response vs. predictor). To avoid confusion, we will stick with dependent vs. independent dichotomy in this course.
-
-What does the word 'simple' mean in this context? A simple linear regression is a regression model which only accounts for one independent variable. If more than one independent variable is considered, the correct term to describe the resulting model is 'multiple regression'. We are only concerned with simple regression in this session. 
-
-A simple linear regression describes the response of the dependent variable to a unit change in the value of the independent variable. This is why, when presenting such data graphically, the independent variable goes on the $x$-axis and the dependent variable on the $y$-axis. In our example, we are interested in the dependence of glucose release on temperature---i.e., what is the response of glucose release to temperature--- and so glucose release is the dependent variable ($y$) and temperature is the independent variable ($x$).
-
-How to select which is to be used as the dependent and which as the independent variable is often, as here, fairly straightforward. *A priori* (before conducting the experiment), we can reasonably suppose that changes in temperature may cause changes in enzyme activity, but the reverse seems pretty unlikely. More importantly, temperature was manipulated in this experiment, so it absolutely must be designated the independent variable.
-
-However, it may not always so clear cut when we are working with data from an observational study. These problems will be discussed in more detail later. There is one important point to be aware of now however: in regression it matters which way round you choose the dependent and independent
-variables. If you have two variables A and B, the relationship you find from a regression will not be the same for A against B as for B against A.
 
 ## How does it work?
 
-If you draw a straight line through a set of points on a graph then, unless they form a perfect straight line, some points will lie close to the line and others further away. The vertical distances between the fitted line and each point (i.e. measured parallel to the $y$-axis) are called the *residuals*. The residuals are the ‘bits left over’ after the line has been fitted---i.e. the distances from individual points to the fitted line---and they give an indication of how well the line fits the data. If all the points lay in a perfect straight line there would be no residuals as the line would pass through all the points. If many of the residuals are large then this indicates that the data are quite scattered around the line.
+If you draw a straight line through a set of points on a graph then, unless they form a perfect straight line, some points will lie close to the line and others further away. The vertical distances between the fitted line and each point (i.e. measured parallel to the $y$-axis) have a special name. They are called the *residuals*. 
+
+The residuals are the ‘bits left over’ after the line has been fitted---i.e. the distances from individual points to the fitted line---and they give an indication of how well the line fits the data. If all the points lay in a perfect straight line there would be no residuals as the line would pass through all the points. If many of the residuals are large then this indicates that the data are quite scattered around the line.
 
 Regression works by finding the line which leaves the smallest total of the residuals. In fact, to be strictly correct, it minimises the sum of the squared residuals. The following illustration indicates the principle of this process:
 
@@ -148,7 +141,7 @@ ggplot(all.mod.data, aes(x = x, y = y)) +
 The data are identical in all four graphs, but in the top left left hand graph a horizontal line (i.e. no effect of $x$ on $y$) has been fitted, while on the remaining three graphs sloping lines of different magnitude have been fitted. To keep the example simple, we assume we know the true intercept of the line, which is at $y=0$, so all four lines pass through $x=0$, $y=0$ (i.e. the 'origin').
 
 ```{block, type='do-something'}
-** Which line is best?
+**Which line is best?**
 
 One of the four lines is the 'line of best' fit from a regression analysis. Spend a few moments looking at the four figures. Which line seems to fit the data best? Why do you think this line is 'best'?
 ```
@@ -192,7 +185,7 @@ all.exp.data %>%
 ```
 So it looks like the line in panel C is the best fitting line among the candidates--in fact, it is the best fit line among all possible candidates. Did you manage to guess this by looking at the lines and the raw data? If not, think about why you got the answer wrong (and ask a demonstrator if you can't see why you got it wrong).
 
-A final comment. It is really important that you understand what a residual from a regression represents. Residuals pop up a lot when evaluating statistical models (not just regression). For example, the assumptions of simple linear regression models are typically evaluated in terms of the properties of their residuals. We're going to learn how to do this in the next chapter. For thsi reason, you should ask a TA for help if you are still not sure what a residual is.
+A final comment. It is really important that you understand what a residual from a regression represents. Residuals pop up all the time when evaluating statistical models (not just regression). For example, the assumptions of linear regression models can be evaluated by looking at their residuals. We're going to learn how to do this in the next chapter.
 
 ## What do you get out of a regression?
 
@@ -200,15 +193,15 @@ The results from a regression analysis will tell us (among other things):
 
 -   whether there is a statistically significant relationship between the $x$ and $y$ variables. That is, a regression analysis will tell you whether the association is likely to be real, or just a chance outcome resulting from sampling variation. 
 
--   the equation of the straight line that best describes the values of the $y$ (dependent) variable as a function of the $x$ (independent) variable.
+-   the equation of the straight line that best describes how the $y$ (dependent) variable *depends on* the $x$ (independent) variable. To put it in slightly more technical terms, it describes the $y$ variable as a function of the $x$ variable.
 
-The equation for a straight line relationship is:
+What is the form of the relationship? The equation for a straight line relationship is...
 
-$$y = a + b x$$
+$$y = a + b \times x$$
 
-where: $y$ is the dependent variable, $x$ is the independent variable, $a$ is the value at which the line crosses the $y$ axis, $b$ is the slope of the line. The slope of the line tells us the amount by which $y$ changes for a change of one unit in $x$)
+...where $y$ is the dependent variable, $x$ is the independent variable, $a$ is the value at which the line crosses the $y$ axis, $b$ is the slope of the line. The $a$ and the $b$ are referred to *parameters* or *coefficients* of the line.
 
-If the value of $b$ is positive (i.e. a plus sign in the above equation) this means the line slopes upwards to the right. A negative slope ($y = a - bx$) means the line slopes downwards to the right. The diagram below shows the derivation of an equation for a straight line.
+The slope of the line is usually the thing we care about most. It tells us the amount by which $y$ changes for a change of one unit in $x$. If the value of $b$ is positive (i.e. a plus sign in the above equation) this means the line slopes upwards to the right. A negative slope ($y = a - bx$) means the line slopes downwards to the right. The diagram below shows the derivation of an equation for a straight line.
 
 ```{r, fig.width=4, echo = FALSE}
 I <- 1
@@ -277,11 +270,51 @@ Assumption 2 (measurement scale) is easy to evaluate. Assumptions 1 (independenc
 There are a special set of tools, called 'regression diagnostics', that allow us to evaluate the remaining assumptions. We are going to study these in the next chapter, so for now we will rely on simple, but less effective means: assumptions 3 (linearity) and 5 (equal variance) can be informally evaluated by looking at a scatter plot of the data; assumption 4 (normality) can be checked by looking at the distribution of the residuals from the fitted the regression model.
 ```
 
+## An example {#regression-example}
+
+A plant physiologist studying the process of germination in the broad bean (*Vicia faba*) is interested in the relationship between the activity of the enzyme amylase, and the temperature at which the germinating beans are kept. As part of this work she carries out an experiment to find the relationship between glucose release (from the breakdown of starch by amylase) and temperature (over the range 2 - 20C). The data obtained from such an experiment are given below.
+
+||||||||||||
+|:---------------------------------------|:--|:----|:----|:----|:----|:----|:----|:----|:----|:----|
+| Temperature ($C$)                      | 2 | 4   | 6   | 8   | 10  | 12  | 14  | 16  | 18  | 20  |
+| Glucose ($\mu g$ $mg^{-1}$ dry weight) | 1 | 0.5 | 2.5 | 1.5 | 3.2 | 4.3 | 2.5 | 3.5 | 2.8 | 5.6 |
+
+The data are in a CSV file called GLUCOSE.CSV. The first column (`Temperature`) contains the information about the experimental temperature treatments, and the second column (`Glucose`) contain the glucose measurements.
+
+(Notice that we're referring to the different temperatures as 'treatments'. This is perfectly reasonable here, as these data are from an experiment where temperature was controlled by the investigator.)
+
+```{block, type='do-something'}
+**Work through the germination example**
+
+You should work through the *Vicia* germination example from this point. Start by downloading the GLUCOSE.CSV file from MOLE and placing it in your working directory.
+```
+
+```{r, echo=FALSE}
+vicia.germ <- read.csv(file = "./data_csv/GLUCOSE.CSV")
+```
+
+Once you have downloaded the data read it into an R data frame, giving it the name `vicia.germ`
+As always, make sure you use `View`, `glimpse`, etc to examine the data before you proceed. Run through all the usual questions... How many variables (columns) are in the data? How many observations (rows) are there? What kind of variables are we working with?
+
+We should visuaise the data next so that we understand it more. We just need to produce a simple scatter plot, which is easy to do with `ggplot2`:
+```{r, fig.width=4}
+ggplot(vicia.germ, aes(x = Temperature, y = Glucose)) + 
+  geom_point()
+```
+
+The plot clearly suggests that there is some sort of positive relationship which might reasonably be described by a straight line.
+
+What we want to do is work out whether there a statistically significant relationship between temperature and glucose release (and hence, presumably, amylase activity). If there is, we might also want to find the equation that describes the relationship. We will return to the mechanics of actually doing this later. But first, keeping the example in mind, we will consider the basic ideas of what regression does, and for what sort of data it is suitable.
+
+```{block, type='warning-box'}
+**Variables and axes**
+
+Be careful when you produce a scatter plot to summarise data in a regression analysis. You need to make sure the two variables are plotted the right way around with respect to the $x$ and $y$ axes. We place the 'dependent' (or 'response') variable on the $y$ axis and the 'independent' (or 'predictor') variable on the $x$ axis. We will explain these terms a bit more in a moment. For now, just make a mental note of the fact that there is a right and wrong way to plot the data for a regression. Nothing says "I don't know what I'm doing" as effectively as plotting the variables on the wrong axes.
+```
+
 ## Carrying out regression with R {#regression-R}
 
-OK, let's return to our example and see how to carry out a simple regresion in R.
-
-
+OK, let's carrry on with our example and see how to carry out a simple regression in R.
 
 ### Checking the assumptions
 

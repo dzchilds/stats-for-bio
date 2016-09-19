@@ -31,7 +31,7 @@ summarised_data <-
 
 We generally put each part of a `ggplot2` plot (each seperated by `+`) onto a new line, e.g.
 
-```{r, }
+```{r, eval=FALSE}
 ggplot(my_great_data, aes(y = y_variable)) +
   geom_histogram(fill = "grey") +
   facet_wrap(~ x_variable)

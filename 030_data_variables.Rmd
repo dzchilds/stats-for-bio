@@ -1,4 +1,4 @@
-# Data, variables and distributions
+# Data and variables
 
 > *The truth is the science of nature has been already too long made
 > only a work of the Brain and the Fancy. It is now high time that it
@@ -17,13 +17,16 @@ As Hooke’s observation suggests, science cannot proceed on theory alone. The i
 
 So what is there to say about data? The first point to note is that, properly, the word data is the plural of datum (a single, often numerical, piece of information) ...so we should say “the data are...” not “the data is...”. However, the use of the word in the singular is becoming widespread, and you will commonly hear it used in this way. [Grammar Nazis](http://www.urbandictionary.com/define.php?term=Grammar%20Nazi) really don't like this though, so it's worth knowing what the "correct" subject-verb agreement looks like if you want to avoid incurring their wrath.  
 
-The second point is that there are many different sorts of data. Examples include spatial maps of the occurance of a particular species or environmental variable, DNA sequences or even the whole genomes of individuals, and networks of feeding relationships among species (i.e. food webs). These kinds of data can be very challenging to analyse. In this course we are concerned with relatively simple kinds of data. 
+The second point is that there are many different sorts of data. Examples include spatial maps of the occurance of a particular species and environmental variables, DNA sequences or even the whole genomes of individuals, and networks of feeding relationships among species (i.e. food webs). These kinds of data can be very challenging to analyse. In this course we are concerned with relatively simple kinds of data. 
 
-When we collect data it is typically organised as a set of one or more related statistical **variables**. Remember, statisticians use the word 'variable' to refer to any characteristic that can be measured, counted or experimentally controlled. Collectively, a set of related variables are referred to as a **data set** (or just 'the data', if we are feeling lazy). So in the spatial map example, a minimal data set might comprise two variables containing the x and y position of sample locations, along with a third variable denoting the presence / absence of a species.
+When we collect data it is typically organised as a set of one or more related statistical **variables**. Remember, statisticians use the word 'variable' to refer to any characteristic that can be measured, counted or experimentally controlled. Collectively, a set of related variables are referred to as a **data set** (or just 'the data', if we are feeling lazy). 
+
+Confused? Let's look at an example. Consider the spatial map example above. A minimal data set might comprise two variables containing the x and y position of sample locations, a third variable denoting the presence / absence of a species, and one or more additional variables conataining information about the environmental variables we measured.
 
 ```{block, type='advanced-box'}
 **Data and variables in R**
-Remember what you learnt last year about data frames and vectors? When using R, we often store each data set in a **data frame**. Each column in the data frame is one of R's **vectors** (numeric, character, etc). These columns correspond to the statistical variables in our data set. This simple connection between abstract statistical concepts and the concrete objects in R is not coincidence -- R was designed first and foremost to analyse data.
+
+Remember what you learnt last year about data frames and vectors? When using R, we often store each data set in a **data frame**. Each column in the data frame is one of R's **vectors** --- numeric, character, etc. Remember the 'tidy data' concept from last year? The columns of a data frame should correspond to the statistical variables in our data. Each row corresponds to a single observation. This simple connection between abstract statistical concepts and the concrete objects in R is not coincidence -- R was designed first and foremost to analyse data.
 ```
 
 ## Revision: Types of variable {#var-types}
