@@ -1,62 +1,16 @@
-# Sampling variation and standard errors
+# Sampling variation and standard error
 
-[[PREAMBLE]]
-
-```{r plant-sim-par, echo=FALSE}
-set.seed(27081975)
-nsamp <- 200
-sampsize1 <- 20
-sampsize2 <- 40
-sampsize3 <- 80
-index <- c(1,1,2,2,2)
-prop.purp <- sum(index==1)/length(index)
+```{r, echo=FALSE}
+load(file = "./_object_cache/plant_morphs.rda")
 ```
 
-... we can use the machinery of statistics to help us quantify this uncertainty. Once we know something about the uncertainty of an estimate we can start to ask questions of the sort we discussed. However, before we can use these tools we first need to understand something called sampling error. The rest of this chapter will give you a flavour of this really important idea.
+In the previous chapter we introduced the idea that whenever we construct a point estimate of a population parameter, it will be imperfect, in the sense that it won't exactly reflect the true value of the parameter. This uncertainty is always present, which meana a point estimate is effectively useless on it's own. Fortunately, we can use the machinery of statistics to help us quantify the uncertainty, and once we have done that, we can start to provide meaningful answers to our scientific questions. We *will* get to 'the answer' step soon. But to do this, we're have to first develop the uncertainty idea a bit more.
 
-The easiest way to get a sense of how population parameters, point estimates and sampling error are related to one another is by working with a concrete example. Rather than collecting real data, we're going to use a computer simulation. A simulation is just an imitation of a real-world process. The advantage of using a simulation is that it allows us to study many different realisations of the same process. We'll see why that is important soon.
+## Sampling error
 
-## The example {#morph-example}
+Let's carry on with the purple morph / green morph example introduced in the last chapter (skim back over the example if you can't remember it). We were trying to evaluate whether the purple morph frequency was greater than 25% in our new population. We took one sample of 
 
-Let's study a very simple example. Imagine we are working on a plant species that is polymorphic. There are two different morphotypes ('morphs'), and to keep life simple we'll refer to them as the purple morph and the green morph. The statistical population we're interested in is therefore a biological population of plants. We can depict this situation visually with a map showing where the purple and green individuals are located on a hypothetical landscape:
-
-```{r plants-all, echo = FALSE, out.width='50%', fig.asp=1, fig.align='center', fig.cap='Landscape showing the position of purple and green morphs'}
-plantdata <- 
-  data.frame(xloc  = runif(nsamp), 
-             yloc  = runif(nsamp), 
-             morph = sample(c("purple","green")[index], 100, replace = TRUE))
-plttheme <- theme_get()
-plttheme$axis.text <- plttheme$axis.ticks <- plttheme$axis.title <- element_blank()
-baseplt <- ggplot(plantdata, aes(x = xloc, y = yloc, colour = morph, )) + 
-           geom_point() + scale_color_identity() + coord_fixed() + plttheme
-baseplt
-```
-
-These artificial, idealised data were generated using R. We placed 'individuals' onto the landscape at random locations---every location is equally likely---and then assigned them purple morph status with a certain probability; we made them are green otherwise. In fact, we used a probability of 0.4 to assign the purple morph status. Of course, in a real world setting we wouldn't know this.
-
-## The question, variable, and population parameter
-
-Let's proceed as though this were a real situation. 
-
-[[Question]]
-
-To study plant morphotype we need to collect information about the colour of different individuals. This means we are working with a nominal variable, taking values 'purple' or 'green'. That's step two complete: we've decided on the variable we need to study.
-
-The prediction we want to test is about the purple morph frequency. The population parameter of interest is therefore, the morph frequency (or equivalently, the percentage or proportion). That's step three done: we've decided on the population parameter we're interested in.
-
-## Sampling error and sampling distributions
-
-In contrast to a real-world setting, we already know the true value of the population parameter in this example. The purple morph frequency is 40%. In the real world this is the parameter we'd be trying to estimate. If we weren't able to sample every individual, we would have to construct some kind of point estimate of the purple morph frequency. To do this, we would take a representative sample of plants from across the landscape and then calculate the percentage of purple plants in our sample. 
-
-A representive sample in this case is one in which every individual has an equal probability of being sampled. We call this a **random sample**. Gathering a random sample of organisms from across a landscape is surprisingly hard to do in reality. Luckily it is easy to at least simulate a random sample.
-
-Let's seen what happens if we sample `r sampsize1` plants in this way. This plot shows the original population of plants, but now we have circled the selected individuals in red.
-```{r plants-samp1, echo = FALSE, out.width='50%', fig.asp=1, fig.align='center', fig.cap='Plants sampled on the first occasion'}
-sample1 <- sample_n(plantdata, size = sampsize1)
-baseplt + geom_point(data = sample1, colour = "red", shape = 1, size = 5)
-freqs1 <- table(sample1$morph)
-```
-We found `r freqs1["green"]` green plants and `r freqs1["purple"]` purple plants in this first hypothetical sample, which means our estimate of the purple morph frequency is `r round(100*freqs1["purple"]/sampsize1)`%. This is not far off the true value of 40%. What happens if we repeat this process, resulting in a new, completely independent sample? Here is the sampled population:
+What happens if we repeat the random sampling process, leading to a new, completely independent sample? Here is the second sample from the population:
 ```{r plants-samp2, echo = FALSE, out.width='50%', fig.asp=1, fig.align='center', fig.cap='Plants sampled on the second occasion'}
 sample2 <- sample_n(plantdata, size = sampsize1)
 baseplt + geom_point(data = sample2, colour = "red", shape = 1, size = 5)
@@ -67,6 +21,8 @@ This time we ended up sampling `r freqs2["green"]` green plants and `r freqs2["p
 Nothing about the study population changed between the first and second sample. What's more, we used a completely reliable sampling scheme to generate these samples; there is nothing biased or 'incorrect' about the way individuals were sampled. The different estimates of the purple morph frequency arise from nothing more than chance variation.
 
 This chance variation--which arises whenever we observe a sample instead of the whole population--has a special name. It is called the **sampling error** (or sampling variation). Sampling error is the main reason we have to use statistics to learn from data. It is always present, and so any estimate you derive from a sample is affected by it. Sampling error is not a property of any particular sample. It is really a property of the population distribution of the focal variable, and the sampling method used to investigate this. That statement may seem a little cryptic now, but we will start to get a sense of what it means in this, and the next, practical.
+
+## Sampling distributions
 
 We can develop our simple simulation example to explore the consequences of sampling error. Rather than taking one sample at a time, we will use R to simulate 1000s of different samples, and for each sample, calculate the number of purple morph individuals found. Each sample is drawn from the same population, i.e., the population parameter (purple morph frequency) is the same for every sample. Here is a summary of one such repeated simulation exercise:
 ```{r samp-dist-1, echo = FALSE, out.width='80%', fig.asp=0.6, fig.align='center', fig.cap='Distribution of number of purple morphs sampled (n = 20)'}
@@ -82,11 +38,11 @@ This distribution has a special name. It is called the **sampling distribution**
 
 The sampling distribution is the key to 'doing statistics'.  
 
-Once we know how to calculate the sampling distribution for a particular problem, we can start to make statements about sampling error (to quantify uncertainty), and we can begin to make meaningful comparisons that enable us to address scientific questions. Fortunately, we don't have to work any of this out for ourselves. Statisticians have already done this for many different situations.
+Once we know how to calculate the sampling distribution for a particular problem, we can start to make statements about sampling error (to quantify uncertainty), and we can begin to make meaningful comparisons to address scientific questions. The good news is that we don't have to work any of this out for ourselves---statisticians have already done this for many different situations.
 
 ### The effect of sample size
 
-Perhaps the most important property of any sampling scheme is the **sample size**: the number of observations (objects or items) in a sample. To see how sample size influences the sampling distribution, and to understabnd why it matters, let's carry on with our simulation example. We will repeat the resampling exercise, but this time we will do it twice, first taking a sample of `r sampsize2` individuals each time, and then taking a sample of `r sampsize3` individuals each time. In both cases, we'll examine the results of taking 100000 samples overall:
+Arguably the most important aspect of any sampling scheme is the **sample size**: the number of observations (objects or items) in a sample. To see how sample size influences the sampling distribution, and to understand why it matters, let's carry on with the simulation example. We'll repeat the multiple sampling exercise, but this time we'll do it twice. First we'll take a sample of `r sampsize2` individuals each time, and then we'll take a sample of `r sampsize3` individuals on each occasion. We'll take a total 100000 samples in both cases:
 
 ```{r samp-dist-2, echo = FALSE, out.width='80%', fig.asp=0.6, fig.align='center', fig.cap='Distribution of number of purple morphs sampled (n = 40)'}
 out <- data.frame(n.purple = factor(rbinom(n = 100000, size = sampsize2, prob = prop.purp)))

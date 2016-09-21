@@ -1,0 +1,174 @@
+# Learning from data
+
+> Statistics is the science of learning from data, and of measuring, controlling, 
+> and communicating uncertainty; and it thereby provides the navigation essential 
+> for controlling the course of scientific and societal advances
+> 
+> [Davidian and Louis (2012)](https://doi.org/10.1126/science.1218685)
+
+The particular flavour of statistics we use in this course is called 'frequentist statistics'. It's not really important that remember that phrase, or indeed, from a practical perspective, that you even know you're using frequentist statistics. However, if you're the kind of person who likes to understand how things work, it *is* helpful to at least get a rough sense of how frequentist statistics works. The goal of this, and the next few chapters, is to provide this overview. It's *not* critical for all of this to make perfect sense---you certainly won't be assessed on your ability to explain how frequentist statistics works. However, if you can wrap your head around the core ideas you will find it easier to understand the output from a test.
+
+We're going to start, in this chapter, by laying out a somwhat simplified overview of the steps involved in doing (frequentist) statistics. We'll also introduce a few key ideas and definitions along the way. Later chapters will drill down into the really important ideas--- things like sampling variation, standard errors, null hypotheses and *p*-values. 
+
+## Populations {#populations}
+
+When a biologist talks about a population they mean a group of individuals of the same species who interbreed. That definition, or at least something similar, should be familiar to you. What does a statistician mean when they talk about populations? The word 'population' has a different meaning in statistics. Indeed, it is a much more abstract concept: a statistical population is any group of items that share certain attributes or properties. 
+
+This idea is best understood by example...
+
+-   The readers of this book could be viewed as a statistical population. APS students have a common interest in biology, they are mostly in their late teens and early 20s, and they tend to have similar educational backgrounds and career aspirations. As a consequence of these similarities, APS students tend to be more similar to one another than they would be to a randomly chosen inhabitant of the UK.
+
+-   All the different areas of peatland in the UK comprise a statistical population. There are different peatland sites across the UK, and although their ecology varies somewhat from one location to the next, they are also very similar in many respects. For example, peatland is generally characterised by low-growing vegetation (blank bog, etc) and acidic soils. If you visit two different peatland sites in the UK, they will seem quite similar compared to, for example, a neighbouring calcareous grassland.
+
+-   A population of plants or animals---as understood by biologists---can also be thought of as a statistical population. Indeed, this is often the kind of population organismal biologists are most interested in. The individuals that comprise a biological population share common behaviours, physiology and life history characteristics. Much of organismal biology is concerned with learning about these kinds of properties, often with the goal to explaining variation we see among individuals.
+
+Populations are conceptualised as fixed but unknown quantities within the framework of frequentist statistics. The goal of an analysis is to learn something about one or more populations by collecting data---'the population' is defined by the investigator, and the 'something' could be anything we know how to measure. For example, a social scientist might be interested in understanding the political attitudes of university students, a climate change scientist might want to know how much carbon is stored in UK peatland areas, and a behavioural ecologist might want to understand how much time individuals spend foraging for food and searching for mates. 
+
+The obvious question is, how do we learn about a population?
+
+## Learning about populations
+
+The examples discussed above involve very different kinds of populations and questions. Nonetheless, there are fundamental commonalities in how these questions are addressed, which always involves collecting some data and applying the appropriate statistical tools. This process can be broken down into a number of different steps:
+
+**Step 1: Refine your questions, hypotheses and predictions**
+
+This step was discussed in [The scientific process] chapter. We won't spend much more time on it here. The key point to remember is that we should not start collecting data until we've set out the relevant questions, hypotheses and predictions. This might seem blindingly obvious, but it is surprising how often people don't get these things straight before setting out to collect data. Take our word for it, spending time collecting data without a clear scientific objective and rational for the work is a guaranteed way to waste your time.
+
+**Step 2: Decide which populations is important**
+
+The second step is to decide which population (or populations) we need to study. This is a more subtle problem than you might think. What constitutes 'the population' might be fairly obvious in many observational study, that is, studies that don't involve an experimental apparoach. For example, in each of the three cases considered above, the corresponding populations we choose to study might be undergraduate students in APS, peatland habitats from across the UK, and beavers in Scotland.
+
+But what happens if we're planning an experiment? Imagine we want to test the prediction that nutrient addition reduces biodiversity in chalk grasslands. We could set up an experiment where we have two kinds of plots: 1) manipulated plots where we add fertiliser, and 2) control plots where we do nothing. Comparing these would allow us to assess the impact of adding nutrients on biodiversity. 
+
+There are two statistical populations in this setting---control and manipulated communities. These *are defined by the experimental design* we adopted. The nutrient addition plots doesn't exist until you do the experiment, and even then, we want to be able to generalise our results beyond the one experiment. The weird mental contortion that a frequentist does is to imagine that the experimental plots are part of some larger, unobserved population of nutrient addition plots.
+
+Don't worry too much if that is confusing (it is!). The important point is that, for any given problem, a relevant statistical population is something the investigator defines. It might be 'real', like the undergraduates in APS, or they might be something that doesn't even exist in a meanigful way, like a population of not-yet-realised experimentally manipulated plots.
+
+**Step 3: Decide which variables to study**
+
+The next step is to decide which features of the population we need to measure to address our question. In practise, this comes down to deciding which variable (or variables) you need to measure. In the examples above, the appropriate variables might be things like a standardised measure of political attitude, the mass of carbon stored per unit area, or the body mass of individuals in the biological population.
+
+This step is often reasonably straightforward, though some thought may be required to pick among different options. There isn't a whole of ambiguity associated with a physical variable like body mass, but something like 'political attitude' needs careful thought. Can we quantify this by studying just one thing, like voting patterns? Probably not.
+
+Part of the art of designing a good data collection protocol is deciding what to measure. We discussed some of the considerations in the [Data and variables] chapter, but what really matters most is that we choose the right kind of variables to address the substantive research question.  
+
+**Step 4: Decide which population parameters are relevant**
+
+Once we have decided which variable(s) to study, we have to decide which 'population parameter' is relevant. A population parameter is simply a numeric quantity that describes a particular aspect of the variable(s) in the population. Actaully, to be more precise, it describes a feature of the distribution of the variable(s) in the population. 
+
+A simple population parameter you are familiar with is the population mean. We often study means, because they allows us to answer questions like, "how much of something is present?". Much of this course is about asking questions of population means, though other population parameters may also be important though, e.g.
+
+*   The goal of statistical genetics is to partition variablity among individuals---we want to know how much phenotypic variation is due to genetic vs. non-genetic sources. In this case, it is the population variance that we want to learn about. 
+
+*   Sometimes we want to understand how two or more aspects of the population are related to one another. In this situation a correlation coefficient (more about this later) might be the right population parameter to focus on. 
+
+**Step 5: Gather a representative sample**
+
+If we could measure every object in a population we wouldn't need to use statistics. We could just calculate the quantity we needed using an exhaustive sample and we'd have our answer. In the real world we are faced with resource constraints, i.e. we have limited time and money to invest in a problem, no matter how important it is. This means we have to work with a **sample** of a population. 
+
+A sample is just a subset of the wider population, which has been chosen so that it is representative of that population. That word 'representative' is very important. If we can't collect a representative sample it will be very difficult to infer anything useful about the population it came from. For example, if we aim to understand the reproductive characteristics of our favourite study organism, but we only sample young or old individuals, it will be impossible to generalise our findings if reproductive performance changes with age (which is almost always true).
+
+The study of how to generate useful samples from a population is an important part of statistics. It falls under the banner of experimental design and sampling theory. These are large, quite technical topics, so it is well beyond the scope of this course to study them in any great deal. Nonethless, we will touch a few of the more important practical aspects as we move through this course, particularly in the [Experimental design] chapter.
+
+**Step 6: Estimate the population parameter(s)**
+
+Once we have a representative sample we can calculate something called a **point estimate** of the population parameter. Remember, the population parameter is unknown; that's why we collect samples. A point estimate is simply a number that represents our "best guess" at the true value of the parameter. For example, if we are interested in a population mean of a variable, then the obvious point estimate to use is the mean of the variable in the sample we collect (this is just "the average" you learned to calculate in school).  
+
+By the way, people often just say/write "estimate" instead of "point estimate", because using "point estimate" all the time is tedious. The exact terminology isn't really all that important to be honest. We'll mostly use the word "estimate" from now on.
+
+**Step 7: Quantify the uncertainty of estimate(s)**
+
+A point estimate is virtually useless on its own. Why? Because it is always derived from a limited sample of the wider population. Even if we are very careful about how we sample a population, and we collect a really big sample, there is no way to guarantee that the composition of our sample exactly matches that of the population. Why is this important? It means that any point estimate we derive from a sample will always be imperfect, in the sense that it won't exactly match the true population value. 
+
+So... there is always uncertainty associated with any estimate of a population parameter. What can we do about this? We have to find a way to *quantify that uncertainty*. This bit of the process can be tricky to understand, so we're going to spend a fair bit of time thinking about it in the [Sampling variation and standard error] chapter. We'll leave it there for now.
+
+**Step 8: Answer the question!**
+
+Once we have point estimates and measures of uncertainty we're in a position to start answering questions. We have to be very careful about how we go about this though. 
+
+Let's say we want to answer a seemingly simple question, such as, "Are there more than 200 tonnes of carbon per hectare stored in the peatland of the Peak District?" We could go out and sample a number of sites, measure the stored carbon at each site, and then calculate the mean of these measurements. What can we conclude if that sample mean is 210 t h^-1^? Not much, at least not until we have a sense of how reliable that mean is likely to be. To answer our question, we have to know how to assess whether or not the difference we observe (210 - 200) was just a fluke. 
+
+The tools we'll learn about in this course are designed to answer a range of different kinds of scientific question. Ultimately they all boild down to the same basic question: Is the pattern I see 'real', or is it instead likely to be a result of chance variation? To tackle this, we combine point estimates and measures of uncertainty in various ways. The good news is that statistical software like R will do all the hard work for us. We just have to learn how to interpret the results it gives us.
+
+## A simple example {#morph-example}
+
+```{r plant-sim-par, echo=FALSE}
+set.seed(27081975)
+nsamp <- 200
+sampsize1 <- 20
+sampsize2 <- 40
+sampsize3 <- 80
+index <- c(1,1,2,2,2)
+prop.purp <- sum(index==1)/length(index)
+```
+
+The best way to begin getting some sense of how all this fits together is by working through an example. We'll finish this chapter by introducing this, and then skim through steps 1-6 above. The final two steps are sufficiently tricky that they need their own chapters.
+
+Let's set up the example. Imagine we are working on a plant species that is polymorphic. There are two different 'morphs', a purple morph and a green morph. We can depict this situation visually with a map showing where the purple and green plants are located on a hypothetical landscape:
+
+```{r plants-all, echo = FALSE, out.width='50%', fig.asp=1, fig.align='center', fig.cap='Landscape showing the position of purple and green morphs'}
+plantdata <- 
+  data.frame(xloc  = runif(nsamp), 
+             yloc  = runif(nsamp), 
+             morph = sample(c("purple","green")[index], 100, replace = TRUE))
+plttheme <- theme_get()
+plttheme$axis.text <- plttheme$axis.ticks <- plttheme$axis.title <- element_blank()
+baseplt <- ggplot(plantdata, aes(x = xloc, y = yloc, colour = morph, )) + 
+           geom_point() + scale_color_identity() + coord_fixed() + plttheme
+baseplt
+```
+
+These idealised data were generated using a simulation in R. The details of how we did this aren't important, but basically, we placed 'individuals' onto the landscape at random locations (every location is equally likely), and then assigned them purple morph status with a certain probability (we made them are green otherwise). We'll come back to the probability we used later.
+
+Let's proceed as though this were a real situation... 
+
+**Step 1: Refine your questions, hypotheses and predictions**
+
+Let's assume that we've also been studying a neighbouring population that exhibits the same polymorphism. Our studies shave shown that...
+
+*   The colour polymorphism in the sister population is controlled by a single gene with two alleles: a recessive mutant allele ('P') confers the purple colour, and the dominant wild-type allele ('G') makes plants green. Moreover, population genetic studies have shown that the two alleles are present in a ratio of 1:1. 
+
+*   There seems to be no observable fitness difference between the two morphs in the sister population. What's more, about 25% of plants are purple in the population we've been studying, i.e. the alleles seem to be in Hardy-Weinberg equilibrium, further indicating that there is no selection operating.
+
+We've noticed that the purple morph seems to be more common in the new study population. Our hypothesis is that the is at a selective advantage in this population. The corresponding prediction is that the frequency of the purple morph will be greater than 25% in the new study population.
+
+(This isn't the strongest test of our hypothesis by the way. Really, we need to study both allele and genotype frequencies. Sadly, the government has pulled all research funding for plant polymorphisms since Brexit happens, so this is the best we can do)
+
+**Step 2: Decide which population is important**
+
+Our situation is made up, so questions about the statistical population are not hugely relevant to be honest. In reality, we would consider various factors, such as whether we can study the whole population or need to restrict ourselves to a smaller scale (e.g. within one corner of the population). Working at a large scale should produce a more general result, but it could also present a significant logistical challenge.
+
+**Step 3: Decide which variables to study**
+
+This step is easy in this example. We could measure all kinds of different attributes of our plants---biomass, height, seed production, etc---but to study the polymorphism, we only need to collect information about the colour of different individuals. This means we are going to be working with a nominal (i.e. categorical) variable, which takes two values: 'purple' or 'green'.
+
+**Step 4: Decide which population parameters are relevant**
+
+The prediction we want to test is about the purple morph frequency (or equivalently, the percentage or proportion of purple plants). Therefore, the relevant population parameter is the frequency of purple morphs in the wider population. We're going to collect 'data' so that we can learn about this unknown quantity.
+
+**Step 5: Gather a representative sample**
+
+A representive sample here is one in which every individual on the landscape has the same probability of being sampled (i.e. a 'random sample'). Gathering a random sample of organisms from across a landscape is surprisingly hard to do in reality, but it is at least easy to do in a simulation. Let's seen what happens if we sample `r sampsize1` plants at random...
+
+```{r plants-samp1, echo = FALSE, out.width='50%', fig.asp=1, fig.align='center', fig.cap='Sampling plants'}
+sample1 <- sample_n(plantdata, size = sampsize1)
+baseplt + geom_point(data = sample1, colour = "red", shape = 1, size = 5)
+freqs1 <- table(sample1$morph)
+```
+
+The new plot shows the original population of plants, only this time we've circled the sampled individuals in red.
+
+**Step 6: Estimate the population parameter**
+
+Estimating a frequency from a sample is simple enough. We can express a frequency in different ways. Let's use a percentage. We found `r freqs1["green"]` green plants and `r freqs1["purple"]` purple plants in our sample, which means our point estimate of the purple morph frequency is `r round(100*freqs1["purple"]/sampsize1)`%. This is certainly greater than 25%---the value of observed in the original population---but it isn't that far off. 
+
+Maybe the purple plants aren't at a selective advantage after all? Or maybe they are? We're going to eventually see how to use a statistical test to rigourously evaluate our prediction, but first we need to learn a few more concepts. Time to learn about something called sampling variation...
+
+```{r, echo=FALSE}
+save(plantdata, sampsize1, sampsize2, sampsize3, 
+     file = "./_object_cache/plant_morphs.rda")
+```
+
+
+
+
