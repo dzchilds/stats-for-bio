@@ -1,75 +1,97 @@
-# Sampling variation and standard error
+# Sampling error
 
 ```{r, echo=FALSE}
-load(file = "./_object_cache/plant_morphs.rda")
+load(file = "./_rda_objects/plant_morphs.rda")
 ```
 
-In the previous chapter we introduced the idea that whenever we construct a point estimate of a population parameter, it will be imperfect, in the sense that it won't exactly reflect the true value of the parameter. This uncertainty is always present, which meana a point estimate is effectively useless on it's own. Fortunately, we can use the machinery of statistics to help us quantify the uncertainty, and once we have done that, we can start to provide meaningful answers to our scientific questions. We *will* get to 'the answer' step soon. But to do this, we're have to first develop the uncertainty idea a bit more.
+In the previous chapter we introduced the idea that every point estimate of a population parameter will be imperfect, in the sense that it won't exactly reflect the true value of that parameter. This uncertainty is always present, it's not enough to have estimated something. We have to know something about the uncertainty (i.e. the precision) of the estimate. We use the machinery of statistics to quantify this uncertainty, because once we have done that, we can start to provide meaningful answers to our scientific questions. 
+
+We will finally get to 'the answer' step in the next chapter But to do this, we have to develop the uncertainty idea a bit more. We need to learn about sampling error, sampling distributions and standard errors.
 
 ## Sampling error
 
-Let's carry on with the purple morph / green morph example introduced in the last chapter (skim back over the example if you can't remember it). We were trying to evaluate whether the purple morph frequency was greater than 25% in our new population. We took one sample of 
+Let's carry on with the plant polymorphism example introduced in the last chapter, i.e. the green plants vs. purple plants---skim back over the example if you can't remember it. We had taken one sample of 20 plants from our hypothetical population and found the the frequency of purple plants in that sample was `r round(100*freqs1["purple"]/sampsize1)`%. This is a point estimate of purple plant frequency based on a random sample of `r sampsize1` plants. What happens if we repeat the same process, leading to a new, completely independent sample? Here's a reminder of what the population looked like, with the the new sample highlighted with red circles:
 
-What happens if we repeat the random sampling process, leading to a new, completely independent sample? Here is the second sample from the population:
 ```{r plants-samp2, echo = FALSE, out.width='50%', fig.asp=1, fig.align='center', fig.cap='Plants sampled on the second occasion'}
 sample2 <- sample_n(plantdata, size = sampsize1)
 baseplt + geom_point(data = sample2, colour = "red", shape = 1, size = 5)
 freqs2 <- table(sample2$morph)
 ```
-This time we ended up sampling `r freqs2["green"]` green plants and `r freqs2["purple"]` purple plants, so our new estimate of the purple morph frequency is `r round(100*freqs2["purple"]/sampsize1)`%, which is quite some way off the true value.
 
-Nothing about the study population changed between the first and second sample. What's more, we used a completely reliable sampling scheme to generate these samples; there is nothing biased or 'incorrect' about the way individuals were sampled. The different estimates of the purple morph frequency arise from nothing more than chance variation.
+This time we ended up sampling `r freqs2["green"]` green plants and `r freqs2["purple"]` purple plants, so our second estimate of the purple morph frequency is `r round(100*freqs2["purple"]/sampsize1)`%. This is quite different from the first estimate. Notice that this second estimate of purple morph is frequency actually lower than that seen the original study population. Our hypothesis that it is higher is beginning to look a little shaky...
 
-This chance variation--which arises whenever we observe a sample instead of the whole population--has a special name. It is called the **sampling error** (or sampling variation). Sampling error is the main reason we have to use statistics to learn from data. It is always present, and so any estimate you derive from a sample is affected by it. Sampling error is not a property of any particular sample. It is really a property of the population distribution of the focal variable, and the sampling method used to investigate this. That statement may seem a little cryptic now, but we will start to get a sense of what it means in this, and the next, practical.
+Note that nothing about the study population changed between the first and second sample. What's more, we used a completely reliable sampling scheme to generate these samples,
+. There was nothing biased or 'incorrect' about the way individuals were sampled---every individual had the same chance of being selected. The two different estimates of the purple morph frequency simply arise from chance variation in selection. This variation, which arises whenever we observe a sample instead of the whole population, has a special name. It is called the **sampling error**.
+
+(Another name for sampling error is 'sampling error'. Which one is better? Neither really. We tend to use both terms---'sampling error' and 'sampling error'---in this book because they are both widely used)
+
+Sampling error is the main reason why we use statistics. Any estimate you derive from a sample will be affected by it. Sampling error is not really a property of any particular sample. Sampling error in any given problem is a function of: 1. the population distribution of the variable(s) we're studying, and 2. the sampling method used to investigate this. This may all seem a little cryptic now. Don't worry, we will start to get a sense of what it really means in this chapter.
 
 ## Sampling distributions
 
-We can develop our simple simulation example to explore the consequences of sampling error. Rather than taking one sample at a time, we will use R to simulate 1000s of different samples, and for each sample, calculate the number of purple morph individuals found. Each sample is drawn from the same population, i.e., the population parameter (purple morph frequency) is the same for every sample. Here is a summary of one such repeated simulation exercise:
-```{r samp-dist-1, echo = FALSE, out.width='80%', fig.asp=0.6, fig.align='center', fig.cap='Distribution of number of purple morphs sampled (n = 20)'}
-out <- data.frame(n.purple = factor(rbinom(n = 100000, size = sampsize1, prob = prop.purp)))
+We can develop our simple simulation example a bit more to explore the consequences of sampling error. However, rather than taking one sample at a time, this time we'll use R to simulate 1000s of independent samples. The number of plants sampled ('n') will always be `r sampsize1`. Here's the important bit: every sample is drawn from the same population, i.e. the population parameter (purple morph frequency) never changes across samples. This means all the variation we observe is due to nothing more sampling error.
+
+Here is a summary of one such repeated simulation exercise:
+
+```{r samp-dist-1, echo = FALSE, out.width='100%', fig.asp=0.5, fig.align='center', fig.cap='Distribution of number of purple morphs sampled (n = 20)'}
+x <- rbinom(n = 100000, size = sampsize1, prob = prop.purp)
+out <- data.frame(n.purple = factor(x, levels = as.character(0:sampsize1)))
+limits <- as.character(0:sampsize1)
 ggplot(out, aes(x = n.purple)) + geom_bar() + 
-  scale_x_discrete(limits = as.character(0:sampsize1)) + 
-  xlab("No. of purple morph individuals") + ylab("Count")
+  scale_x_discrete(limits = limits, drop = FALSE) + 
+  xlab("No. of purple morph individuals (n = 20)") + ylab("Count")
 ```
 
-This bar plot summarises the result from 100000 samples. In each sample, we took `r sampsize1` individuals from our hypothetical population and calculated the number of purple morphs found. The bar plot shows the number of times we found 0, 1, 2, 3, ... purple individuals, all the way up to the maximum possible (`r sampsize1`). It summarises the distribution of purple morph counts that we can expect when we repeat the same sampling process over and over again.
+This bar plot summarises the result from 100000 samples. In each sample, we took `r sampsize1` individuals from our hypothetical population and calculated the number of purple morphs found. The bar plot shows the number of times we found 0, 1, 2, 3, ... purple individuals, all the way up to the maximum possible (`r sampsize1`). We could have converted these numbers to frequencies, but instead we're just summarising the raw distribution of purple morph counts that found.
 
-This distribution has a special name. It is called the **sampling distribution**. The sampling distribution is just the distribution we expect a particular statistic to follow. In order to to work this out, we have to postulate values for the population parameters, and we have to know how the population was sampled. We just used simulation to approximate the sampling distribution of purple morph counts that arises when we sample `r sampsize1` individuals from a population that is `r 100*prop.purp`% purple. 
+This distribution has a special name. It is called a **sampling distribution**. The sampling distribution is just the distribution we expect a particular estimate, or statistic, to follow. In order to to work this out, we have to postulate values for the population parameters, and we have to know how the population was sampled. Rather than use mathematical reasoning, we used brute-force simulation to approximate the sampling distribution of purple morph counts that arises when we sample `r sampsize1` individuals from our hypothetical population. 
 
-The sampling distribution is the key to 'doing statistics'.  
+What does the sampling distribution show? It shows us the range of outcomes to expect when we repeat the same sampling process over and over again. The most common outcome is 8 purple morphs, which would yield an estimate of 8/20 = 40% for the purple morph frequency. This is the frequency that was actually used to simulate the data (we didn't tell you that before). The population parameter we're trying to learn about is 40%, and that turns out to be the most common point estimate we should expect to see under repeated sampling.
 
-Once we know how to calculate the sampling distribution for a particular problem, we can start to make statements about sampling error (to quantify uncertainty), and we can begin to make meaningful comparisons to address scientific questions. The good news is that we don't have to work any of this out for ourselves---statisticians have already done this for many different situations.
+(So now we know the answer to question. The purple morph frequency is 40%. Of course we cheated though, because we used information from 1000s of samples. In the real world we only have one, limited sample.)
 
-### The effect of sample size
+The sampling distribution is the key to 'doing statistics'. Look at the spread (dispersion) of the sampling distribution above. The range of outcomes is roughly 2 to 15, which corresponds to estimated frequencies of the purple morph in the range of 10-75%, because we sampled `r sampsize1` individuals on each occasion. This tells us that when we sample only 20 individuals, the sampling error is expected to be quite large.
 
-Arguably the most important aspect of any sampling scheme is the **sample size**: the number of observations (objects or items) in a sample. To see how sample size influences the sampling distribution, and to understand why it matters, let's carry on with the simulation example. We'll repeat the multiple sampling exercise, but this time we'll do it twice. First we'll take a sample of `r sampsize2` individuals each time, and then we'll take a sample of `r sampsize3` individuals on each occasion. We'll take a total 100000 samples in both cases:
+Once we know how to calculate the sampling distribution for a particular problem, we can start to make statements about sampling error (to quantify uncertainty), and we can begin to make meaningful comparisons to address scientific questions. We don't have to work any of this out for ourselves---statisticians have done the hard work for us.
 
-```{r samp-dist-2, echo = FALSE, out.width='80%', fig.asp=0.6, fig.align='center', fig.cap='Distribution of number of purple morphs sampled (n = 40)'}
-out <- data.frame(n.purple = factor(rbinom(n = 100000, size = sampsize2, prob = prop.purp)))
+Let's think about what affects the sampling error next.
+
+## The effect of sample size
+
+One of the most important aspect of a sampling scheme is the **sample size** (denoted 'n'). This is just the number of observations (individuals, objects, items, etc) in a sample. To see how sample size influences the sampling distribution, and to understand why it matters, let's carry on with the simulation example. 
+
+We'll repeat the multiple sampling process, but this time we'll do it with two different sample sizes. First we'll use a sample size of `r sampsize2` individuals, and then we'll take a sample of `r sampsize3` individuals each time. As before, we'll take a total 100000 samples in both cases:
+
+```{r samp-dist-2, echo = FALSE, out.width='100%', fig.asp=0.5, fig.align='center', fig.cap='Distribution of number of purple morphs sampled (n = 40)'}
+x <- rbinom(n = 100000, size = sampsize2, prob = prop.purp)
+out <- data.frame(n.purple = factor(x, levels = as.character(0:sampsize2)))
 ggplot(out, aes(x = n.purple)) + geom_bar() + 
   scale_x_discrete(limits = as.character(seq(0, sampsize2, 1)), 
-                   breaks = as.character(seq(0, sampsize2, 2))) + 
+                   breaks = as.character(seq(0, sampsize2, 2)),
+                   drop = FALSE) + 
   xlab("No. of purple morph individuals") + ylab("Count")
 ```
 
-```{r samp-dist-3, echo = FALSE, out.width='80%', fig.asp=0.6, fig.align='center', fig.cap='Distribution of number of purple morphs sampled (n = 80)'}
-out <- data.frame(n.purple = factor(rbinom(n = 100000, size = sampsize3, prob = prop.purp)))
+```{r samp-dist-3, echo = FALSE, out.width='100%', fig.asp=0.5, fig.align='center', fig.cap='Distribution of number of purple morphs sampled (n = 80)'}
+x <- rbinom(n = 100000, size = sampsize3, prob = prop.purp)
+out <- data.frame(n.purple = factor(x, levels = as.character(0:sampsize3)))
 ggplot(out, aes(x = n.purple)) + geom_bar() + 
   scale_x_discrete(limits = as.character(seq(0, sampsize3, 1)), 
-                   breaks = as.character(seq(0, sampsize3, 4))) + 
+                   breaks = as.character(seq(0, sampsize3, 4)), 
+                   drop = FALSE) + 
   xlab("No. of purple morph individuals") + ylab("Count")
 ```
 
-What do these plots tell us about the effect of increasing sample size? Notice that we plotted each of them over the full range of possible outcomes (the x axis runs from 0-`r sampsize2` and 0-`r sampsize3`, respectively, in the first and second plot). We did this so that we can meaningfully compare the spread of each sampling distribution, relative to the full range of possible outcomes.
+What do these plots tell us about the effect of changing sample size? Notice that we plotted each of them over the full range of possible outcomes (the x axis runs from 0-`r sampsize2` and 0-`r sampsize3`, respectively, in the first and second plot). This is so we can meaningfully compare the spread of each sampling distribution relative to the range of possible outcomes.
 
-What do these figures show? The range of outcomes in the first plot is roughly 6 to 26, which corresponds to estimated frequencies of the purple morph in the range of 15-65% (we sampled 40 individuals each time). The range of outcomes in the second plot is roughly 16 to 48, which corresponds to estimated frequencies in the range of 20-60%. Clearly, this suggests that when we increase the sample size we expect to encounter less sampling error. This makes intuitive sense: the composition of large sample should more closely approximate that of the true population than a small sample. 
+The range of outcomes in the first plot (n = `r sampsize2`) is roughly 6 to 26, which corresponds to estimated frequencies of the purple morph in the range of 15-65%. The range of outcomes in the second plot (n = `r sampsize3`) is roughly 16 to 48, which corresponds to estimated frequencies in the range of 20-60%. This suggests that if we increase the sample size we can expect to encounter less sampling error. This makes intuitive sense: the composition of large sample should more closely approximate that of the true population than a small sample. 
 
-How much data do we need to collect to accurately estimate a frequency? Here is the approximate sampling distribution of the purple morph frequency estimate when we sample `r (sampsizebig <- 500)` individuals each time we take a sample: 
+How much data do we need to collect to accurately estimate a frequency? Here is the approximate sampling distribution of the purple morph frequency estimate when we sample `r (sampsizebig <- 500)` individuals: 
 ```{r samp-dist-big, echo = FALSE, out.width='80%', fig.asp=0.6, fig.align='center', fig.cap='Distribution of number of purple morphs sampled (n = 500)'}
-out <- data.frame(n.purple = factor(rbinom(n = 100000, size = sampsizebig, prob = prop.purp)))
-ggplot(out, aes(x = n.purple)) + geom_bar() + 
-  scale_x_discrete(limits = as.character(seq(0, sampsizebig, 1)), 
-                   breaks = as.character(seq(0, sampsizebig, 50))) + 
+x <- rbinom(n = 100000, size = sampsizebig, prob = prop.purp)
+out <- data.frame(n.purple = x)
+ggplot(out, aes(x = n.purple)) + 
+  geom_histogram(binwidth = 2) + xlim(0, sampsizebig) +
   xlab("No. of purple morph individuals") + ylab("Count")
 ```
 
@@ -77,106 +99,46 @@ Now the range of outcomes is about 160 to 240, corresponding to purple morph fre
 
 ## The standard error
 
-We were fairly relaxed about how we quantified the variability of a sampling distribution in the last chapter. All we did was extract the approximate range of purple morph counts "by eye". This is fine for investigating general patterns, but to make rigorous comparisons, we really need a quantitative measure of this variability. It is called the **standard error**. 
+Up until this point we've been fairly relaxed about how we quantified the spread of a sampling distribution. We just estimated the approximate range of purple morph counts "by eye". This is fine for investigating general patterns, but to make rigorous comparisons, we really need a quantitative measure of this variability. This is called the **standard error**. 
 
-The standard error is actually quite a simple idea, though its definition sometimes confuses people. Here is the definition: the standard error is the standard deviation of the sampling distribution of an estimate (such as a mean or frequency). Don't worry if that makes absolutely no sense yet. The key point is that it is a standard deviation, so it quantifies the expected spread, or dispersion, of the sampling distribution.
+The standard error is actually quite a simple idea, though its definition often causes confusion. Here is that definition: a standard error is the standard deviation of the sampling distribution of an estimate, like a mean or a frequency. Don't worry if that makes absolutely no sense. The key point is that it is a standard deviation, so it a measure of the spread, or dispersion of a distribution. The distribution in this instance is a sampling distribution of some kind of estimate. 
 
-(Note that it is common to use a shorthand abbreviations ("SE", "se" or "s.e") in place of 'standard error' when refering to it in text.)
+(It is common to use a shorthand abbreviations such "SE", "S.E.", "se" or "s.e." in place of 'standard error' when referring to the standard error in text.)
 
-We can use a simulation in R to calculate the expected standard error of an estimate of purple morph frequency. Let's assume we want to know the expected standard error when we use a sample size of 100 and the purple morph frequency is 40%. We can use this snippet of R code to generate 10000 samples :
+We can use a simulation in R to calculate the expected standard error of an estimate of purple morph frequency. In order to do this we have to specify the value of the population frequency, and we have to decide what sample size we want to evaluate. 
+
+Let's assume we want to know the expected standard error when the purple morph frequency is 40% and the sample size is 80. First we set up the simulation by assigning values to different variables to control what the simulation does:
 ```{r}
 purple_prob <- 0.4
-sample_size <- 100
+sample_size <- 80
 n_samples <- 100000
+```
+The value of `purple_prob` is the probability a plant will be purple (0.4 --- R doesn't use percentages), the value of `sample_size` is the sample size we'll use for each sample, and the value of `n_samples` is the number of independent samples we'll take. That's simple enough. 
+```{r}
 raw_samples <- rbinom(n = n_samples, size = sample_size, prob = purple_prob)
 percent_samples <- 100 * raw_samples / sample_size
 ```
-This is the same R code we used to generate those histograms above. The only difference is that we converted the numbers sampled into proportions. You don't have to understand how this works, though if you did A-level statistics you might be able to guess what the `rbinom` function is doing. Really, the R code isn't important here. The result is what matters: we just simulated the percentage of purple morph individuals found in 100000 samples of 20 individuals, storing the result in a vector called `percent_samples`. Here are the first 50 values:
+You don't have to understand how this works, but if you did A-level statistics you might be able to guess what the `rbinom` function is doing. Honestly though, the R code isn't important here. We're just showing it to you to demonstrate that seemingly complex simulations are often easy to do in R. It is more or less the same code we used to generate those plots above (the only difference is that this time we converted the numbers into proportions).  
+
+The result is what matters. We simulated the percentage of purple morph individuals found in 100000 samples of 20 individuals, assuming the purple morph frequency is always 40%. The results are stored the result in a vector called `percent_samples`. Here are the first 50 values of that vector:
 ```{r}
 head(percent_samples, 50)
 ```
-How do calculate the required standard error? The standard error is the standard deviation of these numbers, so we just use the `sd` function:
+These numbers are all part of the sampling distribution of morph frequency estimates. So... how to calculate the standard error? This is just the standard deviation of these numbers, so we just use the `sd` function:
 ```{r}
 sd(percent_samples)
 ```
-What does this tell us?
+What is this useful? The standard error gives us a standardised way to compare the variability we expect to see in different sampling distributions. As long as the sampling distribution is 'well-behaved', then roughly speaking, most estimates (~95%) can be expected to lie in a range of about four standard errors. If you're not convinced, look at the second bar plot we produced above (where the sample size = 80, and the purple morph frequency = 40%). What is the approximate range of simulated values? How close is this to $4 \times 5.5$? Pretty close we think...
 
-[[FINISH ME]]
+So in summary, the standard error gives us a way to quantify how much variability we expect to see in a sampling distributions. We said in the last chapter ([Learning from data]) that a point estimate is useless with some kind of associated measure of uncertainty. A standard error is one such measure.
 
-## A quick recap
+## What is the point of all this!?
 
-[[FINISH ME]]
+By this point you might (quite reasonably!) be wondering why we have spent so much time looking at properties of repeated samples from a population. After all, when we collect 
+data in the real world we're only going to have a single sample to work with. We can;t just keep collecting more and more data. We also won't know anything about the population parameter of interest. This lack of knowledge is the reason for collecting the data in the first place! 
 
-By this point you might (quite reasonably!) be wondering why we have spent so much time looking at the properties of repeated samples from a population with **known** parameters. After all, when we collect real data we only have a single sample to work with and we don't know much about the population parameter of interest. This lack of knowledge is the reason for collecting the data in the first place!
+The short answer to this question is that we want to learn about frequentist inference in this book. Before we can actually apply this technique we need to have a sense of...
 
-The short answer to this question is that we want to learn how to use '**frequentist inference**' in this course. A precise definition of what constitutes frequentist statistics is well beyond the scope of this course, but we can give a rough description. Frequentist inference works by asking *what would have happened* if we were to repeat an experiment or data collection exercise many times, assuming that the a population parameter never changes.
+* how point estimates behave under repeated sampling (i.e. sampling distributions),
 
-[[FINISH ME]]
-
-## Estimating the standard error {#se-bootstrap}
-
-In order to answer that last question we need to work out what the **sampling distribution** purple morph frequency estimate looks like. At first glance, this seems like an impossible task when we only have a single sample to work with. One solution to this problem is surprisingly simple: we use the sample to approximate certain aspects of the population, and then work out what the sampling distribution of our focal estimate  looks like using this approximation.
-
-Let's unpack this idea, and then try it out for real.
-
-### The bootstrap {}
-
-There are many different ways to approximate a population from a sample. One of the simplest methods---for easy problems at least---is to pretend *the sample is the true population*. We then draw new samples from this pretend population. That may sound a lot like cheating, but it turns out that this is a perfectly valid way to construct a sampling distribution for many different kinds of estimates. 
-
-Here is how it works. Imagine that we had written down each sampled individual's colour on a different piece of paper, and placed all of these in a hat. We then do the following:
-
-1. Pick a piece of paper at random, record its value (purple or green), put the paper back into the hat, and shake the hat about to mix up the bits of paper.
-
-2. Pick another piece of paper (you might get the same one), record its value, and then put that back into the hat, remembering to shake everything up.
-
-(The shaking here is meant to ensure that each piece of paper has an equal chance of being picked. This might not work in reality of course.)
-
-3. Repeat this process until you have a recorded new sample of colours which is the same size as your real sample.
-
-(This process is called 'sampling with replacement'. Each artificial sample is called a 'bootstrapped sample'.)
-
-4. For each bootstrapped sample, calculate whatever quantity is of interest (i.e. the proportion of purple morph plants sampled).
-
-5. Repeat steps 1-4 until we have generated a large number of bootstrapped samples. 10000 is often sufficient.
-
-Although it may seem like cheating (it's not!), this process really does produce an approximation of the sampling distribution of our quantity is of interest. It is called **bootstrapping**. 
-
-### Doing it for real
-
-Here is how to implement it in R to construct a sampling distribution for the estimated dry weight of purple morphs (no hats or paper required):
-```{r}
-#purp.weights <- filter(morph.weights, pmorph == "purple")$weight 
-#boot.samp <- replicate(10000, mean(sample(purp.weights, replace = TRUE)))
-```
-All we did here was extract the sample of purple morph dry weights---using `filter` to subset the data, and `$` to grab the `weights` column---and then use functions called `sample` and `replicate` to generate a bootstrapped sampling distribution for the mean (we generated 10000 samples). You don't have to understand this R code, but ask a demonstrator if you want to know more about it. 
-
-Let's take a quick look at the first 10 values:
-```{r}
-#round(head(boot.samp, 10))
-```
-These numbers represents different values of the sample mean that we would expect to generate if we repeated the data collection exercise. We can use this bootstrapped sampling distribution in a number of ways. As always, it is a good idea to plot it first get a sense of what it looks like. A histogram is a good choice here, because we have a large number of samples:
-```{r}
-#plot.df <- data.frame(boot.samp) # 'ggplot' expects a data frame 
-#ggplot(plot.df, aes(x = boot.samp)) + geom_histogram(binwidth = 5) 
-```
-
-The mean of the sampling distribution looks to be round about 655 grams--very close to the sample mean. We can of course calculate this in R: 
-```{r}
-#round(mean(boot.samp))
-```
-This is the same as the sample statistic (the sample mean, in this case). This will always be the case if we construct a large enough sample, as the bootstrapping procedure assumes that the 'true' population mean is equal to the sample mean.
-
-A more useful quantity is the bootstrapped standard error (SE). Since this is the standard deviation of the sampling distribution, we just apply the `sd` function to the bootstrap sampling distribution to calculate it:
-```{r}
-#round(sd(boot.samp), 1)
-```
-This quantity is a standarised measure of uncertainty that we require. A large SE implies that our sample size was too small to reliably estimate the population mean. Whenever we report a point estimate of a mean, we should also report the standard error. For example,
-
-> The mean dry weight biomass of purple morph plants (n = 25) was 658 grams (s.e. ± 22.3). 
-
-Notice that we also report the sample size.
-
-The bootstrap is a very powerful tool in the right hands. The bootstrap is actually quite an advanced technique that can be difficult to apply in many settings (e.g. analysis of complex experiments). It is for this reason that we will not apply it routinely in this course. We used it here to understand how 'frequentist' ideas can be used to quantify uncertainty in a statistic (i.e. a point estimate).
-
-The key message to take away is that we can characterise uncertainty by working out what **would happen under repeated sampling** from a particular population. 
-
+* and how 'sampling error' and 'standard error' relate to sampling distributions.

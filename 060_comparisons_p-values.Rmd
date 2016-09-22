@@ -1,6 +1,6 @@
-# Making comparisons and *p*-values
+# Comparisons, null hypotheses, and tests
 
-Scientific enquiry involves asking questions and collecting information to answer these questions. One of the commonest kinds of question that we ask as biologists is: ‘Is there a difference between the measurements from two samples?’ For example:
+Scientific enquiry involves asking questions. One of the commonest kinds of question that we ask as biologists is: ‘Is there a difference between the measurements from two samples?’ For example:
 
 ‘Do male and female locusts differ in length?’
 
@@ -12,23 +12,13 @@ Scientific enquiry involves asking questions and collecting information to answe
 
 'Do purple and green plant morphs differ in their biomass?'
 
-In order to answer these kinds of questions we need to step through the same kind of process discussed last week. We have to: (1) decide which variables we need to measure; (2) decide which population parameters are relevant; (3) design a suitable experiment or gather representative samples; (4) use the samples to learn about the populations.
+In order to answer these kinds of questions we need to step through the same kind of process discussed in the last few chapters. We have to: 1. decide which variables we need to measure, 2. decide which population parameters are relevant, 3. design a suitable experiment or gather representative samples, and 4. use the samples to learn about the populations.
 
-Let's assume that we already know how to go about steps 1-3 and have already collected our samples. Our focus in this chapter is on step 4: using these samples to learn about the populations. Specifically, the problme we want to understand is how to evaluate whether or not two populations are different in some way.
+Let's assume that we already know how to go about steps 1-3 and have already collected our samples. Our focus in this chapter is on step 4: using these samples to learn about the populations. Specifically, the problem we want to understand is how to evaluate whether or not two populations are different in some way.
 
 ## A new example {#morph-weights-eg}
 
-```{r, echo = FALSE, eval = FALSE}
-set.seed(27081975)
-nsample <- 25
-prpszs <- rnorm(nsample, mean = 700, sd = 150) + 20
-grnszs <- rnorm(nsample, mean = 740, sd = 160) 
-pmorph <- c("purple","green")[rep(1:2, each = nsample)]
-morph.weights <- data.frame(pmorph = pmorph, weight = round(c(prpszs, grnszs)))
-write.csv(morph.weights, row.names = FALSE, file = "./course-data/MORPH_WEIGHTS.CSV")
-```
-
-Once again, we'll investigate the problem by working through a simple example. We will stay with the purple morph / green morph example, but this time we'll examine a different variable: the dry weight biomass of our imaginary plants. Perhaps we suspect that the two morphs have different growth habits. One way to address this hypothesis would be to measure the biomass of individuals of each morph. Ultimately, we want to compare the mean biomass of each morph.
+As always, we'll investigate the problem by working through a simple example. We will stay with the purple morph / green morph example, but this time we'll examine a different variable: the dry weight biomass of our imaginary plants. Perhaps we suspect that the two morphs have different growth habits. One way to address this hypothesis would be to measure the biomass of individuals of each morph. Ultimately, we want to compare the mean biomass of each morph.
 
 In order to study the biomass of individuals in our hypothetical population, we would collect a sample of dry weights. Dry weight is a numeric variable, measured on a ratio scale. The population parameters of interest now are the population mean dry weights of each morph. 
 
@@ -42,19 +32,7 @@ morph.weights <- read.csv(file = "./data_csv/MORPH_WEIGHTS.CSV")
 You should work through this exampe from now on...
 ```
 
-We have have generated a dataset to represent this situation, stored in a Comma Seperated Value (CSV) text file called 'MORPH_WEIGHTS.CSV'. Download the MORPH_WEIGHTS.CSV file from MOLE and place it in your working directory. Don't forget to set your working directory first! Then run through the following steps:
-
-*   Read the data into an R data frame using `read.csv`, assigning the data frame the name `morph.weights`. 
-
-*   Use the `glimpse` function from `dplyr` to inspect the structure of `morph.weights`. How many variables are in the dataset. What are their names? What kind of variables are they?
-
-* Use the `View` function to inspect the data. How many rows are in the dataset--does this number make sense to you? Are the values of the different variables as you would expect them to be?
-
-**Always check your data after you have read it in**. 
-
-The point of all this is to 'sanity check' the data, i.e. to make sure we understand the data and that there are no obvious problems with it. There is really no point messing about with the likes of `dplyr` and `ggplot2`, or carrying out a statistical analysis, until we have done this. If we don't understand how our data is organised, there is very real risk that we will make a lot of easily avoidable mistakes.
-
-What you should have found is that `morph.weights` contains two columns / variables: `pmorph` and `weight`. The `pmorph` variable is just a categorical variable (a 'factor', in R-speak) that labels the colur of each plant, and the `weight` variable is a numeric variable that contains the weight of each plant. There are 25 observations of each plant morph, so the data frame has 50 rows.  
+[[TRANSITION]]
 
 The next step is to calculate some simple descriptive statistics for each morph. We need to know the sample means as these are our 'best guesses' of the population means. It may be useful to know something about the variability of the samples, which can be summarised by the sample standard deviation is a good measure of the latter. Here is a reminder of how to do this using `dplyr`:
 ```{r}
@@ -85,9 +63,7 @@ morph.weights %>%
 
 You should always explore your data visually before carrying out any kind of statistical analysis of it. You might learn something new about it, and at the very least, this allows you to assess whether there are any problems with it. A quick inspection of this figure suggests that there is nothing odd about the dry weight data. We only have 25 observations, so we can't say too much about its shape, but there don't seem to be any outliers. 
 
-We are going to focus on just the purple morph data from now on. Let's return to our original question: How do we characterise the precision of the estimated mean dry weight of purple morphs (658 grams)?
 
-It is much easier to understand the different parts of this problem if we work with a concrete example. We'll use the purple plant / green plant situation from last week, focussing on the dry weight biomass of our imaginary plants (rather than their frequency). We hypothesised that perhaps the two morphs have different growth habits, and so we measured the biomass of individuals in a sample of each morph. The focal variable is dry weight biomass (a numeric variable, measured on a ratio scale).
 
 Last week, we looked at how to quantify uncertainty in a single estimate of the population mean biomass of a morph. This week, we want to compare the biomass samples of the two morphs to address the question: 'Do purple and green plant morphs differ in their dry weight biomass?'. However, as it is currently framed, this question is a little too vague. The first thing we have to do is define what we mean by 'different'.
 
@@ -123,7 +99,7 @@ By looking at the central tendency of different samples, we can evaluate whether
 
 The question we want to address is therefore: 'What is the strength of evidence for a difference in the population mean biomass of purple and green plant morphs?' In practise, this boils down to a another question: 'Is there a statistically significant difference between their means.'
 
-We will now turn to the idea of **statistical significance**. We will also see how to evaluate statistical significance by calculating a **p-value** under a suitable **null hypothesis**.
+We will now turn to the idea of **statistical significance**. We will also see how to evaluate statistical significance by calculating a ***p*-value** under a suitable **null hypothesis**.
 
 ```{block, type='do-something'}
 **Don't panic...**
@@ -163,7 +139,7 @@ In order to assess the strength of evidence for the presence of a difference bet
 
 4. If the observed difference is sufficiently improbable, then we conclude that we have found a 'statistically significant' result. A statistically significant result is therefore one that is inconsistent with the hypothesis of no difference.
 
-(We will discuss how to define 'sufficiently improbable' below)
+(We will discuss how to define 'sufficiently improbable' once we've worked through an example.)
 
 There are many different ways to go about realising this process. We'll look at one of these today. Regardless of the details, they all work by trying to evaluate what happens when we repeatedly sample from a population where the effect of interest (e.g. a difference between means) *is absent*. That sounds odd, but if you can understand this fundamental idea you are well on your way to understanding how frequentist statistics works. 
 
@@ -208,7 +184,7 @@ nhgher <- sum(perm.out >= -diff(descrip.stats$wght.mean))
 
 What does this figure tell us? It looks like the observed difference is very unlikely to have arisen through sampling variation, under the assumption that the population means of the two groups are identical. We can say this because the observed difference lies at the end of one 'tail' of the sampling distribution. We need to be able to make a more precise statement than this though.
 
-Only `r nlower` out of the `r nperm` permutations ended up being equal to, or 'more extreme' (i.e., more negative), than the observed difference. The probability of finding a difference in the means equal to or more negative than the observed difference (denoted *p*) is therefore, *p*=`r nlower/nperm` (`r 100*nlower/nperm`%). This probability has a special name. It is called the **p-value**. A p-value is defined as the probability of obtaining a result equal to or 'more extreme' than what was actually observed, assuming that the hypothesis under consideration is true.
+Only `r nlower` out of the `r nperm` permutations ended up being equal to, or 'more extreme' (i.e., more negative), than the observed difference. The probability of finding a difference in the means equal to or more negative than the observed difference (denoted *p*) is therefore, *p*=`r nlower/nperm` (`r 100*nlower/nperm`%). This probability has a special name. It is called the ***p*-value**. A *p*-value is defined as the probability of obtaining a result equal to or 'more extreme' than what was actually observed, assuming that the hypothesis under consideration is true.
 
 We have to be careful at this point. The test we just did is called a 'one-tailed' test, because we only looked at one end (the tail) of the sampling distribution. However, we did not set out to test whether purple plants were smaller on average than green plants. We set out to assess whether they are different, but we never made a statement about the direction of the effect. This means we also have to consider the possibility of an effect in the opposite direction to what was observed. 
 
@@ -221,13 +197,13 @@ ggplot(data.frame(perm.out), aes(x = perm.out)) +
   xlab("Difference between means of permuted samples")
 ```
 
-When we do this, we find that `r nlower+nhgher` out of the `r nperm` permutations lie beyond the observed difference, and so the new p-value is *p*=`r (nlower+nhgher)/nperm` (`r 100*(nlower+nhgher)/nperm`%). This kind of test--where we look at both tails of the sampling distribution--is called a 'two-tailed' test. We discuss the reasoning for and against using a one- or two-tailed test in this week's self-directed practical.
+When we do this, we find that `r nlower+nhgher` out of the `r nperm` permutations lie beyond the observed difference, and so the new *p*-value is *p*=`r (nlower+nhgher)/nperm` (`r 100*(nlower+nhgher)/nperm`%). This kind of test--where we look at both tails of the sampling distribution--is called a 'two-tailed' test. We discuss the reasoning for and against using a one- or two-tailed test in this week's self-directed practical.
 
-#### The significance of p-values
+#### The significance of *p*-values
 
-What are we supposed to do with the finding *p*=`r (nlower+nhgher)/nperm`? This is the probability of obtaining a result equal to or 'more extreme' than what was actually observed, assuming that the hypothesis under consideration is true. The hypothesis under consideration is one of no effect, and so a low p-value can be interpreted as evidence for an effect being present. In our example, the low p-value is evidence for a difference among the population mean dry weights of purple and green morphs.
+What are we supposed to do with the finding *p*=`r (nlower+nhgher)/nperm`? This is the probability of obtaining a result equal to or 'more extreme' than what was actually observed, assuming that the hypothesis under consideration is true. The hypothesis under consideration is one of no effect, and so a low *p*-value can be interpreted as evidence for an effect being present. In our example, the low *p*-value is evidence for a difference among the population mean dry weights of purple and green morphs.
 
-One question remains: How small does a p-value have to be before we are happy to conclude that the effect is probably present? In practise, we do this by applying a threshold, called a **significance level**. If the p-value is less than the chosen significance level we say the result is said to be **statistically significant**. Most often (in biology at least), we use a significance level of *p*<0.05 (5%). Why? The short answer is that this is just a convention. We will return to the use of p-values and the concept of statistical significance later.
+One question remains: How small does a *p*-value have to be before we are happy to conclude that the effect is probably present? In practise, we do this by applying a threshold, called a **significance level**. If the *p*-value is less than the chosen significance level we say the result is said to be **statistically significant**. Most often (in biology at least), we use a significance level of *p*<0.05 (5%). Why? The short answer is that this is just a convention. We'll come back to this below.
 
 #### The null hypothesis
 
@@ -243,36 +219,15 @@ The null hypothesis is simply statement of what we would expect to see if there 
 
 All statistical tests you are likely to encounter in biology work by specifying a null hypothesis and then testing the observed data to see if they deviate from the null hypothesis. This may seem like a rather odd approach, but there are good theoretical and practical reasons for doing things this way.
 
-Although you need to be aware of what a null hypothesis is, and what it is used for, in general discussion of tests we will normally refer to the effect which is the opposite of the null hypothesis - i.e. it is the effect you are actually interested in - known as the *test hypothesis*,
-or the *alternative hypothesis* (H~1~ in statistics books).
+Although you need to be aware of what a null hypothesis is, and what it is used for, in general discussion of tests we will normally refer to the effect which is the opposite of the null hypothesis - i.e. it is the effect you are actually interested in - known as the *test hypothesis*, or the *alternative hypothesis* (often denoted H~1~ in statistics books).
 
-The alternative hypothesis is essentially a statement of the effect you are interested in testing for, e.g., Purple and green plant morphs differ in mean size; Eagle owls eat different sized Norway rats in summer and winter. It is a statement of whatever is implied if the null hypothesis is not true.
+The alternative hypothesis is essentially a statement of the effect you are interested in evaluating, e.g., purple and green plants differ in their mean size. It is a statement of whatever is implied if the null hypothesis is not true.
 
-Having got all the types of hypothesis sorted out, we can then use a particular statistical technique (such as a t-test) to test the observed result against that expected if the null hypothesis was true. The test gives us a probability (p-value) telling us how likely it is that we would have got the result we observe if the null hypothesis was, indeed, true.
+Having got all the types of hypothesis sorted out, we can then use a particular statistical technique (such as a permutation test) to evaluate the observed result against that expected if the null hypothesis was true. The test gives us a probability (*p*-value) telling us how likely it is that we would have got the result we observe if the null hypothesis was, indeed, true.
 
 If the value is sufficiently small (conventionally if *p*<0.05) we judge it unlikely that we would have seen this result if the null hypothesis was true and consequently we *reject the null hypothesis* (i.e. reject the notion that there is no difference) and instead *accept the alternative hypothesis* (that there is a difference). Note that this is not the same as 'proving' the alternative hypothesis is true. You can't prove anything by collecting data or carrying out an experiment.
 
 If the probability is large, then it is quite likely that we could have got the observed result if the null hypothesis was true, and in this case we cannot reject the null hypothesis. Note that in this situation we *'do not reject the null hypothesis'*, but this is not quite the same as accepting that the null hypothesis is true, paradoxical though this may seem. One obvious reason for this is that if we only have a small sample then there may be an effect of the factor we are looking at, but we simply can’t detect it because we don’t have enough data.
-
-## A few final words about *p* values
-
-It is important to understand the meaning of the probabilities generated by statistical tests. We have already said a p-value is the proportion of occasions on which you would expect to see a result at least as extreme as the one you actually observed if the null hypothesis (of no effect) was true. Conventionally (in biology at least) we accept a result as statistically significant if *p*<0.05 (also expressed as 5%). There is nothing special about this cut-off point. 
-
-A probability of 0.05 is a chance of 1 in 20. This means that if there really was no effect of the factor we are investigating, we would expect to get a result significant at *p*=0.05 about 5 times in 100 samples. To envisage it more easily, it is slightly less than the chance of tossing a coin 4 times and getting 4 heads in a row (*p*=0.0625).
-
-This puts a ‘significant’ result into context. Would you launch a new drug on the market or bring a prosecution for pollution on the evidence of the strength of four heads coming up in a row when a coin is tossed? Well of course such things are unlikely to hinge on a single test, but it is always worth bearing in mind what ‘significance’ actually means.
-
-Of course the smaller the probability the more confident one can be that the effect we see is real. A probability of *p*=0.01 (1 in 100) is pretty good evidence, and *p*=0.001 (1 in 1000), or less, is better still. For this reason, in some critical applications such as drug testing the value set for accepting a result as significant may be lower (e.g. *p*=0.01). The costs of using a more stringent threshold is that this increases the possibility of false negatives (called a 'type II' error)--i.e. we are more likely to fail to detect an effect whne it is really present.
-
-### What if is close to 0.05?
-
-The thing to remember here is that although we tend to use *p*=0.05 as a cut-off, is really a continuous measure and *p*=0.055 is not very different from *p*=0.045. The exact value of will be affected by how well the data fulfil the assumptions of the test–-which will only be approximately with most biological data, so you shouldn’t set too much store by the difference between *p*=0.045 and *p*=0.055. It would be irrational on the one hand to reject an idea completely just on the basis of a result of *p*=0.055, while at the same time being prepared to invest large amounts of time and money implementing policies based on a result of *p*=0.045.
-
-### Biological vs. statistical significance
-
-A final, but vital, point: do not confuse statistical significance with biological significance. A result may be statistically highly significant (say *p*<0.001) but biologically trivial. To give a real example, in a study of the factors determining the distribution of freshwater invertebrates in a river, the pH of water was measured in the open water and in the middle of the beds of submerged vegetation. There was a statistically significant difference in pH (*p*<0.01) but the mean pH values were 7.1 in the open water and 6.9 in the weeds. This is a very small effect, and almost certainly of no importance at all to the invertebrates.
-
-The significance of a result depends on a combination of three things (1) the size of the effect, (2) the variability of the data, (3) the number of samples. Even a tiny effect can be significant if the data have very little variation and the sample size is large. You should not automatically equate a significant result with a large effect--you need to inspect the means and consider the biological implications of the difference. The statistical results can give you some guidance in separating genuine differences from random variation, but they can’t tell you whether the difference is biologically interesting or important–-that’s your job!
 
 
 

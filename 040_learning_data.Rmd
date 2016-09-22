@@ -22,13 +22,15 @@ This idea is best understood by example...
 
 -   A population of plants or animals---as understood by biologists---can also be thought of as a statistical population. Indeed, this is often the kind of population organismal biologists are most interested in. The individuals that comprise a biological population share common behaviours, physiology and life history characteristics. Much of organismal biology is concerned with learning about these kinds of properties, often with the goal to explaining variation we see among individuals.
 
-Populations are conceptualised as fixed but unknown quantities within the framework of frequentist statistics. The goal of an analysis is to learn something about one or more populations by collecting data---'the population' is defined by the investigator, and the 'something' could be anything we know how to measure. For example, a social scientist might be interested in understanding the political attitudes of university students, a climate change scientist might want to know how much carbon is stored in UK peatland areas, and a behavioural ecologist might want to understand how much time individuals spend foraging for food and searching for mates. 
+Populations are conceptualised as fixed but unknown quantities within the framework of frequentist statistics. The goal of an analysis is to learn something about one or more populations by collecting data.
 
-The obvious question is, how do we learn about a population?
+Note that 'the population' is defined by the investigator, and the 'something we want to learn about' is anything we're interested in and know how to measure. Consider the examples again. A social scientist might be interested in understanding the political attitudes of undergraduates, so they might choose to survey a group of students in their university. A climate change scientist might measure the mass carbon is stored in peatland areas at sites across Scotland and northern England. A behavioural ecologist might want to understand how much time beavers spend foraging for food, so they might study one of the two Socttish populations.
+
+What are the steps involed in these kinds of studies?
 
 ## Learning about populations
 
-The examples discussed above involve very different kinds of populations and questions. Nonetheless, there are fundamental commonalities in how these questions are addressed, which always involves collecting some data and applying the appropriate statistical tools. This process can be broken down into a number of different steps:
+The examples we discussed above involve very different kinds of populations and questions. Nonetheless, there are fundamental commonalities in how these questions are addressed, which always involves collecting some data and applying the appropriate statistical tools. This process can be broken down into a number of different steps:
 
 **Step 1: Refine your questions, hypotheses and predictions**
 
@@ -124,15 +126,15 @@ Let's proceed as though this were a real situation...
 
 **Step 1: Refine your questions, hypotheses and predictions**
 
-Let's assume that we've also been studying a neighbouring population that exhibits the same polymorphism. Our studies shave shown that...
+Let's assume that we've previously been studying a neighbouring population that exhibits the same polymorphism. W're fairly sure both populations were once connected, but habitat loss over the last few hundred years has significantly reduced gene flow between them. Our studies with the neighbouring population have shown that...
 
-*   The colour polymorphism in the sister population is controlled by a single gene with two alleles: a recessive mutant allele ('P') confers the purple colour, and the dominant wild-type allele ('G') makes plants green. Moreover, population genetic studies have shown that the two alleles are present in a ratio of 1:1. 
+*   The colour polymorphism is controlled by a single gene with two alleles: a recessive mutant allele ('P') confers the purple colour, and the dominant wild-type allele ('G') makes plants green. Moreover, population genetic studies have shown that the two alleles are present in a ratio of about 1:1. 
 
-*   There seems to be no observable fitness difference between the two morphs in the sister population. What's more, about 25% of plants are purple in the population we've been studying, i.e. the alleles seem to be in Hardy-Weinberg equilibrium, further indicating that there is no selection operating.
+*   There seems to be no observable fitness difference between the two morphs in the neighbouring population. What's more, about 25% of plants are purple, i.e. the alleles seem to be in [Hardy-Weinberg equilibrium](https://en.wikipedia.org/wiki/Hardy–Weinberg_principle). These two observations indicate that there is no selection operating on the polymorphism (it's 'neutral').
 
-We've noticed that the purple morph seems to be more common in the new study population. Our hypothesis is that the is at a selective advantage in this population. The corresponding prediction is that the frequency of the purple morph will be greater than 25% in the new study population.
+We've noticed that things are different in the new study population. The purple morph seems to be about as common as the green morph. What's more, some preliminary work indicates that they purple plants seem to produce more seeds.  Our hypothesis is therefore, that purple plants have a selective advantage in the new study population. The corresponding prediction is that the frequency of the purple morph will be greater than 25% in the new study population.
 
-(This isn't the strongest test of our hypothesis by the way. Really, we need to study both allele and genotype frequencies. Sadly, the government has pulled all research funding for plant polymorphisms since Brexit happens, so this is the best we can do)
+(This isn't the strongest test of our hypothesis by the way. Really, we need to study allele and genotype frequencies, not just phenotypes. Sadly, the government has pulled the research funding for genetic research on plant polymorphism since Brexit happened, so this is the best we can do)
 
 **Step 2: Decide which population is important**
 
@@ -166,7 +168,7 @@ Maybe the purple plants aren't at a selective advantage after all? Or maybe they
 
 ```{r, echo=FALSE}
 save(plantdata, sampsize1, sampsize2, sampsize3, 
-     file = "./_object_cache/plant_morphs.rda")
+     file = "./_rda_objects/plant_morphs.rda")
 ```
 
 

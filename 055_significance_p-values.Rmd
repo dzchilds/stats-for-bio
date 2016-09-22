@@ -1,0 +1,156 @@
+# Statistical significance and *p*-values
+
+We ended the last chapter by reminding you that we use frequentist statistics in this course. To be a bit more precise, we're learning about frequentist inference. 'Inference' is just statistical jargon for a system of learning about a population using data. While a precise definition of frequentist inference is well beyond the scope of this course, we can give a rough description. Frequentist inference works by asking *what would have happened* if we were to repeat an experiment or data collection exercise many times, assuming that the relevant population parameter(s) never change. 
+
+The choice of population parameters to work with depend on what kind of question we are asking. This varies from one application to another. The thing that is common to every frequentist technique is that we ultimately have to work out what a sampling distribution of some kind look likes. If we can do that, then we can ask, for a given scenario, how likely or unlikely a particular result is. This naturally leads onto two of the most important ideas in this course: statistical significance and *p*-values. Our goal today is to try to make sense of these ideas.
+
+## Estimating a sampling distribution {#bootstrap}
+
+Let's carry on with the plant polymorphism example. Our ultimate goal is to evaluate whether the purple morph frequency was greater than 25% in our new study population. The suggestion in the preamble of this chapter is that to get to this point we need to work out what the sampling distribution of the purple morph frequency estimate looks like. At first glance this seems like an impossible task. We can't use simulations as before, because we don't know the true frequency of purple morphs in the population. All we have is the one sample. The solution to this problem is surprisingly simple (or at least the basic idea is simple). Since we don't know much about the population, we use the sample to approximate some aspects of it, and then work out what the sampling distribution of our estimate should look like using this approximation.
+
+Let's unpack this idea, and then try it out for real.
+
+### Overviw of bootstrapping {#bootstrap-overview}
+
+There are lot's of different ways to approximate a population from a sample. One of the simplest methods---for easy problems at least---is to *pretend the sample is the true population*. Then, all we have to do to get at a sampling distribution is draw new samples from this pretend population. That may sound a lot like cheating, but it turns out that this is a perfectly valid way to construct useful sampling distributions for many kinds of problems. 
+
+Here is a how it works for our example, using a physical analogy. Imagine that we had written down the colour of each sampled individual on a different piece of paper, and placed all of these in a hat. We then do the following:
+
+1. Pick a piece of paper at random, record its value (purple or green), put the paper back into the hat, and shake the hat about to mix up the bits of paper.
+
+2. Pick another piece of paper (you might get the same one), record its value, and then put that back into the hat, remembering to shake everything up.
+
+(The shaking here is meant to ensure that each piece of paper has an equal chance of being picked, i.e. we're taking a random sample. This might not work in reality, but let's assume it does.)
+
+3. Repeat this process until you have a recorded new sample of colours which is the same size as your real sample.
+
+(This process is called 'sampling with replacement'. Each artificial sample is called a 'bootstrapped sample'.)
+
+4. For each bootstrapped sample, calculate whatever quantity is of interest (e.g. the proportion of purple plants sampled).
+
+5. Repeat steps 1-4 until we have generated a large number of bootstrapped samples. About 10000 is sufficient for many problems.
+
+Although it may seem like cheating (it's not!), this process really does produce an approximation of the sampling distribution of the quantity we're interest in. It is called **bootstrapping** (or 'the bootstrap'). The bootstrap was invented by a very smart statistician called [Bradley_Efron](https://en.wikipedia.org/wiki/Bradley_Efron). We're introducing it here because it allows you to see how frequentist methodology works without having to do any nasty mathematics. We're not expecting you to learn it, so don't panic if you find it tricky to understand. 
+
+### Doing it for real
+
+```{r, echo = FALSE, eval = FALSE}
+set.seed(27081975)
+samp_size <- 250
+plant_morphs <- sample(c("Purple","Green"), 
+                       samp_size, replace = TRUE, prob = c(4,6))
+mns <- c(Purple = 760, Green = 700)[plant_morphs]
+sds <- c(Purple = 160, Green = 150)[plant_morphs]
+morph.data <- data.frame(Colour = plant_morphs, 
+                         Weight = rnorm(samp_size, mns, sds))
+write.csv(morph.weights, row.names = FALSE, 
+          file = "./data_csv/MORPH_DATA.CSV")
+```
+
+```{r, echo = FALSE}
+morph.colours <- read.csv(file = "./data_csv/MORPH_DATA.CSV")
+```
+
+Let's assume we've sampled 250 individuals from our new plant population. We're going to use this hypothetical sample to implement the bootstrap in R.
+
+```{block, type='do-something'}
+The best way to understand what follows is to actually work through the example...
+```
+
+A data set representing this situation is stored in a Comma Seperated Value (CSV) text file called 'MORPH_DATA.CSV'. Download the file from MOLE and place it in your working directory. Don't forget to set this first! Next, run through the following steps:
+
+*   Read the data into an R data frame using `read.csv`, assigning the data frame the name `morph.data`.
+
+*   Use functions like `glimpse` (from `dplyr`) and `str` (from base R) to inspect the structure of `morph.data`. How many variables are in the dataset? What are their names? What kind of variables are they?
+
+* Use the `View` function to inspect the data. Is this what you expected? Are the values of the different variables as you would expect them to be?
+
+The point of all this is to 'sanity check' the data, i.e. to make sure we understand the data and that there are no obvious problems with it. **Always check your data after you have read it in**. There is really no point messing about with the likes of `dplyr` and `ggplot2`, or carrying out a statistical analysis, until we have done this. If we don't understand how our data is organised, there is very real risk that we will make a lot of avoidable mistakes.
+
+What you should have found is that `morph.data` contains 250 rows and two columns/variables: `Colour` and `Weight`. `Colour` is a categorical variable (a 'factor', in R-speak) and `Weight` is a numeric variable. The `Colour` obviously contains the colour of each plant in the sample. What about `Weight`? We don't need this yet, but we'll use it in the next chapter.
+
+Now that we understand the data we're ready to implement bootstrapping (using R of course, no hats or paper required). We're going to introduce a few new R tricks here. We'll explain them as we go, but these aren't things you need to remember.
+
+We want to construct a sampling distribution for the frequency of purple morphs, so the variable that matters here is `Colour`. Rather than work with this inside the data frame, we're going to pull it out using the `$` operator, assign it a name (`plant_morphs`), and then take a look at the first 20 values:
+```{r}
+plant_morphs <- morph.data$Colour
+head(plant_morphs, 20)
+```
+Hopefully you followed that---`plant_morphs` is just a simple vector (a factor) containing the colour information. For convenience, we can also calculate and store the original sample size (`samp_size`), and store the number of bootstrap samples we plan to use (`n_samp`):
+```{r}
+samp_size <- length(plant_morphs)
+n_samp <- 10000
+```
+OK, we are now ready to start bootstrapping....
+```{r}
+samp <- sample(plant_morphs, replace = TRUE)
+head(samp, 20)
+```
+We only want one number from this sample. How do we calculate this...
+```{r}
+sum(samp == "Purple") / samp_size
+```
+
+```{r}
+boot_out <- replicate(n_samp, {
+  samp <- sample(plant_morphs, replace = TRUE)
+  sum(samp == "Purple") / samp_size
+})
+```
+
+...then use functions called `sample` and `replicate` to generate a bootstrapped sampling distribution for the mean (we generated 10000 samples). You don't have to understand this R code, but ask a demonstrator if you want to know more about it. 
+
+Let's take a quick look at the first 10 values:
+```{r}
+#round(head(boot.samp, 10))
+```
+These numbers represents different values of the sample mean that we would expect to generate if we repeated the data collection exercise. We can use this bootstrapped sampling distribution in a number of ways. As always, it is a good idea to plot it first get a sense of what it looks like. A histogram is a good choice here, because we have a large number of samples:
+```{r}
+#plot.df <- data.frame(boot.samp) # 'ggplot' expects a data frame 
+#ggplot(plot.df, aes(x = boot.samp)) + geom_histogram(binwidth = 5) 
+```
+
+The mean of the sampling distribution looks to be round about 655 grams--very close to the sample mean. We can of course calculate this in R: 
+```{r}
+#round(mean(boot.samp))
+```
+This is the same as the sample statistic (the sample mean, in this case). This will always be the case if we construct a large enough sample, as the bootstrapping procedure assumes that the 'true' population mean is equal to the sample mean.
+
+A more useful quantity is the bootstrapped standard error (SE). Since this is the standard deviation of the sampling distribution, we just apply the `sd` function to the bootstrap sampling distribution to calculate it:
+```{r}
+#round(sd(boot.samp), 1)
+```
+This quantity is a standarised measure of uncertainty that we require. A large SE implies that our sample size was too small to reliably estimate the population mean. Whenever we report a point estimate of a mean, we should also report the standard error. For example,
+
+> The mean dry weight biomass of purple morph plants (n = 25) was 658 grams (s.e. ± 22.3). 
+
+Notice that we also report the sample size.
+
+The bootstrap is a very powerful tool in the right hands. The bootstrap is actually quite an advanced technique that can be difficult to apply in many settings (e.g. analysis of complex experiments). It is for this reason that we will not apply it routinely in this course. We used it here to understand how 'frequentist' ideas can be used to quantify uncertainty in a statistic (i.e. a point estimate).
+
+The key message to take away is that we can characterise uncertainty by working out what **would happen under repeated sampling** from a particular population. 
+
+## Statistical significance
+
+[[COMPLETE ME]]
+
+## A few words about *p* values
+
+It is important to understand the meaning of the probabilities generated by statistical tests. We have already said a *p*-value is the proportion of occasions on which you would expect to see a result at least as extreme as the one you actually observed if the null hypothesis (of no effect) was true. Conventionally (in biology at least) we accept a result as statistically significant if *p*<0.05 (also expressed as 5%). There is nothing special about this cut-off point. 
+
+A probability of 0.05 is a chance of 1 in 20. This means that if there really was no effect of the factor we are investigating, we would expect to get a result significant at *p*=0.05 about 5 times in 100 samples. To envisage it more easily, it is slightly less than the chance of tossing a coin 4 times and getting 4 heads in a row (*p*=0.0625).
+
+This puts a ‘significant’ result into context. Would you launch a new drug on the market or bring a prosecution for pollution on the evidence of the strength of four heads coming up in a row when a coin is tossed? Well of course such things are unlikely to hinge on a single test, but it is always worth bearing in mind what ‘significance’ actually means.
+
+Of course the smaller the probability the more confident one can be that the effect we see is real. A probability of *p*=0.01 (1 in 100) is pretty good evidence, and *p*=0.001 (1 in 1000), or less, is better still. For this reason, in some critical applications such as drug testing the value set for accepting a result as significant may be lower (e.g. *p*=0.01). The costs of using a more stringent threshold is that this increases the possibility of false negatives (called a 'type II' error)--i.e. we are more likely to fail to detect an effect whne it is really present.
+
+### What if is close to 0.05?
+
+The thing to remember here is that although we tend to use *p*=0.05 as a cut-off, is really a continuous measure and *p*=0.055 is not very different from *p*=0.045. The exact value of will be affected by how well the data fulfil the assumptions of the test–-which will only be approximately with most biological data, so you shouldn’t set too much store by the difference between *p*=0.045 and *p*=0.055. It would be irrational on the one hand to reject an idea completely just on the basis of a result of *p*=0.055, while at the same time being prepared to invest large amounts of time and money implementing policies based on a result of *p*=0.045.
+
+### Biological vs. statistical significance
+
+A final, but vital, point: do not confuse statistical significance with biological significance. A result may be statistically highly significant (say *p*<0.001) but biologically trivial. To give a real example, in a study of the factors determining the distribution of freshwater invertebrates in a river, the pH of water was measured in the open water and in the middle of the beds of submerged vegetation. There was a statistically significant difference in pH (*p*<0.01) but the mean pH values were 7.1 in the open water and 6.9 in the weeds. This is a very small effect, and almost certainly of no importance at all to the invertebrates.
+
+The significance of a result depends on a combination of three things (1) the size of the effect, (2) the variability of the data, (3) the number of samples. Even a tiny effect can be significant if the data have very little variation and the sample size is large. You should not automatically equate a significant result with a large effect--you need to inspect the means and consider the biological implications of the difference. The statistical results can give you some guidance in separating genuine differences from random variation, but they can’t tell you whether the difference is biologically interesting or important–-that’s your job!
+
