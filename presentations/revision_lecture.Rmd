@@ -1,0 +1,199 @@
+---
+title: R Basics Revision Session
+author: Dylan Childs
+date: Tuesday 27, 2016
+highlighter: pygments
+output: 
+  ioslides_presentation:
+    css: presentations.css
+    smaller: true
+---
+
+```{r, echo=FALSE}
+showAnswers <- TRUE
+```
+
+Basics | Setting up and reading in data
+======================================================================================
+
+## R and RStudio {.build}
+
+## The working directory {.build}
+
+A quick reminder of what it is and how to set it...
+
+- The **working directory** is a default location that R will use to looks for files. It is just a folder on your computer.
+
+- If you don't set the working directory, R will do it for you. This is probably not be the folder you want to use.
+
+- **YOU should set the working directory EVERY TIME you start R/RStudio**. Setting your working directory should be the first thing you do.
+
+- Do not do this using R code in your script. Instead, do it using the RStudio menu system (there are other ways, don't use them).
+
+<br><br>
+
+<div>
+**Set your working directory now using: Session > Set Working Directory > Choose Directory...**
+</div>
+
+## Starting a new script
+
+```{r}
+# clear the workspace (aka R's 'brain')
+rm(list = ls())
+```
+
+## Packages 
+
+Packages extend what base R can do. Two things have to happen before you can actually use the functions in a package:
+
+1. You have to **install** it. This is a "do once" operation. After a package is installed you can restart R and it is still installed.
+
+2. You have to **load and attach** it. This is a "do every time" operation. You have to load and attach the package every time you start a new session (= open R).
+
+<br><br><br><hr>
+
+A mobile phone App analogy: 
+
+- installing a package <=> getting an App from an App store
+
+- loading and attaching a package <=> opening the App on your phone
+
+## Accessing a package
+
+1. We **install** a package with the `install.packages` function
+
+2. We **load and attach** an installed package with the `library` function
+
+**Remember!**
+
+- Never use `install.packages` inside your scripts! You don't want to reinstall a package every time you plan to use it. 
+
+- You can install a package via the Packages tab in RStudio. Use this if you don't like using `install.packages`.
+
+## We need `dplyr` abd `ggplot2`...
+
+<div>
+**Step 1.** Install `dplyr` abd `ggplot2`
+
+Go to the Packages tab in RStudio (bottom right pane by default) and click the 'Install' button. Type the following: `dplyr`, `ggplot2`... and click the 'Install' button.
+</div>
+
+<div>
+**Step 2.** Place the following into your script:
+
+```{r}
+library("dplyr")
+library("ggplot2")
+```
+</div>
+
+**Remember: you don't have to repeat 'Step 1' in every new R session**
+
+## Reading a CSV file into R {.build}
+
+This is easy if you've set the working directory properly...
+
+<div>
+- Include the following line in your script, and submit it to the Console
+
+```{r, eval = FALSE}
+storms <- read.csv("storms.csv")
+head(storms)
+```
+
+- What happened? Did you see any error messages? You should't have. Look at the environment tab (top right pane). Can you see something called 'storms'?
+</div>
+
+Data in R | Vectors, data frames, 'tibbles', etc.
+======================================================================================
+
+## Vectors
+
+## Two views of data frames {.build}
+
+The first view: __Data frames are a collection of vectors__. These may be different types (numeric, character, others), but they must all be the same length.
+
+<div>
+Here is how to make one "by hand" using the `data.frame` function:
+
+```{r}
+mydf <- data.frame(Var1 = 1:4, Var2 = LETTERS[1:4], Var3 = c(1,2,4,8))
+mydf
+```
+
+Data frames are central to data analysis in R. We can think of each vector as corresponding to a __statistical variable__ that we want to analyse.
+</div>
+
+## Extracting vectors/columns from a data frame {.build}
+
+We can extract a vector from a data frame in a few different ways:
+
+<div>
+- Using the name and the `$` operator
+```{r}
+mydf $ Var1
+```
+- Using the name and the `[[ ]]` operator
+- Using the position and the `[[ ]]` operator
+</div>
+
+Getting help | The many different routes
+======================================================================================
+
+## Built in 'help' files
+
+We do the following:
+
+```{r, eval=FALSE}
+?name_of_a_useful_function
+```
+
+Help files are really **documentation** files:
+
+- Description
+- Usage
+- Arguments
+- Details
+- References
+- Examples <-- This is often the most useful part
+
+## The internet
+
+## Books and cheat sheets
+
+The `dplyr` package | Using the `select` function
+====================================================================
+
+
+The `dplyr` package | Using the `filter` function
+====================================================================
+
+## Reminder: comparing vectors {.build .smaller}
+
+<div>
+We use __relational operators__ to compare the elements of numeric vectors:
+
+- `x < y `: is x less than y?
+- `x > y `: is x greater than y?
+- `x <= y`: is x less than or equal to y?
+- `x >= y`: is x greater than or equal to y?
+- `x == y`: is x equal to y?
+- `x != y`: is x not equal to y?
+
+These operators produce something called a __logical vector__ (a vector of TRUE and FALSE values---nothing else allowed)
+</div>
+
+<div>
+__Example__
+```{r}
+x <- seq(1, 9)
+y <- rep(5, 9)
+x == y
+```
+</div>
+
+The `dplyr` package | Using the `mutate` function
+====================================================================
+
+

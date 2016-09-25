@@ -1,0 +1,19 @@
+#exercise-box {
+    background: #E6FFE6;
+    padding: 2px 18px 12px 18px;
+    border: 1px solid transparent;
+    border-radius: 8px; 
+    margin: 40px 0px 30px 0px;
+    font-size: 0.8em;
+}
+
+#box-text {
+  background-color: #fff;
+  margin:  5px -15px -9px -15px;
+  padding: 10px 15px 9px 15px;
+  border-radius: 0px 0px 6px 6px;
+}
+
+
+
+
