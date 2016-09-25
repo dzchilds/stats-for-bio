@@ -1,5 +1,5 @@
 ---
-title: R Basics Revision Session
+title: Revising APS 135 
 author: Dylan Childs
 date: Tuesday 27, 2016
 highlighter: pygments
@@ -9,14 +9,35 @@ output:
     smaller: true
 ---
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 showAnswers <- TRUE
+
+library(dplyr)
+library(ggplot2)
+library(grid)
+library(knitr)
+
+storms <- read.csv("../data_csv/STORMS.CSV")
+
+opts_chunk$set(fig.width=4.5, fig.height=3.3, warning=FALSE, message=FALSE, 
+               dev.args = list(bg = 'transparent'), fig.align='center')
+
+my_theme <- theme_gray() + theme(
+  plot.background = element_rect(fill = "transparent", colour = NA),
+  axis.title.x = element_text(vjust=-0.5),
+  axis.title.y = element_text(vjust=+1.5)
+  )
+theme_set(my_theme)
 ```
+
+## While we're waiting
+
+1. Go to MOLE, dowload the STORMS.CSV file, and place it somewhere 'sensible' (i.e. make sure it is somewhere permanent, which you can find again).
+
+2. Start up RStudio (not R!) and stare at it... Can you remember much from last year? Maybe not... Don't worry, that's what today is all about.
 
 Basics | Setting up and reading in data
 ======================================================================================
-
-## R and RStudio {.build}
 
 ## The working directory {.build}
 
@@ -24,7 +45,7 @@ A quick reminder of what it is and how to set it...
 
 - The **working directory** is a default location that R will use to looks for files. It is just a folder on your computer.
 
-- If you don't set the working directory, R will do it for you. This is probably not be the folder you want to use.
+- If you don't set the working directory, R will do it for you. This is probably not the folder you want to use.
 
 - **YOU should set the working directory EVERY TIME you start R/RStudio**. Setting your working directory should be the first thing you do.
 
@@ -33,15 +54,23 @@ A quick reminder of what it is and how to set it...
 <br><br>
 
 <div>
-**Set your working directory now using: Session > Set Working Directory > Choose Directory...**
+Set your working directory now using: **Session > Set Working Directory > Choose Directory...**
 </div>
 
-## Starting a new script
+## Starting a new script {.build}
 
-```{r}
+Start a new script using: **File > New File... > R Script**
+
+<div>
+Then add the following to the beginning of your script:
+```{r, eval=FALSE}
 # clear the workspace (aka R's 'brain')
 rm(list = ls())
 ```
+Can you remember what this does? Why is it a good idea always include it?
+</div>
+
+This script hasn't been saved. Do that now...
 
 ## Packages 
 
@@ -80,7 +109,7 @@ Go to the Packages tab in RStudio (bottom right pane by default) and click the '
 </div>
 
 <div>
-**Step 2.** Place the following into your script:
+**Step 2.** Place the following into your script, and then submit it to the Console:
 
 ```{r}
 library("dplyr")
@@ -92,18 +121,18 @@ library("ggplot2")
 
 ## Reading a CSV file into R {.build}
 
-This is easy if you've set the working directory properly...
+This is easy if you've set the working directory properly.
 
 <div>
-- Include the following line in your script, and submit it to the Console
+Include the following line in your script, and submit it to the Console
 
 ```{r, eval = FALSE}
-storms <- read.csv("storms.csv")
-head(storms)
+storms <- read.csv("STORMS.CSV")
+str(storms)
 ```
-
-- What happened? Did you see any error messages? You should't have. Look at the environment tab (top right pane). Can you see something called 'storms'?
 </div>
+
+What happened? Look at the 'Environment' tab in the top right pane. Can you see something called 'storms'? What information does `str` give you?
 
 Data in R | Vectors, data frames, 'tibbles', etc.
 ======================================================================================
@@ -114,29 +143,43 @@ Data in R | Vectors, data frames, 'tibbles', etc.
 
 The first view: __Data frames are a collection of vectors__. These may be different types (numeric, character, others), but they must all be the same length.
 
-<div>
-Here is how to make one "by hand" using the `data.frame` function:
+The second view: __Data frames are table-like objects__. Take another look at our simple data frame. This clearly has rows and columns. 
 
-```{r}
-mydf <- data.frame(Var1 = 1:4, Var2 = LETTERS[1:4], Var3 = c(1,2,4,8))
-mydf
+Data frames are central to data analysis in R. We can think of each vector as corresponding to a __statistical variable__ that we want to analyse. Almost every function we will learn about this year works with data stored in a data frame.
+
+## 'Tibbles' 
+
+Er, what the @^$£ is a 'tibble'?... They were called a 'tbl' last year (pronounced 'table'). Basically, a special version of the data frame. `dplyr` tends to produce them. We can convert if we need to, e.g.
+
+```{r, eval=FALSE}
+tbl_df(storms)        # <- the old way (deprecated)
+# or
+as_data_frame(storms) # <- the new way
 ```
 
-Data frames are central to data analysis in R. We can think of each vector as corresponding to a __statistical variable__ that we want to analyse.
-</div>
+Add this to your script now...
 
-## Extracting vectors/columns from a data frame {.build}
+```{r}
+storms <- as_data_frame(storms)
+```
+The **only** thing you really need to be aware of is that a tibble is printed to the Console more compactly than a data frame.
+
+## Examining data frames {.build}
+
+## Extracting a vector (i.e. a column) {.build}
 
 We can extract a vector from a data frame in a few different ways:
 
 <div>
 - Using the name and the `$` operator
-```{r}
-mydf $ Var1
+```{r, eval = FALSE}
+storms$name
 ```
 - Using the name and the `[[ ]]` operator
 - Using the position and the `[[ ]]` operator
 </div>
+
+We'll just use the `$` method, and we won't need it often.
 
 Getting help | The many different routes
 ======================================================================================
@@ -158,21 +201,43 @@ Help files are really **documentation** files:
 - References
 - Examples <-- This is often the most useful part
 
-## The internet
+## The interwebs
 
 ## Books and cheat sheets
 
-The `dplyr` package | Using the `select` function
+The `dplyr` package | Manipulating data 
 ====================================================================
 
-
-The `dplyr` package | Using the `filter` function
-====================================================================
-
-## Reminder: comparing vectors {.build .smaller}
+## The five key verbs {.build} 
 
 <div>
-We use __relational operators__ to compare the elements of numeric vectors:
+**`dplyr` has five main "verbs", each of which corresponds to a function:**
+
+- `select`: Extract a subset of variables
+- `filter`: Extract a subset of rows
+- `arrange`: Reorder rows 
+- `mutate`: Construct new variables 
+- `summarise`: Calculate information about groups
+
+(+ a few other important functions that we need too, e.g. `slice`, `rename`, and **most important of all**, `group_by`)
+</div>
+
+<div>
+<br>
+**It is useful to classify the verbs according to what they work on:__
+
+- observations (rows): `filter` & `slice` & `arrange`
+- variables (columns): `select` & `rename` & `mutate`
+
+(This classification only works if your data are __tidy__)
+</div>
+
+## Using `filter` {.build .smaller}
+
+**Reminder: comparing values**
+
+<div>
+Use __relational operators__ to compare the elements of vectors:
 
 - `x < y `: is x less than y?
 - `x > y `: is x greater than y?
@@ -180,20 +245,248 @@ We use __relational operators__ to compare the elements of numeric vectors:
 - `x >= y`: is x greater than or equal to y?
 - `x == y`: is x equal to y?
 - `x != y`: is x not equal to y?
+</div>
 
-These operators produce something called a __logical vector__ (a vector of TRUE and FALSE values---nothing else allowed)
+## Using `filter` {.build}
+
+<div>
+Use `filter` to select a subset of rows for further analysis based on the result(s) of one or more comparisons. Using `filter` looks like this:
+
+```{r, eval=FALSE}
+filter(data, <expression>)
+```
+
+__Arguments__
+
+- `data`: the name of a data frame or tibble object  
+- `<expression>`: logical comparison involving variables in `data`
 </div>
 
 <div>
-__Example__
+__Comments__
+
+The `<expression>` typically uses a combination of __relational__ (e.g. `<` and `==`) operators (+ maybe __logical__ (e.g. `&` and `|`) operators)
+</div>
+
+## Exercise {.build}
+
+<div id="exercise-box">
+__Subsetting observations on more than one variable__
+<div id="box-text">
+Use the `filter` function on the `storms` dataset to select the rows containing just the observations associated with 'Hurricanes' that took place in 1997 or later. Just print the result to the Console.
+
+If you're not sure where to start, use `glimpse` or `str` to remind yourself what the variables in `storms` are called. You need to work with the ones containing information about the storm category and year.
+</div>
+</div>
+
+```{r, eval=showAnswers, echo=showAnswers}
+filter(storms, type == "Hurricane", year >= 1997)
+```
+
+## Using `select`
+
+We use `select` to to extract a subset of variables for further analysis. Using `select` looks like this:
+
+```{r, eval=FALSE}
+select(data, Variable1, Variable2, ...)
+```
+
+__Arguments__
+
+- `data`: the name of a data frame or tibble object  
+- `VariableX`: the names of one or more variables in `data`
+
+## Exercise {.build}
+
+<div id="exercise-box">
+__Selecting two variables__
+<div id="box-text">
+Use the `select` function on the `storms` dataset to make a new data set containing only `name`, `year` and `pressure`. Assign a name to the result (i.e. use `<-`) and then check that it contains the right variables using the `glimpse` function.
+</div>
+</div>
+
+```{r, eval=showAnswers, echo=showAnswers}
+simple_storms <- select(storms, name, year, pressure)
+glimpse(simple_storms)
+```
+
+## Using `mutate` {.build}
+
+<div>
+Use `mutate` to __add derived variables__. This is how we use `mutate`:
+
+```{r, eval=FALSE}
+mutate(data, NewVar = <expression>, ...)
+```
+
+__Arguments__
+
+- `data`: the name of a data frame or tibble object
+- `NewVar`: name of a new variable to create
+- `<expression>`: an expression that references variables in `data`
+</div>
+
+<div>
+__Comments__
+
+- The `<expression>` that appears on the right hand side of the `=` can be any valid R expression that uses variables in `data`.
+- You can use more than one `NewVar = <expression>` at a time (seperated by `,`) if you need to construct several new variables.
+</div>
+
+## Exercise {.build}
+
+<div id="exercise-box">
+__Making a new variable__
+<div id="box-text">
+The sea level pressure of every observation is measured in millibar. Use the `mutate` function on the `storms` dataset to make a new variable (inside `storms`) that is the sea level pressure in Pascal. Call the new variable `pressure_Pa`.
+
+Hint: 1 mbar = 100 Pa
+</div>
+</div>
+
+```{r, eval=showAnswers, echo=showAnswers}
+mutate(storms, pressure_Pa = 100 * pressure)
+```
+
+The `dplyr` package | Piping operations and summarising data 
+====================================================================
+
+## Using the 'pipe' `%>%`
+
+The `dplyr` package inmports a special operator, called 'the pipe'. It looks like this: `%>%`. This allows us to chain together a sequence of operations, reading from left to right and top to bottom. For example, take a look at this sequence of calculations:
+
 ```{r}
-x <- seq(1, 9)
-y <- rep(5, 9)
-x == y
+x <- 10
+x <- sqrt(x)
+round(x, 2)
+```
+
+<div>
+The piped version looks like this
+
+```{r}
+10 %>% sqrt() %>% round(2)
 ```
 </div>
 
-The `dplyr` package | Using the `mutate` function
+## Exercise {.build}
+
+<div id="exercise-box">
+__Making a new variable__
+<div id="box-text">
+See if you can use the ` %>% ` to construct a pipeline that filters, selects, and then mutates the `storms` data, using the same criteria as were used in each of the last three exercises.
+</div>
+</div>
+
+```{r, eval=showAnswers, echo=showAnswers}
+storms %>% 
+  filter(type == "Hurricane", year >= 1997) %>% 
+  select(name, year, pressure) %>% 
+  mutate(pressure_Pa = 100 * pressure)
+```
+
+## Warning!
+
+Remember that if you want to actually use the result of a piped set of operations, you have to assign a name to the result, e.g.
+
+```{r, eval=FALSE, echo=showAnswers}
+processed_storms <- 
+  storms %>% 
+  filter(type == "Hurricane", year >= 1997) %>% 
+  select(name, year, pressure) %>% 
+  mutate(pressure_Pa = 100 * pressure)
+```
+
+## Using `summarise` {.build}
+
+<div>
+We use summarise to __calculate summaries of variables__. This is how we use `summarise`:
+
+```{r, eval=FALSE}
+summarise(data, SummaryVar = <expression>, ...)
+```
+
+__Arguments__
+
+- `data`: the name of a data frame or tibble object
+- `SummaryVar`: name of your summary variable
+- `<expression>`: an expression that references variables in `data`
+</div>
+
+<div>
+__Comments__
+
+- The `<expression>` that appears on the right hand side of the `=` can be any valid R expression that uses variables in `data`. However, `<expression>` **must return a single value** (e.g. `mean()`, `var()`, `sd()`, `n()` are all fine).
+- Although `summarise` looks a lot like `mutate`, it is designed to construct a completely new, much smaller, dataset containing summaries of one or more variables.
+- You may use more than one `SummaryStat = <expression>` at a time (seperated by `,`) if you need to construct several summaries.
+</div>
+
+## Using `group_by` {.build}
+
+<div>
+Use `group_by` to add grouping information to a tibble or data frame. This is how we use `group_by`:
+
+```{r, eval=FALSE}
+group_by(data, GroupVar1, GroupVar2, ...)
+```
+</div>
+
+<div>
+__Arguments__
+
+- `data`: the name of a data frame or tibble object
+- `GroupVar`: name of grouping variable(s) 
+</div>
+
+<div>
+__Comments__
+
+- The `group_by` function does not do anything more than add grouping information to the input. It is only useful when used with another function (e.g `summarise`).
+- Using `group_by` with `summarise` enables us to calculate numerical summaries on a _per group_ basis.
+
+## Exercise {.build}
+
+<div id="exercise-box">
+__Using `group_by` to group by more than one variable__
+<div id="box-text">
+You're going to use `group_by` and `summarise` together, along with the pipe (` %>% `) in this exercise. Use the `group_by` and `summarise` functions on the `storms` dataset to calculate the minimum and maximum wind speed associated with each month. Call the summary variables `min_speed` and `max_speed`.
+
+Hint: You need to know the names of the two functions that calculate the minimum and maximum of a numeric vector.
+</div>
+</div>
+
+```{r, eval=showAnswers, echo=showAnswers}
+storms %>% 
+  group_by(month) %>%
+  summarise(min_speed = min(wind), max_speed = max(wind))
+```
+
+Overview of `ggplot2` | The grammar of graphics
 ====================================================================
+
+## Key concepts {.build}
+
+You need to wrap your head around a few ideas to start using `ggplot2` effectively:
+
+>- __layers__: We build ggplot2 objects by adding one or more layers together. We can do this in a stepwise way, only plotting the object when we are ready. Each layer needs things like data, aesthetics, geometric objects, etc
+
+>- __aesthetics__: The word aesthetics refers to __the information__ in a plot. For example, the variables associated with: the x and y axes, point colours, line types, etc. We specify this using the `aes` function.
+
+>- __geometric objects__: Geometric objects ("geoms") determine how the information is displayed. For example, will it be a scatter plot or a bar plot? We can specify geoms by adding a layer via functions beginning with `geom_`.
+
+We build up a plot by combining different functions using the `+` operator. This has nothing to do with numeric addition!
+
+## Miscellaneous 'stuff'
+
+-   R does not change things 'in place'. You have to use assignment ` <- ` ('gets')...
+
+-   Scientific notation in R looks like this: `1e-16`. That is R-speak for $1.0 \ times 10^{-16}$, i.e. a very small number.
+
+-   `mean()`, `var()`, `sd()`, `n()`
+
+-   Keyboard shortcuts are useful. We really like 'Alt-Underscore' (` <- `) and 'Ctrl-Shift-M' (` %>% `).
+
+
+
 
 

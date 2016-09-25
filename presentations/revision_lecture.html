@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>R Basics Revision Session</title>
+  <title>Revising APS 135</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -25,7 +25,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'R Basics Revision Session',
+                title: 'Revising APS 135',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -92,9 +92,14 @@
           </hgroup>
   </slide>
 
-<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Basics </h2><h3> Setting everything up</h3></hgroup><article  id="basics-setting-everything-up" class="smaller ">
+<slide class=''><hgroup><h2>While we&#39;re waiting</h2></hgroup><article  id="while-were-waiting" class="smaller ">
 
-</article></slide><slide class=''><hgroup><h2>R and RStudio</h2></hgroup><article  id="r-and-rstudio" class="smaller build">
+<ol>
+<li><p>Go to MOLE, dowload the STORMS.CSV file, and place it somewhere &#39;sensible&#39; (i.e. make sure it is somewhere permanent, which you can find again).</p></li>
+<li><p>Start up RStudio (not R!) and stare at it&#8230; Can you remember much from last year? Maybe not&#8230; Don&#39;t worry, that&#39;s what today is all about.</p></li>
+</ol>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Basics </h2><h3> Setting up and reading in data</h3></hgroup><article  id="basics-setting-up-and-reading-in-data" class="smaller ">
 
 </article></slide><slide class=''><hgroup><h2>The working directory</h2></hgroup><article  id="the-working-directory" class="smaller build">
 
@@ -102,7 +107,7 @@
 
 <ul>
 <li><p>The <strong>working directory</strong> is a default location that R will use to looks for files. It is just a folder on your computer.</p></li>
-<li><p>If you don&#39;t set the working directory, R will do it for you. This is probably not be the folder you want to use.</p></li>
+<li><p>If you don&#39;t set the working directory, R will do it for you. This is probably not the folder you want to use.</p></li>
 <li><p><strong>YOU should set the working directory EVERY TIME you start R/RStudio</strong>. Setting your working directory should be the first thing you do.</p></li>
 <li><p>Do not do this using R code in your script. Instead, do it using the RStudio menu system (there are other ways, don&#39;t use them).</p></li>
 </ul>
@@ -110,14 +115,28 @@
 <p><br><br></p>
 
 <div>
-<p><strong>Set your working directory now using: Session &gt; Set Working Directory &gt; Choose Directory&#8230;</strong></p></div>
+<p>Set your working directory now using: <strong>Session &gt; Set Working Directory &gt; Choose Directory&#8230;</strong></p></div>
+
+</article></slide><slide class=''><hgroup><h2>Starting a new script</h2></hgroup><article  id="starting-a-new-script" class="smaller build">
+
+<p>Start a new script using: <strong>File &gt; New File&#8230; &gt; R Script</strong></p>
+
+<div>
+<p>Then add the following to the beginning of your script:</p>
+
+<pre class = 'prettyprint lang-r'># clear the workspace (aka R&#39;s &#39;brain&#39;)
+rm(list = ls())</pre>
+
+<p>Can you remember what this does? Why is it a good idea always include it?</p></div>
+
+<p>This script hasn&#39;t been saved. Do that now&#8230;</p>
 
 </article></slide><slide class=''><hgroup><h2>Packages</h2></hgroup><article  id="packages" class="smaller ">
 
-<p>Packages extend what base R can do. Two things have to happen before you can use a package:</p>
+<p>Packages extend what base R can do. Two things have to happen before you can actually use the functions in a package:</p>
 
 <ol>
-<li><p>You have to <strong>install</strong> it. This is a &quot;do once&quot; operation. After a package is installed you can close down and reopen R and it is still installed.</p></li>
+<li><p>You have to <strong>install</strong> it. This is a &quot;do once&quot; operation. After a package is installed you can restart R and it is still installed.</p></li>
 <li><p>You have to <strong>load and attach</strong> it. This is a &quot;do every time&quot; operation. You have to load and attach the package every time you start a new session (= open R).</p></li>
 </ol>
 
@@ -146,9 +165,78 @@
 <li><p>You can install a package via the Packages tab in RStudio. Use this if you don&#39;t like using <code>install.packages</code>.</p></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>We need <code>dplyr</code> abd <code>ggplot2</code></h2></hgroup><article  id="we-need-dplyr-abd-ggplot2" class="smaller ">
+</article></slide><slide class=''><hgroup><h2>We need <code>dplyr</code> abd <code>ggplot2</code>&#8230;</h2></hgroup><article  id="we-need-dplyr-abd-ggplot2..." class="smaller ">
 
-<p>Blah&#8230;.</p>
+<div>
+<p><strong>Step 1.</strong> Install <code>dplyr</code> abd <code>ggplot2</code></p>
+
+<p>Go to the Packages tab in RStudio (bottom right pane by default) and click the &#39;Install&#39; button. Type the following: <code>dplyr</code>, <code>ggplot2</code>&#8230; and click the &#39;Install&#39; button.</p></div>
+
+<div>
+<p><strong>Step 2.</strong> Place the following into your script, and then submit it to the Console:</p>
+
+<pre class = 'prettyprint lang-r'>library(&quot;dplyr&quot;)
+library(&quot;ggplot2&quot;)</pre></div>
+
+<p><strong>Remember: you don&#39;t have to repeat &#39;Step 1&#39; in every new R session</strong></p>
+
+</article></slide><slide class=''><hgroup><h2>Reading a CSV file into R</h2></hgroup><article  id="reading-a-csv-file-into-r" class="smaller build">
+
+<p>This is easy if you&#39;ve set the working directory properly.</p>
+
+<div>
+<p>Include the following line in your script, and submit it to the Console</p>
+
+<pre class = 'prettyprint lang-r'>storms &lt;- read.csv(&quot;STORMS.CSV&quot;)
+str(storms)</pre></div>
+
+<p>What happened? Look at the &#39;Environment&#39; tab in the top right pane. Can you see something called &#39;storms&#39;? What information does <code>str</code> give you?</p>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Data in R </h2><h3> Vectors, data frames, &#39;tibbles&#39;, etc.</h3></hgroup><article  id="data-in-r-vectors-data-frames-tibbles-etc." class="smaller ">
+
+</article></slide><slide class=''><hgroup><h2>Vectors</h2></hgroup><article  id="vectors" class="smaller ">
+
+</article></slide><slide class=''><hgroup><h2>Two views of data frames</h2></hgroup><article  id="two-views-of-data-frames" class="smaller build">
+
+<p>The first view: <strong>Data frames are a collection of vectors</strong>. These may be different types (numeric, character, others), but they must all be the same length.</p>
+
+<p>The second view: <strong>Data frames are table-like objects</strong>. Take another look at our simple data frame. This clearly has rows and columns.</p>
+
+<p>Data frames are central to data analysis in R. We can think of each vector as corresponding to a <strong>statistical variable</strong> that we want to analyse. Almost every function we will learn about this year works with data stored in a data frame.</p>
+
+</article></slide><slide class=''><hgroup><h2>&#39;Tibbles&#39;</h2></hgroup><article  id="tibbles" class="smaller ">
+
+<p>Er, what the @^$£ is a &#39;tibble&#39;?&#8230; They were called a &#39;tbl&#39; last year (pronounced &#39;table&#39;). Basically, a special version of the data frame. <code>dplyr</code> tends to produce them. We can convert if we need to, e.g.</p>
+
+<pre class = 'prettyprint lang-r'>tbl_df(storms)        # &lt;- the old way (deprecated)
+# or
+as_data_frame(storms) # &lt;- the new way</pre>
+
+<p>Add this to your script now&#8230;</p>
+
+<pre class = 'prettyprint lang-r'>storms &lt;- as_data_frame(storms)</pre>
+
+<p>The <strong>only</strong> thing you really need to be aware of is that a tibble is printed to the Console more compactly than a data frame.</p>
+
+</article></slide><slide class=''><hgroup><h2>Examining data frames</h2></hgroup><article  id="examining-data-frames" class="smaller build">
+
+</article></slide><slide class=''><hgroup><h2>Extracting a vector (i.e. a column)</h2></hgroup><article  id="extracting-a-vector-i.e.-a-column" class="smaller build">
+
+<p>We can extract a vector from a data frame in a few different ways:</p>
+
+<div>
+<ul>
+<li>Using the name and the <code>$</code> operator</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>storms$name</pre>
+
+<ul>
+<li>Using the name and the <code>[[ ]]</code> operator</li>
+<li>Using the position and the <code>[[ ]]</code> operator</li>
+</ul></div>
+
+<p>We&#39;ll just use the <code>$</code> method, and we won&#39;t need it often.</p>
 
 </article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Getting help </h2><h3> The many different routes</h3></hgroup><article  id="getting-help-the-many-different-routes" class="smaller ">
 
@@ -169,58 +257,43 @@
 <li>Examples &lt;&#8211; This is often the most useful part</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>The internet</h2></hgroup><article  id="the-internet" class="smaller ">
+</article></slide><slide class=''><hgroup><h2>The interwebs</h2></hgroup><article  id="the-interwebs" class="smaller ">
 
 </article></slide><slide class=''><hgroup><h2>Books and cheat sheets</h2></hgroup><article  id="books-and-cheat-sheets" class="smaller ">
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Data in R </h2><h3> Vectors, data frames, &#39;tibbles&#39;, etc.</h3></hgroup><article  id="data-in-r-vectors-data-frames-tibbles-etc." class="smaller ">
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>The <code>dplyr</code> package </h2><h3> Manipulating data</h3></hgroup><article  id="the-dplyr-package-manipulating-data" class="smaller ">
 
-</article></slide><slide class=''><hgroup><h2>Vectors</h2></hgroup><article  id="vectors" class="smaller ">
-
-</article></slide><slide class=''><hgroup><h2>Two views of data frames</h2></hgroup><article  id="two-views-of-data-frames" class="smaller build">
-
-<p>The first view: <strong>Data frames are a collection of vectors</strong>. These may be different types (numeric, character, others), but they must all be the same length.</p>
+</article></slide><slide class=''><hgroup><h2>The five key verbs</h2></hgroup><article  id="the-five-key-verbs" class="smaller build">
 
 <div>
-<p>Here is how to make one &quot;by hand&quot; using the <code>data.frame</code> function:</p>
+<p><strong><code>dplyr</code> has five main &quot;verbs&quot;, each of which corresponds to a function:</strong></p>
 
-<pre class = 'prettyprint lang-r'>mydf &lt;- data.frame(Var1 = 1:4, Var2 = LETTERS[1:4], Var3 = c(1,2,4,8))
-mydf</pre>
-
-<pre >##   Var1 Var2 Var3
-## 1    1    A    1
-## 2    2    B    2
-## 3    3    C    4
-## 4    4    D    8</pre>
-
-<p>Data frames are central to data analysis in R. We can think of each vector as corresponding to a <strong>statistical variable</strong> that we want to analyse.</p></div>
-
-</article></slide><slide class=''><hgroup><h2>Extracting vectors/columns from a data frame</h2></hgroup><article  id="extracting-vectorscolumns-from-a-data-frame" class="smaller build">
-
-<p>We can extract a vector from a data frame in a few different ways:</p>
-
-<div>
 <ul>
-<li>Using the name and the <code>$</code> operator</li>
+<li><code>select</code>: Extract a subset of variables</li>
+<li><code>filter</code>: Extract a subset of rows</li>
+<li><code>arrange</code>: Reorder rows</li>
+<li><code>mutate</code>: Construct new variables</li>
+<li><code>summarise</code>: Calculate information about groups</li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>mydf $ Var1</pre>
-
-<pre >## [1] 1 2 3 4</pre>
-
-<ul>
-<li>Using the name and the <code>[[ ]]</code> operator</li>
-<li>Using the position and the <code>[[ ]]</code> operator</li>
-</ul></div>
-
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>The <code>dplyr</code> package </h2><h3> Using the <code>select</code> function</h3></hgroup><article  id="the-dplyr-package-using-the-select-function" class="smaller ">
-
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>The <code>dplyr</code> package </h2><h3> Using the <code>filter</code> function</h3></hgroup><article  id="the-dplyr-package-using-the-filter-function" class="smaller ">
-
-</article></slide><slide class=''><hgroup><h2>Reminder: comparing vectors</h2></hgroup><article  id="reminder-comparing-vectors" class="smaller build smaller">
+<p>(+ a few other important functions that we need too, e.g. <code>slice</code>, <code>rename</code>, and <strong>most important of all</strong>, <code>group_by</code>)</p></div>
 
 <div>
-<p>We use <strong>relational operators</strong> to compare the elements of numeric vectors:</p>
+<p><br> **It is useful to classify the verbs according to what they work on:__</p>
+
+<ul>
+<li>observations (rows): <code>filter</code> &amp; <code>slice</code> &amp; <code>arrange</code></li>
+<li>variables (columns): <code>select</code> &amp; <code>rename</code> &amp; <code>mutate</code></li>
+</ul>
+
+<p>(This classification only works if your data are <strong>tidy</strong>)</p></div>
+
+</article></slide><slide class=''><hgroup><h2>Using <code class="build smaller">filter</code></h2></hgroup><article  id="using-filter" class="smaller ">
+
+<p><strong>Reminder: comparing values</strong></p>
+
+<div>
+<p>Use <strong>relational operators</strong> to compare the elements of vectors:</p>
 
 <ul>
 <li><code>x &lt; y</code>: is x less than y?</li>
@@ -229,20 +302,293 @@ mydf</pre>
 <li><code>x &gt;= y</code>: is x greater than or equal to y?</li>
 <li><code>x == y</code>: is x equal to y?</li>
 <li><code>x != y</code>: is x not equal to y?</li>
-</ul>
+</ul></div>
 
-<p>These operators produce something called a <strong>logical vector</strong> (a vector of TRUE and FALSE values&#8212;nothing else allowed)</p></div>
+</article></slide><slide class=''><hgroup><h2>Using <code class="build">filter</code></h2></hgroup><article  id="using-filter-1" class="smaller ">
 
 <div>
-<p><strong>Example</strong></p>
+<p>Use <code>filter</code> to select a subset of rows for further analysis based on the result(s) of one or more comparisons. Using <code>filter</code> looks like this:</p>
 
-<pre class = 'prettyprint lang-r'>x &lt;- seq(1, 9)
-y &lt;- rep(5, 9)
-x == y</pre>
+<pre class = 'prettyprint lang-r'>filter(data, &lt;expression&gt;)</pre>
 
-<pre >## [1] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE</pre></div>
+<p><strong>Arguments</strong></p>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>The <code>dplyr</code> package </h2><h3> Using the <code>mutate</code> function</h3></hgroup><article  id="the-dplyr-package-using-the-mutate-function" class="smaller "></article></slide>
+<ul>
+<li><code>data</code>: the name of a data frame or tibble object<br/></li>
+<li><code>&lt;expression&gt;</code>: logical comparison involving variables in <code>data</code></li>
+</ul></div>
+
+<div>
+<p><strong>Comments</strong></p>
+
+<p>The <code>&lt;expression&gt;</code> typically uses a combination of <strong>relational</strong> (e.g. <code>&lt;</code> and <code>==</code>) operators (+ maybe <strong>logical</strong> (e.g. <code>&amp;</code> and <code>|</code>) operators)</p></div>
+
+</article></slide><slide class=''><hgroup><h2>Exercise</h2></hgroup><article  id="exercise" class="smaller build">
+
+<div id="exercise-box">
+<strong>Subsetting observations on more than one variable</strong>
+
+<div id="box-text">
+<p>Use the <code>filter</code> function on the <code>storms</code> dataset to select the rows containing just the observations associated with &#39;Hurricanes&#39; that took place in 1997 or later. Just print the result to the Console.</p>
+
+<p>If you&#39;re not sure where to start, use <code>glimpse</code> or <code>str</code> to remind yourself what the variables in <code>storms</code> are called. You need to work with the ones containing information about the storm category and year.</p></div></div>
+
+<pre class = 'prettyprint lang-r'>filter(storms, type == &quot;Hurricane&quot;, year &gt;= 1997)</pre>
+
+<pre >## # A tibble: 501 × 11
+##      name  year month   day  hour   lat  long pressure  wind      type
+##    &lt;fctr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt; &lt;int&gt;    &lt;fctr&gt;
+## 1    Bill  1997     7    12    12  37.9 -61.1      987    65 Hurricane
+## 2    Bill  1997     7    12    18  39.6 -58.4      987    65 Hurricane
+## 3   Danny  1997     7    18     6  29.2 -89.9      992    65 Hurricane
+## 4   Danny  1997     7    18    12  29.5 -89.4      990    70 Hurricane
+## 5   Danny  1997     7    18    18  29.7 -89.0      988    70 Hurricane
+## 6   Danny  1997     7    19     0  29.8 -88.4      984    70 Hurricane
+## 7   Danny  1997     7    19     6  30.1 -88.1      987    65 Hurricane
+## 8   Danny  1997     7    19    12  30.3 -88.0      984    70 Hurricane
+## 9   Danny  1997     7    19    18  30.4 -87.9      986    65 Hurricane
+## 10  Erika  1997     9     4    18  15.2 -53.7      999    65 Hurricane
+## # ... with 491 more rows, and 1 more variables: seasday &lt;int&gt;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Using <code>select</code></h2></hgroup><article  id="using-select" class="smaller ">
+
+<p>We use <code>select</code> to to extract a subset of variables for further analysis. Using <code>select</code> looks like this:</p>
+
+<pre class = 'prettyprint lang-r'>select(data, Variable1, Variable2, ...)</pre>
+
+<p><strong>Arguments</strong></p>
+
+<ul>
+<li><code>data</code>: the name of a data frame or tibble object<br/></li>
+<li><code>VariableX</code>: the names of one or more variables in <code>data</code></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Exercise</h2></hgroup><article  id="exercise-1" class="smaller build">
+
+<div id="exercise-box">
+<strong>Selecting two variables</strong>
+
+<div id="box-text">
+<p>Use the <code>select</code> function on the <code>storms</code> dataset to make a new data set containing only <code>name</code>, <code>year</code> and <code>pressure</code>. Assign a name to the result (i.e. use <code>&lt;-</code>) and then check that it contains the right variables using the <code>glimpse</code> function.</p></div></div>
+
+<pre class = 'prettyprint lang-r'>simple_storms &lt;- select(storms, name, year, pressure)
+glimpse(simple_storms)</pre>
+
+<pre >## Observations: 2,747
+## Variables: 3
+## $ name     &lt;fctr&gt; Allison, Allison, Allison, Allison, Allison, Allison...
+## $ year     &lt;int&gt; 1995, 1995, 1995, 1995, 1995, 1995, 1995, 1995, 1995,...
+## $ pressure &lt;int&gt; 1005, 1004, 1003, 1001, 997, 995, 987, 988, 988, 990,...</pre>
+
+</article></slide><slide class=''><hgroup><h2>Using <code class="build">mutate</code></h2></hgroup><article  id="using-mutate" class="smaller ">
+
+<div>
+<p>Use <code>mutate</code> to <strong>add derived variables</strong>. This is how we use <code>mutate</code>:</p>
+
+<pre class = 'prettyprint lang-r'>mutate(data, NewVar = &lt;expression&gt;, ...)</pre>
+
+<p><strong>Arguments</strong></p>
+
+<ul>
+<li><code>data</code>: the name of a data frame or tibble object</li>
+<li><code>NewVar</code>: name of a new variable to create</li>
+<li><code>&lt;expression&gt;</code>: an expression that references variables in <code>data</code></li>
+</ul></div>
+
+<div>
+<p><strong>Comments</strong></p>
+
+<ul>
+<li>The <code>&lt;expression&gt;</code> that appears on the right hand side of the <code>=</code> can be any valid R expression that uses variables in <code>data</code>.</li>
+<li>You can use more than one <code>NewVar = &lt;expression&gt;</code> at a time (seperated by <code>,</code>) if you need to construct several new variables.</li>
+</ul></div>
+
+</article></slide><slide class=''><hgroup><h2>Exercise</h2></hgroup><article  id="exercise-2" class="smaller build">
+
+<div id="exercise-box">
+<strong>Making a new variable</strong>
+
+<div id="box-text">
+<p>The sea level pressure of every observation is measured in millibar. Use the <code>mutate</code> function on the <code>storms</code> dataset to make a new variable (inside <code>storms</code>) that is the sea level pressure in Pascal. Call the new variable <code>pressure_Pa</code>.</p>
+
+<p>Hint: 1 mbar = 100 Pa</p></div></div>
+
+<pre class = 'prettyprint lang-r'>mutate(storms, pressure_Pa = 100 * pressure)</pre>
+
+<pre >## # A tibble: 2,747 × 12
+##       name  year month   day  hour   lat  long pressure  wind
+##     &lt;fctr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt; &lt;int&gt;
+## 1  Allison  1995     6     3     0  17.4 -84.3     1005    30
+## 2  Allison  1995     6     3     6  18.3 -84.9     1004    30
+## 3  Allison  1995     6     3    12  19.3 -85.7     1003    35
+## 4  Allison  1995     6     3    18  20.6 -85.8     1001    40
+## 5  Allison  1995     6     4     0  22.0 -86.0      997    50
+## 6  Allison  1995     6     4     6  23.3 -86.3      995    60
+## 7  Allison  1995     6     4    12  24.7 -86.2      987    65
+## 8  Allison  1995     6     4    18  26.2 -86.2      988    65
+## 9  Allison  1995     6     5     0  27.6 -86.1      988    65
+## 10 Allison  1995     6     5     6  28.5 -85.6      990    60
+## # ... with 2,737 more rows, and 3 more variables: type &lt;fctr&gt;,
+## #   seasday &lt;int&gt;, pressure_Pa &lt;dbl&gt;</pre>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>The <code>dplyr</code> package </h2><h3> Piping operations and summarising data</h3></hgroup><article  id="the-dplyr-package-piping-operations-and-summarising-data" class="smaller ">
+
+</article></slide><slide class=''><hgroup><h2>Using the &#39;pipe&#39; <code>%&gt;%</code></h2></hgroup><article  id="using-the-pipe" class="smaller ">
+
+<p>The <code>dplyr</code> package inmports a special operator, called &#39;the pipe&#39;. It looks like this: <code>%&gt;%</code>. This allows us to chain together a sequence of operations, reading from left to right and top to bottom. For example, take a look at this sequence of calculations:</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- 10
+x &lt;- sqrt(x)
+round(x, 2)</pre>
+
+<pre >## [1] 3.16</pre>
+
+<div>
+<p>The piped version looks like this</p>
+
+<pre class = 'prettyprint lang-r'>10 %&gt;% sqrt() %&gt;% round(2)</pre>
+
+<pre >## [1] 3.16</pre></div>
+
+</article></slide><slide class=''><hgroup><h2>Exercise</h2></hgroup><article  id="exercise-3" class="smaller build">
+
+<div id="exercise-box">
+<strong>Making a new variable</strong>
+
+<div id="box-text">
+<p>See if you can use the <code>%&gt;%</code> to construct a pipeline that filters, selects, and then mutates the <code>storms</code> data, using the same criteria as were used in each of the last three exercises.</p></div></div>
+
+<pre class = 'prettyprint lang-r'>storms %&gt;% 
+  filter(type == &quot;Hurricane&quot;, year &gt;= 1997) %&gt;% 
+  select(name, year, pressure) %&gt;% 
+  mutate(pressure_Pa = 100 * pressure)</pre>
+
+<pre >## # A tibble: 501 × 4
+##      name  year pressure pressure_Pa
+##    &lt;fctr&gt; &lt;int&gt;    &lt;int&gt;       &lt;dbl&gt;
+## 1    Bill  1997      987       98700
+## 2    Bill  1997      987       98700
+## 3   Danny  1997      992       99200
+## 4   Danny  1997      990       99000
+## 5   Danny  1997      988       98800
+## 6   Danny  1997      984       98400
+## 7   Danny  1997      987       98700
+## 8   Danny  1997      984       98400
+## 9   Danny  1997      986       98600
+## 10  Erika  1997      999       99900
+## # ... with 491 more rows</pre>
+
+</article></slide><slide class=''><hgroup><h2>Warning!</h2></hgroup><article  id="warning" class="smaller ">
+
+<p>Remember that if you want to actually use the result of a piped set of operations, you have to assign a name to the result, e.g.</p>
+
+<pre class = 'prettyprint lang-r'>processed_storms &lt;- 
+  storms %&gt;% 
+  filter(type == &quot;Hurricane&quot;, year &gt;= 1997) %&gt;% 
+  select(name, year, pressure) %&gt;% 
+  mutate(pressure_Pa = 100 * pressure)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Using <code class="build">summarise</code></h2></hgroup><article  id="using-summarise" class="smaller ">
+
+<div>
+<p>We use summarise to <strong>calculate summaries of variables</strong>. This is how we use <code>summarise</code>:</p>
+
+<pre class = 'prettyprint lang-r'>summarise(data, SummaryVar = &lt;expression&gt;, ...)</pre>
+
+<p><strong>Arguments</strong></p>
+
+<ul>
+<li><code>data</code>: the name of a data frame or tibble object</li>
+<li><code>SummaryVar</code>: name of your summary variable</li>
+<li><code>&lt;expression&gt;</code>: an expression that references variables in <code>data</code></li>
+</ul></div>
+
+<div>
+<p><strong>Comments</strong></p>
+
+<ul>
+<li>The <code>&lt;expression&gt;</code> that appears on the right hand side of the <code>=</code> can be any valid R expression that uses variables in <code>data</code>. However, <code>&lt;expression&gt;</code> <strong>must return a single value</strong> (e.g. <code>mean()</code>, <code>var()</code>, <code>sd()</code>, <code>n()</code> are all fine).</li>
+<li>Although <code>summarise</code> looks a lot like <code>mutate</code>, it is designed to construct a completely new, much smaller, dataset containing summaries of one or more variables.</li>
+<li>You may use more than one <code>SummaryStat = &lt;expression&gt;</code> at a time (seperated by <code>,</code>) if you need to construct several summaries.</li>
+</ul></div>
+
+</article></slide><slide class=''><hgroup><h2>Using <code class="build">group_by</code></h2></hgroup><article  id="using-group_by" class="smaller ">
+
+<div>
+<p>Use <code>group_by</code> to add grouping information to a tibble or data frame. This is how we use <code>group_by</code>:</p>
+
+<pre class = 'prettyprint lang-r'>group_by(data, GroupVar1, GroupVar2, ...)</pre></div>
+
+<div>
+<p><strong>Arguments</strong></p>
+
+<ul>
+<li><code>data</code>: the name of a data frame or tibble object</li>
+<li><code>GroupVar</code>: name of grouping variable(s)</li>
+</ul></div>
+
+<div>
+
+<p><strong>Comments</strong></p>
+
+<ul>
+<li>The <code>group_by</code> function does not do anything more than add grouping information to the input. It is only useful when used with another function (e.g <code>summarise</code>).</li>
+<li>Using <code>group_by</code> with <code>summarise</code> enables us to calculate numerical summaries on a <em>per group</em> basis.</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Exercise</h2></hgroup><article  id="exercise-4" class="smaller build">
+
+<div id="exercise-box">
+<strong>Using <code>group_by</code> to group by more than one variable</strong>
+
+<div id="box-text">
+<p>You&#39;re going to use <code>group_by</code> and <code>summarise</code> together, along with the pipe (<code>%&gt;%</code>) in this exercise. Use the <code>group_by</code> and <code>summarise</code> functions on the <code>storms</code> dataset to calculate the minimum and maximum wind speed associated with each month. Call the summary variables <code>min_speed</code> and <code>max_speed</code>.</p>
+
+<p>Hint: You need to know the names of the two functions that calculate the minimum and maximum of a numeric vector.</p></div></div>
+
+<pre class = 'prettyprint lang-r'>storms %&gt;% 
+  group_by(month) %&gt;%
+  summarise(min_speed = min(wind), max_speed = max(wind))</pre>
+
+<pre >## # A tibble: 7 × 3
+##   month min_speed max_speed
+##   &lt;int&gt;     &lt;int&gt;     &lt;int&gt;
+## 1     6        25        65
+## 2     7        20       100
+## 3     8        20       125
+## 4     9        15       135
+## 5    10        20       155
+## 6    11        20       135
+## 7    12        50        75</pre>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Overview of <code>ggplot2</code> </h2><h3> The grammar of graphics</h3></hgroup><article  id="overview-of-ggplot2-the-grammar-of-graphics" class="smaller ">
+
+</article></slide><slide class=''><hgroup><h2>Key concepts</h2></hgroup><article  id="key-concepts" class="smaller build">
+
+<p>You need to wrap your head around a few ideas to start using <code>ggplot2</code> effectively:</p>
+
+<ul class = 'build'>
+<li><strong>layers</strong>: We build ggplot2 objects by adding one or more layers together. We can do this in a stepwise way, only plotting the object when we are ready. Each layer needs things like data, aesthetics, geometric objects, etc</li>
+</ul>
+
+<ul class = 'build'>
+<li><strong>aesthetics</strong>: The word aesthetics refers to <strong>the information</strong> in a plot. For example, which variables are associated with the x and y axes? We specify this using the <code>aes</code> function.</li>
+</ul>
+
+<ul class = 'build'>
+<li><strong>geometric objects</strong>: Geometric objects (&quot;geoms&quot;) determine how the information is displayed. For example, will it be a scatter plot or a bar plot? We can specify geoms by adding a layer via functions beginning with <code>geom_</code>.</li>
+</ul>
+
+<p>We build up a plot by combining different functions using the <code>+</code> operator. This has nothing to do with numeric addition!</p>
+
+</article></slide><slide class=''><hgroup><h2>Miscellaneous &#39;stuff&#39;</h2></hgroup><article  id="miscellaneous-stuff" class="smaller ">
+
+<ul>
+<li><p>R does not change things &#39;in place&#39;. You have to use assignment <code>&lt;-</code> (&#39;gets&#39;)&#8230;</p></li>
+<li><p>Scientific notation in R looks like this: <code>1e-16</code>. That is R-speak for \(1.0 \ times 10^{-16}\), i.e. a very small number.</p></li>
+<li><p><code>mean()</code>, <code>var()</code>, <code>sd()</code>, <code>n()</code></p></li>
+<li><p>Keyboard shortcuts are useful. We really like &#39;Alt-Underscore&#39; (<code>&lt;-</code>) and &#39;Ctrl-Shift-M&#39; (<code>%&gt;%</code>).</p></li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>
