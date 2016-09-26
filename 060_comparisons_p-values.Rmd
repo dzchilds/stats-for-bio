@@ -1,6 +1,8 @@
-# Comparisons, null hypotheses, and tests
+# Comparing populations
 
-Scientific enquiry involves asking questions. One of the commonest kinds of question that we ask as biologists is: ‘Is there a difference between the measurements from two samples?’ For example:
+## Making comparisons
+
+Scientific enquiry involves asking questions. One of the commonest kinds of question that we ask as biologists is: ‘Is there a difference between measurements from two samples?’ For example:
 
 ‘Do male and female locusts differ in length?’
 
@@ -8,19 +10,17 @@ Scientific enquiry involves asking questions. One of the commonest kinds of ques
 
 ‘Do eagle owls feed on rats of different sizes during winter and summer?’
 
-‘Do streams running through conifer forests differ in pH from those running through deciduous forests?’
-
 'Do purple and green plant morphs differ in their biomass?'
 
-In order to answer these kinds of questions we need to step through the same kind of process discussed in the last few chapters. We have to: 1. decide which variables we need to measure, 2. decide which population parameters are relevant, 3. design a suitable experiment or gather representative samples, and 4. use the samples to learn about the populations.
-
-Let's assume that we already know how to go about steps 1-3 and have already collected our samples. Our focus in this chapter is on step 4: using these samples to learn about the populations. Specifically, the problem we want to understand is how to evaluate whether or not two populations are different in some way.
+When we ask these kinds of questions what we're really asking is whether or not the underlying populations are different. In order to answer these questions we need to step through the same kind of process discussed in the last few chapters. 
 
 ## A new example {#morph-weights-eg}
 
-As always, we'll investigate the problem by working through a simple example. We will stay with the purple morph / green morph example, but this time we'll examine a different variable: the dry weight biomass of our imaginary plants. Perhaps we suspect that the two morphs have different growth habits. One way to address this hypothesis would be to measure the biomass of individuals of each morph. Ultimately, we want to compare the mean biomass of each morph.
+Last week, we looked at how to quantify uncertainty in a single estimate of the population mean biomass of a morph. This week, we want to compare the biomass samples of the two morphs to address the question: 'Do purple and green plant morphs differ in their dry weight biomass?'. However, as it is currently framed, this question is a little too vague. The first thing we have to do is define what we mean by 'different'.
 
-In order to study the biomass of individuals in our hypothetical population, we would collect a sample of dry weights. Dry weight is a numeric variable, measured on a ratio scale. The population parameters of interest now are the population mean dry weights of each morph. 
+As always, we'll investigate the problem by working through a simple example. We will stay with the purple morph / green morph example, but this time we'll examine a different variable: the dry weight biomass of our imaginary plants. Perhaps we suspect that the two morphs have different growth habits. We think the purple plants are fitter, so we might predict that they are larger than the green plants (fitness is often correlated with size in plants). 
+
+One way to address this prediction would be to measure the biomass of individuals of each morph, so that we can compare the biomass of each morph. In order to study the biomass of individuals in our hypothetical population, we would collect a sample of dry weights. Dry weight is a numeric variable, measured on a ratio scale. The population parameters of interest now are the population mean dry weights of each morph. 
 
 Notice that our definition of 'the population' is slightly different than before. Now we are imagining that each morph is a seperate population. Let's assume that we have sampled the dry weight (in grams) of 25 representative individuals of each morph.
 
@@ -29,46 +29,7 @@ morph.weights <- read.csv(file = "./data_csv/MORPH_WEIGHTS.CSV")
 ```
 
 ```{block, type='do-something'}
-You should work through this exampe from now on...
-```
-
-[[TRANSITION]]
-
-The next step is to calculate some simple descriptive statistics for each morph. We need to know the sample means as these are our 'best guesses' of the population means. It may be useful to know something about the variability of the samples, which can be summarised by the sample standard deviation is a good measure of the latter. Here is a reminder of how to do this using `dplyr`:
-```{r}
-temporary <- group_by(morph.weights, pmorph)
-summarise(temporary, mean = mean(weight), stan.dev = sd(weight))
-```
-This shows that the mean dry weights of purple and green morphs are 658 grams and 787 grams, respectively. The standard deviation estimates from the two samples suggest that dry weights of green morphs are a little more variable than the purple morphs. 
-
-By the way, if you like using the `%>%` operator to chain together `dplyr` functions (the 'verbs'), then here is how to use this to achive exactly the same result as above:
-```{r}
-morph.weights %>% 
-  group_by(pmorph) %>% 
-  summarise(mean = mean(weight), stan.dev = sd(weight))
-```
-
-Using means and standard deviations to summarise samples can be tricky to understand until you are used to them. A plot of some kind is much more useful. At the moment, we are just trying to understand the distribution of our two samples. One way to do this is to construct a histogram or a dotplot of each sample distribution. We don't have much data, so a dotplot is probably the best option. Here is one way to make a dot plot for just the purple morph data:
-```{r purple-dist}
-purp.weights <- filter(morph.weights, pmorph == "purple") 
-ggplot(purp.weights, aes(x = weight)) + geom_dotplot(binwidth = 30)
-```
-
-First, we filtered the complete dataset so that only the observations corresponding to the purple morph were retained, then we used `ggplot` with the dotplot geom to construct the figure we wanted. Once again (just as a reminder), here is how to achieve the same thing using the `%>%` operator:
-```{r, fig.keep = FALSE}
-morph.weights %>% 
-  filter(pmorph == "purple") %>% 
-  ggplot(aes(x = weight)) + geom_dotplot(binwidth = 30)
-```
-
-You should always explore your data visually before carrying out any kind of statistical analysis of it. You might learn something new about it, and at the very least, this allows you to assess whether there are any problems with it. A quick inspection of this figure suggests that there is nothing odd about the dry weight data. We only have 25 observations, so we can't say too much about its shape, but there don't seem to be any outliers. 
-
-
-
-Last week, we looked at how to quantify uncertainty in a single estimate of the population mean biomass of a morph. This week, we want to compare the biomass samples of the two morphs to address the question: 'Do purple and green plant morphs differ in their dry weight biomass?'. However, as it is currently framed, this question is a little too vague. The first thing we have to do is define what we mean by 'different'.
-
-```{r, echo = FALSE}
-morph.weights <- read.csv(file = "./data_csv/MORPH_WEIGHTS.CSV")
+You should work through this example from now on...
 ```
 
 As always, it is a very good idea to plot the data. We could do this in a variety of ways, but since we only have two groups (purple and green morphs), we may as well summarise the full sample distribution of each morph. The data are in the MORPH_WEIGHTS.CSV file, which we have read into R using the `read.csv` function. We stored the data in a data frame called `morph.weights`. Here is some `ggplot2` code to make the required plot:  
@@ -81,6 +42,14 @@ ggplot(morph.weights, aes(x = weight)) +
 (Hopefully this plot will also remind you how to use the `facet_wrap` function to make a multipanel plot, based on the values of particular variable--`pmorph` in this case).
 
 What does this plot suggest? We are interested in the degree of similarity (or not!) of the two sample distributions. There is a lot of overlap in the dry weights of each morph, but in general we can say that: (1) green morph individuals tend to have higher dry weights than purple morphs, and (2) the green morphs seem to be more variable than purple morphs.
+
+The next step is to calculate some simple descriptive statistics for each morph. We need to know the sample means as these are our 'best guesses' of the population means. It may be useful to know something about the variability of the samples, which can be summarised by the sample standard deviation (this is not the standard error!). Here is a reminder of how to do this using `dplyr`:
+```{r}
+morph.weights %>% 
+  group_by(pmorph) %>% 
+  summarise(mean = mean(weight), stan.dev = sd(weight))
+```
+This shows that the mean dry weights of purple and green morphs are 658 grams and 787 grams, respectively. The standard deviation estimates from the two samples suggest that dry weights of green morphs are a little more variable than the purple morphs. 
 
 We can get a better handle of these patterns by calculating the sample means and standard deviations of the two samples to evaluate their central tendency and spread, respectively. We know how to use `dplyr` functions `group_by` and `summarise` to do this:
 ```{r}
@@ -99,15 +68,11 @@ By looking at the central tendency of different samples, we can evaluate whether
 
 The question we want to address is therefore: 'What is the strength of evidence for a difference in the population mean biomass of purple and green plant morphs?' In practise, this boils down to a another question: 'Is there a statistically significant difference between their means.'
 
+## Evaluating differences
+
 We will now turn to the idea of **statistical significance**. We will also see how to evaluate statistical significance by calculating a ***p*-value** under a suitable **null hypothesis**.
 
-```{block, type='do-something'}
-**Don't panic...**
-
-The ideas in these next couple of sections are really quite abstract and can be difficult to understand. We are not expecting you to understand them straight away, and you certainly won't be asked to explain them in an assessment. 
-```
-
-### How do we evaluate statistical significance?
+### Statistical significance (again)
 
 ```{r, echo = FALSE}
 set.seed(27081975)
@@ -199,35 +164,8 @@ ggplot(data.frame(perm.out), aes(x = perm.out)) +
 
 When we do this, we find that `r nlower+nhgher` out of the `r nperm` permutations lie beyond the observed difference, and so the new *p*-value is *p*=`r (nlower+nhgher)/nperm` (`r 100*(nlower+nhgher)/nperm`%). This kind of test--where we look at both tails of the sampling distribution--is called a 'two-tailed' test. We discuss the reasoning for and against using a one- or two-tailed test in this week's self-directed practical.
 
-#### The significance of *p*-values
+## What have we learned?
 
-What are we supposed to do with the finding *p*=`r (nlower+nhgher)/nperm`? This is the probability of obtaining a result equal to or 'more extreme' than what was actually observed, assuming that the hypothesis under consideration is true. The hypothesis under consideration is one of no effect, and so a low *p*-value can be interpreted as evidence for an effect being present. In our example, the low *p*-value is evidence for a difference among the population mean dry weights of purple and green morphs.
-
-One question remains: How small does a *p*-value have to be before we are happy to conclude that the effect is probably present? In practise, we do this by applying a threshold, called a **significance level**. If the *p*-value is less than the chosen significance level we say the result is said to be **statistically significant**. Most often (in biology at least), we use a significance level of *p*<0.05 (5%). Why? The short answer is that this is just a convention. We'll come back to this below.
-
-#### The null hypothesis
-
-Permutation tests are reasonably straightforward to apply in simple situations, but can be tricky to apply in a more complex setting. We are not expecting you be able to implement a permutation test yourself. We used it to demonstrate how frequentist statistics works. The details vary from one problem to the next, but ultimately, if we are using frequentist ideas we always have to find a way to do the following: 1) assume that there is actually no 'effect', where an effect is expressed in terms of one or more population parameters, 2) work out what would happen if we were to repeatedly take samples from a population in this hypothetical situation, 3) evaluate how likely our observation would be under the hypothesis of no effect.
-
-When using frequentist statistics we are always asking what would happen if we continually sample from a population *in the absence of the effect we are interested in*. This idea of a hypthetical 'no effect' situation is so important that it has a special name; it is called **the null hypothesis**. Every kind of statistical test (in this course at least) has a very specific null hypothesis associated with it. You can only fully understand the resuts of a statistical test if you understand the null hypothesis it relies on. We will remind you about the null hypothesis and introduce the related concept of the alternative hypothesis at the end of this chapter.
-
-## Hypotheses and null hypotheses--why such a negative approach?
-
-Previously we have said that an hypothesis is a statement of a proposed process or mechanism which might be responsible for an observed pattern or effect. We have also seen that in statistics, you will encounter 'hypothesis' used in a different, and quite specific way. In particular you will frequently see the term: *null hypothesis* (often written in statistics books as H~0~).
-
-The null hypothesis is simply statement of what we would expect to see if there is actually no effect of the factor we are looking at (e.g., plant morphology) on the variable that we measure (e.g., dry weight biomass). So in the above example our null hypothesis was *There is no difference in mean biomass of purple and green plants*. When comparing the sizes of rats eaten by eagle owls, the appropriate null hypothesis was *There is no difference between the mean size of rats eaten by eagle owls in summer and winter*.
-
-All statistical tests you are likely to encounter in biology work by specifying a null hypothesis and then testing the observed data to see if they deviate from the null hypothesis. This may seem like a rather odd approach, but there are good theoretical and practical reasons for doing things this way.
-
-Although you need to be aware of what a null hypothesis is, and what it is used for, in general discussion of tests we will normally refer to the effect which is the opposite of the null hypothesis - i.e. it is the effect you are actually interested in - known as the *test hypothesis*, or the *alternative hypothesis* (often denoted H~1~ in statistics books).
-
-The alternative hypothesis is essentially a statement of the effect you are interested in evaluating, e.g., purple and green plants differ in their mean size. It is a statement of whatever is implied if the null hypothesis is not true.
-
-Having got all the types of hypothesis sorted out, we can then use a particular statistical technique (such as a permutation test) to evaluate the observed result against that expected if the null hypothesis was true. The test gives us a probability (*p*-value) telling us how likely it is that we would have got the result we observe if the null hypothesis was, indeed, true.
-
-If the value is sufficiently small (conventionally if *p*<0.05) we judge it unlikely that we would have seen this result if the null hypothesis was true and consequently we *reject the null hypothesis* (i.e. reject the notion that there is no difference) and instead *accept the alternative hypothesis* (that there is a difference). Note that this is not the same as 'proving' the alternative hypothesis is true. You can't prove anything by collecting data or carrying out an experiment.
-
-If the probability is large, then it is quite likely that we could have got the observed result if the null hypothesis was true, and in this case we cannot reject the null hypothesis. Note that in this situation we *'do not reject the null hypothesis'*, but this is not quite the same as accepting that the null hypothesis is true, paradoxical though this may seem. One obvious reason for this is that if we only have a small sample then there may be an effect of the factor we are looking at, but we simply can’t detect it because we don’t have enough data.
-
+Permutation tests are reasonably straightforward to apply in simple situations, but can be tricky to apply in a more complex setting. We are not expecting you be able to implement a permutation test yourself. We used it to demonstrate how frequentist statistics works for making comparisons. 
 
 
