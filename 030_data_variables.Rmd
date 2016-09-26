@@ -13,20 +13,20 @@
 
 ## “Observations on material and obvious things”
 
-As Hooke’s observation suggests, science cannot proceed on theory alone. The information we gather about a system both stimulates questions and ideas about it and, in turn, can also allow us to test these ideas. In fact the idea of measuring and counting things is so familiar to us that it is easy to start a project without giving much thought to something as apparently mundane as the nature, quantity and resolution of the data we intend to collect. It is worth considering, however, as the nature, quantity and quality of the data in a study determine both the types of analyses that can be carried out, and the confidence we can have in any conclusions that are drawn. We will spend quite a lot of time considering the statistical tools that can help you extract information from your data, but no statitical wizardry can extract information that isn’t somewhere in the data to begin with.
+As Hooke’s observation suggests, science cannot proceed on theory alone. The information we gather about a system both stimulates questions and ideas about it and, in turn, can also allow us to test these ideas. In fact the idea of measuring and counting things is so familiar to us that it is easy to start a project without giving much thought to something as apparently mundane as the nature, quantity and resolution of the data we intend to collect. It is worth considering, however, as features of the data in a study determine both the types of analyses that can be carried out, and the confidence we can have in any conclusions that are drawn. We will spend quite a lot of time considering the statistical tools that can help us extract information from data, but no statitical wizardry can extract information that isn’t there to begin with.
 
-So what is there to say about data? The first point to note is that, properly, the word data is the plural of datum (a single, often numerical, piece of information) ...so we should say “the data are...” not “the data is...”. However, the use of the word in the singular is becoming widespread, and you will commonly hear it used in this way. [Grammar Nazis](http://www.urbandictionary.com/define.php?term=Grammar%20Nazi) really don't like this though, so it's worth knowing what the "correct" subject-verb agreement looks like if you want to avoid incurring their wrath.  
+So what is there to say about data? The first point to note is that, properly, the word data is the plural of datum (a single, often numerical, piece of information) ...so we should say “the data are...” not “the data is...”. However, the use of the word in the singular is becoming widespread, and you will commonly hear it used in this way. [Grammar Nazis](http://www.urbandictionary.com/define.php?term=Grammar%20Nazi) don't like this though, so it's worth knowing what the "correct" subject-verb agreement looks like if you want to avoid incurring their wrath.  
 
-The second point is that there are many different sorts of data. Examples include spatial maps of the occurance of a particular species and environmental variables, DNA sequences or even the whole genomes of individuals, and networks of feeding relationships among species (i.e. food webs). These kinds of data can be very challenging to analyse. In this course we are concerned with relatively simple kinds of data. 
+The second point is that there are many different sorts of data. Examples include spatial maps of the occurance of a particular species and environmental variables, DNA sequences or even the whole genomes of individuals, and networks of feeding relationships among species (i.e. food webs). These kinds of data can be very challenging to analyse correctly. Fortunately for us, we are concerned with relatively simple kinds of data in this course.
 
-When we collect data it is typically organised as a set of one or more related statistical **variables**. Remember, statisticians use the word 'variable' to refer to any characteristic that can be measured, counted or experimentally controlled. Collectively, a set of related variables are referred to as a **data set** (or just 'the data', if we are feeling lazy). 
+When we collect data it is typically organised as a set of one or more related statistical **variables**. Remember, what we learned past year. Statisticians use the word 'variable' as a generic term to refer to any characteristic that can be measured or experimentally controlled on different items or objects. We tend to think of variables as numeric quantities, but there is nothing to stop us working with non-numeric variables. Collectively, a set of related variables are referred to as a **data set** (or just 'the data'). 
 
-Confused? Let's look at an example. Consider the spatial map example above. A minimal data set might comprise two variables containing the x and y position of sample locations, a third variable denoting the presence / absence of a species, and one or more additional variables conataining information about the environmental variables we measured.
+Confused? Let's look at a concrete example. Consider the spatial map example above. A minimal data set might comprise two variables containing the x and y position of sample locations, a third variable denoting the presence / absence of a species, and one or more additional variables containing information about the environmental factors we measured.
 
 ```{block, type='advanced-box'}
 **Data and variables in R**
 
-Remember what you learnt last year about data frames and vectors? When using R, we often store each data set in a **data frame**. Each column in the data frame is one of R's **vectors** --- numeric, character, etc. Remember the 'tidy data' concept from last year? The columns of a data frame should correspond to the statistical variables in our data. Each row corresponds to a single observation. This simple connection between abstract statistical concepts and the concrete objects in R is not coincidence -- R was designed first and foremost to analyse data.
+Remember what you learned last year about data frames and vectors? When using R, we typically store a data set in a **data frame**. Each column in the data frame is one of R's **vectors** --- numeric, character, etc. Remember the 'tidy data' concept from last year? If the data are tidy then the columns of the data frame should correspond to the statistical variables in our data, and each row corresponds to a single observation. This simple connection between abstract statistical concepts and the concrete objects in R is not coincidence---R was designed first and foremost to analyse data.
 ```
 
 ## Revision: Types of variable {#var-types}
@@ -75,9 +75,9 @@ We always have to define some kind of coding scheme to represent the different c
 
 -   Numeric coding makes it harder to understand your raw data and to interpret the output of a statistical analysis of those data, because you have to remember which number is associated with each category. This is particularly problematic when a variable has many categories.
 
--   Numeric codes are arbitrary and should not be used as numbers for mathematical operations. For example, it is meaningless to say 2 ("male") is larger than 1 ("female"), or $2 + 1 = 3$. R has a special way of representing categorical variables (called 'factors') so it assumes that any variable containing numeric values is meant to treated as a number. 
+-   Numeric codes are arbitrary. This means, for example, they should not be treated as numbers for mathematical operations (it is meaningless to say 2 ["male"] is larger than 1 ["female"]). R has a special way of representing categorical variables (called 'factors'), so it assumes that any variable containing numeric values is meant to treated as a number. 
 
-So here's the warning: **always** use words (e.g., 'female' vs. 'male'), not numbers, to describe the different categories when you are preparing your data for analysis. You are much more likely to make a silly mistake when carrying out an analysis if you don't do this, because R will try to treat the offending categorical variable as a number.
+So here's the warning: **always** use words (e.g., 'female' vs. 'male'), not numbers, to describe the different categories when you are preparing your data for analysis in R. You are much more likely to make a silly mistake if you don't do this, as R will try to treat the offending categorical variable as a number.
 ```
 
 ### Interval scale (numeric) variables
@@ -96,7 +96,9 @@ These are the variables we are most used to, because physical quantities are oft
 
 ```{block, type='advanced-box'}
 **Continuous or discontinuous?**
-A common confusion with numeric data concerns whether the data are on continuous or discontinuous scales. Ratio data can be either. Many biological ratio data are discrete, and therefore discontinuous (i.e. only certain discrete values are possible in the original data).  Count data are the most obvious example, e.g. the number of eggs found in a nest, the number of plants recorded in a quadrat, or number of heartbeats counted in a minute; these can only comprise whole numbers, 'in between' values are not possible. However, the distinction between continuous and discontinuous data is often not clear cut -- even 'continuous' variables such as weight are made discontinuous in reality by the fact that our measuring apparatus is of limited resolution (i.e. a balance may weigh to the nearest 0.01 g). The fact that data may be discontinuous does not mean they are necessarily ordinal data.
+A common confusion with numeric data concerns whether the data are on continuous or discontinuous scales. Ratio data can be either. Many biological ratio data are discrete (i.e. only certain discrete values are possible in the original data), and therefore discontinuous. Count data are an obvious example, e.g. the number of eggs found in a nest, the number of plants recorded in a quadrat, or number of heartbeats counted in a minute. These can only comprise whole numbers, 'in between' values are not possible. However, the distinction between continuous and discontinuous data is often not clear cut -- even 'continuous' variables such as weight are made discontinuous in reality by the fact that our measuring apparatus is of limited resolution (i.e. a balance may weigh to the nearest 0.01 g). 
+
+So... just keep in mind that the fact that data look (or really are) discontinuous does not mean they are necessarily ordinal data.
 ```
 
 ### Which is best?
@@ -124,13 +126,13 @@ The two terms accuracy and precision are used more or less synonymously in every
 
 **Accuracy** – how close a measurement is to the true value of whatever it is you are trying to measure.
 
-**Precision** – how repeatable a measure is (also to how fine a resolution a measurement can be made), irrespective of whether it is close to the actual value.
+**Precision** – how repeatable a measure is, irrespective of whether it is close to the actual value.
 
-If you are measuring an insect’s weight on an old and poorly maintained balance, which measures to the nearest 0.1 g, you might weigh the same insect several times and each time get a different weight — the balance is not very precise, though some of the measurements might happen be quite close to the real weight. By contrast you could be using a new electronic balance, weighing to the nearest 0.01g, but which has been incorrectly zeroed so that it is 0.2 g out from the true weight. Repeated weighing here might yield results that are identical, but all incorrect (i.e. not the true value) — the balance is precise, but the results are inaccurate.
+If you are measuring an insect’s weight on an old and poorly maintained balance, which measures to the nearest 0.1 g, you might weigh the same insect several times and each time get a different weight — the balance is not very precise, though some of the measurements might happen be quite close to the real weight. By contrast you could be using a new electronic balance, weighing to the nearest 0.01g, but which has been incorrectly zeroed so that it is 0.2 g out from the true weight. Repeated weighing here might yield results that are identical, but all incorrect (i.e. not the true value) — the balance is precise, but the results are inaccurate. The analogy often used is with shooting at a target:
 
-The analogy often used is with shooting at a target:
-
-** NEED TO SHOW THE "targets.png"" FILE HERE **
+```{r targets, echo = FALSE, out.width='60%', fig.align='center', fig.cap='Accuracy and precision'}
+knitr::include_graphics(rep("./images/targets.gif"))
+```
 
 It is obviously important to know how accurate and how precise your data are. The ideal is situation in the top left target in the diagram, but in many circumstances high precision is not possible and it is usually preferable to make measurements of whose accuracy you can be reasonably confident (bottom left), than more precise measurements, whose accuracy may be suspect (top right). Taking an average of the values for the bottom left target would produce a value pretty close to the centre; taking an average for the top right target wouldn’t help your accuracy at all (though the repeatability of the values might well give you spurious confidence in the data).
 

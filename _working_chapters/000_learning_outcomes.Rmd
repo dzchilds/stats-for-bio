@@ -1,0 +1,45 @@
+# Expected learniong outcomes
+
+## Statistical Concepts
+
+-   Given a description of some data, classify variables as numeric vs categorical, ratio vs. interval, and ordinal vs. nominal.
+
+-   Construct simple summaries of numeric variables in R using the `mean`, `sd`, `var` functions.
+
+-   Recognise the difference between a statistical population and a sample from the population.
+
+-   Recognise the difference between a population parameter and a point estimate of the population parameter.
+
+-   Explain what sampling error is (in non-technical terms) and understand why it is necessary to quantify sampling error alongside point estimates.
+
+-   Recognise the difference between the distribution of a sample, and the sampling distribution of an estimate derived from that sample.
+
+-   Recognise the difference between the standard deviation (a property of a sample) and the standard error (a property of a sampling distribution).
+
+-   Calculate the standard error of a sample mean when the population distribution of a variable follows a normal distribution.
+
+-   Understand what is meant by the term 'null hypothesis' and be able to state the null hypothesis for standard statistical tests.
+
+-   Identify whether or not a result is 'statistically significance' by examining the *p*-value it produces. 
+
+You are not expected to be able to explain or use the bootstrap or permutation tests---these were introduced to help you learn the principles listed above.
+
+## Simple parametric statistics
+
+-   Understand that a one-sample *t*-test is used to assess whether a population mean is different from a particular reference value (often 0).
+
+-   Understand that a two-sample *t*-test is used to assess whether two population means are different from one another. 
+
+-   Understand that a paired-sample *t*-test is used to assess whether the mean difference among paired cases is different from reference value (usually 0). 
+
+-   Given an experimental scenario and question, choose the correct *t*-test to use to answer the question.
+
+-   List the assumptions of the one-sample, two-sample, and paired-sample *t*-tests, and explain how you might check them for a given problem, using R.
+
+-   Carry out a one-sample, two-sample or paired-sample *t*-test using the `t.test` function in R, and be able to interpret the output produced by `t.test`.
+
+-   Write an informative and concise summary of the results from a one-sample, two-sample, or paired-sample *t*-test.
+
+
+
+

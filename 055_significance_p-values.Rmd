@@ -1,36 +1,38 @@
 # Statistical significance and *p*-values
 
-We ended the last chapter by reminding you that we use frequentist statistics in this course. To be a bit more precise, we're learning about frequentist inference. 'Inference' is just statistical jargon for a system of learning about a population using data. While a precise definition of frequentist inference is well beyond the scope of this course, we can give a rough description. Frequentist inference works by asking *what would have happened* if we were to repeat an experiment or data collection exercise many times, assuming that the relevant population parameter(s) never change. 
+In the previous chapter we pointed out that we use frequentist statistics in this course. While it is not possible to give a precise description of how frequentist statistics works in an introductory book like this one, we can at least provide a rough indication. Frequentist statistics works by asking *what would have happened* if we were to repeat an experiment or data collection exercise many times, *assuming that the relevant population parameters remain the same* each time. 
 
-The choice of population parameters to work with depend on what kind of question we are asking. This varies from one application to another. The thing that is common to every frequentist technique is that we ultimately have to work out what a sampling distribution of some kind look likes. If we can do that, then we can ask, for a given scenario, how likely or unlikely a particular result is. This naturally leads onto two of the most important ideas in this course: statistical significance and *p*-values. Our goal today is to try to make sense of these ideas.
+The choice of population parameter(s) to work with depend on what kind of question we are asking. This obviously varies from one situation to another. The thing that is common to every frequentist technique is that we ultimately have to work out what a sampling distribution of some kind look likes. If we can do that, then we can ask, for a given scenario, how likely or unlikely a particular result is. This naturally leads onto two of the most important ideas in this book: statistical significance and *p*-values. The goal of this chapter is to make sense of these ideas.
 
 ## Estimating a sampling distribution {#bootstrap}
 
-Let's carry on with the plant polymorphism example. Our ultimate goal is to evaluate whether the purple morph frequency was greater than 25% in our new study population. The suggestion in the preamble of this chapter is that to get to this point we need to work out what the sampling distribution of the purple morph frequency estimate looks like. At first glance this seems like an impossible task. We can't use simulations as before, because we don't know the true frequency of purple morphs in the population. All we have is the one sample. The solution to this problem is surprisingly simple (or at least the basic idea is simple). Since we don't know much about the population, we use the sample to approximate some aspects of it, and then work out what the sampling distribution of our estimate should look like using this approximation.
+Let's carry on with the plant polymorphism example (yes, again). Our ultimate goal is to evaluate whether the purple morph frequency is greater than 25% in the new study population. The suggestion in the preamble of this chapter is that, to get to this point, we need to work out what the sampling distribution of the purple morph frequency estimate looks like. At first glance this seems like an impossible task. We can't use simulations because we don't know the true frequency of purple morphs in the population. All we have is the one sample. 
+
+The solution to this problem is surprisingly simple (or at least the basic idea is simple). Since we don't know much about the population, we use the sample to approximate some aspects of it, and then work out what the sampling distribution of our estimate should look like using this approximation.
 
 Let's unpack this idea, and then try it out for real.
 
 ### Overviw of bootstrapping {#bootstrap-overview}
 
-There are lot's of different ways to approximate a population from a sample. One of the simplest methods---for easy problems at least---is to *pretend the sample is the true population*. Then, all we have to do to get at a sampling distribution is draw new samples from this pretend population. That may sound a lot like cheating, but it turns out that this is a perfectly valid way to construct useful sampling distributions for many kinds of problems. 
+There are many different ways to approximate a population from a sample. One of the simplest methods---for easy problems at least---is to *pretend the sample is the true population*. Then, all we have to do to get at a sampling distribution is draw new samples from this pretend population. That may sound a lot like cheating, but it turns out that this is a perfectly valid way to construct useful sampling distributions for many kinds of problems. 
 
-Here is a how it works for our example, using a physical analogy. Imagine that we had written down the colour of each sampled individual on a different piece of paper, and placed all of these in a hat. We then do the following:
+Here is a how it works for our example, using a physical analogy. Imagine that we only have one sample, and have written down the colour of each sampled individual on a different piece of paper, and then placed all of these in a hat. We then do the following:
 
 1. Pick a piece of paper at random, record its value (purple or green), put the paper back into the hat, and shake the hat about to mix up the bits of paper.
 
-2. Pick another piece of paper (you might get the same one), record its value, and then put that back into the hat, remembering to shake everything up.
-
 (The shaking here is meant to ensure that each piece of paper has an equal chance of being picked, i.e. we're taking a random sample. This might not work in reality, but let's assume it does.)
 
-3. Repeat this process until you have a recorded new sample of colours which is the same size as your real sample.
+2. Pick another piece of paper (you might get the same one), record its value, and then put that back into the hat, remembering to shake everything up.
+
+3. Repeat this process until we have a recorded new sample of colours which is the same size as your real sample. Now we have a 'new sample'.
 
 (This process is called 'sampling with replacement'. Each artificial sample is called a 'bootstrapped sample'.)
 
-4. For each bootstrapped sample, calculate whatever quantity is of interest (e.g. the proportion of purple plants sampled).
+4. For each bootstrapped sample, calculate whatever quantity is of interest. In our example, this is the proportion of purple plants sampled.
 
-5. Repeat steps 1-4 until we have generated a large number of bootstrapped samples. About 10000 is sufficient for many problems.
+5. Repeat steps 1-4 until we have generated a large number of bootstrapped samples. About 10000 is often sufficient for many problems.
 
-Although it may seem like cheating (it's not!), this process really does produce an approximation of the sampling distribution of the quantity we're interest in. It is called **bootstrapping** (or 'the bootstrap'). The bootstrap was invented by a very smart statistician called [Bradley_Efron](https://en.wikipedia.org/wiki/Bradley_Efron). We're introducing it here because it allows you to see how frequentist methodology works without having to do any nasty mathematics. We're not expecting you to learn it, so don't panic if you find it tricky to understand. 
+Although it may seem like cheating (it's not!), this process really does produce an approximation of the sampling distribution of the quantity we're interest in. It is called **bootstrapping** (or 'the bootstrap'). The bootstrap was invented by a very smart statistician called [Bradley Efron](https://en.wikipedia.org/wiki/Bradley_Efron). We're introducing it here because it allows you to see how frequentist methodology works without having to do any nasty mathematics. We're not expecting you to learn it, so don't panic if you find it tricky to understand. It is an odd concept.
 
 ### Doing it for real
 
@@ -43,33 +45,33 @@ mns <- c(Purple = 760, Green = 700)[plant_morphs]
 sds <- c(Purple = 160, Green = 150)[plant_morphs]
 morph.data <- data.frame(Colour = plant_morphs, 
                          Weight = rnorm(samp_size, mns, sds))
-write.csv(morph.weights, row.names = FALSE, 
+write.csv(morph.data, row.names = FALSE, 
           file = "./data_csv/MORPH_DATA.CSV")
 ```
 
 ```{r, echo = FALSE}
-morph.colours <- read.csv(file = "./data_csv/MORPH_DATA.CSV")
+morph.data <- read.csv(file = "./data_csv/MORPH_DATA.CSV")
 ```
 
 Let's assume we've sampled 250 individuals from our new plant population. We're going to use this hypothetical sample to implement the bootstrap in R.
 
 ```{block, type='do-something'}
-The best way to understand what follows is to actually work through the example...
+The best way to understand what follows is to actually work through the example. You don't have, but you're strongly encouraged to do this...
 ```
 
-A data set representing this situation is stored in a Comma Seperated Value (CSV) text file called 'MORPH_DATA.CSV'. Download the file from MOLE and place it in your working directory. Don't forget to set this first! Next, run through the following steps:
+A data set representing this situation is stored in a Comma Seperated Value (CSV) text file called 'MORPH_DATA.CSV'. Download the file from MOLE and place it in your working directory (you should set this at the beginning of the R session). Next, run through the following steps:
 
 *   Read the data into an R data frame using `read.csv`, assigning the data frame the name `morph.data`.
 
-*   Use functions like `glimpse` (from `dplyr`) and `str` (from base R) to inspect the structure of `morph.data`. How many variables are in the dataset? What are their names? What kind of variables are they?
+*   Use functions like `glimpse` (from __dplyr__) and `str` (from base R) to inspect the structure of `morph.data`. How many variables are in the dataset? What are their names? What kind of variables are they?
 
 * Use the `View` function to inspect the data. Is this what you expected? Are the values of the different variables as you would expect them to be?
 
-The point of all this is to 'sanity check' the data, i.e. to make sure we understand the data and that there are no obvious problems with it. **Always check your data after you have read it in**. There is really no point messing about with the likes of `dplyr` and `ggplot2`, or carrying out a statistical analysis, until we have done this. If we don't understand how our data is organised, there is very real risk that we will make a lot of avoidable mistakes.
+The point of all this is to 'sanity check' the data, i.e. to make sure we understand the data and that there are no obvious problems with it. **Always check your data after you have read it in**. There is really no point messing about with the likes of **dplyr** and **ggplot2**, or carrying out a statistical analysis, until we have done this. If we don't understand how our data is organised, there is very real risk that we will make a lot of avoidable mistakes.
 
-What you should have found is that `morph.data` contains 250 rows and two columns/variables: `Colour` and `Weight`. `Colour` is a categorical variable (a 'factor', in R-speak) and `Weight` is a numeric variable. The `Colour` obviously contains the colour of each plant in the sample. What about `Weight`? We don't need this yet, but we'll use it in the next chapter.
+What you should have found is that `morph.data` contains 250 rows and two columns/variables: `Colour` and `Weight`. `Colour` is a categorical variable (a 'factor', in R-speak) and `Weight` is a numeric variable. The `Colour` obviously contains the colour of each plant in the sample. What about `Weight`? We don't need this yet, we'll use it in the next chapter.
 
-Now that we understand the data we're ready to implement bootstrapping (using R of course, no hats or paper required). We're going to introduce a few new R tricks here. We'll explain them as we go, but these aren't things you need to remember.
+Now that we understand the data we're ready to implement bootstrapping (using R of course, no hats or paper required). We're going to introduce a few new R tricks here. We'll explain them as we go, but if you're not a huge R fan, there's no need to remember them.
 
 We want to construct a sampling distribution for the frequency of purple morphs, so the variable that matters here is `Colour`. Rather than work with this inside the data frame, we're going to pull it out using the `$` operator, assign it a name (`plant_morphs`), and then take a look at the first 20 values:
 ```{r}

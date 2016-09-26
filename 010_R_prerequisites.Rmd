@@ -1,14 +1,22 @@
 # Programming prerequisites
 
-This chapter gives a quick overview of the prerequisate R skills needed for this course (we studied these last year). We will use these skills this year, so you may need to spend revising them if you feel that you're a little rusty.
+This chapter gives a quick overview of the prerequisite R skills needed for this course (we studied these last year). We will use these skills this year, so you may need to spend revising them if you feel that you're a little rusty.
 
 ```{block, type='do-something'}
-Remember, if you are an Environmental Sciences student joining us from Geography we *will* help you catch up in the first few weeks. The material in this section won't make any sense to you at the moment. We promise that it will after the first few weeks.
+**Biology students**
+
+The key R skills you need to have in place to work through this book will be revised in the first practical session. The lecture slides will be placed on MOLE after the practical. You can also access a version without the answers to exercises [here](./presentations/revision_lecture_students.html).
+
+**Environmental Science students**
+
+If you are an Environmental Science student joining us from Geography the material in this section won't make any sense to you at the moment. Don't panic! We will help you catch up in the first few weeks of the course, and because you will be working in a smaller group, you will be able to access more one-to-one help.
 ```
 
 ## Starting an R session in RStudio
 
-1. Open up RStudio and set your working directory. You should do this via the RStudio menu system: **Session ▶ Set Working Directory ▶ Choose Working Directory...**. Make sure that you choose a sensible location. This is where you will store your data and R scripts, so it needs to be somewhere you can find and access again each time you use R. If you want to keep life simple, it is a good idea to use the same location in every practical.
+Here is a quick overview of the process you should go through every time you start a new R session:
+
+1. Open up RStudio and set your working directory. You should do this via the RStudio menu system: **Session ▶ Set Working Directory ▶ Choose Working Directory...**. Make sure that you choose a sensible location. This is where you will store your data and R scripts, so it needs to be somewhere you can find and access again each time you use R. If you want to keep life really simple, it is a good idea to use the same location in every practical, but you don't have to do this.
 
 2. Open up a new R script using the RStudio menu system: **File ▶ New File ▶ R Script**. Don't create a any other kind of file.
 
@@ -27,7 +35,7 @@ library(ggplot2)
 
 4. Now run the preamble section of the script, i.e. highlight everything and hit **Ctrl+Enter**. If the `library` commands didn't work it suggests that you have not previously installed the relevant package. Install the package (see below) and try rerunning the script.
 
-5. Once the pramble bit of the scruipt is working you should save the script. Look at the label of the tab the scripr lives in. This will probably be called something like *Untitled1*, and it the label will be red. This is RStudio telling you that you have not saved the file yet.  
+5. Once the preamble bit of the script is working you should save the script. Look at the label of the tab the script lives in. This will probably be called something like *Untitled1*, and it the label will be red. This is RStudio telling you that you have not saved the file yet.  
 
 You are now ready to start developing your new script.
 
@@ -47,12 +55,12 @@ The key point---which seems to cause endless confusion---is that installing a pa
 
 ## Reading data into R
 
-Last year we made extensive use of several datasets that reside inside various R packages. This was useful because it meant we could use the data without first reading it into R, meaning that we could concentrate on developing your R skills rather than fixing data input errors. We don't have the luxury of doing this when we work with our own data, and so this year, we will adopt more realistic practises. Whenever you need to work with a dataset, you will have to first download it (from MOLE), and then read it into R. Each dataset is stored as a Comma Separated Value ('CSV') text file, and so you will need to use the `read.csv` function to read it in. You can revise how all of this works in the relevant section of the [data frames]({{site.baseurl-L1}}/data-frames.html#access-data) topic. 
+Last year we made extensive use of several data sets that reside inside various R packages. This was useful because it meant we could use the data without first reading it into R, meaning that we could concentrate on developing your R skills rather than fixing data input errors. We don't have the luxury of doing this when we work with our own data, and so this year, we will adopt more realistic practices. Whenever you need to work with a data set, you will have to first download it (from MOLE), and then read it into R. Each data set is stored as a Comma Separated Value ('CSV') text file, and so you will need to use the `read.csv` function to read it in. You can revise how all of this works in the relevant section of the [data frames]({{site.baseurl-L1}}/data-frames.html#access-data) topic. 
 
 ## Data frames
 
-When you read data into R using a function like `read.csv`, it places that data into a data frame. The data frame is the most important type of object in R. Remember, a data frame is table-like object that collects together different variables, storing each of them as a named column. We can access the data inside a data frame by referring to particular columns and rows. You can revise how to work with data frames in the [data frames]({{site.baseurl-L1}}/data-frames.html#access-data) topic. The main things to remind yourself about are the `View` function for inspecting a data frame, and the `$` operator for accessing a single column of a data frame. You might also want to revise the `tbl_df` and the `glimpse` functions from the `dplyr` package (but this is not critical).
+When you read data into R using a function like `read.csv`, it places that data into a data frame. The data frame is the most important type of object in R. It is table-like object that collects together different variables, storing each of them as a named column. We can access the data inside a data frame by referring to particular columns and rows. You can revise how to work with data frames in the [data frames]({{site.baseurl-L1}}/data-frames.html#access-data) topic.
 
-## Anything else? 
+## Package functions 
 
-We will use functions from the `dplyr` package from time-to-time to manipulate data, and we will use the `ggplot2` package to make plots of our data and summarise statistical models. However, we will remind you which functions you need to use to solve a particular problem as the course unfolds, so there is no need to revise all of this material now. If you want to be extra-prepared, our advice is to work through the [quick introduction to ggplot2]({{site.baseurl-L1}}/ggplot2-intro.html#quick) to remind yourself of the logic of plotting with `ggplot2`.
+We will use functions from the `dplyr` package from time-to-time to manipulate data, and we will use the `ggplot2` package to make plots of our data and summarise statistical models. However, we will remind you which functions you need to use to solve a particular problem as the course unfolds, so there is no need to revise all of this material now. 
