@@ -1,0 +1,206 @@
+# Statistical significance and *p*-values
+
+```{r}
+set.seed(27081975)
+```
+
+In the previous chapter we pointed out that we use frequentist statistics in this course. While it is not possible to give a precise description of how frequentist statistics works in an introductory book like this one, we can at least provide a rough indication. Frequentist statistics works by asking *what would have happened* if we were to repeat an experiment or data collection exercise many times, *assuming that the relevant population parameters remain the same* each time. 
+
+The choice of population parameter(s) to work with depend on what kind of question we are asking. This obviously varies from one situation to another. The thing that is common to every frequentist technique is that we ultimately have to work out what a sampling distribution of some kind look likes. If we can do that, then we can ask, for a given scenario, how likely or unlikely a particular result is. This naturally leads onto two of the most important ideas in this book: statistical significance and *p*-values. The goal of this chapter is to make sense of these ideas.
+
+## Estimating a sampling distribution {#bootstrap}
+
+Let's carry on with the plant polymorphism example (yes, again). Our ultimate goal is to evaluate whether the purple morph frequency is greater than 25% in the new study population. The suggestion in the preamble of this chapter is that, to get to this point, we need to work out what the sampling distribution of the purple morph frequency estimate looks like. At first glance this seems like an impossible task. We can't use simulations because we don't know the true frequency of purple morphs in the population. All we have is the one sample. 
+
+The solution to this problem is surprisingly simple (or at least the basic idea is simple). Since we don't know much about the population, we use the sample to approximate some aspects of it, and then work out what the sampling distribution of our estimate should look like using this approximation.
+
+Let's unpack this idea, and then try it out for real.
+
+### Overviw of bootstrapping {#bootstrap-overview}
+
+There are many different ways to approximate a population from a sample. One of the simplest methods---for easy problems at least---is to *pretend the sample is the true population*. Then, all we have to do to get at a sampling distribution is draw new samples from this pretend population. That may sound a lot like cheating, but it turns out that this is a perfectly valid way to construct useful sampling distributions for many kinds of problems. 
+
+Here is a how it works for our example, using a physical analogy. Imagine that we only have one sample, and have written down the colour of each sampled individual on a different piece of paper, and then placed all of these in a hat. We then do the following:
+
+1. Pick a piece of paper at random, record its value (purple or green), put the paper back into the hat, and shake the hat about to mix up the bits of paper.
+
+(The shaking here is meant to ensure that each piece of paper has an equal chance of being picked, i.e. we're taking a random sample. This might not work in reality, but let's assume it does.)
+
+2. Pick another piece of paper (you might get the same one), record its value, and then put that back into the hat, remembering to shake everything up.
+
+3. Repeat this process until we have a recorded new sample of colours which is the same size as your real sample. Now we have a 'new sample'.
+
+(This process is called 'sampling with replacement'. Each artificial sample is called a 'bootstrapped sample'.)
+
+4. For each bootstrapped sample, calculate whatever quantity is of interest. In our example, this is the proportion of purple plants sampled.
+
+5. Repeat steps 1-4 until we have generated a large number of bootstrapped samples. About 10000 is often sufficient for many problems.
+
+Although it may seem like cheating (it's not!), this process really does produce an approximation of the sampling distribution of the quantity we're interest in. It is called **bootstrapping** (or 'the bootstrap'). The bootstrap was invented by a very smart statistician called [Bradley Efron](https://en.wikipedia.org/wiki/Bradley_Efron). We're introducing it here because it allows you to see how frequentist methodology works without having to do any nasty mathematics. We're not expecting you to learn it, so don't panic if you find it tricky to understand. It is an odd concept.
+
+### Doing it for real
+
+```{r, echo = FALSE, eval = FALSE}
+set.seed(27081975)
+samp_size <- 250
+plant_morphs <- sample(c("Purple","Green"), 
+                       samp_size, replace = TRUE, prob = c(4,6))
+mns <- c(Purple = 760, Green = 700)[plant_morphs]
+sds <- c(Purple = 160, Green = 150)[plant_morphs]
+morph.data <- data.frame(Colour = plant_morphs, 
+                         Weight = rnorm(samp_size, mns, sds))
+write.csv(morph.data, row.names = FALSE, 
+          file = "./data_csv/MORPH_DATA.CSV")
+```
+
+```{r, echo = FALSE}
+morph.data <- read.csv(file = "./data_csv/MORPH_DATA.CSV")
+```
+
+Let's assume we've sampled 250 individuals from our new plant population. We're going to use this hypothetical sample to implement the bootstrap in R.
+
+```{block, type='do-something'}
+The best way to understand what follows is to actually work through the example. You don't have to, but you're strongly encouraged to do this...
+```
+
+A data set representing this situation is stored in a Comma Seperated Value (CSV) text file called 'MORPH_DATA.CSV'. Download the file from MOLE and place it in your working directory (you should set this at the beginning of the R session). Next, run through the following steps:
+
+*   Read the data into an R data frame using `read.csv`, assigning the data frame the name `morph.data`.
+
+*   Use functions like `glimpse` (from __dplyr__) and `str` (from base R) to inspect the structure of `morph.data`. How many variables are in the dataset? What are their names? What kind of variables are they?
+
+* Use the `View` function to inspect the data. Is this what you expected? Are the values of the different variables as you would expect them to be?
+
+The point of all this is to 'sanity check' the data, i.e. to make sure we understand the data and that there are no obvious problems with it. **Always check your data after you have read it in**. There is really no point messing about with the likes of **dplyr** and **ggplot2**, or carrying out a statistical analysis, until we have done this. If we don't understand how our data is organised, there is very real risk that we will make a lot of avoidable mistakes.
+
+What you should have found is that `morph.data` contains 250 rows and two columns/variables: `Colour` and `Weight`. `Colour` is a categorical variable (a 'factor', in R-speak) and `Weight` is a numeric variable. The `Colour` obviously contains the colour of each plant in the sample. What about `Weight`? We don't need this yet, we'll use it in the next chapter.
+
+Now that we understand the data we're ready to implement bootstrapping (using R of course, no hats or paper required). We're going to introduce a few new R tricks here. We'll explain them as we go, but if you're not a huge R fan, there's no need to remember them.
+
+We want to construct a sampling distribution for the frequency of purple morphs, so the variable that matters here is `Colour`. Rather than work with this inside the data frame, we're going to pull it out using the `$` operator, assign it a name (`plant_morphs`), and then take a look at the first 20 values:
+```{r}
+plant_morphs <- morph.data$Colour
+plant_morphs
+```
+Hopefully you followed that---`plant_morphs` is just a simple vector (a factor) containing the colour information. 
+
+
+Let's calculate and store the sample size (`samp_size`), and the point estimate of purple morph frequency (`mean_point_est`) from this sample:
+```{r}
+samp_size <- length(plant_morphs)
+samp_size
+mean_point_est <- 100 * sum(plant_morphs == "Purple") / samp_size
+mean_point_est
+```
+So... `r mean_point_est`% of plants were purple among our sample of `r samp_size` plants.
+
+We are now ready to start bootstrapping. We'll use 10000 bootstrap samples, and for convenience, we'll store this number in `n_samp`:
+```{r}
+n_samp <- 10000
+```
+We need to resample the `plant_morphs` vector. The `sample` function will do this for us (`replace = TRUE` makes it to sample with replacement):
+```{r}
+samp <- sample(plant_morphs, replace = TRUE)
+samp
+```
+Compare the bootstrapped sample to the real one. It's a random sample of the values in the first sample, as expected. We only want one number from this sample, which is the frequency of purple morphs:
+```{r}
+100 * sum(samp == "Purple") / samp_size
+```
+That's one bootstrapped value of purple morph frequency. We need `r n_samp` values though! We really don't want to have to keep doing this over an over 'by hand'. That would be boring beyond belief. Luckily, computers are really good at doing boring things like this. Here is some R code that repeats what we just did and stores the bootstrapped sample: 
+```{r}
+boot_out <- replicate(n_samp, {
+  samp <- sample(plant_morphs, replace = TRUE)
+  100 * sum(samp == "Purple") / samp_size
+})
+```
+The `replicate` function does exactly what you might think it does. It replicates an R expression many times (`n_samp` in this case) and returns the set of results. You don't have to understand this R code, but do ask a TA if you want to know more about it. 
+
+The end result of the above is that `boot_out` now contains our bootstrapped samples. Let's take a quick look at the first 25 values, rounding them to 2 decimal places (we'll used the pipe ` %>% ` to remind you it exists; just keep in mind this won't work unless you have loaded the **dplyr** package):
+```{r}
+head(boot_out, 25) %>% round(1)
+```
+These numbers represents different values of the sample mean that we would expect to generate if we repeated the data collection exercise, assuming the observed purple morph frequency really is equal to that of the actual sample. This is a bootstrapped sampling distribution. 
+
+We can use this bootstrapped sampling distribution in a number of useful ways. It is a good idea to plot it first get a sense of what it looks like. A histogram is a good choice here, because we have a large number of samples:
+
+```{r boot-samp-dist, echo = FALSE, out.width='75%', fig.asp=0.75, fig.align='center', fig.cap='Bootstrapped sampling distribution of purple morph frequency'}
+boot_out_df <- data.frame(boot_out) # 'ggplot' expects a data frame 
+ggplot(boot_out_df, aes(x = boot_out)) + 
+  geom_histogram(binwidth = 1.2) + xlab("Purple morph frequncy (%)")
+```
+
+The mean of the sampling distribution looks to be round about `r round(mean(boot_out))`%, which is fairly close to the sample mean. We can of course calculate this using R: 
+```{r}
+mean(boot_out) %>% round(1)
+```
+This is essentially the same as the sample statistic we're working with (the sample mean). This will always be the case if we construct a large enough sample, as the bootstrapping procedure assumes that the 'true' population mean is equal to the sample mean.
+
+A more useful quantity is the bootstrapped standard error (SE). This is the standard deviation of the sampling distribution, so all we have to do is apply the `sd` function to the bootstrapped sample:
+```{r}
+sd(boot_out) %>% round(1)
+```
+A large SE implies that our sample size was too small to reliably estimate the population mean. 
+
+The standard error is a useful quantity in its own right. It is common to report standard errors to summarise the precision of a point estimate. Whenever we report a point estimate, we should also report the standard error, like this...
+
+> The frequency purple morph plants (n = `r samp_size`) was `r mean_point_est`% (s.e. ± `r round(sd(boot_out), 1)`).
+
+Notice that we also report the sample size.
+
+## Statistical significance
+
+Now back to the question that motivated all this work. Is the purple morph frequency is greater than 25% in the new study population? We can never answer a question like this definitively form a sample. Instead, we have to carry out some kind of quantitative assessment. To make this assessment, we're going to do something that looks rather odd (frequentist statistics is odd to be honest).
+
+```{block, type='do-something'}
+**Don't panic...**
+
+The ideas in this next section are really quite abstract and can be difficult to understand. We are not expecting you to understand them straight away, and you certainly won't be asked to explain them in an assessment. 
+```
+
+We're going to make two important assumptions:
+
+1. Assume that the true value of the purple morph frequency in our new study population is 25%. That is, we'll assume that the population parameter of interest is the same as that of the original population that motivated this work. Put another way, we're assuming that there is no difference between the populations. 
+
+2. Assume that the sampling distribution we just generated (via bootstrapping) would have been the same if the null hypothesis were true, but for the fact that the mean would be different (it would be equal to 25%). That is, the expected 'shape' of the sampling distribution doesn't change under the null hypothesis.
+
+That first assumption is an example of something called a **null hypothesis**. It is called this because it is an hypothesis of 'no effect' or 'no difference'. The second assumption is necessary for the next step to be valid. Luckily, it is often a reasonable assumption (you'll have to trust us on this one).
+
+Now we ask, if the purple morph frequency in the population is 25%, what would the sampling distibution look like? Here's what that distirbution looks like when we apply our two assumptions:
+
+```{r boot-samp-dist-25, echo = FALSE, out.width='75%', fig.asp=0.75, fig.align='center', fig.cap='Sampling distribution of purple morph frequency under the null hypothesis'}
+ggplot(boot_out_df, aes(x = boot_out - mean(boot_out) + 25)) + 
+  geom_histogram(binwidth = 1.21) + 
+  xlab("Purple morph frequncy (%)") +
+  geom_vline(xintercept = mean(boot_out), colour = "red")
+```
+
+All we actually did here was shift the bootstrapped sampling distribution left until the mean is at 25% (that's what those two assumptions do). The red line shows where the point estimate form the actual sample lies. 
+
+What does this figure tell us? It looks like the observed purple morph frequency is quite unlikely to have arisen through sampling variation, under the assumption that the population frequency is 25%. We can say this because the observed frequency (red line) lies at the end of one 'tail' of the sampling distribution. We need to be able to make a more precise statement than this though.
+
+```{r}
+sum(boot_out <= 25) / n_samp
+```
+
+
+
+### The significance of a *p*-value
+
+What are we supposed to do with the finding *p*=FIXME? This is the probability of obtaining a result equal to or 'more extreme' than what was actually observed, assuming that the hypothesis under consideration is true. The hypothesis under consideration is one of no effect, and so a low *p*-value can be interpreted as evidence for an effect being present. In our example, the low *p*-value is evidence for a difference among the population mean dry weights of purple and green morphs.
+
+One question remains: How small does a *p*-value have to be before we are happy to conclude that the effect is probably present? In practise, we do this by applying a threshold, called a **significance level**. If the *p*-value is less than the chosen significance level we say the result is said to be **statistically significant**. Most often (in biology at least), we use a significance level of *p*<0.05 (5%). Why? The short answer is that this is just a convention. Nothing more. There is nothing special about this threshold. 
+
+We'll discuss the idea of *p*-values more in the next two chapters.
+
+## Concluding words
+
+The bootstrap is a very powerful tool in the right hands, but it is an advanced technique, and can be difficult to apply in complex settings (e.g. analysis of experiments). We will not apply it routinely in this course. Indeed, you are not expected to be able to use it at all. We adopted the technique to help us understand how frequentist ideas are used to decide if an effect (i.e. a difference) is really there or not. 
+
+The details vary from one problem to the next, but ultimately, if we are using frequentist ideas we always have to find a way to do the following...
+
+1. assume that there is actually no 'effect' (the **null hypothesis**), where an effect is expressed in terms of one or more population parameters,
+
+2. work out what would happen if we were to repeatedly take frequent samples from a population in this hypothetical situation (do you see where the word 'frequentist' comes from now),
+
+3. and then calculate a *p*-value to evaluate how likely our observation would be under the hypothesis of no effect.

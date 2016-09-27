@@ -1,0 +1,22 @@
+# Expected learning outcomes
+
+## Statistical Concepts (I)
+
+-   Given a description of some data, classify variables as numeric vs categorical, ratio vs. interval, and ordinal vs. nominal.
+
+-   Construct simple summaries of numeric variables in R using the `mean`, `sd`, `var` functions.
+
+-   Explain what sampling error is (in non-technical terms) and understand why it is necessary to quantify sampling error alongside point estimates.
+
+-   Recognise the difference between the distribution of a sample, and the sampling distribution of an estimate derived from that sample.
+
+-   Recognise the difference between the standard deviation (a property of a sample) and the standard error (a property of a sampling distribution).
+
+-   Calculate the standard error of a sample mean when the population distribution of a variable follows a normal distribution.
+
+-   Given a description of an experimental setting, be able to recognise...
+
+    1. ...the difference between a statistical population and a sample from the population.
+    2. ...the difference between a population parameter and a point estimate of the population parameter.
+
+You are not expected to be able to explain or use the bootstrap or permutation tests---these were introduced to help you learn the principles listed above.
