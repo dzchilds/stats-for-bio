@@ -100,12 +100,12 @@ A mobile phone App analogy:
 
 - You can install a package via the Packages tab in RStudio. Use this if you don't like using `install.packages`.
 
-## We need `dplyr` abd `ggplot2`...
+## We need **dplyr** abd **ggplot2**...
 
 <div>
-**Step 1.** Install `dplyr` abd `ggplot2`
+**Step 1.** Install **dplyr** abd **ggplot2**
 
-Go to the Packages tab in RStudio (bottom right pane by default) and click the 'Install' button. Type the following: `dplyr`, `ggplot2`... and click the 'Install' button.
+Go to the Packages tab in RStudio (bottom right pane by default) and click the 'Install' button. Type the following: **dplyr**, **ggplot2**... and click the 'Install' button.
 </div>
 
 <div>
@@ -137,8 +137,6 @@ What happened? Look at the 'Environment' tab in the top right pane. Can you see 
 Data in R | Vectors, data frames, 'tibbles', etc.
 ======================================================================================
 
-## Vectors
-
 ## Two views of data frames {.build}
 
 The first view: __Data frames are a collection of vectors__. These may be different types (numeric, character, others), but they must all be the same length.
@@ -149,7 +147,7 @@ Data frames are central to data analysis in R. We can think of each vector as co
 
 ## 'Tibbles' 
 
-Er, what the @^$£ is a 'tibble'?... They were called a 'tbl' last year (pronounced 'table'). Basically, a special version of the data frame. `dplyr` tends to produce them. We can convert if we need to, e.g.
+Er, what the @^$£ is a 'tibble'?... They were called a 'tbl' last year (pronounced 'table'). Basically, a special version of the data frame. **dplyr** tends to produce them. We can convert if we need to, e.g.
 
 ```{r, eval=FALSE}
 tbl_df(storms)        # <- the old way (deprecated)
@@ -165,6 +163,20 @@ storms <- as_data_frame(storms)
 The **only** thing you really need to be aware of is that a tibble is printed to the Console more compactly than a data frame.
 
 ## Examining data frames {.build}
+
+Trying using `str` and `glimpse` on `storms`. Then try `View`...
+
+```{r}
+str(storms)
+```
+
+## Examining data frames
+
+Trying using `str` and `glimpse` on `storms`. Then try `View`...
+
+```{r}
+glimpse(storms)
+```
 
 ## Extracting a vector (i.e. a column) {.build}
 
@@ -201,17 +213,15 @@ Help files are really **documentation** files:
 - References
 - Examples <-- This is often the most useful part
 
-## The interwebs
+Better options for help are the internet (e.g. google, stack overflow), books and those cheat sheets...
 
-## Books and cheat sheets
-
-The `dplyr` package | Manipulating data 
+The **dplyr** package | Manipulating data 
 ====================================================================
 
 ## The five key verbs {.build} 
 
 <div>
-**`dplyr` has five main "verbs", each of which corresponds to a function:**
+****dplyr** has five main "verbs", each of which corresponds to a function:**
 
 - `select`: Extract a subset of variables
 - `filter`: Extract a subset of rows
@@ -348,12 +358,12 @@ Hint: 1 mbar = 100 Pa
 mutate(storms, pressure_Pa = 100 * pressure)
 ```
 
-The `dplyr` package | Piping operations and summarising data 
+The **dplyr** package | Piping operations and summarising data 
 ====================================================================
 
 ## Using the 'pipe' `%>%`
 
-The `dplyr` package inmports a special operator, called 'the pipe'. It looks like this: `%>%`. This allows us to chain together a sequence of operations, reading from left to right and top to bottom. For example, take a look at this sequence of calculations:
+The **dplyr** package inmports a special operator, called 'the pipe'. It looks like this: `%>%`. This allows us to chain together a sequence of operations, reading from left to right and top to bottom. For example, take a look at this sequence of calculations:
 
 ```{r}
 x <- 10
@@ -461,12 +471,12 @@ storms %>%
   summarise(min_speed = min(wind), max_speed = max(wind))
 ```
 
-Overview of `ggplot2` | The grammar of graphics
+Overview of **ggplot2** | The grammar of graphics
 ====================================================================
 
 ## Key concepts {.build}
 
-You need to wrap your head around a few ideas to start using `ggplot2` effectively:
+You need to wrap your head around a few ideas to start using **ggplot2** effectively:
 
 >- __layers__: We build ggplot2 objects by adding one or more layers together. We can do this in a stepwise way, only plotting the object when we are ready. Each layer needs things like data, aesthetics, geometric objects, etc
 
@@ -476,13 +486,111 @@ You need to wrap your head around a few ideas to start using `ggplot2` effective
 
 We build up a plot by combining different functions using the `+` operator. This has nothing to do with numeric addition!
 
+## Example: Scatter plots
+
+__Quick remoind of how all this works__:
+
+We don't have to build a plot object up in separate steps and then explicitly "print"" it to the Console. If we just want to make th eplot in one go we can do it like this:
+```{r, fig.height=2.6, fig.width=3.2}
+ggplot(storms, aes(x = pressure, y = wind)) + 
+  geom_point(colour = "purple") + 
+  labs(x = "Pressure (mbar)", y = "Wind speed (km/hr)")
+```
+
+## Exercise
+
+<div id="exercise-box">
+__Customising your plot__
+<div id="box-text">
+Repeat th at last example (a scatter plot of wind speed vs pressure), but now try to customise the point colours, size, and transparency.
+
+Hint: Try `?geom_point` if you can't remember how to do this, looking at the **Aesthetics** section. An example of suitable output is given below.
+</div>
+</div>
+
+```{r, fig.height=3.1, fig.width=4.0, echo=FALSE}
+ggplot(storms, aes(x = pressure, y = wind)) + 
+  geom_point(colour = "blue", size = 3, alpha = 0.5) + 
+  labs(x = "Pressure (mbar)", y = "Wind speed (km/hr)")
+```
+
+## Answer
+
+```{r, fig.height=3.1, fig.width=4.0, eval=showAnswers, echo=showAnswers}
+ggplot(storms, aes(x = pressure, y = wind)) + 
+  geom_point(colour = "blue", size = 3, alpha = 0.5) + 
+  labs(x = "Pressure (mbar)", y = "Wind speed (km/hr)")
+```
+
+## Exercise
+
+<div id="exercise-box">
+__Customising your plot__
+<div id="box-text">
+Repeat th at last example (a scatter plot of wind speed vs pressure), but now make the point colour depend upon storm type (i.e. the `type` variable).
+</div>
+</div>
+
+```{r, fig.height=3.1, fig.width=5.5, echo=FALSE}
+ggplot(storms, aes(x = pressure, y = wind, colour = type)) + 
+  geom_point(size = 2, alpha = 0.3) + 
+  labs(x = "Pressure (mbar)", y = "Wind speed (km/hr)")
+```
+
+## Answer
+
+```{r, fig.height=3.1, fig.width=5.5, eval=showAnswers, echo=showAnswers}
+ggplot(storms, aes(x = pressure, y = wind, colour = type)) + 
+  geom_point(size = 2, alpha = 0.3) + 
+  labs(x = "Pressure (mbar)", y = "Wind speed (km/hr)")
+```
+
+## Exercise {.build}
+
+<div id="exercise-box">
+__Aesthetic mappings vs. arguments to `geom_`__
+<div id="box-text">
+We can set something like "colour" in two places: the aesthetic mapping (`aes`) or via an argument to a geom (`geom_`). Remember what happens if we set the colour in both places at once? Experiment with the last example to make sure you understand which one---the aesthetic mapping geom argument---has precedence?
+</div>
+</div>
+
+## Answer
+
+The `geom_` has precedence...
+
+```{r, fig.height=3.1, fig.width=4.0, eval=showAnswers, echo=showAnswers}
+ggplot(storms, aes(x = pressure, y = wind, colour = type)) + 
+  geom_point(colour = "blue", size = 2, alpha = 0.3) + 
+  labs(x = "Pressure (mbar)", y = "Wind speed (km/hr)")
+```
+
+## What are histograms and dot plots?
+
+We use histograms and dot plots to understand the __distribution__ of a variable. They summarise the number of observations occuring in a contiguous series of bins. Use `geom_histogram` to construct a histogram and `geom_dotplot`. Here is an example:
+
+```{r, echo = FALSE}
+ggplot(storms, aes(x = pressure)) + 
+  geom_histogram(colour = "darkgrey", fill = "grey", binwidth=10) + 
+  labs(x = "Pressure", y = "Count")  
+```
+
+See if you can make that plot...
+
+## Answer
+
+```{r, fig.height=3.1, fig.width=4.0, eval=showAnswers, echo=showAnswers}
+ggplot(storms, aes(x = pressure)) + 
+  geom_histogram(colour = "darkgrey", fill = "grey", binwidth=10) + 
+  labs(x = "Pressure", y = "Count")  
+```
+
 ## Miscellaneous 'stuff'
 
 -   R does not change things 'in place'. You have to use assignment ` <- ` ('gets')...
 
 -   Scientific notation in R looks like this: `1e-16`. That is R-speak for $1.0 \ times 10^{-16}$, i.e. a very small number.
 
--   `mean()`, `var()`, `sd()`, `n()`
+-   Don;t forget the basics, e.g. `mean()`, `var()`, `sd()`, `n()`
 
 -   Keyboard shortcuts are useful. We really like 'Alt-Underscore' (` <- `) and 'Ctrl-Shift-M' (` %>% `).
 
