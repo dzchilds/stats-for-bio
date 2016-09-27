@@ -1,0 +1,9 @@
+{
+    "path" : "~/Repos/stats-for-bio",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}

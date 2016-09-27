@@ -1,0 +1,8 @@
+"0","purple.prob <- 0.4"
+"0","sample.size <- 20"
+"0","samples <- 100 * rbinom(n = 100000, size = sample.size, prob = purple.prob) / sample.size"
+"0","sd(samples)"
+"1","[1]"
+"1"," 10.9582"
+"1","
+"

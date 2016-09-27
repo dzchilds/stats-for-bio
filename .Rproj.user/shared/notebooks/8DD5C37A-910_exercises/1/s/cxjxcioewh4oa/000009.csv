@@ -1,0 +1,5 @@
+"0","table_data <- read.csv(file = ""./tables_csv/variable_types.csv"")"
+"0","knitr::kable("
+"0","  table_data, booktabs = TRUE,"
+"0","  caption = 'Examples of different kinds of variable.'"
+"0",")"
