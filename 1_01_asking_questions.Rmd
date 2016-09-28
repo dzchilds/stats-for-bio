@@ -1,5 +1,3 @@
-# (PART) Statistical Concepts (I) {-} 
-
 # The scientific process
 
 > *There is something fascinating about science. One gets such a
