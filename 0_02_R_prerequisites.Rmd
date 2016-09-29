@@ -18,7 +18,7 @@ Here is a quick overview of the process you should go through every time you sta
 
 1. Open up RStudio and set your working directory. You should do this via the RStudio menu system: **Session ▶ Set Working Directory ▶ Choose Working Directory...**. Make sure that you choose a sensible location. This is where you will store your data and R scripts, so it needs to be somewhere you can find and access again each time you use R. If you want to keep life really simple, it is a good idea to use the same location in every practical, but you don't have to do this.
 
-2. Open up a new R script using the RStudio menu system: **File ▶ New File ▶ R Script**. Don't create a any other kind of file.
+2. Open up a new R script using the RStudio menu system: **File ▶ New File ▶ R Script**. Don't create any other kind of file.
 
 3. There are a couple of things that need appear at the start of every script. Add these to the top of your new script before you do anything else. You should always clear the workspace with `rm`, and load up any packages you plan to use:
 
