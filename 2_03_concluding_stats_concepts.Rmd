@@ -34,8 +34,30 @@ Of course the smaller the probability the more confident one can be that the eff
 
 The thing to remember here is that although we tend to use *p*=0.05 as a cut-off, is really a continuous measure and *p*=0.055 is not very different from *p*=0.045. The exact value of will be affected by how well the data fulfil the assumptions of the test–-which will only be approximately with most biological data, so you shouldn’t set too much store by the difference between *p*=0.045 and *p*=0.055. It would be irrational on the one hand to reject an idea completely just on the basis of a result of *p*=0.055, while at the same time being prepared to invest large amounts of time and money implementing policies based on a result of *p*=0.045.
 
-### Biological vs. statistical significance
+## Presenting *p*-values
 
-A final, but vital, point: do not confuse statistical significance with biological significance. A result may be statistically highly significant (say *p*<0.001) but biologically trivial. To give a real example, in a study of the factors determining the distribution of freshwater invertebrates in a river, the pH of water was measured in the open water and in the middle of the beds of submerged vegetation. There was a statistically significant difference in pH (*p*<0.01) but the mean pH values were 7.1 in the open water and 6.9 in the weeds. This is a very small effect, and almost certainly of no importance at all to the invertebrates.
+R will typically display *p*-values from a statistical significance test to six decimal places (e.g. *p* = 0.003672). Often however, the results from tests are presented as one of the following four categories: 
+
+- *p* > 0.05, for results which are not statistically significant (sometimes also written as ‘NS’),
+
+- *p* < 0.05, for results where 0.01 < *p* < 0.05,
+
+- *p* < 0.01, for results where 0.001 < *p* < 0.01,
+
+- *p* < 0.001 for results where *p* < 0.001,
+
+Should we use categories for *p*? This style of presentation stems from the fact that statistical tests often had to be calculated by hand in the days before everyone had access to a computer. The significance of the result was difficult to calculate directly, so it would have been looked up in a special table. These days, a computer can calculate the exact probability for you, and so there is no particular reason not to present the results as the actual *p*-value. 
+
+It is not wrong to use the four categories above, but giving the actual probability may be a little more informative to the reader. It could be useful to know that *p* = 0.014 rather than *p* = 0.047, but if categories were used both would simply appear as *p* < 0.05. Similarly it can be informative to know that a test had *p* = 0.06 rather than simply quoting it just as *p* > 0.05 or NS. However, no-one much cares about the difference between very small probabilities, so if *p* is smaller than 0.001 it can sensibly be given as simply *p* < 0.001.
+
+```{block, type='advanced-box'}
+**The asterisks convention**
+
+It is common to see ranges of probabilities coded with asterisks: * for *p* < 0.05...0.01, ** for *p* = 0.01...0.001, and *** for *p* < 0.001. This is common in tables and text in figures as it is a more compact and visually obvious representation than numbers. However, you should never use it in the text of a report.
+```
+
+## Biological vs. statistical significance
+
+A final, but vital, point: do not confuse statistical significance with biological significance. A result may be statistically highly significant (say *p* < 0.001) but biologically trivial. To give a real example, in a study of the factors determining the distribution of freshwater invertebrates in a river, the pH of water was measured in the open water and in the middle of the beds of submerged vegetation. There was a statistically significant difference in pH (*p* < 0.01) but the mean pH values were 7.1 in the open water and 6.9 in the weeds. This is a very small effect, and almost certainly of no importance at all to the invertebrates.
 
 The significance of a result depends on a combination of three things (1) the size of the effect, (2) the variability of the data, (3) the number of samples. Even a tiny effect can be significant if the data have very little variation and the sample size is large. You should not automatically equate a significant result with a large effect---you need to inspect the estimates and consider the biological implications of the difference. The statistical results can give you some guidance in separating genuine differences from random variation, but they can’t tell you whether the difference is biologically interesting or important---that’s your job!
