@@ -205,10 +205,10 @@ The details vary from one problem to the next, but ultimately, if we are using f
 
 1. assume that there is actually no 'effect' (the **null hypothesis**), where an effect is expressed in terms of one or more population parameters,
 
-2. work out what would happen if we were take frequent samples from a population in this hypothetical situation,
+2. construct the corresponding **null distribution** of the estimated parameter by working out what would happen if we were to take frequent samples in the 'no effect' situation,
 
 (Do you see where the word 'frequentist' comes from now?)
 
-3. and then calculate a __*p*-value__ to evaluate how likely our observation would be under the hypothesis of no effect.
+3. and then compare the estimated population parameter to the null distribution to arrive at a __*p*-value__, which evaluates how frequently the data would be observed under the hypothesis of no effect.
 
 
