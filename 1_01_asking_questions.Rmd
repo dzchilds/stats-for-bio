@@ -12,7 +12,7 @@
 
 ## Stages in the scientific process {#stages}
 
-Science is about asking, and answering, the right questions. Within this process a number of distinct stages usually occur: making observations, asking questions, formulating hypotheses, and testing predictions. Collectively these are the building blocks of what is known as the scientific method. Exactly how they fit together, and what the philosophical and practical limitations of different approaches are, have been the subject of much debate by philosophers of science. We are not going really going to tackle those issues here, fascinating though they are, but instead try to extract a general working framework for the process of a typical scientific investigation.
+Science is about asking, and answering, the right questions. Within this process a number of distinct stages usually occur: making observations, asking questions, formulating hypotheses, and testing predictions. Collectively these are the building blocks of what is known as the scientific method. Exactly how they fit together, and what the philosophical and practical limitations of different approaches are, have been the subject of much debate by philosophers of science. We are not going to tackle those issues here, fascinating though they are, but instead try to extract a general working framework for the process of a typical scientific investigation.
 
 ### Observations {#observations}
 
@@ -38,7 +38,7 @@ The next stage is to formulate an hypothesis.
 
 ### Hypotheses {#hypotheses}
 
-**Hypothesis** - *an explanation proposed to account for observed facts.*
+**Hypothesis** — *an explanation proposed to account for observed facts.*
 
 In general, in biology, the important distinguishing feature of an hypothesis is that it specifies some biological process, or processes, which might account for the observations made. One question will often
 generate more than one hypothesis:
@@ -80,7 +80,7 @@ to them both together.
 
 Once we have firmed up our questions, hypotheses, and predictions we can collect the data to evaluate our ideas. On the basis of these data we will either accept or reject the various hypotheses. The important thing to realise about the process of hypothesis testing is that, in science especially, hypotheses are either rejected, or not rejected, but an hypothesis can rarely, except in trivial cases, be proved.
 
-This seems like an odd state of affairs! True, but it does make sense. Since you cannot be sure that you have thought of all the possible hypotheses to explain an observation, finding evidence that supports the prediction from one your hypotheses, does not guarantee that the hypothesis is the only one which could have produced the effect you find. On the other hand, if you find evidence that directly contradicts the prediction(s) from your hypothesis, you can be certain (assuming the prediction and data are not flawed) that the hypothesis cannot be true.
+This seems like an odd state of affairs! True, but it does make sense. Since you cannot be sure that you have thought of all the possible hypotheses to explain an observation, finding evidence that supports the prediction from one of your hypotheses, does not guarantee that the hypothesis is the only one which could have produced the effect you find. On the other hand, if you find evidence that directly contradicts the prediction(s) from your hypothesis, you can be certain (assuming the prediction and data are not flawed) that the hypothesis cannot be true.
 
 An hypothesis which predicted that all conifers should be evergreen could be supported by numerous observations of different conifer species in forests around the world, but is conclusively refuted by the first larch tree we encounter.
 
@@ -90,13 +90,13 @@ This basic cycle of proposing hypotheses and then seeking evidence potentially c
 
 ## Don’t we ever know anything for sure? {#are-we-sure}
 
-The method presented here provides a view of science as one in which we suggest hypotheses, then test them trying to reject them by finding conclusive counter-evidence, then replacing them with new hypotheses. It all sounds a bit frustrating. In fact of course we do ‘accept’ hypotheses all the time — that is we fail to reject them over and over again. These hypotheses become more accepted and in some sense become regarded as ‘true’ if repeated attempts to test them all fail to provide good counter evidence. In other words, we have some ideas that are doing pretty well in terms of resisting falsification, and we use these as our best estimates of the truth, with the proviso that it is still possible a better idea will come along in due course.
+The method presented here provides a view of science as one in which we suggest hypotheses, then test them, trying to reject them by finding conclusive counter-evidence, then replacing them with new hypotheses. It all sounds a bit frustrating. In fact of course we do ‘accept’ hypotheses all the time — that is we fail to reject them over and over again. These hypotheses become more accepted and in some sense become regarded as ‘true’ if repeated attempts to test them all fail to provide good counter evidence. In other words, we have some ideas that are doing pretty well in terms of resisting falsification, and we use these as our best estimates of the truth, with the proviso that it is still possible a better idea will come along in due course.
 
 The simple process of falsification described above also presents a picture of scientists as wonderfully neutral, objective creatures, rationally proceeding through cycles of setting up hypotheses, testing them, rejecting them, cheerfully setting them aside and starting over again. Of course this is not a true reflection of the complex, often messy, business really involved in trying to figure out how the world works. Philosophers of science have argued long and hard about how far from this idealized process real science actually is. Various alternative philosophies suggest more ‘realistic’ processes, such as Thomas Kuhn’s view of science as periods of relative stasis, where people work within an accepted paradigm (a set of views about how things work) despite accumulating evidence that doesn’t always support the paradigm, until finally it is upset by a ‘revolution’ which rejects the entire paradigm, and proposes a new view. The philosopher Imre Lakatos proposed some resolution of these views, suggesting that scientific ideas were grouped together in ‘research programmes’ concerned with particular endeavours, and that within these there may be core ideas that are not challenged, but other related ideas which are being challenged and adjusted by falsification, and that together these make each research programme progress. Programmes that don’t progress should be abandoned in favour of those that do.
 
-Of course that is a very over-simplified sketch of some important ideas, which are well worth reading a bit about, but in practice these philosophical arguments are really more focused on how whole areas of science develop. When you are just thinking about constructing a simple study of one problem, then the basic falsification cycle is a pretty good approach to have in your mind. Even in it’s simple form, however, it is not immune from the effect of human fallibility (see below).
+Of course that is a very over-simplified sketch of some important ideas, which are well worth reading a bit about, but in practice these philosophical arguments are really more focused on how whole areas of science develop. When you are just thinking about constructing a simple study of one problem, then the basic falsification cycle is a pretty good approach to have in your mind. Even in its simple form, however, it is not immune from the effect of human fallibility (see below).
 
-The process laid out here is not a strict set of rules, but outlines an approach to scientific investigation which is widely considered to provide a rigorous and productive system. As with all such systems understanding the ’normal’ process is a prerequisite for constructively breaking the rules.
+The process laid out here is not a strict set of rules, but outlines an approach to scientific investigation which is widely considered to provide a rigorous and productive system. As with all such systems understanding the ‘normal’ process is a prerequisite for constructively breaking the rules.
 
 ```{block, type='advanced-box'}
 **It's hard to reject an hypothesis you love!**
