@@ -1,6 +1,3 @@
-# Rquire jekyll to compile the site.
-require "jekyll"
-
 # Github pages publishing.
 namespace :stats_for_bio do
   #

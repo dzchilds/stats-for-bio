@@ -1,0 +1,61 @@
+# Exercises 
+
+## Week 2: Data and variables
+
+### What kind of variable is it?
+
+The following table gives a number of measurements taken in the course of a study of a woodland ecosystem. What type of variable results from the measurements taken in each case?
+
+```{r, echo = FALSE}
+table_data <- read.csv(file = "./tables_csv/variable_types.csv")
+knitr::kable(
+  table_data, booktabs = TRUE,
+  caption = 'Examples of different kinds of variable.'
+)
+```
+
+
+### How does sample size influence the standard error?
+
+```{r, echo = FALSE}
+source("./r_functions/plant_samples.R")
+```
+
+Think back to the plant colour morph example. We used a simulation in R to calculate the approximate standard error of purple morph frequency estimates. One of the things we used this for was to look at how the amount of sampling variation changed with sample size. We noted that, in general, it seems to decline with sample size. The bigger our sample, the more precise our estimate. That might seem obvious, but what form does this relationship take?
+
+We've written an R function to allow you to explore how the size of samples influence the standard error. Assuming you have an internet connection, you can read this into R using the following bit of R code (just copy and paste it now):
+
+```{r, eval = FALSE}
+source("https://dzchilds.github.io/stats-for-bio/r_functions/plant_samples.R")
+```
+
+This will create a function called `sample_plants`. Here's how to use it:
+```{r}
+sample_plants(samp_sizes = c(10, 20, 40, 100), prob = 0.2)
+```
+The first argument, `samp_sizes = c(10, 20, 40, 100)`, provides the set of sample sizes we want the standard errors for, the second arguement, `prob = 0.2`, is the frequency of purple plants (as a probability) in the population. The function returns a veector of numbers which are the standard errors at each sample size.
+
+The easiest way to explore the relationship between sample size and standard error is to plot it. Since we use `ggplot2`, we need to place all the inputs and outputs of these simulations into a data frame. Here's one way to do this:
+```{r}
+
+```
+
+
+First we set up the simulation by assigning values to different variables to control what the simulation does:
+```{r}
+sim_data <- 
+  data.frame(sample_size = c(10, 20, 40, 100)) %>% 
+  mutate(se = sample_plants(sample_size, 0.5))
+sim_data
+```
+
+Use the above code to vary the sample size from around 20 to 400. You only need to vary the value of `sample.size` to do this. See if you can work out how the standard error changes as the sample size increases. Does the standard error halve when you double the sample size, or is the relationship more complicated? If you think the relationship is more complicated, what form does it take?
+
+ANSWER:
+
+The more important insight relates to the form of this relationship. What you should have noticed is that doubling the sample size does not halve the standard error. In fact, doubling the sample size only changes the standard error by a factor of 1/√2, which is less than 1/2 (don't worry if you did not spot this).
+
+The somewhat depressing conclusion from this investigation is that we have to increase the size of a sample by a factor of 4 to halve the uncertainty associated with an estimate of a population parameter. This result isn't a peculiarity of the morph frequency example; it is very general.
+
+
+

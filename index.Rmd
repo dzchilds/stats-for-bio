@@ -53,7 +53,7 @@ The course runs over semester 1, in weeks 1-12. The first 10 weeks consists of a
 
 Students come to APS 240 with very different experiences and competancies. Because of this unavoidable situation, the course is designed as a ‘self-teaching’ module to you flexibility in the rate at which you work through the material. This doesn't mean no one is going to help you, but you are expected to take responsibility of your own learning. 
 
-#### Preparatory reading and prctical work
+#### Preparatory reading and practical work
 
 Each week starts with some preparatory reading and 'walk-through' practical work from the course book. We'll let you know what you need to do each week. The book chapters generally come in one of two forms:
 
