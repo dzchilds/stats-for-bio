@@ -15,7 +15,7 @@ ggplot(ratskulls, aes(x = Weight)) +
 t.test(Weight ~ Season, data = ratskulls)
 ```
 
-A dataset containing information about the sizes of Norway rat skulls in the pellets of Scandinavian eagle-owls is available in the RATSKULL.CSV file (you may have come across this before). The data comprise a column of rat skull sizes (measured in grams) and a column of codes indicating the season when a particular skull sample was taken. These data were collected in order to evaluate whether there is a difference between sizes of rats eaten in summer and winter. That is, we want to know if there is a statistically significant difference between the mean rat skull sizes in the winter and summer samples.
+A data set containing information about the sizes of Norway rat skulls in the pellets of Scandinavian eagle-owls is available in the RATSKULL.CSV file (you may have come across this before). The data comprise a column of rat skull sizes (measured in grams) and a column of codes indicating the season when a particular skull sample was taken. These data were collected in order to evaluate whether there is a difference between sizes of rats eaten in summer and winter. That is, we want to know if there is a statistically significant difference between the mean rat skull sizes in the winter and summer samples.
 
 Download the RATSKULL.CSV file from MOLE and **place it in your working directory** (this is the location you set at the beginning of this practical). Read the data in RATSKULL.CSV into an R data frame, remembering to assign the data frame a name. Ask a demonstrator to remind you how to do this if you have forgotten, or look over the instructions for reading in the MORPH_WEIGHTS.CSV file from the last practical.
 
