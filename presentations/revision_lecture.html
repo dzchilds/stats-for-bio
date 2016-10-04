@@ -368,7 +368,7 @@ as_data_frame(storms) # &lt;- the new way</pre>
 
 <pre class = 'prettyprint lang-r'>filter(storms, type == &quot;Hurricane&quot;, year &gt;= 1997)</pre>
 
-<pre >## # A tibble: 501 × 11
+<pre >## # A tibble: 501 x 11
 ##      name  year month   day  hour   lat  long pressure  wind      type
 ##    &lt;fctr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt; &lt;int&gt;    &lt;fctr&gt;
 ## 1    Bill  1997     7    12    12  37.9 -61.1      987    65 Hurricane
@@ -448,7 +448,7 @@ glimpse(simple_storms)</pre>
 
 <pre class = 'prettyprint lang-r'>mutate(storms, pressure_Pa = 100 * pressure)</pre>
 
-<pre >## # A tibble: 2,747 × 12
+<pre >## # A tibble: 2,747 x 12
 ##       name  year month   day  hour   lat  long pressure  wind
 ##     &lt;fctr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt; &lt;int&gt;
 ## 1  Allison  1995     6     3     0  17.4 -84.3     1005    30
@@ -496,7 +496,7 @@ round(x, 2)</pre>
   select(name, year, pressure) %&gt;% 
   mutate(pressure_Pa = 100 * pressure)</pre>
 
-<pre >## # A tibble: 501 × 4
+<pre >## # A tibble: 501 x 4
 ##      name  year pressure pressure_Pa
 ##    &lt;fctr&gt; &lt;int&gt;    &lt;int&gt;       &lt;dbl&gt;
 ## 1    Bill  1997      987       98700
@@ -583,7 +583,7 @@ round(x, 2)</pre>
   group_by(month) %&gt;%
   summarise(min_speed = min(wind), max_speed = max(wind))</pre>
 
-<pre >## # A tibble: 7 × 3
+<pre >## # A tibble: 7 x 3
 ##   month min_speed max_speed
 ##   &lt;int&gt;     &lt;int&gt;     &lt;int&gt;
 ## 1     6        25        65
