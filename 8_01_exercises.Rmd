@@ -18,15 +18,7 @@ There are no answers to this question on MOLE. If you're not 100% sure what the 
 
 ### Definitions
 
-The figure below is an attempt to represent the following:
-
-- sampling distribution
-
-- standard error
-
-- distribution of the sample
-
-- standard deviation
+The figure below is an attempt to represent the following concepts: the sampling distribution, the standard error, the distribution of the sample, and the standard deviation.
 
 ```{r, echo = FALSE, out.width='80%', fig.align='center', fig.cap='What do the letters refer to?'}
 knitr::include_graphics("./images/distro.png")
@@ -40,7 +32,7 @@ Assign each of terms above (sampling distribution, standard error, distribution 
 
 ### What form do sampling distributions take?
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, echo=FALSE}
 set.seed(27081975)
 n <- 2000
 x1 <- rlnorm(n, sdlog = 0.3); x1 <- x1/mean(x1)
@@ -55,9 +47,9 @@ write.csv(out, file = "./data_csv/SKEWED_POPULATIONS.CSV", row.names = FALSE)
 all_pops <- read.csv(file = "./data_csv/SKEWED_POPULATIONS.CSV")
 ```
 
-A data set containing values of variables from three different populations (labelled A, B, and C) is available in the SKEWED_POPULATIONS.CSV file. Download the SKEWED_POPULATIONS.CSV file from MOLE and place it in your working directory (you should have set this at the beginning of this practical). Read the data in SKEWED_POPULATIONS.CSV into an R data frame called `all_pops`. Examine the data set — both visually and in terms of its descriptive statistics:
+A data file containing variables from three different populations (labelled A, B, and C) is available in SKEWED_POPULATIONS.CSV. Download the SKEWED_POPULATIONS.CSV file from MOLE and place it in your working directory. Read SKEWED_POPULATIONS.CSV into an R data frame called `all_pops`. Examine the data set---both visually and in terms of its descriptive statistics:
 
-**Inspection.** Use the `View` function and `dplyr` function `glimpse` (or `str`) to inspect the 'data' (these aren't really data as such). Which variables are in the data set? What kind of variables are they (numeric, categorical, ect)? 
+**Inspection.** Use the `View` function and `dplyr` function `glimpse` (or `str`) to inspect the 'data'. Which variables are in the data frame? What kind of variables are they (numeric, categorical, etc)? 
 
 **Descriptive statistics.** Use the appropriate `dplyr` functions (`group_by` and `summarise`) to calculate the mean and standard deviation of `Values` in each population. HINT: You will need the `mean` and `sd`functions to help you do this.
 
@@ -66,13 +58,12 @@ A data set containing values of variables from three different populations (labe
 ```{block, type='do-something'}
 **MOLE Question**
 
-How do the distributions of the three variables differ in terms of their central tendancy, dispersion and skewness. Ask a TA to remind you what these refer to if you can't remember from last year.  
+How do the distributions of the three variables differ in terms of their central tendency, dispersion and skewness? Ask a TA to remind you what these refer to if you can't remember from last year.  
 ```
 
-Now that you understand a bit about the variables' distribution we can start to use them. We're going to explore how the shape of a variable's distribution influences the sampling distribution of it's mean. We'll use the bootstrapping trick to do this for each variable.
+Now that you understand a bit about the variables' distribution you can start to use them. You're going to explore how the shape of a variable's distribution influences the sampling distribution of its mean. If you're not sure what that last sentence means, ask a TA for help before proceeding.
 
-The simplest way to do this is to work with each population in turn. First we have to extract the subset of values we require and store these in a numeric vector (step 1). Then we use a bit of R trickery to calculate 1000 bootstrapped means (step 2), and finally, parcel up the result into a data frame (step 3).
-Here's how this works for variable A:
+The simplest way to tackle this problem is to work with each one in turn, using the the bootstrapping trick to create the sampling distribution of the mean. This involves three steps. First we have to extract the subset of values we require and store these in a numeric vector (step 1). Then we use a bit of R trickery to calculate 1000 bootstrapped means (step 2), and finally, parcel up the result into a data frame (step 3). Here's how this works for variable A:
 ```{r}
 # 1. extract the values of the variable
 x <- filter(all_pops, Population == "A")$Values
@@ -81,40 +72,48 @@ boot_means <- replicate(1000, mean(sample(x, size = 25, replace = TRUE)))
 # 3. wrap up the result as a data frame
 plot_df <- data.frame(boot_means)
 ```
-Once we have the bootstrapped sampling distribution of the mean we need to summarise this as a histogram. You should be able to work out how to do this using `ggplot2`. Construct this for each of the variables in turn, paying close attention to the form of the original sample and the boostrapped sampling distribution of their mean.
+Once we have the bootstrapped sampling distribution of the mean we need to summarise this as a histogram. You should be able to work out how to do this using `ggplot2`. Construct this histogram for each of the variables, paying close attention to the form of the original sample and the bootstrapped sampling distribution of their mean.
 
 ```{block, type='do-something'}
 **MOLE Question**
 
-Are the sampling distributions of the means more, or less skewed than the distribution of the corresponding variables?
+Are the sampling distributions of the means more, or less, skewed than the distribution of the corresponding variables?
 
 Which variable (A, B, or C) has the most skewed sampling distribution associated with its mean?
 ```
 
-We used boostrapped samples of 25 observations to construct the sampling distributions in the exercise above. We can change this... What happens to the shape of the 
+You used bootstrapped samples of 25 observations to construct the sampling distributions in the exercise above (`size = 25`). You can change this number by altering the `size ` argument of the `sample` function. Use this fact to explore how the shape of the sampling distribution changes as you increase sample size. Start by using only 10 individuals in each bootstrapped sample, and gradually increase this to 100.
 
+```{block, type='do-something'}
+**MOLE Question**
+
+What happens to the shape of the sampling distribution of the mean of the 'C' variable as you change the bootstrapped sample size?
+```
 
 ### How does sample size influence the standard error?
 
-```{r, echo = FALSE}
-source("./r_functions/plant_samples.R")
+Think back to the plant colour morph example. We used a simulation in R to calculate the approximate sampling distribution of purple morph frequency estimates. We used this to examine how the amount of sampling variation changes with sample size. We noted that, in general, it seems to decline with sample size. The bigger our sample, the more precise our estimate. That might seem obvious, but what form does this relationship take?
+
+We've written an R function to allow you to explore how the size of samples influence the standard error of purple morph frequency estimates. You can read this into R by running the following line of R code (just copy and paste it into the Console):
+
+```{r, eval = TRUE}
+sample_plants <- function(samp_sizes, prob) {
+  sapply(samp_sizes, function (size) {
+    raw_samples <- rbinom(n = 10000, size = size, prob = prob)
+    sd(100 * raw_samples / size)
+  })
+}
 ```
 
-Think back to the plant colour morph example. We used a simulation in R to calculate the approximate sampling distribution of purple morph frequency estimates. One of the things we used this for was to look at how the amount of sampling variation changed with sample size. We noted that, in general, it seems to decline with sample size. The bigger our sample, the more precise our estimate. That might seem obvious, but what form does this relationship take?
+(You are not expected to understand how this works!)
 
-We've written an R function to allow you to explore how the size of samples influence the standard error of purple morph frequency estimates. Assuming you have an internet connection, you can read this into R using the following bit of R code (just copy and paste it now):
-
-```{r, eval = FALSE}
-source("https://dzchilds.github.io/stats-for-bio/r_functions/plant_samples.R")
-```
-
-This will create a function called `sample_plants` that's ready to use. Here's how to use it:
+This will create a function called `sample_plants` that's ready for you to use. Here's how it works:
 ```{r}
 sample_plants(samp_sizes = c(10, 20, 40, 100), prob = 0.4)
 ```
-The first argument, `samp_sizes = c(10, 20, 40, 100)`, provides the set of sample sizes we want the standard errors for, the second arguement, `prob = 0.2`, is the frequency of purple plants (expressed as a probability) in the population. The function returns a veector of numbers which are the standard errors at each sample size.
+The first argument, `samp_sizes = c(10, 20, 40, 100)`, provides the set of sample sizes we want the standard errors for, the second argument, `prob = 0.4`, is the frequency of purple plants (expressed as a probability) in the population. The function returns a vector of numbers that are the standard errors at each sample size.
 
-The easiest way to explore the relationship between sample size and standard error is to plot it. Since we use `ggplot2`, we need to collect together the inputs and outputs of these simulations into a data frame. Here's one way to do this:
+The easiest way to explore the relationship between sample size and standard error is to simply plot it. Since we use `ggplot2`, we need to collect together the inputs and outputs of these simulations into a data frame. Here's one way to do this:
 ```{r}
 sim_data <- 
   data.frame(sample_size = c(10, 20, 40, 100)) %>% 
@@ -139,12 +138,6 @@ Now repeat the exercise with assuming that the purple morph frequency is 0.1 (`p
 
 Does the standard error depend on purple morph frequency? Does it get smaller or larger when we move from a frequency of 0.4 to 0.1?
 ```
-
-ANSWER:
-
-The more important insight relates to the form of this relationship. What you should have noticed is that doubling the sample size does not halve the standard error. In fact, doubling the sample size only changes the standard error by a factor of 1/√2, which is less than 1/2 (don't worry if you did not spot this).
-
-The somewhat depressing conclusion from this investigation is that we have to increase the size of a sample by a factor of 4 to halve the uncertainty associated with an estimate of a population parameter. This result isn't a peculiarity of the morph frequency example; it is very general.
 
 
 

@@ -1,0 +1,5 @@
+ANSWER:
+
+The more important insight relates to the form of this relationship. What you should have noticed is that doubling the sample size does not halve the standard error. In fact, doubling the sample size only changes the standard error by a factor of 1/√2, which is less than 1/2 (don't worry if you did not spot this).
+
+The somewhat depressing conclusion from this investigation is that we have to increase the size of a sample by a factor of 4 to halve the uncertainty associated with an estimate of a population parameter. This result isn't a peculiarity of the morph frequency example; it is very general.
