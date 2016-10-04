@@ -6,7 +6,7 @@
 > 
 > [Davidian and Louis (2012)](https://doi.org/10.1126/science.1218685)
 
-The particular flavour of statistics we use in this course is called '**frequentist statistics**'. It isn't hugely important that you remember that phrase, or indeed, from a practical perspective, that you even know you're using frequentist statistics. You can apply the tools by just learning a few besic 'rules'. Nonetheless, if you're the kind of person who likes to understand how things properly, it is useful to at least get a rough sense of how frequentist ideas works. The goal of this, and the next few chapters, is to provide such an overview. 
+The particular flavour of statistics we use in this course is called '**frequentist statistics**'. It isn't hugely important that you remember that phrase, or indeed, from a practical perspective, that you even know you're using frequentist statistics. You can apply the tools by just learning a few basic 'rules'. Nonetheless, if you're the kind of person who likes to understand things properly, it is useful to at least get a rough sense of how frequentist ideas work. The goal of this, and the next few chapters, is to provide such an overview.
 
 We're going to avoid all of the challenging mathematics that underlies this, and try to focus instead on the important concepts. That doesn't mean the ideas are simple. It's *not* critical for all of this to make perfect sense. You certainly won't be assessed on your ability to explain how frequentist statistics works. However, if you can wrap your head around the core ideas you will find it easier to understand the output from the various statistical tests we'll learn later.
 
@@ -18,13 +18,13 @@ When a biologist talks about a population they mean a group of individuals of th
 
 -   The readers of this book could be viewed as a statistical population. APS students have a common interest in biology, they are mostly in their late teens and early 20s, and they tend to have similar educational backgrounds and career aspirations. As a consequence of these similarities, APS students tend to be more similar to one another than they would be to a randomly chosen inhabitant of the UK.
 
--   The different areas of peatland in the UK comprise a statistical population. There are many peatland sites in the UK, and although their ecology varies somewhat from one location to the next, they are also very similar in many respects. For example, all peatland is generally characterised by low-growing vegetation (blank bog, etc) and acidic soils. If you visit two different peatland sites in the UK, they will seem quite similar compared to, for example, a neighbouring calcareous grassland (think of the Peak district).
+-   The different areas of peatland in the UK comprise a statistical population. There are many peatland sites in the UK, and although their ecology varies somewhat from one location to the next, they are also very similar in many respects. For example, all peatland is generally characterised by low-growing vegetation (blanket bog, etc) and acidic soils. If you visit two different peatland sites in the UK, they will seem quite similar compared to, for example, a neighbouring calcareous grassland (think of the Peak District).
 
 -   A population of plants or animals---as understood by biologists---can also be thought of as a statistical population. Indeed, this is often the kind of population organismal biologists are most interested in. The individuals that comprise a biological population share common behaviours, physiology and life history characteristics. Much of organismal biology is concerned with learning about these properties of organisms, often with the goal to explaining the variation we see among individuals.
 
 Populations are conceptualised as fixed but unknown quantities within the framework of frequentist statistics. The goal of an analysis is to learn something about populations by collecting data.
 
-Note that 'the population' is defined by the investigator, and the 'something we want to learn about' is anything we're interested in and know how to measure. Consider the examples again. A social scientist might be interested in understanding the political attitudes of undergraduates, so they might choose to survey a group of students in their university. A climate change scientist might measure the mass carbon is stored in peatland areas at sites across Scotland and northern England. A behavioural ecologist might want to understand how much time beavers spend foraging for food, so they might study one of the two Scottish populations.
+Note that 'the population' is defined by the investigator, and the 'something we want to learn about' is anything we're interested in and know how to measure. Consider the examples again. A social scientist might be interested in understanding the political attitudes of undergraduates, so they might choose to survey a group of students in their university. A climate change scientist might measure the mass of carbon that is stored in peatland areas at sites across Scotland and northern England. A behavioural ecologist might want to understand how much time beavers spend foraging for food, so they might study one of the two Scottish populations.
 
 What are the steps involved in these kinds of studies?
 
@@ -34,13 +34,13 @@ The examples discussed above involve very different kinds of populations and que
 
 **Step 1: Refine your questions, hypotheses and predictions**
 
-This step was discussed in [The scientific process] chapter so there's no need to go over it again here. The key point to keep in mind is that we should not start collecting data until we've set out the relevant questions, hypotheses and predictions. This might seem blindingly obvious, but it is surprising how often people don't get these things straight before diving into data collection. Take our word for it, collecting data without a clear scientific objective and rational for the work is a guaranteed way to waste your time.
+This step was discussed in [The scientific process] chapter so there's no need to go over it again here. The key point to keep in mind is that we should not start collecting data until we've set out the relevant questions, hypotheses and predictions. This might seem blindingly obvious, but it is surprising how often people don't get these things straight before diving into data collection. Take our word for it, collecting data without a clear scientific objective and rationale for the work is a guaranteed way to waste your time.
 
 **Step 2: Decide which population(s) is (are) important**
 
 The second step is to decide which population (or populations) we need to study. This is a more subtle problem than you might think. What constitutes 'the population' might be fairly obvious in some kinds of study, e.g. observational studies that don't involve an experimental approach. In each of the three cases considered above, the corresponding populations we choose to study could be undergraduate students in APS, peatland habitats from across the UK, and beavers in Scotland, respectively.
 
-But what happens if we're planning an experiment? Imagine we want to test the prediction that nutrient addition reduces biodiversity in chalk grasslands. We could set up an experiment where we have two kinds of plots: 1) manipulated plots where we add fertiliser, and 2) control plots where we do nothing. Comparing these would allow us to assess the impact of adding nutrients on biodiversity. There are two statistical populations in this setting---control and manipulated communities, which *are defined by the experimental design* we adopted. The nutrient addition plots doesn't exist until you do the experiment, and even then, we want to be able to generalise our results beyond the one experiment. The weird mental contortion that a frequentist does is to imagine that the experimental plots are part of some larger, unobserved population of nutrient addition plots.
+But what happens if we're planning an experiment? Imagine we want to test the prediction that nutrient addition reduces biodiversity in chalk grasslands. We could set up an experiment where we have two kinds of plots: 1) manipulated plots where we add fertiliser, and 2) control plots where we do nothing. Comparing these would allow us to assess the impact of adding nutrients on biodiversity. There are two statistical populations in this setting---control and manipulated communities, which *are defined by the experimental design* we adopted. The nutrient addition plots don't exist until you do the experiment, and even then, we want to be able to generalise our results beyond the one experiment. The weird mental contortion that a frequentist does is to imagine that the experimental plots are part of some larger, unobserved population of nutrient addition plots.
 
 Don't worry too much if that is confusing (it is!). The important point is that, for any given problem, a relevant statistical population is something the investigator defines. It might be 'real', like the undergraduates in APS, or they might be something that doesn't even exist in a meaningful way, like a population of not-yet-realised experimentally manipulated plots. In either case, we can use the same statistical techniques to learn about 'the populations'.
 
@@ -48,7 +48,7 @@ Don't worry too much if that is confusing (it is!). The important point is that,
 
 The next step is to decide which features of the population we need to measure to address our question. In practise, this comes down to deciding which variable (or variables) we need to measure. In the examples above, the appropriate variables might be things like a standardised measure of political attitude, the mass of carbon stored per unit area, or the body mass of individuals in the biological population.
 
-This step is often reasonably straightforward, though some effort may be required to pick among different options. There isn't a whole of ambiguity associated with a physical variable like body mass, but something like 'political attitude' needs careful thought. Can we quantify this by studying just one thing, like voting patterns? Probably not.
+This step is often reasonably straightforward, though some effort may be required to pick among different options. There isn't a whole lot of ambiguity associated with a physical variable like body mass, but something like 'political attitude' needs careful thought. Can we quantify this by studying just one thing, like voting patterns? Probably not.
 
 Part of the art of designing a good data collection protocol is deciding what to measure. We discussed some of the considerations in the [Data and variables] chapter, but what really matters most is that we choose the right kind of variables to address the substantive research question.  
 
@@ -118,7 +118,7 @@ baseplt <- ggplot(plantdata, aes(x = xloc, y = yloc, colour = morph, )) +
 baseplt
 ```
 
-These idealised data were generated using a simulation in R. The details of how we did this aren't important, but basically, we placed 'individuals' onto the landscape at random locations (every location is equally likely), and then assigned them purple morph status with a certain probability (we made them are green otherwise). We'll come back to the probability we actually used in the next chapter. Let's proceed as though this were a real situation... 
+These idealised data were generated using a simulation in R. The details of how we did this aren't important, but basically, we placed 'individuals' onto the landscape at random locations (every location is equally likely), and then assigned them purple morph status with a certain probability (we made them green otherwise). We'll come back to the probability we actually used in the next chapter. Let's proceed as though this were a real situation...
 
 **Step 1: Refine your questions, hypotheses and predictions**
 
@@ -130,7 +130,7 @@ Imagine we had previously been studying a neighbouring population that exhibits 
 
 Things are different in the new study population. The purple morph seems to be about as common as the green morph. What's more, some preliminary work indicates that purple plants seem to produce more seeds than green plants.  Our hypothesis is, therefore, that purple plants have a selective advantage in the new study population. The corresponding prediction is that the frequency of the purple morph will be greater than 25% in the new study population, as selection should be driving the 'P' allele to fixation.
 
-(This isn't the strongest test of our hypothesis by the way. Really, we need to study allele and genotype frequencies, not just phenotypes. Sadly, since Brexit happened, the government has pulled the research funding for genetic research on plant polymorphism, so this is the best we can do)
+(This isn't the strongest test of our hypothesis, by the way. Really, we need to study allele and genotype frequencies, not just phenotypes. Sadly, since Brexit happened, the government has pulled the research funding for genetic research on plant polymorphism, so this is the best we can do.)
 
 **Step 2: Decide which population is important**
 

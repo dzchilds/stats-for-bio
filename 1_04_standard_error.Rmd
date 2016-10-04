@@ -12,7 +12,7 @@ Once we have pinned down the uncertainty we can start to provide meaningful answ
 
 ## Sampling error
 
-Let's carry on with the plant polymorphism example from the previous chapter: the green-purple plant polymorphism. Skim back over the example if you can't remember it, as you need to know what we're trying to do for this chapter to be useful. So far, we had taken one sample of 20 plants from our hypothetical population and found the the frequency of purple plants in that sample was `r samp1_est`%. This is a point estimate of purple plant frequency based on a random sample of `r sampsize1` plants. 
+Let's carry on with the plant polymorphism example from the previous chapter: the green-purple plant polymorphism. Skim back over the example if you can't remember it, as you need to know what we're trying to do for this chapter to be useful. So far, we had taken one sample of 20 plants from our hypothetical population and found that the frequency of purple plants in that sample was `r samp1_est`%. This is a point estimate of purple plant frequency based on a random sample of `r sampsize1` plants.
 
 What happens if we repeat the same process, leading to a new, completely independent sample? Here's a reminder of what the population looked like, along with a new sample highlighted with red circles:
 
@@ -27,13 +27,13 @@ This time we ended up sampling `r freqs2["green"]` green plants and `r freqs2["p
 
 Note that nothing about the study population changed between the first and second sample. What's more, we used a completely reliable sampling scheme to generate these samples (you'll have to trust us on that one). There was nothing biased or 'incorrect' about the way individuals were sampled---every individual had the same chance of being selected. The two different estimates of the purple morph frequency simply arise from chance variation in selection. This variation, which arises whenever we observe a sample instead of the whole population, has a special name. It is called the **sampling error**.
 
-(Another name for sampling error is 'sampling variation'. Which one is better? Neither really. We tend to use both terms---'sampling error' and 'sampling variation'---in this book because they are both widely used)
+(Another name for sampling error is 'sampling variation'. Which one is better? Neither really. We tend to use both terms---'sampling error' and 'sampling variation'---in this book because they are both widely used.)
 
 Sampling error is the main reason why we have to use statistics. Any estimate you derive from a sample is affected by it. Sampling error is not really a property of any particular sample though. The form of sampling error in any given problem is a consequence of the population distribution of the variable(s) we're studying, and the sampling method used to investigate this. That may seem a little cryptic now. Don't worry, we will start to get a sense of what it really means in this chapter.
 
 ## Sampling distributions
 
-We can develop our simple simulation example a bit more to explore the consequences of sampling error. However, rather than taking one sample at a time, we'll use R to simulate thousands of independent samples. The number of plants sampled ('n') will always be `r sampsize1`. Here's the important bit: every sample is drawn from the same population, i.e. the population parameter (purple morph frequency) will never change across samples. This means any variation we observe will be due to nothing more sampling error.
+We can develop our simple simulation example a bit more to explore the consequences of sampling error. However, rather than taking one sample at a time, we'll use R to simulate thousands of independent samples. The number of plants sampled ('n') will always be `r sampsize1`. Here's the important bit: every sample is drawn from the same population, i.e. the population parameter (purple morph frequency) will never change across samples. This means any variation we observe will be due to nothing more than sampling error.
 
 Here is a summary of one such repeated simulation exercise:
 
@@ -53,7 +53,7 @@ The sampling distribution is just the distribution we expect a particular estima
 What does the sampling distribution show? It shows us the range of outcomes we can expect when we repeat the same sampling process over and over again.
 The most common outcome is 8 purple morphs, which would yield an estimate of 8/20 = 40% for the purple morph frequency. This is the frequency that was actually used to simulate the data (we didn't tell you that before). The population parameter we're trying to learn about turns out to be the most common point estimate we should expect to see under repeated sampling.
 
-(So now we know the answer to question. The purple morph frequency is 40%. Of course we cheated though, because we used information from 1000s of samples. In the real world we only have one, limited sample.)
+(So now we know the answer to our question. The purple morph frequency is 40%. Of course we cheated though, because we used information from 1000s of samples. In the real world we only have one, limited sample.)
 
 The sampling distribution is the key to 'doing statistics'. Look at the spread (dispersion) of the sampling distribution above. The range of outcomes is roughly 2 to 15, which corresponds to estimated frequencies of the purple morph in the range of 10-75%, because we sampled `r sampsize1` individuals on each occasion. This tells us that when we sample only 20 individuals, the sampling error is expected to be quite large.
 
@@ -89,7 +89,7 @@ ggplot(out, aes(x = n.purple)) + geom_bar() +
 
 What do these plots tell us about the effect of changing sample size? Notice that we plotted each of them over the full range of possible outcomes (the x axis runs from 0-`r sampsize2` and 0-`r sampsize3`, respectively, in the first and second plot). This is so we can meaningfully compare the spread of each sampling distribution relative to the range of possible outcomes.
 
-The range of outcomes in the first plot (n = `r sampsize2`) is roughly 6 to 26, which corresponds to estimated frequencies of the purple morph in the range of 15-65%. The range of outcomes in the second plot (n = `r sampsize3`) is roughly 16 to 48, which corresponds to estimated frequencies in the range of 20-60%. The implications of this not so rigorous assessment are probably obvious. When we increase the sample size we can expect to encounter less sampling error. This makes intuitive sense: the composition of large sample should more closely approximate that of the true population than a small sample. 
+The range of outcomes in the first plot (n = `r sampsize2`) is roughly 6 to 26, which corresponds to estimated frequencies of the purple morph in the range of 15-65%. The range of outcomes in the second plot (n = `r sampsize3`) is roughly 16 to 48, which corresponds to estimated frequencies in the range of 20-60%. The implications of this not so rigorous assessment are probably obvious. When we increase the sample size we can expect to encounter less sampling error. This makes intuitive sense: the composition of a large sample should more closely approximate that of the true population than a small sample.
 
 How much data do we need to collect to accurately estimate a frequency? Here is the approximate sampling distribution of the purple morph frequency estimate when we sample `r (sampsizebig <- 500)` individuals: 
 ```{r samp-dist-big, echo = FALSE, out.width='100%', fig.asp=0.6, fig.align='center', fig.cap='Distribution of number of purple morphs sampled (n = 500)'}
@@ -133,9 +133,9 @@ These numbers are all part of the sampling distribution of morph frequency estim
 ```{r}
 sd(percent_samples)
 ```
-What is this useful? The standard error gives us a standard means to compare the variability we expect to see, or the variability we actually see, in different sampling distributions. As long as the sampling distribution is 'well-behaved', then, roughly speaking, most estimates (~95%) can be expected to lie in a range of about four standard errors. If you're not convinced, look at the second bar plot we produced above (where the sample size = 80, and the purple morph frequency = 40%). What is the approximate range of simulated values? How close is this to $4 \times 5.5$? Pretty close we think...
+Why is this useful? The standard error gives us a standard means to compare the variability we expect to see, or the variability we actually see, in different sampling distributions. As long as the sampling distribution is 'well-behaved', then, roughly speaking, most estimates (~95%) can be expected to lie in a range of about four standard errors. If you're not convinced, look at the second bar plot we produced above (where the sample size = 80, and the purple morph frequency = 40%). What is the approximate range of simulated values? How close is this to $4 \times 5.5$? Pretty close we think...
 
-So in summary, the standard error gives us a way to quantify how much variability we expect to see in a sampling distributions. We said in the previous chapter ([Learning from data]) that a point estimate is useless without some kind of associated measure of uncertainty. A standard error is one such measure.
+So in summary, the standard error gives us a way to quantify how much variability we expect to see in a sampling distribution. We said in the previous chapter ([Learning from data]) that a point estimate is useless without some kind of associated measure of uncertainty. A standard error is one such measure.
 
 ## What is the point of all this!?
 
