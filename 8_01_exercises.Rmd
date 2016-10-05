@@ -18,7 +18,7 @@ There are no answers to this question on MOLE. If you're not 100% sure what the 
 
 ### Definitions
 
-The figure below is an attempt to represent the following concepts: the sampling distribution, the standard error, the distribution of the sample, and the standard deviation.
+The figure below is an attempt to represent some of the concepts you've been studying this week (e.g. the sampling distribution, the standard error, etc):
 
 ```{r, echo = FALSE, out.width='80%', fig.align='center', fig.cap='What do the letters refer to?'}
 knitr::include_graphics("./images/distro.png")
@@ -27,7 +27,7 @@ knitr::include_graphics("./images/distro.png")
 ```{block, type='do-something'}
 **MOLE Question**
 
-Assign each of terms above (sampling distribution, standard error, distribution of the sample, standard deviation) to the correct letter.
+Assign the appropriate term (sampling distribution, standard error, etc) to the letters A-D in the figure.
 ```
 
 ### What form do sampling distributions take?
@@ -58,7 +58,9 @@ A data file containing variables from three different populations (labelled A, B
 ```{block, type='do-something'}
 **MOLE Question**
 
-How do the distributions of the three variables differ in terms of their central tendency, dispersion and skewness? Ask a TA to remind you what these refer to if you can't remember from last year.  
+How do the distributions of the three variables differ in terms of their central tendency, dispersion and skewness?
+
+Which variable is the most skewed?
 ```
 
 Now that you understand a bit about the variables' distribution you can start to use them. You're going to explore how the shape of a variable's distribution influences the sampling distribution of its mean. If you're not sure what that last sentence means, ask a TA for help before proceeding.
@@ -82,7 +84,7 @@ Are the sampling distributions of the means more, or less, skewed than the distr
 Which variable (A, B, or C) has the most skewed sampling distribution associated with its mean?
 ```
 
-You used bootstrapped samples of 25 observations to construct the sampling distributions in the exercise above (`size = 25`). You can change this number by altering the `size ` argument of the `sample` function. Use this fact to explore how the shape of the sampling distribution changes as you increase sample size. Start by using only 10 individuals in each bootstrapped sample, and gradually increase this to 100.
+You used bootstrapped samples of 25 observations to construct the sampling distributions in the exercise above (`size = 25`). You can change this number by altering the `size ` argument of the `sample` function. Use this fact to explore how the shape of the sampling distribution changes as you increase sample size of the 'C' variable. Start by using only 10 individuals in each bootstrapped sample, and gradually increase this to 100.
 
 ```{block, type='do-something'}
 **MOLE Question**
@@ -126,9 +128,7 @@ Use the above code to vary the sample size from around 20 to 500 (the exact numb
 ```{block, type='do-something'}
 **MOLE Question**
 
-Does the standard error halve when you double the sample size, or is the relationship more complicated? 
-
-If you think the relationship is more complicated, what form does it take?
+Does the standard error halve when you double the sample size, or is the relationship more complicated? If you think the relationship is more complicated, what form does it take?
 ```
 
 Now repeat the exercise with assuming that the purple morph frequency is 0.1 (`prob = 0.1`).

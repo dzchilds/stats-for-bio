@@ -59,7 +59,7 @@ Remember, these numbers are just point estimates derived from limited samples of
 
 We'll move onto the main event---evaluating the statistical significance of the observed difference in means---in the next section. We should visualise our data first though. We could do this in a variety of ways, but since we only have two samples, we may as well summarise the full sample distribution of each morph weight. Here is some `ggplot2` code to make a pair of histograms:
 
-```{r two-morph-dist}
+```{r two-morph-dist, echo = TRUE, out.width='60%', fig.asp=1, fig.align='center', fig.cap='Size distributions of purple and green morph samples'}
 ggplot(morph.data, aes(x = Weight)) + 
   geom_histogram(binwidth = 50) + 
   facet_wrap(~Colour, ncol = 1)
@@ -72,11 +72,11 @@ What does this figure tell us? We are interested in the degree of similarity of 
 We're need to employ some kind of statistical test...
 
 ```{block, type='do-something'}
-**What do people mean when they 'compare samples'?
+**What do people mean when they 'compare samples'?**
 
-By comparing the central tendency (e.g. the mean) of different samples, we can evaluate whether or not something we have measured changes, on average, among different populations. We do this using the information in the samples (not just the sample means) to learn about the populations. It's quite common to use the phrase 'comparing samples' when discussing the statistical tests that underlie these efforts. This phrase is a little misleading. When someone uses a statistical test to 'compare samples', what they are really doing is 'using information in the sample to compare population parameters'. 
+By comparing the central tendency (e.g. the mean) of different samples, we can evaluate whether or not something we have measured changes, on average, among different populations. We do this using the information in the samples to learn about the populations. It's common to use the phrase 'comparing samples' when discussing the statistical tests that underlie these efforts. This is a little misleading though. When someone uses a statistical test to 'compare samples', what they are really doing is 'using information in the sample to compare population parameters'. This distinction might seem unnecessarily pedantic (it is a bit, to be honest). However, it is helpful to keep the right description in mind, because this helps us remember what a statistical test is really doing. 
 
-This distinction might seem unnecessarily pedantic (it is a bit, to be honest). However, it is good to keep the *right* description in mind, as this helps us to recall what a statistical test is really doing. That said, saying or writing 'using information in the sample to compare population parameters' all the time is no dull, so we often revert to the phrase 'comparing samples'. We'll occasionally do it in this book, but try to keep in mind what we really mean by that phrase.
+That said, saying or writing 'using information in the sample to compare population parameters' all the time is dull, so we often revert to the phrase 'comparing samples'. We'll do it in this book sometimes, but try to keep in mind what we really mean by that phrase.
 ```
 
 ## Evaluating differences between population means
@@ -145,11 +145,11 @@ head(perm.eg$'Sample 2', 50)
 The data from each permutation are stored as numeric vectors, where each element of the vector is named according to which morph type it corresponds to (these are the labels we referred to above). Notice that he set of numbers doesn't change among the two permuted samples. The only difference between them is the labelling. The difference between the mean dry weights in the first permutation is `r perm.out[1]`. This difference is `r perm.out[2]` in the second sample.
 
 What we really care about here is distribution of these differences. This distribution is an approximation to the sampling distribution of the difference between means under the null hypothesis (i.e. the null distribution). You may have to read that last sentence a few times. Here is a histogram that summarises the `r nperm` mean differences from the permuted samples:
-```{r, echo=FALSE, fig.height=3}
+```{r permute-dist, echo = FALSE, out.width='80%', fig.asp=0.75, fig.align='center', fig.cap='Difference between means of permuted samples'}
 ggplot(data.frame(perm.out), aes(x = perm.out)) + 
   geom_histogram(fill = grey(0.4), binwidth = 6) + 
   geom_vline(xintercept = diff(sum_stat$mean), colour = "red") + 
-  xlab("Difference between means of permuted samples")
+  xlab("Difference")
 ```
 
 Notice that the distribution is centred at zero. This makes sense; if we take a set of numbers and randomly allocate them to groups, on average, we expect the difference between the mean of these groups to be zero. 

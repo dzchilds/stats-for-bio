@@ -1,4 +1,4 @@
-# Concluding remarks
+# Hypotheses and *p*-values
 
 ## A few words about the null hypothesis
 

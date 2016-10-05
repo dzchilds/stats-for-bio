@@ -12,7 +12,7 @@ The choice of population parameter(s) to work with depend on what kind of questi
 
 Let's carry on with the plant polymorphism example (yes, again). Our ultimate goal is to evaluate whether the purple morph frequency is greater than 25% in the new study population. The suggestion in the preamble of this chapter is that, to get to this point, we need to work out what the sampling distribution of the purple morph frequency estimate looks like. At first glance this seems like an impossible task. We can't use simulations, because we don't know the true frequency of purple morphs in the population. All we have is the one sample. 
 
-The solution to this problem is surprisingly simple (or at least the basic idea is simple). Since we don't know much about the population, we use the sample to approximate some aspect(s) of it, and then work out what the sampling distribution of our estimate should look like using this approximation.
+The solution to this problem is surprisingly simple (or at least the basic idea is simple): since we don't know much about the population, we use the sample to approximate some aspect(s) of it, and then work out what the sampling distribution of our estimate should look like using this approximation. 
 
 Let's unpack this idea a bit more, and then try it out for real.
 
@@ -20,7 +20,7 @@ Let's unpack this idea a bit more, and then try it out for real.
 
 There are many different ways to approximate a population from a sample. One of the simplest methods---for easy problems at least---is to *pretend the sample is the true population*. Then, all we have to do to get at a sampling distribution is draw new samples from this pretend population. That may sound a lot like cheating, but it turns out that this is a perfectly valid way to construct useful sampling distributions for many kinds of problems. 
 
-Here is a how it works for our example, using a physical analogy. Imagine that we only have one sample, and have written down the colour of each sampled individual on a different piece of paper, and then placed all of these bits of paper into in a hat. We then do the following:
+Here is a how it works for our example, using a physical analogy. Imagine that we only have one sample, and have written down the colour of each sampled plant on a different piece of paper, and then placed all of these bits of paper into in a hat. We then do the following:
 
 1. Pick a piece of paper at random, record its value (purple or green), put the paper back into the hat, and shake the hat about to mix up the bits of paper.
 
@@ -75,7 +75,7 @@ The point of all this is to 'sanity check' the data, i.e. to make sure we unders
 
 What you should have found is that `morph.data` contains 250 rows and two columns/variables: `Colour` and `Weight`. `Colour` is a categorical variable (a 'factor', in R-land) and `Weight` is a numeric variable. The `Colour` variable obviously contains the colour of each plant in the sample. What about `Weight`? We don't need this now, but we'll use it in the next chapter.
 
-Now that we understand the data, we're ready to implement bootstrapping (using R of course, no hats or paper required). We're going to introduce a few new R tricks here. We'll explain them as we go, but if you're not a huge R fan, there's really no need to remember them.
+Now that we understand the data, we're ready to implement bootstrapping (using R of course, no hats or paper required). We're going to introduce a few new R tricks here. We'll explain them as we go, but if you're not a huge R fan, there's really no need to remember them. Focus on the logic of what we're doing.
 
 We want to construct a sampling distribution for the frequency of purple morphs, so the variable that matters here is `Colour`. Rather than work with this inside the data frame, we're going to pull it out using the `$` operator, assign it a name (`plant_morphs`), and then take a look at the first 20 values:
 ```{r}
@@ -94,7 +94,7 @@ mean_point_est
 ```
 So... `r mean_point_est`% of plants were purple among our sample of `r samp_size` plants.
 
-We are now ready to start bootstrapping! We'll use 10000 bootstrap samples, and for convenience, we'll store this number in `n_samp`:
+We are now ready to start bootstrapping. We'll construct 10000 bootstrap samples, and for convenience, we'll store this number in `n_samp`:
 ```{r}
 n_samp <- 10000
 ```
@@ -108,9 +108,9 @@ Compare this one bootstrapped sample to the real one. It's a random sample of th
 first_bs_freq <- 100 * sum(samp == "Purple") / samp_size
 head(first_bs_freq, 100) # just show the first 100 values
 ```
-That's one bootstrapped value of purple morph frequency. Simple! We need `r n_samp` values though, and we really don't want to have to keep doing this over an over 'by hand' (making `second_bs_freq`, `third_bs_freq`, ...). That would be very dull... 
+That's one bootstrapped value of purple morph frequency. Simple! We need $`r n_samp`$ values though, and we really don't want to have to keep doing this over an over 'by hand' (making `second_bs_freq`, `third_bs_freq`, and so on). That would be very dull... 
 
-Luckily, computers are very good at doing repetitive tasks like this. Here is some R code that repeats what we just did `n_samp` times and stores the bootstrapped sample in a vector called `boot_out`:
+Fortunately, computers are very good at carrying out repetitive tasks like this. Here is some R code that repeats what we just did `n_samp` times and stores the bootstrapped sample in a vector called `boot_out`:
 ```{r}
 boot_out <- replicate(n_samp, {
   samp <- sample(plant_morphs, replace = TRUE)
@@ -143,9 +143,7 @@ A more useful quantity is the bootstrapped standard error (SE). This is the stan
 ```{r}
 sd(boot_out) %>% round(1)
 ```
-A large SE implies that our sample size was too small to reliably estimate the population mean. 
-
-The standard error is a useful quantity in its own right. It is standard practise to summarise the precision of a point estimate by reporting its standard error. Whenever we report a point estimate, we should also report the standard error, like this...
+The standard error is a useful quantity in its own right. Remember, the standard errror is a measure of the precision of an estimate (e.g. a large SE would imply that our sample size was too small to reliably estimate the population mean). It is standard practise to summarise the precision of a point estimate by reporting its standard error. Whenever we report a point estimate, we should also report the standard error, like this...
 
 > The frequency purple morph plants (n = `r samp_size`) was `r mean_point_est`% (s.e. ± `r round(sd(boot_out), 1)`).
 
@@ -153,7 +151,7 @@ Notice that we also report the sample size.
 
 ## Statistical significance
 
-Now back to the question that motivated all this work. Is the purple morph frequency is greater than 25% in the new study population? We can never answer a question like this definitively from a sample. Instead, we have to carry out some kind of probabilistic assessment. To make this assessment, we're going to do something that looks rather odd (frequentist statistics *is* odd to be honest).
+Now back to the question that motivated all the work in the last few chapters. Is the purple morph frequency is greater than 25% in the new study population? We can never answer a question like this definitively from a sample. Instead, we have to carry out some kind of probabilistic assessment. To make this assessment, we're going to do something that looks rather odd (frequentist statistics is odd to be honest).
 
 ```{block, type='do-something'}
 **Don't panic...**
@@ -167,9 +165,9 @@ We're going to make two important assumptions:
 
 2. Assume that the sampling distribution we just generated (via bootstrapping) would have been the same if the null hypothesis were true, but for the fact that the mean would be different (it would be equal to 25%). That is, the expected 'shape' of the sampling distribution doesn't change under the null hypothesis.
 
-That first assumption is an example of something called a **null hypothesis**. It is called this because it is an hypothesis of 'no effect' or 'no difference'. The second assumption is necessary for the reasoning below to be valid. This is often a reasonable assumption (you'll have to trust us on this one).
+That first assumption is an example of something called a **null hypothesis**. It is called this because it is an hypothesis of 'no effect' or 'no difference'. The second assumption is necessary for the reasoning below to be valid. It is often a reasonable assumption in many situations (you'll have to trust us on this one).
 
-Now we ask, if the purple morph frequency in the population is really 25%, what would the corresponding sampling distribution look like? This is called the **null distribution** (we don't expect you to remember that) because it's a distribution expected under the null hypothesis. We calculate a bootstrapped sample from this null distribution, using the second assumption, as follows:
+Now we ask, if the purple morph frequency in the population is really 25%, what would the corresponding sampling distribution look like? This is called the **null distribution** because it's a distribution expected under the null hypothesis. We calculate a bootstrapped sample from this null distribution, using the second assumption, as follows:
 ```{r}
 null_dist <- boot_out - mean(boot_out) + 25
 ```
@@ -191,15 +189,17 @@ p_value
 ```
 This number (generally denoted '*p*') is called a __*p*-value__. We're going to calculate a lot of *p*-values in this book. Actually, R will do it for us. We just have to understand what they mean.
 
-What are we supposed to do with the finding *p* = `p_value`? This is the probability of obtaining a result equal to, or 'more extreme' than, that which was actually observed, *assuming that the hypothesis under consideration (the null hypothesis) is true*. The null hypothesis is one of no effect (or no difference), and so a low *p*-value can be interpreted as evidence for an effect being present. In our example, it appears the purple morph frequency we observed is fairly unlikely to occur if its frequency in the new population is 25%. In biological terms, we take the low *p*-value as evidence for a difference in purple morph frequency among the populations. Specifically, it looks like there is support for the prediction that the purple morph is present at a frequency greater than 25% in the new study population.
+What are we supposed to do with the finding *p* = `r p_value`? This is the probability of obtaining a result equal to, or 'more extreme' than, that which was actually observed, *assuming that the hypothesis under consideration (the null hypothesis) is true*. The null hypothesis is one of no effect (or no difference), and so a low *p*-value can be interpreted as evidence for an effect being present. It's worth reading that a few times...
 
-One question remains: How small does a *p*-value have to be before we are happy to conclude that the effect is probably present? In practise, we do this by applying a threshold, called a **significance level**. If the *p*-value is less than the chosen significance level we say the result is said to be **statistically significant**. Most often (in biology at least), we use a significance level of *p* < 0.05 (5%). Why? The short answer is that this is just a convention. Nothing more. Really, there is nothing special about this 5% threshold other than the fact that it is a widely adopted convention to use it.
+In our example, it appears that the purple morph frequency we observed is fairly unlikely to occur if its frequency in the new population really is 25%. In biological terms, we take the low *p*-value as evidence for a difference in purple morph frequency among the populations. Specifically, it looks like there is support for the prediction that the purple morph is present at a frequency greater than 25% in the new study population.
 
-What we just did was to carry out something called a **significance test**. It took quite a lot of convoluted reasoning to get there---we meant it when we said frequentist statistics is odd. That rather non-intuitive chain of reasoning, or at least something similar, underlies all the statistical techniques we use in this course. The good news is that we don't have to understand the low-level details to use these tools effectively. We just need to be able to identify the null hypothesis being used in a particular significance test and understand how to interpret the associated *p*-values. We'll discuss null hypotheses and *p*-values a little more in the next two chapters.
+One question remains: How small does a *p*-value have to be before we are happy to conclude that the effect is probably present? In practise, we do this by applying a threshold, called a **significance level**. If the *p*-value is less than the chosen significance level we say the result is said to be **statistically significant**. Most often (in biology at least), we use a significance level of *p* < 0.05 (5%). Why? The short answer is that this is just a convention. Nothing more. Really, there is nothing special about this 5% threshold other than the fact that it's the one most often used.
+
+What we just did was to carry out something called a **significance test**. It took quite a lot of convoluted reasoning to get there---we meant it when we said frequentist statistics is odd. Nonetheless, that rather non-intuitive chain of reasoning, or at least something similar, underlies all the statistical techniques we use in this course. The good news is that we don't have to understand the low-level details to use these tools effectively. We just need to be able to identify the null hypothesis being used in a particular significance test and understand how to interpret the associated *p*-values. These ideas are so important that we'll discuss null hypotheses and *p*-values a little more in the next two chapters.
 
 ## Concluding remarks
 
-The bootstrap is a very powerful tool in the right hands, but it is an advanced technique, and can be difficult to apply in complex settings (e.g. analysis of experiments). We will not apply it routinely in this course. Indeed, you are not expected to be able to use it at all. We adopted the technique to help us understand how frequentist ideas are used to decide if an effect (i.e. a difference) is really there or not. 
+The bootstrap is a very powerful tool in the right hands, but it is an advanced technique that can be difficult to apply in complex settings (e.g. analysis of experiments). We'll not apply it routinely in this course. Indeed, you are not expected to be able to use it at all. We used the technique to help us understand how frequentist ideas are used to decide if an effect (i.e. a difference) is really there or not. 
 
 The details vary from one problem to the next, but ultimately, if we are using frequentist ideas we always have to find a way to do the following...
 
