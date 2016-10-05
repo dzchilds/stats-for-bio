@@ -10,11 +10,11 @@
 >
 > Robert MacArthur
 
-## Stages in the scientific process {#stages}
+## Stages in the scientific process {#stages-scientific-process}
 
 Science is about asking, and answering, the right questions. Within this process a number of distinct stages usually occur: making observations, asking questions, formulating hypotheses, and testing predictions. Collectively these are the building blocks of what is known as the scientific method. Exactly how they fit together, and what the philosophical and practical limitations of different approaches are, have been the subject of much debate by philosophers of science. We are not going to tackle those issues here, fascinating though they are, but instead try to extract a general working framework for the process of a typical scientific investigation.
 
-### Observations {#observations}
+### Observations {#stages-observations}
 
 **Observation** — *information, or impression, about events or objects*.
 
@@ -25,7 +25,7 @@ stones, watch the same species another day, or in another place, check the liter
 
 Such observations of biological systems will lead almost automatically into asking questions.
 
-### Questions {#questions}
+### Questions {#stages-questions}
 
 **Question** — *what it is that you want to know; the scope of your investigation*.
 
@@ -36,7 +36,7 @@ even though it is a valid (and fascinating) question, it may not be a good choic
 
 The next stage is to formulate an hypothesis.
 
-### Hypotheses {#hypotheses}
+### Hypotheses {#stages-hypotheses}
 
 **Hypothesis** — *an explanation proposed to account for observed facts.*
 
@@ -53,7 +53,7 @@ generate more than one hypothesis:
 
 Formulating hypotheses requires more than just a restatement of the question - it usually embodies some mechanism (though in some cases this may not be fully understood) and it will often draw on additional information (e.g., the fact that *Gammarus* feed on dead leaves).
 
-### Predictions {#predictions}
+### Predictions {#stages-predictions}
 
 **Prediction** — *what you would expect to see if the hypothesis was true*.
 

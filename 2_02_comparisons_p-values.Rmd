@@ -71,7 +71,7 @@ What does this figure tell us? We are interested in the degree of similarity of 
 
 We're need to employ some kind of statistical test...
 
-```{block, type='do-something'}
+```{block, type='advanced-box'}
 **What do people mean when they 'compare samples'?**
 
 By comparing the central tendency (e.g. the mean) of different samples, we can evaluate whether or not something we have measured changes, on average, among different populations. We do this using the information in the samples to learn about the populations. It's common to use the phrase 'comparing samples' when discussing the statistical tests that underlie these efforts. This is a little misleading though. When someone uses a statistical test to 'compare samples', what they are really doing is 'using information in the sample to compare population parameters'. This distinction might seem unnecessarily pedantic (it is a bit, to be honest). However, it is helpful to keep the right description in mind, because this helps us remember what a statistical test is really doing. 

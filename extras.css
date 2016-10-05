@@ -2,22 +2,22 @@
 
 .warning-box {
   border: 3px solid #e60000;
-  margin:  0px 0px 20px 0px;
-  padding: 10px 10px 10px 10px;
+  margin:  25px;
+  padding: 10px 10px 5px 10px;
   border-radius: 6px 6px 6px 6px;
 }
 
 .advanced-box {
   border: 3px solid #268bd2;
-  margin:  0px 0px 20px 0px;
-  padding: 10px 10px 10px 10px;
+  margin:  25px;
+  padding: 10px 10px 5px 10px;
   border-radius: 6px 6px 6px 6px;
 }
 
 .do-something {
   border: 3px solid #803e00;
-  margin:  0px 0px 20px 0px;
-  padding: 10px 10px 10px 10px;
+  margin:  25px;
+  padding: 10px 10px 5px 10px;
   border-radius: 6px 6px 6px 6px;
 }
 
