@@ -1,0 +1,159 @@
+# Paired-sample *t*-tests
+
+In the previous chapter we carried out *t*-tests to compare two means. The two samples we had in each case were entirely separate sets of measurements (purple and green plant morph dry weights). One measurement in one data set (e.g. the first green plant) has no link to any particular measurement in the second data set—-the measurements are said to be independent. The particular flavour of *t*-test you used in this situation is called a two-sample *t*-test (logically enough). 
+
+However, there are situations in which data may naturally form pairs, i.e., the first value in a sample may be linked in some way with the first value in the second sample. This is known, not surprisingly, as a *paired-sample* design.
+
+## When do we use a paired-sample *t*-test?
+
+Examples...
+
+-   A common example of a paired sample design is the situation where you have a set of organisms, and you record some measurement from each organism before and after a treatment. For example, if we were studying heart rate in relation to position (sitting vs. standing) we might measure the heart rate of a number of people in both positions. In this case the heart rate of a particular person when sitting is paired with the heart rate of the same person when standing.
+
+-   Spatial example...
+
+
+## How do you do a *t*-test on paired samples?
+
+It should be clear why a paired-sample design might be useful, but how do you actually do the test?
+
+The thing to note here is that we can forget about the original data values for the two samples, and just concentrate on the differences between each pair of values. So in the case of the glycolipid levels
+illustrated in the first diagram, we noted that there was a greater decrease of glycolipids in all but one patient using Drug B compared with Drug A.
+
+If we had calculated the actual differences (i.e. subtracted the value for Drug A from the value for Drug B) for each patient we might have got something like...
+
+    -3, -4,  0, -2, -3, -1, -2, -1
+
+Notice that there isn't a single positive value in this sample of differences. The mean difference is -2, i.e. on average, for individual patients, glycolipid levels are lower with Drug B. Another way of stating this observation is that *within subjects* (patients), the mean difference between drug B and drug A is -2.  
+
+If, on the other hand, the two drugs had had similar effects then what would we expect to see? Well obviously we would expect no consistent difference in glycolipid levels between the Drug A and Drug B treatments. Glycolipid levels are unlikely to remain exactly the same over time, but there shouldn’t be any pattern to these changes with respect to the drug treatment, some patients will show slight increases, some slight decreases and some no change at all. The mean of the differences in this case should be somewhere around zero.
+
+So, what we do to carry out a *t*-test on paired-sample data is to find the mean difference of all the pairs and test this to see if it is significantly different from zero. You already know how to do this! **This is just an application of the one-sample *t*-test**. The thing to remember here is that although you started out with two sets of values, the data you are actually evaluating is the mean differences between pairs. This is just one set of numbers that you can think of as a sample of the differences.
+
+When used to analyse paired data in this way, the test is sometimes referred to as a paired-sample *t*-test. This is not wrong, but it important to remember that a paired-sample *t*-test is is really it is just a one-sample *t*-test applied to the differences between pairs of associated observations. Just don't forget that a one-sample *t*-test can be used for things other than testing differences---it is a useful test in its own right.
+
+Many computer packages do offer the option of a ‘paired sample *t*-test’ to save you the effort of calculating differences. The computer finds the differences between pairs for you as part of the test, but it is still just doing a one-sample test on those differences. Just remember, you could just calculate the differences yourself, then do a one-sample test.
+
+R offers a dedicated procedure for doing paired-sample *t*-tests. We are still going to show you how to do it the ‘old fashioned’ way first---calculating the differences and running a one-sample test. This is a good idea because it will help you understand how the test works.
+
+## What’s the point of a paired-sample design?
+
+```{r, echo = FALSE}
+drug_data <- read.csv(file = "./data_csv/GLYCOLIPID.CSV")
+```
+
+A paired sample design can be very useful in biology because we often have the problem that there is a great deal of variation between individual organisms. In some cases there may be so much variation between the organisms within each sample that the effect of any difference between the samples is obscured.
+
+Consider the following example. A drug company wishes to test two drugs for their effectiveness in treating a rare illness in which glycolipids are poorly metabolised. The company is only able to find 8 patients willing to cooperate in the early trials of the two drugs. The 8 patients vary greatly in their age, body weight, severity of symptoms and other health problems. Five are female and three are male.
+
+If the group of 8 patients was randomly assigned to one or other drug treatments and their performance monitored it would be very difficult to detect significant differences between the treatments. This is because we have an experiment which provides very little replication, yet we should expect considerable variability from one person to another both in the levels of glycolipid before any treatment. There may also be problem if male and female patients respond differently (even if in the same direction), since one treatment will have more males and fewer females assigned to it.
+
+One solution to all these problems is to treat each patient with both drugs in turn and record the glycolipid concentrations in the blood, for each patient, after a period taking each drug. We'll see why shortly.
+
+The best arrangement would be for four patients to start with drug A and four with drug B, and then after a suitable break from the treatments, they could be swapped over onto the other drug. This would give us eight replicate observations on the effectiveness of each drug and we can determine for each patient which drug is more effective. This kind of experimental design is called a cross-over study. It can be problematic if, for example, "carry-over" effects occur, e.g., the effect of one drug is altered when the other drug has previously been administered. We won't worry about these problems here though.
+
+The experimental design, and one possible outcome, can be schematically represented as in the diagram below... where each patient is represented by a number (1-9). The order does not matter, i.e. it doesn’t mean that Drug A was tested before Drug B just because Drug A appears first.
+
+```{r drug-linked, echo = FALSE, out.width='50%', fig.asp=1, fig.align='center', fig.cap='Data from glycolipid study, showing paired design. Each patient is denoted by a unique number.'}
+ggplot(drug_data, aes(x = Drug, y = Glycolipid, 
+                      group = Patient, label = Patient)) + 
+  geom_line() + 
+  geom_label(alpha = 0.5, size = 3)
+```
+
+Notice that there is a lot of variability both in the glycolipid levels of each patient, and also in the amount by which the drugs differ in their effects (e.g. for patient C the drugs have equal effects, while for patient A drug B is more effective).
+
+What is obvious from this pattern is that although the glycolipid level varies a good deal between patients, as far as each individual patient goes, Drug B does appear to reduce glycolipid levels more than Drug A in all but one case (patient C). This is important information about the performance of the drugs.
+
+The advantage to using a paired sample design in this case is clear if we look at the results we might have obtained on the same patients but by dividing them into two groups of four and giving one group Drug A and one group Drug B:
+
+```{r drug-not-linked, echo = FALSE, out.width='50%', fig.asp=1, fig.align='center', fig.cap='Data from glycolipid study, ignoring paired design.'}
+ggplot(drug_data, aes(x = Drug, y = Glycolipid, label = Patient)) + 
+  geom_point(size = 4, alpha = 0.5)
+```
+
+The patients and their glycolipid levels are identical to those in the previous diagram, but only patients B, D, E and H (selected at random) were given Drug A, while only patients A, C, F, and G were given Drug B. Clearly, if you calculated the means of the two groups, they would be very similar and a *t*-test of the two samples, given the variation between patients, would almost certainly find no significant difference between them.
+
+So, it would be quite possible to end up with two groups where there was no clear difference in the mean glycolipid levels between the two drug treatments even though (as we have seen in the previous diagram) Drug B seems to be rather more effective in almost all patients. What the pairing is doing is allowing us to factor out (i.e. remove) the variation among individuals, and concentrate on the differences between
+the two treatments. The result is a much more sensitive test.
+
+## Carrying out a paired-sample *t*-test in R
+
+<div class="exercise-box">
+#### Work through the example
+<div class="box-text">
+You should work through the one sample *t*-test example in this section. You will need to download the GLYCOLIPID.CSV file from MOLE and place it in your working directory. Read GLYCOLIPID.CSV into an R data frame, giving it the name `glycolipid`.
+```{r, echo=FALSE}
+glycolipid <- read.csv(file = "./data_csv/GLYCOLIPID.CSV")
+```
+</div>
+</div>
+
+Staying with the problem of trials of two drugs for controlling glycolipid levels, the serum glycolipid concentration data from such a trial (not those used in the schematic illustration above) are stored in the file, 'GLYCOLIPID.CSV'. We have read this into an R data frame, giving it the name `glycolipid`. As always, we should start by looking at the raw data. We'll use `glimpse` to do this:
+```{r, echo=FALSE}
+glimpse(glycolipid)
+```
+You may also wish to examine the data with the `View` function to ensure that you understand how it is organised. 
+
+First we need to calculate the differences between each pair. We can do this with the `dplyr` functions `group_by` and `summarise`:
+```{r}
+glycolipid.diffs <- 
+  glycolipid %>%
+  group_by(Patient) %>%
+  summarise(Difference = diff(Glycolipid))
+
+glycolipid.diffs
+```
+Don't worry too much if that looks cryptic to you. What we did was group the data by the values of `Patient`, and then used a function called `diff` (you haven't seen this before) to calculate the difference between the two Glycolipid concentrations. We stored the result of this calculation in a new data frame called `glycolipid.diffs`. This is the data we'll use it to carry out the paired-sample *t*-test.
+
+<div class="advanced-box">
+#### The assumptions of a paired-sample *t*-test
+<div class="box-text">
+The assumptions of a  paired-sample *t*-test are straightforward. There is no requirement for the original data to be normal, or have equal variances. The only assumptions are that the data are on interval or ratio scales and that the differences are approximately normally distributed. This is very useful because even where the original data are not normally distributed, the differences between pairs can often be acceptably normal.
+</div>
+</div>
+
+Check, as far as you can, that the differences are not seriously non-normal in their distribution. Normality is quite hard to assess with only 8 observations though.
+
+If the data seem OK then carry out a one-sample *t*-test on the calculated differences, where the null hypothesis is one where the population mean is zero. This is very easy to in R:
+```{r}
+t.test(glycolipid.diffs$Difference)
+```
+Notice that do not have to set the `data` argument to carry out a one-sample *t*-test on the differences. We just pass along one argument, which is numeric vector of differences, extracted from `glycolipid.diffs` using the `$` operator. If you find this confusing, try breaking the calculation up into two steps:
+```{r}
+gdiffs <- glycolipid.diffs$Difference
+t.test(gdiffs)
+```
+
+The output has much the same structure as with two-sample *t*-tests...
+
+The first line reminds us what kind of test we did, and the second line reminds us what data we used to carry out the test. 
+
+It is the third line that really matters: `t = -2.6209, df = 7, *p*-value = 0.03436`. This gives the t-statistic, the degrees of freedom, and the all-important *p*-value associated with the test. Make sure you understand what the *p*-value is telling you.
+
+The next line (`alternative hypothesis: true mean is not equal to 0`) reminds us that R has tested whether the population mean is equal to a value of zero, versus the alternative possibility that it is not equal to (i.e. greater or less than) zero.
+
+We now need to express these results in a clear sentence incorporating the relevant statistical information to indicate whether we accept or reject our test hypothesis:
+
+> Individual patients had significantly lower serum glycolipid concentrations when treated with Drug B than when treated with Drug A  (*t* = 2.62, d.f. = 7, *p* = 0.034).
+
+There are a few things to point out in interpreting the result of such a test.
+
+1.  By convention t-values are quoted as positive values whether the value of from the calculation is positive or negative — it is only the absolute size of that matters.
+
+2.  The degrees of freedom for a paired-sample *t* test are one less than the number of differences (or number of pairs); not one, or two, less than the total number of data values.
+
+3.  Note that since we have used a paired-sample design our conclusion stresses the fact that the use of the Drug B results in a lower glycolipid level in individual patients; it doesn’t say that the use of Drug B resulted in lower glycolipid concentrations for everyone given Drug B than for anyone given Drug A.
+
+### Using the `paired = TRUE` argument
+
+As mentioned earlier R does have a built in procedure for doing paired sample *t*-tests. Now you’ve done it the hard way, try running the data you’ve just analysed through the test using that procedure to confirm it really does so the same thing. All you have to do is set the `paired` argument of the `t.test` function to `TRUE`: 
+```{r}
+t.test(Glycolipid ~ Drug, data = glycolipid, paired = TRUE)
+```
+Notice that you work with the original `glycolipid` data frame, not the `glycolipid.diffs` data frame that we constructed above. R takes care of the differencing for us.
+
+R certainly makes it easy to do paired sample *t*-test. It is up to you which method you use for doing standard paired-sample *t*-tests, just don’t forget it is really only a one-sample test wearing fancy dress.
+
+
+

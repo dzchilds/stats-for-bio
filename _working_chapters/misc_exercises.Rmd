@@ -93,6 +93,19 @@ p = ?
 Write a statement of the result of the test suitable for inclusion in the results section of the plant pathologist's report.
 ```
 
+### The power of pairing
+
+The paired *t*-test is a very powerful technique. You can get an idea of the value of the paired-sample test by seeing what would have happened if we had ignored the pairing structure of data and analysed it with an unpaired, two-sample approach (N.B.---This analysis is wrong!):
+```{r}
+t.test(Glycolipid ~ Drug, data = glycolipid)
+```
+
+<div class="well">
+**MOLE question**
+
+What result do you get and how does this compare with the paired-sample test?
+</div>
+
 ### Sheep, grass and nature reserves
 
 The management committee of a nature reserve wants to manage some large grassland areas of the reserve using low density sheep grazing to prevent the grass becoming too long and making the habitat unsuitable for some of the low-growing herbaceous plants for which the reserve is important. Before implementing the plan they conduct a pilot experiment using some fenced plots on the reserve, to test whether low density sheep grazing affects various species of plants.

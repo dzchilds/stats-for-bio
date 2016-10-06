@@ -1,0 +1,43 @@
+# What are "parametric statistics"?
+
+[[Reminder of bootsrap etc...]]
+
+The majority of statistical tools we're going learn about in this book rely on some kind of mathematical model of the populations involved. Because this model is lurking in the background, the associated statistical tests are examples of what are known as **parameteric statistics**. The word 'parametric' refers to the fact that the behaviour of a mathematical model is determined by its 'parameters'.
+
+We aren't going to study the mathematical details of these models in any great detail (this isn't a maths book). Still, it is important to at least consider the assumptions of underlying the models. Why? Because if these assumptions aren't reasonable for a given situation, we can't be sure that the results of a statistical test will be reliable. 
+
+## Mathematical models {#math-models}
+
+[[FINISH ME]]
+
+## The normal distribution {#parametric-stats}
+
+In this course, this assumption is essentially always the same: we assume that the error part of the model follows a **normal distribution**. If you studied A-level statistics you should know all about this. If not, you may have come across it without realising: the normal distribution is sometimes called the 'Gaussian distribution' or more colloquially, 'the bell-shaped curve'.
+
+Unfortunately, we don't have enough time in this course to really study the normal distribution in much detail. There are however, many good online resources to help you learn you about it if you want to know more. Here is one relatively non-technical introduction:
+
+http://onlinestatbook.com/2/normal_distribution/normal_distribution.html
+
+## The t-distribution
+
+A statistician called W.G. Gosset showed that when we take samples from a normally distributed variable and calculate their means, the sampling distribution of these means has a particular form---it follows a Student's t-distribution. The same is true if you take two samples from a normal distribution, calculate their means, and then subtract these from one another. The sampling distribution of the differences among means also follows a Student's t-distribution.
+
+(Why is it called Student's t? W.G. Gosset was a statistician employed by the Guinness Brewery, who published his statistical work under the pseudonym of 'Student'. He didn't use his real name because Guinness would have claimed ownership of his work.)
+
+Actually, things are a bit more complicated than that, as we have to standardise the sample means (or their differences) by a standard error to arrive at Student's t-distribution, but the core idea remains: means and differences between means calculated from samples drawn from a normal distribution follow a t-distribution.
+
+We are not going to delve any deeper into the t-distribution. However, these observations suggests that a parametric version of our permutation test of whether two population means are different can be constructed as follows:
+
+1. Calculate the sample mean of each sample.
+
+2. Calculate the difference between the two sample means
+
+3. Divide this difference by an estimate of the standard error of the difference. Different estimates of the standard error are available.
+
+(This generates a test statistic)
+
+4. Compare the test statistic to the theoretical predictions of the t-distribution to assess the statistical significance of the observed difference.
+
+Thsi procedure is called a two sample *t*-test, or sometimes, just a *t*-test. It is very easy to apply, as we will soon see.
+
+
