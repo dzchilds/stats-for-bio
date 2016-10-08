@@ -16,11 +16,11 @@ The solution to this problem is surprisingly simple (or at least the basic idea 
 
 Let's unpack this idea a bit more, and then try it out for real.
 
-### Overviw of bootstrapping {#bootstrap-overview}
+### Overview of bootstrapping {#bootstrap-overview}
 
 There are many different ways to approximate a population from a sample. One of the simplest methods---for easy problems at least---is to *pretend the sample is the true population*. Then, all we have to do to get at a sampling distribution is draw new samples from this pretend population. That may sound a lot like cheating, but it turns out that this is a perfectly valid way to construct useful sampling distributions for many kinds of problems. 
 
-Here is a how it works for our example, using a physical analogy. Imagine that we only have one sample, and have written down the colour of each sampled plant on a different piece of paper, and then placed all of these bits of paper into in a hat. We then do the following:
+Here is how it works for our example, using a physical analogy. Imagine that we only have one sample, and have written down the colour of each sampled plant on a different piece of paper, and then placed all of these bits of paper into in a hat. We then do the following:
 
 1. Pick a piece of paper at random, record its value (purple or green), put the paper back into the hat, and shake the hat about to mix up the bits of paper.
 
@@ -71,7 +71,7 @@ A data set representing this situation is stored in a Comma Separated Value (CSV
 
 * Use the `View` function to inspect the data. Is this what you expected? Are the values of the different variables as you would expect them to be?
 
-The point of all this is to 'sanity check' the data, i.e. to make sure we understand the data and that there are no obvious problems with it. **We should always check our data after we've read it in**. There is really no point messing about with the likes of **dplyr** and **ggplot2**, or carrying out a statistical analysis, until we have done this. If we don't understand how our data is organised, and what variables we are working with, there is very real risk that we will make a lot of avoidable mistakes.
+The point of all this is to 'sanity check' the data, i.e. to make sure we understand the data and that there are no obvious problems with it. **We should always check our data after we've read it in**. There is really no point messing about with the likes of **dplyr** and **ggplot2**, or carrying out a statistical analysis, until we have done this. If we don't understand how our data is organised, and what variables we are working with, there is a very real risk that we will make a lot of avoidable mistakes.
 
 What you should have found is that `morph.data` contains 250 rows and two columns/variables: `Colour` and `Weight`. `Colour` is a categorical variable (a 'factor', in R-land) and `Weight` is a numeric variable. The `Colour` variable obviously contains the colour of each plant in the sample. What about `Weight`? We don't need this now, but we'll use it in the next chapter.
 
@@ -123,21 +123,21 @@ The end result of the above is that `boot_out` now contains a bootstrapped sampl
 ```{r}
 head(boot_out, 25) %>% round(1)
 ```
-These numbers represents different values of the purple morph frequency that we might expect to generate if we repeated the data collection exercise, assuming the observed purple morph frequency really is equal to that of the actual sample. This is a bootstrapped sampling distribution. 
+These numbers represent different values of the purple morph frequency that we might expect to generate if we repeated the data collection exercise, assuming the observed purple morph frequency really is equal to that of the actual sample. This is a bootstrapped sampling distribution. 
 
 We can use this bootstrapped sampling distribution in a number of useful ways. Let's plot it first get a sense of what it looks like. A histogram is a good choice here because we have a reasonably large number of cases:
 
 ```{r boot-samp-dist, echo = FALSE, out.width='75%', fig.asp=0.75, fig.align='center', fig.cap='Bootstrapped sampling distribution of purple morph frequency'}
 boot_out_df <- data.frame(boot_out) # 'ggplot' expects a data frame 
 ggplot(boot_out_df, aes(x = boot_out)) + 
-  geom_histogram(binwidth = 1.2) + xlab("Purple morph frequncy (%)")
+  geom_histogram(binwidth = 1.2) + xlab("Purple morph frequency (%)")
 ```
 
 The mean of the sampling distribution looks to be round about `r round(mean(boot_out))`%, which is fairly close to the sample mean. We can of course calculate this using R: 
 ```{r}
 mean(boot_out) %>% round(1)
 ```
-This is essentially the same as the sample estimate we're working with. This guaranteed to be the case when we construct a large enough sample, because we're just resampling the data used to estimate the purple morph frequency.
+This is essentially the same as the sample estimate we're working with. This is guaranteed to be the case when we construct a large enough sample, because we're just resampling the data used to estimate the purple morph frequency.
 
 A more useful quantity is the bootstrapped standard error (SE). This is the standard deviation of the sampling distribution, so all we have to do is apply the `sd` function to the bootstrapped sample:
 ```{r}
@@ -145,18 +145,18 @@ sd(boot_out) %>% round(1)
 ```
 The standard error is a useful quantity in its own right. Remember, the standard errror is a measure of the precision of an estimate (e.g. a large SE would imply that our sample size was too small to reliably estimate the population mean). It is standard practise to summarise the precision of a point estimate by reporting its standard error. Whenever we report a point estimate, we should also report the standard error, like this...
 
-> The frequency purple morph plants (n = `r samp_size`) was `r mean_point_est`% (s.e. ± `r round(sd(boot_out), 1)`).
+> The frequency of purple morph plants (n = `r samp_size`) was `r mean_point_est`% (s.e. ± `r round(sd(boot_out), 1)`).
 
 Notice that we also report the sample size.
 
 ## Statistical significance
 
-Now back to the question that motivated all the work in the last few chapters. Is the purple morph frequency is greater than 25% in the new study population? We can never answer a question like this definitively from a sample. Instead, we have to carry out some kind of probabilistic assessment. To make this assessment, we're going to do something that looks rather odd (frequentist statistics is odd to be honest).
+Now back to the question that motivated all the work in the last few chapters. Is the purple morph frequency greater than 25% in the new study population? We can never answer a question like this definitively from a sample. Instead, we have to carry out some kind of probabilistic assessment. To make this assessment, we're going to do something that looks rather odd (frequentist statistics is odd, to be honest).
 
 ```{block, type='do-something'}
 **Don't panic...**
 
-The ideas in this next section are really quite abstract and can difficult to understand. You aren't expected to understand them straight away, and you certainly won't be asked to explain them in an assessment. 
+The ideas in this next section are really quite abstract and can be difficult to understand. You aren't expected to understand them straight away, and you certainly won't be asked to explain them in an assessment. 
 ```
 
 We're going to make two important assumptions:
@@ -176,7 +176,7 @@ All we actually did here was shift the bootstrapped sampling distribution left u
 ```{r boot-samp-dist-25, echo = FALSE, out.width='75%', fig.asp=0.75, fig.align='center', fig.cap='Sampling distribution of purple morph frequency under the null hypothesis'}
 ggplot(boot_out_df, aes(x = null_dist)) + 
   geom_histogram(binwidth = 1.21) + 
-  xlab("Purple morph frequncy (%)") +
+  xlab("Purple morph frequency (%)") +
   geom_vline(xintercept = mean(boot_out), colour = "red")
 ```
 
