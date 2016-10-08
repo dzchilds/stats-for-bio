@@ -55,7 +55,7 @@ It is not wrong to use the four categories above, but giving the actual probabil
 
 It is common to see ranges of probabilities coded with asterisks: 
 
-`*`   for *p* < 0.05...0.01, 
+`*`   for *p* = 0.05...0.01, 
 
 `**`  for *p* = 0.01...0.001,
 
