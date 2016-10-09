@@ -1,14 +1,16 @@
 # What are "parametric statistics"?
 
-[[Reminder of bootsrap etc...]]
+The majority of statistical tools we're going to learn about in this book share one important feature---they are all underpinned by a mathematical model of the populations samples are derived from. Because a mathematical model of some kind is always lurking in the background, this particular flavour of statistics is known as **parameteric statistics**. The word 'parametric' in this context simply refers to the fact that the behaviour of a mathematical model is defined by one or more quantities known as 'parameters'.
 
-The majority of statistical tools we're going learn about in this book rely on some kind of mathematical model of the populations involved. Because this model is lurking in the background, the associated statistical tests are examples of what are known as **parameteric statistics**. The word 'parametric' refers to the fact that the behaviour of a mathematical model is determined by its 'parameters'.
+We aren't going to study the mathematical details of these models in any great detail After all, this isn't a maths book. However, it is very important to at least consider the **assumptions** of underlying the models---if these aren't reasonable for a given situation, we can't be sure that the results of the corresponding statistical test will be reliable.
 
-We aren't going to study the mathematical details of these models in any great detail (this isn't a maths book). Still, it is important to at least consider the assumptions of underlying the models. Why? Because if these assumptions aren't reasonable for a given situation, we can't be sure that the results of a statistical test will be reliable. 
+We also want to 'connect the dots'. We explored a number of key concepts from fequentist statistics in the last few chapters, such as sampling variation, null distributions, and *p*-values. 
 
 ## Mathematical models {#math-models}
 
-[[FINISH ME]]
+$$y_i = \text{Systematic Component} + \text{Random Component}$$
+
+$$y_i = a + \epsilon_i$$
 
 ## The normal distribution {#parametric-stats}
 
@@ -18,9 +20,9 @@ Unfortunately, we don't have enough time in this course to really study the norm
 
 http://onlinestatbook.com/2/normal_distribution/normal_distribution.html
 
-## Calculating standard errors
+## Taking samples from normal distributions
 
-These observations suggests that a parametric version of the bootstrapped standard error procedure works as follows:
+## Calculating standard errors
 
 One sample...
 
@@ -30,11 +32,13 @@ Difference between samples with equal variance and sample size...
 
 $$\sqrt{\frac{s_1^2+s_2^2}{n}}$$
 
-## The t-distribution
+## The *t* distribution
 
-A statistician called W.G. Gosset showed that when we take samples from a normally distributed variable and calculate their means, the sampling distribution of these means has a particular form---it follows a Student's t-distribution^[Why is it called Student's t? W.G. Gosset was a statistician employed by the Guinness Brewery, who published his statistical work under the pseudonym of 'Student'. He didn't use his real name because Guinness would have claimed ownership of his work.]. 
+A statistician called W.G. Gosset showed that when we take samples from a normally distributed variable and calculate estimates of the population mean, the sampling distribution of these means has a particular form---it follows a Student's *t*-distribution^[Why is it called Student's *t*? The *t*-distribution was discovered by W.G. Gosset, a statistician employed by the Guinness Brewery. He published his statistical work under the pseudonym of 'Student', because Guinness would have claimed ownership of his work if he had used his real name.].
 
-The same is true if you take two samples from a normal distribution, calculate their means, and then subtract these from one another. The sampling distribution of the differences among means also follows a Student's t-distribution.
+This 
+
+The same is true if you take two samples from a normal distribution, calculate their means, and then subtract these from one another. The sampling distribution of the *differences between estimates of means* also follows a Student's t-distribution.
 
 
 

@@ -1,36 +1,45 @@
 # One sample *t*-tests
 
-[[PREAMBLE]]
+## When do we use one-sample *t*-test?
 
-## When do we use one-sample t-test?
+The one-sample  *t*-test is just about the simplest staistical test you can carry out. This test is appropriate in situations where we are studying a numeric variable sampled from a single population. It is used to compare the mean of the variable to an expected value. To be more precise, it uses information in sample evaluate whether the (unknown) population mean is likely to be different from an expected value. This value might be something predicted from theory or some other prespecified value we are interested in. Here are some examples:
 
-The one-sample t-test allows us to compare the mean from a sample of a numeric variable with an expected value. More precisely, it allows us to use the sample evaluate whether the (unknown) population mean is likely to be different from an expected value. This value might be something predicted from theory or some other prespecified value you are interested in. Here are some examples:
+-   We have a theoretical model of foraging behaviour that predicts an animal should leave a food patch after 10 minutes. If we have data on the actual time spent by 25 animals observed foraging in the patch, we could test whether the mean foraging time is significantly different from the prediction using a one-sample *t*-test.
 
--   We have a theoretical model of foraging behaviour that predicts an animal should leave a food patch after 10 minutes. If we have data on the actual time spent by 15 animals observed foraging in the patch, then we could test whether the mean foraging time is significantly different from the prediction using a one-sample t-test.
-
--   We are monitoring sea pollution and have a series of water samples from along a beach. You wish to test whether the mean density of faecal coliforms (bacteria indicative of sewage discharge) for the beach as a whole can be regarded as greater, or less than the legislated limit. A one-sample t-test will enable us to test whether the mean value for the beach as a whole exceeds this limit^[The question of whether the average for the whole beach is the thing to be concerned about, or whether we should be considering the peak values is another issue].
-
--   We are in charge of packaging seed samples from a horticultural firm, and our sales literature says that the packs will contain an average of 40 seeds. We select 20 packets off the production line at random and count the seeds in each. We could use a one-sample t-test to test whether this claim was true (or perhaps more importantly our competitors could!).
+-   We are monitoring sea pollution and have a series of water samples from a beach. We wish to test whether the mean density of faecal coliforms (bacteria indicative of sewage discharge) for the beach as a whole can be regarded as greater, or less than the legislated limit. A one-sample *t*-test will enable us to test whether the mean value for the beach as a whole exceeds this limit^[The question of whether the average for the whole beach is the thing to be concerned about, or whether we should be considering the peak values is another issue].
 
 ## How does the one-sample *t*-test work?
 
-[[SCHEMATIC]]
+The key assumption of one-sample *t*-test that the variable is **normally distributed** in the population. Imagine that we have taken a sample of a variable (imaginitively called 'X') from a population we're studying. Here's an example of what these data might look like if we used a sample size of 50:
+
+```{r two-t-eg-samps, echo = FALSE, out.width='55%', fig.asp=1, fig.align='center', fig.cap='Example of data used in a one-sample t-test'}
+set.seed(27081975)
+nsamp <- 50
+plt_data <- data.frame(X = rnorm(nsamp, mean = 11))
+line_data <- plt_data %>% summarise(Mean = mean(X))
+ggplot(plt_data, aes(x = X)) +
+  geom_dotplot(alpha = 0.6, binwidth = 0.3) +
+  geom_vline(aes(xintercept = Mean), line_data, colour = "red") +
+  geom_vline(xintercept = 10, colour = "blue") +
+  theme_grey(base_size = 22)
+```
+
+The distribution of the sample look roughly bell-shaped, so it seems plausible that it was drawn from a normal distribution^[It's actually quite hard to visually detrrmine whether a sample came from a normal distribution when the sample size is small.]. The red line shows the mean of the sample, and the blue line shows the expected value of 10 (this corresponds to the foraging example mentioned above). The question is, how do we decide whether the unknown population mean is really different from the expected value?
+
+We can start to tackle this question by setting up an appropriate null hypothesis---the null hypothesis is that there is actually no difference between the population means. We then work out what the sampling distribution of the differences between sample means looks like under this null hypothesis (this is the 'null distribution' we mentioned before). The key assumption that makes the calculations 'doable' is that the variable is **normally distributed** in each population. If this assumption is valid, then the null distribution will have a known form. We can then use this knowledge to carry out a test of statistical significance.
+
 
 ### Assumptions of the one-sample *t*-test
 
-There are a number of assumptions that need to be met in order to use a one-sample *t*-test. Some of these are more important than others. We'll start with the most important and work down the list of importance:
+There are a number of assumptions that need to be met in order for a one-sample *t*-test to be valid. Some of these are more important than others. We'll start with the most important and work down the list in order of importance:
 
-1. **Independence.** People tend to forget about this one, probably because they can't do much about it once the data have been collected---it's a consequence of how the data were collected. We're going to discuss the idea of independence later in the book. For now, we'll just point out that it matters and tell you why. If the data are not independent, then the *p*-values generated by the one-sample *t*-test will not be reliable. Even mild non-independence can be a serious problem, which why it is so important to design your data collection / experiment well.
+1. **Independence.** People tend to forget about this one, probably because they can't do much about it if there is a problem. We're going to discuss the important idea of independence later in the book when we think about experimental design. For now, we'll briefly tell you why it matter: if the data are not independent, then the *p*-values generated by the one-sample *t*-test will not be reliable. Even mild non-independence can be a serious problem, which why it is so important to design your data collection / experiment well.
 
 2. **Measurement scale.** The variable that you are working with should be measured on an interval or ratio scale, i.e. it should be a numeric variable. It generally doesn't make much sense to apply a *t*-test to data that aren't measured on one of these scales. 
 
-3. **Normality.** The one-sample *t*-test will produce exact p-values if the variable is normally distributed in the population. However, this assumptions is less important than many people think. The *t*-test is fairly robust to mild departures from normality when the sample sizes are small. When the sample sizes are large the normality assumption matters even less^[It's hard to define what constitutes a 'large' sample, but 100s of observations would usually be safe. We don't have time to properly explain why the normality assumption doesn't matter too much for large samples, but we can at least state the reason: it is a consequence of the 'central limit theorem'.].
+3. **Normality.** The one-sample *t*-test will always produce reliable *p*-values if the variable is normally distributed in the population. However, this assumptions is less important than many people think. The *t*-test is fairly robust to mild departures from normality when the sample size is small, and when the sample size is large the normality assumption matters even less^[It's hard to define what constitutes a 'large' sample, but 100s of observations would often be safe.]. We don't have the opportunity to properly explain why the normality assumption does not matter too much for large samples in this book, but we will at least state the reason: it is a consequence of something called the ['central limit theorem'](https://www.khanacademy.org/math/statistics-probability/sampling-distributions-library/sample-means/v/central-limit-theorem).
 
-How should we evaluate these assumptions? The first two are really aspects of experimental design, so they can't be addressed once the data have been collected. 
-
-That leaves the 3^rd^ assumption. This is best evaluated by plotting the distribution of the sample. If the sample size is small, and each sample looks approximately normal when you graphically summarise its distribution, then it is probaly fine to use a *t*-test. If you have large samples, you don't even need to worry about moderate departures from normality--ask someone with experience of data analysis if you run into this situation and are not sure how to interpret the word 'moderate' in this statement.
-
-[[WRITE THIS]]
+How do we go about evaluating these assumptions? The first two are really aspects of experimental design, i.e. we can only evaluate them by thinking carefully about how the data were gathered and what was measured. What about the 3^rd^ assumption? This is best evaluated by plotting the distribution of the sample, using something like a histogram or a dot plot. If the sample size is small, and the sample looks approximately normal when we visualise its distribution, then it is probably fine to use the *t*-test. Just remember, if we have a large sample we don't need to worry much about moderate departures from normality. Ask someone with experience of data analysis if you run into this situation and are not sure whether there is a problem or not.
 
 ## Carrying out a one-sample *t*-test in R
 
@@ -61,7 +70,7 @@ There are a number of common questions that arise when presenting *t*-test resul
 ```{block, type='warning-box'}
 **p = 0.0000? It’s impossible! p = 1e-16? What's that?** 
 
-Some computer packages (e.g. Minitab) will sometimes give a probability of p=0.000. This does not mean the probability was actually zero. A probability of zero would mean something was impossible - and since you cannot show something to be impossible by taking samples, you should never say this. When a computer package says p=0.000 it just means that the probability was 'very small'.
+Some computer packages (e.g. Minitab) will sometimes give a probability of p=0.000. This does not mean the probability was actually zero. A probability of zero would mean something was impossible - and since you cannot show something to be impossible by taking samples, we should never say this. When a computer package says p=0.000 it just means that the probability was 'very small'.
 
 R uses a different convention for presenting small probabilities. `p-value < 2.2e-16`
 ```

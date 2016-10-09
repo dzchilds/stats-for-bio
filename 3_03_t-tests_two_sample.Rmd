@@ -1,58 +1,83 @@
 # Two-sample *t*-test
 
-Think back to the permutation test we carried out in [Comparing populations] chapter. In order to construct the test, we pretended that the two samples were both drawn from one population. We used the combined purple morph and green morph samples to mimic the process of drawing new samples from this hypothetical population, each time assigning arbitary labels to generate artificial observations. [[MORE]]. 
-
-The two-sample *t*-test can be viewed as a parametric version of this procedure.
-
 ## When do we use a two-sample *t*-test?
 
-[[FINISH]]
+The two-sample *t*-test is essentially a parametric version of the permutation procedure we studied in the [Comparing populations] chapter (although the mechanics of the approach are quite different). This test is appropriate in situations where we are studying a numeric variable that has been sampled from two independent populations. The aim is to evaluate whether or not the mean of this variable is different in the two popuations. Here are two examples:
+
+-   We are studying how the the dietary habits of Scandinavian eagle-owls vary among seasons. We suspect that the dietary value of a prey item is different in the winter and summer. To evaluate this prediction, we measure the size of Norway rat skulls in the pellets of eagle-owls in summer and winter, and then compoare the mean size of rat skulls in each season using a two-sample *t*-test.
+
+
+
+
+
+
+
 
 ## How does the two-sample *t*-test work?
 
-[[NULL HYPOTHESIS ETC]]
+The key assumption of two-sample *t*-test that the variable is **normally distributed** in the two populations. Imagine that we have taken a samples of a variable (again called 'X') from two populations, labelled 'A' and 'B'. Here's an example of what these data might look like if we took a sample of 50 items from each population:
 
-The two-sample *t*-test starts by making an assumption about the mathematical form of the population distribution. The key assumption is that the variable is **normally distributed** in the populations.
+```{r two-t-eg-samps, echo = FALSE, out.width='80%', fig.asp=0.6, fig.align='center', fig.cap='Example of data used in a two-sample t-test'}
+set.seed(27081977)
+nsamp <- 50
+plt_data <- data.frame(
+  X = c(rnorm(nsamp, mean = 10), rnorm(nsamp, mean = 10.5)),
+  Group = rep(LETTERS[1:2], each = nsamp)
+)
+line_data <- plt_data %>% group_by(Group) %>% summarise(Mean = mean(X))
+ggplot(plt_data, aes(x = X)) +
+  geom_dotplot(alpha = 0.6, binwidth = 0.4) +
+  facet_wrap(~ Group) +
+  geom_vline(aes(xintercept = Mean), line_data, colour = "red")
+```
 
-We are not going to delve any deeper into the *t*-distribution. However, these observations suggests that a parametric version of our permutation test of whether two population means are different can be constructed as follows:
+The distribution of each sample look roughly bell-shaped, so it seems plausible that they were drawn from a normal distribution. They also overlap quite a lot. However, this isn't really important because we're primarily interested in the means. The red line is the mean of each sample---sample B obviously has a larger mean than sample A. The question is, how do we decide whether these are really 'different'?
 
-1. Calculate the sample mean of each sample.
+We can start to tackle this question by setting up an appropriate null hypothesis---the null hypothesis is that there is actually no difference between the population means. We then work out what the sampling distribution of the differences between sample means looks like under this null hypothesis (yes, this is the 'null distribution'). The key assumption that makes these calculations 'doable' is that the variable is **normally distributed** in each population. If this assumption is valid, then the null distribution will have a known form. We can then use this knowledge to carry out a test of statistical significance.
 
-2. Calculate the difference between the two sample means
+So how is this different from the permuation test? The logic is virtually identical in fact. The only difference is that because we're prepared to make the normality assumption, we only need to use a few peices of information to construct out the significance test: the sample sizes of A and B, the sample variances of A and B, and the estimated difference between the sample means. No complicated resampling of data is involved. 
 
-3. Divide this difference by an estimate of the *standard error of the difference*.
+OK, so how does it actually work? The two-sample *t*-test is carried out as follows:
 
-(This generates the *t*-test statistic)
+**Step 1.** Estimate the standard error of *the difference between the sample means* under the null hypothesis of no difference. This estimate gives us an idea of how much sampling variation we can expect to observe in the estimated difference between means, if there were actually no difference between them. 
 
-4. Compare the test statistic to the theoretical predictions of the *t*-distribution to assess the statistical significance of the observed difference.
+There are a number of different options for estimating the standard error of the difference---the choice of method depends on the assumptions we're prepared to make about the variability of the two populations. In practise, this calculation boils down to applying a reasonably simple formula involving the sample sizes and sample variances. The standard error gets smaller when the sample sizes grow, or when the sample varainces shrink. That's all you really need to know. 
 
-This procedure is called a two-sample *t*-test, or sometimes, just a *t*-test. It is very easy to apply, as we will soon see.
+**Step 2.** Calculate the two sample means, then calculate the difference between these estimates. This estimate of the difference between means can be thought of as our 'best guess' of the true difference. However, its role in the two-sample *t*-test is to allow us to construct a test statistic.
+
+**Step 3.** Once we have estimated the difference between sample means and the standard error of this estimate, we can calculate a test statistic. You probably won't be surprised to hear that this test statistic is actually a *t*-statistic. We calculate the *t*-statistic by dividing the difference between sample means (from step 2) by the estimated standard error of the difference (from step 1):^[Notice that the magnitude of the *t*-statistic is increased when either, the difference between the sample means grows, or the standard error of the difference shrinks.]
+
+$$ \frac{\text{difference between sample means}}{\text{standard error of the difference}}$$
+
+Why is this *t*-statistic useful? If our normality assumption is appropriate for both populations, then if we repeatedly sampled from them, going through steps 1-3 each time, the resulting collection of *t*-statistics would follow a *t*-distribution. This is guaranteed by the normality assumption. That knowledge leads to the final step...
+
+**Step 4.** Compare the test statistic to the theoretical predictions of the *t*-distribution to assess the statistical significance of the observed difference. That is, we calculate the probability that we would have observed a difference between means as large as, or larger than, the observed difference, if the null hypothesis were true. That's the *p*-value for the test.
+
+We could step through the actual calculations involved in these steps, but there isn't a whole lot to be gained by doing this. The key formulas and their different variants aren't very informative unless you already know a reasonable amount of statistics. By all means take a look at the [Wikipedi page](https://en.wikipedia.org/wiki/Student%27s_t-test#Independent_two-sample_t-test) if you are interested, and feel free to ask a TA to explain these if you're curious how they work. However, there is absolutely no need to learn these. We're going to let R to handle the heavy lifting (it's actually only 1 line of R code). 
+
+We should review the assumptions of the two-sample *t*-test first though...
 
 ### Assumptions of the two-sample *t*-test
 
-There are a number of assumptions that need to be met in order to use a two-sample *t*-test. Some of these are more important than others. We'll start with the most important and work down the list of importance:
+There are a number of assumptions that need to be met in order to use a two-sample *t*-test. These are basically the same assumptions that matter for the one-sample *t*-test. Once again, we start with the most important and work down the list in decreasing order of importance:
 
-1. **Independence.** People tend to forget about this one, probably because we can't do much about it once the data have been collected. We discussed the idea of independence in the [[LINK ME]] chapter. If the data are not independent, then the p-values generated by a *t*-test will not be reliable. Even mild non-independence can be a serious problem. This is why it is so important to design our data collection / experiment well.
+1. **Independence.** Remember what we said in our discussion of the one-sample *t*-test? We said that if the data are not independent, the *p*-values generated by the test will be unreliable, and that even mild non-independence can be a serious problem. The same is true of the two-sample *t*-test.
 
-2. **Measurement scale.** The variable that we are working with should be measured on an interval or ratio scale. It really doesn't make much sense to apply a *t*-test to data that aren't measured on one of these scales.
+2. **Measurement scale.** The variable that we are working with should be measured on an interval or ratio scale. It makes no sense to apply a two-sample *t*-test to a variable that isn't measured on one of these scales.
 
-The *t*-test will produce exact p-values if the two samples being compared are from populations that are normally distributed with equal variance. However, these assumptions are less important than many people think.
+3. **Normality.** The two-sample *t*-test will produce exact *p*-values if the variable is normally distributed in each of the two populations. Just as with one-sample *t*-test, the two-sample *t*-test is fairly robust to mild departures from normality when the sample sizes are small, and this assumption matters even less when the sample sizes are large.
 
-3. **Normality.** The *t*-test is fairly robust to mild departures from normality when the sample sizes are small. When the sample sizes are large (100s of observations per sample), the normality assumption matters even less. We don't have time to explain why this is true in this course, but it has something to do with the 'central limit theorem'.
+How do we evaluate the first two assumptions? Just as with the one-sample *t*-test, these are really aspects of experimental design---we have to evaluate them by thinking about how the data were gathered. The normality assumption may be checked by plotting the distribution of each sample, using histograms or a dot plots. Notice that we examine the distribution of *each sample*, not the combined distribution of both samples. If both samples looks approximately normal then it should be fine to proceed with the two-sample *t*-test (and if we have a large sample we don't need to worry too much about departures from normality, unless they are large).
 
-How should we evaluate these assumptions? The first two are really aspects of experimental design, so they can't be addressed once the data have been collected. The 4^th^ assumption only matters if we plan to use the equal variance version of the two-sample *t*-test (the original Student's *t*-test). This version of the *t*-test is potentially a little more powerful than Welch's version, but not by much, and it is only correct if the population variances really are identical. Since we can never verify this, it is safer to just use the unequal variance version. 
+### What about the _equal variance_ assumption?
 
-That leaves the 3^rd^ assumption. This is best evaluated by plotting the sample distribution of each group. If the sample size is small, and each sample looks approximately normal when we graphically summarise its distribution, then it is probably fine to use a *t*-test. If we have large samples, we don't even need to worry about moderate departures from normality. Ask someone with experience of data analysis if you run into this situation and are not sure how to interpret the word 'moderate' in this statement.
+If you learned about the two-sample *t*-test at some point in the past you may have been told that the variance (i.e. the dispersion) of each sample must be the same, or at least similar. This isn't really true, for two reasons:
 
-```{block, type='advanced-box'}
-***What about the _equal variance_ assumption?***
+1.    The original version of Student's two-sample *t*-test was derived by assuming that the variance of *each population* was identical, so it is the population variances, not the sample variances, that matter. There are methods available to compare population variances. However, there's really no need to do this...
 
-If you learned about the two-sample *t*-test at some point in the past you may have been told that variances of the two samples have to be the same. This isn't really correct, for two reasons:
+2.    What matters from a practical perspective is that R uses the "Welch" version of the two-sample *t*-test by default^[Welch was another statistician, in case you're wondering]. The Welch two-sample *t*-test does not rely on the equal variance assumption, so as long as we stick with this version of the *t*-test, the equal variance assumption isn't one we need to worry about.
 
-1.    The original version of Student's two-sample *t*-test was derived by assuming that the *variance* (i.e. the variability) of each population was identical, so it is the population variances, not the sample variances, that matter. There *are* methods available to use samples to compare population variances. However, there's really no need to do this...
-
-2.    What matters from a practical perspective is that R uses the "Welch" version of the *t*-test by default^[Welch was another statistician, in case you're wondering]. The Welch two-sample *t*-test does not rely on the equal variance assumption, so as long as we stick with this version of the *t*-test, the equal variance assumption isn't one we need to worry about.
-```
+Is there any reason not to use the Welch two-sample *t*-test? The alternative is to use the original Student's *t*-test. This version of the *t*-test is potentially a little more powerful than Welch's version, in the sense that it is more likley to detect a difference if it is really there. However, the difference in statistical power is really quite small, and the original test is only correct when the population variances really are identical. Since we can never prove the 'equal variance' assumption---we can only ever reject it---it is safer to just use the Welch two-sample *t*-test.
 
 ## Carrying out a two-sample *t*-test in R
 
@@ -64,7 +89,7 @@ nP <- table(morph.data$Colour)["Purple"]
 nG <- table(morph.data$Colour)["Green"]
 ```
 
-You should work through the example in this section. You should already have downloaded the MORPH_DATA.CSV file from MOLE and place it in your working directory. Next, read the data in MORPH_DATA.CSV into an R data frame, giving it the name `morph.data`:
+You should work through the example in this section. You probably already have the MORPH_DATA.CSV in your working directory (download it from MOLE again if not). Read the data in MORPH_DATA.CSV into an R data frame, giving it the name `morph.data`:
 
 ```{r, eval = FALSE}
 morph.data <- read.csv(file = "MORPH_DATA.CSV")
@@ -80,9 +105,9 @@ The sample size of each sample is [[FIXME]]. This is fairly small (though not ba
 
 ### Carrying out the test
 
-It is very straightforward to carry out a two-sample *t*-test in R. We'll work with our plant morph example to demonstrate how to do it. The function we need to use is called `t.test` (no suprises there). Remember, we read the data into a data frame called `morph.data`. This has two columns: `weight` contains the dry weight biomass of each plant, and `Colour` is an index variable that indicates which group (plant morph) an observation belongs to. Here is the R code to carry out a two-sample *t*-test 
+It is very straightforward to carry out a two-sample *t*-test in R. We'll work with our plant morph example to demonstrate how to do it. The function we need to use is called `t.test` (no suprises there). Remember, we read the data into a data frame called `morph.data`. This has two columns: `Weight` contains the dry weight biomass of each plant, and `Colour` is an index variable that indicates which sample (plant morph) an observation belongs to. Here is the R code to carry out a two-sample *t*-test 
 ```{r, eval = FALSE}
-t.test(weight ~ Colour,  morph.data)
+t.test(Weight ~ Colour,  morph.data)
 ```
 We have surpressed the output for now as we want to focus on how to use `t.test` function. We have to assign two arguments (remember function arguments?--these control what a function does):
 
@@ -95,9 +120,9 @@ That's it. Let's take a look at the output:
 t.test(Weight ~ Colour,  morph.data)
 ```
 
-The part of the output reminds us what we did. The first line tells us what kind of *t*-test we used. This says: `Welch two-sample t-test`, so we know that we have used the version of the two-sample *t*-test that accounts for unequal variance in the samples. The next line reminds us about the data. This says: `data: weight by Colour`, which is R-speak for 'we compared the means of the `Weight` variable, where the groups are defined by the values of the `Colour` variable'.
+The part of the output reminds us what we did. The first line tells us what kind of *t*-test we used. This says: `Welch two-sample t-test`, so we know that we have used the Welch version of the two-sample *t*-test which accounts for the possinility of unequal variance in the samples. The next line reminds us about the data. This says: `data: weight by Colour`, which is R-speak for 'we compared the means of the `Weight` variable, where the sample membership is defined by the values of the `Colour` variable'.
 
-The third line of text is the most important. This says: `t = -2.7808, d.f. = 140.69, p-value = 0.006165`. The first part of this, `t = -2.7808`, is the test statistic (i.e. the value of the t statistic). The second part, `df = 140.69`, summarise the 'degrees of freedom'. This is essentially a measure of how much power our statistical test has (see the box below). The third part, `p-value = 0.006165`, is the all-important p-value. This says there is a statistically significant difference in the mean dry weight biomass of the two colour morphs, because *p*<0.05.
+The third line of text is the most important. This says: `t = -2.7808, d.f. = 140.69, p-value = 0.006165`. The first part of this, `t = -2.7808`, is the test statistic (i.e. the value of the *t*-statistic). The second part, `df = 140.69`, summarise the 'degrees of freedom'. This is essentially a measure of how much power our statistical test has (see the box below). The third part, `p-value = 0.006165`, is the all-important p-value. This says there is a statistically significant difference in the mean dry weight biomass of the two colour morphs, because *p*<0.05.
 
 The fourth line of text (`alternative hypothesis: true difference in means is not equal to 0`) just reminds us what the alternative to the null hypothesis is (H~1~).
 
@@ -107,6 +132,8 @@ The last few lines just summarise the sample means of each group. This is only u
 
 ```{block, type='advanced-box'}
 **A bit more about degrees of freedom**
+
+Degrees of freedom are closely related to the idea of sample size. In a nutshell, the greater the degrees of freedom associated with a test, the more likely it is to detect an effect if it's present (it has more 'statistical power'). We 'lose' degrees of freedom whenever we have to estimate a quantity like a mean. That's a bit of an over simplication, but it's enough to be getting on with.
 
 In the original version of the *t*-test (the one that assumes equal variances) the degrees of freedom of the test are give by (n~A~-1) + (n~B~-1), where n~A~ is the number of observations in sample A, and n~B~ the number of observations in sample B. The plant morph data included `r nP` purple plants and `r nG` green plants, so if we had used the original version of the test we would have (`r nP`-1) + (`r nG`-1) = `r nP+nG-2` d.f.. 
 
@@ -119,10 +146,10 @@ In either case, a test with high degrees of freedom is more powerful than one wi
 
 Having obtained the result we need to write the conclusion. Remember we are testing an hypothesis so go back to the original question to write our conclusion. In this case the appropriate conclusion is:
 
-> Mean dry weight biomass of purple and green plants differed significantly (Welch's t = 2.94, d.f. = 40, *p* < 0.01), with green plants being the larger.
+> Mean dry weight biomass of purple and green plants differed significantly (Welch's t = 2.78, d.f. = 140.7, *p* < 0.01), with purple plants being the larger.
 
 This is a concise and unambiguous statement in response to our initial question. The statement indicates not just the result of the statistical test, but also which of the mean values is the larger, although our initial hypothesis was only that there would be a difference. Always indicate which mean is the largest. It is sometimes appropriate to give the values of the means in the conclusion:
 
-> The mean dry weight biomass of green plants (787 grams) is significantly greater than that of purple plants (656 grams) (Welch's *t* = 2.94, d.f. = 40, *p* < 0.01)
+> The mean dry weight biomass of purple plants (767 grams) is significantly greater than that of green plants (708 grams) (Welch's *t* = 2.78, d.f. = 140.7, *p* < 0.01)
 
 When we are writing scientific reports, the end result of any statistical test should be a conclusion like the one above. **Simply writing t = 2.94 or p < 0.01 is not an adequate conclusion.** Never write this kind of thing in a report. 
