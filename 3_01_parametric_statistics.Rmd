@@ -18,26 +18,23 @@ Unfortunately, we don't have enough time in this course to really study the norm
 
 http://onlinestatbook.com/2/normal_distribution/normal_distribution.html
 
+## Calculating standard errors
+
+These observations suggests that a parametric version of the bootstrapped standard error procedure works as follows:
+
+One sample...
+
+$$\frac{s}{\sqrt{n}}$$
+
+Difference between samples with equal variance and sample size...
+
+$$\sqrt{\frac{s_1^2+s_2^2}{n}}$$
+
 ## The t-distribution
 
-A statistician called W.G. Gosset showed that when we take samples from a normally distributed variable and calculate their means, the sampling distribution of these means has a particular form---it follows a Student's t-distribution. The same is true if you take two samples from a normal distribution, calculate their means, and then subtract these from one another. The sampling distribution of the differences among means also follows a Student's t-distribution.
+A statistician called W.G. Gosset showed that when we take samples from a normally distributed variable and calculate their means, the sampling distribution of these means has a particular form---it follows a Student's t-distribution^[Why is it called Student's t? W.G. Gosset was a statistician employed by the Guinness Brewery, who published his statistical work under the pseudonym of 'Student'. He didn't use his real name because Guinness would have claimed ownership of his work.]. 
 
-(Why is it called Student's t? W.G. Gosset was a statistician employed by the Guinness Brewery, who published his statistical work under the pseudonym of 'Student'. He didn't use his real name because Guinness would have claimed ownership of his work.)
+The same is true if you take two samples from a normal distribution, calculate their means, and then subtract these from one another. The sampling distribution of the differences among means also follows a Student's t-distribution.
 
-Actually, things are a bit more complicated than that, as we have to standardise the sample means (or their differences) by a standard error to arrive at Student's t-distribution, but the core idea remains: means and differences between means calculated from samples drawn from a normal distribution follow a t-distribution.
-
-We are not going to delve any deeper into the t-distribution. However, these observations suggests that a parametric version of our permutation test of whether two population means are different can be constructed as follows:
-
-1. Calculate the sample mean of each sample.
-
-2. Calculate the difference between the two sample means
-
-3. Divide this difference by an estimate of the standard error of the difference. Different estimates of the standard error are available.
-
-(This generates a test statistic)
-
-4. Compare the test statistic to the theoretical predictions of the t-distribution to assess the statistical significance of the observed difference.
-
-Thsi procedure is called a two sample *t*-test, or sometimes, just a *t*-test. It is very easy to apply, as we will soon see.
 
 
