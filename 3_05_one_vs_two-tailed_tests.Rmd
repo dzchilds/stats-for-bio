@@ -4,9 +4,11 @@
 
 ## One-tailed *t*-tests {#one-tailed}
 
-In all the *t*-tests we have considered so far we been testing hypotheses of the type: ‘male and female locusts differ in length’, ‘eagle owls capture rats of different sizes during summer and winter’, ‘two drugs differ in their effectiveness at reducing glycolipid concentrations’. In such cases we simply want to know whether there is any difference at all between our two samples. Before doing the test we didn’t have specific ideas about which sample mean should be greater than the other. If our test revealed a difference between samples we were interested in it, whichever way round it was. We learned during the permutation test example that a test of this sort is called a *two-tailed test*.
+In all the *t*-tests we have considered so far we been testing hypotheses of the type: ‘male and female locusts differ in length’, ‘eagle owls capture rats of different sizes during summer and winter’, ‘two drugs differ in their effectiveness at reducing glycolipid concentrations’. In such cases we simply want to know whether there is any difference at all between our two samples. Before doing the test we didn’t have specific ideas about which sample mean should be greater than the other. If our test revealed a difference between samples we were interested in it, whichever way round it was. 
 
-However, there are occasions when we may wish to test more specific hypotheses. For example if we have two samples A and B we might only be interested in whether the mean of A is bigger than the mean of B. Testing this sort of directional hypothesis can be done using a *one-tailed *t*-test*.
+We learned during the permutation test example that a test of this sort is called a *two-tailed test*.
+
+However, there are occasions when we may wish to test more specific hypotheses. For example if we have two samples A and B we might only be interested in whether the mean of A is bigger than the mean of B. Testing this sort of directional hypothesis can be done using a one-tailed *t*-test.
 
 is that a one-tailed test is not a different sort of *t*-test from those you have already seen, it simply refers to the use of any of the *t*-tests (two-sample, paired-sample ...) to examine an hypothesis where the direction of the effect is specified (if this doesn’t make sense just now it should start to as we go on!).
 

@@ -47,34 +47,36 @@ write.csv(out, file = "./data_csv/SKEWED_POPULATIONS.CSV", row.names = FALSE)
 all_pops <- read.csv(file = "./data_csv/SKEWED_POPULATIONS.CSV")
 ```
 
-A data file containing variables from three different populations (labelled A, B, and C) is available in SKEWED_POPULATIONS.CSV. Download the SKEWED_POPULATIONS.CSV file from MOLE and place it in your working directory. Read SKEWED_POPULATIONS.CSV into an R data frame called `all_pops`. Examine the data set---both visually and in terms of its descriptive statistics:
+A data file containing a variable sampled from three different populations (labelled A, B, and C) is available in SKEWED_POPULATIONS.CSV. Download the SKEWED_POPULATIONS.CSV file from MOLE and place it in your working directory. Read SKEWED_POPULATIONS.CSV into an R data frame called `all_pops`. Examine the data set---both visually and in terms of its descriptive statistics:
 
-**Inspection.** Use the `View` function and `dplyr` function `glimpse` (or `str`) to inspect the 'data'. Which variables are in the data frame? What kind of variables are they (numeric, categorical, etc)? 
+**Inspection.** Use the `View` function and **dplyr** function `glimpse` (or `str`) to inspect the 'data'. Which variables are in the data frame? What kind of variables are they (numeric, categorical, etc)? 
 
-**Descriptive statistics.** Use the appropriate `dplyr` functions (`group_by` and `summarise`) to calculate the mean and standard deviation of `Values` in each population. HINT: You will need the `mean` and `sd`functions to help you do this.
+**Descriptive statistics.** Use the appropriate **dplyr** functions (`group_by` and `summarise`) to calculate the mean and standard deviation of the `Values` variable in each population. HINT: You will need the `mean` and `sd`functions to help you do this.
 
-**Graphs.** Use `ggplot2` to construct three histograms to summarise the distribution of the variables. HINT: You will need to use `geom_histogram` and the `facet_wrap` functions to do this.
+**Graphs.** Use **ggplot2** to construct three histograms to summarise the distribution of the variables. HINT: You will need to use `geom_histogram` and the `facet_wrap` functions to do this. Make sure that you use the original data (`all_pops`)---not the summarised data.
 
 ```{block, type='do-something'}
 **MOLE Question**
 
-How do the distributions of the three variables differ in terms of their central tendency, dispersion and skewness?
+How does the distribution of the variable differ across populations in terms of its central tendency, dispersion and skewness?
 
-Which variable is the most skewed?
+In which population is the variable `Values` the most skewed?
 ```
 
-Now that you understand a bit about the variables' distribution you can start to use them. You're going to explore how the shape of a variable's distribution influences the sampling distribution of its mean. If you're not sure what that last sentence means, ask a TA for help before proceeding.
+Now that you understand a bit about the distribution of the variable in each population we can move to the next step. You're going to explore how the shape of a variable's distribution influences the sampling distribution of its mean. If you're not sure what that last sentence means, skim over the [Sampling error] chapter or ask a TA for help before proceeding.
 
-The simplest way to tackle this problem is to work with each one in turn, using the the bootstrapping trick to create the sampling distribution of the mean. This involves three steps. First we have to extract the subset of values we require and store these in a numeric vector (step 1). Then we use a bit of R trickery to calculate 1000 bootstrapped means (step 2), and finally, parcel up the result into a data frame (step 3). Here's how this works for variable A:
+One way to tackle this problem is to work with each population in turn, using the bootstrapping trick to construct the sampling distribution of the mean. This involves three steps. First we have to extract the subset of values we require and store these in a numeric vector (step 1). Then we use a bit of R trickery to calculate 1000 bootstrapped means (step 2), and finally, parcel up the result into a data frame (step 3). Here's how this works for variable A:
 ```{r}
 # 1. extract the values of the variable
 x <- filter(all_pops, Population == "A")$Values
-# 2. carry out the bootstrapping
+# 2. carry out the bootstrapping (you don't need to understand this)
 boot_means <- replicate(1000, mean(sample(x, size = 25, replace = TRUE)))
 # 3. wrap up the result as a data frame
 plot_df <- data.frame(boot_means)
 ```
-Once we have the bootstrapped sampling distribution of the mean we need to summarise this as a histogram. You should be able to work out how to do this using `ggplot2`. Construct this histogram for each of the variables, paying close attention to the form of the original sample and the bootstrapped sampling distribution of their mean.
+Note that this code creates bootstrapped samples of 25 observations to construct the sampling distributions in the exercise above (`size = 25`). 
+
+Once we have the bootstrapped sampling distribution of the mean we need to visualise this as a histogram. You should be able to work out how to do this using **ggplot2**. Construct this histogram for each of the variables. Just look at each histogram in turn. There's no need to try to make one plot containing all three histograms. Look at each one carefully, paying close attention to the form of the original sample and the bootstrapped sampling distribution of their mean. 
 
 ```{block, type='do-something'}
 **MOLE Question**
@@ -115,7 +117,7 @@ sample_plants(samp_sizes = c(10, 20, 40, 100), prob = 0.4)
 ```
 The first argument, `samp_sizes = c(10, 20, 40, 100)`, provides the set of sample sizes we want the standard errors for, the second argument, `prob = 0.4`, is the frequency of purple plants (expressed as a probability) in the population. The function returns a vector of numbers that are the standard errors at each sample size.
 
-The easiest way to explore the relationship between sample size and standard error is to simply plot it. Since we use `ggplot2`, we need to collect together the inputs and outputs of these simulations into a data frame. Here's one way to do this:
+The easiest way to explore the relationship between sample size and standard error is to simply plot it. Since we use **ggplot2**, we need to collect together the inputs and outputs of these simulations into a data frame. Here's one way to do this:
 ```{r}
 sim_data <- 
   data.frame(sample_size = c(10, 20, 40, 100)) %>% 
@@ -139,6 +141,157 @@ Now repeat the exercise with assuming that the purple morph frequency is 0.1 (`p
 Does the standard error depend on purple morph frequency? Does it get smaller or larger when we move from a frequency of 0.4 to 0.1?
 ```
 
+## Week 3
+
+### Sample size and statistical power
+
+```{r, echo = FALSE, eval=FALSE}
+set.seed(27081975)
+nsamp <- 5000
+
+pop_info_1 <- data.frame(
+    Population = rep(LETTERS[1:2], each = nsamp),
+    Values     = c(rnorm(nsamp, mean = 10, sd = 4), rnorm(nsamp, mean = 11, sd = 4))
+  )
+write.csv(pop_info_1, file = "./data_csv/TWO_POPS_1.CSV", row.names = FALSE)
+
+pop_info_2 <- data.frame(
+    Population = rep(LETTERS[1:2], each = nsamp),
+    Values     = c(rnorm(nsamp, mean = 10, sd = 2), rnorm(nsamp, mean = 11, sd = 2))
+  )
+write.csv(pop_info_2, file = "./data_csv/TWO_POPS_2.CSV", row.names = FALSE)
+
+pop_info_3 <- data.frame(
+    Population = rep(LETTERS[1:2], each = nsamp),
+    Values     = c(rnorm(nsamp, mean = 10, sd = 4), rnorm(nsamp, mean = 12, sd = 4))
+  )
+write.csv(pop_info_3, file = "./data_csv/TWO_POPS_3.CSV", row.names = FALSE)
+```
+
+```{r, echo=FALSE}
+pop_info_1 <- read.csv("./data_csv/TWO_POPS_1.CSV")
+```
 
 
-  
+The TWO_POPS_1.CSV file contains information about a variable in two different populations (labelled A and B). The file contains a large sample from each of the two populations. For the purpose of this exercise (and the next one) you'll treat each these as though they are the 'whole population', even though they are really just limited samples. Download the TWO_POPS_1.CSV file from MOLE and place it in your working directory, then read this into an R data frame called `pop_info_1`. 
+
+Examine the populations---both in terms of their descriptive statistics, and visually:
+
+**Inspection.** Use the `View` function and **dplyr** function `glimpse` (or `str`) to inspect the 'data'. Which variables are in the data frame? What kind of variables are they (numeric, categorical, etc)? 
+
+**Descriptive statistics.** Use the appropriate **dplyr** functions (`group_by` and `summarise`) to calculate the mean, standard deviation and sample size of `Values` in each population.
+
+**Graphs.** Use **ggplot2** to construct a pair of histograms to summarise the distribution of the variable in each population. This is most easily done using `facet_wrap`.
+
+```{block, type='do-something'}
+**MOLE Question**
+
+Note down the key features of the distribution of the variable in each population. Does the variable seem to be normally distributed? How do the distributions differ in terms of their central tendency and dispersion among the two populations?  
+```
+
+```{r, echo=FALSE}
+set.seed(27081975)
+```
+
+Now that you understand the two populations a little bit we can start to experiment with them. We want you to explore what happens when you draw different sized samples from these two populations. Specifically, you're going to explore how the sample size influences your ability to detect a difference in the population means, using a permutation test. To start with, you'll use **dplyr** to simulate the process of drawing an equal sized sample from each population:
+```{r}
+# take a sample from each population
+use_data <- pop_info_1 %>% 
+  group_by(Population) %>% 
+  sample_n(10) %>% 
+  ungroup
+```
+Copy this first chunck of **dplyr** code into your script and run it. After doing this, `use_data` will contain a sample of 10 observations from each population (use `View` to verify this). You haven't seen it before, but the `sample_n` function just takes a sample from a data frame, i.e. `sample_n(10)` takes a sample of 10 observations. Using it with `group_by` just takes a sample from each population. The `ungroup` bit at the end removes the grouping information from the output. The next bit won't work properly if you forget this.
+
+Now that you have a sample to work with, you need to use a statistical test to assess the evidence for whether or not the population means are different. You should already know the answer to this question from your initial explorations (go back to these again if you're not sure). You'll use a permutation test to do this. You should skim back over the [Comparing populations] chapter if you're not sure how this works, or ask a TA to remind you.
+
+Here is some not-at-all-simple R code that performs the permutation test:
+```{r}
+# permutation test (difficult R code!)
+plt_info <- replicate(1000, simplify = TRUE, {
+  use_data %>% 
+    mutate(Values = sample(Values)) %>% 
+    group_by(Population) %>% 
+    summarise(X = mean(Values)) %>% 
+    `$`(X) %>% diff
+}) %>% data.frame(diff_means = .)
+```
+There are quite a few tricks used in that R code. And yes, you are not expected to understand how it all works. Ask a TA for an explanation if you're curious though. You just need to use it, so copy this next chunk of code into your script.
+
+Finally, here is some R code that plots the resulting null distribution of the difference between means, along with the difference actually observed in the sample (red line):
+```{r, eval = FALSE}
+# compute the difference between (more tricky code)
+mean_diff <- use_data %>% 
+  group_by(Population) %>% 
+  summarise(X = mean(Values)) %>% `$`(X) %>% diff
+# plot everything (this bit should make sense to you)
+ggplot(plt_info, aes(x = diff_means)) + 
+  geom_histogram(bins = 18) +
+  geom_vline(xintercept = mean_diff, colour = "red")
+```
+Copy this last chunk of code into your script. You should now have a script that contains all three chunks of code, in the correct order. If everything is working you should end up with a picture like this one:
+```{r, eval = FALSE, echo=FALSE}
+# compute the difference between (more tricky code)
+mean_diff <- use_data %>% 
+  group_by(Population) %>% 
+  summarise(X = mean(Values)) %>% `$`(X) %>% diff
+# plot everything (this bit should make sense to you)
+ggplot(plt_info, aes(x = diff_means)) + 
+  geom_histogram(bins = 18) +
+  geom_vline(xintercept = mean_diff, colour = "red")
+```
+Yours wonlt be the same, as you will have used a different sample.
+
+Here's what we want you to do with this... Using a sample size of 10 (i.e. leave `sample_n(10)` as it is), run all three chunks several times, checking the final plot each time before you run them again. About 10-20 runs should be enough to answer the first question...
+
+```{block, type='do-something'}
+**MOLE Question**
+
+Is a sample size of 10 sufficient to detect a difference between the population means? Make sure you can explain your answer.
+```
+
+Now repeat this exercise, using successively larger sample sizes, e.g. 10, 20, 40, 80, and 160. To use a sample size of 20 you would change `sample_n(10)` to `sample_n(20)`. That's all---there's no need to make a new copy of all the code (it will end up as a big mess if you do this). Just change the `sample_n` part and run the new version of everything several times. You might need to experiment a bit with the sample sizes, but don;t make them much bigger than about 200.
+
+```{block, type='do-something'}
+**MOLE Question**
+
+Which sample size seems to be sufficient to detect a difference between the population means?
+```
+
+### A bit more about statistical power
+
+That last exercise was all about statistical power. The statistical power of a test relates to its ability to detect an effect when it is present. You just explored how sample size affects the power of a test. In this next exercise you are going to investigate how other features of samples affect the statistical power of a test. You'll do this by repeating the last exercise using two new pairs of populations.
+
+The information about the two new population pairs are contained in the TWO_POPS_2.CSV and TWO_POPS_3.CSV files (these have the same structure as TWO_POPS_1.CSV). Download the two files from MOLE and place them in your working directory, then read them into an R data frames called `pop_info_2` and `pop_info_3`, respectively. Make sure you place the R code that does this near the top of your script so that it occurs *before* all the code that performs the permutation test.
+
+Repeat the **Descriptive statistics** and **Graphs** steps from the previous exercise to make sure you understand these new population pairs. Again, make sure you place the R code that does this *before* all the code that performs the permutation test (but after the reading-in-data step).
+
+```{block, type='do-something'}
+**MOLE Question**
+
+Note down the key features of the distributions of each pair of populations. Note their central tendency and dispersion. How do the new pairs differ from the population pair used in the previous exercise?
+```
+
+Now, for each population pair in turn, repeat the previous exercise where you varied the sample size. The only part of the permutation test and plotting code you need to alter is the first chunk. For example, to use sample sizes of 40 from the second population pair (in `pop_info_2`) you would use:
+```{r, eval = FALSE}
+# take a sample from each population
+use_data <- pop_info_2 %>% 
+  group_by(Population) %>% 
+  sample_n(40) %>% 
+  ungroup
+```
+The aim of this exercise is to see how big the samples have to get before you think you can reliably detect a difference in the means using the permutation test. The ultimate goal is to understand how the distributions of the population pairs influence your ability to detect the difference in their means.
+
+```{block, type='do-something'}
+**MOLE Question**
+
+Think about the differences between three population pairs. Which aspect (or aspects) of their distributions do you think best explains the change in the statistical power of the permutation test you've been using?
+```
+
+
+
+
+
+
+
+

@@ -2,7 +2,7 @@
 
 Use the R code above to investigate how large a bootstrap sample needs to be to reliably estimate the standard error. Start with a bootstrap sample size of 10, and gradually increase it, calculating the standard error each time you do so. How many bootstrap samples are needed to reliably estimate the SE to one decimal place?
 
-## Week 3: *t*-tests
+## Week 4: *t*-tests
 
 You should work through the exercises step-by-step, following the instructions carefully. At various points we will interupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 't-tests 1'.   
 
