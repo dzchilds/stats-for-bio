@@ -1,4 +1,4 @@
-# What are "parametric statistics"?
+# Parametric statistics
 
 The majority of statistical tools we're going to learn about in this book share one important feature---they are all underpinned by a mathematical model of the populations samples are derived from. Because a mathematical model of some kind is always lurking in the background, this particular flavour of statistics is known as **parameteric statistics**. The word 'parametric' in this context simply refers to the fact that the behaviour of a mathematical model is defined by one or more quantities known as 'parameters'.
 

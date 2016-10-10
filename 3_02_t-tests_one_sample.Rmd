@@ -2,7 +2,7 @@
 
 ## When do we use one-sample *t*-test?
 
-The one-sample  *t*-test is just about the simplest staistical test you can carry out. This test is appropriate in situations where we are studying a numeric variable sampled from a single population. It is used to compare the mean of the variable to an expected value. To be more precise, it uses information in sample evaluate whether the (unknown) population mean is likely to be different from an expected value. This value might be something predicted from theory or some other prespecified value we are interested in. Here are some examples:
+The one-sample *t*-test one of the simplest statistical tests we can carry out. It is appropriate in situations where we are studying a numeric variable sampled from a single population. We use the one-sample *t*-test to compare the mean of the variable to an expected value. To be more precise, the test uses information in the sample evaluate whether the population mean is likely to be different from an expected value. This latter value might be something predicted from theory or some other prespecified value we are interested in. Here are some examples:
 
 -   We have a theoretical model of foraging behaviour that predicts an animal should leave a food patch after 10 minutes. If we have data on the actual time spent by 25 animals observed foraging in the patch, we could test whether the mean foraging time is significantly different from the prediction using a one-sample *t*-test.
 
@@ -10,9 +10,9 @@ The one-sample  *t*-test is just about the simplest staistical test you can carr
 
 ## How does the one-sample *t*-test work?
 
-The key assumption of one-sample *t*-test that the variable is **normally distributed** in the population. Imagine that we have taken a sample of a variable (imaginitively called 'X') from a population we're studying. Here's an example of what these data might look like if we used a sample size of 50:
+The key assumption of one-sample *t*-test that the variable is normally distributed in the population. Imagine that we have taken a sample of a variable (imaginatively called 'X') from a population we're studying. Here's an example of what these data might look like if we used a sample size of 50:
 
-```{r two-t-eg-samps, echo = FALSE, out.width='55%', fig.asp=1, fig.align='center', fig.cap='Example of data used in a one-sample t-test'}
+```{r one-t-eg-samps, echo = FALSE, out.width='55%', fig.asp=1, fig.align='center', fig.cap='Example of data used in a one-sample t-test'}
 set.seed(27081975)
 nsamp <- 50
 plt_data <- data.frame(X = rnorm(nsamp, mean = 11))
@@ -24,9 +24,33 @@ ggplot(plt_data, aes(x = X)) +
   theme_grey(base_size = 22)
 ```
 
-The distribution of the sample look roughly bell-shaped, so it seems plausible that it was drawn from a normal distribution^[It's actually quite hard to visually detrrmine whether a sample came from a normal distribution when the sample size is small.]. The red line shows the mean of the sample, and the blue line shows the expected value of 10 (this corresponds to the foraging example mentioned above). The question is, how do we decide whether the unknown population mean is really different from the expected value?
+The distribution of the sample look roughly bell-shaped, so it seems plausible that it was drawn from a normal distribution^[It's actually quite hard to determine whether a sample came from a normal distribution when the sample size is small.]. The red line shows the mean of the sample, and the blue line shows the expected value (which is 10, so this corresponds to the foraging example mentioned above). The question is, how do we decide whether the unknown population mean is really different from the expected value?
 
-We can start to tackle this question by setting up an appropriate null hypothesis---the null hypothesis is that there is actually no difference between the population means. We then work out what the sampling distribution of the differences between sample means looks like under this null hypothesis (this is the 'null distribution' we mentioned before). The key assumption that makes the calculations 'doable' is that the variable is **normally distributed** in each population. If this assumption is valid, then the null distribution will have a known form. We can then use this knowledge to carry out a test of statistical significance.
+We tackle this question by first setting up an appropriate null hypothesis---the null hypothesis in this instance is that the population mean is *equal to the expected value*. We then work out what the sampling distribution of the sample mean looks like under this null hypothesis (this is the 'null distribution' we mentioned before). The key assumption that makes this calculation 'doable' is that the variable is normally distributed in the population. The null distribution will have a known mathematical form when this assumption is valid. We can use this knowledge to construct the test of statistical significance.
+
+You may have noticed that this chain of reasoning is quite similar to that developed in the bootstrapping example considered earlier. There are some differences. For example, we examined the frequency of a categorical variable in the bootsrapping example, whereas here, we're considering the mean of a numeric example. That's a minour point though. The really important difference is that because we're now prepared to make the normality assumption, the whole process of carrying out the statisical test is much simpler. In fact, we only need three pieces of information to construct the significance test: the sample size, the sample variance, and the sample means. No resampling of data is involved.
+
+How does a one-sample *t*-test it actually work? It is carried out as follows:
+
+**Step 1.** Estimate the standard error of *the sample mean*. This estimate gives us an idea of how much sampling variation we can expect to observe in the estimated mean. This calculation boils down to a simple formula involving the sample size and sample variance:
+
+$$\frac{s}{\sqrt{n}}$$
+
+This is the formula we introduced in the previous [Parametric statistics] chapter. Notice that this quantity gets smaller as the sample sizes grow or the sample variances shrinks. 
+
+**Step 2.** Calculate the mean. That's simple enough. This estimate of the difference between means can be thought of as our 'best guess' of the true difference. However, its role in the two-sample *t*-test is to allow us to construct a test statistic.
+
+**Step 3.** Once we have estimated the difference between sample means and the standard error of this estimate, we can calculate a test statistic. You probably won't be surprised to hear that this test statistic is actually a *t*-statistic. We calculate the *t*-statistic by dividing the difference between sample means (from step 2) by the estimated standard error of the difference (from step 1):^[Notice that the magnitude of the *t*-statistic is increased when either, the difference between the sample means grows, or the standard error of the difference shrinks.]
+
+$$ \frac{\text{difference between sample means}}{\text{standard error of the difference}}$$
+
+Why is this *t*-statistic useful? If our normality assumption is appropriate for both populations, then if we repeatedly sampled from them, going through steps 1-3 each time, the resulting collection of *t*-statistics would follow a *t*-distribution. This is guaranteed by the normality assumption. That knowledge leads to the final step...
+
+**Step 4.** Compare the test statistic to the theoretical predictions of the *t*-distribution to assess the statistical significance of the observed difference. That is, we calculate the probability that we would have observed a difference between means as large as, or larger than, the observed difference, if the null hypothesis were true. That's the *p*-value for the test.
+
+We could step through the actual calculations involved in these steps, but there isn't a whole lot to be gained by doing this. The key formulas and their different variants aren't very informative unless you already know a reasonable amount of statistics. By all means take a look at the [Wikipedi page](https://en.wikipedia.org/wiki/Student%27s_t-test#Independent_two-sample_t-test) if you are interested, and feel free to ask a TA to explain these if you're curious how they work. However, there is absolutely no need to learn these. We're going to let R to handle the heavy lifting (it's actually only 1 line of R code). 
+
+We should review the assumptions of the two-sample *t*-test first though...
 
 
 ### Assumptions of the one-sample *t*-test
@@ -35,7 +59,7 @@ There are a number of assumptions that need to be met in order for a one-sample 
 
 1. **Independence.** People tend to forget about this one, probably because they can't do much about it if there is a problem. We're going to discuss the important idea of independence later in the book when we think about experimental design. For now, we'll briefly tell you why it matter: if the data are not independent, then the *p*-values generated by the one-sample *t*-test will not be reliable. Even mild non-independence can be a serious problem, which why it is so important to design your data collection / experiment well.
 
-2. **Measurement scale.** The variable that you are working with should be measured on an interval or ratio scale, i.e. it should be a numeric variable. It generally doesn't make much sense to apply a *t*-test to data that aren't measured on one of these scales. 
+2. **Measurement scale.** The variable that you are working with should be measured on an interval or ratio scale, i.e. it should be a numeric variable. It generally doesn't make much sense to apply a one-sample *t*-test to a variable that isn't measured on one of these scales. 
 
 3. **Normality.** The one-sample *t*-test will always produce reliable *p*-values if the variable is normally distributed in the population. However, this assumptions is less important than many people think. The *t*-test is fairly robust to mild departures from normality when the sample size is small, and when the sample size is large the normality assumption matters even less^[It's hard to define what constitutes a 'large' sample, but 100s of observations would often be safe.]. We don't have the opportunity to properly explain why the normality assumption does not matter too much for large samples in this book, but we will at least state the reason: it is a consequence of something called the ['central limit theorem'](https://www.khanacademy.org/math/statistics-probability/sampling-distributions-library/sample-means/v/central-limit-theorem).
 
