@@ -113,7 +113,7 @@ In order to assess the strength of evidence for a difference between the two pop
 
 3. We then ask, "if there were no difference between the two groups, what is the probability that we would observe a difference that is the same as, or more extreme than, the one we actually observed in the true sample?" You may also recognise this probability. It's a __*p*-value__.
 
-4. If the observed difference is sufficiently improbable, then we conclude that we have found a statistically significant result. A statistically significant result is therefore one that is inconsistent with the hypothesis of no difference. You might recognise this logic from the previous chapter.
+4. If the observed difference is sufficiently improbable, then we conclude that we have found a **statistically significant** result. A statistically significant result is therefore one that is inconsistent with the hypothesis of no difference. You might recognise this logic from the previous chapter.
 
 There are many different ways to go about realising this process. Regardless of the details, they all work by trying to evaluate what happens when we repeatedly sample from a population where the effect of interest (e.g. a difference between means) *is absent*.
 

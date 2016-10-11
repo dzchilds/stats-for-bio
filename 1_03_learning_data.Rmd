@@ -107,6 +107,7 @@ The best way to begin getting some sense of how all this fits together is by wor
 Imagine we are working on a plant species that is phenotypically polymorphic. There are two different 'morphs', a purple morph and a green morph. We can depict this situation visually with a map showing where the purple and green plants are located on a hypothetical landscape:
 
 ```{r plants-all, echo = FALSE, out.width='50%', fig.asp=1, fig.align='center', fig.cap='Stylised landscape showing a population of purple and green plants'}
+set.seed(27081975)
 plantdata <- 
   data.frame(xloc  = runif(nsamp), 
              yloc  = runif(nsamp), 
