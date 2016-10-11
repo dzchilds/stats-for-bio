@@ -1,0 +1,168 @@
+# One sample *t*-tests
+
+## When do we use one-sample *t*-test?
+
+The one-sample *t*-test is probably the simplest statistical test we can carry out. It is appropriate in situations where we are studying a sample of numeric variable from a single population, and we need to to compare the mean of the variable to an expected value. The one-sample *t*-test test uses information in the sample to evaluate whether the population mean is likely to be different from an expected value. The expected value might be something predicted from theory, or some other prespecified value we are interested in. Here are a couple of examples:
+
+-   We have a theoretical model of foraging behaviour that predicts an animal should leave a food patch after 10 minutes. If we have data on the actual time spent by 25 animals observed foraging in the patch, we could test whether the mean foraging time is significantly different from the prediction using a one-sample *t*-test.
+
+-   We are monitoring sea pollution and have a series of water samples from a beach. We wish to test whether the mean density of faecal coliforms (bacteria indicative of sewage discharge) for the beach can be regarded as greater, or less than the legislated limit. A one-sample *t*-test will enable us to test whether the mean value for the beach as a whole exceeds this limit^[The question of whether the average for the whole beach is the thing to be concerned about, or whether we should be considering the peak values is another issue].
+
+## How does the one-sample *t*-test work?
+
+The key assumption of one-sample *t*-test that *the variable is normally distributed in the population*. Imagine that we have taken a sample of a variable (imaginatively called 'X') from a population we're investigating. Here's an example of what these data might look like, assuming a sample size of 50 is used:
+
+```{r one-t-eg-samps, echo = FALSE, out.width='55%', fig.asp=1, fig.align='center', fig.cap='Example of data used in a one-sample t-test'}
+set.seed(27081975)
+nsamp <- 50
+plt_data <- data.frame(X = rnorm(nsamp, mean = 11))
+line_data <- plt_data %>% summarise(Mean = mean(X))
+ggplot(plt_data, aes(x = X)) +
+  geom_dotplot(alpha = 0.6, binwidth = 0.3) +
+  geom_vline(aes(xintercept = Mean), line_data, colour = "red") +
+  geom_vline(xintercept = 10, colour = "blue") +
+  theme_grey(base_size = 22)
+```
+
+The distribution of the sample look roughly bell-shaped, so it seems plausible that it was drawn from a normal distribution^[It's actually quite hard to determine whether a sample was drawn from a normal distribution when the sample size is small.]. The red line shows the sample mean, and the blue line shows the expected value (this is 10, so this example could correspond to the foraging study mentioned above). The observed sample mean is about one unit larger than the expected value. The question is, how do we decide whether the population mean is really different from the expected value? Perhaps the difference between the observed and expected value is due to sampling variation.
+
+We tackle this question by first framing up an appropriate null hypothesis (we're doing frequentist statistics). The null hypothesis in this instance is that *the population mean is equal to the expected value*. We then have to work out what the sampling distribution of the mean looks like under this null hypothesis (this is the 'null distribution'), and use this to assess how likely the observed result is. 
+
+This chain of reasoning is quite similar to that developed in the bootstrapping example considered in the [Statistical significance and *p*-values] chapter. There are some differences in the details (e.g. we examined the frequency of a categorical variable earlier, whereas here, we're considering the mean of a numeric example), but these aren't so important. The really important change is that now, because we're now prepared to make the normality assumption, the whole process of carrying out the statistical test is much simpler. 
+
+The key consequence of making the normality assumption is that the null distribution will have a known mathematical form (yes, it's related to the *t*-distribution). We can use this knowledge to construct the test of statistical significance. But instead of using the whole sample (as we did for the bootstrapping), we only need three pieces of information to construct the test: the sample size, the sample variance, and the sample means. No resampling of data is involved.
+
+OK, how does a one-sample *t*-test it actually work? It is carried out as follows:
+
+**Step 1.** Estimate the standard error of *the sample mean*. This estimate gives us an idea of how much sampling variation we can expect to observe. It turns out that as long as the variability in the population is constant, the standard error doesn't depend on the true value of the mean. So the standard error of the observed sample mean is also the standard error of any mean under any particular null hypothesis. Ultimately, this step boils down to applying a simple formula involving the sample size and the standard deviation of the sample ...
+
+$$\text{Standard Error of the Mean} = \sqrt{\frac{s^2}{n}}$$
+
+...where $s$ stands for the sample variance and $n$ stands for the sample size. This is the formula we introduced in the [Parametric statistics] chapter. Notice that standard error of the mean gets smaller as the sample sizes grows or the sample variance shrinks.
+
+**Step 2.** Calculate the mean. That's simple enough. This is our 'best guess' of the unknown population mean. However, its role in the one-sample *t*-test is to allow us to construct a test statistic in the next step.
+
+**Step 3.** Calculate a test statistic from the sample mean and standard error. We calculate the test-statistic by dividing the sample mean (from step 2) by its estimated standard error (from step 1):^[Notice that the magnitude of the test statistic is increased when either the sample means grows, or its standard error shrinks.]
+
+$$\text{t} = \frac{\text{Sample Mean}}{\text{Standard Error of the Mean}}$$
+
+Why is this useful? If our normality assumption is appropriate, then this test-statistic will follow a *t*-distribution. This is guaranteed by the normality assumption. So this test statistic is in fact a type of *t*-statistic. That's why we label it *t*. This knowledge leads to the final step...
+
+**Step 4.** Compare the*t*-statistic to the theoretical predictions of the *t*-distribution, in order to assess the statistical significance of the difference between observed and expected value. That is, we calculate the probability that we would have observed a difference between means with a magnitude as large as, or larger than, the observed difference, if the null hypothesis were true. That's the *p*-value for the test.
+
+We could step through the actual calculations involved in these steps in detail, using R to help us, but there isn't a whole lot to be gained by doing this. We're going to let R to handle all the heavy lifting. Before we see how to do this we should review the assumptions of the one-sample *t*-test first.
+
+### Assumptions of the one-sample *t*-test
+
+There are a number of assumptions that need to be met in order for a one-sample *t*-test to be valid. Some of these are more important than others. We'll start with the most important and work down the list in order of importance:
+
+1. **Independence.** People tend to forget about this one, probably because they can't do much about it if there is a problem. We're going to discuss the important idea of independence later in the book when we think about experimental design. For now, we'll briefly tell you why it matter: if the data are not independent, then the *p*-values generated by the one-sample *t*-test will not be reliable. Even mild non-independence can be a serious problem, which why it is so important to design your data collection / experiment well.
+
+2. **Measurement scale.** The variable that you are working with should be measured on an interval or ratio scale, i.e. it should be a numeric variable. It generally doesn't make much sense to apply a one-sample *t*-test to a variable that isn't measured on one of these scales. 
+
+3. **Normality.** The one-sample *t*-test will only produce completely reliable *p*-values if the variable is normally distributed in the population. However, this assumptions is less important than many people think. The *t*-test is fairly robust to mild departures from normality when the sample size is small, and when the sample size is large the normality assumption matters even less^[It's hard to define what constitutes a 'large' sample, but 100s of observations would often be safe.]. We don't have the time to properly explain why the normality assumption is not too important for large samples, but we will at least state the reason: it is a consequence of something called the ['central limit theorem'](https://www.khanacademy.org/math/statistics-probability/sampling-distributions-library/sample-means/v/central-limit-theorem).
+
+How do we go about evaluating these assumptions? The first two are really aspects of experimental design, i.e. we can only evaluate them by thinking carefully about how the data were gathered and what was measured. What about the 3^rd^ assumption? This is best evaluated by plotting the distribution of the sample, using something like a histogram or a dot plot. If the sample size is small, and the sample looks approximately normal when we visualise its distribution, then it is probably fine to use the *t*-test. Just remember, if we have a large sample we don't need to worry much about moderate departures from normality. Ask someone with experience of data analysis if you run into this situation and are not sure whether there is a problem or not.
+
+## Carrying out a one-sample *t*-test in R
+
+```{r, echo = FALSE}
+morph.data <- read.csv(file = "./data_csv/MORPH_DATA.CSV")
+```
+
+```{block, type='do-something'}
+You should work through the example in this section.
+```
+
+We're going to use the plant morph example again to learn how to carry out a one-sample *t*-test in R. Remember, the data were 'collected' to: 1) compare the frequency of purple morphs to a prediction; and 2) compare the mean dry weight of purple and green morphs. Neither of these questions can be tackled with a one-sample *t*-test. Instead, let's pretend that we have unearthed a report from 30 years ago that found the mean size of purple morphs to be 710 grams. We want to evaluate whether the mean size of purple plants in the contemporary population is different from this expectation (perhaps we think they have adapted to local conditions).
+
+You probably already have the MORPH_DATA.CSV in your working directory (download it from MOLE again if not). Read the data in MORPH_DATA.CSV into an R data frame, giving it the name `morph.data`. We only need the purple morph data for this example, so we need to `filter` the data as well:
+
+```{r, eval = FALSE}
+morph.data <- read.csv(file = "MORPH_DATA.CSV")
+morph.data <- filter(morph.data, Colour == "Purple")
+```
+
+The first thing we need to do do is examine the data...
+
+### Visualising the data and checking the assumptions
+
+We should first calculate a few summary statistics and then visualise the sample distribution purple morph dry weights. We already did this in the [Comparing populations] chapter. Here is the **dplyr** code for the descriptive statistics again:
+
+```{r}
+morph.data %>% 
+  summarise(mean = mean(Weight), 
+            sd = sd(Weight),
+            samp_size = n())
+```
+So we have 77 purple plants in the sample. Not bad, but we should keep an eye on the normality assumption. Next, we check this distributional assumption:
+```{r purple-morph-dist-again, echo = TRUE, out.width='60%', fig.asp=1, fig.align='center', fig.cap='Size distributions of purple morph dry weight sample'}
+ggplot(morph.data, aes(x = Weight)) + 
+  geom_histogram(binwidth = 50)
+```
+These is nothing too 'non-normal' about this sample distribution, so it seems reasonable to assume it came from normally distributed population.
+
+### Carrying out the test
+
+It is straightforward to carry out a one-sample *t*-test in R. The function we need to use is called `t.test` (no surprises there). Remember, we read the data into a data frame called `morph.data`. This has two columns: `Weight` contains the dry weight biomass of purple plants, and `Colour` is an index variable that indicates which sample (plant morph) an observation belongs to. We don't really need the `Colour` column.
+
+Here is the R code to carry out a one-sample *t*-test:
+```{r, eval = FALSE}
+t.test(morph.data$Weight, mu = 710)
+```
+We have suppressed the output for now as we want to focus on how to use `t.test` function. We have to assign two arguments (remember function arguments?--these control what a function does):
+
+1. The first argument (`morph.data$Weight`) is just a numeric vector containing the sample values. Unfortunately, we can't give `t.test` a data frame when doing a one-sample test. Instead, we have to pull out the column we're interested in. This is what `morph.data$Weight` does. That's all the `$` is doing.
+
+2. The second argument (called `mu`) sets the expected value we want to compare the mean to---so `mu = 710` tells the function to compare the mean to a value of 710. This can be any value we like of course.
+
+That's it for setting up the test. Let's take a look at the output:
+```{r}
+t.test(morph.data$Weight, mu = 710)
+```
+
+The first part of the output reminds us what we did. The first line tells us what kind of *t*-test we used. This says: `One Sample t-test`, so we know that we have used the one-sample *t*-test. The next line reminds us about the data. This says: `data:  morph.data$Weight`, which is R-speak for 'we compared the mean of the `Weight` variable to an expected value. Which value? This is given later.
+
+The third line of text is the most important. This says: `t = 3.1811, df = 76, p-value = 0.002125`. The first part of this, `t = 3.1811`, is the test statistic (i.e. the value of the *t*-statistic). The second part, `df = 76`, summarise the 'degrees of freedom'. This is essentially a measure of how much power our statistical test has (see the box below). The third part, `p-value = 0.002125`, is the all-important p-value. This says there is a statistically significant difference in the mean dry weight biomass of the two colour morphs, because *p*<0.01.
+
+Don't ignore the fourth line of text (`alternative hypothesis: true mean is not equal to 710`). This reminds us what the alternative to the null hypothesis is (H~1~). It tells us what expected value was used in the test (i.e. 710).
+
+The next two lines show us the '95% confidence interval' for the difference between the means. We don't really need this information, but we can think of this interval as a summary of the likely values of the true mean (a confidence interval is more complicated than that in reality).
+
+The last few lines just summarise the sample mean. This is only useful if we did not bother to calculate this already (which we should already have done!). 
+
+```{block, type='advanced-box'}
+**A bit more about degrees of freedom**
+
+Degrees of freedom (abbreviated d.f. or df) are closely related to the idea of sample size. In a nutshell, the greater the degrees of freedom associated with a test, the more likely it is to detect an effect (however defined) if it's present, i.e. we say the test has more 'statistical power'. To calculate the degrees of freedom, we start with the sample size, and then we reduce this number by one for every mean we have to calculate to construct the test. That's a bit of an over simplification, but it's enough to be getting on with.
+
+Calculating degrees of freedom for a one-sample *t*-test is quite simple. The degrees of freedom are just n-1, where n is the number of observations in the sample. We lose one degree of freedom because we have to calculate the sample mean to construct the test.
+```
+
+### Summarising the result
+
+Having obtained the result we need to write the conclusion. Remember, we are testing an hypothesis so always go back to the original question to write the conclusion. In this case the appropriate conclusion is:
+
+> The mean dry weight biomass of purple plants is significantly different from the expectation of 710 grams (t = 3.18, d.f. = 76, *p* < 0.01).
+
+This is a concise and unambiguous statement in response to our initial question. The statement indicates not just the result of the statistical test, but also which value was used in the comparison. It is sometimes appropriate to give the values of the sample mean in the conclusion:
+
+> The mean dry weight biomass of purple plants (767 grams) is significantly different from the expectation of 710 grams (t = 3.18, d.f. = 76, *p* < 0.01).
+
+When you are writing scientific reports, the end result of any statistical test should be a conclusion like the one above. **Simply writing t = 2.94 or p < 0.01 is not an adequate conclusion.** 
+
+There are a number of common questions that arise when presenting *t*-test results:
+
+1.  **Help - what do I do if is negative?** Don’t worry! A *t*-statistic can come out negative or positive, it simply depends on which order the two samples are entered into the analysis. Since it is just the absolute value of *t* that determines the *p*-value, when presenting the results, just ignore the minus sign and always give *t* as a positive number.
+
+2.  **How many significant figures for _t_?** The *t*-statistic is conventionally given to 3 significant figures. This is because, in terms of the *p*-value generated, there is almost no difference between *t* = 3.1811 and *t* = 3.18.
+
+3.  **Upper or lower case** The *t* statistic should always be written as lower case when writing it in a report (as in the conclusions above). Similarly, d.f. and *p* are always best as lower case. There are some statistics we will encounter later which are written in upper case but, even with these, d.f. and *p* should be lower case.
+
+4.  **How should I present _p_?** There are various conventions in use for presenting *p*-values. We discussed these in the [Hypotheses and *p*-values] chapter. Make sure you learn them. You won't be able to understand scientific papers or prepare reports properly if you're not aware of these conventions.
+
+```{block, type='warning-box'}
+**p = 0.00? It’s impossible! p = 1e-16? What's that?** 
+
+Some computer packages (e.g. Minitab) will sometimes give a probability of *p* = 0.00. This does not mean the probability was actually zero. A probability of zero would mean something was impossible - and since you cannot show something to be impossible by taking samples, we should never say this. When a computer package says *p* = 0.00 it just means that the probability was 'very small'. R uses a different convention for presenting small probabilities. A very small probability is usually given as `p-value < 2.2e-16` by R. What does 2.2e-16 mean? This is R-speak for scientific notation, i.e. $2.2e^{-16}$ is equivalent to $2.2 \times 10^{-16}$
+```

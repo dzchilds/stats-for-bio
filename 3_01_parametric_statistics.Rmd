@@ -1,0 +1,67 @@
+# Parametric statistics
+
+## Introduction
+
+The majority of statistical tools we'll learn about in this book share one important feature: they are underpinned by a mathematical model of the population(s) and sampling process that gave rise to the data. Because a mathematical model of some kind is lurking in the background, this particular flavour of statistics is known as **parameteric statistics**.^[In this context, the word 'parametric' refers to the fact that the behaviour of a  model is defined by one or more quantities known as 'parameters'.] 
+
+We aren't going to study the mathematical details of these models in any great detail; after all, this isn't a maths book. However, there are a few key ideas that are useful to know about, for two reasons:
+
+1.   It is important to consider the **assumptions** underlying the models we'll be using. Mathematical assumptions are essentially aspects of a system that we accept as true, or at least nearly true. If these aren't reasonable for a given situation, we can't be sure that the results of the corresponding analysis (e.g. a statistical test) will be reliable. We should always evaluate teh assumptions of an analysis to determine whether we trust it.
+
+2.    We explored a number of concepts from fequentist statistics in the last few chapters, such as sampling variation, null distributions, and *p*-values. These ideas will crop up time and time again throughout the book. We want to ensure that we can connect the abstract ideas in the last few chapters to the practical aspects of 'doing statistics'. We want to understand, in rough terms at least, how the models and their assumptions lead to particular statistical tests.
+
+## Mathematical models {#math-models}
+
+A mathematical model is a description of a system using the language and concepts of mathematics. A statistical model is a particular class of mathematical model that describes how samples of data are generated from a hypothetical population. We're only going to consider a small subset of the huge array of statistical models people routinely use. In conceptual terms, the models we use in this book describe the data in terms of a **systematic component** and a **random component**:
+
+$$\text{Observed Data} = \text{Systematic Component} + \text{Random Component}$$
+
+The systematic component of a model describes the structure, or the relationships, in the data. Often when people are refering to 'the model', this is the bit they care about. The random component (also called the stochastic component) captures the left over "noise" in the data. This is essentially the part of the data that the systematic part of the model fails to describe. 
+
+This is best understood by example. In what follows we're going to label the individual values in the sample $y_i$ (the $i$ indexes these values; it takes values 1, 2, 3, 4, ... and so on). We can think of the collection of the $y_i$'s as the variable we're interested in.
+
+-   The simplest kind of model we might consider is one that describes a single sample of one variable. A model for these data can be written: $y_i = a + \epsilon_i$. With this model, the systematic part is given by $a$. This is usually the population mean. The random component is given by $\epsilon_i$. This describes how the individual values deviate from the mean. 
+
+-   A slightly more complicated model is one that considers a relationship between the values of $y_i$ and those of another variable, which we'll call $x_i$. A model for these data might be written as: $y_i = a + b \times x_i + \epsilon_i$. The $a + b \times x_i$ bit of this is the systematic component. This is just the equation of a straight line with an intercept $a$ and slope $b$. The random component is given by the $\epsilon_i$. This describes how the individual values deviate from the line. 
+
+These two descriptions are incomplete. What is missing is a description of the distribution of the $\epsilon_i$. In this book, this assumption is almost always the same: we assume that the $\epsilon_i$ are drawn from a **normal distribution**...
+
+## The normal distribution {#parametric-stats}
+
+If you have studied A-level statistics you will know all about the normal distribution. If not, you may have come across it without realising: the normal distribution is sometimes called the 'Gaussian distribution', or more colloquially, 'the bell-shaped curve'. Here's a histogram of 100000 values drawn from a normal distribution with a mean of 5 and a standard deviation of 1:
+
+```{r norm-dist-eg, echo = TRUE, out.width='60%', fig.asp=1, fig.align='center', fig.cap='Distribution of a large sample of normally distributed variable'}
+set.seed(27081975)
+data.frame(x = rnorm(100000, mean = 5, sd = 1)) %>%
+  ggplot(aes(x = x)) + geom_histogram(bins = 25)
+```
+
+We don't have time in this book to really study the normal distribution in much detail, nor is there much benefit to be derived from doing this. Instead, we'll just list some key facts about the normal distribution, which we'll refer to from time to time:
+
+1. The normal distribution is appropriate for numeric variables measured on an interval or ration scale. Strictly speaking, the variable should be continuous, but a normal distribution if often a decent approximation for discrete data.
+
+2. The normal distribution is completely described by its mean and its standard deviation. if we know these two quantities for a particular normal distribution, we know everything there is to know about that distribution. This is useful for assesssing the range of likely values of a normally distributed variable...
+
+3. If a variable is normally distributed, then just over 95% of its values will fall inside an interval which is 4 standard deviations wide: the upper bound is equal to the $\text{Mean} + 2 \times \text{S.D.}$; the lower bound is equal to $\text{Mean} - 2 \times \text{S.D.}$.
+
+4. When we add or subtract two normally distributed variables to create a new variable, the resulting variable will also be normally distributed. Similarly, if we multiply a normally distributed by a number to create a new variable, the resulting variable will still be normally distributed.
+
+In summary, the mathematical properties of the normal distribution are very well understood, and many of these properties make it easy to work with. Most important of all---for doing statistics at least---is that mathematicians have worked out how the sampling distribution of means (and similar quantities) behave when the underlying variables are normally distributed. 
+
+### Standard error of the mean
+
+Let's consider an example. Say that we want to estimate the standard error of the sampling distribution of a mean. If we're happy to assume that the sample was drawn from a normal distribution, then there is a well-known formula for calculating the standard error of the mean. There's no need to resort to computationally expensive techniques like bootstrapping to work this out. If $s^2$ is the variance of the sample, and $n$ is the sample size, the standard error is given by:
+
+$$\text{Standard error of the mean} = \sqrt{\frac{s^2}{n}}$$
+
+That's it, if we know the variance and size of a sample, it is easy to estimate the standard error of its mean. In fact, as a result of rule #4 above, we can calculate the standard error of *any quantity* that is derived by adding or subtracting the means of two or more samples drawn from normal distrubutions. 
+
+### The *t* distribution
+
+A statistician called W.G. Gosset showed that when we take a sample from a normally distributed variable, estimate its mean, and divide this estimate by its standard error (i.e. calculate: mean / s.e.), the sampling distribution of this new quantity has a particular form. It follows a Student's *t*-distribution of some kind^[Why is it called Student's *t*? The *t*-distribution was discovered by W.G. Gosset, a statistician employed by the Guinness Brewery. He published his statistical work under the pseudonym of 'Student', because Guinness would have claimed ownership of his work if he had used his real name.]. The same is true if you take two samples from a pair of normal distributions, calculate the difference between their estimated means, and then divide this by its standard error. The sampling distribution of the scaled difference between estimates of means also follows a Student's *t*-distribution.^[In fact, any 'linear combination' of normally variables will have this property.]
+
+Because we rescale the mean by its standard error, the form of the *t*-distribution only depends on one thing: the sample size. It probably isn't obvious that this is an important result, but trust us, it is! We're going to use the results we just skimmed over as a basis for simple statistical tests in the next few chapters. These will be different kinds of *t*-test---you can guess where the name comes from. We won't delve any further into the *t*-distribution here, but we are going to be using it a lot (actually, R will use it---we'll mostly be interpreting results).
+
+
+
+

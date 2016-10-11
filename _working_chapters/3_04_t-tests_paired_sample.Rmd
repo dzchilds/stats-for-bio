@@ -8,11 +8,9 @@ Examples...
 
 -   A common example of a paired sample design is the situation where we have a set of organisms, and we record some measurement from each organism before and after an experimental treatment. For example, if we were studying heart rate in relation to position (sitting vs. standing) we might measure the heart rate of a number of people in both positions. In this case the heart rate of a particular person when sitting is paired with the heart rate of the same person when standing.
 
--   Spatial example...
+-   One of the consequences of habitat fragmentation is that it increases the relative amount of 'edge' habitat. We are studying habitat fragmentation in forests and want to know if productivity is lower at the edges of forest fragments. We could measure productivity of several forest fragments at their edges and centers. In this case, sets of edges and centres are paired. 
 
-We should not use a two-sample *t*-test when our data have this kind of strucure.
-
-A paired-sample design can be very useful in biology because we often have the problem that there is a great deal of variation between the items we're studying (organisms, woodland sites, etc). In some cases, there may be so much among-item variation that the effect of any difference among the cases we're really intereted in is obscured.
+We should not use a two-sample *t*-test when our data have this kind of strucure. Why? In biology, we often have the problem that there is a great deal of variation between the items we're studying (organisms, forest sites, etc). In some cases, there may be so much among-item variation that the effect of any difference among the cases we're really intereted in is obscured. A paired-sample design can be very useful way to control for this variation. Let's see why...
 
 ## Why do we use a paired-sample design?
 

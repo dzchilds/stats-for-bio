@@ -230,7 +230,7 @@ ggplot(plt_info, aes(x = diff_means)) +
   geom_vline(xintercept = mean_diff, colour = "red")
 ```
 Copy this last chunk of code into your script. You should now have a script that contains all three chunks of code, in the correct order. If everything is working you should end up with a picture like this one:
-```{r, eval = FALSE, echo=FALSE}
+```{r, echo = FALSE, out.width='65%', fig.align='center', fig.cap='Example null distribution from the permutation test'}
 # compute the difference between (more tricky code)
 mean_diff <- use_data %>% 
   group_by(Population) %>% 
@@ -240,6 +240,7 @@ ggplot(plt_info, aes(x = diff_means)) +
   geom_histogram(bins = 18) +
   geom_vline(xintercept = mean_diff, colour = "red")
 ```
+
 Yours won't be the same, as you will have used a different sample.
 
 Here's what we want you to do with this... Using a sample size of 10 (i.e. leave `sample_n(10)` as it is), run all three chunks several times, checking the final plot each time before you run them again. About 10-20 runs should be enough to answer the first question...
@@ -283,9 +284,11 @@ use_data <- pop_info_2 %>%
 The aim of this exercise is to see how big the samples have to get before you think you can reliably detect a difference in the means using the permutation test. The ultimate goal is to understand how the distributions of the population pairs influence your ability to detect the difference in their means.
 
 ```{block, type='do-something'}
-**MOLE Question**
+**Question to consider**
 
 Think about the differences between three population pairs. Which aspect (or aspects) of their distributions do you think best explains the change in the statistical power of the permutation test you've been using?
+
+**Ask an instructor or TA for the answer if you're not sure**
 ```
 
 
