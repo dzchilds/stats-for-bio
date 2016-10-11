@@ -1,10 +1,14 @@
 # Parametric statistics
 
-The majority of statistical tools we're going to learn about in this book share one important feature---they are all underpinned by a mathematical model of the populations samples are derived from. Because a mathematical model of some kind is always lurking in the background, this particular flavour of statistics is known as **parameteric statistics**. The word 'parametric' in this context simply refers to the fact that the behaviour of a mathematical model is defined by one or more quantities known as 'parameters'.
+## Introduction
 
-We aren't going to study the mathematical details of these models in any great detail After all, this isn't a maths book. However, it is very important to at least consider the **assumptions** of underlying the models---if these aren't reasonable for a given situation, we can't be sure that the results of the corresponding statistical test will be reliable.
+The majority of statistical tools we use in this book share one important feature: they are all underpinned by a mathematical model of the populations involved. Because a mathematical model of some kind is always lurking in the background, this particular flavour of statistics is known as **parameteric statistics**. The word 'parametric' in this context simply refers to the fact that the behaviour of a mathematical model is defined by one or more quantities, known as 'parameters'.
 
-We also want to 'connect the dots'. We explored a number of key concepts from fequentist statistics in the last few chapters, such as sampling variation, null distributions, and *p*-values. 
+We aren't going to study the mathematical details of these models in any great detail; after all, this isn't a maths book. However, there are a few key results that are good to know about, for two reasons:
+
+1.   It is important to at least consider the **assumptions** underlying the models we'll be using. Mathematical assumptions are essentially aspects of a system that we accept as true, or at least nearly true. If these aren't reasonable for a given situation, we can't be sure that the results of the corresponding analysis (e.g. a statistical test) will be reliable. They might not be true of course, which is why it is important to always evaluate our assumptions.
+
+2.    We explored a number of key concepts from fequentist statistics in the last few chapters, such as sampling variation, null distributions, and *p*-values. These ideas will crop up time and time again throughout the book. We want ensure that we can 'connect the dots'. That is, we want to understand, in rough terms at least, how the models and their assumptions lead to particular statistical tests.
 
 ## Mathematical models {#math-models}
 
