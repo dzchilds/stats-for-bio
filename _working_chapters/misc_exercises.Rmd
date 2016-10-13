@@ -4,7 +4,7 @@ Use the R code above to investigate how large a bootstrap sample needs to be to 
 
 ## Week 4: *t*-tests
 
-You should work through the exercises step-by-step, following the instructions carefully. At various points we will interupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 't-tests 1'.   
+You should work through the exercises step-by-step, following the instructions carefully. At various points we will interupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 't-tests'.   
 
 ### Eagle owls and Norway rats
 
@@ -47,6 +47,21 @@ Is this what you expected from looking at the distributions of data in the two s
 Suggest two possible biological reasons for the result you observe.
 ```
 
+### The power of pairing
+
+The paired *t*-test is a very useful technique because it can significantly improve the power of an experiment. You can get an idea of the value of the paired-sample test by seeing what would have happened if we had ignored the pairing structure of glycolip data introduced in the [Paired-sample *t*-tests] chapter.
+
+and analysed it with an unpaired, two-sample approach (N.B.---This analysis is wrong!):
+```{r}
+t.test(Glycolipid ~ Drug, data = glycolipid)
+```
+
+<div class="well">
+**MOLE question**
+
+What result do you get and how does this compare with the paired-sample test?
+</div>
+
 ### Fungal infection in French beans
 
 ```{r, echo=FALSE, eval=FALSE}
@@ -69,7 +84,7 @@ The glucosamine concentrations ($\mu$g g$^{-1}$ root dry weight) recorded from t
 
 Download the FRENCH_BEANS.CSV file from MOLE and place it in your working directory. Read the data into an R data frame (remember to give this a name!), inspect the data, generate some summary statistics (means and SDs) and then plot the data, just as you did in the last exercise. This should be quick to achieve--just copy and paste the code you produced, and edit this where required.
 
-Use a t-test to decide whether there is a significant difference between the amount of infection of bean roots in the two different soils.
+Use an appropriate *t*-test to decide whether there is a significant difference between the amount of infection of bean roots in the two different soils.
 
 ```{block, type='do-something'}
 **MOLE question**
@@ -88,23 +103,10 @@ p = ?
 ```
 
 ```{block, type='do-something'}
-**MOLE question**
+**Check your answer with a TA**
 
 Write a statement of the result of the test suitable for inclusion in the results section of the plant pathologist's report.
 ```
-
-### The power of pairing
-
-The paired *t*-test is a very powerful technique. You can get an idea of the value of the paired-sample test by seeing what would have happened if we had ignored the pairing structure of data and analysed it with an unpaired, two-sample approach (N.B.---This analysis is wrong!):
-```{r}
-t.test(Glycolipid ~ Drug, data = glycolipid)
-```
-
-<div class="well">
-**MOLE question**
-
-What result do you get and how does this compare with the paired-sample test?
-</div>
 
 ### Sheep, grass and nature reserves
 
