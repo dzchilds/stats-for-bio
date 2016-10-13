@@ -68,6 +68,7 @@ How do we go about evaluating these assumptions? The first two are really aspect
 
 ```{r, echo = FALSE}
 morph.data <- read.csv(file = "./data_csv/MORPH_DATA.CSV")
+morph.data <- filter(morph.data, Colour == "Purple")
 ```
 
 ```{block, type='do-something'}
@@ -123,7 +124,7 @@ t.test(morph.data$Weight, mu = 710)
 
 The first part of the output reminds us what we did. The first line tells us what kind of *t*-test we used. This says: `One Sample t-test`, so we know that we have used the one-sample *t*-test. The next line reminds us about the data. This says: `data:  morph.data$Weight`, which is R-speak for 'we compared the mean of the `Weight` variable to an expected value. Which value? This is given later.
 
-The third line of text is the most important. This says: `t = 3.1811, df = 76, p-value = 0.002125`. The first part of this, `t = 3.1811`, is the test statistic (i.e. the value of the *t*-statistic). The second part, `df = 76`, summarise the 'degrees of freedom'. This is essentially a measure of how much power our statistical test has (see the box below). The third part, `p-value = 0.002125`, is the all-important p-value. This says there is a statistically significant difference in the mean dry weight biomass of the two colour morphs, because *p*<0.01.
+The third line of text is the most important. This says: `t = 3.1811, df = 76, p-value = 0.002125`. The first part of this, `t = 3.1811`, is the test statistic (i.e. the value of the *t*-statistic). The second part, `df = 76`, summarise the 'degrees of freedom'. This is essentially a measure of how much power our statistical test has (see the box below). The third part, `p-value = 0.002125`, is the all-important *p*-value. This says there is a statistically significant difference in the mean dry weight biomass of the two colour morphs, because *p* < 0.01.
 
 Don't ignore the fourth line of text (`alternative hypothesis: true mean is not equal to 710`). This reminds us what the alternative to the null hypothesis is (H~1~). It tells us what expected value was used in the test (i.e. 710).
 
@@ -143,13 +144,13 @@ Calculating degrees of freedom for a one-sample *t*-test is quite simple. The de
 
 Having obtained the result we need to write the conclusion. Remember, we are testing an hypothesis so always go back to the original question to write the conclusion. In this case the appropriate conclusion is:
 
-> The mean dry weight biomass of purple plants is significantly different from the expectation of 710 grams (t = 3.18, d.f. = 76, *p* < 0.01).
+> The mean dry weight biomass of purple plants is significantly different from the expectation of 710 grams (*t* = 3.18, d.f. = 76, *p* < 0.01).
 
 This is a concise and unambiguous statement in response to our initial question. The statement indicates not just the result of the statistical test, but also which value was used in the comparison. It is sometimes appropriate to give the values of the sample mean in the conclusion:
 
-> The mean dry weight biomass of purple plants (767 grams) is significantly different from the expectation of 710 grams (t = 3.18, d.f. = 76, *p* < 0.01).
+> The mean dry weight biomass of purple plants (767 grams) is significantly different from the expectation of 710 grams (*t* = 3.18, d.f. = 76, *p* < 0.01).
 
-When you are writing scientific reports, the end result of any statistical test should be a conclusion like the one above. **Simply writing t = 2.94 or p < 0.01 is not an adequate conclusion.** 
+When you are writing scientific reports, the end result of any statistical test should be a conclusion like the one above. **Simply writing _t_ = 3.18 or _p_ < 0.01 is not an adequate conclusion.** 
 
 There are a number of common questions that arise when presenting *t*-test results:
 
