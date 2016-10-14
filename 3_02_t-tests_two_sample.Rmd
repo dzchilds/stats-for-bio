@@ -148,11 +148,17 @@ The last few lines just summarise the sample means of each group. This is only u
 ```{block, type='advanced-box'}
 **A bit more about degrees of freedom**
 
-In the original version of the two-sample *t*-test (the one that assumes equal variances) the degrees of freedom of the test are give by (n~A~-1) + (n~B~-1), where n~A~ is the number of observations in sample A, and n~B~ the number of observations in sample B. The plant morph data included 77 purple plants and 173 green plants, so if we had used the original version of the test we would have (77-1) + (173-1) = 248 d.f.. 
+In the original version of the two-sample *t*-test (the one that assumes equal variances) the degrees of freedom of the test are give by (n~A~-1) + (n~B~-1), where n~A~ is the number of observations in sample A, and n~B~ the number of observations in sample B. The plant morph data included 77 purple plants and 173 green plants, so if we had used the original version of the test we would have (77-1) + (173-1) = 248 d.f.
 
-However, the Welch version of the *t*-test reduces the numbers of degrees of freedom using a formula which takes into account the difference in variance in the two samples. In a nutshell, the greater the difference in variances the smaller the number of degrees of freedom (all else equal). Here's the important point to remember: the 'unequal variance accounting' results in degrees of freedom that are not whole numbers.
+However, the Welch version of the *t*-test reduces the numbers of degrees of freedom using a formula which takes into account the difference in variance in the two samples. In a nutshell, the greater the difference in the two sample sizes the smaller the number of degrees of freedom becomes: 
 
-In either case, a test with high degrees of freedom is more powerful than one with low degrees of freedom. That is, the higher the degrees of freedom, the more likely we are to detect an effect if it is present. This is why degrees of freedom matter.
+-   When the sample sizes are similar, the adjusted d.f. will be close to that in the original version of the two-sample *t*-test. 
+
+-   When the sample sizes are very different, the adjusted d.f. will be close to the sample size of the samller sample. 
+
+Note that the 'unequal sample size accounting' results in degrees of freedom that are not whole numbers. It's not critical that you remember all this. 
+
+Here's the key point: whatever flavour of *t*-test we're using, a test with high degrees of freedom is more powerful than one with low degrees of freedom, i.e. the higher the degrees of freedom, the more likely we are to detect an effect if it is present. This is why degrees of freedom matter.
 ```
 
 ### Summarising the result
