@@ -1,0 +1,138 @@
+# Goodness of fit tests
+
+## Introduction
+
+
+## When
+
+e.g... in our analysis of the sex ratio among biology undergraduates we have a single variable (sex) which has two categories (male and female). We have an hypothesis, based on other information about human populations, that the sex ratio in the population generally is fairly close to 1:1 (it is actually very slightly biased toward males at birth). We are thus able to compare the goodness of fit of the number of males and females in our sample of students with that expected from the population. So if we had a total of 82 students we might get this sort of table:
+
+               Male   Female
+------------ ------- --------
+**Observed**    32      50
+
+With a 1:1 sex ratio, if there is no sex-bias in the decision to go to university and to study biology, we would expect 41 of each sex. So in this case there looks as though there may be some discrepancy between the expected values and those actually found. However, this discrepancy might be entirely consistent with sampling variation---perhaps females are no more likely to choose biology but we ended up with a higher proportion of female students by chance (this problem is very similar to the green morph / purple morph example we studied in the first two sessions). As we shall see in a moment, $\chi^{2}$ allows us to test how likely it is that such a discrepancy could have arisen by chance.
+
+Two categories---males and females---is a very simple situation. But the principle can be applied to any number of categories. For example, we might have an experiment where birds are offered a mixture of grain of four different colours, in equal proportions and the number of pecks at grain of each colour is recorded over a short period. The table would then have four categories---one for each colour of grain.
+
+Similarly, ratios need not be 1:1. For example, the principles of Mendelian genetics predict that the offspring of two plants which are heterozygous for flower colour (white recessive, pink dominant) will be either pink or white flowered, in the ratio 3:1. Plants from a real breeding experiment could be tested against this expected ratio.
+
+
+## How?
+
+R does have a specific procedure for doing goodness of fit tests, and we will look at that in a moment. However, for small data sets the calculation is so straightforward that it is worth doing by hand to understand how the goodness of fit test works.
+
+<div class="exercise-box">
+#### Work through the anther smut example
+<div class="box-text">
+You should work through the Red Campion example in this section. You do not need to download any data. At various points we will interrupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 'frequency 1'.   
+</div>
+</div>
+
+Red campion (*Silene dioica*) has separate male (stamen bearing) and female (ovary and stigma bearing) plants. Both male and female plants can be infected by the anther smut *Ustillago violacea*. This smut produces spores in the anthers of the plant which are then transported to other host plants by insect vectors such as bees. On infecting the female flowers, *Ustillago* causes their sex to change by the production of hormones, so the flowers produce anthers containing the infective spores.
+
+In populations of *Silene* in which there is no infection by *Ustillago* the ratio of male to female flowers is 1:1. Significant amounts of infection by the fungus may be indicated if there is an increase in the proportion of apparently male flowers.
+
+The frequency of plants bearing male and female flowers in a population of *Silene dioica* near Matlock was recorded.
+
+                 Male   Female
+  ------------- ------ --------
+  **Observed**   105      87
+
+We want to test whether the ratio of males to female flowers differs significantly from that expected in an uninfected population. That is, we want to calculate a *p*-value. The logic underpinning this *p*-value is the same as for any other kind of statistical test: it is probability we would see the observed frequencies, or more extreme values, under the appropriate null hypothesis. Let's see how to do this.
+
+We start by calculating the expected frequencies under the null hypothesis, which in this case corresponds to a 1:1 ratio. So the expected numbers are...
+
+(105+87)/2 = 192/2 = 96 of each sex.
+
+Clearly the expected frequencies are well above 5 so there are no problems about using $\chi^{2}$ to test the difference. The formula we need to use is: 
+
+$$\chi^{2}=\sum\frac{(O_i-E_i)^{2}}{E_i}$$
+
+...where $O_i$ is the observed frequency, and $E_i$ the expected frequency, and the $\Sigma$ simply means summation. The 'i' in $O_i$ and $E_i$ just refer to the different categories. Putting all this together, the $\chi^{2}$ is simply the difference of each observed and expected frequency, squared, and divided by the expected frequency, and then summed over all the categories (in this case two).
+
+For the males, we have (105-96)^2^ / 96 = 0.844
+
+<div class="well">
+**MOLE question**
+
+Do the same for the females:
+</div>
+
+$\chi^{2}$ is the sum of these two values.
+
+<div class="well">
+**MOLE question**
+
+$\chi^{2}$ =
+</div>
+
+We need to calculate the degrees of freedom associated with the test: in a $\chi^{2}$ goodness-of-fit test these are k-1, where k is the number of categories. This comes from the fact that we have to calculate one expected frequency per category (= k frequencies), but since the frequencies have to add up to the total number of observations, once we know k-1 frequencies the last one is fixed.
+
+<div class="well">
+**MOLE question**
+
+Degrees of freedom = 
+</div>
+
+Once we have obtained the $\chi^{2}$ value and the degrees of freedom we need to calculate the *p*-value associated with these values. The easiest way to do this is to let R handle the calculations for us using a function called `dchisq`. This does the 'probability we would see the observed frequencies, or more extreme values' calculation mentioned above. `dchisq` takes two arguments: the first is the $\chi^{2}$ value, the second is the degrees of freedom. So if we have $\chi^{2} = 8.56$ and d.f. = 3, we would use `dchisq(8.56, 3)` to calculate the required *p*-value from these $\chi^{2}$ and d.f. values.
+
+<div class="well">
+**MOLE question**
+
+Summarise the results from the test.
+</div>
+
+```{r, eval=FALSE, echo=FALSE}
+O.freqs <- c(105, 87)
+E.freqs <- rep(sum(O.freqs)/2, 2)
+Chi.Sq.Val <- sum((O.freqs-E.freqs)^2 / E.freqs)
+dchisq(Chi.Sq.Val, length(O.freqs))
+```
+
+## Doing it in R
+
+We could relatively easily do the goodness of fit test by hand, but it is simpler to let R handle the various calculations. The first step is to manually construct a numeric vector that contains the count data for each category
+```{r}
+observed_freqs <- c(105, 87)
+observed_freqs
+```
+It does not matter what order these are supplied in. In the second step, we need to calculate the expected frequencies of each category. R is expecting these to be proportions (i.e., they should sum to one). 
+```{r}
+n_cat <- length(observed_freqs)
+expected_probs <- rep(1, n_cat) / n_cat 
+expected_probs
+```
+Finally, we use the `chisq.test` function to calculate the $\chi^{2}$ value, degrees of freedom and *p*-value:
+```{r}
+chisq.test(observed_freqs, p = expected_probs)
+```
+The first argument is the numeric vector of counts (the data) and the second is the expected proportions in each category. The vectors containing the data (`observed_freqs`) and expected proportions (`expected_probs`) have to be the same length.
+
+The results should be fairly straightforward to interpret. The output shows us the $\chi^{2}$ value, the degrees of freedom and the *p*-value.
+
+[[Summarise the result]]
+
+### A bit more about using R
+
+There is a useful shortcut that we can often employ when using R: if we expect equal numbers in every category, as is the case here, there is no need to calculate the expected proportions in each category. R will just assume this was what we meant to test. So the following...
+```{r}
+chisq.test(observed_freqs)
+```
+... is exactly equivalent to the longer method we used first (we showed you the first method in case you ever need to carry out a goodness of fit test assuming unequal expected proportions).
+
+Finally, it is worth pointing out that R will warn you if it thinks the data may be inappropriate for a $\chi^{2}$ test. We can see the warning by using `chisq.test` with a fake data set:
+```{r, warning=TRUE}
+chisq.test(c(2,5,5,5,5))
+```
+It is sometimes safe to warnings produced by R. This is one situation where you should pay attention to the warning. Why? The warning, `Chi-squared approximation may be incorrect`, is telling us that there might be a problem, i.e. the *p*-values produced by `chisq.test` may not be reliable. 
+
+## Determining appropriate expected values
+
+Obviously unless you can find some expected values with which to compare your observed counts, a goodness of fit test will be of little use. Equally obviously, by using inappropriate expected values almost anything can be made significant! This means you need to have a good justifiable basis for choosing the expected values. In many cases the experiment can be designed, or the data collected, in such a way that if whatever it is we are interested in (e.g. bean type) is not having an effect then we would expect to find equal numbers in each category. At other times the expectation can be generated by knowledge, or prediction, of a biological process e.g. a 1:1 sex ratio, a 3:1 ratio of phenotypes. At other times the expectation may need a bit more working out.
+
+
+
+
+
+

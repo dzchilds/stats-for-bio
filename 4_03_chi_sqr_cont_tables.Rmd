@@ -1,0 +1,187 @@
+# Contingency tables
+
+## Introduction
+
+## When?
+
+Going back to the data on biology students, we might be interested in whether eye colour was in any way related to sex, i.e. do brown and blue eyes occur in different proportions among males and females. Again, collecting the data would be easy, and we would end up with a table that had two classifications:
+
+               Blue eyes   Brown eyes
+  ----------- ----------- ------------
+  **Male**        22           10
+  **Female**      29           21
+
+Now it is possible to compare the proportions of brown and blue eyes between males and females... The total number of males is 32 and of females is 50. The proportion of males with brown eyes is 10/32 = 0.31 and that for females 21/50 = 0.42 (the proportion of males with blue eyes is 22/32 = 0.69 and that for females 29/50 = 0.58). Brown eyes seem to be somewhat less prevalent among males in this sample. A $\chi^{2}$ contingency table test could be used to assess the significance of this difference. Note that here are not interested in judging whether the proportions of males and females are different, or the proportions of blue and brown eyes, but only in whether there is an association between eye colour and sex.
+
+Associations arise in any situation where the proportions of objects in one set of categories (A and B) depends on the different levels of a second set of categories (C and D). In the first table (1) below there is no association: the numbers in category A are 1/4 of those in category B, whether the data are in category C or D. In the second table (2) this is not the case: the proportion of observations in A or B changes markedly depending on whether we are looking at data for category C or category D...
+
+**Table 1**
+
+          C    D        
+  ------- ---- ---- -- -- 
+  **A**   10   20        
+  **B**   40   80        
+
+
+**Table 2**
+
+          C    D        
+  ------- ---- ---- -- -- 
+  **A**   10   80        
+  **B**   40   20        
+
+Notice that this reasoning has nothing to do with the total numbers in each category. In the left hand table there are 100 category D objects and only 50 category C objects. It is the proportions that matter.
+
+The term association is often used to describe the non-independence of categories among two or more variables, but you may also come across many other terms (e.g. linkage, heterogeneity, non-independence, and interaction) used to refer to the same thing.
+
+Contingency table tests are almost always used to test for this association between categories. There are alternative ways to carry out such tests, but we will focus on the most widely used---the  $\chi^{2}$ contingency table test. In fact, the full name of the test is 'Pearson's Chi Square' (this is the same Pearson who invented the correlation coefficient for measuring linear associations by the way)
+
+## How?
+
+The two-spot ladybird (*Adalia bipunctata*) occurs in two forms: the typical form, which is red with black spots and the dark form, which has much of the elytral surface black, with the two spots red. The dark (melanic) form is under the control of a single gene. Melanic and red types occur at different frequencies in different areas. In London melanics comprise about 10%, whereas in rural towns in northern England the frequency is greater (e.g. Harrogate 63%, Hexham 75%). Another observation that has been made is that the frequency of melanics has decreased in Birmingham since smoke control legislation was introduced. It was thought that the different forms might be differentially susceptible to some toxic component of smoke, but this doesn’t explain the geographic variation in proportions of melanics. It turns out that the effect is a rather subtle one in which melanic forms do rather better in conditions of lower sunshine than red forms, due to their greater ability to absorb solar radiation. So where the climate is naturally less sunny melanics are favoured (giving geographic variation), but there will also be smaller scale variations due to local environmental conditions such as smoke, that affect solar radiation.
+
+To test whether this effect still occurs in industrial areas, a survey was carried out of *Adalia bipunctata* in a large urban area and the more rural surrounding areas. The following frequencies of different colour forms were obtained.
+
+                    Black   Red   Totals
+  ---------------- ------- ----- --------
+  **Rural**          30     70     100
+  **Industrial**     115    85     200
+  **Totals**         145    155    300
+
+A $\chi^{2}$ test can be used to test the hypothesis that the proportions of melanics are different between urban and rural areas.
+
+As with the goodness of fit test we have two alternatives: hand calculation, or use R. $\chi^{2}$ for small (and even not-so-small) contingency tables is not difficult to calculate by hand (useful when you’re in the field, out to dinner, or whatever) and it is worth knowing how to do this.
+
+First of all it is handy to represent each cell in the table by a letter...
+
+                    Black   Red   Totals
+  ---------------- ------- ----- --------
+  **Rural**          $a$    $b$    $e$
+  **Industrial**     $c$    $d$    $f$
+  **Totals**         $g$    $h$    $k$
+
+The principle of doing a contingency table test is very similar to doing a goodness of fit test, but the expected values are calculated in a specific way from the data. If you happen to have studied a bit of basic probability theory at some point, you might be able to work out where this calculation comes from. We'll demonstrate the logic of the calculation. You don't have to remember this though...
+
+The basic steps are: 1) work out the probability that a randomly chosen individual in the data set is 'Rural'; 2) work out the probability that a randomly chosen individual in the data set is 'Black'; 3) use these to find the probability that a randomly chosen individual is both 'Rural' and 'Black' when these events are 'independent'; 4) use the total count to calculate the expected number in the 'Black'--'Rural' cell.
+
+The expected value for a particular cell in a contingency table is given by multiplying the row and column totals and dividing by the grand total. For example, for the ladybird data:   
+
+**Step 1.** Calculate the expected value for each cell $a = \frac{g \times e}{k} = 48.3$
+
+Having obtained expected values for each cell you can then apply the familiar $\chi^{2}$ formula to each cell. e.g. for cell a:
+$$\chi^{2} = \frac{(O-E)^{2}}{E} = \frac{(30-48.3)^{2}}{48.3}$$    	 	 
+ 
+Doing the same for each cell in turn, and then summing the results yields the final $\chi^{2}$ value...
+$$\chi^{2}  = 6.954 +  6.505 + 3.477 +  3.253 = 20.189$$  
+ 
+The degrees of freedom for a contingency table are: $(r - 1) \times (c - 1) = (\text{number rows} - 1) \times (\text{number columns} - 1)$.
+
+This *p*-value can then be looked up using $(r-1)(c-1)$ degrees of freedom. 
+
+Calculate the $\chi^{2}$ value for the ladybird data. and the degrees of freedom fo the ladybird data, then use these two numbers to calculate the *p*-value using the `dchisq` function.
+
+Interpreting the results of a contingency table test is fairly straightforward in the case of a 2 x 2 table, though may be harder with larger tables.  If you get a significant result it is usually best to compare the observed and expecteds for each cell and look for the highest differences to try and establish where the association lies. There are ways of subdividing tables to make subsequent $\chi^{2}$  tests on individual parts of a table to establish specific effects, but these are not detailed here. 
+
+The case of a 2 x 2 table is special because a short-cut method is available and the labour involved even using the general method is small. For larger tables it makes even more sense to use R. There are many situations which may produce tables larger than a 2 x 2. For example, we could have used the same experimental procedure as in the *Callosobruchus* experiment given in the previous chapter, but instead looked at bean choice for 5 sets of females each of which themselves been reared on a different bean type. This would allow us to evaluate whether selection of oviposition site is influenced by the bean type the female developed on.
+
+```{block, type='do-something'}
+Method for hand calculation of 2 x 2 contingency tables 
+
+For a 2 x 2 table (as we have here) there is a short cut method which is quicker than the general method below. The formula for $\chi^{2}$ for a 2 x 2 table table (letters as in table above) is:
+
+$$\chi^{2}=\frac{k(bc-ad)^{2}}{efgh}$$
+
+The only problem with this short cut method is that this formula does not show you what the expected values are. If you think it might be a problem, then pick the smallest column and row totals and calculate the expected value for that cell using the formula below---this will tell you what the smallest expected value will be.
+```
+
+## Carrying out a $\chi^{2}$ contingency table test in R
+
+```{block, type='do-something'}
+**Walk through example**
+
+You should carry on working through the *A. bipunctata* example in this section. You need to download three data sets to work through this section: LADYBIRDS1.CSV, LADYBIRDS2.CSV, and LADYBIRDS3.CSV. These all contain the same information. It is just organised differently in each case.
+```
+
+Carrying out a $\chi^{2}$ contingency table test in R is actually very simple---we use the `chisq.test` function again. The only slight snag is that we need to ensure the data is formatted correctly before it can be used. We'll explain how to do thsi first and then run through the actual test...
+
+### Step 1. Getting the data into the correct format
+
+Whenever we read data into R using `read.csv` we end up with a data frame, and until now this is has always been the appropriate format. Unfortunately, the `chisq.test` function is not designed to work with data frames. Instead, we need to construct something a contingency table object (called a `table`).
+
+(N.B., this is **not** the same as a `dplyr` table (a 'tbl'). The overlap in names is unfortunate but we'll have to live with it)
+
+We typically use a function called `xtabs` to construct contingency tables from data frames. It is not difficult to use, but the precise usage depends on how the raw data are stored. We'll consider three cases that should cover most situations.
+
+**Case 1...**
+
+```{r, echo=FALSE}
+lady.bird.df <- read.csv(file = "./data_csv/LADYBIRDS1.CSV")
+```
+
+Data suitable for analysis with $\chi^{2}$ contingency table test are often represented in a data set with one column per categorical variable, and one row per observation. The `LADYBIRDS1.CSV` file contains the ladybird data in this format. Read it into an R data frame and examine this with the `View` function:
+```{r, eval=FALSE}
+lady.bird.df <- read.csv(file = "LADYBIRDS1.CSV")
+View(lady.bird.df)
+```
+You should see that the data frame contains 300 rows---one for each ladybird---and two variables (`Habitat` and `Colour`). The two variables obviously contain the information about the categorisation of each ladybird. By the way, we called the data `lady.bird.df` to emphasise that they are stored in a data frame at this point.
+
+We require a two-way table that contains the total counts in each combination of categories. This is what `xtabs` can do for us. `xtabs` takes two arguments: the first is a formula that specifies the required contingency table, and the second is the name of the data frame containing the raw data:
+```{r}
+lady.bird.table <- xtabs(~ Habitat + Colour, data = lady.bird.df)
+lady.bird.table
+```
+When working with data in this format---one observation per row---we use a formula that contains only the categorical variables on the right hand side of the `~` (i.e., `~ Habitat + Colour`). When used like this, `xtabs` will just sum up the number of observations with different combinations of `Habitat` and `Colour`. We called the output `lady.bird.table` to emphasise that the data are now stored in a contingency table. When we print this to the console we see that `lady.bird.table` does indeed refer to something that looks like a 2 x 2 table of counts. 
+
+**Case 2...**
+
+```{r, echo=FALSE}
+lady.bird.df <- read.csv(file = "./data_csv/LADYBIRDS2.CSV")
+```
+
+Sometimes data suitable for analysis with $\chi^{2}$ contingency table test are partially summarised into counts. For example, imagine that we had visited five rural sites and five urban sites and recorded the numbers of red and black colour forms found at each site. Data in this format are stored in the `LADYBIRDS2.CSV` file. Read this into an R data frame and examine this with the `View` function:
+```{r, eval=FALSE}
+lady.bird.df <- read.csv(file = "LADYBIRDS2.CSV")
+View(lady.bird.df)
+```
+The counts at each site are in the `Number` variable, and the site identities are in the `Site` variable. We need to sum over the sites to get the total number in each combination of `Habitat` and `Colour`. We use `xtabs` again, but this time we have to tell it which variable to sum over:
+```{r}
+lady.bird.table <- xtabs(Number ~ Habitat + Colour, data = lady.bird.df)
+lady.bird.table
+```
+When working with data in this format---more than one observation per row---we use a formula with the variable containing the partial counts on left hand side of the `~` and the categorical variables to sum over on the right hand side of the `~` (i.e., `Number ~ Habitat + Colour`). When used like this, `xtabs` will sum up the counts associated with different combinations of `Habitat` and `Colour`. Notice that the `lady.bird.table` object produced by `xtabs` is no different than before.
+
+**Case 3...**
+
+```{r, echo=FALSE}
+lady.bird.df <- read.csv(file = "./data_csv/LADYBIRDS3.CSV")
+```
+
+Data suitable for analysis with $\chi^{2}$ contingency table test are sometimes already summarised into total counts. Data in this format are stored in the `LADYBIRDS3.CSV` file. Read this into an R data frame and examine it with the `View` function:
+```{r, eval=FALSE}
+lady.bird.df <- read.csv(file = "LADYBIRDS3.CSV")
+View(lady.bird.df)
+```
+The total counts are already in the `Number` variable so there is no real need to sum over anything to get the total for each combination of `Habitat` and `Colour`. However, we still need to convert the data from a data frame to a contingency table. There are various ways to do this, but it is easiest to use `xtabs` again. In fact, the R code is identical to the previous case:
+```{r}
+lady.bird.table <- xtabs(Number ~ Habitat + Colour, data = lady.bird.df)
+lady.bird.table
+```
+In this case `xtabs` doesn't change the data at all (its just 'summing' over one value). `xtabs` is just being using to convert it from a data frame to a contingency table, and again, the `lady.bird.table` object is the same as before.
+
+### Step 2. Doing the test
+
+Once we have the data in the form of a contingency table the associated $\chi^{2}$ test of independence between the two categorical variables is easy to carry out with `chisq.test`:
+```{r}
+chisq.test(lady.bird.table)
+```
+That's it! We just pass one argument to `chisq.test`: the contingency table. 
+
+This output should make sense in the light of what we have already seen. It prints a reminder of the test used and the data, along with the $\chi^{2}$ value, the degrees of freedom, and the *p*-value.The *p*-value is highly significant (*p*<0.001) indicating that frequency of each colour type varies among the two kinds of habitats.
+
+A reasonable person might expect the output from `chisq.test` to exactly match the results calculated by hand above. In fact, they aren't quite the same---the $\chi^{2}$ value calculated by `chisq.test` is very slightky lower than the value we found by hand. This is because the `chisq.test` function applies something called a 'continuity correction' to 2 x 2 contingency tables. The reasons for using this correction are beyond the scope of this course (it generates more reliable *p*-values under certain circumstances), but it is worth knowing that R uses it by default. We can force R to use the standard calculation by setting `correct = FALSE` if we want to ...
+```{r}
+chisq.test(lady.bird.table, correct = FALSE)
+```
+However, there is never a good reason to do this. The default is a better option for 2 x 2 tables.
+
+

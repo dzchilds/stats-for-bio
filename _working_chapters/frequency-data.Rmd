@@ -1,0 +1,514 @@
+---
+layout: default
+title: Comparing frequencies
+---
+
+```{r global_options, include=FALSE}
+library(knitr)
+source(file = "./scripts/knitr_defaults.R")
+opts_chunk$set(fig.path = "./figures/frequency-data-")
+```
+
+<div class="well">
+
+**Getting started**
+
+1. Open up RStudio and set your working directory. You should do this via the RStudio menu system: **Session ▶ Set Working Directory ▶ Choose Working Directory...**. Make sure that you choose a sensible location. This is where you will need to store your data and R scripts, so it needs to be somewhere that you can access again the next time you log in. If you want to keep life simple, you should use the same location in every practical. That way, you can keep your R scripts and data in one place.
+
+2. A template R script for this practical [can be found here](http://dzchilds.github.io/aps-data-analysis-L2/template-scripts/week8.R). **You should right-click on this link**, and then save it in the location that you just set as your working directory. If you just click on the link as normal, your browser will either download the file or open it in a browser tab (it depends which browser you use). This is not what you want to happen.
+
+3. Open up the R script that you saved ('week8.R', in this case) using the RStudio menu system: **File ▶ Open file... **. Do not open a 'Project'.
+
+4. Run the preamble section of the script. This is the part that installs and loads packages. If you forget to do this, you will see a lot of errors along the lines of "Error: could not find function..." when you try to use `dplyr` or `ggplot`.
+
+You are now ready to start the practical.
+
+**Tips to help you stay organised and avoid problems**: Before you begin, make sure that you read through the guidance given in the first supported IT practical.
+
+</div>
+
+# Analysis of frequency data
+
+## Frequency data {#freq-data-intro}
+
+Much of the time in biology we are dealing with whole objects (plants, animals, colour morphs, cells, eggs, islands, etc.) or discrete events (attacks, matings, nesting attempts, etc.). We are often interested in making measurements (length, weight, etc.) on each of these objects and then either comparing means from samples of such objects (e.g. mean leaf size of plants from two habitat types), or investigating the association between different measurements of the objects (e.g. mean leaf size and herbivore damage). These can usually be analysed by the methods such as *t*-tests, ANOVA, correlation and regression etc. that we have already encountered.
+
+However, we sometimes find a situation in which the ‘measurement’ we are interested in is not a quantitative measure (i.e. is not on a ratio, interval, or even ordinal scale), but is *categorical*. You will recall that categorical data are things like sex, colour morph or species. Such data cannot be treated in the same way as the earlier examples because although we can ‘measure’ each object (e.g. record if an animal is male or female), obviously we can’t calculate numeric quantities such as the ‘mean colour morph’, ‘mean species’ or ‘median sex’ of animals in a sample.
+
+To analyse categorical data we have to take a rather different approach.
+
+## The $\chi^{2}$statistic and types of test
+
+The main techniques for use with categorical data centre on the use of a statistic called ���$\chi^{2 $pronounced, and sometimes written, chi-square). There are several tests that use 𝜒^$\chi^{2}$ut all work on the principle of testing whether the numbers of objects falling into each of the categories of the variable deviates significantly from some expected value. 𝜒^2$\chi^{2}$ is extremely simple in its calculation ($\chi^{2}$s of significance are probably the simplest tests in the course) but extremely useful in biological data analysis.
+
+In a simple case, for example, we might be interested in whether the number of males is equal to the number of females (i.e. a 1:1 sex ratio) among second year students doing biology at Sheffield. We can easily record the numbers of males and females in the class, and use of the 𝜒^2^ $\chi^{2}$stic gives us a way o
+f assessing whether the numbers we get deviate significantly from our expectation that about half the students will be female and half male if there is no sex-bias in students' decision to study biology at university.
+
+Although the tests all work on the same general principle, and all use the same statistic, it is helpful to distinguish two sorts of 𝜒^2^ t$\chi^{2}$ test :
+
+1.  $\chi^{2}$ goodness of fit test
+
+2.  $\chi^{2}$ contingency table test
+
+The difference between the two types lies in the number of sets of variables used to classify the data, and in the type of hypothesis tested by each.
+
+### What is a goodness-of-fit test?
+
+e.g... in our analysis of the sex ratio among biology undergraduates we have a single variable (sex) which has two categories (male and female). We have an hypothesis, based on other information about human populations, that the sex ratio in the population generally is fairly close to 1:1 (it is actually very slightly biased toward males at birth). We are thus able to compare the goodness of fit of the number of males and females in our sample of students with that expected from the population. So if we had a total of 82 students we might get this sort of table:
+
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+
+              Male   Female
+  ---------- ------ --------
+  Observed     32      50
+
+  </div>
+  <div class="col-md-3"></div>
+</div>
+
+With a 1:1 sex ratio, if there is no sex-bias in the decision to go to university and to study biology, we would expect 41 of each sex. So in this case there looks as though there may be some discrepancy between the expected values and those actually found. However, this discrepancy might be entirely consistent with sampling variation---perhaps females are no more likely to choose biology but we ended up with a higher proportion of female students by chance (this problem is very similar to the green morph / purple morph example we studied in the first two sessions). As we shall see in a moment, $\chi^{2}$ allows us to test how likely it is that such a discrepancy could have arisen by chance.
+
+Two categories---males and females---is a very simple situation. But the principle can be applied to any number of categories. For example, we might have an experiment where birds are offered a mixture of grain of four different colours, in equal proportions and the number of pecks at grain of each colour is recorded over a short period. The table would then have four categories---one for each colour of grain.
+
+Similarly, ratios need not be 1:1. For example, the principles of Mendelian genetics predict that the offspring of two plants which are heterozygous for flower colour (white recessive, pink dominant) will be either pink or white flowered, in the ratio 3:1. Plants from a real breeding experiment could be tested against this expected ratio.
+
+### What is a contingency table test?
+
+A contingency table test is applicable in a situation where each object is classified according to more than one categorical variable (with any number of categories in each). Contingency table tests are usually used to test whether there is an association (or conversely, independence) between the variables. Contingency table tests aren't fundamentally different from goodness-of-fit tests. The only real difference is that the when we carry out a goodness-of-fit test we have to supply the expected values, whereas the calculation of expected values is embedded in the formula used to carry out a contingency table test.
+
+An example should make this clearer.
+
+Going back to the data on biology students, we might be interested in whether eye colour was in any way related to sex, i.e. do brown and blue eyes occur in different proportions among males and females. Again, collecting the data would be easy, and we would end up with a table that had two classifications:
+
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+
+               Blue eyes   Brown eyes
+  ----------- ----------- ------------
+  **Male**        22           10
+  **Female**      29           21
+
+  </div>
+  <div class="col-md-3"></div>
+</div>
+
+Now it is possible to compare the proportions of brown and blue eyes between males and females... The total number of males is 32 and of females is 50. The proportion of males with brown eyes is 10/32 = 0.31 and that for females 21/50 = 0.42 (the proportion of males with blue eyes is 22/32 = 0.69 and that for females 29/50 = 0.58). Brown eyes seem to be somewhat less prevalent among males in this sample. A $\chi^{2}$ contingency table test could be used to assess the significance of this difference. Note that here are not interested in judging whether the proportions of males and females are different, or the proportions of blue and brown eyes, but only in whether there is an association between eye colour and sex.
+
+Associations arise in any situation where the proportions of objects in one set of categories (A and B) depends on the different levels of a second set of categories (C and D). In the first table (1) below there is no association: the numbers in category A are 1/4 of those in category B, whether the data are in category C or D. In the second table (2) this is not the case: the proportion of observations in A or B changes markedly depending on whether we are looking at data for category C or category D...
+
+<div class="row">
+  <div class="col-md-6">
+
+**Table 1**
+
+          C    D        
+  ------- ---- ---- -- -- 
+  **A**   10   20        
+  **B**   40   80        
+
+  </div>
+  <div class="col-md-6">
+
+**Table 2**
+
+          C    D        
+  ------- ---- ---- -- -- 
+  **A**   10   80        
+  **B**   40   20        
+ 
+  </div>
+</div>
+
+Notice that this reasoning has nothing to do with the total numbers in each category. In the left hand table there are 100 category D objects and only 50 category C objects. It is the proportions that matter.
+
+The term association is often used to describe the non-independence of categories among two or more variables, but you may also come across many other terms (e.g. linkage, heterogeneity, non-independence, and interaction) used to refer to the same thing.
+
+Contingency table tests are almost always used to test for this association between categories. There are alternative ways to carry out such tests, but we will focus on the most widely used---the  $\chi^{2}$ contingency table test. In fact, the full name of the test is 'Pearson's Chi Square' (this is the same Pearson who invented the correlation coefficient for measuring linear associations by the way)
+
+### The requirements and assumptions of $\chi^{2}$ tests
+
+$\chi^{2}$ tests are often characterised as a type non-parametric tests---they do not assume any particular form for the distribution of the data. Consequently there are few assumptions to worry about.
+
+*   Data are independent counts of objects or events which can be classified into mutually exclusive categories. 
+
+*   Expected counts are not very low. The general rule of thumb is that the __expected values__ should be greater than 5.
+
+(We'll explain what we mean by 'expected values' in a moment)
+
+The most important thing to remember about $\chi^{2}$ tests is that they must always be carried out on the actual counts. Although the $\chi^{2}$ is really telling us how the proportions of objects in categories vary, the analysis should never be carried out on the percentages or proportions, only on the original count data. Similarly, $\chi^{2}$ cannot be used with means.
+
+## Carrying out a goodness of fit test
+
+R does have a specific procedure for doing goodness of fit tests, and we will look at that in a moment. However, for small data sets the calculation is so straightforward that it is worth doing by hand to understand how the goodness of fit test works.
+
+### Smut and sex changes in Red Campion
+
+<div class="exercise-box">
+#### Work through the anther smut example
+<div class="box-text">
+You should work through the Red Campion example in this section. You do not need to download any data. At various points we will interrupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 'frequency 1'.   
+</div>
+</div>
+
+Red campion (*Silene dioica*) has separate male (stamen bearing) and female (ovary and stigma bearing) plants. Both male and female plants can be infected by the anther smut *Ustillago violacea*. This smut produces spores in the anthers of the plant which are then transported to other host plants by insect vectors such as bees. On infecting the female flowers, *Ustillago* causes their sex to change by the production of hormones, so the flowers produce anthers containing the infective spores.
+
+In populations of *Silene* in which there is no infection by *Ustillago* the ratio of male to female flowers is 1:1. Significant amounts of infection by the fungus may be indicated if there is an increase in the proportion of apparently male flowers.
+
+The frequency of plants bearing male and female flowers in a population of *Silene dioica* near Matlock was recorded.
+
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+
+                 Male   Female
+  ------------- ------ --------
+  **Observed**   105      87
+
+  </div>
+  <div class="col-md-3"></div>
+</div>
+
+We want to test whether the ratio of males to female flowers differs significantly from that expected in an uninfected population. That is, we want to calculate a *p*-value. The logic underpinning this *p*-value is the same as for any other kind of statistical test: it is probability we would see the observed frequencies, or more extreme values, under the appropriate null hypothesis. Let's see how to do this.
+
+We start by calculating the expected frequencies under the null hypothesis, which in this case corresponds to a 1:1 ratio. So the expected numbers are...
+
+(105+87)/2 = 192/2 = 96 of each sex.
+
+Clearly the expected frequencies are well above 5 so there are no problems about using $\chi^{2}$ to test the difference. The formula we need to use is: 
+
+$$\chi^{2}=\sum\frac{(O_i-E_i)^{2}}{E_i}$$
+
+...where $O_i$ is the observed frequency, and $E_i$ the expected frequency, and the $\Sigma$ simply means summation. The 'i' in $O_i$ and $E_i$ just refer to the different categories. Putting all this together, the $\chi^{2}$ is simply the difference of each observed and expected frequency, squared, and divided by the expected frequency, and then summed over all the categories (in this case two).
+
+For the males, we have (105-96)^2^ / 96 = 0.844
+
+<div class="well">
+**MOLE question**
+
+Do the same for the females:
+</div>
+
+$\chi^{2}$ is the sum of these two values.
+
+<div class="well">
+**MOLE question**
+
+$\chi^{2}$ =
+</div>
+
+We need to calculate the degrees of freedom associated with the test: in a $\chi^{2}$ goodness-of-fit test these are k-1, where k is the number of categories. This comes from the fact that we have to calculate one expected frequency per category (= k frequencies), but since the frequencies have to add up to the total number of observations, once we know k-1 frequencies the last one is fixed.
+
+<div class="well">
+**MOLE question**
+
+Degrees of freedom = 
+</div>
+
+Once we have obtained the $\chi^{2}$ value and the degrees of freedom we need to calculate the *p*-value associated with these values. The easiest way to do this is to let R handle the calculations for us using a function called `dchisq`. This does the 'probability we would see the observed frequencies, or more extreme values' calculation mentioned above. `dchisq` takes two arguments: the first is the $\chi^{2}$ value, the second is the degrees of freedom. So if we have $\chi^{2} = 8.56$ and d.f. = 3, we would use `dchisq(8.56, 3)` to calculate the required *p*-value from these $\chi^{2}$ and d.f. values.
+
+<div class="well">
+**MOLE question**
+
+Summarise the results from the test.
+</div>
+
+```{r, eval=FALSE, echo=FALSE}
+O.freqs <- c(105, 87)
+E.freqs <- rep(sum(O.freqs)/2, 2)
+Chi.Sq.Val <- sum((O.freqs-E.freqs)^2 / E.freqs)
+dchisq(Chi.Sq.Val, length(O.freqs))
+```
+
+### Oviposition behaviour in bean weevils
+
+The bean weevil, *Callosobruchus maculatus*, lays its eggs on the surface of legume seeds such as black-eyed beans and aduki beans. In an experiment to test whether female *Callosobruchus* are selective in the type of beans on which they oviposit, choice tests were carried out. In each, a single newly mated female was introduced into an experimental arena containing one each of 5 bean types. The bean on which the first egg was laid was recorded. The test was repeated 45 times with a different beetle each time.
+
+  Bean type                 Aduki   Black-eyed   Kidney   Haricot   Pinto
+  ------------------------ ------- ------------ -------- --------- -------
+  Number of times chosen      6         16         10        8        5
+
+The expected numbers in this case are based on the numbers we would expect to see if the beetles were laying eggs on the first (random) bean they found---which since there were equal numbers of each type means we expect equal numbers of first eggs to be laid on all bean types: 45/5 = 9 (expressed as a proportion, the expected frequency of each bean type is 0.2). As before, we need to check we have samples large enough for the expected values to be >5, this is clearly not a problem here. 
+
+We could relatively easily do the goodness of fit test by hand, but it is simpler to let R handle the various calculations. The first step is to manually construct a numeric vector that contains the count data for each category
+```{r}
+beans <- c(6, 16, 10, 8, 5)
+beans
+```
+It does not matter what order these are supplied in. In the second step, we need to calculate the expected frequencies of each category. R is expecting these to be proportions (i.e., they should sum to one). 
+```{r}
+p.expected <- rep(0.2, 5)
+p.expected
+```
+Finally, we use the `chisq.test` function to calculate the $\chi^{2}$ value, degrees of freedom and *p*-value:
+```{r}
+chisq.test(beans, p = p.expected)
+```
+The first argument is the numeric vector of counts (the data) and the second is the expected proportions in each category. Notice that the vectors containing the data (`beans`) and expected proportions (`p.expected`) have to be the same length.
+
+The results should be fairly straightforward to interpret. The output shows us the $\chi^{2}$ value, the degrees of freedom and the *p*-value.
+
+<div class="well">
+**MOLE question**
+
+Summarise the results from the test.
+</div>
+
+There is a useful shortcut that we can employ on many occasions. If we expect equal numbers in every category, as is the case here, there is no need to calculate the expected proportions in each category. R will just assume this was what we meant to test. So the following...
+```{r}
+chisq.test(beans)
+```
+... is exactly equivalent to the longer method we used first (we showed you the first method in case you ever need to carry out a goodness of fit test assuming unequal expected proportions).
+
+Finally, it is worth pointing out that R will warn you if it thinks the data may be inappropriate for a $\chi^{2}$ test. We can see the warning by using `chisq.test` with a fake data set:
+```{r, warning=TRUE}
+chisq.test(c(2,5,5,5,5))
+```
+We can often ignore warnings in this course, but this is one situation where you should pay attention to it---there is a risk that the *p*-values will be unreliable when R throws up this warning.
+
+### Determining appropriate expected values
+
+Obviously unless you can find some expected values with which to compare your observed counts, a goodness of fit test will be of little use. Equally obviously, by using inappropriate expected values almost anything can be made significant! This means you need to have a good justifiable basis for choosing the expected values. In many cases the experiment can be designed, or the data collected, in such a way that if whatever it is we are interested in (e.g. bean type) is not having an effect then we would expect to find equal numbers in each category. At other times the expectation can be generated by knowledge, or prediction, of a biological process e.g. a 1:1 sex ratio, a 3:1 ratio of phenotypes. At other times the expectation may need a bit more working out.
+
+## Contingency table tests {#contigency-table}
+
+### The two-spot ladybird
+
+The two-spot ladybird (*Adalia bipunctata*) occurs in two forms: the typical form, which is red with black spots and the dark form, which has much of the elytral surface black, with the two spots red. The dark (melanic) form is under the control of a single gene. Melanic and red types occur at different frequencies in different areas. In London melanics comprise about 10%, whereas in rural towns in northern England the frequency is greater (e.g. Harrogate 63%, Hexham 75%). Another observation that has been made is that the frequency of melanics has decreased in Birmingham since smoke control legislation was introduced. It was thought that the different forms might be differentially susceptible to some toxic component of smoke, but this doesn’t explain the geographic variation in proportions of melanics. It turns out that the effect is a rather subtle one in which melanic forms do rather better in conditions of lower sunshine than red forms, due to their greater ability to absorb solar radiation. So where the climate is naturally less sunny melanics are favoured (giving geographic variation), but there will also be smaller scale variations due to local environmental conditions such as smoke, that affect solar radiation.
+
+<div class="exercise-box">
+#### Work through the two-spot ladybird example  (I)
+<div class="box-text">
+You should work through the *A. bipunctata* example in this section. You do not need to download any data yet. At various points we will interrupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 'frequency 1'.
+</div>
+</div>
+
+To test whether this effect still occurs in industrial areas, a survey was carried out of *Adalia bipunctata* in a large urban area and the more rural surrounding areas. The following frequencies of different colour forms were obtained.
+
+<div class="row"><div class="col-md-1"></div><div class="col-md-10">
+
+                    Black   Red   Totals
+  ---------------- ------- ----- --------
+  **Rural**          30     70     100
+  **Industrial**     115    85     200
+  **Totals**         145    155    300
+
+</div><div class="col-md-1"></div></div>
+
+A $\chi^{2}$ test can be used to test the hypothesis that the proportions of melanics are different between urban and rural areas.
+
+As with the goodness of fit test we have two alternatives: hand calculation, or use R. $\chi^{2}$ for small (and even not-so-small) contingency tables is not difficult to calculate by hand (useful when you’re in the field, out to dinner, or whatever) and it is worth knowing how to do this.
+
+First of all it is handy to represent each cell in the table by a letter...
+
+<div class="row"><div class="col-md-1"></div><div class="col-md-10">
+
+                    Black   Red   Totals
+  ---------------- ------- ----- --------
+  **Rural**          $a$    $b$    $e$
+  **Industrial**     $c$    $d$    $f$
+  **Totals**         $g$    $h$    $k$
+
+</div><div class="col-md-1"></div></div>
+
+The principle of doing a contingency table test is very similar to doing a goodness of fit test, but the expected values are calculated in a specific way from the data. The method for doing this, which will work for any contingency table is given below.
+
+For a 2 x 2 table (as we have here) there is, however, a short cut method which is quicker than the general method below.
+
+The formula for $\chi^{2}$ for a 2 x 2 table table (letters as in table above) is:
+
+$$\chi^{2}=\frac{k(bc-ad)^{2}}{efgh}$$
+
+The only problem with this short cut method is that this formula does not show you what the expected values are. If you think it might be a problem, then pick the smallest column and row totals and calculate the expected value for that cell using the formula below---this will tell you what the smallest expected value will be. The degrees of freedom for a contingency table are: 
+
+$$(r - 1) \times (c - 1) = (\text{number rows} - 1) \times (\text{number columns} - 1)$$
+<BR>
+
+Calculate the $\chi^{2}$ value for the ladybird data. and the degrees of freedom fo the ladybird data, then use these two numbers to calculate the *p*-value using the `dchisq` function.
+
+<div class="well">
+**MOLE question**
+
+Summarise the result of the test:
+</div>
+
+### General method for hand calculation of contingency tables (any number of categories)
+
+The expected value for a particular cell in a contingency table is given by multiplying the row and column totals and dividing by the grand total. For example, for the ladybird data:   
+
+Expected value for cell: 
+$$a = \frac{g \times e}{k} = 48.3$$
+
+<div class="advanced-box">
+#### Where does this calculation come from?
+<div class="box-text">
+If you happen to have studied a bit of basic probability theory at some point, you might be able to work out where this calculation comes from. The basic steps are: 1) work out the probability that a randomly chosen individual in the data set is 'Rural'; 2) work out the probability that a randomly chosen individual in the data set is 'Black'; 3) use these to find the probability that a randomly chosen individual is both 'Rural' and 'Black' when these events are 'independent'; 4) use the total count to calculate the expected number in the 'Black'--'Rural' cell.
+
+If you are curious, ask a demonstrator to explain the idea a little more.
+</div>
+</div>
+
+Having obtained expected values for each cell you can then apply the familiar $\chi^{2}$ formula to each cell. e.g. for cell a:
+$$\chi^{2} = \frac{(O-E)^{2}}{E} = \frac{(30-48.3)^{2}}{48.3}$$    	 	 
+ 
+Doing the same for each cell in turn, and then summing the results yields the final $\chi^{2}$ value...
+$$\chi^{2}  = 6.954 +  6.505 + 3.477 +  3.253 = 20.189$$  
+ 
+This *p*-value can then be looked up using $(r-1)(c-1)$ degrees of freedom. 
+ 
+Interpreting the results of a contingency table test is fairly straightforward in the case of a 2 x 2 table, though may be harder with larger tables.  If you get a significant result it is usually best to compare the observed and expecteds for each cell and look for the highest differences to try and establish where the association lies. There are ways of subdividing tables to make subsequent $\chi^{2}$  tests on individual parts of a table to establish specific effects, but these are not detailed here. 
+
+### Carrying out a $\chi^{2}$ contingency table test in R
+
+<div class="exercise-box">
+#### Work through the two-spot ladybird example (II)
+<div class="box-text">
+You should carry on working through the *A. bipunctata* example in this section. You need to download three data sets to work through this section: LADYBIRDS1.CSV, LADYBIRDS2.CSV, and LADYBIRDS3.CSV.
+</div>
+</div>
+
+Carrying out a $\chi^{2}$ contingency table test in R is very easy---we just have to use the `chisq.test` function again. The only slight snag is that we need to ensure the data is formatted correctly. Whenever we read data into R using `read.csv` we end up with a data frame, and until now this is has always been the appropriate format. Unfortunately, the `chisq.test` function is not designed to work with data frames. Instead, we need to construct something a contingency table object (called a `table`).
+
+(N.B., this is **not** the same as a `dplyr` table (a 'tbl'). The overlap in names is unfortunate but we'll have to live with it)
+
+We typically use a function called `xtabs` to construct contingency tables from data frames. It is not difficult to use, but the precise usage depends on how the raw data are stored. We'll consider three cases that should cover most situations.
+
+**Case 1...**
+
+```{r, echo=FALSE}
+lady.bird.df <- read.csv(file = "./course-data/LADYBIRDS1.CSV")
+```
+
+Data suitable for analysis with $\chi^{2}$ contingency table test are often represented in a data set with one column per categorical variable, and one row per observation. The `LADYBIRDS1.CSV` file contains the ladybird data in this format. Read it into an R data frame and examine this with the `View` function:
+```{r, eval=FALSE}
+lady.bird.df <- read.csv(file = "LADYBIRDS1.CSV")
+View(lady.bird.df)
+```
+You should see that the data frame contains 300 rows---one for each ladybird---and two variables (`Habitat` and `Colour`). The two variables obviously contain the information about the categorisation of each ladybird. By the way, we called the data `lady.bird.df` to emphasise that they are stored in a data frame at this point.
+
+We require a two-way table that contains the total counts in each combination of categories. This is what `xtabs` can do for us. `xtabs` takes two arguments: the first is a formula that specifies the required contingency table, and the second is the name of the data frame containing the raw data:
+```{r}
+lady.bird.table <- xtabs(~ Habitat + Colour, data = lady.bird.df)
+lady.bird.table
+```
+When working with data in this format---one observation per row---we use a formula that contains only the categorical variables on the right hand side of the `~` (i.e., `~ Habitat + Colour`). When used like this, `xtabs` will just sum up the number of observations with different combinations of `Habitat` and `Colour`. We called the output `lady.bird.table` to emphasise that the data are now stored in a contingency table. When we print this to the console we see that `lady.bird.table` does indeed refer to something that looks like a 2 x 2 table of counts. 
+
+**Case 2...**
+
+```{r, echo=FALSE}
+lady.bird.df <- read.csv(file = "./course-data/LADYBIRDS2.CSV")
+```
+
+Sometimes data suitable for analysis with $\chi^{2}$ contingency table test are partially summarised into counts. For example, imagine that we had visited five rural sites and five urban sites and recorded the numbers of red and black colour forms found at each site. Data in this format are stored in the `LADYBIRDS2.CSV` file. Read this into an R data frame and examine this with the `View` function:
+```{r, eval=FALSE}
+lady.bird.df <- read.csv(file = "LADYBIRDS2.CSV")
+View(lady.bird.df)
+```
+The counts at each site are in the `Number` variable, and the site identities are in the `Site` variable. We need to sum over the sites to get the total number in each combination of `Habitat` and `Colour`. We use `xtabs` again, but this time we have to tell it which variable to sum over:
+```{r}
+lady.bird.table <- xtabs(Number ~ Habitat + Colour, data = lady.bird.df)
+lady.bird.table
+```
+When working with data in this format---more than one observation per row---we use a formula with the variable containing the partial counts on left hand side of the `~` and the categorical variables to sum over on the right hand side of the `~` (i.e., `Number ~ Habitat + Colour`). When used like this, `xtabs` will sum up the counts associated with different combinations of `Habitat` and `Colour`. Notice that the `lady.bird.table` object produced by `xtabs` is no different than before.
+
+**Case 3...**
+
+```{r, echo=FALSE}
+lady.bird.df <- read.csv(file = "./course-data/LADYBIRDS3.CSV")
+```
+
+Data suitable for analysis with $\chi^{2}$ contingency table test are sometimes already summarised into total counts. Data in this format are stored in the `LADYBIRDS3.CSV` file. Read this into an R data frame and examine it with the `View` function:
+```{r, eval=FALSE}
+lady.bird.df <- read.csv(file = "LADYBIRDS3.CSV")
+View(lady.bird.df)
+```
+The total counts are already in the `Number` variable so there is no real need to sum over anything to get the total for each combination of `Habitat` and `Colour`. However, we still need to convert the data from a data frame to a contingency table. There are various ways to do this, but it is easiest to use `xtabs` again. In fact, the R code is identical to the previous case:
+```{r}
+lady.bird.table <- xtabs(Number ~ Habitat + Colour, data = lady.bird.df)
+lady.bird.table
+```
+In this case `xtabs` doesn't change the data at all (its just 'summing' over one value). `xtabs` is just being using to convert it from a data frame to a contingency table, and again, the `lady.bird.table` object is the same as before.
+
+**Doing the test...**
+
+Thankfully, once we have the data in the form of a contingency table the associated $\chi^{2}$ test of independence between the two categorical variables is easy to carry out with `chisq.test`:
+```{r}
+chisq.test(lady.bird.table)
+```
+That's it. We just pass one argument to `chisq.test`: the contingency table. This output should make sense in the light of what we have already seen. It prints a reminder of the test used and the data, along with the $\chi^{2}$ value, the degrees of freedom, and the *p*-value.The *p*-value is highly significant (*p*<0.001) indicating that frequency of each colour type varies among the two kinds of habitats.
+
+A reasonable person might expect the output from `chisq.test` to exactly match the results calculated by hand above. In fact, they aren't quite the same---the $\chi^{2}$ value calculated by `chisq.test` is very slightky lower than the value we found by hand. This is because the `chisq.test` function applies something called a 'continuity correction' to 2 x 2 contingency tables. The reasons for using this correction are beyond the scope of this course (it generates more reliable *p*-values under certain circumstances), but it is worth knowing that R uses it by default. We can use `correct = FALSE` if to force R to use the standard calculation...
+```{r}
+chisq.test(lady.bird.table, correct = FALSE)
+```
+...but in general the default is a better option for 2 x 2 tables.
+
+## Exercises
+
+<div class="exercise-box">
+#### Extended exericse with associated MOLE quiz
+<div class="box-text">
+Work through the two exercises this section step-by-step, following the instructions carefully. At various points we will interrupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 'frequency 1'.   
+</div>
+</div>
+
+### Eagle owls and prey choice
+
+The case of a 2 x 2 table is special because a short-cut method is available and the labour involved even using the general method is small. For larger tables it makes even more sense to use R. There are many situations which may produce tables larger than a 2 x 2. For example, we could have used the same experimental procedure as in the *Callosobruchus* experiment given earlier but looked at bean choice for 5 sets of females each of which themselves been reared on a different bean type to see if selection of oviposition site is influenced by the bean type the female developed on.
+
+In fact we are going to look at prey choice between male and female eagle owls.
+
+You will recall that the prey of eagle owls can be established by examination of the pellets containing the undigested remains of their prey. In the eagle owl study the diets of the male and female of a pair
+were studied by examination of the pellets collected from beneath their roosts (fortunately, an individual tends to use the same roosting site, and individuals tend not to roost together).
+
+The numbers of all prey types found in the pellets were recorded.
+
+These data are in the file EAGLES.CSV. Read these data into R. On loading the data you should find the first column contains the prey types. The second contains the data for females and the third contains
+data for males (both as number of each prey type found).
+
+Analyse whether there is any evidence of differences in the diets of the male and female eagle owls, using a contingency table.
+
+<div class="well">
+**MOLE question**
+
+What do you conclude?
+</div>
+
+<div class="well">
+**MOLE question**
+
+If there is an effect, what might account for the result?
+</div>
+
+### Sex and eye colour
+
+```{r, eval=FALSE, echo=FALSE}
+read.csv(file = "./course-data/CLASS.CSV") %>% 
+  xtabs(~ Eye + Sex, data = .) %>% chisq.test
+```
+
+Let's return to the initial example used to illustrate a contingency table, we might want to ask if there is an association between eye colour and sex. Data in the file CLASS.CSV show a number of attributes measured from a sample of APS students from a few years ago. Each row contains observations from one student. The two variables we are interested in here are `Sex` (values: 'Female' and 'Male') and `Eye` (values: 'Blue', 'Brown' and 'Green').
+
+Carry out a $\chi^{2}$r eye colour and sex are associated in this sample.
+
+<div class="well">
+**MOLE question**
+
+What do you conclude about the association between sex and eye colour?
+</div>
+
+## Summary
+
+<div class="well">
+By the end of this session you should be able to:
+
+*   Recognize situations in which you have categorical data.
+
+*   Decide on the appropriate type of analysis: goodness-of-fit, or contingency table.
+
+*   Carry out a goodness-of-fit test by hand and using R.
+
+*   Carry out a contingency table test of association using R
+</div>
