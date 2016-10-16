@@ -165,7 +165,7 @@ Here's the key point: whatever flavour of *t*-test we're using, a test with high
 
 Having obtained the result we need to write the conclusion. Remember, we are testing an hypothesis so go back to the original question to write the conclusion. In this case the appropriate conclusion is:
 
-> Mean dry weight biomass of purple and green plants differed significantly (Welch's t = 2.78, d.f. = 140.7, *p* < 0.01), with purple plants being the larger.
+> Mean dry weight biomass of purple and green plants differs significantly (Welch's t = 2.78, d.f. = 140.7, *p* < 0.01), with purple plants being the larger.
 
 This is a concise and unambiguous statement in response to our initial question. The statement indicates not just the result of the statistical test, but also which of the mean values is the larger, although our initial hypothesis was only that there would be a difference. Always indicate which mean is the largest. It is sometimes appropriate to give the values of the means in the conclusion:
 

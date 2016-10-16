@@ -80,7 +80,7 @@ By the way, people often just say/write "estimate" instead of "point estimate", 
 
 A point estimate is virtually useless on its own. Why? Because it is always derived from a limited sample of the wider population. Even if we are very careful about how we sample a population, and we collect a really big sample, there is no way to guarantee that the composition of the sample exactly matches that of the population. Why is this important? It means that any point estimate we derive from a sample will always be imperfect, in the sense that it won't exactly match the true population value. 
 
-So... there is always uncertainty associated with an estimate of a population parameter. What can we do about this? We have to find a way to *quantify that uncertainty*. This bit of the process can be tricky to understand. We're going to spend a fair bit of time thinking about it in the [Sampling variation and standard error] chapter, so we'll leave it there for now.
+So... there is always uncertainty associated with an estimate of a population parameter. What can we do about this? We have to find a way to *quantify that uncertainty*. This bit of the process can be tricky to understand. We're going to spend a fair bit of time thinking about it in the [Sampling error] chapter, so we'll leave it there for now.
 
 **Step 8: Answer the question!**
 
