@@ -4,41 +4,89 @@
 
 Much of the time in biology we are dealing with whole objects (plants, animals, cells, eggs, islands, etc.) or discrete events (attacks, matings, nesting attempts, etc.). We are often interested in making measurements of numeric variables (length, weight, number, etc.) and then either comparing means from samples (e.g. mean leaf size of plants from two habitat types), or investigating the association between different measurements (e.g. mean leaf size and herbivore damage).
 
-However, we sometimes find a situation in which the ‘measurement’ we are interested in is not a quantitative measure (i.e. is not on a ratio or interval, scale), but is *categorical*. You will recall that categorical data are things like sex, colour or species. Such variables cannot be treated in the same way as numeric variables because although we can ‘measure’ each object (e.g. record if an animal is male or female), obviously we can’t calculate numeric quantities such as the ‘mean colour morph’, ‘mean species’ or ‘median sex’ of animals in a sample.
+However, we sometimes find a situation in which the ‘measurement’ we are interested in is not a quantitative measure (i.e. is not on a ratio or interval, scale), but is *categorical*. You will recall that categorical data are things like sex, colour or species. Such variables cannot be treated in the same way as numeric variables because although we can ‘measure’ each object (e.g. record if an animal is male or female), obviously we can’t calculate numeric quantities such as the ‘mean colour morph’, ‘mean species’ or ‘median sex’ of animals in a sample. Instead, we work with the observed frequencies, in the form of counts, of different categories, or combinations of categories.
 
 ## A new kind of distribution
 
 There are a quite a few of options for dealing with categorical data^[e.g. the 'log-linear model', 'Fisher's exact test', and the 'G-test'.]. We're just going to look at one option in this book: $\chi^2$ tests. This is pronounced, and sometimes written, 'chi-square'.^[The 'ch' is a hard 'ch', as in 'character'.]. This isn't necessarily the best approach for every problem, but $\chi^2$ tests are widely used in biology so they are a good place to start.
 
-```{r, echo=FALSE}
+```{block, type='do-something'}
+It is not critical that you understand everything in this section. This material is here to help those who like to have a sense of how statistical tests work. You certainly won't be assessed on it.
+```
+
+The $\chi^2$ tests that we're going to study borrow their name from a particular theoretical distribution, called, you guessed it, the $\chi^2$ distribution. We aren't going to study this in much detail. However, just as with the normal distribution and the *t*-distribution, it can be helpful to know a little bit about it.
+
+1. The $\chi^2$ distribution pops up a lot in statistics. However, in contrast to the normal distribution, it isn't often used to model the distribution of a variable we've sampled (i.e. 'data'). Instead, $\chi^2$ distribution is usually associated with a test statistic of some kind.
+
+3. The standard $\chi^2$ distribution is completely described by one parameter, called the degrees of freedom. Yes, this is closely related to the degrees of freedom idea introduced in the last few chapters on *t*-tests.
+
+2. The $\chi^2$ distribution is appropriate for positive-valued numeric variable. That is, negative values can't be accommodated. This is because the $\chi^2$ distribution arises when we take one or more normally distributed variables, square these, and then add them up. Things are a bit more complicated than this in reality, but that's the basic idea behind where it comes from.
+
+Let's take a look at the $\chi^2$ distribution with one degree of freedom:
+
+```{r, chi-dist-1-eg, echo = FALSE, out.width='60%', fig.asp=1, fig.align='center', fig.cap='Distribution of a large sample of chi-square distributed variable with one degree of freedom'}
 data.frame(Chi_2 = rchisq(5e5, df = 1)) %>%
   ggplot(aes(x = Chi_2)) + geom_histogram(binwidth = 0.4) + 
   coord_cartesian(xlim = c(0, 10))
 ```
+As we just pointed out, only positive values are allowed. We can also see that the distribution is asymmetric---it is skewed to the right---and most values lie between about 0 and 10. OK, so why is any of this useful? 
+
+Let's look at the plant morph example again. Imagine that we are able to take repeated samples from a population when the purple morph frequency is 25% . We'll take a sample of 1000 plants each time^[The actual frequency and sample size we use isn't all that important by the way. This example works for a wide range of situations.]. If we know the true frequency, we expect to sample 250 plants each time. We'll call this number the 'expected value'. The observed frequency of purple plants in each sample will vary because of sampling error. We'll call this latter number the 'observed value'. 
+
+So far we're not doing anything we haven't seen before. Here's the new bit... Imagine that every time we sample the 1000 plants, we calculate the following test statistic:
+
+$$2*\frac{(O-E)^{2}}{E}$$
+
+...where $O$ is the observed value and $E$ is the expected value defined above. What does the distribution of this test statistic look like? We can find out by simulating the scenario in R and plotting the results:
+
+```{r chi-test-eg, echo = FALSE, out.width='60%', fig.asp=1, fig.align='center', fig.cap='Distribution of the test statistic'}
+samp_size <- 1000
+p_purple <- 0.25
+Obs <- rbinom(1e5, size = samp_size, prob = p_purple)
+Exp <- samp_size * p_purple
+data.frame(Chi_2 = 2*(Obs - Exp)^2 / Exp) %>%
+  ggplot(aes(x = Chi_2)) + geom_histogram(binwidth = 0.4) + 
+  coord_cartesian(xlim = c(0, 10))
+```
+
+That looks a lot like the theoretical $\chi^2$ distribution we plotted above. This wasn't just good luck. It turns out that observed frequencies ('counts') that have been standardised with respect to their expected values---via the $\frac{(O-E)^{2}}{E}$ statistic---are expected to have a $\chi^2$ sampling distribution (at least approximately). This is the basis for using the $\chi^2$ distribution in various statistical tests involving categorical variables and frequencies.
 
 ## Types of test
 
-Although the tests all work on the same general principle, and all use the same statistic, it is helpful to distinguish two sorts of $\chi^2$ tests:
+We're going to learn about two different types of $\chi^2$ test. Although the two tests work on the same general principle, it is still important to distinguish between them according to where they are used:
 
-### $\chi^{2}$ **goodness of fit test**. 
+### $\chi^{2}$ goodness of fit test
 
 A goodness-of-fit test is applicable in a situation where we have a single categorical variable (with any number of categories in it) and some hypothesis from which we can predict the expected proportions of observations falling in each category. For example... 
-
 We might be interested in whether the number of males is equal to the number of females among second year students doing biology at Sheffield. We could record the numbers of males and females in a cohort, ending up a sample containing one nominal variable (Sex) with two only categories (Male and Female). We want to know if there is any evidence for sex-related bias in the decision to study biology. Based on information about human populations, we know that the sex ratio among 18 year olds is fairly close to 1:1^[Human sex-ratio is actually slightly biased toward males at birth, but since males experience a higher mortality rate in their teens, the sex ratio among 18 year olds is closer to 1:1]. We are thus able to compare the goodness of fit of the number of males and females in a sample of students with the expected value predicted by the 1:1 ratio. 
 
 If we had a total of 182 students we might get this sort of table:
 
                Male   Female
 ------------ ------- --------
-**Observed**    81      101
+**Observed**    64      100
 
-With a 1:1 sex ratio, if there is no sex-bias in the decision to go to university and to study biology, we would expect 91 of each sex. In this case it looks as though there may be some discrepancy between the expected values and those actually found. However, this discrepancy could be entirely consistent with sampling variation---perhaps females are no more likely to choose biology and we ended up with a higher proportion of female students by chance. The $\chi^{2}$ goodness of fit test allows us to test how likely it is that such a discrepancy has arisen by chance.
+With a 1:1 sex ratio, if there is no sex-bias in the decision to go to university and to study biology, we would expect 82 of each sex. In this case it looks as though there may be some discrepancy between the expected values and those actually found. However, this discrepancy could be entirely consistent with sampling variation---perhaps females are no more likely to choose biology and we ended up with a higher proportion of female students by chance. The $\chi^{2}$ goodness of fit test allows us to test how likely it is that such a discrepancy has arisen through sampling variation.
 
-2.  $\chi^{2}$ **contingency table test**. A contingency table test is applicable in a situation where each object is classified according to more than one categorical variable. Contingency table tests are usually used to test whether there is an association (or conversely, independence) between the variables. 
+### $\chi^{2}$ contingency table test
+
+A contingency table test is applicable in situations where each object is classified according to more than one categorical variable. Contingency table tests are usually used to test whether there is an association (or conversely, independence) between the variables. For example...
+
+Consider biology students again. We might be interested in whether eye colour was in any way related to sex. It would be simple to record eye colour (e.g. brown vs. blue) along with the sex of each student in a sample. Now we would end up with a table that had two classifications:
+
+               Blue eyes   Brown eyes
+  ----------- ----------- ------------
+  **Male**        44           20
+  **Female**      58           42
+
+
+Now it is possible to compare the proportions of brown and blue eyes among males and females... The total number of males and females are 64 and 100, respectively. The proportion of males with brown eyes is 20/64 = 0.31, and that for females 42/100 = 0.42. It appears that brown eyes are somewhat less prevalent among males. A contingency table test will tell us is the difference in eye colour frequencies are likely to have arisen through sampling variation.
+
+Notice that we are not interested in judging whether the proportion of males (or the proportion of blue-eyed students) are different from some expectation. That's the job of a goodness of fit test. We want to know if there is an association between eye colour and sex. That's the job of a contingency table test.
 
 ### The assumptions and requirements of $\chi^{2}$ tests
 
-It's important to realise that in terms of the assumptions they rely on, contingency table and goodness-of-fit tests arn't fundamentally different from one another. The difference between the two types lies in the type of hypothesis tested by each. The only real difference is that the when we carry out a goodness-of-fit test we have to supply the expected values, whereas the calculation of expected values is embedded in the formula used to carry out a contingency table test. That will make more sense once we've seen the two test in action...
+It's important to realise that in terms of the assumptions they rely on, contingency table and goodness-of-fit tests aren't fundamentally different from one another. The difference between the two types lies in the type of hypothesis evaluated. The only real difference is that the when we carry out a goodness-of-fit test we have to supply the expected values, whereas the calculation of expected values is embedded in the formula used to carry out a contingency table test. That will make more sense once we've seen the two test in action...
 
 $\chi^{2}$ tests are often characterised **non-parametric** tests because they do not assume any particular form for the distribution of the data. In fact, as with any statistical test, there are some assumptions, but these are relatively mild:
 

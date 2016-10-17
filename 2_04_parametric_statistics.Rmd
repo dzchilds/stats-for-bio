@@ -46,7 +46,7 @@ We don't have time in this book to really study the normal distribution in much 
 
 4. When we add or subtract two normally distributed variables to create a new variable, the resulting variable will also be normally distributed. Similarly, if we multiply a normally distributed by a number to create a new variable, the resulting variable will still be normally distributed.
 
-In summary, the mathematical properties of the normal distribution are very well understood, and many of these properties make it easy to work with. Most important of all---for doing statistics at least---is that mathematicians have worked out how the sampling distribution of means (and similar quantities) behave when the underlying variables are normally distributed. 
+In summary, the mathematical properties of the normal distribution are very well understood, and many of these properties make the distribution easy to work with. Most important of all---for doing statistics at least---is that mathematicians have worked out how the sampling distribution of means (and similar quantities) behave when the underlying variables are normally distributed. 
 
 ### Standard error of the mean
 
