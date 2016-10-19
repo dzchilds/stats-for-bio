@@ -127,19 +127,19 @@ We now need to express these results in a clear sentence incorporating the relev
 
 > Individual patients had significantly lower serum glycolipid concentrations when treated with Drug B than when treated with Drug A  (*t* = 2.62, d.f. = 7, *p* = 0.034).
 
-There are a few things to point out in interpreting the result of such a test.
+Notice tha twe chose to report the actual *p*-value here because it is close to the *p* < 0.05 significance level. There's nothing wrong with writing '*p* < 0.05' instead, but '*p* = 0.034' gives the reader a bit more information. There are a couple of things to point out in interpreting the result of such a test.
 
-1.  The degrees of freedom for a paired-sample *t* test are one less than the number of differences (or number of pairs); not one, or two, less than the total number of data values.
+1.  The sample of differences was used in the test, not the sample of paired observations. This means the degrees of freedom for a paired-sample *t* test are one less than the number of differences (the number of pairs); not one, or two, less than the total number of values. 
 
 2.  Note that since we have used a paired-sample design our conclusion stresses the fact that the use of the Drug B results in a lower glycolipid level in individual patients; it doesn’t say that the use of Drug B resulted in lower glycolipid concentrations for everyone given Drug B than for anyone given Drug A.
 
 ### Using the `paired = TRUE` argument
 
-As mentioned earlier R does have a built in procedure for doing paired-sample *t*-tests. Now that we’ve done it the hard way, let's try running the data through the test using that procedure. All we have to do is set the `paired` argument of the `t.test` function to `TRUE`: 
+As mentioned, R does have a built in procedure for doing paired-sample *t*-tests. Now that we’ve done it the hard way, let's try carrying out the test using that procedure. This looks very similar to a two-sample *t*-test, except that now we have to set the `paired` argument of the `t.test` function to `TRUE`: 
 ```{r}
 t.test(Glycolipid ~ Drug, data = glycolipid, paired = TRUE)
 ```
-Notice that you work with the original `glycolipid` data frame, not the `glycolipid_diffs` data frame that we constructed above. R takes care of the differencing for us.
+Notice that we work with the original `glycolipid` data frame rather than the `glycolipid_diffs` data frame we constructed above. R takes care of the differencing for us.
 
 ```{block, type='do-something'}
 **Order matters**
@@ -147,7 +147,7 @@ Notice that you work with the original `glycolipid` data frame, not the `glycoli
 Be careful when using the built in procedure for doing paired-sample *t*-tests. The only information R uses to associate pairs of observations is their order in each group. The first observation in the 'A' group is paired with the first observation in the 'B' group, the second observation in the 'A' group is paired with the second observation in the 'B' group, and so on. If the items/individuals aren't ordered the same way in each group, you'll end up with a meaningless *p*-value... 
 ```
 
-R makes it easy to do paired-sample *t*-test. It is up to you which method you use for doing paired-sample *t*-tests, just don’t forget it is really only a one-sample test wearing fancy dress.
+R makes it easy to do paired-sample *t*-test. It is up to you which method you use for doing paired-sample *t*-tests, just don’t forget it is really only a one-sample test wearing fancy clothes.
 
 
 

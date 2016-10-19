@@ -94,7 +94,7 @@ In general, the expected value for any particular cell in a contingency table is
 
 **Step 3**  Compare the $\chi^{2}$ statistic to the theoretical predictions of the $\chi^{2}$ distribution in order to assess the statistical significance of the difference between observed and expected counts. This *p*-value is the probability we would see the observed pattern of cell counts, or a more strongly associated pattern, under the null hypothesis of no association. A low *p*-value represents evidence against the null hypothesis.
 
-```{block, type='do-something'}
+```{block, type='advanced-box'}
 **Method for hand calculation of 2 x 2 contingency tables**
 
 For a 2 x 2 table there is a short cut method which is quicker than the general method outlined above. The formula for $\chi^{2}$ for a 2 x 2 table table (using the letter lables as in the table above) is:
@@ -114,7 +114,7 @@ The assumptions of the $\chi^{2}$ goodness of fit test are essentially the same 
 
 ## Carrying out a chi-square contingency table test in R
 
-```{block, type='advanced-box'}
+```{block, type='do-something'}
 **Walk through example**
 
 You should work through the example in this section. 
@@ -165,6 +165,8 @@ lady_bird_df <- read.csv(file = "./data_csv/LADYBIRDS2.CSV")
 Sometimes data suitable for analysis with $\chi^{2}$ contingency table test are partially summarised into counts. For example, imagine that we had visited five rural sites and five urban sites and recorded the numbers of red and black colour forms found at each site. Data in this format are stored in the `LADYBIRDS2.CSV` file. Read this into an R data frame and examine this with the `View` function:
 ```{r, eval=FALSE}
 lady_bird_df <- read.csv(file = "LADYBIRDS2.CSV")
+```
+```{r}
 glimpse(lady_bird_df)
 lady_bird_df
 ```
@@ -181,9 +183,11 @@ When working with data in this format---more than one observation per row---we u
 lady_bird_df <- read.csv(file = "./data_csv/LADYBIRDS3.CSV")
 ```
 
-Data suitable for analysis with $\chi^{2}$ contingency table test are sometimes already summarised into total counts. Data in this format are stored in the `LADYBIRDS3.CSV` file. Read this into an R data frame and examine it with the `View` function:
+Data suitable for analysis with $\chi^{2}$ contingency table test are sometimes already summarised into total counts. Data in this format are stored in the `LADYBIRDS3.CSV` file. Read this into an R data frame and print it to the COnsole (it's very small, so there's no need to use `View`):
 ```{r, eval=FALSE, warning=FALSE}
 lady_bird_df <- read.csv(file = "LADYBIRDS3.CSV")
+```
+```{r, warning=FALSE}
 lady_bird_df
 ```
 The total counts are already in the `Number` variable so there is no real need to sum over anything to get the total for each combination of `Habitat` and `Colour`. However, we still need to convert the data from a data frame to a contingency table. There are various ways to do this, but it is easiest to use `xtabs`. The R code is identical to the previous case:

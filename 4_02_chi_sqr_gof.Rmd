@@ -109,21 +109,28 @@ In this formula the $O_i$ are the observed frequencies, the $E_i$ are the expect
 
 Here's some R code that does this for us:
 
-```{r, eval=FALSE, echo=FALSE}
+1.   Calculate observed and expected frequencies**
+```{r}
 O_freqs <- c(105, 87)
 E_freqs <- rep(sum(O_freqs)/2, 2)
+```
+2.   Calculate $\chi^{2}$ test statistic
+```{r}
 Chi_test_stat <- sum((O_freqs-E_freqs)^2 / E_freqs)
 Chi_test_stat
+```
+3.   Calculate degrees of freedom
+```{r}
 Chi_df <- length(O_freqs) - 1
 Chi_df
 ```
 
-Once we have obtained the $\chi^{2}$ value and the degrees of freedom we need to calculate the *p*-value associated with these values. Once upon a time we would have looked this up in a table of some kind. It is much easier to let R handle the calculations for us, using a function called `dchisq`. This does the 'probability we would see the observed frequencies, or more extreme values' calculation mentioned above. `dchisq` takes three arguments: the first is the $\chi^{2}$ value, the second is the degrees of freedom, and the third says which tail of the distribution it should to use. Here's how we use it to calculate the required *p*-value from the $\chi^{2}$ and d.f. values we just calculated:
+Once we have obtained the $\chi^{2}$ value and the degrees of freedom we need to calculate the *p*-value associated with these values. Once upon a time we would have looked this up in a table of some kind. It is much easier to let R handle the calculations for us, using a function called `dchisq`. This does the 'probability we would see the observed frequencies, or more extreme values' calculation mentioned above. `dchisq` takes three arguments: the first is the $\chi^{2}$ value, the second is the degrees of freedom, and the third says which tail of the distribution it should to use. Here's how to calculate the required *p*-value from the $\chi^{2}$ and d.f. values we just calculated:
 
-```{r, eval=FALSE, echo=FALSE}
+```{r}
 pchisq(Chi_test_stat, Chi_df, lower.tail = FALSE)
 ```
-No surprises there... The result is not statistically significant.
+No surprises there... The *p*-value is the same as before.
 
 ## Determining appropriate expected values
 
