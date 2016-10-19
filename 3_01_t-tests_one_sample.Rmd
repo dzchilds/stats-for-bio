@@ -26,11 +26,9 @@ ggplot(plt_data, aes(x = X)) +
 
 The distribution of the sample look roughly bell-shaped, so it seems plausible that it was drawn from a normal distribution^[It's actually quite hard to determine whether a sample was drawn from a normal distribution when the sample size is small.]. The red line shows the sample mean, and the blue line shows the expected value (this is 10, so this example could correspond to the foraging study mentioned above). The observed sample mean is about one unit larger than the expected value. The question is, how do we decide whether the population mean is really different from the expected value? Perhaps the difference between the observed and expected value is due to sampling variation.
 
-We tackle this question by first framing up an appropriate null hypothesis (we're still doing frequentist statistics). The null hypothesis in this instance is that *the population mean is equal to the expected value*. We then have to work out what the sampling distribution of the mean looks like under this null hypothesis (this is the 'null distribution'), and use this to assess how likely the observed result is. 
+We're still doing frequentist statistics, so we tackle this question by first setting up an appropriate null hypothesis. The null hypothesis in this instance is that *the population mean is equal to the expected value*. We then have to work out what the sampling distribution of the mean looks like under this null hypothesis (this is the 'null distribution'), and use this to assess how likely the observed result is. This chain of reasoning is quite similar to that developed in the bootstrapping example considered in the [Statistical significance and *p*-values] chapter. There are some differences in the details, but these aren't so important. 
 
-This chain of reasoning is quite similar to that developed in the bootstrapping example considered in the [Statistical significance and *p*-values] chapter. There are some differences in the details (e.g. we examined the frequency of a categorical variable earlier, whereas here, we're considering the mean of a numeric example), but these aren't so important. The really important change is that now, because we're now prepared to make the normality assumption, the whole process of carrying out the statistical test is much simpler. 
-
-The key consequence of making the normality assumption is that the null distribution will have a known mathematical form (yes, it's related to the *t*-distribution). We can use this knowledge to construct the test of statistical significance. But instead of using the whole sample (as we did for the bootstrapping), we only need three pieces of information to construct the test: the sample size, the sample variance, and the sample means. No resampling of data is involved.
+The really important change is that now, because we're now prepared to make the normality assumption, the whole process of carrying out the statistical test is much simpler. The consequence of the normality assumption is that the null distribution will have a known mathematical form (yes, it's related to the *t*-distribution). We can use this knowledge to construct the test of statistical significance, but instead of using the whole sample as we did for the bootstrapping, we only need three pieces of information to construct the test: the sample size, the sample variance, and the sample means. No resampling of data is involved.
 
 OK, how does a one-sample *t*-test it actually work? It is carried out as follows:
 
@@ -38,7 +36,7 @@ OK, how does a one-sample *t*-test it actually work? It is carried out as follow
 
 $$\text{Standard Error of the Mean} = \sqrt{\frac{s^2}{n}}$$
 
-...where $s$ stands for the sample variance and $n$ stands for the sample size. This is the formula we introduced in the [Parametric statistics] chapter. Notice that standard error of the mean gets smaller as the sample sizes grows or the sample variance shrinks.
+...where $s^2$ stands for the sample variance and $n$ stands for the sample size. This is the formula we introduced in the [Parametric statistics] chapter. Notice that standard error of the mean gets smaller as the sample sizes grows or the sample variance shrinks.
 
 **Step 2.** Calculate the mean. That's simple enough. This is our 'best guess' of the unknown population mean. However, its role in the one-sample *t*-test is to allow us to construct a test statistic in the next step.
 
