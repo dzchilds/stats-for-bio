@@ -1,0 +1,316 @@
+---
+layout: default
+title: Correlation
+---
+
+```{r global_options, include=FALSE}
+library(knitr)
+source(file = "./scripts/knitr_defaults.R")
+opts_chunk$set(fig.path = "./figures/correlation-")
+```
+
+<div class="well">
+
+**Getting started**
+
+1. Open up RStudio and set your working directory. You should do this via the RStudio menu system: **Session ▶ Set Working Directory ▶ Choose Working Directory...**. Make sure that you choose a sensible location. This is where you will need to store your data and R scripts, so it needs to be somewhere that you can access again the next time you log in. If you want to keep life simple, you should use the same location in every practical. That way, you can keep your R scripts and data in one place.
+
+2. You will need to prepare a script to work through this practical. The simplest way to do this is to just copy the preamble from this week's supported IT practical into a new script or carry on using the same script. The preamble will load and attach the `dplyr` or `ggplot` packages (if you are working on the university computers you will also need to install the packages).
+
+3. Run the preamble section of your new script. This is the part that installs and loads packages. If you forget to do this, you will see a lot of errors along the lines of "Error: could not find function..." when you try to use `dplyr` or `ggplot`.
+
+You are now ready to start the practical.
+
+**Tips to help you stay organised and avoid problems**: Before you begin, make sure that you read through the guidance given in the first supported IT practical.
+
+</div>
+
+# Relationships between variables: correlation (vs. regression)
+
+This session considers correlation---an alternative to simple linear regression for evaluating relationships between two numeric variables. This session has two parallel goals: 1) explain when and how to use correlation to analyse such relationships; 2) explain how to decide between a regression model and a correlation analysis.
+
+## Correlation {#corr}
+
+### What does correlation do?
+
+Correlation and regression both explore the **association** between two or more variables in a sample. An association (in the statistical sense) is any relationship between two variables that makes them dependent. That is, knowing the value of one variable gives you some information about the possible values of the second variable. The term association is related to the idea of correlation, and the two terms are sometimes even used interchangeably. Strictly speaking, correlation has a narrower definition: correlation is defined by a metric (called a **correlation coefficient**) that measures the degree to which an association tends to a certain pattern. 
+
+A correlation coefficient tells you how close the association is, but it does not assume that one variable is dependent on the other, and does not provide an equation for the relationship. If we are prepared to make certain assumptions about the population distribution of the two variables, then then we can also use a correlation coefficient to evaluate whether an estimated correlations statistically significant.
+
+There are various methods for measuring correlation. We will focus on the two most widely used metrics: Pearson's product-moment correlation coefficient (denoted $\r$) and Spearman's rank correlation coefficient (denoted $\rho$).
+
+```{r, echo = FALSE}
+set.seed(27081978)
+x <- data.frame(x = rnorm(25))
+```
+
+If there is no relationship between the variables (either because of considerable scatter or just no change in the value of one variable for any change in the other), the correlation coefficient will be close to zero...
+
+```{r, echo = FALSE, fig.height=2.8, fig.width=5}
+bind_rows(mutate(x, y = rnorm(n(), sd = 1), labs = "Similar Variance"),
+          mutate(x, y = rnorm(n(), sd = 0.4), labs = "Different Variance")) %>% 
+  ggplot(aes(x = x, y = y)) + 
+  geom_point() +   facet_wrap(~labs, nrow = 1) + 
+  scale_x_continuous(limits = c(-2,2)) + 
+  scale_y_continuous(limits = c(-2,2))
+```
+
+A perfect correlation will be either -1 or +1 depending on the direction. The closer to 0 the value of the weaker the relationship.
+
+```{r, echo = FALSE, fig.height=5.2, fig.width=5}
+bind_rows(
+  mutate(x, y = +x * 0.5 + rnorm(n(), sd = 0.4), 
+         labs = "a) +ve correlation (+0.7)"),
+  mutate(x, y = +x * 0.6, 
+         labs = "b) +ve correlation (+1.0)"),
+  mutate(x, y = -x * 0.5 + rnorm(n(), sd = 0.4), 
+         labs = "c) -ve correlation (-0.7)"),
+  mutate(x, y = -x * 0.6, 
+         labs = "d) -ve correlation (-1.0)")
+) %>% 
+ggplot(aes(x = x, y = y)) + 
+  geom_point() + facet_wrap(~labs, nrow = 2) + 
+  scale_x_continuous(limits = c(-1,1) * 2) + 
+  scale_y_continuous(limits = c(-1,1) * 2)
+```
+
+The value of indicates the direction (positive or negative) and strength of the relationship, but says nothing about the slope. The same value of can be produced by relationships of differing slopes.
+
+### The difference between correlation and regression
+
+Regression assumes:
+
+-   one of the variables can be meaningfully regarded as the independent ($x$) variable and the other as the dependent ($y$) variable.
+
+-   for a particular value of the independent ($x$) variable there may be variation or ‘error’ in the dependent ($y$) values, which follows a normal distribution.
+
+-   the values of the independent variable $x$ is measured without error, or at least the error in $x$ is small compared to $y$.
+
+-   we are interested in finding the relationship that describes the change in the dependent ($y$) variable as a function of the independent ($x$) variable.
+
+However, in many situations when we are interested in the association between two variables, we have data that do not conform to these assumptions. For example, if we were interested in whether the length of the ‘antlers’ in male stag beetles is related to their body-size, you could collect a sample of stag beetles and measure both ‘antler’ length and body length. However, which is the dependent, and which the independent variable? Antler length doesn’t depend on body length, any more than body length depends on antler length; neither can reasonably be viewed as 'the cause' of the other. Additionally, beetles are sampled at random and we expect both natural variation in the length of antlers and in body length---neither are under our control; and there is probably similar error associated with both measurements.
+
+In this case we want some measure of whether there is a relationship between antler length and body length, but the data are not really appropriate for regression. This is an example of a problem for which correlation is an appropriate technique.
+
+Unlike regression, correlation does not tell you anything about the steepness of the relationship, or allow you to make predictions about the value of one variable from the value of the another. Also, since there is no distinction of dependent or independent variables, it doesn’t matter which way round you do a correlation - the answer will be the same for a correlation between antler-length and body-length as for body-length and antler-length.
+
+### Methods for measuring correlation
+
+There are several measures of correlation between two variables. We will consider the two most widely used methods. The first is called **Pearson’s product-moment correlation** ($r$) – though often for convenience it is just known as Pearson’s correlation, and by default if someone just refers to the ‘correlation coefficient’ it is almost certainly this one they mean. Pearson’s correlation is usually considered to be a parametric method (but see our comment below). The second is **Spearman’s rank correlation** ($\rho$), which as the name suggests is a non-parametric method based on the rank order of observations.
+
+We will consider the parametric approach first.
+
+### Pearson’s product-moment correlation coefficient
+
+Pearson’s correlation, being a parametric technique, as you would expect makes some assumptions:
+
+-   The data are on an interval or ratio scale
+
+-   Both variables are from normal distributions
+
+-   The relationship between the variables (if there is one) is linear
+
+The requirements are fairly simple and shouldn’t need any further explanation. It is worth making one comment though. Strictly speaking, only the third assumption (linearity) needs to be met for Pearson’s correlation coefficient ($r$) to be a valid measure of association. As long as the relationship between two variables is linear, $r$ produces a valid measure of association. However, if the first two assumptions are not met, then we can not easily generate valid *p*-values without resorting to fancy statistical methods such as the bootstrap (a non-parametric method).
+
+So in truth, if we know how to do it, we can use Pearson’s correlation coefficient to measure any linear association, and then use a non-paramtric method to compute *p*-values. We will not do this in this course. Instead, for our purposes we will only consider the Pearson’s correlation coefficient in situations where it is appropriate to rely on the parameteric approach to calculating *p*-values (i.e., when the first two assumptions above are met).
+
+#### Evidence for interactions between bracken and heather
+
+<div class="exercise-box">
+#### Exercise with associated MOLE quiz
+<div class="box-text">
+You should work through this section step-by-step, following the instructions carefully. At various points we will interrupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 'correlation 1'.   
+</div>
+</div>
+
+```{r, echo=FALSE}
+bracken <- read.csv("./course-data/BRACKEN.CSV")
+```
+
+Bracken fern (*Pteridium aquilinum*) is a common plant in many upland areas. One concern is whether there is any interaction of bracken with heather (*Calluna vulgaris*) in these areas.
+
+The data are in the file BRACKEN.CSV. The data are the mean *Calluna* standing crop (g m^-2^) (the `Calluna` variable) and the number of bracken fronds per m (the `Bracken` variable). Read these data into a data frame, calling it `bracken`. Make sure you examine the data with the `View` function before proceeding.
+
+As always, first construct a plot of the data.
+
+Although there may be an interaction between the two species this is not necessarily the case, and if we wanted to do the analysis using regression it is not entirely clear which should be the dependent and independent variables. Additionally, the data are measured with probably similar errors on both variables, and neither is selected or controlled by the investigator (plots were selected at random). Correlation is the appropriate way to test the significance of this relationship.
+
+Check the assumptions for using Pearson's correlation.
+
+<div class="well">
+**MOLE question**
+
+Are the data of the right type?
+
+Are the values roughly normally distributed?
+
+If it looks like there is a relationship, does it look linear?
+</div>
+
+Carrying out a correlation analysis in R is very straightforward. We use the `cor.test` function to do this:
+```{r}
+cor.test(~ Calluna + Bracken, method = "pearson", data = bracken)
+```
+This looks very similar to the `t.test` function. The only difference is that the R's formula system is used in a way that seems, at first glance, a little odd. Instead of the usual form with a variable on the left hand side and a variable on the right hand side (e.g. `Calluna ~ Bracken`), both two variables appear to the right of the `~`, separated by a `+` symbol.
+
+If you think about the assumptions underpinning the use of correlation, this convention makes very good sense. A correlation analysis does not imply the existence of dependent and independent variables. To emphasise the fact that neither variable has a special status, the `cor.test` function expects both variables to appear to the right of the `~`, with nothing on the left. 
+
+The only other thing to note is that we used `method = "pearson"` to control which kind of correlation coefficient was calculated. In fact, the default method is Pearson's correlation, but it is a good idea to be explicit anyway.
+
+The output from the `cor.test` is very similar to that produced by the `t.test` function. We won't step through most of the output, as you should be able to work out what it means. If anything in the output is confusing, make sure you ask a demonstrator to explain it in the next session. When using Pearson's method we usually just report the value of the correlation coefficient, the sample size, and the *p*-value (there is no need to report the *t*-statistic).
+
+<div class="well">
+**MOLE question**
+
+What is the correlation between bracken and heather densities? $r$ = ?
+</div>
+
+<div class="well">
+**MOLE question**
+
+Write a concise summary of the statistical result:
+</div>
+
+<div class="well">
+**MOLE question**
+
+Does this indicate that bracken is having a negative effect on the heather?  If not, what else might it mean?
+</div>
+
+### Non-parametric correlation: Spearman’s rank correlation
+
+The assumptions of Pearson’s correlation are not too restrictive but if the data do not match them then a non-parametric method of correlation, such as Spearman’s rank correlation ($\rho$) may be the best approach. As with the Pearson’s correlation, the values of range from -1 to +1, with values close to zero indicating weak, or no, correlation.
+
+The advantages to the non-parametric approach are:
+
+-   the data do not need to be normally distributed
+
+-   rank (ordinal) data can be used (as well as interval or ratio data)
+
+So Spearman’s rank correlation can be used with data having skewed (or other odd) distributions, or with data originally collected on a rank/ordinal scale. This latter feature makes it very useful for many studies in, for example, behaviour and psychology, where the original data may have been collected on such a scale.
+
+As with other non-parametric tests, Spearman’s rank correlation is somewhat less powerful (roughly 91% in some evaluations) than the parametric equivalent if the data are suitable for the latter, but if not it may be more powerful.
+
+The key assumptions of Spearman’s rank correlation are: 
+
+-   both variables are measured on ordinal, interval or ratio scales
+
+-   there is a monotonic relationship between the two variables
+
+A monotonic relationship occurs when, in general, the variables increase in value together, or when the values of one variable increase, the other variable tends to decrease. What this means in practise is that we should not use Spearman’s rank correlation if a scatter plot of the data forms a clear 'hill' or 'valley' shape.
+
+#### Grouse, leks and mating success
+
+<div class="exercise-box">
+#### Exercise with associated MOLE quiz
+<div class="box-text">
+You should work through this section step-by-step, following the instructions carefully. At various points we will interrupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 'correlation 1'.   
+</div>
+</div>
+
+```{r, echo=FALSE}
+grouse <- read.csv("./course-data/GROUSE.CSV")
+```
+
+Some bird species, at a particular point in the spring, form ‘leks’---gatherings of birds, with males each defending a small area of ground, displaying, and each mating with the such females as he is successful in attracting. In general, in leks, a few birds secure many matings and most birds secure rather few. In a study of lekking in black grouse, a biologist is interested in whether birds that secure many matings in one season also do better the next year. Using a population with many colour-ringed birds he is able to get data for a reasonable number of
+males from two leks in successive years.
+
+The data are in the file GROUSE.CSV. Read these data into a data frame, calling it `grouse`. Each row of the data is the number of matings for each male in the two successive leks: `Year1` (year 1) and `Year2` (year 2). Make sure you examine the data with the `View` function before proceeding. 
+
+Prepare a quick plot of each variable to look at their distributions (do not make a scatter plot).
+
+<div class="well">
+**MOLE question**
+
+Does this tie in with the biological observation that the distribution of matings is skewed?
+</div>
+
+Given the distributions, it is probably better to use Spearman’s rank correlation.
+
+Carrying out a correlation analysis using Spearman’s rank correlation in R is straightforward. We again use the `cor.test` function to do this:
+```{r}
+cor.test(~ Year1 + Year2, method = "spearman", data = grouse)
+```
+The only other thing we had to change, compared to the Pearson's correlation example, was to set `method = "spearman"` to specify the use of Spearman’s rank correlation.
+
+The output is very similar to that produced by the `cor.test` function using Pearson's correlation. The main difference is that instead of a *t*-statistic, we end up working with a different kind of test statistic ('*S*'). We won't discuss where this comes from (it is quite technical). When using the Spearman method is is fine to report the value of the correlation coefficient, the sample size, and the *p*-value (there is no need to report the test statistic).
+
+<div class="well">
+**MOLE question**
+
+Write a statistically validated conclusion from the analysis:
+</div>
+
+## When to use correlation and regression - principles and practicalities {#cor-vs-reg}
+
+Having seen both correlation and regression in action, it is worth returning to the question of how you decide which to use when. As we have already noted, the two techniques are different, and each is appropriate under different circumstances. Correlation measures direction and strength of an association, while a linear regression summarizes relationship between. Ultimately, the distinction is based on the nature of the data and the purpose of the investigation:
+
+##### Situation 1
+
+-   **Question:** What is the relationship that describes the dependence of $y$ on $x$? Can values of $y$ be predicted from $x$?
+
+-   **Data**: Values of $y$ for each $x$-value normally distributed; $x$ measured with less error than $y$.
+
+-   **Method:** Regression.
+
+##### Situation 2
+
+-   **Question:** How strong, and in what direction is the association between $x$ and $y$?
+
+-   **Data**: Values of $x$ and $y$ both normally distributed (randomly selected)
+
+-   **Method:** Parametric correlation (Pearson’s product-moment correlation)
+
+##### Situation 3
+
+-   **Question:** How strong and in what direction is the association
+    between $x$ and $y$ ?
+
+-   **Data**: Values of $x$ and $y$ seriously non-normal, or rank data.
+
+-   **Method:** Non-parametric correlation (Spearman’s rank correlation)
+
+Unfortunately, this doesn’t cover all possibilities. Sometimes we want to answer questions of the first type using data that may be more appropriate for Situation 2, e.g. if we have a random sample of people and measure the relationship between frequency of exercise and weight, the data may do not correspond well to Situation 1–--something like 'exercise frequency' will be measured with error (how do we define this variable?). But, we might well wish to find the relationship between the two – for example to provide us with a guide as to whether someone has a weight level above the norm for their exercise regime. In this type of situation, the common solution is to go ahead anyway and hope for the best! Often even when the data are not ideal you will end up with a usable result, but what you should bear in mind is that the relationship you obtain will almost certainly be, to some extent, incorrect.
+
+Suggest the type of analysis (and dependent and independent variables if necessary) likely to be appropriate with the following data (assume if there is a relationship it will be roughly linear over the range considered).
+
+<div class="well">
+**MOLE question**
+
+Suggest the type of analysis (and dependent and independent variables if necessary) likely to be appropriate with the following data (assume if there is a relationship it will be roughly linear over the range considered).
+
+-   Shoe size and height of students in a class.
+
+-   Heart rate and age in the crustacean *Daphnia* reared in the lab.
+
+-   Number of plant species and number of herbivorous insect species in random 55 m study plots in a field.
+
+-   Order of arrival of dung beetles on elephant dung, and beetle body weight.
+
+-   Percentage bud damage to pear trees by bullfinches, and distance of trees from thick vegetation at the edge of the orchard (in which the bullfinches gather).  Trees are arranged in rows parallel to the orchard edge and a single tree, selected at random from every row is sampled.
+
+-   Density of nesting stork pairs and number of human births recorded in an area over a 20 year period.
+
+-   Colour (ranked from dark to light) of the waterbug \textit{Sigara falleni} from a series of ponds, and colour (on same scale) of the sediment from each pond.
+
+-   Age and height of all children in a primary school.
+
+-   Number of copulations achieved by male elephant seals and dominance (established by observing the outcome of aggressive interactions between males.
+</div>
+
+## Summary {#summary}
+
+<div class="well">
+By the end of this session you should be able to:
+
+*   Understand what parametric and nonparametric correlation techniques are and under what circumstances they are appropriate.
+
+*   Be able to carry out the two types of correlation (Pearson and Spearman rank) using the `cor.test` function in R, and interpret the results.
+
+*   Distinguish between situations in which correlation and regression are the most appropriate techniques (and know when you are breaking the rules!)
+</div>
+
+
+
+
+
