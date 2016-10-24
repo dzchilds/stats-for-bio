@@ -60,7 +60,7 @@ We're going to learn about two different types of $\chi^2$ test. Although the tw
 A goodness-of-fit test is applicable in a situation where we have a single categorical variable (with any number of categories in it) and some hypothesis from which we can predict the expected proportions of observations falling in each category. For example... 
 We might be interested in whether the number of males is equal to the number of females among second year students doing biology at Sheffield. We could record the numbers of males and females in a cohort, ending up a sample containing one nominal variable (Sex) with two only categories (Male and Female). We want to know if there is any evidence for sex-related bias in the decision to study biology. Based on information about human populations, we know that the sex ratio among 18 year olds is fairly close to 1:1^[Human sex-ratio is actually slightly biased toward males at birth, but since males experience a higher mortality rate in their teens, the sex ratio among 18 year olds is closer to 1:1]. We are thus able to compare the goodness of fit of the number of males and females in a sample of students with the expected value predicted by the 1:1 ratio. 
 
-If we had a total of 182 students we might get this sort of table:
+If we had a total of 164 students we might get this sort of table:
 
                Male   Female
 ------------ ------- --------
