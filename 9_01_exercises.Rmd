@@ -474,7 +474,7 @@ Summarise the results from the test.
 
 ### Determining expected values
 
-What might be an appropriate way to obtain a set of expected frequencies for an ornitholgist who wants to analyse data on observations of great tits foraging to see if they prefer to forage in particular tree species? Imagine that along a transect through a wood a record was made every time a great tit was seen and of the tree species in which it was foraging...
+What might be an appropriate way to obtain a set of expected frequencies for an ornithologist who wants to analyse data on observations of great tits foraging to see if they prefer to forage in particular tree species? Imagine that along a transect through a wood a record was made every time a great tit was seen and of the tree species in which it was foraging...
 
 ```{block, type='do-something'}
 **MOLE question**
