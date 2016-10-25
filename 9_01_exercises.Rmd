@@ -306,7 +306,7 @@ Think about the differences between three population pairs. Which aspect (or asp
 
 ## Week 4
 
-You should work through the exercises step-by-step, following the instructions carefully. At various points we will interupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 'Simple Test (*t*-tests)'.
+You should work through the exercises step-by-step, following the instructions carefully. At various points we will interrupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 'Simple Test (*t*-tests)'.
 
 ### Eagle owls and Norway rats
 
@@ -491,7 +491,7 @@ read.csv(file = "./data_csv/CLASS.CSV") %>%
 
 Let's return to the initial example used to illustrate a contingency table, we might want to ask if there is an association between eye colour and sex. Data in the file CLASS.CSV show a number of attributes measured from a sample of APS students from a few years ago. Each row contains observations from one student. The two variables we are interested in here are `Sex` (values: 'Female' and 'Male') and `Eye` (values: 'Blue', 'Brown' and 'Green').
 
-Carry out a $\chi^{2}$r eye colour and sex are associated in this sample.
+Carry out a $\chi^{2}$ test to determine whether eye colour and sex are associated in this sample.
 
 <div class="well">
 **MOLE question**
@@ -501,7 +501,7 @@ What do you conclude about the association between sex and eye colour?
 
 ### Eagle owls and prey choice
 
-There are many situations which may produce tables larger than a 2 x 2 contingency table. For example, we could have used the same experimental procedure as in the *Callosobruchus* experiment given earlier but looked at bean choice for 5 sets of females each of which themselves been reared on a different bean type to see if selection of oviposition site is influenced by the bean type the female developed on.
+There are many situations which may produce tables larger than a 2 x 2 contingency table. For example, we could have used the same experimental procedure as in the *Callosobruchus* experiment given earlier but looked at bean choice for 5 sets of females each of which had themselves been reared on a different bean type to see if selection of oviposition site is influenced by the bean type the female developed on.
 
 In fact we are going to look at prey choice between male and female eagle owls. You will recall that the prey of eagle owls can be established by examination of the pellets containing the undigested remains of their prey. In the eagle owl study the diets of the male and female of a pair were studied by examination of the pellets collected from beneath their roosts (fortunately, an individual tends to use the same roosting site, and individuals tend not to roost together). The numbers of all prey types found in the pellets were recorded.
 
