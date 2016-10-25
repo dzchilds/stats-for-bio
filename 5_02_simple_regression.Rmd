@@ -16,14 +16,14 @@ A plant physiologist studying the process of germination in the broad bean (*Vic
 | Glucose ($\mu g$ $mg^{-1}$ dry weight) | 1.0 | 0.5 | 2.5 | 1.5 | 3.2 | 4.3 | 2.5 | 3.5 | 2.8 | 5.6 |
 
 What we want to do is work out whether there a statistically significant relationship between temperature and glucose release (and hence, presumably, amylase activity). That's obviously a job for linear regression...
- 
-## First steps
 
 ```{block, type='do-something'}
 **Walk through example**
 
-You should work through the example in this section. Start by downloading the GLUCOSE.CSV file from MOLE and placing it in your working directory.
+You should work through the example in the next few sections.
 ```
+
+## First steps
 
 The data are in a CSV file called GLUCOSE.CSV. Downloaded the data read and it into an R data frame, giving it the name `vicia_germ`:
 ```{r, eval=FALSE}
