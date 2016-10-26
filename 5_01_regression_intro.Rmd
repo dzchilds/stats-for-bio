@@ -1,5 +1,7 @@
 # Relationships and regression
 
+## Introduction
+
 The simple *t*-tests we encountered earlier were concerned with how to compare mean(s) of numeric variables. We learned how to: (1) compare one mean to any particular value via the one-sample *t*-test, (2) compare means among two groups or conditions via the two-sample *t*-test, (3) compare two conditions *within* items / objects via the paired-sample *t*-test. One way to think about the two-sample and paired-sample *t*-tests is that they evaluate whether or not the variable changes among two groups or experimental conditions. Membership of the different groups/conditions can be encoded by a categorical variable. In R, we use a formula involving the numeric (`num_var`) and categorical (`cat_var`) variables to set up the test (e.g. `num_var ~ cat_var`). There is a good reason for doing things this way. The formula reflects the fact that we can conceptualise the *t*-tests as considering a *relationship* between between a numeric and categorical variable^[It is perfectly possible to evaluate differences among means in more than two categories, but we don't use *t*-tests to do this. Instead, we us a more sophisticated tool called Analysis of Variance (ANOVA). We'll learn about ANOVA in later chapters.].
 
 This chapter introduces a different kind of relationship. The question we want to address is: what should we do when we want to understand how two numeric variables are related? Much of biology is concerned with relationships between numeric variables. For example...
