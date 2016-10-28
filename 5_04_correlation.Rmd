@@ -50,7 +50,7 @@ We'll look at each of these in turn, but first, we need to clear up a source of 
 
 Correlation and regression are both concerned with associations between variables, but they are different techniques, and each is appropriate under different circumstances. This is a frequent source of confusion. Which technique is required for a particular analysis depends on the way the data were collected and the purpose of the analysis. There are two broad questions to consider:
 
-#### Where do the data come from?
+#### Where do the data come from? {-}
 
 Think about how the data have been collected. If the data are from an experimental study where one of the variables has been manipulated, then choosing the best analysis is easy. We should use a regression analysis, in which the independent variable is the experimentally manipulated  variable  and the dependent variable is the measured outcome. The fitted line from a regression analysis describes how the outcome variable *depends on* the manipulated variable---it describes the causal relationship between them. 
 
@@ -58,7 +58,7 @@ It is generally inappropriate to use correlation to analyse data from an experim
 
 If the data are from an observational study, either method may be appropriate. Time to ask another question...
 
-##### What is the goal of the analysis?
+#### What is the goal of the analysis? {-}
 
 Think about what question is being addressed. A correlation coefficient only quantifies the strength and direction of an association between two variables. It will be close to zero if there is no association between the variables; a strong association is implied if the coefficeints are near -1 or +1. A correlation coefficient tells us nothing about the form of a relationship. Nor does it allow us to make predictions about the value of one variable from the value of a second variable. A regression does allow this because it involves fitting a line through the data---i.e. there's a model for the relationship. 
 

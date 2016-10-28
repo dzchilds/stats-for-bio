@@ -1,6 +1,0 @@
-<p><strong>The asterisks convention</strong></p>
-<p>It is common to see ranges of probabilities coded with asterisks:</p>
-<p><code>*</code> for <em>p</em> = 0.05...0.01,</p>
-<p><code>**</code> for <em>p</em> = 0.01...0.001,</p>
-<p><code>***</code> for <em>p</em> &lt; 0.001.</p>
-<p>This is common in tables and text in figures as it is a more compact and visually obvious representation than numbers. However, you should never use the asterisks convention in the text of a report.</p>
