@@ -180,7 +180,7 @@ Let's see how to present the results as a figure...
 We already know how to make a scatter plot. The only new trick we need to learn is how to add the fitted line. Remember the output from the summary table---this gave us the intercept and slope of the best fit line. We could extract these (the is a function called `coef` that does this), and using our knowledge of the equation of a straight line, use them to then calculate a series of points on the fitted line. However, there is an easier way to do this using the `predict` function. 
 
 ```{block, type='do-something'}
-Don't worry too much if this next segment on predictions is confusing. It looks more complicated than it is, but you may have to come back to it a few times before it all sinks in. At first reading, try to focus on the logic of the calculations without worrying too much about the details. You won't be assessed on your ability to plot a fitted line and the data together. You might need to be able to do this for a report at some point though.
+Don't worry too much if this next segment on predictions is confusing. It looks more complicated than it is, but you may have to come back to it a few times before it all sinks in. At first reading, try to focus on the logic of the calculations without worrying too much about the details. You won't be assessed on your ability to plot a fitted line and the data together but you might need to be able to do this to prepare a report.
 ```
 
 In order to use `predict` we have to let R know the values of the independent variable for which we want predictions. In the bean example the temperature was varied from 2-20 °C, so it makes sense to predict glucose concentrations over this range. Therefore the first step in making predictions is to generate a sequence of values from 2 to 20, placing these inside a data frame:
@@ -201,18 +201,16 @@ pred.data <- mutate(pred.data, Glucose = predict(vicia_model, pred.data))
 ```
 
 Look at the first 10 rows of the resulting data frame:
-```{r, echo = FALSE}
+```{r}
 head(pred.data, 10)
 ```
 The `pred.data` is set out much like the data frame containing the experimental data. It has two columns, called `Glucose` and `Temperature`, but instead of data, it contains predictions from the model. Plotting these predictions along with the data is now easy:
 
-```{r reg-worked-publication, echo = FALSE, out.width='60%', fig.asp=1.0, fig.align='center'}
-data.frame(Temperature = seq(2, 20, length.out = 25)) %>% 
-  mutate(Glucose = predict(vicia_model, .)) %>% 
-  ggplot(aes(x = Temperature, y = Glucose)) + 
-    geom_line() + geom_point(data = vicia_germ) + 
-    xlab("Temperature (°C)") + ylab("Glucose concentration") + 
-    theme_bw(base_size = 22)
+```{r reg-worked-publication, out.width='60%', fig.asp=1.0, fig.align='center'}
+ggplot(pred.data, aes(x = Temperature, y = Glucose)) + 
+  geom_line() + geom_point(data = vicia_germ) + 
+  xlab("Temperature (°C)") + ylab("Glucose concentration") + 
+  theme_bw(base_size = 22)
 ```
 
 Notice that we have to make `ggplot2` use the `vicia_germ` data (i.e. the raw data) when adding the points. We also threw in a little theming to make the plot look nicer.

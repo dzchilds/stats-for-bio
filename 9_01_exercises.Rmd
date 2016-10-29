@@ -493,11 +493,11 @@ Let's return to the initial example used to illustrate a contingency table, we m
 
 Carry out a $\chi^{2}$ test to determine whether eye colour and sex are associated in this sample.
 
-<div class="well">
+```{block, type='do-something'}
 **MOLE question**
 
 What do you conclude about the association between sex and eye colour?
-</div>
+```
 
 ### Eagle owls and prey choice
 
@@ -526,4 +526,101 @@ What do you conclude?
 
 If there is an effect, what might account for the result?
 ```
+
+
+
+
+## Week 6
+
+### Hedgerows and partridges
+
+Hedgerows are the main nesting habitat of the grey partridge (*Perdix perdix*). A survey was carried out to establish whether the abundance of hedgerows in agricultural land had an effect on the abundance of grey partridge. From an area of agricultural land covering several farms, twelve plots were selected which had land uses as similar as possible but differed, as evident from preliminary inspection, in the density of hedgerows (km hedgerow per km^2^). Plots were deliberately selected to cover a wide range of hedgerow densities. The total hedgerow lengths, and exact plot areas, were measured by use of large scale maps. The density of partridges was established by visiting all fields in a study plot once immediately after dawn and once just before dusk, when partridges are feeding and therefore most likely to be seen. Counts of birds observed were made on each visit and the dawn and dusk data were averaged to give a value for partridge abundance for each study plot.
+
+The data are stored in a CSV file PARTRIDG.CSV. The density of hedgerows (km per km^2^) is in the `Hedgerow` variable and the density of partridges (no. per km) is in the `Partridge` variable. Read in the data and take a look at it using the `View` function.
+
+```{block, type='do-something'}
+**MOLE question**
+
+Which way round should the variables be?
+
+-   Independent ($x$):
+
+-   Dependent ($y$):
+```
+
+Make a scatter plot to allow you to evaluate the assumptions.
+
+```{block, type='do-something'}
+**MOLE question**
+
+1.  If there is a relationship does it look linear? 
+
+2.  Ratio or interval data? 
+
+3.  Independent variable $y$ likely to be normally distributed for each $x$?
+
+4.  Variance increases or decreases markedly with increasing $x$?
+
+5.  Errors in $x$ likely to be small compared to those in $y$?
+```
+
+If everything is OK, or roughly so, then carry out a regression on the relationship between hedgerow density and partridge density.
+
+```{block, type='do-something'}
+**MOLE question**
+
+Summarise the results of your analysis in words.
+```
+
+Finish up by preparing a figure that summarises the data and the best fit line estimated from the regression.
+
+### Analysing associations 
+
+Suggest the type of analysis---and the dependent and independent variables where relevany---likely to be appropriate with the following scenarios. You may assume that if there is a relationship it will be roughly linear over the range considered.
+
+-   Shoe size and height of students in a class.
+
+-   Heart rate and age in the crustacean *Daphnia* reared in the lab.
+
+-   Number of plant species and number of herbivorous insect species in random 55 m study plots in a field.
+
+-   Order of arrival of dung beetles on elephant dung, and beetle body weight.
+
+-   Percentage bud damage to pear trees by bullfinches, and distance of trees from thick vegetation at the edge of the orchard (in which the bullfinches gather).  Trees are arranged in rows parallel to the orchard edge and a single tree, selected at random from every row is sampled.
+
+-   Density of nesting stork pairs and number of human births recorded in an area over a 20 year period.
+
+-   Colour (ranked from dark to light) of the waterbug \textit{Sigara falleni} from a series of ponds, and colour (on same scale) of the sediment from each pond.
+
+-   Age and height of all children in a primary school.
+
+-   Number of copulations achieved by male elephant seals and dominance (established by observing the outcome of aggressive interactions between males.
+
+
+```{block, type='do-something'}
+**MOLE question**
+
+
+```
+
+### Diagnosing problems
+
+We have constructed four artificial data sets to practise intepreting regression diagnostic plots. Each case study corresponds to a hypothetical study where we wish to understand the dependence of numeric variable $y$ on numeric variable $x$. This is a simple linear regression setting where $y$ is the dependent variable and $x$ is the independent variable.
+
+All four data sets are stored in one file called SIMPLEREG_EGS.CSV---the dependent variable is stored in `y`, and the independent variable is stored in `x`. Each case study is identified by the `Case` variable (values: 'A', 'B', 'C' and 'D'). You should analyse each case separately. To do this, you will need to extract a required subset of data using the `filter` function.
+
+Fit a linear regression model to each case in turn, and then examine the residuals vs. fitted plot, the normal probability plot, and the scale-location plot.
+
+```{block, type='do-something'}
+**MOLE question**
+
+For each of the four case studies, make a note of your answer to the following questions:
+
+Is the linearity assumption satisfied?
+
+Is the normality assumption satisfied?
+
+Is the constant variance assumption satisfied?
+```
+
 
