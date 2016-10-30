@@ -81,7 +81,7 @@ This should look quite familiar. We have to assign two arguments:
 ```{block, type='advanced-box'}
 **How does R knows we want to carry out a regression?**
 
-How does R know we want to use regression? After all, we didn't specify this anywhere. The answer is that R looks at what type of variable `Temperature` is. It is numeric, and so R automatically carries out a regression. If it had been a factor or a character vector (representing a categorical variable) R would have carried out a different kind of analysis, called a one-way analysis of variance (ANOVA). Most of the models that we examine in this course are very similar, and can all be fitted using the `lm` function. The only thing that really distinguishes them is type of variables that appear to the right of the `~` in a formula: if they are categorical variables we end up carrying out ANOVA, while numeric variables lead to a regression. 
+How does R know we want to use regression? After all, we didn't specify this anywhere. The answer is that R looks at what type of variable `Temperature` is. It is numeric, and so R automatically carries out a regression. If it had been a factor or a character vector (representing a categorical variable) R would have carried out a different kind of analysis, called a one-way Analysis of Variance (ANOVA). Most of the models that we examine in this course are very similar, and can all be fitted using the `lm` function. The only thing that really distinguishes them is type of variables that appear to the right of the `~` in a formula: if they are categorical variables we end up carrying out ANOVA, while numeric variables lead to a regression. 
 
 The key message is that you have to keep a close eye on the type of variables you are modelling to understand what kind of model R will fit.
 ```
@@ -100,7 +100,7 @@ The second step of a regression analysis involves using the fitted model to asse
 ```{r}
 anova(vicia_model)
 ```
-Let's step through the output to see what it means. The first line informs us that we are looking at an Analysis of Variance Table---a set of statistical results derived from a general tool called an analysis of variance. The second line just reminds us what dependent variable we analysed (`Glucose`). Those parts are simple to describe at least, though the analysis of variance reference may seem a little cryptic. Essentially, every time we carry out an *F*-test we are performing some kind of analysis of variance because the test boils down to a ratio of variances (or more accurately, mean squares).
+Let's step through the output to see what it means. The first line informs us that we are looking at an Analysis of Variance Table---a set of statistical results derived from a general tool called Analysis of Variance. The second line just reminds us what dependent variable we analysed (`Glucose`). Those parts are simple to describe at least, though the Analysis of Variance reference may seem a little cryptic. Essentially, every time we carry out an *F*-test we are performing some kind of Analysis of Variance because the test boils down to a ratio of variances (or more accurately, mean squares).
 
 The important part of the output is the table at the end:
 

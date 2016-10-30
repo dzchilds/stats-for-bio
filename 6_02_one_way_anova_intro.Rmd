@@ -1,0 +1,247 @@
+# Introduction to one-way ANOVA
+
+## Introduction {#intro}
+
+Tthe two-sample and paired-sample *t*-tests evaluate whether or not the mean of a numeric variable changes among two groups or experimental conditions. At the beginning of the [Relationships and regression] chapter we pointed out that the different groups/conditions can be encoded by a categorical variable, which suggests that we can conceptualise these *t*-tests as considering a relationship between between a numeric and categorical variable. The obvious quation is, what happens if we need to evaluate differences among means from more than two groups? The obvious thing to do might seem to be to test each pair of means using a *t*-test. However this procedure is tedious and, for reasons given below, statistically problematic. 
+
+In this chapter we will introduce an alternative method that allows us to assess the statistical significance of differences among several means at the same time. This method is called **Analysis of Variance** (abbreviated to ANOVA). ANOVA is one of those statistical terms that unfortunately has multiple, closely related meanings:
+
+1.  In it's most general sense ANOVA refers to a methodology for evaluating statistical significance. Most often it appears when working with a staistical model known as the 'general linear model'. Simple linear regression is a special case of the general linear model. Essentially, whenever we see an *F*-ratio in a statistical test we're carrying out an Analysis of Variance of some kind.
+
+2.  The term ANOVA is also used to describe a particular type of statistical model. When used in this more narrow sense, ANOVA refers to a suite of models used to compare means among two or more groups^[ANOVA models are also examples of general linear models.]. 
+
+ANOVA models underpin the analysis of many different kinds of experimental data; they are the main 'work horse' of basic data analysis. As with many other statistical models we can use ANOVA without really understanding the details in any great detail. However, when it comes to interpreting the results from statistical tests associated with ANOVA, it is important to at least have a basic conceptual understanding of how it works. The goal of this chapter is to provide this.
+
+## Why do we need ANOVA models?
+
+```{r, echo=FALSE}
+means <- c(1.5, 2.0, 1.8, 1.4, 1.9)
+plans <- c("None", "Y-plan", "F-plan", "Slimaid", "Waisted")
+sim.wl <- function(variables) {
+  # 
+  wloss.data <- 
+    data.frame(
+      Plan = rep(plans, each = 8), 
+      WeightLoss = round(rep(means, each = 8) + rnorm(length(plans)*8, sd = 0.4), 1),
+      stringsAsFactors = FALSE
+    ) %>% mutate(Plan = factor(Plan, levels = plans))
+  # 
+  wloss.stat <- 
+    wloss.data %>% group_by(Plan) %>% 
+    summarise(Mean = mean(WeightLoss), SE = sd(WeightLoss)/sqrt(n()))
+  #
+  return(list(wloss.data = wloss.data, wloss.stats = wloss.stat))
+}
+```
+
+Let's consider an example. Suppose we wanted to compare the weight loss of people on 4 different diets to determine which diet is the most effective for losing weight. We conduct an experiment in which groups of 8 volunteers follow each of the diets for one month. A fifth group of 8 volunteers serves as the control group---they follow NHS healthy eating guidelines. At the end of the experiment we measure how much weight each person has lost of the month. 
+
+Once the data have been collected we need to understand the results. The weight loss of 8 volunteers on each of the diets could be plotted (this is the raw data), along with the means of each diet group, the standard error of the mean, and the sample mean of all the data:
+
+```{r, echo=FALSE}
+set.seed(30081975)
+
+sim1 <- sim.wl()
+
+grandmean <- mean(sim1$wloss.data$WeightLoss)
+
+ggplot(sim1$wloss.data, aes(x = Plan)) + 
+  geom_point(data = sim1$wloss.data, aes(y = WeightLoss), 
+             position = position_jitter(width = 0.2, height = 0), alpha = 0.5) + 
+  geom_point(data = sim1$wloss.stat, aes(y = Mean), 
+             colour = "blue", size = 3) + 
+  geom_errorbar(data = sim1$wloss.stat, 
+                aes(x = Plan, ymin = Mean - SE, ymax = Mean + SE), width = 0.1, colour = "blue") + 
+  geom_hline(y = grandmean, colour = "red", width = 2.0, linetype = 2) + 
+  scale_y_continuous(limits = c(0, 3)) + 
+  xlab("Diet treatment") + ylab("Weight loss (kg)")
+```
+
+```{r, eval=FALSE, echo=FALSE}
+write.csv(sim1$wloss.data, row.names = FALSE, file = "./data_csv/DIET_EFFECTS.CSV")
+```
+
+The grey points are the raw data, the means and standard error of each diet group are in blue, and the overall sample mean is shown by the dashed red line. We can see that there seem to be differences *among* the means: people in each of the different diet groups often deviate quite a lot from the overall average for all the people in the study (the dashed line). This would seem likely to be an effect of the diet they are on. At the same time, there is still a lot of variation *within* each of the diet groups: not everyone on the same diet has the same weight loss. Perhaps all of this could be explained away as sampling variation---i.e. the diet plans make no difference at all to weight loss. Obviously we need to apply a statistical test to decide whether these differences are 'real'.
+
+It might be tempting to use *t*-tests to compare each mean value with every other. However, this would it would involve 10 *t*-tests. Remember, if there is no effect of diet, each time we do a *t*-test there is a chance that we will get a false significant result. If we use the conventional *p* = 0.05 significance level, there is a 1 in 20 chance of getting such 'false positives'. Doing a large number of such tests increases the overall risk of finding a false positive. In fact doing ten *t*-tests on all possible comparisons of the 5 different diets gives about 40% chance of at least one test giving a false significant difference, even though each individual test is conducted with *p* = 0.05. 
+
+That doesn't sound like a very good way to do science. We need a reliable way  to determine whether there is a significance of differences between several means without increasing the chance of getting a spurious result. That's the job of Analysis of Variance (ANOVA). Just as a two sample *t*-test compares means between two groups, ANOVA compares means among two *or more* groups. The fundamental job of an ANOVA model is to compares means. So why is it called Analysis of *Variance*? Let's find out...
+ 
+## How does ANOVA work?
+
+```{r, echo=FALSE}
+plt.data <- 
+  sim1$wloss.data %>% group_by(Plan) %>% arrange(WeightLoss) %>% 
+  mutate(PlanNum = as.numeric(Plan), 
+         PlanNum = PlanNum + seq(-n()/2, n()/2, length = n())/18) %>% ungroup
+```
+
+The key to understanding ANOVA is to realise that it works by examining the magnitudes of different sources of variation in the data. We start with the total variation---the variation among all the units in the study---and then partition this into two sources: 
+
+1.    Variation due to the effect of experimental treatments or groups. This is called the 'between-group' variation. This describes that variability that can be atrributed to the different groups in the data (e.g. the diet groups). This is the same as the 'explained variation' descibed in the [Relationships and regression] chapter. It quantifies the variation that is 'explained' by the different means.
+
+2.    Variation due to other sources. This second source of variation is usually referred to as the 'within-group' variation because it applies to experimental units (e.g. individuals) within each group. This quantifies the variation due to everything else that isn't acounted for by the groups. Within-group variation is also called the 'error variation'. We'll mostly use this latter term because it is a bit more general.
+
+ANOVA does compare means, but it does this by looking at changes in variation. That seems odd, but it works! If the amount of variation due to the groups/treatments is sufficiently large compared to the variation due to everything else, this suggests that they are probably having an effect. In order to understand ANOVA we have to keep three sources of variation in mind: the total variation, the between-group variation, and the error variation. Let's look at how to quantify these different sources of variation, and then move on to see how to use these quantities to evaluate differences between means. We'll carry on with the diet example..
+
+### Total variation
+
+The figure below shows the weight loss of each individual in the study and the grand mean (i.e. we have not plotted the group-specific means).
+
+```{r, echo=FALSE}
+ggplot(data = plt.data, aes(x = PlanNum)) +
+  geom_segment(aes(xend = PlanNum, y = WeightLoss, yend = grandmean)) +
+  geom_point(aes(y = WeightLoss), alpha = 0.8) + 
+  geom_hline(y = grandmean, colour = "red", width = 2.0, linetype = 2) + 
+  scale_y_continuous(limits = c(0, 3)) + 
+  scale_x_continuous(limits = c(0.6, 5.4), breaks = 1:5, labels = plans) + 
+  xlab("Diet treatment") + ylab("Weight loss (kg)")
+```
+
+The vertical lines show the distance between each observation and the grand mean---we have ordered the data within each group so that the plot is a little tidier. We say that a positive deviation occurs when a point is above the line, and a negative deviation corresponds to a case where the point is below the line.
+
+We're not really interested in the direction of these deviations. What we want to be able to do is to quantify is the variability of the deviations. This is a feature of their magnitude, i.e. the length of the lines. Unfortunately, we can't just add up the deviations, because by definition, they have to sum to zero (i.e. they are calculated relative to the grand mean). One intuitively appealing option is to sum the absolute values of the lines. However, for somewhat technical reasons, this is not the 'best' measure of variability.
+
+The measure of variability we use in ANOVA is based on the 'sum of squares' (abbreviated SS) deviations. A sum of squares is calculated by taking each deviation in turn, squaring it, and adding up the squared values. For example, here are the deviations for the weight example:
+```{r, echo=FALSE}
+(total.devs <- sim1$wloss.data$WeightLoss-mean(sim1$wloss.data$WeightLoss))
+SS.Tot <- sum(total.devs^2)
+```
+If these were stored in a numeric vector called `total.devs`, you could calculate the sums of square in R using (you can't actually do this as you don't have the data yet---we just want to show you how simple the calculation is):
+```{r}
+sum(total.devs^2)
+```
+This number (`r round(SS.Tot, 2)`) is called the total sum of squares because it is a measure of the total variability in the data, ignoring information about treatment groups.
+
+sum of squares calculations lie at the heart of ANOVA. However, we do not work with raw sum of squares, because these are a function of sample size. The more data we have, the larger our sum of squares will get. The solution to this problem is to convert them into a measure of variability that doesn't scale with sample size.
+
+We'll get to this in a moment, but first, we need to see how to calculate a sum of squares to capture between- and within- group variability.
+
+### Between-group variation
+
+Let’s replot the figure again, but this time showing just the group-specific means, the overall grand mean, and the deviations of each group from the grand mean:
+
+```{r, echo=FALSE}
+ggplot(data = sim1$wloss.stat, aes(x = Plan)) +
+  geom_segment(aes(xend = Plan, y = Mean, yend = grandmean)) +
+  geom_point(aes(y = Mean), colour = "blue", size = 3) + 
+  geom_hline(y = grandmean, colour = "red", width = 2.0, linetype = 2) + 
+  scale_y_continuous(limits = c(0, 3)) + 
+  xlab("Diet treatment") + ylab("Weight loss (kg)")
+```
+
+Now the vertical lines show the distance between each group-specific mean and the grand mean. We have five different treatment groups, so there are only five lines. These lines capture the variation due to differences among treatment groups. Again, it is the sizes of the deviations represented by these lines that matters. If these are generally large, it means that the treatments explain a substantial amount of the variation in the data. 'Large' in this context is defined relative to the total variation.
+
+Here are the deviations of the treatment means from the grand mean:
+```{r, echo=FALSE}
+(treat.devs <- sim1$wloss.stats$Mean-mean(sim1$wloss.data$WeightLoss))
+SS.Trt <- sum(treat.devs^2)
+```
+If these were stored in a numeric vector called `treat.devs`, we could calculate a sums of square associated with these deviations using:
+```{r}
+sum(treat.devs^2)
+```
+This number (`r round(SS.Trt, 2)`) is called the treatment sum of squares because it is a measure of the variability that may be attributed to differences among treatments. Notice that this is much smaller than the total sum of squares. This isn't really all that surprising---it is only based on five numbers. Again, we will need convert this into a measure of variability that doesn't scale with sample size.
+
+### Error variation
+
+This third plot shows the weight loss of each individual, the means of each diet group, and the grand mean, but this time, the vertical lines show the distance between each observation and the group-specific means:
+
+```{r, echo=FALSE}
+plt.data.wg <- full_join(plt.data, sim1$wloss.stat, by = "Plan")
+
+seg.data <- plt.data %>% group_by(Plan) %>% 
+  mutate(x = min(PlanNum), xend = max(PlanNum), 
+         y = mean(WeightLoss), yend = mean(WeightLoss)) %>% ungroup
+
+ggplot(data = plt.data.wg, aes(x = PlanNum)) +
+  geom_segment(aes(xend = PlanNum, y = WeightLoss, yend = Mean)) +
+  geom_point(aes(y = WeightLoss), alpha = 0.8) + 
+  geom_segment(data = seg.data, colour = "blue",
+               aes(x = x, xend = xend, y = y, yend = yend)) +
+  geom_hline(y = grandmean, colour = "red", width = 2.0, linetype = 2) + 
+  scale_y_continuous(limits = c(0, 3)) + 
+  scale_x_continuous(limits = c(0.6, 5.4), breaks = 1:5, labels = plans) + 
+  xlab("Diet treatment") + ylab("Weight loss (kg)")
+```
+
+These lines capture the variation due to differences among individuals, *within* treatment groups. If these are generally large, it means that the there is a substantial amount of variation in the data that cannot be attributed to the effect of treatments.
+
+Here are the deviations of the individual weight observations from their corresponding treatment means:
+```{r, echo=FALSE}
+(within.devs <- plt.data.wg$WeightLoss - plt.data.wg$Mean)
+SS.Wth <- sum(within.devs^2)
+```
+If these were stored in a numeric vector called `within.devs`, we could calculate a sums of square associated with these deviations using:
+```{r}
+sum(within.devs^2)
+```
+This number (`r round(SS.Wth, 2)`) is called the error sum of squares because it is a measure of the variability that may be attributed to differences among individuals, controlling for the effect of treatments. As you probably realise by now, we will need convert this into a measure of variability that doesn't scale with sample size.
+
+### Degrees of freedom
+
+In order to convert the sum of squares into a quantity that is not dependent on sample size we need to define something called the **degrees of freedom** (written as df, or d.f.). We came across the concept of degrees of freedom when we studied the *t*-test. The idea is closely related to sample size. It is difficult to give a precise definition, but roughly speaking the degrees of freedom of a statistic like the t-statistic is a measure of how much 'information' was is contained in the statistic.
+
+Each of the three measures of variability that we just calculated has a degrees of freedom associated with it:
+
+*   Total d.f. = (Number of observations - 1)
+
+*   Treatment d.f. = (Number of treatment groups - 1)
+
+*   Error d.f. = (Number of observations - Number of treatment groups)
+
+The way to think about these is as follows. We start out with a degrees of freedom that is equal to the total number of deviations associated with a sum of squares. We 'lose' one degree of freedom for every mean we have to calculate to work out the deviations. Here is how this works in the diet example: 
+
+*   Total d.f. = 40 - 1 = 39 --- The total sum of squares was calculated using all 40 observation in the data, and the deviations were calculated relative to 1 mean (the grand mean)
+
+*   Treatment d.f. = 5 - 1 = 4 --- The treatment sum of squares was calculated using the 5 treatment group means, and the deviations were calculated relative to 1 mean (the grand mean)
+
+*   Error d.f. = 40 - 5 = 35 --- The error sum of squares was calculated using all 40 observations in the data, and the deviations were calculated relative to 5 means (the treatment group means)
+
+Don't worry if you find that confusing. You won't be expected to carry out degrees of freedom calculations (R will do them for us anyway). We have explained them because a) you would probably ask us where they come from if we didn't do this, and b) we are going to use them now...
+
+### Mean squares, variance ratios, and F-tests
+
+The reason degrees of freedom matter is because we use them to standardise the sum of squares to account for sample size. The calculations are very simple. We take each sum of squares and divide it by its associated degrees of freedom. The resulting quantity is called a mean square:
+$$
+Mean square = \frac{\text{sum of squares}}{\text{Degrees of freedom}}
+$$
+A mean square is an estimate of variance (more precisely, a mean square represents an estimate of a population variance). Remember the variance? It is one of the standard measures of a distribution's dispersion, or spread.
+
+ANOVA tests how strong the treatment effect is by calculating the variance based on the deviations of individual data points from the treatment means (the error mean square) and the variance based on the deviations of the treatment means from the overall mean (the treatment mean square). The two variances are compared by calculating the ratio between them (which is designated by the letter *F*):
+
+$$F = \mbox{variance ratio} = \frac{\mbox{variance due to treatments}}{\mbox{error variation}}$$
+
+If the variation among the treatment means is large compared to the variation due to other factors (points around each mean) then the ratio will be larger too. If the variation among treatment means is small then *F* will be small.
+
+If the value of is sufficiently large that it is unlikely to occur just by chance (i.e. unlikely to crop up if you just took at set of samples from the same population) then we can judge it to be *significant*, and it suggests that there are real differences between two or more of the treatment means.
+
+How do we judge a result to be statistically significant? We play exactly the same kind of 'gambit' we used to develop the *t*-test:
+
+1. We assume that there is actually no difference between the population means of each treatment group. That is, we hypothesise that the data in each group are sampled from a single population.
+
+2. Next, we use information in the sample to help us work out what would happen if we were to repeatedly take samples in this hypothetical situation. The 'information' in this case are the mean squares.
+
+3. We then ask, 'if there is no difference between the groups, what is the probability that we would observe an variance ratio that is the same as, or more extreme than, the one we actually observed in the sample?'
+
+4. If the observed variance ratio is sufficiently improbable, then we conclude that we have found a 'statistically significant' result, i.e. one that is inconsistent with the hypothesis of no difference.
+
+In order to work through these calculations we make one key assumption about the population from which the data has been sampled: we assume that the focal variable is normally distributed in the population. Once we make this assumption, it can be shown that the sampling distribution of the variance ratio---in the absence of any real difference---has a particular form: it follows a theoretical distribution called an *F*-distribution (that's why the variance ratio is called '*F*'). 
+
+All this means we can assess statistical significance in an ANOVA by comparing the *F* value calculated from a sample of data to this theoretical distribution--this procedure is called an *F*-test. The important message here is that ANOVA works by making just one comparison: the treatment variation and the error variation, rather than the ten *t*-tests that would have been required to compare all the pairs. This is true for any number of samples.
+
+### Assumptions of ANOVA
+
+The assumptions of one-way ANOVA are essentially the same as those that apply to *t*-test:
+
+1. **Independence.** If the experimental units of the data are not independent, then the p-values generated by an *F*-test in an ANOVA will not be reliable. Even mild non-independence can be a serious problem.
+
+2. **Measurement scale.** The variable that you are working with should be measured on an interval or ratio scale.
+
+Again, these first two are aspects of the experimental design, so they can't be addressed once the data have been collected.
+
+3. **Equal variance.** The validity of *F*-tests associated with ANOVA depends on the assumption of equal variance in the samples. If this assumption is not supported by the data, then it needs to be addressed. If you ignore it, the p-values that you generate cannot be trusted. There is a version of one-way ANOVA that can work with unequal variances, but we won't study it in this course.
+
+4. **Normality.** The validity of *F*-tests associated with ANOVA also depends on the assumption of normality. ANOVA is reasonably robust to small departures from normality, but larger departures can start to matter. Unlike the *t*-test, having a large number of samples doesn't make this assumption less important.
+
+Strictly speaking, assumptions 3 and 4 really apply to the (unobserved) population from which the experimental samples are derived, i.e., the equal variance and normality assumptions are with respect to the focal variable *in the population*. However, we often just informally refer to 'the data' when discussing the assumptions of ANOVA.
