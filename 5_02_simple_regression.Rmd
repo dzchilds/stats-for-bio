@@ -1,6 +1,6 @@
 # Simple regression in R
 
-Our goal in this chapter is to leaen how to work with regression models in R. We'll do this by working through an example. We'll start with the problem and the data, and then work through model fitting, evaluating assumptions, significance testing, and finally, presenting the results.
+Our goal in this chapter is to learn how to work with regression models in R. We'll do this by working through an example. We'll start with the problem and the data, and then work through model fitting, evaluating assumptions, significance testing, and finally, presenting the results.
 
 ## Carrying out a simple linear regression in R {#regression-in-R}
 

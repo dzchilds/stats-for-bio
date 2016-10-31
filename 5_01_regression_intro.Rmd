@@ -295,13 +295,17 @@ Once the total sum of squares and the residual sum of squares are known, we can 
 
 #### Degrees of freedom, mean sqaures and *F* tests {-}
 
-The problem with sums of squares is that they are a function of sample size. The more data we have, the larger our sum of squares will get. The solution to this problem is to convert them into a measure of variability that doesn't scale with sample size. We need to calculate **degrees of freedom** (written as df, or d.f.) to do this. Each of the measures of variability we just calculated for the simple linear regression has a degrees of freedom associated with it. We need the explained and error degrees of freedom:
+The problem with sums of squares is that they are a function of sample size. The more data we have, the larger our sum of squares will get. The solution to this problem is to convert them into a measure of variability that doesn't scale with sample size. We need to calculate **degrees of freedom** (written as df, or d.f.) to do this.  We came across the concept of degrees of freedom when we studied the *t*-test. The idea is closely related to sample size. It is difficult to give a precise definition, but roughly speaking the degrees of freedom of a statistic is a measure of how much 'information' was it contains.
+
+Each of the measures of variability we just calculated for the simple linear regression has a degrees of freedom associated with it. We need the explained and error degrees of freedom:
 
 *   Explained d.f. = 1
 
 *   Error d.f. = (Number of observations - 2)
 
-Don't worry if those seem a little cryptic. We don't need to carry out degrees of freedom calculations by hand because R will do them for us. We'll think about degrees of freedom a bit more when we start to learn about ANOVA models. The reason degrees of freedom matter is because we can use them to standardise the sum of squares to account for sample size. The calculations are very simple. We take each sum of squares and divide it by its associated degrees of freedom. The resulting quantity is called a **mean square** (it's the mean of squared deviations):
+Don't worry if those seem a little cryptic. We don't need to carry out degrees of freedom calculations by hand because R will do them for us. We'll think about degrees of freedom a bit more when we start to learn about ANOVA models. 
+
+The reason degrees of freedom matter is because we can use them to standardise the sum of squares to account for sample size. The calculations are very simple. We take each sum of squares and divide it by its associated degrees of freedom. The resulting quantity is called a **mean square** (it's the mean of squared deviations):
 $$
 \text{Mean Square} = \frac{\text{Sum of Squares}}{\text{Degrees of Freedom}}
 $$

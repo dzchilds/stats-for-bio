@@ -1,9 +1,0 @@
-# Principles of experimental design
-
-
-<div class="advanced-box">
-#### Treatment groups, control groups, and units?
-<div class="box-text">
-In the context of designed experiments, a treatment is any kind of manipulation applied to experimental units in each of the treatment groups. Most experiments also include one or more complementary groups, called control group(s), in which experimental units receive either no treatment or some kind of standard treatment. In the diet example the experimental units are people, the treatment groups are the different diet plans, and the control group is the no diet ('None') group.
-</div>
-</div>

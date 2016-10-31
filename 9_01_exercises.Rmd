@@ -2,7 +2,7 @@
 
 ## Week 2
 
-You should work through the exercises step-by-step, following the instructions carefully. At various points we will interupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 'Statistical Principles (I)'.
+You should work through the exercises step-by-step, following the instructions carefully. At various points we will interrupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 'Statistical Principles (I)'.
 
 ### What kind of variable is it?
 
@@ -145,7 +145,7 @@ Does the standard error depend on purple morph frequency? Does it get smaller or
 
 ## Week 3
 
-You should work through the exercises step-by-step, following the instructions carefully. At various points we will interupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 'Statistical Principles (II)'.
+You should work through the exercises step-by-step, following the instructions carefully. At various points we will interrupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 'Statistical Principles (II)'.
 
 ### Sample size and statistical power
 
@@ -353,7 +353,7 @@ Suggest two possible biological reasons for the result you observe.
 
 The paired-sample *t*-test is a very useful technique, for the simple reason that it can improve the power of simple experiments. You can get an idea of the value of a paired-sample *t*-test by seeing what happens when you ignore the pairing structure of a paired-design data set. We want you to do this with the glycolip data introduced in the [Paired-sample *t*-tests] chapter. 
 
-The pairing was with resepct to patients in this example. Let's see what happens if you ignore the pairing. If you don't already have it in your working directory, download the GLYCOLIPID.CSV file, and then reanalyse the data using an ordinary unpaired two-sample *t*-test (N.B.---This analysis is wrong!).
+The pairing was with respect to patients in this example. Let's see what happens if you ignore the pairing. If you don't already have it in your working directory, download the GLYCOLIPID.CSV file, and then reanalyse the data using an ordinary unpaired two-sample *t*-test (N.B.---This analysis is wrong!).
 
 ```{block, type='do-something'}
 **MOLE question**
@@ -536,7 +536,7 @@ If there is an effect, what might account for the result?
 
 Hedgerows are the main nesting habitat of the grey partridge (*Perdix perdix*). A survey was carried out to establish whether the abundance of hedgerows in agricultural land had an effect on the abundance of grey partridge. From an area of agricultural land covering several farms, twelve plots were selected which had land uses as similar as possible but differed, as evident from preliminary inspection, in the density of hedgerows (km hedgerow per km^2^). Plots were deliberately selected to cover a wide range of hedgerow densities. The total hedgerow lengths, and exact plot areas, were measured by use of large scale maps. The density of partridges was established by visiting all fields in a study plot once immediately after dawn and once just before dusk, when partridges are feeding and therefore most likely to be seen. Counts of birds observed were made on each visit and the dawn and dusk data were averaged to give a value for partridge abundance for each study plot.
 
-The data are stored in a CSV file PARTRIDG.CSV. The density of hedgerows (km per km^2^) is in the `Hedgerow` variable and the density of partridges (no. per km) is in the `Partridge` variable. Read in the data and take a look at it using the `View` function.
+The data are stored in a CSV file PARTRIDG.CSV. Take note: this is a different data set than the one used in the [Regression diagnostics] chapter. The density of hedgerows (km per km^2^) is in the `Hedgerow` variable and the density of partridges (no. per km) is in the `Partridge` variable. Read in the data and take a look at it using the `View` function.
 
 ```{block, type='do-something'}
 **MOLE question**
@@ -548,7 +548,7 @@ Which way round should the variables be?
 -   Dependent ($y$):
 ```
 
-Make a scatter plot to allow you to evaluate the assumptions.
+Make a scatter plot, fit a regression model for the relationship between hedgerow density and partridge density, plot the regression diagnostics, and carry out a statistical significance test to evaluate the relationship.
 
 ```{block, type='do-something'}
 **MOLE question**
@@ -560,11 +560,7 @@ Make a scatter plot to allow you to evaluate the assumptions.
 3.  Independent variable $y$ likely to be normally distributed for each $x$?
 
 4.  Variance increases or decreases markedly with increasing $x$?
-
-5.  Errors in $x$ likely to be small compared to those in $y$?
 ```
-
-If everything is OK, or roughly so, then carry out a regression on the relationship between hedgerow density and partridge density.
 
 ```{block, type='do-something'}
 **MOLE question**
@@ -576,36 +572,33 @@ Finish up by preparing a figure that summarises the data and the best fit line e
 
 ### Analysing associations 
 
-Suggest the type of analysis---and the dependent and independent variables where relevany---likely to be appropriate with the following scenarios. You may assume that if there is a relationship it will be roughly linear over the range considered.
+Consider the following scenarios amenable to analysis by either simple linear regression, Pearson’s product-moment correlation ("parametric correlation"), or Spearman's rank correlation ("non-parametric correlation"):
 
--   Shoe size and height of students in a class.
+-   Shoe size and height of students in a class. We want to know if shoe size is associated with to the height of male students in a class. We measure the shoe size and height from 120 students.
 
--   Heart rate and age in the crustacean *Daphnia* reared in the lab.
+-   Heart rate and age in the crustacean *Daphnia* reared in the lab. We want to know how heart rate changes with age. Six groups of 10 *Daphnia* are reared to ages 2, 4, 6, 8, 10, 12 days old. The heart rate of each individual is then assayed at their target age.
 
--   Number of plant species and number of herbivorous insect species in random 55 m study plots in a field.
+-   Number of plant species and number of herbivorous insect species. We want to know if the diversity of herbivorous insect species is associated with plant diversity. 22 randomly located 5x5m study plots were surveyed in a field.
 
--   Order of arrival of dung beetles on elephant dung, and beetle body weight.
+-   Order of arrival of dung beetle species on elephant dung and body size. We want to know if larger dung beetle species are better at locating dung. We locate a fresh piece of dung and observe beetles arriving over a period of 3 hours, recording the weight of each new arrival.
 
--   Percentage bud damage to pear trees by bullfinches, and distance of trees from thick vegetation at the edge of the orchard (in which the bullfinches gather).  Trees are arranged in rows parallel to the orchard edge and a single tree, selected at random from every row is sampled.
+-   Percentage bud damage to pear trees by bullfinches. We want to know how bud damage changes with respect to the distance of trees from thick vegetation at the edge of the orchard (in which the bullfinches gather). Trees are arranged in rows parallel to the orchard edge and a single tree, selected at random from every row is sampled for bud damage.
 
--   Density of nesting stork pairs and number of human births recorded in an area over a 20 year period.
+-   Density of nesting stork pairs and number of human births. A science reporter from the Daily Mail is struggling to come up with a story. They think storks might deliver babies, so they collect local hospital records and amateur ornithology records covering a 20 year period in the Sheffield area.
 
--   Colour (ranked from dark to light) of the waterbug \textit{Sigara falleni} from a series of ponds, and colour (on same scale) of the sediment from each pond.
+-   Colour of the waterbug _Sigara falleni_ from a series of ponds and colour of the sediment from each pond. We want to know if the colour of the waterbug _Sigara falleni_ (ranked from dark to light) is related to the colour of the sediment (ranked on same scale) from each pond.
 
--   Age and height of all children in a primary school.
-
--   Number of copulations achieved by male elephant seals and dominance (established by observing the outcome of aggressive interactions between males.
-
+-   Number of copulations achieved by male elephant seals and dominance. We want to know if higher-ranked males achieve more matings. Rank is established by observing the outcome of aggressive interactions between males and the number of matings is observed over a two week period in the breeding season.
 
 ```{block, type='do-something'}
 **MOLE question**
 
-
+Suggest the type of analysis---and the dependent and independent variables where relevant---likely to be appropriate in each case. You may assume that if there is a relationship it will be roughly linear over the range considered.
 ```
 
 ### Diagnosing problems
 
-We have constructed four artificial data sets to practise intepreting regression diagnostic plots. Each case study corresponds to a hypothetical study where we wish to understand the dependence of numeric variable $y$ on numeric variable $x$. This is a simple linear regression setting where $y$ is the dependent variable and $x$ is the independent variable.
+We have constructed four artificial data sets to practice interpreting regression diagnostic plots. Each case study corresponds to a hypothetical study where we wish to understand the dependence of numeric variable $y$ on numeric variable $x$. This is a simple linear regression setting where $y$ is the dependent variable and $x$ is the independent variable.
 
 All four data sets are stored in one file called SIMPLEREG_EGS.CSV---the dependent variable is stored in `y`, and the independent variable is stored in `x`. Each case study is identified by the `Case` variable (values: 'A', 'B', 'C' and 'D'). You should analyse each case separately. To do this, you will need to extract a required subset of data using the `filter` function.
 

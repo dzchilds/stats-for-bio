@@ -1,0 +1,14 @@
+# Principles of experimental design
+
+## Jargon busting
+
+Experimental units....
+
+In the context of designed experiments, a **treatment** is any kind of manipulation applied to experimental units. A group of experimental units that all receive the same treatment is called a **treatment group**. 
+
+Most experiments also include one or more complementary groups, called control group(s). The experimental units of a control group receive either no treatment or some kind of standard treatment. 
+
+An experimental **factor** is a variable whose **levels** are set by the experimenter. A factor can be viewed as a collection of related treatments, and the different treatments of a factor are called the levels of that factor.
+
+In our diet example, five different groups of people were told to follow distinct dieting methods. Here, individuals are the experimental units and diets are the treatments, and the five types of diet constitute five levels of the factor 'weight loss diet'.
+

@@ -36,7 +36,7 @@ ggplot(cor_eg, aes(x = x, y = y)) +
 
 2.  The value of a correlation coefficient indicates the direction and strength of the association, but says nothing about the steepness of the relationship. A correlation coefficient is just a number, so it can not tell us exactly how one variable depends on the other. 
 
-3.  A correlation coefficient doesn't tell us whether an apparent association is likley to be real or not. It is possible to construct a statistical test to evaluate whether a correlation is different from zero. Like any statistical test, this requires certain assumptions about the variables to be met.
+3.  A correlation coefficient doesn't tell us whether an apparent association is likely to be real or not. It is possible to construct a statistical test to evaluate whether a correlation is different from zero. Like any statistical test, this requires certain assumptions about the variables to be met.
 
 There are several different measures of correlation between two variables. We will consider the two most widely used methods^[People sometimes just refer to 'the correlation coefficient' without stating which one they are using. When this happens, they probably used the most common method: Pearson’s product-moment correlation.]: 
 
@@ -60,7 +60,7 @@ If the data are from an observational study, either method may be appropriate. T
 
 #### What is the goal of the analysis? {-}
 
-Think about what question is being addressed. A correlation coefficient only quantifies the strength and direction of an association between two variables. It will be close to zero if there is no association between the variables; a strong association is implied if the coefficeints are near -1 or +1. A correlation coefficient tells us nothing about the form of a relationship. Nor does it allow us to make predictions about the value of one variable from the value of a second variable. A regression does allow this because it involves fitting a line through the data---i.e. there's a model for the relationship. 
+Think about what question is being addressed. A correlation coefficient only quantifies the strength and direction of an association between two variables. It will be close to zero if there is no association between the variables; a strong association is implied if the coefficients are near -1 or +1. A correlation coefficient tells us nothing about the form of a relationship. Nor does it allow us to make predictions about the value of one variable from the value of a second variable. A regression does allow this because it involves fitting a line through the data---i.e. there's a model for the relationship. 
 
 This means that if the goal of an analysis is to understand the form of a relationship between two variables, or to use a fitted model to make predictions, we have to use regression. If we just want to know whether two variables are associated or not, the direction of the association, and whether the association is strong or weak, then a correlation analysis is sufficient. It is better to use a correlation analysis when the extra information produced by a regression is not needed, because the former will be simpler and potentially more robust (if we use Spearman's correlation).
 
@@ -74,7 +74,7 @@ Pearson’s correlation, being a parametric technique, makes some reasonably str
 
 -   Both variables are normally distributed in the population.
 
-The requirements are fairly simple and shouldn’t need any further explanation. It is worth making one comment though. Strictly speaking, only the linearity assumption needs to be met for Pearson’s correlation coefficient ($r$) to be a valid measure of association. As long as the relationship between two variables is linear, $r$ produces a sensible measure. However, if the first two assumptions are not met, it is not possible to construct a valid significance test via the standard 'parametric' apparoach. In this course we will only consider the Pearson’s correlation coefficient in situations where it is appropriate to rely on this approach to calculating *p*-values. This means the first two assumptions need to be met.
+The requirements are fairly simple and shouldn’t need any further explanation. It is worth making one comment though. Strictly speaking, only the linearity assumption needs to be met for Pearson’s correlation coefficient ($r$) to be a valid measure of association. As long as the relationship between two variables is linear, $r$ produces a sensible measure. However, if the first two assumptions are not met, it is not possible to construct a valid significance test via the standard 'parametric' approach. In this course we will only consider the Pearson’s correlation coefficient in situations where it is appropriate to rely on this approach to calculating *p*-values. This means the first two assumptions need to be met.
 
 ```{r, echo=FALSE}
 bracken <- read.csv("./data_csv/BRACKEN.CSV")
@@ -100,7 +100,7 @@ ggplot(bracken, aes(x = Calluna)) + geom_dotplot(binwidth = 100)
 ggplot(bracken, aes(x = Bracken)) + geom_dotplot(binwidth = 2)
 ```
 
-It looks like we're dealing with numeric variables (ratio scale), each of which could be normally distributed. What we really want to asess is the association. A scatter plot is obviously the best way to visualise this:
+It looks like we're dealing with numeric variables (ratio scale), each of which could be normally distributed. What we really want to assess is the association. A scatter plot is obviously the best way to visualise this:
 
 ```{r bracken-calluna-scatter, fig.width=3.5, fig.asp=1, fig.align='center'}
 ggplot(bracken, aes(x = Calluna, y = Bracken)) +
@@ -121,7 +121,7 @@ We use `method = "pearson"` to control which kind of correlation coefficient was
 
 The output from the `cor.test` is very similar to that produced by the `t.test` function. We won't step through most of this output, as its meaning should be clear. The `t = -5.2706, df = 20, p-value = 3.701e-05` line is the one we care about. Here are the key points:
 
--   The first part says that the test statistic associated with a Pearson's correlation coefficient is type of *t*-statistic. We're not going to spend time worrying about where this came from, other than to note that it is intepreted in exactly the same way as any other *t*-statistic. 
+-   The first part says that the test statistic associated with a Pearson's correlation coefficient is type of *t*-statistic. We're not going to spend time worrying about where this came from, other than to note that it is interpreted in exactly the same way as any other *t*-statistic. 
 
 -   Next we see the degrees of freedom for the test. Can you see where this comes from? It is $n-2$, where $n$ is the sample size. Together, the degrees of freedom and the *t*-statistic determine the *p*-value...
 
@@ -147,7 +147,7 @@ The key assumptions of Spearman’s rank correlation are:
 
 -   there is a monotonic relationship between the two variables
 
-A monotonic relationship occurs when, in general, the variables increase in value together, or when the values of one variable increase, the other variable tends to decrease. What this means in practise is that we should not use Spearman’s rank correlation if a scatter plot of the data forms a clear 'hill' or 'valley' shape.
+A monotonic relationship occurs when, in general, the variables increase in value together, or when the values of one variable increase, the other variable tends to decrease. What this means in practice is that we should not use Spearman’s rank correlation if a scatter plot of the data forms a clear 'hill' or 'valley' shape.
 
 Spearman’s rank correlation is somewhat less powerful (roughly 91% in some evaluations) than Pearson’s method when the data are suitable for the latter. Otherwise it may even be more powerful. We'll work through an example to learn about Spearman’s correlation...
 
@@ -183,7 +183,7 @@ The data are integers, which means there is a risk of over-plotting (points will
 
 **How do we know to use a correlation analysis with these data?** Although there seems to be an association between the counts, it is not obvious that success in one year 'causes' success in another year and neither variable is controlled by the investigator. We're also not interested in using the success measure in year 1 to predict success in year 2. This indicates that correlation analysis is the appropriate method to evaluate the significance of the association.
 
-**Why are we using Spearman's correlation?** The relationship appears roughly linear, so in that regard Pearson's correlation might be apppropriate. However, the distribution of each count variable is right-skewed, which means the normality assumption is probably suspect in this instance. We're left with no choice but to use Spearman's correlation.
+**Why are we using Spearman's correlation?** The relationship appears roughly linear, so in that regard Pearson's correlation might be appropriate. However, the distribution of each count variable is right-skewed, which means the normality assumption is probably suspect in this instance. We're left with no choice but to use Spearman's correlation.
 
 Carrying out a correlation analysis using Spearman’s rank correlation in R is simple. Again, we use the `cor.test` function to do this:
 ```{r}
