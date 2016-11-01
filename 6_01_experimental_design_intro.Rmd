@@ -227,7 +227,7 @@ Blocking crops up in all sorts of experimental (and non-experimental) study desi
     
 It's worth saying again. **Blocking is one of the most important experimental design concepts.** Most experimental settings lend themselves to some kind of blocking scheme. If we see a way to block wer experiment, do it. Why? Because a blocked experiment is more powerful--in the statistical sense--than the equivalent non-blocked version. In plain english, a study is more likley to detect an effect (assuming it is really present) if it uses a blocked design. We will see how blocking works in a later chapter.
 
-### Experimental control
+## Experimental control
 
 It is obvious that some unwanted variation in data will arise if there is poor measurement, or careless implementation of the treatments (imprecise administration of doses, sloppy timing of trial periods, etc.). In every study we do we should look at the ‘protocol’ issues and see if they can be made tighter. This means considering the precision of the measurements we are making, etc. in relation to the sizes of effects we are interested in, and the resources available to carry out the work. There would be no point in timing measurement intervals over which seedling growth was determined to the millisecond, or determining the soil pH to 5 decimal places, but it would be good to measure seedling height using a standard approach (natural growth form, or stretched out to maximum length? Starting from where?) and to the nearest millimetre, rather than centimetre.
 
@@ -237,7 +237,7 @@ More complex problems arise where the unwanted variation is directly produced as
 
 Other situations in which this type of experimental ‘adjustment’ can be used include experiments in which different nutrient solutions have to be adjusted so that they have the same pH or where different temperature treatments have to have humidity adjusted to ensure that it remains constant. In general this type of approach can be very useful but it depends on the necessary adjustment being known, and sometimes requires continuous monitoring to keep the adjustments correct.
 
-### Additional treatments: ‘designing in’ unwanted variation
+## Additional treatments: ‘designing in’ unwanted variation
 
 Often we are faced by situations in which the unwanted variation — in particular confounding effects — cannot be removed by manipulating the treatments themselves, but has to be tackled by creating additional treatments whose function is to measure the extent of the unwanted variation, and then allow us to remove it statistically, from the data after the experiment is done. In other words, instead of just designing wer experiment with the factor we are interested in, we ‘design in’ the sources of unwanted variation.
 
