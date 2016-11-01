@@ -548,7 +548,7 @@ Which way round should the variables be?
 -   Dependent ($y$):
 ```
 
-Make a scatter plot, fit a regression model for the relationship between hedgerow density and partridge density, plot the regression diagnostics, and carry out a statistical significance test to evaluate the relationship.
+Make a scatter plot, fit a regression model for the relationship between hedgerow density and partridge density, plot the regression diagnostics, and carry out a statistical significance test to evaluate the relationship (use an *F*-test for the test).
 
 ```{block, type='do-something'}
 **MOLE question**
@@ -568,7 +568,21 @@ Make a scatter plot, fit a regression model for the relationship between hedgero
 Summarise the results of your analysis in words.
 ```
 
-Finish up by preparing a figure that summarises the data and the best fit line estimated from the regression.
+Finish up by preparing a figure that summarises the data and the best fit line estimated from the regression:
+
+```{r partridge-publication, fig.width=4, fig.asp=1.0, fig.align='center', echo=FALSE}
+partridge <- read.csv("./data_csv/PARTRIDG.CSV")
+reg_mod <- lm(Partridge ~ Hedgerow, data = partridge)
+pred_data <- 
+  data.frame(Hedgerow = range(partridge$Hedgerow)) %>%
+  mutate(Partridge = predict(reg_mod, .))
+ggplot(partridge, aes(x = Hedgerow, y = Partridge)) + 
+  geom_point() + geom_line(data = pred_data, colour = "steelblue") + 
+  theme_bw() + 
+  xlab("Hedgerow density (km per km²)") + 
+  ylab("Partridge density (no. per km)")
+```
+
 
 ### Analysing associations 
 
