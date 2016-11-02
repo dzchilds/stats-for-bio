@@ -10,7 +10,7 @@ This chapter introduces a different kind of relationship. The question we want t
 
 -   We survey grassland plots and measure soil pH and species diversity because we want to understand how species diversity depends on soil pH.
 
--   We may manipulate temperature and measure fitness in insects because we want to characterise their thermal tolerance.
+-   We manipulate temperature and measure fitness in insects because we want to characterise their thermal tolerance.
 
 ```{r, echo = FALSE}
 x <- data.frame(x = seq(-2, 2, length.out = 50))
@@ -43,7 +43,7 @@ bind_rows(mutate(x, y = 3 + x + rnorm(n(), sd = 0.5), labs = "Straight"),
   ggplot(aes(x = x, y = y)) + geom_point() + facet_wrap(~labs, nrow = 1)
 ```
 
-Although sometimes it may be obvious that there is a relationship between two variables from a plot of one against the other, at other times it may not. Take a look at the following
+Although sometimes it may be obvious that there is a relationship between two variables from a plot of one against the other, at other times it may not. Take a look at the following:
 
 ```{r reg-eg-confidence, echo = FALSE, out.width='70%', fig.asp=0.5, fig.align='center'}
 x <- data.frame(x = rnorm(40))
@@ -52,7 +52,7 @@ bind_rows(mutate(x, y = 3 + 0.3 * x + rnorm(n(), sd = 0.5), labs = "Sample A"),
   ggplot(aes(x = x, y = y)) + geom_point() + facet_wrap(~labs, nrow = 1)
 ```
 
-We might not be very confident in judging which, if either, of these plots provides evidence of a positive relationship between the two variables. Maybe the pattern the we perceive can just be explained by sampling variation, or maybe it can't. Clearly it would be useful to have a measure of how likely it is that the relationship could have arisen as a result of sampling variation. In addition to judging the statistical significance of a relationship, we may also be interested in describing the relationship mathematically – i.e. finding the equation of the best fitting line through the data. 
+We might not be very confident in judging which, if either, of these plots provides evidence of a positive relationship between the two variables. Maybe the pattern that we perceive can just be explained by sampling variation, or maybe it can't. Clearly it would be useful to have a measure of how likely it is that the relationship could have arisen as a result of sampling variation. In addition to judging the statistical significance of a relationship, we may also be interested in describing the relationship mathematically – i.e. finding the equation of the best fitting line through the data. 
 
 A linear regression analysis allows us to do all this. 
 
@@ -64,12 +64,12 @@ A linear regression analysis allows us to do all this.
 
 -   What does the word 'linear' mean here? In statistics, the word linear is used in two slightly different, but closely related ways. When discussing simple linear regression the term linear is often understood to mean that the relationship follows a straight line. That's all. The more technical definition concerns the relationship between the parameters of a statistical model. We don't need to worry about that one here.
 
-Writing 'simple linear regression' all the time becomes tedious, so we'll often write 'linear regression' or 'regression'. Just keep in mind that we're always referring to simple linear regression in this book. These regression models account for a straight lines relationship between two numeric variables, i.e. they describe how the dependent variable changes in response to the values of the independent variable. It is conventional to label the dependent variable as '$y$' and the independent variable as '$x$'. When we present such data graphically, the independent variable always goes on the $x$-axis and the dependent variable on the $y$-axis. Try not to forget this convention!
+Writing 'simple linear regression' all the time becomes tedious, so we'll often write 'linear regression' or 'regression'. Just keep in mind that we're always referring to simple linear regression in this book. These regression models account for a straight line relationship between two numeric variables, i.e. they describe how the dependent variable changes in response to the values of the independent variable. It is conventional to label the dependent variable as '$y$' and the independent variable as '$x$'. When we present such data graphically, the independent variable always goes on the $x$-axis and the dependent variable on the $y$-axis. Try not to forget this convention!
 
 ```{block, type='advanced-box'}
 **'dependent vs. independent'  or 'response vs. predictor'?**
 
-Another way to describe linear regression is that it allows us to *predict* how one variable (the **response variable**) *responds* to another (the **predictor variable**). The dependent vs. independent  and response vs. predictor conventions for variables in a regression are essentially equivalent. The only differ in the nomenclature they use to describe the variables involved. To avoid confusion, we will stick with dependent vs. independent naming convention in this course.
+Another way to describe linear regression is that it allows us to *predict* how one variable (the **response variable**) *responds* to another (the **predictor variable**). The dependent vs. independent  and response vs. predictor conventions for variables in a regression are essentially equivalent. They only differ in the nomenclature they use to describe the variables involved. To avoid confusion, we will stick with dependent vs. independent naming convention in this course.
 ```
 
 How do we decide how to select which is to be used as the dependent variable and which as the independent variable? The decision is fairly straightforward in an experimental setting: the manipulated variable is the independent variable, and the measured outcome is the dependent variable. Consider the thermal tolerance example from earlier. Temperature was manipulated in this experiment, so it must be designated the independent variable. Moreover, *a priori* (before conducting the experiment), we can reasonably suppose that changes in temperature may cause changes in enzyme activity, but the reverse seems pretty unlikely. 
@@ -129,7 +129,7 @@ exp.data.C <- filter(all.exp.data, labs == "C")
 grandmean <- mean(exp.data$y)
 ```
 
-If we draw a straight line through a set of points on a graph then, unless they form a perfect straight line, some points will lie close to the line and others further away. The vertical distances between the line and each point (i.e. measured parallel to the $y$-axis) have a special name. They are called the *residuals*. Here's an visual example:
+If we draw a straight line through a set of points on a graph then, unless they form a perfect straight line, some points will lie close to the line and others further away. The vertical distances between the line and each point (i.e. measured parallel to the $y$-axis) have a special name. They are called the *residuals*. Here's a visual example:
 
 ```{r reg-eg-with-resids1, echo = FALSE, fig.width=4, fig.asp=1, fig.align='center', fig.cap='Example of data (blue points) used in a simple regression. A fitted line and the associated residuals (vertical lines) are also shown'}
 ggplot(exp.data.C, aes(x = x, y = y)) + 
@@ -185,7 +185,7 @@ It is very important that you understand what a residual from a regression repre
 
 A regression analysis involves two activities:
 
--   **Interpretation.** When we 'fit' a regression model to data we are estimating the coefficients of a best-fit straight line through the data. This is the equation that best describes how the $y$ (dependent) variable *depends on* the $x$ (independent) variable. To put it in slightly more technical terms, it describes the $y$ variable as a function of the $x$ variable. This model may be used to understand how how the variables are related or make predictions.
+-   **Interpretation.** When we 'fit' a regression model to data we are estimating the coefficients of a best-fit straight line through the data. This is the equation that best describes how the $y$ (dependent) variable *depends on* the $x$ (independent) variable. To put it in slightly more technical terms, it describes the $y$ variable as a function of the $x$ variable. This model may be used to understand how the variables are related or make predictions.
 
 -   **Inference.** It is not enough to just estimate the regression equation. Before we can use it we need to determine whether there is a statistically significant relationship between the $x$ and $y$ variables. That is, the analysis will tell us whether an apparent association is likely to be real, or just a chance outcome resulting from sampling variation. 
 
@@ -193,9 +193,9 @@ Let's consider each of these two activities...
 
 ### Interpreting a regression
 
-What is the form of the relationship? The equation for a straight line relationship is $y = a + b \times x$, where $y$ is the dependent variable, $x$ is the independent variable, $a$ is the intercept (i.e. the value at which the line crosses the $y$ axis), and $b$ is the slope of the line. The $a$ and the $b$ are referred to *coefficients* (or *parameters*) of the line.
+What is the form of the relationship? The equation for a straight line relationship is $y = a + b \times x$, where $y$ is the dependent variable, $x$ is the independent variable, $a$ is the intercept (i.e. the value at which the line crosses the $y$ axis), and $b$ is the slope of the line. The $a$ and the $b$ are referred to as the *coefficients* (or *parameters*) of the line.
 
-The slope of the line is often the coefficients we care about most. It tells us the amount by which $y$ changes for a change of one unit in $x$. If the value of $b$ is positive (i.e. a plus sign in the above equation) this means the line slopes upwards to the right. A negative slope ($y = a - bx$) means the line slopes downwards to the right. The diagram below shows the derivation of an equation for a straight line.
+The slope of the line is often the coefficient we care about most. It tells us the amount by which $y$ changes for a change of one unit in $x$. If the value of $b$ is positive (i.e. a plus sign in the above equation) this means the line slopes upwards to the right. A negative slope ($y = a - bx$) means the line slopes downwards to the right. The diagram below shows the derivation of an equation for a straight line.
 
 ```{r reg-line-explain, echo = FALSE, fig.width=4, fig.asp=1, fig.align='center'}
 I <- 1
@@ -233,7 +233,7 @@ In the above diagram, the regression equation is: $y = 1 + 0.66 x$. So to find t
 ```{block, type='advanced-box'}
 **Regression involves a statistical model**
 
-A simple linear regression is underpinned by a statistical model. If you skim back through the [Parametric statistics] chapter you will see that the equation $y = a + b \times x$ represents the 'systematic component' of the regression model. This bit describes the component of variation in $y$ that is explained by the model for the dependence of $y$ on $x$. The residuals correspond to the 'random component' of the model. These represent the component of variation in the $y$ variable our regression model fails to describe.
+A simple linear regression is underpinned by a statistical model. If you skim back through the [Parametric statistics] chapter you will see that the equation $y = a + b \times x$ represents the 'systematic component' of the regression model. This bit describes the component of variation in $y$ that is explained by the model for the dependence of $y$ on $x$. The residuals correspond to the 'random component' of the model. These represent the component of variation in the $y$ variable that our regression model fails to describe.
 ```
 
 ### Evaluating hypotheses ('inference')
@@ -293,9 +293,9 @@ The vertical lines show the distance between each observation and the best fit l
 
 Once the total sum of squares and the residual sum of squares are known, we can calculate the quantity we really want: the **explained sum of squares**. This is a measure of the variation in $y$ that is explained by the influence of the independent variable $x$. We calculate this by subtracting the residual sum of squares from the total sum of squares. This makes intuitive sense: if we subtract the variation in $y$ we can't explain (residual) from all the variation in $y$ (total), we end up with the amount 'explained' by the regression. This number is `r round(SS.Tot-SS.Wth, 2)` for the example. 
 
-#### Degrees of freedom, mean sqaures and *F* tests {-}
+#### Degrees of freedom, mean squares and *F* tests {-}
 
-The problem with sums of squares is that they are a function of sample size. The more data we have, the larger our sum of squares will get. The solution to this problem is to convert them into a measure of variability that doesn't scale with sample size. We need to calculate **degrees of freedom** (written as df, or d.f.) to do this.  We came across the concept of degrees of freedom when we studied the *t*-test. The idea is closely related to sample size. It is difficult to give a precise definition, but roughly speaking the degrees of freedom of a statistic is a measure of how much 'information' was it contains.
+The problem with sums of squares is that they are a function of sample size. The more data we have, the larger our sum of squares will get. The solution to this problem is to convert them into a measure of variability that doesn't scale with sample size. We need to calculate **degrees of freedom** (written as df, or d.f.) to do this.  We came across the concept of degrees of freedom when we studied the *t*-test. The idea is closely related to sample size. It is difficult to give a precise definition, but roughly speaking the degrees of freedom of a statistic is a measure of how much 'information' it contains.
 
 Each of the measures of variability we just calculated for the simple linear regression has a degrees of freedom associated with it. We need the explained and error degrees of freedom:
 
@@ -317,9 +317,9 @@ $$F = \mbox{Variance Ratio} = \frac{\mbox{Explained Mean Square}}{\mbox{Error Me
 
 This is called the *F* ratio, or sometimes, the variance ratio. If the explained variation is large compared to the residual variation then the *F* ratio will be large. Conversely, if the explained variation is relatively small then *F* will be small. We can see where this is heading... 
 
-The *F* ratio is a type of test statistic---if the value of *F* is sufficiently large then we judge it to be statistically significant. In order order for this judgement to be valid we have to make one key assumption about the population from which the data has been sampled: we assume the residuals are drawn from a normal distribution. If this assumption is correct, it can be shown that the distribution of the *F* ratio under the null hypothesis (the 'null distribution') has a particular form: it follows a theoretical distribution called an *F*-distribution. And yes, that's why the variance ratio is called '*F*'. 
+The *F* ratio is a type of test statistic---if the value of *F* is sufficiently large then we judge it to be statistically significant. In order for this judgement to be valid we have to make one key assumption about the population from which the data has been sampled: we assume the residuals are drawn from a normal distribution. If this assumption is correct, it can be shown that the distribution of the *F* ratio under the null hypothesis (the 'null distribution') has a particular form: it follows a theoretical distribution called an *F*-distribution. And yes, that's why the variance ratio is called '*F*'. 
 
-All this means we can assess statistical significance of the slope coefficient by comparing the *F* ratio calculated from a sample to this theoretical distribution. This procedure is called an *F* test. The *F* ratio is 7.34 in our example. This is quite high which it indicates that the slope is likely to be significantly different from 0. However, in order to actually calculate the *p*-value we also need to consider the degrees of freedom of the test, and because the test involves an *F* ratio, there are two different degrees of freedom to consider: the explained and residual df's. Remember that!
+All this means we can assess statistical significance of the slope coefficient by comparing the *F* ratio calculated from a sample to this theoretical distribution. This procedure is called an *F* test. The *F* ratio is 7.34 in our example. This is quite high which indicates that the slope is likely to be significantly different from 0. However, in order to actually calculate the *p*-value we also need to consider the degrees of freedom of the test, and because the test involves an *F* ratio, there are two different degrees of freedom to consider: the explained and residual df's. Remember that!
 
 We could go one to actually calculate the *p*-value, but it is much better to let R do this for us when we work directly with a regression model. We'll leave significance tests alone for now...
 
@@ -327,11 +327,11 @@ We could go one to actually calculate the *p*-value, but it is much better to le
 
 Simple linear regression is a parametric statistical technique, i.e. it makes a number of assumptions that we should be aware of. Let's consider each one in detail, in their approximate order of importance:
 
-1.    **Independence.** The residuals must be independent. Another way of stating this assumption is that the value of each residual does not depend on the value of any others. This can be difficult to check. If the data are from a carefully designed experiment, everything should be OK. If the data are observational, then we need to be a lot more careful. This assumption matters because when the residuals are not independent any *p*-values we generate will unreliable.
+1.    **Independence.** The residuals must be independent. Another way of stating this assumption is that the value of each residual does not depend on the value of any others. This can be difficult to check. If the data are from a carefully designed experiment, everything should be OK. If the data are observational, then we need to be a lot more careful. This assumption matters because when the residuals are not independent any *p*-values we generate will be unreliable.
 
 2.    **Measurement scale.** The dependent ($y$) and independent ($x$) variables are measured on an interval or ratio scale. It doesn't really make sense to use categorical data in a regression^[It sometimes makes sense to use a regression analysis when the independent variable is an ordinal categorical variable. It depends what you want to do with the resulting model. However, some people disagree with this approach, so it's best to avoid doing it unless you're confident you can justify it.]. This one is easy to assess.
 
-3.    **Linearity** The relationship between the independent $x$ variable and the dependent $y$ variable is linear. Obviously there is little point in fitting a straight line to data which clearly don’t form a straight line relationship. There may also be circumstances in which it is theoretically unlikely for a relationship to be linear, e.g. the length and weight of an animal will not be well described by a linear relationship because weight is roughly a cubic function of length. If the data fail this assumption then applying a mathematical transformation of $x$ or $y$ can help. We will come back to this idea later in the course.
+3.    **Linearity.** The relationship between the independent $x$ variable and the dependent $y$ variable is linear. Obviously there is little point in fitting a straight line to data which clearly don’t form a straight line relationship. There may also be circumstances in which it is theoretically unlikely for a relationship to be linear, e.g. the length and weight of an animal will not be well described by a linear relationship because weight is roughly a cubic function of length. If the data fail this assumption then applying a mathematical transformation of $x$ or $y$ can help. We will come back to this idea later in the course.
 
 5.    **Constant variance.** The variance of the residuals is constant. This assumption essentially means the variability of the residuals is not related to the value of the independent $x$ variable. It is violated if the magnitude of the residuals increase or decrease markedly as $x$ gets larger. If the data fail this assumption then again, sometimes applying a mathematical transformation of $y$ will help. We will also discuss this idea later in the course.
 
