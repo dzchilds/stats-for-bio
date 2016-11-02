@@ -1,2 +1,2 @@
-# (PART) Experimental Design {-}
+# (PART) Experimental Design and ANOVA (II) {-}
 

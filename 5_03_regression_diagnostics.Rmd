@@ -20,7 +20,7 @@ These four artificial data sets were constructed by the statistician Francis Ans
 
 1. "Case 1" two linearly related, normally distributed variables. This is the kind of data we often hope for in a statistical analysis. 
 
-2. "Case 2" shows two variables that are not normally distributed, but there is a perfect non-linear relationship between the tw. 
+2. "Case 2" shows two variables that are not normally distributed, but there is a perfect non-linear relationship between the two. 
 
 3. "Case 3" shows an example the variables are perfectly linearly associated for all but one observation which ruins the perfect relationship.
 

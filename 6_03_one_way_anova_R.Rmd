@@ -1,23 +1,25 @@
 # One-way ANOVA in R
 
-Our goal in this chapter is to learn how to work with ANOVA models in R. Just as we did with regression, we'll do this by working through an example. We'll start with the problem and the data, and then work through model fitting, evaluating assumptions, significance testing, and finally, presenting the results. before we do this though, we need to learn about 'factors' in R...
+Our goal in this chapter is to learn how to work with one-way ANOVA models in R. Just as we did with regression, we'll do this by working through an example. We'll start with the problem and the data, and then work through model fitting, evaluating assumptions, significance testing, and finally, presenting the results. 
+
+Before we can do this though, we need to side track a bit and learn about 'factors' in R...
 
 ## Factors in R 
 
-```{block, , type='do-something'}
+```{block, type='do-something'}
 **Walk through**
 
 You should begin working through the diet example from this point. You will need to download the DIET_EFFECTS.CSV file from MOLE and place it in your working directory.
 ```
 
-Rememeber factors? In statistics, an experimental factor is a controlled variable whose levels ('values') are set by the experimenter. R is primarily designed to carry out data analysis so we shouldn't be surprised that it has a special type type of vector to represent factors. The name of kind of vector in R is called, rather sensibly, a factor. We have largely ignored factors in R up until now because we haven't needed to use them^[We have worked with factors, but only when reordering the labels of a cagegorical variable plotted in `ggplot2`]. However, we now need to understand how they work because much of R's plotting and statistical modelling facilities rely on factors.
+Remember factors? An experimental factor is a controlled variable whose levels ('values') are set by the experimenter. R is primarily designed to carry out data analysis so we shouldn't be surprised that it has a special type type of vector to represent factors. The name of kind of vector in R is called, rather sensibly, a factor. We have largely ignored factors in R up until now because we haven't needed to use them^[We have worked with factors, but only when reordering the labels of a categorical variable plotted in `ggplot2`]. However, we now need to understand how they work because much of R's plotting and statistical modelling facilities rely on factors.
 
 ```{r, echo=FALSE}
 diet_effects <- read.csv(file = "./data_csv/DIET_EFFECTS.CSV")
 ```
 
 We'll look at the diet data (stored in `diet_effects`) to begin getting a sense of how they work:
-```{r, echo=FALSE}
+```{r, eval=FALSE}
 diet_effects <- read.csv(file = "./DIET_EFFECTS.CSV")
 ```
 First, we need to be able to actually recognise a factor when we see one. Here is the result of using `glimpse` with the diet data:
@@ -38,36 +40,20 @@ This alerts us to the fact that `Plan` is a factor, with `r length(levels(diet_e
 
 ## Roughly checking the assumptions
 
-We listed the assumptions of ANOVA at the end of the last chapter. First we need to check that the data meet the first two assumptions. The independence assumption is an aspect of the experimental design, so we'll just have to assume this assumption is met without knowing more about how the data were collected. The second assumption concerns the type of variable that is being analysed: it should be a numeric variable measured on an interval or ratio scale.
+We listed the assumptions of ANOVA at the end of the last chapter. The first two assumptions are about independence and the type of variable. The independence assumption is an aspect of the experimental design, so we'll just have to assume this assumption is satisfied without knowing more about how the data were collected. The second assumption states that the variable being analysed (`WeightLoss`) should be an interval or ratio scale numeric variable. Change in weight is clearly a ratio scale numeric variable.
 
-The last two assumptions are about the distribution of the variable in each group. The thing to bear in mind here is that there are five different groups to consider (one for each treatment). We are interested in whether the variance within each group is similar, and whether the `WeightLoss` variable *within* each treatment is likely to have been drawn from a normal distribution. A simple plot that may be used to roughly assess the distributional assumptions of ANOVA is the box and whiskers plot. Here is the `ggplot2` code to make a box and whiskers plot:
+The last two assumptions are about the distribution of the variable in each group. The thing to bear in mind here is that there are five different groups to consider---one for each treatment. We are interested in whether the variance *within each group* is similar, and whether the `WeightLoss` variable *within each group* is likely to have been drawn from a normal distribution. A simple plot to roughly assess the distributional assumptions of ANOVA is the box and whiskers plot:
 
-```{r diets-boxplot, fig.width=4}
+```{r diets-boxplot, fig.align='center', fig.asp=1, fig.width=4}
 ggplot(data = diet_effects, aes(x = Plan, y = WeightLoss)) + 
   geom_boxplot()
 ```
 
 Simple! we just set the x and y axis aesthetics to the `Plan` and `Weightloss` variables, respectively, and use `geom_boxplot` to add the required layer. 
 
-The resulting box and whiskers plot summarises the distribution of weight loss in each diet group: 1) the median diet loss in each group (horizontal lines) shows us the central tendency; 2) the interquartile range (the boxes) summarises the dispersion / spread; 3) and roughly speaking, the 'whiskers' summarise the range of the data. The plot indicates that that the variability within each group is quite similar. The distributions are fairly symmetric (i.e. the lower whisker, the box and the upper whiskers are all about equally large) and there are no 'outliers'. These features are consistent with a normal distribution.
+The resulting box and whiskers plot summarises the distribution of weight loss in each diet group: 1) the median diet loss in each group (horizontal lines) shows us the central tendency; 2) the interquartile range (the boxes) summarises the dispersion / spread; 3) and roughly speaking, the 'whiskers' summarise the range of the data. The plot indicates that that the variability within each group is quite similar, the distributions are fairly symmetric (i.e. the lower whisker, the box and the upper whiskers are all about equally large), and there are no 'outliers'. These features are consistent with a normal distribution.
 
-Dot plots or histograms can also be used to make a more direct assessment of the distributional assumptions. However, a much better way to assess the distributional assumptions is via regression diagnostics. That's right, we can use 'regression' diagnostics to evaluate the assumptions of an ANOVA model.
-
-### Other ways to check the equality of variance
-
-```{block, , type='do-something'}
-It is not critical that you learn the material in this short section. It is provided so that you know how to test for equality of varaince. You won't be asked to do this in an assessment.
-```
-
-Looking back over th ebox and whiskers plot, it seems like the 'None', 'F-plan', and 'Waisted' treatment groups are quite similar, but 'Slimaid' and 'Y-plan' may be slightly more variable. The question we have to ask is: are these differences 'real'? They aren't wildly different, so it is probably reasonable to assume the differences are due to sampling variation. Sometimes people are uncomfortable using this sort of visual assessment. They want to see a *p*-value...
-
-A number of statistical tests have been designed to evaluate the equality of variance assumption. The most widely used is probably the Bartlett test, implemented by the `bartlett.test` function in R. Here is how to apply it to the diet data:
-```{r}
-bartlett.test(WeightLoss ~ Plan, data = diet_effects)
-```
-This looks just like the t-test specification. We use a 'formula' (`WeightLoss ~ Plan`) to specify the variable of interest (`WeightLoss`) and the grouping variable (`Plan`), and use the `data` argument to tell the `bartlett.test` function where to look for these variables. The null hypothesis of a Bartlett test is that the *variances are equal*, so a non-significant *p*-value (>0.05) indicates that the data are consistent with the equal variance assumption. That's what we find here.
-
-Generally speaking, we don't recommend that you carry out a statistical test to evaluate the equality of variance assumption. We have shown it because some people seem to think they are needed. Here is why we think they are wrong: formal tests of equality of variance are not very powerful (in the statistical sense). This means that in order to detect a difference, we either need a lot of data, or the the differences need to be so large that they would be easy to spot using a graphical approach.
+Dot plots or histograms might also be used to make a more direct assessment of the distributional assumptions. However, these aren't very useful when there are only a few replicates in each group. A much better way to assess the distributional assumptions is via regression diagnostics. That's right, we use 'regression' diagnostics to evaluate the assumptions of an ANOVA model. We'll come back to this after we've fitted the model...
 
 ## Fitting the ANOVA model and interpretting the results
 
@@ -86,18 +72,51 @@ Hopefully by now this kind of thing is starting to look familiar. We have to ass
 ```{block, type='advanced-box'}
 **Why does R carry out ANOVA?**
 
-How R knows we want to use an ANOVA model? After all, we didn't specify this anywhere. The answer is that R looks at what type of vector `Plan` is. It is a factor, and so R automatically carries out an ANOVA. It would do the same if `Plan` had been a character vector. However, if the levels of `Plan` had been stored as numbers (1, 2, 3, ...) then R would not have fitted an ANOVA. We've already seen what would have heppened. It would have assumed we meant to fit a regression model. *This is why we don't store categorical variables as numbers in R*. Avoid using numbers to encode the levels of a factor, or any kind of categorical variable, if you want to avoid making mistakes in R.
+How R knows we want to use an ANOVA model? After all, we didn't specify this anywhere. The answer is that R looks at what type of vector `Plan` is. It is a factor, and so R automatically carries out an ANOVA. It would do the same if `Plan` had been a character vector. However, if the levels of `Plan` had been stored as numbers (1, 2, 3, ...) then R would not have fitted an ANOVA. We've already seen what would have happened. It would have assumed we meant to fit a regression model. *This is why we don't store categorical variables as numbers in R*. Avoid using numbers to encode the levels of a factor, or any kind of categorical variable, if you want to avoid making mistakes in R.
 ```
 
 Notice that we did not print the results to the console. Instead, we assigned the result a name (`diets_model`)---`diets_model` now refers to a **model object**. What happens if we print this to the console?
 ```{r}
 diets_model
 ```
-Not a great deal. Printing a fitted model object to the console is not very useful when working with ANOVA. We just see a summary of the model we fitted and some information about the coefficients of the model. Yes, an ANOVA model has coefficients, just like a regression does. What we really want to exatract from the model is a significance test.
+Not a great deal. Printing a fitted model object to the console is not very useful when working with ANOVA. We just see a summary of the model we fitted and some information about the coefficients of the model. Yes, an ANOVA model has coefficients, just like a regression does. What we really want to extract from the model is a significance test.
 
-However, before we dive into *p*-values, we should revisit the assumptions using regression diagnostics. We needed to construct the fitted model object to get at these...
+However, before we dive into *p*-values, we should revisit the assumptions of the ANOVA model using... regression diagnostics. Yes, regression diagnostics. Remember, we can use the diagnostic tools developed for regression to evaluate the assumptions of any model produced by `lm`. Now that we have a fitted model, we can go ahead and examine these. It makes sense to do this before doing 'the stats' because if there is a problem we need to fix it before proceeding.
 
 ## Diagnostics
+
+The first diagnostic plot we might produce is the residuals vs. fitted values plot. In a regression this is used to evaluate the linearity assumption. What does it do in a one-way ANOVA? Not much of use to be honest. There isn't much point making a residuals vs. fitted values plot for a one-way ANOVA. Why? Because the residuals will never show a trend with respect to the 'fitted values', which are just the group-specific means. That's one thing less to worry about.
+
+The normal probability plot is used to identify departures from normality. This plot allows us to check whether the deviations from the group means (the residuals) are likely to have been drawn from a normal distribution. This is definitely something we'd like to assess for an ANOVA model. Here's the normal probability plot for the diet example: 
+
+```{r diet-diag-2, fig.align='center', fig.asp=1.1, fig.width=4}
+plot(diets_model, which = 2, add.smooth = FALSE)
+```
+This looks very good. The points don't deviate from the line in a systematic way (except for a couple at the lower end---this is nothing to worry about) so it looks like the normality assumption is satisfied. 
+
+The scale-location plot allows us to evaluate the constant variance assumption of a linear regression? This allows us to see whether or not the variability of the residuals is roughly constant within each group. Here's the scale-location plot for the diet example: 
+
+```{r diet-diag-3, fig.align='center', fig.asp=1.1, fig.width=4}
+plot(diets_model, which = 3, add.smooth = FALSE)
+```
+
+The warning sign we're looking for here is a systematic pattern. We want to see if the magnitude of the residuals tends to increase or decrease with the fitted values. If such a pattern is apparent then it suggests that variance changes with the mean. There is no such pattern in the above plot so it looks like the constant variance assumption is satisfied.
+
+So it looks like our assumptions are fine and we can move onto the hypothesis testing step. A word of warning first. It may be tempting to evaluate the assumptions of an ANOVA by plotting the distribution of residuals in each group. Don't do this---use the regression diagnostics instead. They are a much more powerful diagnostic tool than dot plots or histograms of residuals.
+
+### Aside: formal test of equality of variance
+
+```{block, , type='do-something'}
+It is not critical that you learn the material in this short section. It is provided so that you know how to test for equality of variance. You won't be asked to do this in an assessment.
+```
+
+Looking back over the scale-location plot, it seems like three of treatment groups exhibit similar variability, while the remaining two are more variable. They aren't wildly different, so it is reasonable to assume the differences are due to sampling variation. People are sometimes uncomfortable using this sort of visual assessment. They want to see a *p*-value... A number of statistical tests have been designed to evaluate the equality of variance assumption. The most widely used is the Bartlett test (the `bartlett.test` function in R). Here is how to use it:
+```{r}
+bartlett.test(WeightLoss ~ Plan, data = diet_effects)
+```
+This looks just like the *t*-test specification. We use a 'formula' (`WeightLoss ~ Plan`) to specify the variable of interest (`WeightLoss`) and the grouping variable (`Plan`), and use the `data` argument to tell the `bartlett.test` function where to look for these variables. The null hypothesis of a Bartlett test is that the *variances are equal*, so a non-significant *p*-value (>0.05) indicates that the data are consistent with the equal variance assumption. That's what we find here.
+
+Generally speaking, we don't recommend that you carry out a statistical test to evaluate the equality of variance assumption. We have shown it because some people seem to think they are needed. Here is why we think they are wrong: formal tests of equality of variance are not very powerful (in the statistical sense). This means that in order to detect a difference, we either need a lot of data, or the the differences need to be so large that they would be easy to spot using a graphical approach.
 
 ## Interpretting the results
 
@@ -125,9 +144,9 @@ The *p*-value gives the probability that the observed differences between the me
 
 So far so good. The test that we have just carried out is called the **global test of significance**. It goes by this name because it doesn't tell us anything about which means are different. The analyses suggest that there is an effect of diet on weight loss, but some uncertainty remains because we have only established that there are differences among at least some diets. A global test doesn't say which diets are better or worse. This could be very important. If the significant result is generated by all diets being equally effective (hence differing from the control but not from each other) we would draw very different conclusions than if all the result was a consequence of one diet being very effective and all the others being useless. Our result could even be produced by the diets all being less effective than the control!
 
-So having got a significant result in the ANOVA, we should always look at the means of the treatments to understand where the differences actually lie. We did this in the previous chapter, but here is the figure again:
+So having got a significant result in the ANOVA, we should always look at the means of the treatments to understand where the differences actually lie. We did this in the previous chapter but here is the figure again anyway:
 
-```{r, echo = FALSE}
+```{r diet-summary-all, echo=FALSE, fig.align='center', fig.asp=1.0, fig.width=4}
 diet_stats.temp <- 
   diet_effects %>% 
   mutate(Plan = factor(Plan, 
@@ -146,7 +165,7 @@ What looking at the means tells us is that the effect of the diets is generally 
 
 Often inspection of the means in this way will tell us all we need to know and no further work will be required. However, sometimes it is desirable to have a more rigorous way of testing where the significant differences between treatments occur. A number of tests exist as ‘add ons’ to ANOVA which enable you to do this. These are called **post hoc multiple comparison tests** (sometimes just 'multiple comparison tests'). We'll see how to conduct multiple comparison tests in the next chapter.
 
-## Summarizing and presenting the results of ANOVA {#summarise-results}
+## Summarising and presenting the results of ANOVA {#summarise-results}
 
 As with all tests it will usually be necessary to summarise the result from the test in a written form. With an ANOVA on several treatments, we always need to at least summarise the results of the global test of significance. Here is again:
 
@@ -169,7 +188,7 @@ You won't be assessed on your ability to produce summary plots such as though be
 
 Box and whiskers plots and multi-panel dot plots / histograms are exploratory data analysis tool. We use them at the beginning of an analysis to understand the data, but we don't tend to present them in project reports or scientific papers. Since ANOVA is designed to compare means, a minimal plot needs to show the point estimates of each group-specific mean, along with a measure of their uncertainty. We often use the standard error of the means to summarise this uncertainty.
 
-In order to be able to plot these quantities we first have to calculate them. We can do this using `dplyr`. Here's a remider of the equation for the standard error of a mean:
+In order to be able to plot these quantities we first have to calculate them. We can do this using `dplyr`. Here's a reminder of the equation for the standard error of a mean:
 $$
 SE = \frac{\text{Standard deviation of the sample}}{\sqrt{\text{Sample size}}} = \frac{SD}{\sqrt{n}}
 $$
@@ -187,7 +206,7 @@ Notice that we used the `n` function to get the sample size. The rest of this R 
 
 We have a couple of different options for making a good summary figure. The first plots a point for each mean and places error bars around this to show ±1 SE. In order to do this using `ggplot2` we have to add *two layers*---the first specifies the points (the means) and the second specifies the error bar (the SE). Here is how to do this:
 
-```{r, fig.width=3.5}
+```{r diet-summary-initial, fig.align='center', fig.asp=0.5, fig.width=5}
 ggplot(data = diet_stats, 
        aes(x = Plan, y = Mean, ymin = Mean - SE, ymax = Mean + SE)) + 
   # this adds the means
@@ -198,7 +217,7 @@ ggplot(data = diet_stats,
   scale_y_continuous(limits = c(0, 3)) + 
   # use sensible labels
   xlab("Diet treatment") + ylab("Weight loss (kg)") +
-  #
+  # flip x and y axes
   coord_flip() +
   # use a more professional theme
   theme_bw()
@@ -214,7 +233,7 @@ diet_stats <-
 ```
 We use `mutate` to update `Plan`, using the `factor` function to redefine the levels of `Plan` and overwrite the original. Now, when we rerun the `ggplot2` code we end up with a figure like this:
 
-```{r, echo=FALSE, fig.width=3.5}
+```{r diet-summary-releveled, echo=FALSE, fig.align='center', fig.asp=0.5, fig.width=5}
 ggplot(data = diet_stats, 
        aes(x = Plan, y = Mean, ymin = Mean - SE, ymax = Mean + SE)) + 
   # this adds the means
@@ -231,11 +250,11 @@ ggplot(data = diet_stats,
   theme_bw()
 ```
 
-The treatments are presented in the order specified with the `levels` argument. Problme solved! 
+The treatments are presented in the order specified with the `levels` argument. Problem solved! 
 
 A bar plot is another popular visualisation for summarising the results of an ANOVA. We only have to change one thing about the last chunk of `ggplot2` code to make a bar plot. Instead of using a `geom_point`, we use `geom_bar` (we'll drop the `coord_flip` bit too):
 
-```{r, fig.width=3.5}
+```{r diet-summary-points, fig.align='center', fig.asp=1.3, fig.width=3.5}
 ggplot(data = diet_stats, 
        aes(x = Plan, y = Mean, ymin = Mean - SE, ymax = Mean + SE)) + 
   # this adds the means

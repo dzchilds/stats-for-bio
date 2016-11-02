@@ -23,27 +23,31 @@ The underlying principle of experimental design is: *to extract data from a syst
 
 In order to do this we need to know how to maximise the **statistical power** of an experiment or data collection protocol. Statistical power is the likelihood that a study will detect an effect when there really is an effect present. Broadly speaking, statistical power is influenced by: (1) the size of the effect and (2) the size of the sample used to detect it. Bigger effects are easier to detect than smaller effects, while large samples present greater test sensitivity than small samples. A second consideration is that the less variable the material we are using the smaller the effects we will be able to detect. Given these facts, there are obviously two things to do when designing an experiment:
 
-1.  Take steps to control the variability of the organisms/material being used; of the experimental conditions; and of the methods of measurement. 
+1.  Use the maximum feasible sample sizes.
 
-2.  Use the maximum feasible sample sizes.
+2.  Take steps to control the variability of the organisms/material being used; of the experimental conditions; and of the methods of measurement. 
 
 Exactly what combination of these is appropriate will depend on the subject area. In a physiological experiment using complex apparatus and monitoring equipment the scope for replication may be very limited. Obviously here maximum effort should be put into experimentally controlling extraneous sources of variation. With the subject material this may mean using animals of the same age, reared under the same conditions, of the same stock; it may involve using clones of plant material. It will involve running the experiment under controlled conditions of light, temperature, and require that the measurement methods are as *precise* as possible. On the other hand an ecologist studying an organism in the field may have relatively little scope for experimental control of either the material studied or the environmental conditions, and may be forced to make relatively crude measurements. In this case the best approach is to control what can be controlled and then try and maximise the sample size.
 
 ## Jargon busting
 
-Experimental units....
+Before we delve any further into experimental design concepts we need to introduce a little bit of statistical jargon. We'll define the important terms, and then run through an example to better understand them:
 
-In the context of designed experiments, a **treatment** is any kind of manipulation applied to experimental units. A group of experimental units that all receive the same treatment is called a **treatment group**. 
+-   An **experimental unit** is the physical entity which can be assigned, at random, to a treatment (see next definition). Examples of possible experimental units are individual animals, plots or quadrats, populations, or even whole communities.
 
-Most experiments also include one or more complementary groups, called control group(s). The experimental units in a control group receive either no treatment or some kind of standard treatment. 
+-   A **treatment** is any kind of manipulation applied to experimental units. A group of experimental units that all receive the same treatment is called a **treatment group**.
 
-An experimental **factor** is a variable whose **levels** are set by the experimenter. A factor can be viewed as a collection of related treatments, and the different treatments of a factor are called the levels of that factor.
+-   Most experiments include one or more complementary groups, called **control groups**. The experimental units in a control group receive either no treatment or some kind of standard treatment.
 
-In our diet example, five different groups of people were told to follow distinct dieting methods. Here, individuals are the experimental units and diets are the treatments, and the five types of diet constitute five levels of the factor 'weight loss diet'.
+-   A **factor** is just a collection of related treatments and controls, and the different treatments/controls are called the **levels** of that factor. An experimental factor can be viewed as a variable whose levels are set by the experimenter. 
+
+Here's an example. Suppose we wanted to compare the weight loss of people on 4 different diets to determine which diet is the most effective for losing weight. We conduct an experiment in which groups of 8 volunteers follow each of the diets for one month. A fifth group of 8 volunteers serves as the control group---they follow NHS diet guidelines. At the end of the experiment we measure how much weight each person has lost of the month. In this example the volunteers are the experimental units, diets are the treatments, and the NHS group are the control group. Together, the four 'diet types' and the 'no diet' (i.e. normal eating) control constitute the five levels of the 'weight loss group' factor.
+
+A word of warning: it is common to lump control groups and treatment groups together and just call them 'treatments'. This is fine, but be aware of the distinction between the two.
 
 ## Replication {#replication}
 
-We cannot do any statistics without understanding the idea of *replication*---taking measurements from several individuals subject to the same treatment or combination of treatments. Why does it matter? Replication can fundamentally affect the power of a statistical test---by increasingly the replication in a study we increase the sample size available to detect effects. Replication is fundamental to many of the statistical methods we use, and is particularly important in biology because the material we work with is often inherently variable and hard to make precise measurements on. It seems like a simple idea. Increased replication = more statistical power. We have to be careful about how we replicate though...
+We cannot do any statistics without understanding the idea of *replication*---assigning several experimental units to the same treatment or combination of treatments. Why does replication matter? Replication affects the power of a statistical test---by increasingly the replication in a study we increase the sample size available to detect specific effects. Replication is fundamental to many of the statistical methods we use, and is particularly important in biology because the material we work with is often inherently variable and hard to make precise measurements on. It seems like a simple idea: increased replication = more statistical power. We have to be careful about how we replicate though...
 
 ### Independence and pseudoreplication {#independence}
 
@@ -109,7 +113,7 @@ More tricky is the situation where the objects we are investigating are affected
 
 Unwanted variation comes in two forms. 
 
-1.    The first is *confounding variation*. This occurs when there are one or more other sources of variation that work in parallel to the factor we are investigating and make it hard, or impossible, to unambiguously attribute any effects we see to a single cause. Counfounding variation is particularly problematic in observational studies because, by definition, we don't manipulate the factors we're interested in. 
+1.    The first is *confounding variation*. This occurs when there are one or more other sources of variation that work in parallel to the factor we are investigating and make it hard, or impossible, to unambiguously attribute any effects we see to a single cause. Confounding variation is particularly problematic in observational studies because, by definition, we don't manipulate the factors we're interested in. 
 
 2.    The second is *noise*. This describes variation that is unrelated to the factor we are investigating but adds variability to the results so that it is harder to see, and detect statistically, any effect of that factor. As noted above, much of experimental design is about improving our ability to account for noise in a statistical analysis.
 
@@ -125,13 +129,13 @@ Confounding doesn't just occur in observational studies. Confounding occurs when
 
 ### Noise
 
-Noise in the data can be generated by the same processes that generate confounding. The difference is that noise is generated even when the counfounding factors don’t align with the treatments. So, going back to measuring growth rates in plants, if we were looking at growth rates of different subspecies of plant on a mountain then we might find that we can get five samples from each different subspecies, but the samples are scattered across very different altitudes on the mountain. This will add variation to the estimates of growth rate due to effects of altitude — this variation is unwanted noise. On the other hand, we might find that the subspecies each grow predominantly at different altitudes and in this situation the variation due to altitude is confounded with the variation due to subspecies---we cannot tell whether the subspecies are inherently different, or the differences are just down to altitude.
+Noise in the data can be generated by the same processes that generate confounding. The difference is that noise is generated even when the confounding factors don’t align with the treatments. So, going back to measuring growth rates in plants, if we were looking at growth rates of different subspecies of plant on a mountain then we might find that we can get five samples from each different subspecies, but the samples are scattered across very different altitudes on the mountain. This will add variation to the estimates of growth rate due to effects of altitude — this variation is unwanted noise. On the other hand, we might find that the subspecies each grow predominantly at different altitudes and in this situation the variation due to altitude is confounded with the variation due to subspecies---we cannot tell whether the subspecies are inherently different, or the differences are just down to altitude.
 
 ## Dealing with confounding effects and noise
 
 Confounding effects occur often in biological work and noise of some sort is always present. Techniques for dealing with such effects include:
 
--   randomization
+-   randomisation
 
 -   blocking
 
@@ -141,21 +145,25 @@ Confounding effects occur often in biological work and noise of some sort is alw
 
 We'll consider each of these in turn...
 
-## Randomization
+### Randomisation
 
-Randomization is fundamental to experimental design. Although there may be specific confounding factors we can identify and explicitly counter using experimental techniques, we can rarely, if ever, anticipate all such factors. Randomisation provides an ‘insurance’ against the unanticipated (or even anticipated but unpredictable) confounding effects encountered in most biological experiments.
+Randomisation is fundamental to experimental design. Although there may be specific confounding factors we can identify and explicitly counter using experimental techniques, we can never anticipate all such factors. Randomisation provides an ‘insurance’ against the unpredictable confounding effects encountered in experiments. The basic principle is that each experimental unit should be selected, or allocated to a particular treatment, 'at random'. This may involve selecting which patients to give a drug and which a placebo at random or it may involve setting out experimental plots at random locations in a field. The important thing is that of all the possible patients or plots, the ones that get a particular treatment are randomly selected.
 
-The basic principle is that each experimental unit should be selected, or allocated to a particular treatment, at random. This may involve selecting which patients to give a drug and which a placebo at random or it may involve setting out experimental plots at random locations in a field. The important thing is that of all the possible patients or plots, the ones that get a particular treatment are randomly selected.
+Randomisation guards against a variety of possible biases and confounding effects, including the inadvertent biases that might be introduced simply in the process of setting up an experiment. For example, if in a toxicological experiment with freshwater invertebrates the chemical treatment is set up first and then the control, it may be that the animals caught most easily from the stock tank (the largest? the weakest?) will all end up in the chemical treatment and the remainder in the control, with consequent bias in the death rates observed in the subsequent experiment.
 
-Randomization guards against a variety of possible biases and confounding effects including the inadvertent biases that might be introduced simply in the process of setting up an experiment. For example, if in a toxicological experiment with freshwater invertebrates the chemical treatment is set up first and then the control, it may be that the animals caught most easily from the stock tank (the largest? the weakest?) will all end up in the chemical treatment and the remainder in the control, with consequent bias in the death rates observed in the subsequent experiment.
+Randomisation is a critical method for guarding against confounding effects. It is the best insurance we have against unwittingly getting some other factor working in parallel to a treatment. It does not, of course, do anything to reduce noise in the data, in fact if randomisation removes confounding effectively, it can appear to increase that variation---but it is a necessary cost to pay for being able to interpret treatment effects correctly.
 
-Randomization is a critical method for guarding against confounding effects. It is the best insurance we have against unwittingly getting some other factor working in parallel to a treatment. It does not, of course, do anything to reduce noise in the data, in fact if randomization removes confounding effectively, it can appear to increase that variatio---but it is a necessary cost to pay for being able to interpret treatment effects correctly.
+```{block, type='advanced'}
+**What does 'at random' mean in practise?**
 
-On a technical note, *random* bit of the word randomisation has a specific meaning. Objects chosen at random are chosen *independently with equal probabilities*. Tables of random numbers are published in most statistics books expressly for use in setting up experiments. R can also be used to find a set of random numbers of course. Exactly how these numbers are used in setting up the experiment will depend on what is practical. In the toxicological experiment the best thing to do would be to place animals in each of the test containers to be used for the experiment, number each container and then use random number tables to randomly select half the containers to be the test and use the remainder as the controls. In a field experiment, a grid could be mapped out (either imaginary, or real) and pairs of random numbers used to select co-ordinates at random for each plot.
+The *random* bit of the word randomisation has a specific meaning: objects chosen 'at random' are chosen *independently with equal probabilities*. How do we achieve this in practice? First we need a set of random numbers. For example, if we need to assign 10 experimental units to treatments we might start with a set of random integers: 4, 3, 5, 8, 7, 1, 10, 9, 6, 2. Attaining a set of random numbers is easy enough. Tables of random numbers are published in most statistics books expressly for use in setting up experiments, or R can also be used to find a set of random numbers (e.g. `sample(1:10)`). 
 
-## Blocking {#blocking}
+Exactly how these numbers are used in setting up the experiment will depend on what is practical. In the toxicological experiment the best thing to do would be to place animals in each of the test containers to be used for the experiment, number each container and then use the first half of the set of random numbers to randomly select half the containers to be the test and use the remainder as the controls. In a field experiment, a grid could be mapped out and pairs of random numbers used to select co-ordinates at random for each plot---in this case we would generate random co-ordinate values instead of using integers.
+```
 
-Another way of tackling potential confounding effects, and the general heterogeneity of biological material leading to noise, is organise experimental material into ‘blocks’. This technique, called **bloccking**, is arguably the most important experimental design concept after replication. It works as follows:
+### Blocking {#blocking}
+
+Another way of tackling potential confounding effects, and the general heterogeneity of biological material leading to noise, is organise experimental material into ‘blocks’. This technique, called **blocking**, is arguably the most important experimental design concept after replication. It works as follows:
 
 1.  Group the objects being studied into blocks such that variation
     among objects within blocks is small; variation between blocks may
@@ -181,73 +189,40 @@ Note that randomisation is important here also. Mice were selected at random fro
 
 Blocking crops up in all sorts of experimental (and non-experimental) study designs. Some examples are given below.
 
--   If plants in an experiment soil water levels are being growing in
-    pots on greenhouse benches - there may be differences in light or
-    temperature differing distances from the glass and treatments could
-    be blocked along the gradient — at each position on the bench we
-    have one pot from each treatment.
+-   If plants in an experiment soil water levels are being growing in pots on greenhouse benches---there may be differences in light or temperature differing distances from the glass and treatments could be blocked along the gradient---at each position on the bench we
+have one pot from each treatment. This way, every treatment is represented at each position along the gradient.
 
--   In a field experiment involving several treatments is set up in an
-    environment known to have some spatial variation (e.g., different
-    parts of a field, sections of a river, etc.) setting up one
-    replicate of each treatment in blocks at different locations ensures
-    that no one treatment ends up confounded by some environmental
-    difference, and helps remove noise due to environmental effects in
-    the final analysis. The damselfy larvae example () illutrates this
-    type of situation.
+-   In a field experiment involving several treatments is set up in an environment known to have some spatial variation (e.g., different parts of a field, sections of a river, etc.) setting up one replicate of each treatment in blocks at different locations ensures that no one treatment ends up confounded by some environmental difference, and helps remove noise due to environmental effects in the final analysis.
 
--   An immunity response is being tested using insects kept in a
-    parallel set of laboratory cultures, There are insufficient insects
-    from a single culture to run the whole experiment, so we could set
-    up one replicate of each treatment using insects from each culture.
-    The cultures would be the blocks — we are not particularly
-    interested in the differences between cultures, but we want to be
-    able to control and remove any variation due to differences between
-    cultures, so as to stand the best chance of detecting a
-    treatment effect.
+-   An immunity response is being tested using insects kept in a parallel set of laboratory cultures, There are insufficient insects from a single culture to run the whole experiment, so we could set up one replicate of each treatment using insects from each culture. The cultures would be the blocks — we are not particularly interested in the differences between cultures, but we want to be able to control and remove any variation due to differences between cultures, so as to stand the best chance of detecting a treatment effect.
 
--   In a comparison of three new diagnostic techniques for measuring the
-    frequency of abnormalities in tissue samples the techniques could be
-    dependent on the person who carries them out (experience, standard
-    of working etc..). The same workers could carry out all three
-    techniques (in random order) and the results compared using
-    individual workers as blocks to increase the power of the analysis
-    to detect differences.
+-   In a comparison of three new diagnostic techniques for measuring the frequency of abnormalities in tissue samples the techniques could be dependent on the person who carries them out (experience, standard of working etc..). The same workers could carry out all three techniques (in random order) and the results compared using individual workers as blocks to increase the power of the analysis to detect differences.
 
--   If the process of collecting and analysing samples from an
-    experiment is very time consuming (relative to the rate at which
-    things might change) then we could block the experiment in time.
-    Set up one replicate of each treatment on each of a sequence of
-    days, and then collect the samples after a particular time, again
-    over the same sequence of days. Each replicate has then been run for
-    the same length of time (we would randomize the order in which
-    treatments were sampled each day), and we could then include ‘days’
-    as a block within the analysis to control for any unknown
-    differences resulting from the different setup, or sample days.
+-   If the process of collecting and analysing samples from an experiment is very time consuming (relative to the rate at which things might change) then we could block the experiment in time. Set up one replicate of each treatment on each of a sequence of days, and then collect the samples after a particular time, again over the same sequence of days. Each replicate has then been run for the same length of time (we would randomize the order in which treatments were sampled each day), and we could then include ‘days’ as a block within the analysis to control for any unknown differences resulting from the different setup, or sample days.
     
-It's worth saying again. **Blocking is one of the most important experimental design concepts.** Most experimental settings lend themselves to some kind of blocking scheme. If we see a way to block wer experiment, do it. Why? Because a blocked experiment is more powerful--in the statistical sense--than the equivalent non-blocked version. In plain english, a study is more likley to detect an effect (assuming it is really present) if it uses a blocked design. We will see how blocking works in a later chapter.
+It's worth saying again: blocking is one of the most important experimental design concepts. Most experimental settings lend themselves to some kind of blocking scheme. If there is a way to block an experiment, we should do it. Why? Because a blocked experiment is more powerful, in the statistical sense, than the equivalent non-blocked version. That is, a study is more likely to detect an effect if it uses a blocked design. We will see how to analyse a blocked experiment in a later chapter.
 
-## Experimental control
+### Experimental control
 
 It is obvious that some unwanted variation in data will arise if there is poor measurement, or careless implementation of the treatments (imprecise administration of doses, sloppy timing of trial periods, etc.). In every study we do we should look at the ‘protocol’ issues and see if they can be made tighter. This means considering the precision of the measurements we are making, etc. in relation to the sizes of effects we are interested in, and the resources available to carry out the work. There would be no point in timing measurement intervals over which seedling growth was determined to the millisecond, or determining the soil pH to 5 decimal places, but it would be good to measure seedling height using a standard approach (natural growth form, or stretched out to maximum length? Starting from where?) and to the nearest millimetre, rather than centimetre.
 
 A second form of experimental control is where we can use experimental manipulation of some sort to control for factors that might vary among replicates or treatments. At it’s simplest obviously this involves controlling the other conditions (for example temperature) so that all treatments experience identical conditions (though note that it may not always be necessary for the conditions to be *constant*---it may be sufficient that whatever variation occurs is the same for all treatments).
 
-More complex problems arise where the unwanted variation is directly produced as a by product of the treatment we are administering (confounding again). So for example, if we were interested in the effect of decomposition of leaf litter on the microbial communities in soils we might have an experimental treatment that involves varying the amount of leaf litter placed on the soil surface in wer test plots. The problem is that this will vary not just the amount of decomposing material entering the soil, but also the physical presence of the leaf litter layer will affect the microclimate at the soil surface (so for example the dryness in the surface of the soil). So we might create some sort of artificial litter which can be mixed in with the real litter , but which does not decompose, so that each plot has a constant volume of ‘litter’ on the surface, but different amounts of decomposing material entering the soil.
+More complex problems arise where the unwanted variation is directly produced as a by product of the treatment we are administering (confounding again). So for example, if we were interested in the effect of decomposition of leaf litter on the microbial communities in soils we might have an experimental treatment that involves varying the amount of leaf litter placed on the soil surface in the test plots. The problem is that this will vary not just the amount of decomposing material entering the soil, but also the physical presence of the leaf litter layer will affect the microclimate at the soil surface (so for example the dryness in the surface of the soil). So we might create some sort of artificial litter which can be mixed in with the real litter , but which does not decompose, so that each plot has a constant volume of ‘litter’ on the surface, but different amounts of decomposing material entering the soil.
 
 Other situations in which this type of experimental ‘adjustment’ can be used include experiments in which different nutrient solutions have to be adjusted so that they have the same pH or where different temperature treatments have to have humidity adjusted to ensure that it remains constant. In general this type of approach can be very useful but it depends on the necessary adjustment being known, and sometimes requires continuous monitoring to keep the adjustments correct.
 
-## Additional treatments: ‘designing in’ unwanted variation
+### Additional treatments: ‘designing in’ unwanted variation
 
-Often we are faced by situations in which the unwanted variation — in particular confounding effects — cannot be removed by manipulating the treatments themselves, but has to be tackled by creating additional treatments whose function is to measure the extent of the unwanted variation, and then allow us to remove it statistically, from the data after the experiment is done. In other words, instead of just designing wer experiment with the factor we are interested in, we ‘design in’ the sources of unwanted variation.
+Often we are faced by situations in which the unwanted variation — in particular confounding effects — cannot be removed by manipulating the treatments themselves, but has to be tackled by creating additional treatments whose function is to measure the extent of the unwanted variation, and then allow us to remove it statistically, from the data after the experiment is done. In other words, instead of just designing the experiment with the factor we are interested in, we ‘design in’ the sources of unwanted variation.
 
-### Transplants and cross-factoring
+#### Transplants and cross-factoring
 
 Imagine we had an investigation that involved looking at effects of air pollution on the ability of trees to defend themselves chemically against attack by leaf-mining insects. The obvious thing to do would be to look at trees along a gradient of air pollution and monitor leaf damage by the insects. We might find that the trees in polluted areas are more attacked by the insects. However the problem here is that the trees growing in areas of high air pollution might be attacked more because they are stressed and less able to invest resources in defending themselves (as we hypothesised), or because the insects are more abundant there because their own natural enemies (birds and parasitoids) are less abundant in areas of high air pollution and so cannot control the abundance of the leaf-miners. One way of escaping this confounding effect would be to take tree saplings from polluted and unpolluted areas and do reciprocal transplants — moving trees from polluted areas into clean areas, and vice versa. This then enables we to separate out to a large extent the effect of tree quality, from the effect of insect abundance as we can compare trees that have grown with and without air pollution, in both polluted and unpolluted areas.
 
 It is also possible that by careful choice of location, or other elements of design that we can include the unwanted variation as an additional factor in the design without necessarily physically manipulating the subjects, but by sampling material systematically with regard to both the thing we are interested in and the additional unwanted factor(s), so that we can *cross-factor* the two. For example, if we were interested in how habitat use determines gut parasite load in dogfish, then we might sample dogfish from different habitats, but also record the sex, and age, or size, of the fish. It would then be possible to separate out the effects of sex, or age, from those of where the fish were living. If we didn’t do this, then both factors would probably contribute unwanted variation, either noise, or possibly confounding effects (for example male and female dogfish have somewhat different habitat preferences).
 
-### Procedural controls {#EXPT-DESIGN-PROCEDURAL-CONTROLS}
+#### Procedural controls {#EXPT-DESIGN-PROCEDURAL-CONTROLS}
 
 Confounding effects are not only a problem along natural gradients, they can often be introduced by the experimental procedures. For example, a marine biologist investigating the effect of crab predation on the density of bivalve molluscs in an estuarine ecosystem might have cages on the mud flats from which crabs are removed, and in which the any change in bivalve settlement and survival can be monitored. The obvious control for this would be equivalent plots on the adjacent mudflats with normal crab numbers. Obviously if the experiment just compares the bivalve density in cages with reduced crab numbers and in the adjacent mud flat any effects observed could be attributable to crab density, environmental changes brought about by the cages, or disturbance due to the repeated netting to remove crabs. To address this problem there are several additional controls that might be useful here. In addition to the proper treatment, bivalve density could be monitored in:
 

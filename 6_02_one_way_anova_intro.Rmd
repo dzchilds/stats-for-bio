@@ -2,15 +2,15 @@
 
 ## Introduction {#intro}
 
-The two-sample *t*-tests evaluate whether or not the mean of a numeric variable changes among two groups or experimental conditions. At the beginning of the [Relationships and regression] chapter we pointed out that the different groups/conditions can be encoded by a categorical variable. We suggested that we could conceptualise these *t*-tests as evaluating a relationship between between a numeric and categorical variable^[In an experimental setting the categorical variable can be thought of as a factor.]. The obvious question is, what happens if we need to evaluate differences among means of more than two groups? The 'obvious' thing to do might seem to be to test each pair of means using a *t*-test. However this procedure is tedious and, more importantly, a statistically flawed approach.
+The two-sample *t*-tests evaluate whether or not the mean of a numeric variable changes among two groups or experimental conditions. At the beginning of the [Relationships and regression] chapter we pointed out that the different groups/conditions can be encoded by a categorical variable. We pointed that we could conceptualise these *t*-tests as evaluating a relationship between between the numeric and categorical variable. The obvious question is, what happens if we need to evaluate differences among means of more than two groups? The 'obvious' thing to do might seem to be to test each pair of means using a *t*-test. However this procedure is tedious and, most importantly, statistically flawed.
 
-In this chapter we will introduce an alternative method that allows us to assess the statistical significance of differences among several means at the same time. This method is called **Analysis of Variance** (abbreviated to ANOVA). ANOVA is one of those statistical terms that unfortunately has multiple, closely related meanings:
+In this chapter we will introduce an alternative method that allows us to assess the statistical significance of differences among several means at the same time. This method is called **Analysis of Variance** (abbreviated to ANOVA). ANOVA is one of those statistical terms that unfortunately has two slightly different meanings:
 
-1.  In it's most general sense ANOVA refers to a methodology for evaluating statistical significance. Most often it appears when working with a statistical model known as the 'general linear model'. Simple linear regression is a special case of the general linear model. Essentially, whenever we see an *F*-ratio in a statistical test we're carrying out an Analysis of Variance of some kind.
+1.  In its most general sense ANOVA refers to a methodology for evaluating statistical significance. It appears when working with a statistical model known as the 'general linear model'. Simple linear regression is a special case of the general linear model. Essentially, whenever we see an *F*-ratio in a statistical test we're carrying out an Analysis of Variance of some kind. We saw this crop up when we tested the significance of the regression slope.
 
-2.  The term ANOVA is also used to describe a particular type of statistical model. When used in this more narrow sense, ANOVA refers to a suite of models used to compare means among two or more groups^[ANOVA models are also examples of general linear models.]. That's the focus of this chapter.
+2.  In its more narrow sense the term ANOVA is used to describe a particular type of statistical model. When used like this ANOVA refers to models that compare means among two or more groups (ANOVA models are also examples of general linear models). The ANOVA-as-a-model is the focus of this chapter. 
 
-ANOVA models underpin the analysis of many different kinds of experimental data; they are one of the main 'work horses' of basic data analysis. As with many statistical models we can use ANOVA without really understanding the details of how it works in any great detail. However, when it comes to interpreting the results of a statistical test associated with ANOVA, it is important to at least have a basic conceptual understanding of how it works. The goal of this chapter is to provide this. We'll do this by exploring the simplest type of ANOVA model: one-way Analysis of Variance.
+ANOVA models underpin the analysis of many different kinds of experimental data; they are one of the main 'work horses' of basic data analysis. As with many statistical models we can use ANOVA without really understanding the details of how it works. However, when it comes to interpreting the results of statistical tests associated with ANOVA, it is important to at least have a basic conceptual understanding of how it works. The goal of this chapter is to provide this basic understanding. We'll do this by exploring the simplest type of ANOVA model: a one-way Analysis of Variance.
 
 ## Why do we need ANOVA models?
 
@@ -34,11 +34,11 @@ sim.wl <- function(variables) {
 }
 ```
 
-Let's consider an example. Suppose we wanted to compare the weight loss of people on 4 different diets to determine which diet is the most effective for losing weight. We conduct an experiment in which groups of 8 volunteers follow each of the diets for one month. A fifth group of 8 volunteers serves as the control group---they follow NHS healthy eating guidelines. At the end of the experiment we measure how much weight each person has lost of the month. 
+Let's consider the example diet example from the previous chapter. We wanted to compare the weight loss of people on 4 different diets to determine which diet is the most effective for losing weight, so we conducted an experiment in which groups of 8 volunteers follow one of the diets for a month. A fifth group of 8 volunteers served as the control group---they follow NHS eating guidelines. At the end of the experiment we measured how much weight each person had lost of the month. 
 
 Once the data have been collected we need to understand the results. The weight loss of 8 volunteers on each of the diets could be plotted (this is the raw data), along with the means of each diet group, the standard error of the mean, and the sample mean of all the data:
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.align='center', fig.asp=1, fig.width=4}
 set.seed(30081975)
 
 sim1 <- sim.wl()
@@ -51,8 +51,9 @@ ggplot(sim1$wloss.data, aes(x = Plan)) +
   geom_point(data = sim1$wloss.stat, aes(y = Mean), 
              colour = "blue", size = 3) + 
   geom_errorbar(data = sim1$wloss.stat, 
-                aes(x = Plan, ymin = Mean - SE, ymax = Mean + SE), width = 0.1, colour = "blue") + 
-  geom_hline(y = grandmean, colour = "red", width = 2.0, linetype = 2) + 
+                aes(x = Plan, ymin = Mean - SE, ymax = Mean + SE), 
+                width = 0.1, colour = "blue") + 
+  geom_hline(yintercept = grandmean, colour = "red", linetype = 2) + 
   scale_y_continuous(limits = c(0, 3)) + 
   xlab("Diet treatment") + ylab("Weight loss (kg)")
 ```
@@ -61,7 +62,9 @@ ggplot(sim1$wloss.data, aes(x = Plan)) +
 write.csv(sim1$wloss.data, row.names = FALSE, file = "./data_csv/DIET_EFFECTS.CSV")
 ```
 
-The grey points are the raw data, the means and standard error of each diet group are in blue, and the overall sample mean is shown by the dashed red line. We can see that there seem to be differences *among* the means: people in each of the different diet groups often deviate quite a lot from the overall average for all the people in the study (the dashed line). This would seem likely to be an effect of the diet they are on. At the same time, there is still a lot of variation *within* each of the diet groups: not everyone on the same diet has the same weight loss. Perhaps all of this could be explained away as sampling variation---i.e. the diet plans make no difference at all to weight loss. Obviously we need to apply a statistical test to decide whether these differences are 'real'.
+The grey points are the raw data, the means and standard error of each group are in blue, and the overall sample mean is shown by the dashed red line. We can see that there seem to be differences *among* the means: people in each of the different groups often deviate quite a lot from the overall average for all the people in the study (the dashed line). This would seem likely to be an effect of the diet they are on. At the same time, there is still a lot of variation *within* each of the groups: not everyone on the same diet has the same weight loss. 
+
+Perhaps all of this could be explained away as sampling variation---i.e. the diet plans make no difference at all to weight loss. Obviously we need to apply a statistical test to decide whether these differences are 'real'. 
 
 It might be tempting to use *t*-tests to compare each mean value with every other. However, this would it would involve 10 *t*-tests. Remember, if there is no effect of diet, each time we do a *t*-test there is a chance that we will get a false significant result. If we use the conventional *p* = 0.05 significance level, there is a 1 in 20 chance of getting such 'false positives'. Doing a large number of such tests increases the overall risk of finding a false positive. In fact doing ten *t*-tests on all possible comparisons of the 5 different diets gives about 40% chance of at least one test giving a false significant difference, even though each individual test is conducted with *p* = 0.05. 
 
@@ -78,9 +81,9 @@ plt.data <-
 
 The key to understanding ANOVA is to realise that it works by examining the magnitudes of different sources of variation in the data. We start with the total variation---the variation among all the units in the study---and then partition this into two sources: 
 
-1.    Variation due to the effect of experimental treatments or groups. This is called the 'between-group' variation. This describes that variability that can be attributed to the different groups in the data (e.g. the diet groups). This is the same as the 'explained variation' described in the [Relationships and regression] chapter. It quantifies the variation that is 'explained' by the different means.
+1.    Variation due to the effect of experimental treatments or control groups. This is called the 'between-group' variation. This describes that variability that can be attributed to the different groups in the data (e.g. the diet groups). This is the same as the 'explained variation' described in the [Relationships and regression] chapter. It quantifies the variation that is 'explained' by the different means.
 
-2.    Variation due to other sources. This second source of variation is usually referred to as the 'within-group' variation because it applies to experimental units (e.g. individuals) within each group. This quantifies the variation due to everything else that isn't accounted for by the groups. Within-group variation is also called the 'error variation'. We'll mostly use this latter term because it is a bit more general.
+2.    Variation due to other sources. This second source of variation is usually referred to as the 'within-group' variation because it applies to experimental units within each group. This quantifies the variation due to everything else that isn't accounted for by the treatments. Within-group variation is also called the 'error variation'. We'll mostly use this latter term because it is a bit more general.
 
 ANOVA does compare means, but it does this by looking at changes in variation. That might seem odd, but it works! If the amount of variation among treatments is sufficiently large compared to the within-group variation, this suggests that the treatments are probably having an effect. This means that in order to understand ANOVA we have to keep three sources of variation in mind: the total variation, the between-group variation, and the error variation. 
 
@@ -90,11 +93,11 @@ We'll get a sense of how this works by carrying on with the diet example. We'll 
 
 The figure below shows the weight loss of each individual in the study and the grand mean (i.e. we have not plotted the group-specific means).
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.align='center', fig.asp=1, fig.width=4}
 ggplot(data = plt.data, aes(x = PlanNum)) +
   geom_segment(aes(xend = PlanNum, y = WeightLoss, yend = grandmean)) +
   geom_point(aes(y = WeightLoss), alpha = 0.8) + 
-  geom_hline(y = grandmean, colour = "red", width = 2.0, linetype = 2) + 
+  geom_hline(yintercept = grandmean, colour = "red", linetype = 2) + 
   scale_y_continuous(limits = c(0, 3)) + 
   scale_x_continuous(limits = c(0.6, 5.4), breaks = 1:5, labels = plans) + 
   xlab("Diet treatment") + ylab("Weight loss (kg)")
@@ -113,7 +116,7 @@ The sum of squares of these numbers is `r round(SS.Tot, 2)`. This is called the 
 
 The next component of variability we need relates to the within-group variation. Let’s replot the original figure showing the weight loss of each individual (points), the mean of each diet group (horizontal blue lines), and the grand mean:
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.align='center', fig.asp=1, fig.width=4}
 plt.data.wg <- full_join(plt.data, sim1$wloss.stat, by = "Plan")
 
 seg.data <- plt.data %>% group_by(Plan) %>% 
@@ -125,7 +128,7 @@ ggplot(data = plt.data.wg, aes(x = PlanNum)) +
   geom_point(aes(y = WeightLoss), alpha = 0.8) + 
   geom_segment(data = seg.data, colour = "blue",
                aes(x = x, xend = xend, y = y, yend = yend)) +
-  geom_hline(y = grandmean, colour = "red", width = 2.0, linetype = 2) + 
+  geom_hline(yintercept = grandmean, colour = "red", linetype = 2) + 
   scale_y_continuous(limits = c(0, 3)) + 
   scale_x_continuous(limits = c(0.6, 5.4), breaks = 1:5, labels = plans) + 
   xlab("Diet treatment") + ylab("Weight loss (kg)")
@@ -142,11 +145,11 @@ These values are a type of residual: they quantify the variation that is 'left o
 
 The last component of variability we need relates to the between group variation. We'll replot the figure one more time, but this time we'll show just the group-specific means (blue points), the overall grand mean (dashed red line), and the deviations of each group mean from the grand mean:
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.align='center', fig.asp=1, fig.width=4}
 ggplot(data = sim1$wloss.stat, aes(x = Plan)) +
   geom_segment(aes(xend = Plan, y = Mean, yend = grandmean)) +
   geom_point(aes(y = Mean), colour = "blue", size = 3) + 
-  geom_hline(y = grandmean, colour = "red", width = 2.0, linetype = 2) + 
+  geom_hline(yintercept = grandmean, colour = "red", linetype = 2) + 
   scale_y_continuous(limits = c(0, 3)) + 
   xlab("Diet treatment") + ylab("Weight loss (kg)")
 ```
@@ -222,15 +225,19 @@ Strictly speaking, assumptions 3 and 4 really apply to the (unobserved) populati
 
 ## Different kinds of ANOVA model
 
+There a many different flavours of ANOVA model. The one we've just been learning about is called a one-way ANOVA. It's called one way ANOVA because it involves only one factor: diet type (this includes the control). If we had considered two factors---e.g. diet type and exercise regime---we would have to use something called a two-way ANOVA. A degin with three factors is called a three-way ANOVA, and... you get the idea. 
+
+There are many other ANOVA models, each of which is used to analyse a specific type of experimental design. We are only going to consider three different types of ANOVA in this book: one-way ANOVA, two-way ANOVA, and ANOVA for one-way, blocked design experiments.
+
 ## Some common questions about ANOVA {#questions}
 
-To finish off with, two common questions that often arise once you start using ANOVA.
+To finish off with, three common questions that often arise:
 
 ### Can ANOVA only be applied to experimental data?
 
+We have been discussing ANOVA in the context of a designed experiment (i.e. we talked about treatments and control groups). Although ANOVA was developed to analyse experimental data---and that is where it is most powerful---it can be used in an observational setting. As long as we're careful about how we sample different kinds of groups (i.e. at random), we can use ANOVA to analyse differences between them. The main difference between ANOVA for experimental and observational studies arises in the interpretation of the results. If the data aren't experimental, we can't say anything concrete about the casual nature of the among-group differences we observe.
 
-
-### Do I need equal replication?
+### Do we need equal replication?
 
 So far we have only considered the use of ANOVA with data in which each treatment has equal replication. One of the frequent problems with biological data is we often don’t have equal replication, even if we started with equal replication in our design. Plants and animals have a habit of dying before we have gathered all our data; a pot may get dropped, a culture contaminated, all sorts of things conspire to upset even the best designed experiments. Fortunately one-way ANOVA does not require equal replication, it will work even where sample sizes differ between treatments.
 
