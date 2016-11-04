@@ -165,11 +165,9 @@ Exactly how these numbers are used in setting up the experiment will depend on w
 
 Another way of tackling potential confounding effects, and the general heterogeneity of biological material leading to noise, is organise experimental material into ‘blocks’. This technique, called **blocking**, is arguably the most important experimental design concept after replication. It works as follows:
 
-1.  Group the objects being studied into blocks such that variation
-    among objects within blocks is small; variation between blocks may
-    be larger.
+1.  Group the objects being studied into blocks such that variation among objects within blocks is small; variation between blocks may be larger.
 
-2.  Each treatment should occur at least once within each block.
+2.  Each treatment should occur at least once within each block^[Actually, there are special types of experimetnal design that use blocking, but where each treatment does not appear in every block. These are much more advanced than anything we will cover in this book.].
 
 For example, in an experiment in which mice are reared on three different diets (I, II, III), we might expect the responses of mice from within a particular litter to be fairly similar to each other, but they might be rather different to the responses of mice from different litters. If we have five litters of mice (A ... E) it would be sensible to select three mice from each litter (at random) to be allocated to each treatment.
 
