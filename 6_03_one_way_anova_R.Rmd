@@ -1,16 +1,16 @@
 # One-way ANOVA in R
 
-Our goal in this chapter is to learn how to work with one-way ANOVA models in R. Just as we did with regression, we'll do this by working through an example. We'll start with the problem and the data, and then work through model fitting, evaluating assumptions, significance testing, and finally, presenting the results. 
+Our goal in this chapter is to learn how to work with one-way ANOVA models in R. Just as we did with regression, we'll do this by working through an example---the diets example from the last chapter. We'll start with the problem and the data, and then work through model fitting, evaluating assumptions, significance testing, and finally, presenting the results. 
 
 Before we can do this though, we need to side track a bit and learn about 'factors' in R...
-
-## Factors in R 
 
 ```{block, type='do-something'}
 **Walk through**
 
 You should begin working through the diet example from this point. You will need to download the DIET_EFFECTS.CSV file from MOLE and place it in your working directory.
 ```
+
+## Factors in R 
 
 Remember factors? An experimental factor is a controlled variable whose levels ('values') are set by the experimenter. R is primarily designed to carry out data analysis so we shouldn't be surprised that it has a special type type of vector to represent factors. The name of kind of vector in R is called, rather sensibly, a factor. We have largely ignored factors in R up until now because we haven't needed to use them^[We have worked with factors, but only when reordering the labels of a categorical variable plotted in `ggplot2`]. However, we now need to understand how they work because much of R's plotting and statistical modelling facilities rely on factors.
 
@@ -40,7 +40,17 @@ This alerts us to the fact that `Plan` is a factor, with `r length(levels(diet_e
 
 ## Roughly checking the assumptions
 
-We listed the assumptions of ANOVA at the end of the last chapter. The first two assumptions are about independence and the type of variable. The independence assumption is an aspect of the experimental design, so we'll just have to assume this assumption is satisfied without knowing more about how the data were collected. The second assumption states that the variable being analysed (`WeightLoss`) should be an interval or ratio scale numeric variable. Change in weight is clearly a ratio scale numeric variable.
+We listed the assumptions of ANOVA at the end of the last chapter, but here they are again:
+
+1. **Independence.** The experimental units must be independent.
+
+2. **Measurement scale.** The focal variable should be measured on an interval or ratio scale.
+
+3. **Equal variance.** The variance of the focal variable within each treatment combination is assumed to be constant.
+
+4. **Normality.** The focal variable is assumed to be normally distributed within each treatment combination. 
+
+The first two assumptions are about independence and the type of variable. The independence assumption is an aspect of the experimental design, so we'll just have to assume this assumption is satisfied without knowing more about how the data were collected. The second assumption states that the variable being analysed (`WeightLoss`) should be an interval or ratio scale numeric variable. Change in weight is clearly a ratio scale numeric variable.
 
 The last two assumptions are about the distribution of the variable in each group. The thing to bear in mind here is that there are five different groups to consider---one for each treatment. We are interested in whether the variance *within each group* is similar, and whether the `WeightLoss` variable *within each group* is likely to have been drawn from a normal distribution. A simple plot to roughly assess the distributional assumptions of ANOVA is the box and whiskers plot:
 

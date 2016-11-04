@@ -1,0 +1,269 @@
+# Two-way ANOVA in R 
+
+## Competition between *Calluna* and *Festuca*---a factorial experiment
+
+Plants have an optimal soil pH for growth, and this varies between species. Consequently we would expect that if we grow two plants in competition with each other at different pH values the effect of competition might vary according to the soil pH. In a recent study the growth of the grass *Festuca ovina* (Sheep’s Fescue) in competition with the heather *Calluna vulgaris* (Ling) was investigated in soils with different pH. *Calluna* is well adapted to grow on very acidic soils such as on the Millstone grit and blanket bogs arround Sheffield. *Festuca* grows on soils with a much wider range of pH. We might hypothesise that *Calluna* will be a better competitor of *Festuca* in very acid soils than in moderately acid soils.
+
+To test this hypothesis an experiment was designed in which Festuca seedlings were grown in pots at all combinations of two levels of two different kinds of treatment:
+
+**Factor 1:** Soil pH at 3.5 or 5.5
+
+**Factor 2:** Presence or absence of *Calluna*.
+
+This is a fully factorial, two-way design. The total number of treatments was thus $2 \times 2 = 4$. For each of the treatments there were 5 replicate pots, giving a total of $2 \times 2 \times 5 = 20$ pots.
+
+The following data are the yields of *Festuca* from each treatment (dry weight in g) from the two pH levels and in the presence or absence of *Calluna*.
+
+|                   |            pH 3.5            |            pH 5.5            |
+|:------------------|:----------------------------:|:----------------------------:|
+| *Calluna* Present | 2.76, 2.39, 3.54, 3.71, 2.49 | 3.21, 4.10, 3.04, 4.13, 5.21 |
+| *Calluna* Absent  | 4.10, 2.72, 2.28, 4.43, 3.31 | 5.92, 7.31, 6.10, 5.25, 7.45 |
+
+The data are in a CSV file called FESTUCA.CSV. Data for a two-factor experiment can be laid out in a very similar manner to those from a one factor experiment, with the actual data in one column, but now there are two additional columns containing the codes for the treatments, one for pH and one for *Calluna*. The first column (`Weight`) contains the *Festuca* dry weights, the second column (`pH`) contains the codes for the pH treatment (levels: pH3.5, pH5.5), the third column (`Calluna`) contains the codes for the presence or absence of *Calluna* (levels: Present, Absent).
+
+```{block, type='do-something'}
+#### Work through the *Festuca* growth example
+
+You should begin working through the *Festuca* growth example from this point.
+```
+
+You need to download the FESTUCA.CSV file from MOLE and place it in your working directory. Read the data into an R data frame, giving it the name `festuca.weights`.
+```{r, echo=FALSE}
+festuca.weights <- read.csv(file = "./course-data/FESTUCA.CSV")
+```
+As always, make sure you use `View` to look over the data before you proceed. Have a good look at how the data organised, and look at how the two factors (`pH` and `Calluna`) are coded.
+
+You may have noticed the following....
+
+1.    The data are 'tidy' (we introduced this term last year). Each experimental factor is in a single column and each observation is in a single row. Last year we pointed out that data need to be in this format to be used effectively with `dplyr`. The same applies to the majority of R's statistical modelling tools---they expect data to be supplied in this format. You should always record your data in this form if you plan to use it with R, i.e., do not split variables across multiple columns.
+
+2.    We avoided using numbers to encode the levels of the pH treatment. This is important, as it ensures that the `pH` variable will be converted into as a factor rather than a number when we read the data into R. We have said it before, but it is worth saying one more time: you will generally make fewer mistakes if you use words to encode the levels of a factor (although we are going to break this rule later in this session to show you what to do when you don't follow it).
+
+### Checking the assumptions
+
+The assumptions of two-way ANOVA are the same as those that apply to one-way ANOVA (in fact, the assumptions of ANOVA are always the same, regardless of the particular flavour we are using):
+
+1. **Independence.** The experimental units must be independent.
+
+2. **Measurement scale.** The focal variable should be measured on an interval or ratio scale.
+
+3. **Equal variance.** The variance of the focal variable within each treatment combination is assumed to be constant.
+
+4. **Normality.** The focal variable is assumed to be normally distributed within each treatment combination. 
+
+Just as with one-way ANOVA, assumptions 3 and 4 really apply to the population from which the experimental samples are derived, i.e., the equal variance and normality assumptions are with respect to the focal variable *in the population*. We will carry on with our informal practise of referring to 'the data' when discussing the assumptions.
+
+Assumption 1 is a feature of the experimental design: we just have to assume the experiment was well designed.
+
+Assumption 2 is no problem: clearly dry weights are ratio data.
+
+When it comes to assumptions 3 and 4, these can be evaluated by carrying out a visual assessment of the data. There aren't many observations within each treatment combination, so it is probably best to use dot plots (we could use histograms, but these are generally better when we have more data).
+
+We want to produce a separate dot plot for each treatment combination. We could do this by creating different subsets of the data (e.g. using the `dplyr` function `filter`) and plotting each in turn. However, it is simpler to use the facetting facilities of `ggplot2`. We need to split the data up by two different factors, so we should use the `facet_grid` function:
+```{r}
+ggplot(festuca.weights, aes(x = Weight)) + 
+  # specify that we want a dot plot layer
+  geom_dotplot(binwidth = 0.3) + 
+  # make a 'grid' of plots
+  facet_grid(pH ~ Calluna)
+```
+
+By now the first two lines of this `ggplot2` example should be very familiar. It is the third line (`+ facet_grid(pH ~ Calluna)`) that needs unpicking. This tells `ggplot2` to construct a separate dotplot for each combination of levels in `pH` and `Calluna`. To specify this, we use `facet_grid` (*not* `facet_wrap`) with a single argument which is a formula (`pH ~ Calluna`). This formula tells `ggolot2` to create a facetted plot where the rows are governed by the levels of `pH` (`pH` is on the left side of the `~`) and the columns are governed by the levels of `Calluna` (`Calluna` is on the right side of the `~`). There are two levels of the *Calluna* and pH factors, so this produces a two-by-two plot.
+
+A quick inspection of this figure suggests that the normality and equal variance assumptions are being met, i.e., there aren't obvious differences in the spread of the points and the distributions seem roughly symetric. Since the data appear to meet the requirements of ANOVA we can move on to fit a model and examine some results.
+
+## Carrying out a two-way ANOVA in R
+
+Carrying out a two-way ANOVA in R is really no different from one-way ANOVA. It still involves two steps. First we have to fit the model using the `lm` function (remembering to store the fitted model object). This is the step where R calculates the relevant means, along with the additional information needed to generate the results in step two. The second step uses the `anova` function to calculate *F*-statistics, degrees of freedom, and *p*-values. 
+
+This is the R code needed to carry out the model-fitting step with `lm`:
+```{r}
+festuca.model <- lm(Weight ~ pH + Calluna + pH : Calluna, data = festuca.weights)
+```
+This is very similar to the R code used to fit a one-way ANOVA model. The first argument is a formula (notice the 'tilde' symbol: `~`) and the second argument is the name of the data frame that contain all the variables listed in the formula. That's all we need. 
+
+The specific model fitted by `lm` is a result of 1) the type of variables referenced in the formula, and 2) the symbols used to define the terms in the formula. To ensure that we have fitted an ANOVA model, the variables which appear to the right of the `~` must be factors or character vectors---an ANOVA only involves factors. The variable name to the left of the `~` is the numeric variable we are analysing. We know that `Calluna` and `pH` are factors, so we can be certain that `lm` has fitted some kind of ANOVA model.
+
+What kind of ANOVA have we fitted, i.e., what are the terms on the right hand side of the formula doing? Here is the formula we used:
+```{r, eval = FALSE}
+Weight ~ pH + Calluna + pH:Calluna
+```
+There are three terms, each seperated by a `+` symbol: `pH`, `Calluna` and `pH:Calluna`. This tells R that we want to fit a model that accounts for the main effects of `pH` and `Calluna`, and that we also wish to include the interaction between these two factors. The specification of the main effects is fairly self-explanatory---we just include the name of each factor variable in the formula. The interaction term is specified by the a colon (the `:` symbol) with the two interacting variables either side of it. 
+
+In summary... 1) the `~` symbol specifies a formula in R, where the name on the left hand side is the variable we are analysing, and the names on the right denote the terms in the model; 2) we place a `+` between terms to delineate them (we are not adding anything up when the `+` is used in a formula); 3) each main effect is specifed by the corresponding factor name; and 4) an interaction between factors is specified by the `:` symbol.
+
+Notice that we assigned the result a name (`festuca.model`) which now refers to the model object produced by `lm`. Just as with a one-way anova, we can't extract *p*-values by printing this object to the console. Instead we need to use the `anova` function to calculate things like degrees of freedom, sum of squares, mean squares, *F*-statistics, and finally, the *p*-values:
+```{r}
+anova(festuca.model)
+```
+
+#### Interpreting the results
+
+```{r, echo = FALSE}
+festuca.out <- capture.output(anova(festuca.model))
+```
+
+What does all this mean? The first part just tells us what kind of output we are looking at:
+```{r, echo=FALSE}
+invisible(sapply(festuca.out[1:3], function(line) cat(line, "\n")))
+```
+This reminds us that we are looking at an ANOVA table where we analysed a variable called `Weight`. The table contains the information that really matters:
+```{r, echo=FALSE}
+invisible(sapply(festuca.out[4:8], function(line) cat(line, "\n")))
+```
+
+This ANOVA table is similar to the ones you have already seen, except that now we have to examine three lines (one for each term in the model) and corresponding *p*-values: the first for the effect of pH, the second for the effect of *Calluna* the third for the interaction between pH and *Calluna*.
+
+We are not going to step through the calculations of the degrees of freedom, sum of squares, mean squares, and *F*-statistics. The logic is really no different than that used to carry out one-way ANOVA (though it is a bit trickier to explain and visualise the calculations). Ultimately, an *F*-statistic is calculated for each term, which is the ratio of the term's mean square and the error mean square. A higher *F*-statistic is more likley to be significant, and the *p*-value is calculated by comparing the *F*-statistic to the theoretical *F* distribution.
+
+Let's examine the *p*-values: in this example all three effects are significant (*p*<0.05), so we conclude both main effects and the interaction are significant.
+
+The ANOVA table tells us nothing about the direction of the effects. We have to delve a little further into the fitted model or plot the data to be able to do this. We will take the latter approach in a moment. However, we first have to think about the interaction. 
+
+You can use R to produce this sort of interaction diagram for a two-way design. There is a base function called `interaction.plot` that can do this, but it is not a well-designed function. Instead, we will use `dplyr` and `ggplot2` to construct an interaction diagram 'by hand'. First we have to calculate the mean weight of *Festuca* in each treatment combination:
+```{r}
+# step 1. calculate means for each treatment combination
+festuca.means <- 
+  festuca.weights %>% 
+  group_by(Calluna, pH) %>% # <- remember to group by the two factors
+  summarise(Means = mean(Weight))
+festuca.means
+```
+This step should very familiar by now. We gave the resulting data frame the name `festuca.means`. This contains three variables: `Calluna`, `pH` and `Means`. An interaction plot needs to show the mean of each treatment group along with lines linking the levels of one factor. The key to making this work is to specify *four* aesthetic mappings, and then add two layers, one showing points and the other showing lines: 
+```{r}
+# step 2. plot these as an interaction plot
+ggplot(festuca.means, 
+       aes(x = Calluna, y = Means, colour = pH, group = pH)) +
+  geom_point(size = 4) + geom_line()
+```
+
+Notice that we mapped pH to two aesthetics: colour and group. This 'trick' makes `ggplot2` link the levels of `pH` with lines, each of which gets its own colour.
+
+From this you can see that the actual results from our analysis are closest to the situation in the second to last example in the diagram---both main effects significant, but also a significant interaction. In this case it is possible to make some interpretation of the main effects–--namely that increase in pH, and removal of *Calluna* increase *Festuca* yield, but the interaction effect must not be omitted: the magnitude of these effects is dependent on the other.
+
+## Multiple comparison tests
+
+Having established that there are significant differences, we might wish to go further and specify between which means these differences occur. With one-way ANOVA obviously we there was only one set of means to compare with the multiple comparison tests. Now, however there are three possible sets of means: the two main effects and the interaction. Obviously, since the main treatments only have two levels there is no need for any multiple comparison tests on the main effects — if there is a difference it must be between the two levels. However, it may be desirable, if the interaction is significant (as here) to know which particular treatment combinations differ.
+
+We can use the `TukeyHSD` function to do this. The mechanics of the calculations are no different than one-way ANOVA. We start by converting the model object produced by `lm` into an `aov` object...
+```{r}
+festuca.aov <- aov(festuca.model)
+```
+...and then we perform a Tukey HSD test:
+```{r, eval = FALSE}
+TukeyHSD(festuca.aov, which = 'pH:Calluna')
+```
+We have surpressed the output for now. The only new tweak that we have to learn is the `which` argument. Assigning this the value `'pH:Calluna'` makes the `TukeyHSD` function carry out all pairwise comparisons among the means of each treatment combination, i.e., we are considering with the full set of interactions. Here is the output:
+```{r, echo = FALSE}
+TukeyHSD(festuca.aov, which = 'pH:Calluna')
+```
+
+You extract information from this table just as you did before. The table present a series of pair-wise comparisons between mean values tested by the Tukey procedure. For example, the first 3 lines show the significance of differences between the mean of the treatment combination pH 3.5 without *Calluna* and the 3 other mean values. All we need from this table is to note the codes for the treatment means which are being compared (listed in the first column), and the *p*-value in each case listed in the final column.
+
+If we list the mean values in sequence from the lowest to the highest we can then use the results presented in these tables of pair-wise comparisons to derive letter codes to indicate which means differ significantly (at *p*<0.05) in exactly the same way as you did last week. There are three significant differences, all of which involve the treatment combinations pH 5.5 with *Calluna* absent. This implies that there are two 'not significantly different' groups: one defined by pH 5.5 with *Calluna* absent, and then everything else.
+
+As you might expect, we don't have to step through the results of the `TukeyHSD` function to define the 'not significantly different' groups. We used the `agricolae` package to do this for a one-way ANOVA. We can use this again here. We need to load and attach the package first (it may also need to be installed if you are on a university computer):
+```{r}
+library(agricolae)
+```
+Once the package is ready for use, we can carry out the Tukey HSD test to find the 'not significantly different' groups using the `HSD.test` function:
+```{r}
+HSD.test(festuca.aov, trt = c("pH", "Calluna"), console = TRUE)
+```
+Setting the `trt` argument to `c("pH", "Calluna")` makes the function carry out all pair-wise comparisons among the mean values defined by each treatment combination. The output that matters is the table at the very end, which shows the group identities as letters, the treatment names, and the treatment means. This just reiterates what we already knew---there are two 'not significantly different' groups, defined by pH 5.5 with *Calluna* absent, and 'everything else'.
+
+```{r, eval = FALSE, echo = FALSE}
+# alternative approach...
+library(lsmeans)
+library(multcompView)
+lsm <- lsmeans(festuca.model, pairwise ~ pH:Calluna)
+lsm
+cld(lsm, alpha=.05, adjust="tukey", Letters = letters)
+```
+
+```{block, type='advanced-box'}
+#### Multiple comparison tests for main effects
+
+As mentioned above, in this experiment there is no point in trying to make further comparisons between the means from the main treatments (pH 3.5 and 5.5 , or with and without *Calluna*) since (a) there is a significant interaction, so detailed comparisons of the main effects probably won’t be interpretable, and (b) even if that was not the case there are only two levels in each treatment so any difference must be between those two levels!
+
+However, it is quite common to have experiments with more than two levels in one or both factors. If the ANOVA indicates that there is a significant effect of one, or both, of the associated effects, and there is no interaction to worry about (don't forget this important caveat), then you may wish to carry out multiple comparisons for the means associated with the main effects.
+
+This can be done using a Tukey test just as we did for the interaction in this example. The only difference is that we have to specify the name of the main effect you are interested in. For example, if we wanted to use `TukeyHSD` function to evaluate the significance of the `pH` main effects, we would use:
+```{r, eval = FALSE}
+TukeyHSD(festuca.aov, which = 'pH')
+```
+
+### Drawing conclusions and presenting results
+
+In the results section of the report we will need to provide a succinct factual summary of the analysis:
+		 
+> There were significant effects of soil pH (ANOVA: F=28.18, df=1,16, *p*<0.001), competition with *Calluna* (F=14.4, df=1,16, p=0.002) and the interaction between these treatments (F=7.61, df=1,16, p=0.014) on the dry weight yield of *Festuca*. *Festuca* grew much better in the absence of *Calluna* at high pH than in any other treatment combination (Tukey multiple comparison test *p*<0.05) (Figure 1).
+
+For presentation we could tabulate the results, or better still present them as a figure rather like the interaction diagrams we saw earlier. We can of course produce such a figure, though we should really include the standard errors of each mean if plan to use it in a report or presentation. We'll round off this section by looking at how to produce publication quality figures.
+
+We want to plot some sample statistics (means and standard errors) so we first have to calculate these using `dplyr`. We know how to do this:
+```{r}
+# step 1. calculate means for each treatment combination
+festuca.stats <- 
+  festuca.weights %>% 
+  group_by(Calluna, pH) %>% # <- remember to group by the two factors
+  summarise(Means = mean(Weight), SEs = sd(Weight)/n())
+festuca.stats
+```
+Once we have a constructed a data frame containing the descriptive statistics we can make a plot. 
+```{r, fig.width=3.5}
+# step 2. plot these as an interaction plot
+ggplot(festuca.stats, 
+       aes(x = Calluna, y = Means, colour = pH,
+           ymin = Means - SEs, ymax = Means + SEs)) +
+  # this adds the mean
+  geom_point(size = 3) +
+  # this adds the error bars
+  geom_errorbar(width = 0.1) +
+  # controlling the appearance
+  scale_y_continuous(limits = c(2, 7)) + 
+  xlab("Calluna") + ylab("Festuca yield (g dry weight)")
+```
+
+This is very similar to the `ggplot2` code used to make the summary figure in the one-way ANOVA example. We set the `data` argument in `ggplot` to be the data frame containing the statistics (not the original raw data), and this time, we set up *five* aesthetic mappings: `x`, `y`, `colour`, `ymin` and `ymax`. Notice that we use the colour aesthetic to delineate the levels of `pH`. We added two layers: one layer is added with `geom_point` to include the individual points based on the `x` and `y` mappings; the second layer is added with `geom_errorbar` to include the error bars based on the `x`, `ymin` and `ymax` mappings. However, we *do not* assign values to the `colour` argument of either `geom_` function as this will override the aesthetic mapping.
+
+#### A little more customisation
+
+It is not uncommon to find that two or more means are quite close to one another, and as a result, plotted points and/or standard errors overlap. We can tweak a figure to avoid this by moving the plotted points a little to one side. The trick is to use the `position_dodge` function to define a 'position adjustment' object, and then associated this with `position` arguments in `geom_errorbar` and `geom_point`:
+
+```{r, fig.width=3.5}
+# define a position adjustment 
+pos <- position_dodge(0.15)
+# make the plot
+ggplot(festuca.stats, 
+       aes(x = Calluna, y = Means, colour = pH,
+           ymin = Means - SEs, ymax = Means + SEs)) +
+  # this adds the mean (shift positions with 'position =')
+  geom_point(size = 3, position = pos) +
+  # this adds the error bars (shift positions with 'position =')
+  geom_errorbar(width = 0.1, position = pos) +
+  # controlling the appearance
+  scale_y_continuous(limits = c(2, 7)) + 
+  xlab("Calluna") + ylab("Festuca yield (g dry weight)")
+```
+
+Look at the new positions of the points and error bars at each level of `Calluna`---they have shifted very slightly to the left and right. We don't need to do this in the Calluna example of course, because there is no overlap to deal with. If the points/SEs had overlapped, this would now be avoided because the data would be plotted side-by-side. 
+
+
+
+We could also use a bar chart with error bars to summarise the data. You only have to change one thing about the last chunk of `ggplot2` code to make this. You can probably guess how to do this---instead of using a `geom_point`, we use `geom_bar`...
+```{r, fig.width=3.5}
+ggplot(festuca.stats, 
+       aes(x = Calluna, y = Means, fill = pH,
+           ymin = Means - SEs, ymax = Means + SEs)) +
+  # this adds the mean
+  geom_bar(stat = "identity", position = position_dodge()) +
+  # this adds the error bars
+  geom_errorbar(position = position_dodge(0.9), width=.2) +
+  # controlling the appearance
+  xlab("Calluna") + ylab("Festuca yield (g dry weight)")
+```
+Remember (one more time) that we have to set the `stat` argument of `geom_bar` to `"identity"` to ensure it plots the y variable 'as is'. The only other other trick we need to apply is to set the `position` arguments of `geom_point` and `geom_bar` using `position_dodge`. If we don't do this, `ggplot2` will produce a stacked bar chart and the error bars will end up in the wrong place (the value of 0.9 used in `position_dodge(0.9)` ensures the error bars appear in the centre of each bar). 
+
+Do not worry too much if you find the `ggplot2` code for making this bar chart a little cryptic. This is about as complicated as things will get (in terms of making figures) in this course and you won't be asked to produce one of these in an exam. It is worth trying to understand all this, because you are very likely to need to be able to make these kinds of figures in the future.
+
