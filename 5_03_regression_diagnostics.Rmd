@@ -2,7 +2,7 @@
 
 ## Introduction {#introduction}
 
-We usually have an analysis in mind when we design an experiment or observational data collection protocol. It may be tempting to jump straight into this analysis without carefully examining the data first. This is never a good idea. In the few chapters we have repeatedly emphasised that careful data analysis always begins with inspection of the data. Visualising a dataset helps us to understand the data and and evaluate whether or not the assumptions of a statistical tool are likely to be violated.
+We usually have an analysis in mind when we design an experiment or observational data collection protocol. It may be tempting to jump straight into this analysis without carefully examining the data first. This is never a good idea. In the past few chapters we have repeatedly emphasised that careful data analysis always begins with inspection of the data. Visualising a dataset helps us to understand the data and and evaluate whether or not the assumptions of a statistical tool are likely to be violated.
 
 ### Understanding data
 
@@ -18,7 +18,7 @@ rbind(select(anscombe, x = x1, y = y1) %>% mutate(case = "Case 1"),
 
 These four artificial data sets were constructed by the statistician Francis Anscombe. The means and variances of $x$ and $y$ are nearly identical in all four data sets, and what's more, the intercepts and slopes of the best fit regression lines are almost identical (the intercept and slope are 3.00 and 0.500, respectively). The nature of the relationship between $x$ and $y$ is quite obviously different among the four cases:
 
-1. "Case 1" two linearly related, normally distributed variables. This is the kind of data we often hope for in a statistical analysis. 
+1. "Case 1" shows two linearly related, normally distributed variables. This is the kind of data we often hope for in a statistical analysis. 
 
 2. "Case 2" shows two variables that are not normally distributed, but there is a perfect non-linear relationship between the two. 
 
@@ -30,13 +30,13 @@ Each of these plots tells a different story about the relationship between $x$ a
 
 ### Checking assumptions
 
-Every statistical model makes certain assumptions about the data^[Even so-called 'non-parametric' models have underpinning assumptions; these are just not as restrictive as their parametric counterpart]. Even if a dataset doesn't exhibit the very obvious problems seen in the Anscombe examples, we still need to assess whether the assumptions of the statistical model we want to use are likely to be valid. We always check these assumptions each time we introduced a new model or test. 
+Every statistical model makes certain assumptions about the data^[Even so-called 'non-parametric' models have underpinning assumptions; these are just not as restrictive as their parametric counterparts.]. Even if a dataset doesn't exhibit the very obvious problems seen in the Anscombe examples, we still need to assess whether the assumptions of the statistical model we want to use are likely to be valid. We always check these assumptions each time we introduced a new model or test. 
 
-For example, when working with a linear regression models, we started with a scatter plot of the dependent variable vs. the independent variable. This allowed us to assess whether the two variables are linearly related, and to see whether the variability of the residuals in constant. We then plotted the residuals from the fitted regresssion model to evaluate the normality assumption.
+For example, when working with a linear regression model, we started with a scatter plot of the dependent variable vs. the independent variable. This allowed us to assess whether the two variables are linearly related, and to see whether the variability of the residuals is constant. We then plotted the residuals from the fitted regresssion model to evaluate the normality assumption.
 
 These kinds of *ad hoc* approaches are useful, but they can be often be difficult to apply at times. For example, if we only have a small sample it is difficult to evaluate the normality assumption of a regression using a dot plot or histogram. Similarly, a scatter plot may hide subtle non-linearities in the relationship between two variables.
 
-These limitations can be addressed by moving away from plots of raw data and residuals. It is much better to rely on a set of graphical tools called **regression diagnostics**. Instead of using just the raw data, regression diagnostics use properties of the fitted model to understand how well the model fits the data and evaluate the model assumptions. This chapter is about how to generate and interpret three basic regression diagnostic plots. We'll learn about these tools in the contect of regression, though they can be used with any statistical model produced by the `lm` function. 
+These limitations can be addressed by moving away from plots of raw data and residuals. It is much better to rely on a set of graphical tools called **regression diagnostics**. Instead of using just the raw data, regression diagnostics use properties of the fitted model to understand how well the model fits the data and evaluate the model assumptions. This chapter is about how to generate and interpret three basic regression diagnostic plots. We'll learn about these tools in the context of regression, though they can be used with any statistical model produced by the `lm` function. 
 
 ## Diagnostics for simple linear regression {#regres-diagnose}
 
@@ -110,7 +110,7 @@ ggplot(partridge, aes(x = Hedgerow, y = Partridge)) +
 Spend some time looking at the scatter plot. Think about the linearity, normality and constant variance assumptions of linear regression. Do you think these data satisfy all three of these assumptions? If not, how is (are) the assumption(s) broken?
 ```
 
-The linearity, normality and constant variance assumptions are features of: 1) the nature of the relationship between the dependent (`Partridge`) and independent (`Hedgrow`) variables, and 2) the scatter of the observations around this relationship. These are difficult to evaluate without at least having a sensible reference point: the line of best fit.
+The linearity, normality and constant variance assumptions are features of: 1) the nature of the relationship between the dependent (`Partridge`) and independent (`Hedgerow`) variables, and 2) the scatter of the observations around this relationship. These are difficult to evaluate without at least having a sensible reference point: the line of best fit.
 
 Let's look at the data again, but this time include the line of best fit. We know how to do this---there are three steps. First, we have to fit the linear regression model to the data:
 ```{r}
@@ -243,7 +243,7 @@ ggplot(eg.data, aes(x = x, y = y-Fitted, group = Label)) +
 
 Here we see the characteristic U-shape and hump-shape pattern we mentioned above. The U-shape occurs when there is an accelerating relationship between the dependent variable and the independent variable. The hump-shape occurs when there is an decelerating relationship between the dependent variable and the independent variable.
 
-By this point something may be bothering you. This seems like a lot of extra work to evaluate an aspect of the model that we can assess by just plotting the raw data. This is true when we are working with a simple linear regression model. However, it can much harder to evaluate the linearity assumption when working with more complicated models where there is more than one independent variable^[This is the situatoin we face with multiple regression. A multiple regression is a type regression with more than one independent variable---we don't study them in this course, but they are often used in biology]. In these situations, a residuals vs. fitted values plot gives us a powerful way to evaluate whether or not the assumption of a linear relationship is reasonable. 
+By this point something may be bothering you. This seems like a lot of extra work to evaluate an aspect of the model that we can assess by just plotting the raw data. This is true when we are working with a simple linear regression model. However, it can much harder to evaluate the linearity assumption when working with more complicated models where there is more than one independent variable^[This is the situation we face with multiple regression. A multiple regression is a type of regression with more than one independent variable---we don't study them in this course, but they are often used in biology.]. In these situations, a residuals vs. fitted values plot gives us a powerful way to evaluate whether or not the assumption of a linear relationship is reasonable. 
 
 That's enough about the residuals vs. fitted values plot. Let's move on to the normality evaluation...
 
@@ -318,9 +318,9 @@ ggplot(rskew, aes(x = x, y = y)) +
   xlab("Theoretical Value") + ylab("Standardised Residual")
 ```
 
-You should always use normal probability plots to assess normality assumptions in your own analyses. They work with every kind of model fitted the `lm` function deals with. What is more, they also work reasonably well when we only have a few residuals to play with. Seven is probably the lowest number we might accept---with fewer points it becomes hard to distinguish between random noise and a real deviation from normality.
+You should always use normal probability plots to assess normality assumptions in your own analyses. They work with every kind of model fitted by the `lm` function. What is more, they also work reasonably well when we only have a few residuals to play with. Seven is probably the lowest number we might accept---with fewer points it becomes hard to distinguish between random noise and a real deviation from normality.
 
-That's enough discussion of normal probability plot. Let's move on to the constant variance evaluation...
+That's enough discussion of normal probability plots. Let's move on to the constant variance evaluation...
 
 ### Checking the constant variance assumption
 
@@ -345,7 +345,7 @@ sqrt_abs_resids <- abs(sqrt_abs_resids)
 sqrt_abs_resids <- sqrt(sqrt_abs_resids)
 ```
 
-Now we use the `fitted` function to extract the fitted values form the model and place these in a data frame with the transformed residuals:
+Now we use the `fitted` function to extract the fitted values from the model and place these in a data frame with the transformed residuals:
 ```{r}
 plt_data <- 
   data.frame(Fitted = fitted(partridge_model), Resids = sqrt_abs_resids)
@@ -376,7 +376,7 @@ It turns out that we didn't have to do all that work to construct the diagnostic
 plot(partridge_model, add.smooth = FALSE, which = 1)
 ```
 
-The first argument is the name of fitted model object. The second argument controls the output of the `plot` function: `which = 1` argument tells it to produce a residuals vs. fitted values plot. The `add.smooth = FALSE` is telling the function not to add a line called a 'loess smooth'. This line is supposed to help us pick out patterns, but it tends to over fit the relationship and leads people to see problmes that aren't there. If we can't see a clear pattern without the line, it probably isn't there, so it's better not to include it at all.
+The first argument is the name of fitted model object. The second argument controls the output of the `plot` function: `which = 1` argument tells it to produce a residuals vs. fitted values plot. The `add.smooth = FALSE` is telling the function not to add a line called a 'loess smooth'. This line is supposed to help us pick out patterns, but it tends to over fit the relationship and leads people to see problems that aren't there. If we can't see a clear pattern without the line, it probably isn't there, so it's better not to include it at all.
 
 The other two plots are produced in the same way. We use the `plot` function to plot a normal probability diagnostic by setting `which = 2`:
 
@@ -384,7 +384,7 @@ The other two plots are produced in the same way. We use the `plot` function to 
 plot(partridge_model, which = 2)
 ```
 
-This produces essentially the same kind of plot we made above, with one small difference. Rather than drawing a 1:1 line, the 'plot' function shows us a line of best fit. This just allows us to pick out the curvature a little more easily. Finally, we can produce a scale-location diagnostic plot using the `plot` function with `which = 3`, suppressing the line to avoid finding spurious patterns.:
+This produces essentially the same kind of plot we made above, with one small difference. Rather than drawing a 1:1 line, the 'plot' function shows us a line of best fit. This just allows us to pick out the curvature a little more easily. Finally, we can produce a scale-location diagnostic plot using the `plot` function with `which = 3`, suppressing the line to avoid finding spurious patterns:
 
 ```{r, fig.align='center', fig.asp=1, fig.width=4}
 plot(partridge_model, add.smooth = FALSE, which = 3)
@@ -396,9 +396,9 @@ plot(partridge_model, add.smooth = FALSE, which = 3)
 We have focussed on simple linear regression in this session because regression diagnostics are most easily understood in the context of a regression model. However, the term 'regression diagnostic' is a bit of a misnomer. A more accurate term might be 'linear model diagnostic' but no one really uses this. Regression diagnostics can be used with many different kinds of models. In fact, the diagnostic plots we have introduced here can be applied to any model fitted by the `lm` function. This includes things like the ANOVA models we'll study in later chapters.
 
 ```{block, type='advanced-box'}
-**Don't panic if your dignostics aren't perfect!**
+**Don't panic if your diagnostics aren't perfect!**
 
-The good news about regression is that it is quite a robust technique. It will often give us reasonable answers even when the assumptions are not perfectly fulfilled. We should be aware of the assumptions but should not become too obsessed by them. If the violations are modest, it is often fine to proceed. We just need to interpret results with care. Of course, we have to know what constiutes a 'modest' violation. There are no hard and fast rules. The ability to make that judgement is something that comes with experience.
+The good news about regression is that it is quite a robust technique. It will often give us reasonable answers even when the assumptions are not perfectly fulfilled. We should be aware of the assumptions but should not become too obsessed by them. If the violations are modest, it is often fine to proceed. We just need to interpret results with care. Of course, we have to know what constitutes a 'modest' violation. There are no hard and fast rules. The ability to make that judgement is something that comes with experience.
 ```
 
 
