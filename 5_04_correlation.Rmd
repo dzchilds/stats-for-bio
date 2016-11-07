@@ -25,7 +25,7 @@ cor_eg <- mutate(cor_eg,
 
 There are a variety of methods for quantifying correlation, but these all share common properties:
 
-1.  If there is no relationship between the variables then the correlation coefficient will be zero. The closer to 0 the value, the weaker the relationship. A perfect correlation will be either -1 or +1, depyending on the direction. This is illustrated below...
+1.  If there is no relationship between the variables then the correlation coefficient will be zero. The closer to 0 the value, the weaker the relationship. A perfect correlation will be either -1 or +1, depending on the direction. This is illustrated below...
 
 ```{r cor-strength-eg, echo=FALSE, out.width='100%', fig.asp=0.3, fig.align='center', warning=FALSE}
 ggplot(cor_eg, aes(x = x, y = y)) + 
