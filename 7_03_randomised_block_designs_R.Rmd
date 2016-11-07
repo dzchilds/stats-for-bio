@@ -61,7 +61,7 @@ OK, so there is nothing "dodgy" about a two-way design without replication. Inde
 ```{block, type='advanced-box'}
 **Interactions are not a feature of the experimental design** 
 
-It's important to realise that just because we can't test for the interaction, it does not mean there is no interaction effect between two factors. We simply can’t detect it even if it is there. However, as long as we have a balanced orthogonal design, the significance tests of main effects are still be meaningful. If the balanced and orthogonal criteria are not met, then we do have to be very careful about how we interpret a significant main effect in the absence of replication, because the presence of an interaction may generate a spuriously significant main effect.
+It's important to realise that just because we can't test for the interaction, it does not mean there is no interaction effect between two factors. We simply can’t detect it even if it is there. However, as long as we have a balanced, orthogonal design, the significance tests of main effects are still be meaningful. If the balanced and orthogonal criteria are not met, then we do have to be very careful about how we interpret a significant main effect in the absence of replication, because the presence of an interaction may generate a spuriously significant main effect.
 ```
 
 ## Analysing an RCBD experiments
