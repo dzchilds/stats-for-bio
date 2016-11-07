@@ -25,7 +25,7 @@ cor_eg <- mutate(cor_eg,
 
 There are a variety of methods for quantifying correlation, but these all share common properties:
 
-1.  If there is no relationship between the variables then the correlation coefficient will be zero. The closer to 0 the value of the weaker the relationship. A perfect correlation will be either -1 or +1, depending on the direction. This is illustrated below...
+1.  If there is no relationship between the variables then the correlation coefficient will be zero. The closer to 0 the value, the weaker the relationship. A perfect correlation will be either -1 or +1, depyending on the direction. This is illustrated below...
 
 ```{r cor-strength-eg, echo=FALSE, out.width='100%', fig.asp=0.3, fig.align='center', warning=FALSE}
 ggplot(cor_eg, aes(x = x, y = y)) + 
@@ -40,7 +40,7 @@ ggplot(cor_eg, aes(x = x, y = y)) +
 
 There are several different measures of correlation between two variables. We will consider the two most widely used methods^[People sometimes just refer to 'the correlation coefficient' without stating which one they are using. When this happens, they probably used the most common method: Pearson’s product-moment correlation.]: 
 
-1.  The first is called **Pearson’s product-moment correlation** ($r$), though for convenience it is often called Pearson’s correlation. Pearson’s correlation is considered to be a parametric method, because the associated significance test make strong assumptions about the variables distribution (but see our comment below).
+1.  The first is called **Pearson’s product-moment correlation** ($r$), though for convenience it is often called Pearson’s correlation. Pearson’s correlation is considered to be a parametric method, because the associated significance test makes strong assumptions about the distribution of the variables (but see our comment below).
 
 2.  The second is **Spearman’s rank correlation** ($\rho$), which as the name suggests is a method based on the rank order of observations. Spearman’s rank correlation is considered to be a non-parametric method, because the associated significance test relies on fairly loose assumptions. 
 
@@ -54,13 +54,13 @@ Correlation and regression are both concerned with associations between variable
 
 Think about how the data have been collected. If the data are from an experimental study where one of the variables has been manipulated, then choosing the best analysis is easy. We should use a regression analysis, in which the independent variable is the experimentally manipulated  variable  and the dependent variable is the measured outcome. The fitted line from a regression analysis describes how the outcome variable *depends on* the manipulated variable---it describes the causal relationship between them. 
 
-It is generally inappropriate to use correlation to analyse data from an experimental setting. A correlation analysis examines association but does not imply the dependence of one variable on another. Since there is no distinction of dependent or independent variables, it doesn’t matter which way round we do a correlation (The phrase 'which way round' doesn't even make sense in the context of a correlation). 
+It is generally inappropriate to use correlation to analyse data from an experimental setting. A correlation analysis examines association but does not imply the dependence of one variable on another. Since there is no distinction of dependent or independent variables, it doesn’t matter which way round we do a correlation. (The phrase 'which way round' doesn't even make sense in the context of a correlation.)
 
 If the data are from an observational study, either method may be appropriate. Time to ask another question...
 
 #### What is the goal of the analysis? {-}
 
-Think about what question is being addressed. A correlation coefficient only quantifies the strength and direction of an association between two variables. It will be close to zero if there is no association between the variables; a strong association is implied if the coefficients are near -1 or +1. A correlation coefficient tells us nothing about the form of a relationship. Nor does it allow us to make predictions about the value of one variable from the value of a second variable. A regression does allow this because it involves fitting a line through the data---i.e. there's a model for the relationship. 
+Think about what question is being addressed. A correlation coefficient only quantifies the strength and direction of an association between two variables. It will be close to zero if there is no association between the variables; a strong association is implied if the coefficient is near -1 or +1. A correlation coefficient tells us nothing about the form of a relationship. Nor does it allow us to make predictions about the value of one variable from the value of a second variable. A regression does allow this because it involves fitting a line through the data---i.e. there's a model for the relationship. 
 
 This means that if the goal of an analysis is to understand the form of a relationship between two variables, or to use a fitted model to make predictions, we have to use regression. If we just want to know whether two variables are associated or not, the direction of the association, and whether the association is strong or weak, then a correlation analysis is sufficient. It is better to use a correlation analysis when the extra information produced by a regression is not needed, because the former will be simpler and potentially more robust (if we use Spearman's correlation).
 
@@ -111,7 +111,7 @@ It seems clear that the two plants are negatively associated, but we should conf
 
 **How do we know to use a correlation analysis with these data?** We didn't set out with a directional relationship in mind of the form "X causes Y". There may be an association between the two species, but it is not obvious which should be the dependent and independent variables. Neither variable is controlled by the investigator, and we're not interested in using one variable to predict the values of the other. Taken together, these observations indicate that correlation analysis is the appropriate method to use to evaluate the significance of the association.
 
-**Why are we using Pearson's correlation?** A test based on Pearson's correlation will be more powerful than one using Spearman’s correlation. We need to be confident that all the assumptions are met though. The scatter plot indicates that the relationship between the variables is linear, so Pearson's correlation is a valid measure of association. Is it appropriate to carry out a significance test though? The data of the right type---both variables are measured on a ratio scale---and the two dot plots above suggests the normality assumption is reasonable.
+**Why are we using Pearson's correlation?** A test based on Pearson's correlation will be more powerful than one using Spearman’s correlation. We need to be confident that all the assumptions are met though. The scatter plot indicates that the relationship between the variables is linear, so Pearson's correlation is a valid measure of association. Is it appropriate to carry out a significance test though? The data are of the right type---both variables are measured on a ratio scale---and the two dot plots above suggest the normality assumption is reasonable.
 
 Let's proceed with the analysis... Carrying out a correlation analysis in R is straightforward. We use the `cor.test` function to do this:
 ```{r}
@@ -121,7 +121,7 @@ We use `method = "pearson"` to control which kind of correlation coefficient was
 
 The output from the `cor.test` is very similar to that produced by the `t.test` function. We won't step through most of this output, as its meaning should be clear. The `t = -5.2706, df = 20, p-value = 3.701e-05` line is the one we care about. Here are the key points:
 
--   The first part says that the test statistic associated with a Pearson's correlation coefficient is type of *t*-statistic. We're not going to spend time worrying about where this came from, other than to note that it is interpreted in exactly the same way as any other *t*-statistic. 
+-   The first part says that the test statistic associated with a Pearson's correlation coefficient is a type of *t*-statistic. We're not going to spend time worrying about where this came from, other than to note that it is interpreted in exactly the same way as any other *t*-statistic. 
 
 -   Next we see the degrees of freedom for the test. Can you see where this comes from? It is $n-2$, where $n$ is the sample size. Together, the degrees of freedom and the *t*-statistic determine the *p*-value...
 
@@ -143,9 +143,9 @@ The assumptions of Pearson’s correlation are not too restrictive, but if the d
 
 The key assumptions of Spearman’s rank correlation are: 
 
--   both variables are measured on ordinal, interval or ratio scales
+-   Both variables are measured on ordinal, interval or ratio scales.
 
--   there is a monotonic relationship between the two variables
+-   There is a monotonic relationship between the two variables.
 
 A monotonic relationship occurs when, in general, the variables increase in value together, or when the values of one variable increase, the other variable tends to decrease. What this means in practice is that we should not use Spearman’s rank correlation if a scatter plot of the data forms a clear 'hill' or 'valley' shape.
 
@@ -157,7 +157,7 @@ Spearman’s rank correlation is somewhat less powerful (roughly 91% in some eva
 grouse <- read.csv("./data_csv/GROUSE.CSV")
 ```
 
-Some bird species, at a particular point in the spring, form ‘leks’---gatherings of birds, with males each defending a small area of ground, displaying, and each mating with the such females as he is successful in attracting. In general, in leks, a few birds secure many matings and most birds secure rather few. In a study of lekking in black grouse, a biologist is interested in whether birds that secure many matings in one season also do better the next year. Using a population with many colour-ringed birds he is able to get data for a reasonable number of males from two leks in successive years.
+Some bird species, at a particular point in the spring, form ‘leks’---gatherings of birds, with males each defending a small area of ground, displaying, and each mating with such females as he is successful in attracting. In general, in leks, a few birds secure many matings and most birds secure rather few. In a study of lekking in black grouse, a biologist is interested in whether birds that secure many matings in one season also do better the next year. Using a population with many colour-ringed birds he is able to get data for a reasonable number of males from two leks in successive years.
 
 The data are in the file GROUSE.CSV. Read these data into a data frame, calling it `grouse`.
 ```{r, eval=FALSE}
@@ -179,7 +179,7 @@ ggplot(grouse, aes(x = Year1, y = Year2)) +
   geom_point(alpha = 0.5)
 ```
 
-The data are integers, which means there is a risk of over-plotting (points will lie on top of one another). We made the points semi-transparent `alpha = 0.5` to pick this up where it occurs. It seems clear that mating success is positively associated, but we should confirm this with a statistical test. We'll base this on Pearson's correlation.
+The data are integers, which means there is a risk of over-plotting (points will lie on top of one another). We made the points semi-transparent `alpha = 0.5` to pick this up where it occurs. It seems clear that mating success is positively associated, but we should confirm this with a statistical test. We'll base this on Spearman's correlation.
 
 **How do we know to use a correlation analysis with these data?** Although there seems to be an association between the counts, it is not obvious that success in one year 'causes' success in another year and neither variable is controlled by the investigator. We're also not interested in using the success measure in year 1 to predict success in year 2. This indicates that correlation analysis is the appropriate method to evaluate the significance of the association.
 
@@ -191,13 +191,13 @@ cor.test(~ Year1 + Year2, method = "spearman", data = grouse)
 ```
 The only other thing we had to change, compared to the Pearson's correlation example, was to set `method = "spearman"` to specify the use of Spearman’s rank correlation. Notice the warning message: 'Cannot compute exact p-value with ties'. This is generally not something we need to worry about for this particular test.
 
-The output is very similar to that produced by `cor.test` when using Pearson's correlation. Once again, the `S = 592.12, p-value = 0.01112` line is the one we care about. The main difference is that instead of a *t*-statistic, we end up working with a different kind of test statistic ('*S*'). We aren't going to explain where this comes from because it's quite technical. Next we see the *p*-value. This is generated under the null hypothesis of zero correlation ($\rho = 0$). Since *p* < 0.05, we conclude that there is a statistically significant correlation mating success in successive years. Wait, where are the degrees of freedom? Simple---there aren't any for a Spearman's correlation test.
+The output is very similar to that produced by `cor.test` when using Pearson's correlation. Once again, the `S = 592.12, p-value = 0.01112` line is the one we care about. The main difference is that instead of a *t*-statistic, we end up working with a different kind of test statistic ('*S*'). We aren't going to explain where this comes from because it's quite technical. Next we see the *p*-value. This is generated under the null hypothesis of zero correlation ($\rho = 0$). Since *p* < 0.05, we conclude that there is a statistically significant correlation between mating success in successive years. Wait, where are the degrees of freedom? Simple---there aren't any for a Spearman's correlation test.
 
 What is the correlation between mating success? That's given at the bottom of the test output again: $+0.55$. This says that there is a moderate, positive association between mating success in successive years, which is what we expect from the scatter plot.
 
 ### Reporting the result
 
-When using the Spearman method is is fine to report just the value of the correlation coefficient, the sample size, and the *p*-value (there is no need to report the test statistic). Here's how to report the results of this analysis:
+When using the Spearman method it is fine to report just the value of the correlation coefficient, the sample size, and the *p*-value (there is no need to report the test statistic). Here's how to report the results of this analysis:
 
 > There is a positive association between the number of matings achieved by a particular male in one lek and the number the same male achieves in a subsequent lek (Spearman's rho=0.55, n=20, p < 0.05).
 
