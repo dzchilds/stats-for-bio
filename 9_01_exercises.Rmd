@@ -632,112 +632,86 @@ Is the constant variance assumption satisfied?
 
 
 
+## Week 7
 
+### The effect of molluscicide on rates of movement in slugs
 
-## Limpets and salinity
+Garden slugs of the same species and approximately the same size were given either a full dose, or a half strength dose, or a one tenth strength dose of Slugit (a molluscicide) dissolved in water. A control group were treated with just water. The rate of movement of the slugs on a moist wooden board after treatment was recorded (cm per min). There were 8 replicate slugs for each treatment.
 
-```{block, type='exercise-box'}
-#### Extended exericse with associated MOLE quiz
+The data are stored in a CSV file SLUGIT.CSV. The rate of movement is stored in `Distance` variable and the treatment codes are in the `SlugitTreat` variable (levels: full dose, half dose, one tenth dose, control).
 
-You should work through this section step-by-step, following the instructions carefully. At various points we will interrupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 'anova 3'.
-```{r, echo = FALSE}
-acmaea.sodium <- read.csv(file = "./course-data/ACMAEA.CSV")
-```
-
-#### The data
-
-Limpets live on rocky shores, often in rock pools and on exposed rock surfaces. Those limpets which live in rock pools can experience a very wide range of salinity conditions during the daily tidal cycle, especially if fresh water from inshore flows into the pools when the tide is out. A researcher was interested in whether two different limpet species (*Acmaea scabra* and *Acmaea digitalis*) differ in their internal concentration of sodium ions when exposed to low salinity conditions.
-
-Eight limpets of each species were placed in tanks of water containing (100% sea water; 75% seawater diluted with distilled water, and 50% sea water diluted with distilled water. The data are stored in a file called ACMAEA.CSV. The layout of the data should be fairly obvious: sodium ion concentration is stored in the `Sodium` variable, species codes are in `Species` (levels: 'scabra' = *A. scabra*, 'digitalis' = *A. digitalis*), and salinity is in `Salinity` (levels: 50, 75 and 100).
-
-Use `glimpse` to understand the data set. What kind of variable is `Salinity`? It is not a factor. When R reads in the data it assumes `Salinity` is meant to be treated as a numeric vector, because it only contains numeric values. We need to convert this to a factor before proceeding so that `lm` fits the right kind of model (i.e. ANOVA).
-
-Use the `mutate` function with the `factor` function to convert `Salinity` to a factor variable, remembering to assign the modified data frame a name so that you can use it in your analysis.
-
-Prepare an interaction plot to investigate the data. Do you think you are likely to find a significant interaction?
-
-```{r, eval = FALSE, echo = FALSE}
-acmaea.sodium <- mutate(acmaea.sodium, Salinity = factor(Salinity))
-
-acmaea.means <- 
-  group_by(acmaea.sodium, Species, Salinity) %>% 
-  summarise(Means = mean(Sodium))
-acmaea.means
-
-ggplot(acmaea.means, 
-       aes(x = Species, y = Means, colour = Salinity, group = Salinity)) +
-  geom_point(size = 4) + geom_line()
-
-anova(lm(Sodium ~ Salinity * Species, data = acmaea.sodium))
-```
-
-#### ANOVA - salinity, species and interaction?
-
-We want to use two-way ANOVA to answer the following questions:
-
-1.  Does salinity affect the sodium concentration in the limpets?
-
-2.  Do the two species differ in their internal sodium concentrations?
-
-3.  Do the species differ in their response to changes in salinity?
-
-If you think about these you can see that (1) concerns the salinity main effect, (2) the species main effect and (3) the interaction.
-
-The procedure to follow is much the same as with the *Festuca* example.
-
-First check the assumptions using a graphical approach.
+Read in the data and carry out an ANOVA on the movement rates following different doses of Slugit. Explore the data visually --- using a box and whiskers plot or a multi-panel dot plot --- and then fit a one-way ANOVA model. Use the plot and fitted model to evaluate the assumptions of the model:
 
 ```{block, type='do-something'}
 **MOLE question**
 
-What type of data are they?
+Do you feel the data conform acceptably to the assumptions on ANOVA?
+
+*   Data type?
+
+*   Normally distributed?
+
+*   Similar variances in each treatment?
 ```
 
 ```{block, type='do-something'}
 **MOLE question**
 
-Do the data satisfy the assumption of normality?
+What are the results from the ANOVA?
 ```
 
 ```{block, type='do-something'}
 **MOLE question**
 
-Are the variances similar among treatment combinations?
+Write a summary of the results from the analysis. 
 ```
 
-If you are happy with the data proceed with the ANOVA.
+Now...
+
+```{r diet-summary-releveled, echo=FALSE, fig.align='center', fig.asp=0.5, fig.width=5}
+slugit <- read.csv(file="./data_csv/SLUGIT.CSV")
+
+slugit_stats <- 
+  slugit %>% group_by(SlugitTreat) %>% 
+  summarise(Mean = mean(Distance), SE = sd(Distance)/sqrt(n()))
+
+levs <- c("control", "one tenth dose", "half dose", "full dose")
+slugit_stats <- mutate(slugit_stats, 
+                       SlugitTreat = factor(SlugitTreat, levels = levs))
+
+ggplot(data = slugit_stats, 
+       aes(x = SlugitTreat, y = Mean, ymin = Mean - SE, ymax = Mean + SE)) + 
+  geom_point(colour = "blue", size = 3) + 
+  geom_errorbar(width = 0.1, colour = "blue") + 
+  xlab("Molluscicide treatment") + ylab("Distance (cm per min)") +
+  coord_flip() +
+  theme_bw()
+```
+
+### Lead pollution in lakes
+
+The United States Water Quality and Purity Board have been monitoring the concentrations of lead in trout in lakes in New York State because of concern about toxic concentrations of lead in the food-chain, especially in trout and the birds feeding on them. Two of the lakes (Kelvin and Beaver) are surrounded by agricultural land. The other three lakes (Allsopp, Anglers and Rocky) are adjacent to built-up and industrial areas.
+
+Data for lead in trout in the lakes are in a CSV file LAKEPB.CSV. The measurements are the concentration of lead (mg kg^-1^) from 6 randomly sampled trout in each lake. The concentration measurements are stored in the `Lead` variable and the lake codes are in the `Lake` variable.
+
+Read this data file into R, explore the data visually, and then proceed to fit a one-way ANOVA model. Use your plot and fitted model to evaluate the assumptions of the model:
 
 ```{block, type='do-something'}
 **MOLE question**
 
-What effects does the ANOVA idicate? 
+Do you feel the data conform acceptably to the assumptions on ANOVA?
+```
 
-| Term              | *F* | *d.f.* | *p* |
-|:------------------|:---:|:------:|:---:|
-| Salinity effect:  |  ?  |   ?    |  ?  |
-| Species effect:   |  ?  |   ?    |  ?  |
-| Interaction:      |  ?  |   ?    |  ?  |
+If the data are appropriate carry out the global significance test and write a concise summary of the results from the ANOVA:
 
+```{block, type='do-something'}
+**MOLE question**
+
+Summary:
 ```
 
 ```{block, type='do-something'}
 **MOLE question**
 
-Summarise the results from the ANOVA in words.
-```
-
-#### Multiple comparison tests
-
-If you find any effects from the overall ANOVA to be significant, it may be appropriate to carry out one, or more, multiple comparison tests. You should not carry out tests for any effects that are not significant (there’s no point in testing means you already know not to be different!).
-
-```{block, type='do-something'}
-**MOLE question**
-
-If there were significant effects in the ANOVA summarise the differences between the means using a table of means with appropriate letter codes, and in words.
-```
-
-```{block, type='do-something'}
-**MOLE question**
-
-What does the analysis suggest about the osmoregulation of *Acmaea*.
+Do you have any comments on the possible biological reasons for the patterns you see in the data?
 ```

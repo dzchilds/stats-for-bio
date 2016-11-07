@@ -1,125 +1,100 @@
 
-### Oviposition behaviour in bean weevils
+### Limpets and salinity
 
-The bean weevil, *Callosobruchus maculatus*, lays its eggs on the surface of legume seeds such as black-eyed beans and aduki beans. In an experiment to test whether female *Callosobruchus* are selective in the type of beans on which they oviposit, choice tests were carried out. In each, a single newly mated female was introduced into an experimental arena containing one each of 5 bean types. The bean on which the first egg was laid was recorded. The test was repeated 45 times with a different beetle each time.
+#### The data
 
-  Bean type                 Aduki   Black-eyed   Kidney   Haricot   Pinto
-  ------------------------ ------- ------------ -------- --------- -------
-  Number of times chosen      6         16         10        8        5
+Limpets live on rocky shores, often in rock pools and on exposed rock surfaces. Those limpets which live in rock pools can experience a very wide range of salinity conditions during the daily tidal cycle, especially if fresh water from inshore flows into the pools when the tide is out. A researcher was interested in whether two different limpet species (*Acmaea scabra* and *Acmaea digitalis*) differ in their internal concentration of sodium ions when exposed to low salinity conditions.
 
-[[What is the questions?]]
+Eight limpets of each species were placed in tanks of water containing (100% sea water; 75% seawater diluted with distilled water, and 50% sea water diluted with distilled water. The data are stored in a file called ACMAEA.CSV. The layout of the data should be fairly obvious: sodium ion concentration is stored in the `Sodium` variable, species codes are in `Species` (levels: 'scabra' = *A. scabra*, 'digitalis' = *A. digitalis*), and salinity is in `Salinity` (levels: 50, 75 and 100).
+
+Use `glimpse` to understand the data set. What kind of variable is `Salinity`? It is not a factor. When R reads in the data it assumes `Salinity` is meant to be treated as a numeric vector, because it only contains numeric values. We need to convert this to a factor before proceeding so that `lm` fits the right kind of model (i.e. ANOVA).
+
+Use the `mutate` function with the `factor` function to convert `Salinity` to a factor variable, remembering to assign the modified data frame a name so that you can use it in your analysis.
+
+Prepare an interaction plot to investigate the data. Do you think you are likely to find a significant interaction?
+
+```{r, eval = FALSE, echo = FALSE}
+acmaea.sodium <- mutate(acmaea.sodium, Salinity = factor(Salinity))
+
+acmaea.means <- 
+  group_by(acmaea.sodium, Species, Salinity) %>% 
+  summarise(Means = mean(Sodium))
+acmaea.means
+
+ggplot(acmaea.means, 
+       aes(x = Species, y = Means, colour = Salinity, group = Salinity)) +
+  geom_point(size = 4) + geom_line()
+
+anova(lm(Sodium ~ Salinity * Species, data = acmaea.sodium))
+```
+
+#### ANOVA - salinity, species and interaction?
+
+We want to use two-way ANOVA to answer the following questions:
+
+1.  Does salinity affect the sodium concentration in the limpets?
+
+2.  Do the two species differ in their internal sodium concentrations?
+
+3.  Do the species differ in their response to changes in salinity?
+
+If you think about these you can see that (1) concerns the salinity main effect, (2) the species main effect and (3) the interaction.
+
+The procedure to follow is much the same as with the *Festuca* example.
+
+First check the assumptions using a graphical approach.
 
 ```{block, type='do-something'}
 **MOLE question**
 
-Summarise the results from the test.
+What type of data are they?
 ```
-
-### Determining appropriate expected values
-
-<div class="well">
-**MOLE question**
-
-What might be an appropriate way to obtain a set of expected frequencies for an ornitholgist who wants to analyse data on observations of great tits foraging to see if they prefer to forage in particular tree species (on transects through a wood a record was made every time a great tit was seen, of the tree species in which it was foraging)? What, if any, additional data would this require the ornithologist to collect?
-</div>
-
-### Eagle owls and prey choice
-
-We are going to look at prey choice between male and female eagle owls. You will recall that the prey of eagle owls can be established by examination of the pellets containing the undigested remains of their prey. In the eagle owl study the diets of the male and female of a pair were studied by examination of the pellets collected from beneath their roosts (fortunately, an individual tends to use the same roosting site, and individuals tend not to roost together).
-
-The numbers of all prey types found in the pellets were recorded.
-
-These data are in the file EAGLES.CSV. Read these data into R. On loading the data you should find the first column contains the prey types. The second contains the data for females and the third contains
-data for males (both as number of each prey type found).
-
-Analyse whether there is any evidence of differences in the diets of the male and female eagle owls, using a contingency table.
-
-<div class="well">
-**MOLE question**
-
-What do you conclude?
-</div>
-
-<div class="well">
-**MOLE question**
-
-If there is an effect, what might account for the result?
-</div>
-
-### Sex and eye colour
-
-```{r, eval=FALSE, echo=FALSE}
-read.csv(file = "./course-data/CLASS.CSV") %>% 
-  xtabs(~ Eye + Sex, data = .) %>% chisq.test
-```
-
-Let's return to the initial example used to illustrate a contingency table, we might want to ask if there is an association between eye colour and sex. Data in the file CLASS.CSV show a number of attributes measured from a sample of APS students from a few years ago. Each row contains observations from one student. The two variables we are interested in here are `Sex` (values: 'Female' and 'Male') and `Eye` (values: 'Blue', 'Brown' and 'Green').
-
-Carry out a $\chi^{2}$r eye colour and sex are associated in this sample.
-
-<div class="well">
-**MOLE question**
-
-What do you conclude about the association between sex and eye colour?
-</div>
-
-
-
-## Regression
-
-### Partridges and hedgrows {#exercise}
-
-```{block, type='do-something'}
-Make a note of your answers so that you can complete the associated MOLE quiz, which is called 'regression 1'.   
-```
-
-```{r, echo = FALSE, eval = FALSE}
-partridge <-read.csv(file = "./course-data/PARTRIDG.CSV")
-ggplot(partridge, aes(x = Hedgerow, y = Partridge)) + geom_point()
-partridge.model <- lm(Partridge ~ Hedgerow, data = partridge)
-anova(partridge.model)
-summary(partridge.model)
-plot(partridge.model)
-```
-
-Hedgerows are the main nesting habitat of the grey partridge (*Perdix perdix*). A survey was carried out to establish whether the abundance of hedgerows in agricultural land had an effect on the abundance of grey partridge. From an area of agricultural land covering several farms, twelve plots were selected which had land uses as similar as possible but differed, as evident from preliminary inspection, in the density of hedgerows (km hedgerow per km^2^). Plots were deliberately selected to cover a wide range of hedgerow densities. The total hedgerow lengths, and exact plot areas, were measured by use of large scale maps. The density of partridges was established by visiting all fields in a study plot once immediately after dawn and once just before dusk, when partridges are feeding and therefore most likely to be seen. Counts of birds observed were made on each visit and the dawn and dusk data were averaged to give a value for partridge abundance for each study plot.
-
-The data are stored in a CSV file PARTRIDG.CSV. The density of hedgerows (km per km^2^) is in the `Hedgerow` variable and the density of partridges (no. per km) is in the `Partridge` variable. Read in the data and take a look at it using the `View` function.
 
 ```{block, type='do-something'}
 **MOLE question**
 
-Which way round should the variables be?
-
--   Independent ($x$):
-
--   Dependent ($y$):
+Do the data satisfy the assumption of normality?
 ```
-
-Make a scatter plot to allow you to evaluate the assumptions.
 
 ```{block, type='do-something'}
 **MOLE question**
 
-1.  If there is a relationship does it look linear? 
-
-2.  Ratio or interval data? 
-
-3.  Independent variable $y$ likely to be normally distributed for each $x$?
-
-4.  Variance increases or decreases markedly with increasing $x$?
-
-5.  Errors in $x$ likely to be small compared to those in $y$?
+Are the variances similar among treatment combinations?
 ```
 
-If everything is OK, or roughly so, then carry out a regression on the relationship between hedgerow density and partridge density.
+If you are happy with the data proceed with the ANOVA.
 
 ```{block, type='do-something'}
 **MOLE question**
 
-Summarise the results of your analysis in words.
+What effects does the ANOVA idicate? 
+
+| Term              | *F* | *d.f.* | *p* |
+|:------------------|:---:|:------:|:---:|
+| Salinity effect:  |  ?  |   ?    |  ?  |
+| Species effect:   |  ?  |   ?    |  ?  |
+| Interaction:      |  ?  |   ?    |  ?  |
+
 ```
 
-Finish up by preparing a figure that summarises the data and the best fit line estimated from the regression.
+```{block, type='do-something'}
+**MOLE question**
 
+Summarise the results from the ANOVA in words.
+```
 
+#### Multiple comparison tests
+
+If you find any effects from the overall ANOVA to be significant, it may be appropriate to carry out one, or more, multiple comparison tests. You should not carry out tests for any effects that are not significant (there’s no point in testing means you already know not to be different!).
+
+```{block, type='do-something'}
+**MOLE question**
+
+If there were significant effects in the ANOVA summarise the differences between the means using a table of means with appropriate letter codes, and in words.
+```
+
+```{block, type='do-something'}
+**MOLE question**
+
+What does the analysis suggest about the osmoregulation of *Acmaea*.
+```
