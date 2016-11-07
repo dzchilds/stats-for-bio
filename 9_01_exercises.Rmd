@@ -634,60 +634,6 @@ Is the constant variance assumption satisfied?
 
 ## Week 7
 
-### The effect of molluscicide on rates of movement in slugs
-
-Garden slugs of the same species and approximately the same size were given either a full dose, or a half strength dose, or a one tenth strength dose of Slugit (a molluscicide) dissolved in water. A control group were treated with just water. The rate of movement of the slugs on a moist wooden board after treatment was recorded (cm per min). There were 8 replicate slugs for each treatment.
-
-The data are stored in a CSV file SLUGIT.CSV. The rate of movement is stored in `Distance` variable and the treatment codes are in the `SlugitTreat` variable (levels: full dose, half dose, one tenth dose, control).
-
-Read in the data and carry out an ANOVA on the movement rates following different doses of Slugit. Explore the data visually --- using a box and whiskers plot or a multi-panel dot plot --- and then fit a one-way ANOVA model. Use the plot and fitted model to evaluate the assumptions of the model:
-
-```{block, type='do-something'}
-**MOLE question**
-
-Do you feel the data conform acceptably to the assumptions on ANOVA?
-
-*   Data type?
-
-*   Normally distributed?
-
-*   Similar variances in each treatment?
-```
-
-```{block, type='do-something'}
-**MOLE question**
-
-What are the results from the ANOVA?
-```
-
-```{block, type='do-something'}
-**MOLE question**
-
-Write a summary of the results from the analysis. 
-```
-
-Now...
-
-```{r diet-summary-releveled, echo=FALSE, fig.align='center', fig.asp=0.5, fig.width=5}
-slugit <- read.csv(file="./data_csv/SLUGIT.CSV")
-
-slugit_stats <- 
-  slugit %>% group_by(SlugitTreat) %>% 
-  summarise(Mean = mean(Distance), SE = sd(Distance)/sqrt(n()))
-
-levs <- c("control", "one tenth dose", "half dose", "full dose")
-slugit_stats <- mutate(slugit_stats, 
-                       SlugitTreat = factor(SlugitTreat, levels = levs))
-
-ggplot(data = slugit_stats, 
-       aes(x = SlugitTreat, y = Mean, ymin = Mean - SE, ymax = Mean + SE)) + 
-  geom_point(colour = "blue", size = 3) + 
-  geom_errorbar(width = 0.1, colour = "blue") + 
-  xlab("Molluscicide treatment") + ylab("Distance (cm per min)") +
-  coord_flip() +
-  theme_bw()
-```
-
 ### Lead pollution in lakes
 
 The United States Water Quality and Purity Board have been monitoring the concentrations of lead in trout in lakes in New York State because of concern about toxic concentrations of lead in the food-chain, especially in trout and the birds feeding on them. Two of the lakes (Kelvin and Beaver) are surrounded by agricultural land. The other three lakes (Allsopp, Anglers and Rocky) are adjacent to built-up and industrial areas.
@@ -715,3 +661,97 @@ Summary:
 
 Do you have any comments on the possible biological reasons for the patterns you see in the data?
 ```
+
+Produce a 'publication ready' plot similar to the one below:
+
+```{r lead-lake-pub-plot, echo=FALSE, fig.align='center', fig.asp=1.5, fig.width=3}
+lake_pb <- read.csv(file="./data_csv/LAKEPB.CSV")
+
+lake_pb_stats <- 
+  lake_pb %>% group_by(Lake) %>% 
+  summarise(Mean = mean(Lead), SE = sd(Lead)/sqrt(n()))
+
+levs <- c("Beaver", "Kelvin", "Allsopp", "Anglers", "Rocky")
+lake_pb_stats <- mutate(lake_pb_stats, 
+                       Lake = factor(Lake, levels = levs))
+
+ggplot(data = lake_pb_stats, 
+       aes(x = Lake, y = Mean, ymin = Mean - SE, ymax = Mean + SE)) + 
+  geom_bar(stat = "identity") + 
+  geom_errorbar(width = 0.1, colour = "blue") + 
+  xlab("Lake") + ylab("Lead (mg / kg)") +
+  theme_bw()
+```
+
+### The effect of molluscicide on rates of movement in slugs
+
+Garden slugs of the same species and approximately the same size were given either a full dose, or a half strength dose, or a one tenth strength dose of Slugit (a molluscicide) dissolved in water. A control group were treated with just water. The rate of movement of the slugs on a moist wooden board after treatment was recorded (cm per min). There were 8 replicate slugs for each treatment.
+
+The data are stored in a CSV file SLUGIT.CSV. The rate of movement is stored in `Distance` variable and the treatment codes are in the `SlugitTreat` variable (levels: 'full dose', 'half dose', 'one tenth dose', 'control'). Read in the data, explore the data --- using a box and whiskers plot or a multi-panel dot plot --- and then fit a one-way ANOVA model.
+
+Use the exploratory plot and fitted model to evaluate the assumptions of ANOVA:
+
+```{block, type='do-something'}
+**MOLE question**
+
+Do you feel the data conform acceptably to the assumptions on ANOVA?
+
+*   Data type?
+
+*   Normally distributed?
+
+*   Similar variances in each treatment?
+```
+
+If the data are appropriate carry out the global significance test and write a concise summary of the results from the ANOVA:
+
+```{block, type='do-something'}
+**MOLE question**
+
+What are the results from the ANOVA?
+```
+
+```{block, type='do-something'}
+**MOLE question**
+
+Write a summary of the results from the analysis. 
+```
+
+Produce a 'publication ready' plot similar to the one below:
+
+```{r slugit-pub-plot, echo=FALSE, fig.align='center', fig.asp=0.5, fig.width=5}
+slugit <- read.csv(file="./data_csv/SLUGIT.CSV")
+
+slugit_stats <- 
+  slugit %>% group_by(SlugitTreat) %>% 
+  summarise(Mean = mean(Distance), SE = sd(Distance)/sqrt(n()))
+
+levs <- c("control", "one tenth dose", "half dose", "full dose")
+slugit_stats <- mutate(slugit_stats, 
+                       SlugitTreat = factor(SlugitTreat, levels = levs))
+
+ggplot(data = slugit_stats, 
+       aes(x = SlugitTreat, y = Mean, ymin = Mean - SE, ymax = Mean + SE)) + 
+  geom_point(colour = "blue", size = 3) + 
+  geom_errorbar(width = 0.1, colour = "blue") + 
+  xlab("Molluscicide treatment") + ylab("Distance (cm per min)") +
+  coord_flip() +
+  theme_bw()
+```
+
+### Multiple comparisons --- slug movement and molluscicide
+
+Return to the slug molluscicide exercise and carry out the Tukey HSD test on the movement rates of slugs following different doses of Slugit.
+
+```{block, type='do-something'}
+**MOLE question**
+
+Prepare a summary of differences between means.
+```
+
+```{block, type='do-something'}
+**MOLE question**
+
+Comment on any features of biological interest in the results.
+```
+

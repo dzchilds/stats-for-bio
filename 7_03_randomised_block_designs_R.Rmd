@@ -4,9 +4,35 @@
 > 
 > --George Box
 
-## Two-way ANOVA without replication {#no-replication}
+## Randomized Complete Block Designs
 
-The two-way ANOVAs we have seen so far follow a similar design: two factors, each having two or more levels, with replicate measurements within each treatment combination:
+Up until now we have only seen examples of what is a called a **Completely Randomised Design** (CRD). In this kind of design treatments are assigned completely at random to experimental units. Randomisation is a good thing because it prevents systematic biases creeping in. However, this approach isn't necessarily the most powerful way to set up an experiment---if at all possible, we should design them to account for nuisance factors. A nuisance factor is one that has an effect on the response but is of no interest to the experimenter. To end up with the most powerful experiment possible, the variability induced by nuisance factors should be accounted for in the experimental design. We can do this by including nuisance factors at the design stage, by **blocking** the experiment.
+
+The principles of blocking was considered in the [Principles of experimental design] chapter. We'll consider a hypothetical experiment to understand how it works and to remind ourselves why blocking is so useful...
+
+Imagine that we're evaluating the effect of 3 different fertilizer application rates on wheat yields (t/ha). We suspect that because the soil type and managment histories of our experimental fields are quite different there will be significant 'field effects' on yield. We don't care about field effects, but we'd like to find a way to remove them. We can identify two factors in this setting: one is the set of treatments which are the subject of the experiment (fertilizer application rate); the second is the source of nuisance variation (field). Fertilizer application rate is the 'treatment factor' and field is the 'blocking factor'.
+
+The essence of the design is that a set of fields are chosen, which may differ in various unknown conditions (soil water, aspect, disturbance, etc.) and in each field, three plots are set up. Each receives one of the three fertilizer rate treatments at random. The resulting data might look like this:
+
+|              | **Fertilizer** | Control | Absent  |  High   |
+|-------------:|:---------------|:--------|:--------|:--------|
+| **Block**    | Field 1        | 9.3     | 8.7     | 10.0    |
+|              | Field 2        | 8.7     | 7.1     |  9.1    |
+|              | Field 3        | 9.3     | 8.2     | 10.4    |
+|              | Field 4        | 9.5     | 8.9     | 10.0    |
+|              | Field 5        | 9.9     | 9.1     | 10.8    |
+|              | Field 6        | 8.9     | 8.0     |  9.0    |
+|              | Field 7        | 8.3     | 6.2     |  8.9    |
+|              | Field 8        | 9.1     | 7.0     |  8.1    |
+
+
+Each treatment level is represented at each field (blocks), but only once. This is an example of blocking. Blocking allows us to partition out for the environmental variation due to different field conditions. For example, the three treatments in field 5 produced a high yield relative to the yields within each treatment, while the yields in field 7 are consistently below average within each treatment. Why is each treatment level is represented only once? The key reason is that if we are interested in the overall effect of fertilizer, we prefer to put our effort into including a range of possible environmental conditions, rather than just doing the experiment in one field which might turn out to be rather unusual. We are not interested in the environmental variation as such, we just want to know for a range of conditions, whatever they might be, whether there are consistent differences between fertilizer application rates. 
+
+There are many different ways to introduce blocking into an experiment. The most commonly used design---and the one that is easiest to analyse---is called a **Randomized Complete Block Design**. The defining feature of this design is that *each block sees each treatment exactly once*. The fertiliser study is obviously an example of an Randomized Complete Block Design (RCBD). 
+
+## A quick detour...
+
+The two-way designs we have seen up until now follow a similar pattern: two factors, each having two or more levels, *with replicate measurements* within each combination of levels:
 
 |              | **Factor A** | Level 1 | Level 2 | Level 3 |
 |-------------:|:-------------|:--------|:--------|:--------|
@@ -14,7 +40,7 @@ The two-way ANOVAs we have seen so far follow a similar design: two factors, eac
 |              | Level 2      |  3,4,2  | ...     | ...     |
 |              | Level 3      |  4,7,9  | ...     | ...     |
 
-It is possible, however, to have a two-way factorial design with only a single measurement within each treatment combination:
+As we have just seen, it is possible to have a two-way design with only a single measurement within each combination of levels:
 
 |              | **Factor A**  | Level 1 | Level 2 | Level 3 |
 |-------------:|:--------------|:--------|:--------|:--------|
@@ -22,25 +48,25 @@ It is possible, however, to have a two-way factorial design with only a single m
 |              | Level 2       |  3      | ...     | ...     |
 |              | Level 3       |  4      | ...     | ...     |
 
-What's this... no replication? Isn't that a problem? In fact there is replication of a sort for each level of the factors. For example there are 3 values for each level of Factor B, it’s just that each value is at a different level of Factor A. This means we can still compare the means for the different levels of each treatment using an ANOVA---we can analyse the main effects. What we can't do is analyse the interaction. It is easy to see why---the interaction is based on analysing the differences between the means and variances of the data *from each individual cell in the table* (= each combination of the two factor levels), but if there is only one value in a cell then clearly means and variances cannot be calculated.
+What's this... no replication? Isn't that a problem? In fact there is replication of a sort for each level of the factors. For example there are 3 values for each level of Factor B, it’s just that each value is at a different level of Factor A. This means we can still compare the means for the different levels of each treatment using an ANOVA, i.e. we can analyse the main effects. What we can't do is analyse the interaction because this is derived from differences between the means and variances of the cases *in each individual cell in the table* (= each combination of the two factor levels). If there is only one value in a cell then clearly means and variances cannot be calculated.
 
-It's important to realise that just because we can't test for the interaction, it does not mean there is no interaction effect between the two factors. We simply can’t detect it even if it is there. However, as long as we have a balanced, orthogonal design, the significance tests of main effects will still be meaningful. If the balanced and orthogonal criteria are not met, then we do have to be very careful about how we interpret a significant main effect in the absence of replication, because the presence of an interaction might generate a spuriously significant main effect.
+OK, so it is possible to carry out a two-way ANOVA without replication, though we can't learn anything about the interaction with this sort of design. So... is it ever useful? There are two situations where this sort of unreplicated two-way arrangement is used:
 
-OK, so it is possible to analyse a two-way ANOVA without replication, but is it useful?
+1. **One of the factors is a blocking factor**. We could have guessed this one, given what this chapter is about. If we have a single blocking factor and one experimental factor, then this kind of design result in an arrangement that resembles a two-way ANOVA without replication.
 
-## Randomised complete block designs {#randomised-block} 
+2. **We are only interested in the main effects**. We have three choices in this situation: 1) conduct two separate one-way experiments, 2) construct a single two-way experiment without replication, or 3) construct a single two-way experiment with replication. The third option would be best, but occasionally we just don't have the resources to do it^[Having replication at each combination of factor will maximise statistical power, but it also makes for a more robust experiment---if we have only one replicate for a combination and we lose it then we have no information at all from that combination! If we lose just one of a number of replicates in a particular combination it may be a nuisance, but unlikely to ruin everything.]. What should we do then---choose option 1, or option 2? The two-way experiment without replication is the more powerful design. A two-way design---with or without replication---is always more powerful than a pair of one-way experiments that include an equivalent number of replicates between them.
 
-Having replication at each combination of factor levels is something to try and achieve because it will maximise statistical power. It also makes for a more robust experiment---if we have only one replicate for a combination and we lose it then we have no information at all from that combination! If we lose just one of a number of replicates in a particular combination it may be a nuisance, but unlikely to ruin everything. Replication is always a good thing. However, there are certain situations where replication within factor combinations is not needed. These arise when we adopt a blocked design experimental arrangement. 
+OK, so there is nothing "dodgy" about a two-way design without replication. Indeed, it is exactly the right design to adopt in some situations. Let's move on to the analysi of Randomized Complete Block Design experiments. 
 
-In experimental work blocking is used to control for unwanted sources of variation that cannot be dealt with directly, but which could influence the results. The principles of using blocking was considered discussed in the [Principles of experimental design] chapter, but let's remind ourselves what these were anyway.
+```{block, type='advanced-box'}
+**Interactions are not a feature of the experimental design** 
 
-One of these is a particular type of Block Design (RCBD). The defining feature of the Randomized Complete Block Design is that each block sees each treatment exactly once
+It's important to realise that just because we can't test for the interaction, it does not mean there is no interaction effect between two factors. We simply can’t detect it even if it is there. However, as long as we have a balanced orthogonal design, the significance tests of main effects are still be meaningful. If the balanced and orthogonal criteria are not met, then we do have to be very careful about how we interpret a significant main effect in the absence of replication, because the presence of an interaction may generate a spuriously significant main effect.
+```
 
-In the most basic RCBD, say testing different fertilizer application rates, one factor is the set of treatment which is the subject of the experiment (three levels of fertilizer application rate) the other factor (the ‘block’) is the source of unwanted variation (say different positions in a field). The essence of the design is that a set of locations are chosen in the field, which may differ in various unknown conditions (soil water, aspect, disturbance, etc.) and at each location, three plots are set up and each receives one of the three fertilizer rate treatments. So at each location, each treatment level is represented, but only once. Why only once? Well one reason is that it can be difficult to get true replicates – each plot occupies a specific bit of ground so adding more plots will involve using different bits of the field anyway. Another reason is that if we are interested in the overall effect of fertilizer we would probably prefer to put our effort into including a range of possible environmental conditions, rather than just doing the experiment in one corner of the field which might turn out to be rather unusual. We are not interested in the environmental variation as such, we just want to know for a range of conditions, whatever they might be, whether there are consistent differences between fertilizer application rates.
+## Analysing an RCBD experiments
 
-### Damselfly larvae and midges: an example of a randomised block ANOVA
-
-A freshwater ecologist wants to assess whether there is a difference in the impact that the predatory larvae of three damselfly species (*Enallagma*, *Lestes* and *Pyrrhosoma*) have on the abundance of midge larvae in a pond. He plans to conduct an experiment in which small (1 m^2^) nylon mesh cages are set up in the pond. All damselfly larvae will be removed from the cages and each cage will then be stocked with 20 individuals of one of the species. After 3 weeks he will sample the cages and count the density of midge larvae in each. He has 12 cages altogether, so four replicates of each of the three species can be established.
+Consider a new example. A freshwater ecologist wants to assess whether there is a difference in the impact that the predatory larvae of three damselfly species (*Enallagma*, *Lestes* and *Pyrrhosoma*) have on the abundance of midge larvae in a pond. He plans to conduct an experiment in which small (1 m^2^) nylon mesh cages are set up in the pond. All damselfly larvae will be removed from the cages and each cage will then be stocked with 20 individuals of one of the species. After 3 weeks he will sample the cages and count the density of midge larvae in each. He has 12 cages altogether, so four replicates of each of the three species can be established.
 
 On the face of it this looks like a straightforward one-way design, with each species as a treatment. The only problem to resolve is how to distribute the enclosures in the pond. Obviously the pond is unlikely to be uniform in depth, substrate, temperature, shade, etc... . Some of the variation will be obvious, some will not. The variations almost certainly cause the density of midge larvae to vary around the pond.
 
@@ -52,8 +78,7 @@ embed_png("figures/damselfly-expt-layouts.png", dpi=450)
 
 Each block contains one representative of each treatment. The blocks should be placed at random, and within each block the three treatments should be randomly allocated to cages. The advantage of this design is that within each block the three cages should be in reasonably similar environments. There may be considerable differences between blocks, but we can account for this in the analysis so that it doesn’t obscure any differences between the treatments.
 
-Conceptually a randomised block approach is the equivalent of the paired sample *t*-test, but it is not restricted to just two levels. It effectively allows us to analyse the differences between treatments
-ignoring the variation between blocks. Randomised block versions of two-way (or higher order) designs are also possible, but we won't discuss these.
+Conceptually a randomised block approach is the equivalent of the paired sample *t*-test, but it is not restricted to just two levels. It effectively allows us to analyse the differences between treatments ignoring the variation between blocks. Randomised block versions of two-way (or higher order) designs are also possible, but we won't discuss these.
 
 Carrying out an analysis of a randomised block design in R is straightforward and only slightly different from the ANOVAs we have just done.
 
