@@ -536,7 +536,7 @@ If there is an effect, what might account for the result?
 
 Hedgerows are the main nesting habitat of the grey partridge (*Perdix perdix*). A survey was carried out to establish whether the abundance of hedgerows in agricultural land had an effect on the abundance of grey partridge. From an area of agricultural land covering several farms, twelve plots were selected which had land uses as similar as possible but differed, as evident from preliminary inspection, in the density of hedgerows (km hedgerow per km^2^). Plots were deliberately selected to cover a wide range of hedgerow densities. The total hedgerow lengths, and exact plot areas, were measured by use of large scale maps. The density of partridges was established by visiting all fields in a study plot once immediately after dawn and once just before dusk, when partridges are feeding and therefore most likely to be seen. Counts of birds observed were made on each visit and the dawn and dusk data were averaged to give a value for partridge abundance for each study plot.
 
-The data are stored in a CSV file PARTRIDG.CSV. Take note: this is a different data set than the one used in the [Regression diagnostics] chapter. The density of hedgerows (km per km^2^) is in the `Hedgerow` variable and the density of partridges (no. per km) is in the `Partridge` variable. Read in the data and take a look at it using the `View` function.
+The data are stored in a CSV file PARTRIDG.CSV. Take note: this is a different data set than the one used in the [Regression diagnostics] chapter. The density of hedgerows (km per km^2^) is in the `Hedgerow` variable and the density of partridges (no. per km^2^) is in the `Partridge` variable. Read in the data and take a look at it using the `View` function.
 
 ```{block, type='do-something'}
 **MOLE question**
@@ -580,7 +580,7 @@ ggplot(partridge, aes(x = Hedgerow, y = Partridge)) +
   geom_point() + geom_line(data = pred_data, colour = "steelblue") + 
   theme_bw() + 
   xlab("Hedgerow density (km per km²)") + 
-  ylab("Partridge density (no. per km)")
+  ylab("Partridge density (no. per km²)")
 ```
 
 
@@ -588,7 +588,7 @@ ggplot(partridge, aes(x = Hedgerow, y = Partridge)) +
 
 Consider the following scenarios amenable to analysis by either simple linear regression, Pearson’s product-moment correlation ("parametric correlation"), or Spearman's rank correlation ("non-parametric correlation"):
 
--   Shoe size and height of students in a class. We want to know if shoe size is associated with to the height of male students in a class. We measure the shoe size and height from 120 students.
+-   Shoe size and height of students in a class. We want to know if shoe size is associated with the height of male students in a class. We measure the shoe size and height from 120 students.
 
 -   Heart rate and age in the crustacean *Daphnia* reared in the lab. We want to know how heart rate changes with age. Six groups of 10 *Daphnia* are reared to ages 2, 4, 6, 8, 10, 12 days old. The heart rate of each individual is then assayed at their target age.
 
@@ -596,7 +596,7 @@ Consider the following scenarios amenable to analysis by either simple linear re
 
 -   Order of arrival of dung beetle species on elephant dung and body size. We want to know if larger dung beetle species are better at locating dung. We locate a fresh piece of dung and observe beetles arriving over a period of 3 hours, recording the weight of each new arrival.
 
--   Percentage bud damage to pear trees by bullfinches. We want to know how bud damage changes with respect to the distance of trees from thick vegetation at the edge of the orchard (in which the bullfinches gather). Trees are arranged in rows parallel to the orchard edge and a single tree, selected at random from every row is sampled for bud damage.
+-   Percentage bud damage to pear trees by bullfinches. We want to know how bud damage changes with respect to the distance of trees from thick vegetation at the edge of the orchard (in which the bullfinches gather). Trees are arranged in rows parallel to the orchard edge and a single tree, selected at random from every row, is sampled for bud damage.
 
 -   Density of nesting stork pairs and number of human births. A science reporter from the Daily Mail is struggling to come up with a story. They think storks might deliver babies, so they collect local hospital records and amateur ornithology records covering a 20 year period in the Sheffield area.
 
@@ -687,7 +687,7 @@ ggplot(data = lake_pb_stats,
 
 Garden slugs of the same species and approximately the same size were given either a full dose, or a half strength dose, or a one tenth strength dose of Slugit (a molluscicide) dissolved in water. A control group were treated with just water. The rate of movement of the slugs on a moist wooden board after treatment was recorded (cm per min). There were 8 replicate slugs for each treatment.
 
-The data are stored in a CSV file SLUGIT.CSV. The rate of movement is stored in `Distance` variable and the treatment codes are in the `SlugitTreat` variable (levels: 'full dose', 'half dose', 'one tenth dose', 'control'). Read in the data, explore the data --- using a box and whiskers plot or a multi-panel dot plot --- and then fit a one-way ANOVA model.
+The data are stored in a CSV file SLUGIT.CSV. The rate of movement is stored in the `Distance` variable and the treatment codes are in the `SlugitTreat` variable (levels: 'full dose', 'half dose', 'one tenth dose', 'control'). Read in the data, explore the data --- using a box and whiskers plot or a multi-panel dot plot --- and then fit a one-way ANOVA model.
 
 Use the exploratory plot and fitted model to evaluate the assumptions of ANOVA:
 
