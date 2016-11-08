@@ -1,5 +1,7 @@
 # One-way ANOVA in R
 
+## Introduction
+
 Our goal in this chapter is to learn how to work with one-way ANOVA models in R. Just as we did with regression, we'll do this by working through an example---the diets example from the last chapter. We'll start with the problem and the data, and then work through model fitting, evaluating assumptions, significance testing, and finally, presenting the results. 
 
 Before we can do this though, we need to side track a bit and learn about 'factors' in R...
@@ -20,7 +22,7 @@ diet_effects <- read.csv(file = "./data_csv/DIET_EFFECTS.CSV")
 
 We'll look at the diet data (stored in `diet_effects`) to begin getting a sense of how they work:
 ```{r, eval=FALSE}
-diet_effects <- read.csv(file = "./DIET_EFFECTS.CSV")
+diet_effects <- read.csv(file = "DIET_EFFECTS.CSV")
 ```
 First, we need to be able to actually recognise a factor when we see one. Here is the result of using `glimpse` with the diet data:
 ```{r}
@@ -65,7 +67,7 @@ The resulting box and whiskers plot summarises the distribution of weight loss i
 
 Dot plots or histograms might also be used to make a more direct assessment of the distributional assumptions. However, these aren't very useful when there are only a few replicates in each group. A much better way to assess the distributional assumptions is via regression diagnostics. That's right, we use 'regression' diagnostics to evaluate the assumptions of an ANOVA model. We'll come back to this after we've fitted the model...
 
-## Fitting the ANOVA model and interpreting the results
+## Fitting the ANOVA model
 
 Carrying out ANOVA in R is quite simple, but as with regression, there is more than one step. The first involves a process known as *fitting the model* (or just *model fitting*). This is the step where R calculates the relevant means, along with the additional information needed to generate the results in step two. We call this step model fitting because an ANOVA is a type of model for our data: it is a model that allows the mean of a variable to vary among groups.
 
@@ -102,9 +104,9 @@ The normal probability plot is used to identify departures from normality. This 
 ```{r diet-diag-2, fig.align='center', fig.asp=1.1, fig.width=4}
 plot(diets_model, which = 2, add.smooth = FALSE)
 ```
-This looks very good. The points don't deviate from the line in a systematic way (except for a couple at the lower end---this is nothing to worry about) so it looks like the normality assumption is satisfied. 
+This looks very good. The points don't deviate from the line in a systematic way (except for a couple at the lower end---this is nothing to worry about) so it looks like the normality assumption is satisfied.
 
-The scale-location plot allows us to evaluate the constant variance assumption of a linear regression. This allows us to see whether or not the variability of the residuals is roughly constant within each group. Here's the scale-location plot for the diet example: 
+The scale-location plot allows us to evaluate the constant variance assumption of ANOVA. This allows us to see whether or not the variability of the residuals is roughly constant within each group. Here's the scale-location plot for the diet example: 
 
 ```{r diet-diag-3, fig.align='center', fig.asp=1.1, fig.width=4}
 plot(diets_model, which = 3, add.smooth = FALSE)

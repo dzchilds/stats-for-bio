@@ -19,3 +19,9 @@ This is the course book for the Data Analysis in R course in the Department of A
 *   Ask students to evaluate where the warning is coming from in the eye colour / sex exercise, i.e. extract out the expected values. Show them that chi.sq returns an object containing this info.
 
 *   Make the 'classic checks' part of the regression diagnostics section shorter: remove the code and just show the plot with the data and fitted line. Students seems to think they have to do all this as well as use 'plot' at the moment.
+
+*  Remove rough checking of assumptions from one way anova and make that section about understanding the patterns. It confuses students.
+
+*  Remind them that the dignostics are based on the residuals in the anova diagnostics.
+
+*  Change 'dependent' to 'response' throughout, AND use 'dependent' in the anova sections to hammer home the all models are lm's
