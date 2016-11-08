@@ -84,7 +84,7 @@ We'll work through an example to learn about Pearson’s correlation.
 
 ### Pearson’s product-moment correlation coefficient in R
 
-Bracken fern (*Pteridium aquilinum*) is a common plant in many upland areas. One concern is whether there is any association between bracken and heather (*Calluna vulgaris*) in these areas. To determine whether the two species are associated, an investigator sampled 22 plots at random and estimated the density of bracken and heather in each plot. The data are the mean *Calluna* standing crop (g m^-2^) and the number of bracken fronds per m. 
+Bracken fern (*Pteridium aquilinum*) is a common plant in many upland areas. One concern is whether there is any association between bracken and heather (*Calluna vulgaris*) in these areas. To determine whether the two species are associated, an investigator sampled 22 plots at random and estimated the density of bracken and heather in each plot. The data are the mean *Calluna* standing crop (g m^-2^) and the number of bracken fronds per m^2^. 
 
 The data are in the file BRACKEN.CSV. Read these data into a data frame, calling it `bracken`:
 ```{r, eval=FALSE}
