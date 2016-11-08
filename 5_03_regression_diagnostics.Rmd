@@ -95,7 +95,7 @@ A survey was carried out to establish whether the abundance of hedgerows in agri
 partridge <- read.csv(file = "./data_csv/PARTRIDG_BIGSTUDY.CSV")
 ```
 
-The data are stored in a CSV file PARTRIDG_BIGSTUDY.CSV (not PARTRIDG.CSV!). The density of hedgerows (km per km^2^) is in the `Hedgerow` variable and the density of partridges (no. per km) is in the `Partridge` variable. Read the data into R, calling it `partridge`.
+The data are stored in a CSV file PARTRIDG_BIGSTUDY.CSV (not PARTRIDG.CSV!). The density of hedgerows (km per km^2^) is in the `Hedgerow` variable and the density of partridges (no. per km^2^) is in the `Partridge` variable. Read the data into R, calling it `partridge`.
 
 ### Simple checks 
 
