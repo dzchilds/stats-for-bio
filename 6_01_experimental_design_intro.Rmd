@@ -41,7 +41,7 @@ Before we delve any further into experimental design concepts we need to introdu
 
 -   A **factor** is just a collection of related treatments and controls, and the different treatments/controls are called the **levels** of that factor. An experimental factor can be viewed as a variable whose levels are set by the experimenter. 
 
-Here's an example. Suppose we wanted to compare the weight loss of people on 4 different diets to determine which diet is the most effective for losing weight. We conduct an experiment in which groups of 8 volunteers follow each of the diets for one month. A fifth group of 8 volunteers serves as the control group---they follow NHS diet guidelines. At the end of the experiment we measure how much weight each person has lost of the month. In this example the volunteers are the experimental units, diets are the treatments, and the NHS group are the control group. Together, the four 'diet types' and the 'no diet' (i.e. normal eating) control constitute the five levels of the 'weight loss group' factor.
+Here's an example. Suppose we wanted to compare the weight loss of people on 4 different diets to determine which diet is the most effective for losing weight. We conduct an experiment in which groups of 8 volunteers follow each of the diets for one month. A fifth group of 8 volunteers serves as the control group---they follow NHS diet guidelines. At the end of the experiment we measure how much weight each person has lost over the month. In this example the volunteers are the experimental units, diets are the treatments, and the NHS group are the control group. Together, the four 'diet types' and the 'no diet' (i.e. normal eating) control constitute the five levels of the 'weight loss group' factor.
 
 A word of warning: it is common to lump control groups and treatment groups together and just call them 'treatments'. This is fine, but be aware of the distinction between the two.
 
@@ -55,11 +55,11 @@ An assumption of most statistical tests is that the data are independent. Indepe
 
 -   genetics - e.g. if a set of mice are taken from the litter of a single female, they are more likely to be similar to each other than mice taken from the litters of several different females.
 
--   geography - e.g. samples from sites close together will experience similar microclimate, have similar soil type etc..
+-   geography - e.g. samples from sites close together will experience similar microclimate, have similar soil type etc.
 
 -   sampling within biological ‘units’ - e.g. leaves on a tree will be more similar to each other than to leaves from other trees.
 
--   experimental arrangements in the lab. - e.g. plants grown together in a pot, or fish kept in one aquarium will all be affected by the conditions in that pot/aquarium.
+-   experimental arrangements in the lab - e.g. plants grown together in a pot, or fish kept in one aquarium will all be affected by the conditions in that pot/aquarium.
 
 Non-independence occurs at many levels in biological data, and in statistical testing the common consequence of non-independence is *pseudoreplication*. Pseudoreplication is an artificial increase in the sample size (and hence degrees of freedom) caused by using non-independent data. It may be easiest to see what this means by example.
 
@@ -67,9 +67,9 @@ Imagine we are interested in whether plants of a particular species produce flow
 
 | **Soil type**    |           | **Num. Petals** |            | **Mean** |              |
 |:----------------:|:---------:|:---------------:|:----------:|:--------:|:------------:|
-|                  | (Plant 1) | (Plant 2)       | (Plant 1)  |          |              |
+|                  | (Plant 1) | (Plant 2)       | (Plant 3)  |          |              |
 |  **Soil type A** | 3         | 4               | 5          | 4        |              |
-|                  | (Plant 1) | (Plant 2)       | (Plant 1)  |          |              |
+|                  | (Plant 1) | (Plant 2)       | (Plant 3)  |          |              |
 |  **Soil type B** | 4         | 5               | 6          | 5        |              |
 |                  |           |                 |            |          | **p = 0.29** |
 
@@ -77,9 +77,9 @@ The difference is not significant. Now instead of sampling a single flower from 
 
 | **Soil type**    |            | **Num. Petals** |            | **Mean** |               |
 |:----------------:|:----------:|:---------------:|:----------:|:--------:|:-------------:|
-|                  | (Plant 1)  | (Plant 2)       | (Plant 1)  |          |               |
+|                  | (Plant 1)  | (Plant 2)       | (Plant 3)  |          |               |
 |  **Soil type A** | 3, 2, 3, 4 | 4, 4, 3, 5      | 3, 6, 7, 4 | 4        |               |
-|                  | (Plant 1)  | (Plant 2)       | (Plant 1)  |          |               |
+|                  | (Plant 1)  | (Plant 2)       | (Plant 3)  |          |               |
 |  **Soil type B** | 4, 5, 4, 3 | 5, 7, 3, 5      | 6, 5, 7, 6 | 5        |               |
 |                  |            |                 |            |          | **p = 0.009** |
 
@@ -91,7 +91,7 @@ There is no more information about the effect of soil type in the two sets of 20
 
 Put this way, the pitfall of pseudoreplication seems obvious. However, it can creep into biological studies in quite subtle ways and occurs in a significant number of published studies. One very common problem occurs in ecological studies where different habitats, or experimental plots, are being compared. Say we are looking at zooplankton abundance in two lakes, one with fish and one without. We would normally take a number of samples from each lake and could obviously compare the zooplankton numbers between these two sets of samples. It would be tempting to attribute any differences we observe to the effect of fish. However this would not be correct.
 
-We have measured the difference in zooplankton between the two lakes (and this is quite a valid thing to do) but the lakes may differ in any number of ways, not just the presence of fish so it is not correct to interpret our result in relation to the effect of fish. To do this, we would really need data on zooplankton abundance in several lakes with fish, and several without. In other words, for testing the effect of fish, our replicates should be *whole lakes* with and without the relevant factor (fish), not samples from within a single lake.
+We have measured the difference in zooplankton between the two lakes (and this is quite a valid thing to do) but the lakes may differ in any number of ways, not just the presence of fish, so it is not correct to interpret our result in relation to the effect of fish. To do this, we would really need data on zooplankton abundance in several lakes with fish, and several without. In other words, for testing the effect of fish, our replicates should be *whole lakes* with and without the relevant factor (fish), not samples from within a single lake.
 
 But surely it is still better to take lots of samples from each site than just one; it must give a more accurate picture? This is true. Taking several measurements or samples from each object guards against the possibility of the results being influenced by a single, possibly unusual, sample; so the accuracy of the information about the object is increased. It would be much more reliable to have twenty zooplankton samples from a lake than just one. This is important, but it is not the same as having measurements from more objects (lakes)---true replication---which increases the power of the statistical test
 to detect differences among objects with respect to the particular factor (e.g. fish / no fish) we are interested in.
@@ -119,9 +119,9 @@ Unwanted variation comes in two forms.
 
 We will consider these together, as some of the techniques for dealing with them are be applicable to both.
 
-### Confounding 
+### Confounding
 
-The potential for confounding effects may sometimes be easy to recognise. If we measure growth rates in plants growing at sites of differing altitude, there are several factors which all change systematically with altitude (temperature, ultraviolet radiation, precipitation, wind speed etc.. ) and it may be hard to use such data to examine effects of any one of these factors alone. The important thing to remember is that observing a relationship between two variables (e.g. a negative relationship between plant growth and increased precipitation up a mountain) does not necessarily indicate a causal link (plant growth may be determined by one or more of the other factors that vary with altitude).
+The potential for confounding effects may sometimes be easy to recognise. If we measure growth rates in plants growing at sites of differing altitude, there are several factors which all change systematically with altitude (temperature, ultraviolet radiation, precipitation, wind speed etc.) and it may be hard to use such data to examine effects of any one of these factors alone. The important thing to remember is that observing a relationship between two variables (e.g. a negative relationship between plant growth and increased precipitation up a mountain) does not necessarily indicate a causal link (plant growth may be determined by one or more of the other factors that vary with altitude).
 
 Confounding effects can also be much more subtle. We may find that eagle owls take more large Norway rats at a particular time of year---but the factor we are interested in (rat size) is related to sex (males are larger) and the males spend more time moving around (hence out of cover and exposed to predation) at that time of year. So what seems to be a size effect, may actually be produced by sex-specific behaviour and not due to eagle owls selecting larger prey at all.
 
@@ -129,7 +129,7 @@ Confounding doesn't just occur in observational studies. Confounding occurs when
 
 ### Noise
 
-Noise in the data can be generated by the same processes that generate confounding. The difference is that noise is generated even when the confounding factors don’t align with the treatments. So, going back to measuring growth rates in plants, if we were looking at growth rates of different subspecies of plant on a mountain then we might find that we can get five samples from each different subspecies, but the samples are scattered across very different altitudes on the mountain. This will add variation to the estimates of growth rate due to effects of altitude — this variation is unwanted noise. On the other hand, we might find that the subspecies each grow predominantly at different altitudes and in this situation the variation due to altitude is confounded with the variation due to subspecies---we cannot tell whether the subspecies are inherently different, or the differences are just down to altitude.
+Noise in the data can be generated by the same processes that generate confounding. The difference is that noise is generated even when the confounding factors don’t align with the treatments. So, going back to measuring growth rates in plants, if we were looking at growth rates of different subspecies of plant on a mountain then we might find that we can get five samples from each different subspecies, but the samples are scattered across very different altitudes on the mountain. This will add variation to the estimates of growth rate due to effects of altitude---this variation is unwanted noise. On the other hand, we might find that the subspecies each grow predominantly at different altitudes and in this situation the variation due to altitude is confounded with the variation due to subspecies---we cannot tell whether the subspecies are inherently different, or the differences are just down to altitude.
 
 ## Dealing with confounding effects and noise
 
@@ -141,7 +141,7 @@ Confounding effects occur often in biological work and noise of some sort is alw
 
 -   experimental control
 
--   additional treatments
+-   additional treatments.
 
 We'll consider each of these in turn...
 
@@ -167,7 +167,7 @@ Another way of tackling potential confounding effects, and the general heterogen
 
 1.  Group the objects being studied into blocks such that variation among objects within blocks is small; variation between blocks may be larger.
 
-2.  Each treatment should occur at least once within each block^[Actually, there are special types of experimetnal design that use blocking, but where each treatment does not appear in every block. These are much more advanced than anything we will cover in this book.].
+2.  Each treatment should occur at least once within each block^[Actually, there are special types of experimental design that use blocking, but where each treatment does not appear in every block. These are much more advanced than anything we will cover in this book.].
 
 For example, in an experiment in which mice are reared on three different diets (I, II, III), we might expect the responses of mice from within a particular litter to be fairly similar to each other, but they might be rather different to the responses of mice from different litters. If we have five litters of mice (A ... E) it would be sensible to select three mice from each litter (at random) to be allocated to each treatment.
 
@@ -187,14 +187,14 @@ Note that randomisation is important here also. Mice were selected at random fro
 
 Blocking crops up in all sorts of experimental (and non-experimental) study designs. Some examples are given below.
 
--   If plants in an experiment soil water levels are being growing in pots on greenhouse benches---there may be differences in light or temperature differing distances from the glass and treatments could be blocked along the gradient---at each position on the bench we
+-   If plants in an experiment on soil water levels are being grown in pots on greenhouse benches, there may be differences in light or temperature at differing distances from the glass. Treatments could be blocked along the gradient---at each position on the bench we
 have one pot from each treatment. This way, every treatment is represented at each position along the gradient.
 
--   In a field experiment involving several treatments is set up in an environment known to have some spatial variation (e.g., different parts of a field, sections of a river, etc.) setting up one replicate of each treatment in blocks at different locations ensures that no one treatment ends up confounded by some environmental difference, and helps remove noise due to environmental effects in the final analysis.
+-   If a field experiment involving several treatments is set up in an environment known to have some spatial variation (e.g., different parts of a field, sections of a river, etc.) setting up one replicate of each treatment in blocks at different locations ensures that no one treatment ends up confounded by some environmental difference, and helps remove noise due to environmental effects in the final analysis.
 
--   An immunity response is being tested using insects kept in a parallel set of laboratory cultures, There are insufficient insects from a single culture to run the whole experiment, so we could set up one replicate of each treatment using insects from each culture. The cultures would be the blocks — we are not particularly interested in the differences between cultures, but we want to be able to control and remove any variation due to differences between cultures, so as to stand the best chance of detecting a treatment effect.
+-   An immunity response is being tested using insects kept in a parallel set of laboratory cultures. There are insufficient insects from a single culture to run the whole experiment, so we could set up one replicate of each treatment using insects from each culture. The cultures would be the blocks---we are not particularly interested in the differences between cultures, but we want to be able to control and remove any variation due to differences between cultures, so as to stand the best chance of detecting a treatment effect.
 
--   In a comparison of three new diagnostic techniques for measuring the frequency of abnormalities in tissue samples the techniques could be dependent on the person who carries them out (experience, standard of working etc..). The same workers could carry out all three techniques (in random order) and the results compared using individual workers as blocks to increase the power of the analysis to detect differences.
+-   In a comparison of three new diagnostic techniques for measuring the frequency of abnormalities in tissue samples the techniques could be dependent on the person who carries them out (experience, standard of working etc.). The same workers could carry out all three techniques (in random order) and the results compared using individual workers as blocks to increase the power of the analysis to detect differences.
 
 -   If the process of collecting and analysing samples from an experiment is very time consuming (relative to the rate at which things might change) then we could block the experiment in time. Set up one replicate of each treatment on each of a sequence of days, and then collect the samples after a particular time, again over the same sequence of days. Each replicate has then been run for the same length of time (we would randomize the order in which treatments were sampled each day), and we could then include ‘days’ as a block within the analysis to control for any unknown differences resulting from the different setup, or sample days.
     
@@ -204,7 +204,7 @@ It's worth saying again: blocking is one of the most important experimental desi
 
 It is obvious that some unwanted variation in data will arise if there is poor measurement, or careless implementation of the treatments (imprecise administration of doses, sloppy timing of trial periods, etc.). In every study we do we should look at the ‘protocol’ issues and see if they can be made tighter. This means considering the precision of the measurements we are making, etc. in relation to the sizes of effects we are interested in, and the resources available to carry out the work. There would be no point in timing measurement intervals over which seedling growth was determined to the millisecond, or determining the soil pH to 5 decimal places, but it would be good to measure seedling height using a standard approach (natural growth form, or stretched out to maximum length? Starting from where?) and to the nearest millimetre, rather than centimetre.
 
-A second form of experimental control is where we can use experimental manipulation of some sort to control for factors that might vary among replicates or treatments. At it’s simplest obviously this involves controlling the other conditions (for example temperature) so that all treatments experience identical conditions (though note that it may not always be necessary for the conditions to be *constant*---it may be sufficient that whatever variation occurs is the same for all treatments).
+A second form of experimental control is where we can use experimental manipulation of some sort to control for factors that might vary among replicates or treatments. At its simplest obviously this involves controlling the other conditions (for example temperature) so that all treatments experience identical conditions (though note that it may not always be necessary for the conditions to be *constant*---it may be sufficient that whatever variation occurs is the same for all treatments).
 
 More complex problems arise where the unwanted variation is directly produced as a by product of the treatment we are administering (confounding again). So for example, if we were interested in the effect of decomposition of leaf litter on the microbial communities in soils we might have an experimental treatment that involves varying the amount of leaf litter placed on the soil surface in the test plots. The problem is that this will vary not just the amount of decomposing material entering the soil, but also the physical presence of the leaf litter layer will affect the microclimate at the soil surface (so for example the dryness in the surface of the soil). So we might create some sort of artificial litter which can be mixed in with the real litter , but which does not decompose, so that each plot has a constant volume of ‘litter’ on the surface, but different amounts of decomposing material entering the soil.
 
@@ -216,13 +216,13 @@ Often we are faced by situations in which the unwanted variation — in particul
 
 #### Transplants and cross-factoring
 
-Imagine we had an investigation that involved looking at effects of air pollution on the ability of trees to defend themselves chemically against attack by leaf-mining insects. The obvious thing to do would be to look at trees along a gradient of air pollution and monitor leaf damage by the insects. We might find that the trees in polluted areas are more attacked by the insects. However the problem here is that the trees growing in areas of high air pollution might be attacked more because they are stressed and less able to invest resources in defending themselves (as we hypothesised), or because the insects are more abundant there because their own natural enemies (birds and parasitoids) are less abundant in areas of high air pollution and so cannot control the abundance of the leaf-miners. One way of escaping this confounding effect would be to take tree saplings from polluted and unpolluted areas and do reciprocal transplants — moving trees from polluted areas into clean areas, and vice versa. This then enables we to separate out to a large extent the effect of tree quality, from the effect of insect abundance as we can compare trees that have grown with and without air pollution, in both polluted and unpolluted areas.
+Imagine we had an investigation that involved looking at effects of air pollution on the ability of trees to defend themselves chemically against attack by leaf-mining insects. The obvious thing to do would be to look at trees along a gradient of air pollution and monitor leaf damage by the insects. We might find that the trees in polluted areas are more attacked by the insects. However the problem here is that the trees growing in areas of high air pollution might be attacked more because they are stressed and less able to invest resources in defending themselves (as we hypothesised), or because the insects are more abundant there because their own natural enemies (birds and parasitoids) are less abundant in areas of high air pollution and so cannot control the abundance of the leaf-miners. One way of escaping this confounding effect would be to take tree saplings from polluted and unpolluted areas and do reciprocal transplants — moving trees from polluted areas into clean areas, and vice versa. This then enables us to separate out to a large extent the effect of tree quality from the effect of insect abundance as we can compare trees that have grown with and without air pollution, in both polluted and unpolluted areas.
 
-It is also possible that by careful choice of location, or other elements of design that we can include the unwanted variation as an additional factor in the design without necessarily physically manipulating the subjects, but by sampling material systematically with regard to both the thing we are interested in and the additional unwanted factor(s), so that we can *cross-factor* the two. For example, if we were interested in how habitat use determines gut parasite load in dogfish, then we might sample dogfish from different habitats, but also record the sex, and age, or size, of the fish. It would then be possible to separate out the effects of sex, or age, from those of where the fish were living. If we didn’t do this, then both factors would probably contribute unwanted variation, either noise, or possibly confounding effects (for example male and female dogfish have somewhat different habitat preferences).
+It is also possible that by careful choice of location, or other elements of design, we can include the unwanted variation as an additional factor in the design without necessarily physically manipulating the subjects, but by sampling material systematically with regard to both the thing we are interested in and the additional unwanted factor(s), so that we can *cross-factor* the two. For example, if we were interested in how habitat use determines gut parasite load in dogfish, then we might sample dogfish from different habitats, but also record the sex, and age, or size, of the fish. It would then be possible to separate out the effects of sex, or age, from those of where the fish were living. If we didn’t do this, then both factors would probably contribute unwanted variation, either noise, or possibly confounding effects (for example male and female dogfish have somewhat different habitat preferences).
 
 #### Procedural controls {#EXPT-DESIGN-PROCEDURAL-CONTROLS}
 
-Confounding effects are not only a problem along natural gradients, they can often be introduced by the experimental procedures. For example, a marine biologist investigating the effect of crab predation on the density of bivalve molluscs in an estuarine ecosystem might have cages on the mud flats from which crabs are removed, and in which the any change in bivalve settlement and survival can be monitored. The obvious control for this would be equivalent plots on the adjacent mudflats with normal crab numbers. Obviously if the experiment just compares the bivalve density in cages with reduced crab numbers and in the adjacent mud flat any effects observed could be attributable to crab density, environmental changes brought about by the cages, or disturbance due to the repeated netting to remove crabs. To address this problem there are several additional controls that might be useful here. In addition to the proper treatment, bivalve density could be monitored in:
+Confounding effects are not only a problem along natural gradients, they can often be introduced by the experimental procedures. For example, a marine biologist investigating the effect of crab predation on the density of bivalve molluscs in an estuarine ecosystem might have cages on the mud flats from which crabs are removed, and in which any change in bivalve settlement and survival can be monitored. The obvious control for this would be equivalent plots on the adjacent mudflats with normal crab numbers. Obviously if the experiment just compares the bivalve density in cages with reduced crab numbers and in the adjacent mud flat any effects observed could be attributable to crab density, environmental changes brought about by the cages, or disturbance due to the repeated netting to remove crabs. To address this problem there are several additional controls that might be useful here. In addition to the proper treatment, bivalve density could be monitored in:
 
 -   a 'no cage / no disturbance control'---open mud flat adjacent to the experiment (so no cage effects, no added disturbance).
 
@@ -232,7 +232,7 @@ Confounding effects are not only a problem along natural gradients, they can oft
 
 The latter two could be combined if it wasn’t important to separate disturbance and cage effects, but even so in some circumstances it is quite possible for an experiment to have as many controls as there are actual treatments.
 
-The additional treatments in this sort of situation are effectively additional controls---in fact they be termed *procedural controls*---but they are not simply the natural ‘background’ conditions. A classic example of this type of control is the use of placebo treatments in medical trials. For example if we are investigating the effect of a drug then there may be a confounding effect due to psychological, behavioural or even physiological changes in patients resulting simply from the process of being treated, rather than any active compound in the drug. It is common, therefore, to give the drug to one group of patients and a ‘placebo’ (equivalent treatment process, but with no active component in the substance administered) to another group. The placebo is a secondary manipulation designed to equalise the effect of simply ‘being treated’. There are many other examples of similar experimental controls: a treatment involving surgical implantation of some sort of device, may require a control group who have the surgery, but without the implantation itself, or even with implantation of an inactive device, to allow we to factor out the confounding effect of surgical trauma, or the body’s reaction to the implant itself.
+The additional treatments in this sort of situation are effectively additional controls---in fact they be termed *procedural controls*---but they are not simply the natural ‘background’ conditions. A classic example of this type of control is the use of placebo treatments in medical trials. For example if we are investigating the effect of a drug then there may be a confounding effect due to psychological, behavioural or even physiological changes in patients resulting simply from the process of being treated, rather than any active compound in the drug. It is common, therefore, to give the drug to one group of patients and a ‘placebo’ (equivalent treatment process, but with no active component in the substance administered) to another group. The placebo is a secondary manipulation designed to equalise the effect of simply ‘being treated’. There are many other examples of similar experimental controls: a treatment involving surgical implantation of some sort of device, may require a control group who have the surgery, but without the implantation itself, or even with implantation of an inactive device, to allow us to factor out the confounding effect of surgical trauma, or the body’s reaction to the implant itself.
 
 ## Ethics and practicality
 
@@ -241,7 +241,7 @@ than in medicine.
 
 Drug testing presents the classic difficulty. Effective testing of the efficacy of a drug depends on the comparison of patients receiving the drug with closely equivalent patients not doing so, or receiving some alternative treatment. Since it is highly likely that one of the treatments will be better than another, then by definition, at least one group of people are having an available and better treatment withheld from them (e.g., Aspinal and Goodman 1995). Thus, as soon as the experimental evidence gives some indication of which treatment is best, it is very hard to justify withholding it from all patients, even if the experimenter feels that further work is necessary.
 
-Good experimental design, and appropriate analysis cannot remove ethical, practical or financial problems, but they can help to ensure that where time and money are invested in investigating a problem, the maximum useful information is returned.
+Good experimental design and appropriate analysis cannot remove ethical, practical or financial problems, but they can help to ensure that where time and money are invested in investigating a problem, the maximum useful information is returned.
 
 Further reading
 ---------------
@@ -250,5 +250,5 @@ Barnard, C., Gilbert, F. and McGregor, P. (2007) *Asking questions in
 biology*. Longman.
 
 Ruxton, G. D. and Colegrave, N. (2010) *Experimental design for the life
-sciences*. Oxford Univ. Press
+sciences*. Oxford Univ. Press.
 
