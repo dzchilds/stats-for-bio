@@ -12,7 +12,7 @@ You should begin working through the diet example from this point. You will need
 
 ## Factors in R 
 
-Remember factors? An experimental factor is a controlled variable whose levels ('values') are set by the experimenter. R is primarily designed to carry out data analysis so we shouldn't be surprised that it has a special type type of vector to represent factors. The name of kind of vector in R is called, rather sensibly, a factor. We have largely ignored factors in R up until now because we haven't needed to use them^[We have worked with factors, but only when reordering the labels of a categorical variable plotted in `ggplot2`]. However, we now need to understand how they work because much of R's plotting and statistical modelling facilities rely on factors.
+Remember factors? An experimental factor is a controlled variable whose levels ('values') are set by the experimenter. R is primarily designed to carry out data analysis so we shouldn't be surprised that it has a special type of vector to represent factors. This kind of vector in R is called, rather sensibly, a factor. We have largely ignored factors in R up until now because we haven't needed to use them^[We have worked with factors, but only when reordering the labels of a categorical variable plotted in `ggplot2`.]. However, we now need to understand how they work because much of R's plotting and statistical modelling facilities rely on factors.
 
 ```{r, echo=FALSE}
 diet_effects <- read.csv(file = "./data_csv/DIET_EFFECTS.CSV")
@@ -26,9 +26,9 @@ First, we need to be able to actually recognise a factor when we see one. Here i
 ```{r}
 glimpse(diet_effects)
 ```
-This tells us that there are `r nrow(diet_effects)` observations in the data set and `r ncol(diet_effects)` variables (columns), called `Plan` and `WeightLoss`. The letters in parentheses next to `$ Plan` says `(fctr)`. We can guess what that stands for.... it is telling us that the `Plan` vector inside `diet_effects` is a factor. The `Plan` factor was created automatically when we read the data stored in DIET_EFFECTS.CSV into R. When we read in a column of data that is non-numeric, `read.csv` will often decide to turn it into a factor for us^[This behaviour isn't really all that helpful. It would be better if R let us, the users, decide whether or not to turn something into a factor vector. However, in the early days of R computers had limited memory, which meant storing a categorical variable as a factor made sense; it saved memory. This benefit of factors has long since disappeared, but we're stuck with the turn-everything-into-a-factor behaviour.]. 
+This tells us that there are `r nrow(diet_effects)` observations in the data set and `r ncol(diet_effects)` variables (columns), called `Plan` and `WeightLoss`. The text next to `$ Plan` says `<fctr>`. We can guess what that stands for.... it is telling us that the `Plan` vector inside `diet_effects` is a factor. The `Plan` factor was created automatically when we read the data stored in DIET_EFFECTS.CSV into R. When we read in a column of data that is non-numeric, `read.csv` will often decide to turn it into a factor for us^[This behaviour isn't really all that helpful. It would be better if R let us, the users, decide whether or not to turn something into a factor vector. However, in the early days of R computers had limited memory, which meant storing a categorical variable as a factor made sense; it saved memory. This benefit of factors has long since disappeared, but we're stuck with the turn-everything-into-a-factor behaviour.]. 
 
-R is generally fairly good at alerting us to the fact that a variable is stored as a factor. For example, Look what happens if we extract the `Plan` column from `diet_effects` and print it to the screen: 
+R is generally fairly good at alerting us to the fact that a variable is stored as a factor. For example, look what happens if we extract the `Plan` column from `diet_effects` and print it to the screen: 
 ```{r}
 diet_effects$Plan
 ```
@@ -52,20 +52,20 @@ We listed the assumptions of ANOVA at the end of the last chapter, but here they
 
 The first two assumptions are about independence and the type of variable. The independence assumption is an aspect of the experimental design, so we'll just have to assume this assumption is satisfied without knowing more about how the data were collected. The second assumption states that the variable being analysed (`WeightLoss`) should be an interval or ratio scale numeric variable. Change in weight is clearly a ratio scale numeric variable.
 
-The last two assumptions are about the distribution of the variable in each group. The thing to bear in mind here is that there are five different groups to consider---one for each treatment. We are interested in whether the variance *within each group* is similar, and whether the `WeightLoss` variable *within each group* is likely to have been drawn from a normal distribution. A simple plot to roughly assess the distributional assumptions of ANOVA is the box and whiskers plot:
+The last two assumptions are about the distribution of the variables in each group. The thing to bear in mind here is that there are five different groups to consider---one for each treatment. We are interested in whether the variance *within each group* is similar, and whether the `WeightLoss` variable *within each group* is likely to have been drawn from a normal distribution. A simple plot to roughly assess the distributional assumptions of ANOVA is the box and whiskers plot:
 
 ```{r diets-boxplot, fig.align='center', fig.asp=1, fig.width=4}
 ggplot(data = diet_effects, aes(x = Plan, y = WeightLoss)) + 
   geom_boxplot()
 ```
 
-Simple! we just set the x and y axis aesthetics to the `Plan` and `Weightloss` variables, respectively, and use `geom_boxplot` to add the required layer. 
+Simple! We just set the x and y axis aesthetics to the `Plan` and `Weightloss` variables, respectively, and use `geom_boxplot` to add the required layer. 
 
-The resulting box and whiskers plot summarises the distribution of weight loss in each diet group: 1) the median diet loss in each group (horizontal lines) shows us the central tendency; 2) the interquartile range (the boxes) summarises the dispersion / spread; 3) and roughly speaking, the 'whiskers' summarise the range of the data. The plot indicates that that the variability within each group is quite similar, the distributions are fairly symmetric (i.e. the lower whisker, the box and the upper whiskers are all about equally large), and there are no 'outliers'. These features are consistent with a normal distribution.
+The resulting box and whiskers plot summarises the distribution of weight loss in each diet group: 1) the median diet loss in each group (horizontal lines) shows us the central tendency; 2) the interquartile range (the boxes) summarises the dispersion / spread; and 3) roughly speaking, the 'whiskers' summarise the range of the data. The plot indicates that that the variability within each group is quite similar, the distributions are fairly symmetric (i.e. the lower whisker, the box and the upper whisker are all about equally large), and there are no 'outliers'. These features are consistent with a normal distribution.
 
 Dot plots or histograms might also be used to make a more direct assessment of the distributional assumptions. However, these aren't very useful when there are only a few replicates in each group. A much better way to assess the distributional assumptions is via regression diagnostics. That's right, we use 'regression' diagnostics to evaluate the assumptions of an ANOVA model. We'll come back to this after we've fitted the model...
 
-## Fitting the ANOVA model and interpretting the results
+## Fitting the ANOVA model and interpreting the results
 
 Carrying out ANOVA in R is quite simple, but as with regression, there is more than one step. The first involves a process known as *fitting the model* (or just *model fitting*). This is the step where R calculates the relevant means, along with the additional information needed to generate the results in step two. We call this step model fitting because an ANOVA is a type of model for our data: it is a model that allows the mean of a variable to vary among groups.
 
@@ -75,14 +75,14 @@ diets_model <- lm(WeightLoss ~ Plan, data = diet_effects)
 ```
 Hopefully by now this kind of thing is starting to look familiar. We have to assign two arguments:
 
-1. The first argument is a formula. We know this because it includes a 'tilde' symbol: `~`. The variable name on the left of the `~` must be the numeric variable whose means we want to compare among groups. The variable on the right should be the indicator variable that says which group each observation belongs to. These are `WeighLoss` and `Plan`, respectively.
+1. The first argument is a formula. We know this because it includes a 'tilde' symbol: `~`. The variable name on the left of the `~` must be the numeric variable whose means we want to compare among groups. The variable on the right should be the indicator variable that says which group each observation belongs to. These are `WeightLoss` and `Plan`, respectively.
 
 2. The second argument is the name of the data frame that contains the two variables listed in the formula.
 
 ```{block, type='advanced-box'}
 **Why does R carry out ANOVA?**
 
-How R knows we want to use an ANOVA model? After all, we didn't specify this anywhere. The answer is that R looks at what type of vector `Plan` is. It is a factor, and so R automatically carries out an ANOVA. It would do the same if `Plan` had been a character vector. However, if the levels of `Plan` had been stored as numbers (1, 2, 3, ...) then R would not have fitted an ANOVA. We've already seen what would have happened. It would have assumed we meant to fit a regression model. *This is why we don't store categorical variables as numbers in R*. Avoid using numbers to encode the levels of a factor, or any kind of categorical variable, if you want to avoid making mistakes in R.
+How does R know we want to use an ANOVA model? After all, we didn't specify this anywhere. The answer is that R looks at what type of vector `Plan` is. It is a factor, and so R automatically carries out an ANOVA. It would do the same if `Plan` had been a character vector. However, if the levels of `Plan` had been stored as numbers (1, 2, 3, ...) then R would not have fitted an ANOVA. We've already seen what would have happened. It would have assumed we meant to fit a regression model. *This is why we don't store categorical variables as numbers in R*. Avoid using numbers to encode the levels of a factor, or any kind of categorical variable, if you want to avoid making mistakes in R.
 ```
 
 Notice that we did not print the results to the console. Instead, we assigned the result a name (`diets_model`)---`diets_model` now refers to a **model object**. What happens if we print this to the console?
@@ -104,7 +104,7 @@ plot(diets_model, which = 2, add.smooth = FALSE)
 ```
 This looks very good. The points don't deviate from the line in a systematic way (except for a couple at the lower end---this is nothing to worry about) so it looks like the normality assumption is satisfied. 
 
-The scale-location plot allows us to evaluate the constant variance assumption of a linear regression? This allows us to see whether or not the variability of the residuals is roughly constant within each group. Here's the scale-location plot for the diet example: 
+The scale-location plot allows us to evaluate the constant variance assumption of a linear regression. This allows us to see whether or not the variability of the residuals is roughly constant within each group. Here's the scale-location plot for the diet example: 
 
 ```{r diet-diag-3, fig.align='center', fig.asp=1.1, fig.width=4}
 plot(diets_model, which = 3, add.smooth = FALSE)
@@ -120,21 +120,21 @@ So it looks like our assumptions are fine and we can move onto the hypothesis te
 It is not critical that you learn the material in this short section. It is provided so that you know how to test for equality of variance. You won't be asked to do this in an assessment.
 ```
 
-Looking back over the scale-location plot, it seems like three of treatment groups exhibit similar variability, while the remaining two are more variable. They aren't wildly different, so it is reasonable to assume the differences are due to sampling variation. People are sometimes uncomfortable using this sort of visual assessment. They want to see a *p*-value... A number of statistical tests have been designed to evaluate the equality of variance assumption. The most widely used is the Bartlett test (the `bartlett.test` function in R). Here is how to use it:
+Looking back over the scale-location plot, it seems like three of the treatment groups exhibit similar variability, while the remaining two are more variable. They aren't wildly different, so it is reasonable to assume the differences are due to sampling variation. People are sometimes uncomfortable using this sort of visual assessment. They want to see a *p*-value... A number of statistical tests have been designed to evaluate the equality of variance assumption. The most widely used is the Bartlett test (the `bartlett.test` function in R). Here is how to use it:
 ```{r}
 bartlett.test(WeightLoss ~ Plan, data = diet_effects)
 ```
 This looks just like the *t*-test specification. We use a 'formula' (`WeightLoss ~ Plan`) to specify the variable of interest (`WeightLoss`) and the grouping variable (`Plan`), and use the `data` argument to tell the `bartlett.test` function where to look for these variables. The null hypothesis of a Bartlett test is that the *variances are equal*, so a non-significant *p*-value (>0.05) indicates that the data are consistent with the equal variance assumption. That's what we find here.
 
-Generally speaking, we don't recommend that you carry out a statistical test to evaluate the equality of variance assumption. We have shown it because some people seem to think they are needed. Here is why we think they are wrong: formal tests of equality of variance are not very powerful (in the statistical sense). This means that in order to detect a difference, we either need a lot of data, or the the differences need to be so large that they would be easy to spot using a graphical approach.
+Generally speaking, we don't recommend that you carry out a statistical test to evaluate the equality of variance assumption. We have shown it because some people seem to think they are needed. Here is why we think they are wrong: formal tests of equality of variance are not very powerful (in the statistical sense). This means that in order to detect a difference, we either need a lot of data, or the differences need to be so large that they would be easy to spot using a graphical approach.
 
-## Interpretting the results
+## Interpreting the results
 
 ```{r, echo=FALSE}
 anova.out <- capture.output(anova(diets_model))
 ```
 
-What we really want is a *p*-value to help us determine whether there is statistical support for a difference among the group means. That is, we need to calculate things like degrees of freedom, sum of squares, mean squares, and the *F*-ratio. This is step 2. 
+What we really want is a *p*-value to help us determine whether there is statistical support for a difference among the group means. That is, we need to calculate things like degrees of freedom, sums of squares, mean squares, and the *F*-ratio. This is step 2. 
 
 We use the `anova` function to do this:
 ```{r}
@@ -150,9 +150,9 @@ This is an Analysis of Variance Table. It summarises the parts of the ANOVA calc
 
 The *F*-ratio (variance ratio) is the key term. This is the test statistic. It provides a measure of how large and consistent the differences between the means of the five different treatments are. Larger values indicate clearer differences between means, in just the same way that large values of Student’s *t* indicate clearer differences between means in the two sample situation.
 
-The *p*-value gives the probability that the observed differences between the means, or a more extreme difference, could have arisen through sampling variation under the null hypothesis. What is the null hypothesis: it is one of no effect of treatment, i.e. the null hypothesis is that all the means are the same. As always, the *p*-value of 0.05 is used as the significance threshold, and we take *p* < 0.05 as evidence that at least one of the treatments is having an effect. For the diet data, the value is `r round(anova(diets_model)$"F value"[1], 1)`, and the probability (*p*) of getting an this large is given by R as `r round(anova(diets_model)$"Pr(>F)"[1], 4)`, i.e. less than 0.05. This provides good evidence that there are differences in weight loss between at least some of the treatments. 
+The *p*-value gives the probability that the observed differences between the means, or a more extreme difference, could have arisen through sampling variation under the null hypothesis. What is the null hypothesis: it is one of no effect of treatment, i.e. the null hypothesis is that all the means are the same. As always, the *p*-value of 0.05 is used as the significance threshold, and we take *p* < 0.05 as evidence that at least one of the treatments is having an effect. For the diet data, the value is `r round(anova(diets_model)$"F value"[1], 1)`, and the probability (*p*) of getting an *F*-ratio this large is given by R as `r round(anova(diets_model)$"Pr(>F)"[1], 4)`, i.e. less than 0.05. This provides good evidence that there are differences in weight loss between at least some of the treatments. 
 
-So far so good. The test that we have just carried out is called the **global test of significance**. It goes by this name because it doesn't tell us anything about which means are different. The analyses suggest that there is an effect of diet on weight loss, but some uncertainty remains because we have only established that there are differences among at least some diets. A global test doesn't say which diets are better or worse. This could be very important. If the significant result is generated by all diets being equally effective (hence differing from the control but not from each other) we would draw very different conclusions than if all the result was a consequence of one diet being very effective and all the others being useless. Our result could even be produced by the diets all being less effective than the control!
+So far so good. The test that we have just carried out is called the **global test of significance**. It goes by this name because it doesn't tell us anything about which means are different. The analyses suggest that there is an effect of diet on weight loss, but some uncertainty remains because we have only established that there are differences among at least some diets. A global test doesn't say which diets are better or worse. This could be very important. If the significant result is generated by all diets being equally effective (hence differing from the control but not from each other) we would draw very different conclusions than if the result was a consequence of one diet being very effective and all the others being useless. Our result could even be produced by the diets all being less effective than the control!
 
 So having got a significant result in the ANOVA, we should always look at the means of the treatments to understand where the differences actually lie. We did this in the previous chapter but here is the figure again anyway:
 
@@ -193,10 +193,10 @@ There are several things to notice here:
 When it comes to presenting the results in a report, it helps to present the means, as the statement above cannot entirely capture the results. We could use a table to do this, but tables are ugly and difficult to interpret. A good figure is much better.
 
 ```{block, type='do-something'}
-You won't be assessed on your ability to produce summary plots such as though below. Nonetheless, you should try to learn how to make them because you will need to produce these kinds of figures in your own projects.
+You won't be assessed on your ability to produce summary plots such as those below. Nonetheless, you should try to learn how to make them because you will need to produce these kinds of figures in your own projects.
 ```
 
-Box and whiskers plots and multi-panel dot plots / histograms are exploratory data analysis tool. We use them at the beginning of an analysis to understand the data, but we don't tend to present them in project reports or scientific papers. Since ANOVA is designed to compare means, a minimal plot needs to show the point estimates of each group-specific mean, along with a measure of their uncertainty. We often use the standard error of the means to summarise this uncertainty.
+Box and whiskers plots and multi-panel dot plots / histograms are exploratory data analysis tools. We use them at the beginning of an analysis to understand the data, but we don't tend to present them in project reports or scientific papers. Since ANOVA is designed to compare means, a minimal plot needs to show the point estimates of each group-specific mean, along with a measure of their uncertainty. We often use the standard error of the means to summarise this uncertainty.
 
 In order to be able to plot these quantities we first have to calculate them. We can do this using `dplyr`. Here's a reminder of the equation for the standard error of a mean:
 $$
@@ -235,7 +235,7 @@ ggplot(data = diet_stats,
 
 First, notice that we set the `data` argument in `ggplot` to be the data frame containing the summary statistics (not the original raw data). Second, we set up four aesthetic mappings: `x`, `y`, `ymin` and `ymax`. Third, we added one layer using `geom_point`. This adds the individual points based on the `x` and `y` mappings. Fourth, we added a second layer using `geom_errorbar`. This adds the error bars based on the `x`, `ymin` and `ymax` mappings. Finally we adjusted the y limits and the labels (this last step is optional). Ask a demonstrator to step through this with you if you are confused by it.
 
-Take a close look at that last figure. Is there anything wrong with it? The control group in this study is the no diet group ('None'). Conventionally, we display the control groups first. R hasn't done this because we the levels of `Plan` are assumed to be in alphabetical order by default. If we want to change the order of plotting, we have to change the way the levels are organised. Here is how to to this using **dplyr** and a function called `factor`:
+Take a close look at that last figure. Is there anything wrong with it? The control group in this study is the no diet group ('None'). Conventionally, we display the control groups first. R hasn't done this because the levels of `Plan` are in alphabetical order by default. If we want to change the order of plotting, we have to change the way the levels are organised. Here is how to to this using `dplyr` and a function called `factor`:
 ```{r}
 diet_stats <- 
   diet_stats %>% 
