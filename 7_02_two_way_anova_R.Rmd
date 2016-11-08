@@ -267,3 +267,15 @@ Remember (one more time) that we have to set the `stat` argument of `geom_bar` t
 
 Do not worry too much if you find the `ggplot2` code for making this bar chart a little cryptic. This is about as complicated as things will get (in terms of making figures) in this course and you won't be asked to produce one of these in an exam. It is worth trying to understand all this, because you are very likely to need to be able to make these kinds of figures in the future.
 
+## Three-way ANOVA nd beyond in R
+
+Fitting higher order ANOVA models and generating an ANOVA table is very easy to do in R. For example, if the dependent variable of interest is called 'y', a 3-way ANOVA including all possible interactions would be fitted using: 
+
+```{r}
+lm(y ~ A + B + C + A:B + A:C + B:C + A:B:C, data = mydata)
+```
+
+
+
+
+

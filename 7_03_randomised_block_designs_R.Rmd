@@ -150,3 +150,48 @@ The short answer is no, not really. There are instances when a randomised block 
 2.    If the blocking term is having no effect in accounting for some of the variation, then the analysis may be slightly less powerful than just using a one-way ANOVA. This is because there are fewer error degrees of freedom associated with the blocked analysis (we lose a few to the block effects). This argument only works if the block effect accounts for very little variation. We can never know before we start an experiment whether or not blocking is needed, but we do know that biological systems are inherently noisy, with many sources of uncontrolled variation coming into play. In the majority of experimental settings (in biology at least) we can be fairly sure that blocking will 'work'. If we choose not to block your experiment there is no way to account for uncontrolled variation, and we will almost certainly end up losing statistical power as a result.
 
 The advice contained in the quote at the beginning of this chapter is probably the best experimental design advice you will ever receive: "Block what you can; randomize what you cannot."
+
+## 
+
+#### Multiple blocking factors
+
+It is quite common to find ourselves in a situation whereby we need to account for more than one blocking factor. The simplest option is to combine the nuisance factors into a single factor. However, this isn't always possible, or even desirable. 
+
+This simplest such instance is where there is a single factor of primary interest (the treatment factor) and two nuisance factors. For example, imagine that we want to test three drugs A, B, C for their effect in alleviating the symptoms of a disease. Three patients are available for a trial, and each will be available for three weeks. Testing a single drug requires a week, meaning an experimental unit is a ‘patient-week’. The obvious question is, how should we randomise treatments across ‘patient-weeks’?
+
+We have to design an experiment like this with care, or there is a risk that we will not be able to statistically separate the effects of the treatment (drug) and block effects (week & patient). The most appropriate design for this kind of experiment has the following structure:
+
+|   | Week |  Patient | Drug |   
+|:-:|:-----|:---------|:-----|
+|   | 1 | 1 | A |
+|   | 1 | 2 | B |
+|   | 1 | 3 | C | 
+|   | 2 | 1 | C |
+|   | 2 | 2 | A |
+|   | 2 | 3 | B | 
+|   | 3 | 1 | B |
+|   | 3 | 2 | C |
+|   | 3 | 3 | A |
+
+This kind of experimental design is called a Latin square design. It gets its name form the fact that if we organise the treatments into the rows and columns of a grid according to week and patient number, we arrive at something like this:
+
+    A	B	C
+    C	A	B
+    B	C	A
+
+Notice that each letter appears once in each column and row. Mathematicians call this a Latin square arrangement. Latin square designs (and their more exotic friends, e.g. 'Hyper-Graeco-Latin square designs!') have a very useful property: they allow us to unambiguously separate treatment and block effects. It is not important that you understand why this design works (the reasoning is quite technical). What is important is that you understand that it is perfectly possible to block an experiment by more than one factor, but that this needs to be done with care.
+
+(N.B. This example probably isn't a very good experimental design, for the simple reason that it lacks statistical power. However, we could design a better version of this experiment using the same basic principles if we needed to.)
+
+#### Random and fixed effects.
+
+Usually the treatments you encounter in ANOVA are what are termed fixed effects---i.e. they are decided on by the investigator, not just sampled randomly from all possible levels of the treatment.  However, sometimes you want to analyse differences between 'levels' of a treatment where in fact the different levels are random---e.g., if you are testing to see if recovery time after a particular operation is affected by the age of the patient, and whether it varies between hospitals, you might randomly select 6 hospitals and find recovery times for 10 patients from each of three different age groups.  The hospitals are one factor in your analysis, age is the other.  Age is a fixed effect (you selected particular age groups) but hospitals are a random effect. You didn't select particular different sorts of hospitals, because all you really want to understand is the among hospital variation. In a one-way ANOVA (if you were just looking at hospitals) this makes no difference, but in a two-way ANOVA it can affect the way the significance test is calculated. If you think you may have a situation requiring a random effects framework, consult a statistics text.
+
+A model that includes both random and fixed effects is sometimes called a 'mixed model'. There is a huge, and rather technical, literature about these kinds of models. These are relatively easy to fit using R but can be hard to work with. For example, extracting reliable *p*-values out of a mixed model is not always a simple task. One piece of advice might help though: try to design a balanced experiment. If you can do this the calculations are not too bad.
+
+```{block, type='warning-box'}
+#### Random and fixed effects can get confusing
+
+A common question is, "should I use a fixed or random effects model?". The problem with this question is that these terms do not have widely agreed-upon definitions. People use particular definitions of fixed and random effects without necessarily realising that there are a range of different definitions in the literature. Keep this in mind if you find yourself asking for advice about fixed vs. random effects; it is not uncommon to receive seemingly contradictory advice from different people because they think about the terms in slightly different ways.
+```
+

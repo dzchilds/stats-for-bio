@@ -88,5 +88,9 @@ Having established that there are significant differences, we might wish to go f
 
 ## Beyond two-way ANOVA
 
-The types of ANOVA discussed here will cover many of the situations you are likely to encounter. However, analysis of variance is a large and complex subject. Most intermediate level biostatistics texts deal with
-the more involved designs of ANOVA. As with many aspects of statistics and experimental design there is much to be said for doing experiment and analyses you are confident you understand and can interpret, even if more complex forms of analysis are technically possible (providing of course the simpler approach is appropriate!). However, a few pointers to some of the sorts of things more complex ANOVAs can be used to do is given in this week's extra reading.
+The principle of  the 2-way factorial design can be extended to three, four or more types of treatment.  In a three way design (factors A, B, C) there are three main effects (A, B, C), three pairwise interactions (A x B, A x C, B x C) and one three way interaction (A x B x C). A multi-way factorial design isn't really a 'different' kind of design from the two-way case we have examined. Though the results from such analyses of multi-way factorial designs can be tricky to interpret, the principles we've been through all apply. Nonetheless, when contemplating a design that looks like it might require more than two factors, then is a good idea to talk to someone who knows about these things to ensure that is indeed the best approach.
+
+The ANOVA models discussed in this book (N-way fully factorial designs) cover many of the situations we are likely to encounter. Nonetheless, Analysis of Variance is a large and complex subject and we are only scratching the surface. Most intermediate level biostatistics texts deal with the more involved designs of ANOVA. As with many aspects of statistics and experimental design there is much to be said for doing experiment and analyses you are confident you understand and can interpret, even if more complex forms of analysis are technically possible (providing of course the simpler approach is appropriate!). A few pointers to some of the sorts of things more complex ANOVAs are given here.
+
+
+
