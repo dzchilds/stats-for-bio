@@ -2,7 +2,7 @@
 
 ## Introduction {#intro}
 
-The two-sample *t*-tests evaluate whether or not the mean of a numeric variable changes among two groups or experimental conditions. At the beginning of the [Relationships and regression] chapter we pointed out that the different groups/conditions can be encoded by a categorical variable. We pointed that we could conceptualise these *t*-tests as evaluating a relationship between between the numeric and categorical variable. The obvious question is, what happens if we need to evaluate differences among means of more than two groups? The 'obvious' thing to do might seem to be to test each pair of means using a *t*-test. However this procedure is tedious and, most importantly, statistically flawed.
+The two-sample *t*-tests evaluate whether or not the mean of a numeric variable changes among two groups or experimental conditions. At the beginning of the [Relationships and regression] chapter we pointed out that the different groups/conditions can be encoded by a categorical variable. We pointed out that we could conceptualise these *t*-tests as evaluating a relationship between between the numeric and categorical variable. The obvious question is, what happens if we need to evaluate differences among means of more than two groups? The 'obvious' thing to do might seem to be to test each pair of means using a *t*-test. However this procedure is tedious and, most importantly, statistically flawed.
 
 In this chapter we will introduce an alternative method that allows us to assess the statistical significance of differences among several means at the same time. This method is called **Analysis of Variance** (abbreviated to ANOVA). ANOVA is one of those statistical terms that unfortunately has two slightly different meanings:
 
@@ -34,7 +34,7 @@ sim.wl <- function(variables) {
 }
 ```
 
-Let's consider the example diet example from the previous chapter. We wanted to compare the weight loss of people on 4 different diets to determine which diet is the most effective for losing weight, so we conducted an experiment in which groups of 8 volunteers follow one of the diets for a month. A fifth group of 8 volunteers served as the control group---they follow NHS eating guidelines. At the end of the experiment we measured how much weight each person had lost of the month. 
+Let's consider the diet example from the previous chapter. We wanted to compare the weight loss of people on 4 different diets to determine which diet is the most effective for losing weight, so we conducted an experiment in which groups of 8 volunteers follow one of the diets for a month. A fifth group of 8 volunteers served as the control group---they follow NHS eating guidelines. At the end of the experiment we measured how much weight each person had lost over the month. 
 
 Once the data have been collected we need to understand the results. The weight loss of 8 volunteers on each of the diets could be plotted (this is the raw data), along with the means of each diet group, the standard error of the mean, and the sample mean of all the data:
 
@@ -105,12 +105,12 @@ ggplot(data = plt.data, aes(x = PlanNum)) +
 
 The vertical lines show the distance between each observation and the grand mean---we have ordered the data within each group so that the plot is a little tidier. A positive deviation occurs when a point is above the line, and a negative deviation corresponds to a case where the point is below the line. We're not interested in the direction of these deviations. What we need to quantify is the variability of the deviations, which is a feature of their magnitude (the length of the lines). 
 
-What measure of variability should we use? We can't add up the deviations because they to zero. Instead, we apply the same idea introduced in the regression chapter: the measure of variability we need is based on the 'sum of squares' (abbreviated SS) deviations. A sum of squares is calculated by taking each deviation in turn, squaring it, and adding up the squared values. Here are the numeric values of the deviations shown graphically above:
+What measure of variability should we use? We can't add up the deviations because they add to zero. Instead, we apply the same idea introduced in the regression chapter: the measure of variability we need is based on the 'sum of squares' (abbreviated SS) of the deviations. A sum of squares is calculated by taking each deviation in turn, squaring it, and adding up the squared values. Here are the numeric values of the deviations shown graphically above:
 ```{r, echo=FALSE}
 (total.devs <- sim1$wloss.data$WeightLoss-mean(sim1$wloss.data$WeightLoss))
 SS.Tot <- sum(total.devs^2)
 ```
-The sum of squares of these numbers is `r round(SS.Tot, 2)`. This is called the total sum of squares, because this measure of variability completely ignores the information about treatment groups. It is a measure of the total variability in the data relative, calculated relative to the grand mean. 
+The sum of squares of these numbers is `r round(SS.Tot, 2)`. This is called the total sum of squares, because this measure of variability completely ignores the information about treatment groups. It is a measure of the total variability in the data, calculated relative to the grand mean. 
 
 #### Residual variation {-}
 
@@ -139,7 +139,7 @@ The vertical lines show something new this time. They display the distance betwe
 (within.devs <- plt.data.wg$WeightLoss - plt.data.wg$Mean)
 SS.Wth <- sum(within.devs^2)
 ```
-These values are a type of residual: they quantify the variation that is 'left over' after accounting for differences due to treatment groups. Once again, we can summarise this variability as a single number by calculating the associated sum of squares, calculated by taking each deviation in turn, squaring it, and adding up the squared values. The sum of squares of these numbers is (`r round(SS.Wth, 2)`). This is called the residual sum of squares^[You will sometimes see something called error sum of squares, or possibly, the within-group sum of squares. These are just different names for the residual sum of squares]. It is a measure of the variability that may be attributed to differences among individuals after controlling for the effect of different groups. 
+These values are a type of residual: they quantify the variation that is 'left over' after accounting for differences due to treatment groups. Once again, we can summarise this variability as a single number by calculating the associated sum of squares, calculated by taking each deviation in turn, squaring it, and adding up the squared values. The sum of squares of these numbers is (`r round(SS.Wth, 2)`). This is called the residual sum of squares^[You will sometimes see something called error sum of squares, or possibly, the within-group sum of squares. These are just different names for the residual sum of squares.]. It is a measure of the variability that may be attributed to differences among individuals after controlling for the effect of different groups. 
 
 #### Between-group variation {-}
 
@@ -165,7 +165,7 @@ This is `r round(SS.Trt, 2)` in the diets example. Notice that this is much smal
 
 ### Degrees of freedom
 
-The problem with the raw sums of squares in ANOVA is that they are a function of sample size and the number of groups. In order to be useful, we need to convert them into a measures of variability that don't scale with sample size. We use **degrees of freedom** (written as df, or d.f.) to do this. We came across the concept of degrees of freedom when we studied regression: the degrees of freedom associated with a sum of squares is a measure of how much 'information' it is based on. Each of the three sum of squares we just calculated has a different degrees of freedom calculation associated with it:
+The problem with the raw sums of squares in ANOVA is that they are a function of sample size and the number of groups. In order to be useful, we need to convert them into measures of variability that don't scale with sample size. We use **degrees of freedom** (written as df, or d.f.) to do this. We came across the concept of degrees of freedom when we studied regression: the degrees of freedom associated with a sum of squares is a measure of how much 'information' it is based on. Each of the three sums of squares we just calculated has a different degrees of freedom calculation associated with it:
 
 *   Total d.f. = (Number of observations - 1)
 
@@ -175,25 +175,25 @@ The problem with the raw sums of squares in ANOVA is that they are a function of
 
 The way to think about these is as follows. We start out with a degrees of freedom that is equal to the total number of deviations associated with a sum of squares. We 'lose' one degree of freedom for every mean we have to calculate to work out the deviations. Here is how this works in the diet example: 
 
-*   Total d.f. = 40 - 1 = 39 --- The total sum of squares was calculated using all 40 observation in the data, and the deviations were calculated relative to 1 mean (the grand mean)
+*   Total d.f. = 40 - 1 = 39 --- The total sum of squares was calculated using all 40 observations in the data, and the deviations were calculated relative to 1 mean (the grand mean).
 
-*   Treatment d.f. = 5 - 1 = 4 --- The treatment sum of squares was calculated using the 5 treatment group means, and the deviations were calculated relative to 1 mean (the grand mean)
+*   Treatment d.f. = 5 - 1 = 4 --- The treatment sum of squares was calculated using the 5 treatment group means, and the deviations were calculated relative to 1 mean (the grand mean).
 
-*   Error d.f. = 40 - 5 = 35 --- The error sum of squares was calculated using all 40 observations in the data, and the deviations were calculated relative to 5 means (the treatment group means)
+*   Error d.f. = 40 - 5 = 35 --- The error sum of squares was calculated using all 40 observations in the data, and the deviations were calculated relative to 5 means (the treatment group means).
 
 Don't worry too much if that seems confusing. We generally don't have to carry out degrees of freedom calculations by hand because R will do them for us. We have explained them because knowing where they come from helps us understand the output of an ANOVA significance test.
 
 ### Mean squares, variance ratios, and F-tests
 
-Once we know how to calculate the degrees of freedom we can use them to standardise each of the sum of squares. The calculations are very simple. We take each sum of squares and divide it by its associated degrees of freedom. The resulting quantity is called a **mean square** (abbreviated as MS):
+Once we know how to calculate the degrees of freedom we can use them to standardise each of the sums of squares. The calculations are very simple. We take each sum of squares and divide it by its associated degrees of freedom. The resulting quantity is called a **mean square** (abbreviated as MS):
 $$
-Mean square = \frac{\text{sum of squares}}{\text{Degrees of freedom}}
+\text{Mean square} = \frac{\text{Sum of squares}}{\text{Degrees of freedom}}
 $$
 We stated what a mean square represents when discussing regression: it is an estimate of a variance. The mean squares from an ANOVA quantify the variability of the whole sample (total MS), the variability explained by treatment group (treatment MS), and the unexplained residual variation (residual MS).
 
 ANOVA quantifies how strong the treatment effect is by comparing the treatment mean square to the residual mean square. When the treatment MS is large relative to the residual MS this suggests that the treatments are more likely to be having an effect. In reality, they are compared by calculating the ratio between them (designated by the letter *F*):
 
-$$F = \mbox{variance ratio} = \frac{\mbox{Variance Due to Treatments}}{\mbox{Error variance}}$$
+$$F = \mbox{Variance ratio} = \frac{\mbox{Variance due to treatments}}{\mbox{Error variance}}$$
 
 This is the same as the *F*-ratio mentioned in the context of regression. When the variation among treatment means (treatment MS) is large compared to the variation due to other factors (residual MS) then the *F*-ratio will be large too. If the variation among treatment means is small relative to the residual variation then the *F*-ratio will be small. How do we decide when the *F*-ratio is large enough? That is, how do we judge a result to be statistically significant? We play out the usual 'gambit':
 
@@ -213,11 +213,11 @@ This procedure is a type of *F*-test---it is really no different from the signif
 
 We just discussed the main assumption that makes ANOVA work. This is the normality of residuals assumption. There are other assumptions that must be met for an ANOVA analysis to be valid:
 
-1. **Independence.** If the experimental units of the data are not independent, then the p-values generated by an *F*-test in an ANOVA will not be reliable. This one is important. Even mild non-independence can be a serious problem.
+1. **Independence.** If the experimental units of the data are not independent, then the *p*-values generated by an *F*-test in an ANOVA will not be reliable. This one is important. Even mild non-independence can be a serious problem.
 
 2. **Measurement scale.** The variable that you are working with should be measured on an interval or ratio scale.
 
-3. **Equal variance.** The validity of *F*-tests associated with ANOVA depends on an assumption of equal variance in the treatment groups. If this assumption is not supported by the data, then it needs to be addressed. If you ignore it, the p-values that you generate cannot be trusted. There is a version of one-way ANOVA that can work with unequal variances, but we won't study it in this course.
+3. **Equal variance.** The validity of *F*-tests associated with ANOVA depends on an assumption of equal variance in the treatment groups. If this assumption is not supported by the data, then it needs to be addressed. If you ignore it, the *p*-values that you generate cannot be trusted. There is a version of one-way ANOVA that can work with unequal variances, but we won't study it in this course.
 
 4. **Normality.** The validity of *F*-tests associated with ANOVA also depends on the assumption of normality. ANOVA is reasonably robust to small departures from normality, but larger departures can start to matter. Unlike the *t*-test, having a large number of samples doesn't make this assumption less important.
 
@@ -225,7 +225,7 @@ Strictly speaking, assumptions 3 and 4 really apply to the (unobserved) populati
 
 ## Different kinds of ANOVA model
 
-There a many different flavours of ANOVA model. The one we've just been learning about is called a one-way ANOVA. It's called one way ANOVA because it involves only one factor: diet type (this includes the control). If we had considered two factors---e.g. diet type and exercise regime---we would have to use something called a two-way ANOVA. A degin with three factors is called a three-way ANOVA, and... you get the idea. 
+There are many different flavours of ANOVA model. The one we've just been learning about is called a one-way ANOVA. It's called one-way ANOVA because it involves only one factor: diet type (this includes the control). If we had considered two factors---e.g. diet type and exercise regime---we would have to use something called a two-way ANOVA. A degin with three factors is called a three-way ANOVA, and... you get the idea. 
 
 There are many other ANOVA models, each of which is used to analyse a specific type of experimental design. We are only going to consider three different types of ANOVA in this book: one-way ANOVA, two-way ANOVA, and ANOVA for one-way, blocked design experiments.
 
@@ -235,7 +235,7 @@ To finish off with, three common questions that often arise:
 
 ### Can ANOVA only be applied to experimental data?
 
-We have been discussing ANOVA in the context of a designed experiment (i.e. we talked about treatments and control groups). Although ANOVA was developed to analyse experimental data---and that is where it is most powerful---it can be used in an observational setting. As long as we're careful about how we sample different kinds of groups (i.e. at random), we can use ANOVA to analyse differences between them. The main difference between ANOVA for experimental and observational studies arises in the interpretation of the results. If the data aren't experimental, we can't say anything concrete about the casual nature of the among-group differences we observe.
+We have been discussing ANOVA in the context of a designed experiment (i.e. we talked about treatments and control groups). Although ANOVA was developed to analyse experimental data---and that is where it is most powerful---it can be used in an observational setting. As long as we're careful about how we sample different kinds of groups (i.e. at random), we can use ANOVA to analyse differences between them. The main difference between ANOVA for experimental and observational studies arises in the interpretation of the results. If the data aren't experimental, we can't say anything concrete about the causal nature of the among-group differences we observe.
 
 ### Do we need equal replication?
 
@@ -243,5 +243,5 @@ So far we have only considered the use of ANOVA with data in which each treatmen
 
 ### Can ANOVA be done with only two treatments?
 
-Although the t-test provides a convenient way of testing means from two treatments, there is nothing to stop you doing an ANOVA on two treatments. A t-test (assuming equal variances) and ANOVA on the same data should give the same p-value (in fact the *F*-statistic from the ANOVA will be the square of the t-value from the t-test). One advantage to the t-test, however, is that you can do the version of the test that allows for unequal variances---something a standard ANOVA does not do. There is a version of Welch's test for one-way ANOVA, but we won't study it in this course (look at the `oneway.test` function if you are interested) 
+Although the *t*-test provides a convenient way of testing means from two treatments, there is nothing to stop you doing an ANOVA on two treatments. A *t*-test (assuming equal variances) and ANOVA on the same data should give the same *p*-value (in fact the *F*-statistic from the ANOVA will be the square of the *t*-value from the *t*-test). One advantage to the *t*-test, however, is that you can do the version of the test that allows for unequal variances---something a standard ANOVA does not do. There is a version of Welch's test for one-way ANOVA, but we won't study it in this course (look at the `oneway.test` function if you are interested).
 
