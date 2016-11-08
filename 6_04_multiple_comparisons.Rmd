@@ -4,7 +4,7 @@
 
 In the previous chapter we learned how to use ANOVA to examine the global hypothesis of no difference between means---we did not learn how to evaluate *which* means might be driving such a significant result. For example, we found evidence for a significant difference between the means in the diet example, but we were not able to say which diets are better or worse, and did not make any statements about which diets differ significantly from each other. The purpose of this chapter is to examine one method for assessing where the differences actually lie.
 
-The general method we will use is called a **post hoc multiple comparisons test**. The phrase 'post hoc' refers to the fact that these tests are conducted without any particular prior comparisons in mind. The words 'multiple comparisons' refer to the fact that they consider many different pairwise comparison. There are quite a few multiple comparison tests---Scheffé’s test, the Student-Newman-Keuls test, Duncan’s new multiple range test, Dunnett’s test, ... (the list goes on and on). Each one is applicable to particular circumstances, and none is universally accepted as 'the best'. We are going to work with the most widely widely used test: the **Tukey multiple comparison test**. This test is also known as Tukey’s Honestly Significant Difference (Tukey HSD) test^[N.B. Try to avoid a common mistake: it is *Tukey*, after its originator, the statistician Prof. John Tukey, not Turkey, a large domesticated bird which has made no useful contributions to statistical theory or practice.]. 
+The general method we will use is called a **post hoc multiple comparisons test**. The phrase 'post hoc' refers to the fact that these tests are conducted without any particular prior comparisons in mind. The words 'multiple comparisons' refer to the fact that they consider many different pairwise comparisons. There are quite a few multiple comparison tests---Scheffé’s test, the Student-Newman-Keuls test, Duncan’s new multiple range test, Dunnett’s test, ... (the list goes on and on). Each one is applicable to particular circumstances, and none is universally accepted as 'the best'. We are going to work with the most widely used test: the **Tukey multiple comparison test**. This test is also known as Tukey’s Honestly Significant Difference (Tukey HSD) test^[N.B. Try to avoid a common mistake: it is *Tukey*, after its originator, the statistician Prof. John Tukey, not Turkey, a large domesticated bird which has made no useful contributions to statistical theory or practice.]. 
 
 People tend to favour Tukey’s HSD test because it is 'conservative': the test has a low false positive rate compared to the alernatives. A false positive occurs when a test turns up a statistically significant result for an effect that is not really there. A low false positive rate is a good thing. It means that if we find a significant difference we can be more confident it is 'real'. The cost of using the Tukey HSD test is that it isn't as powerful as alternatives: the test turns up a lot of false negatives. A false negative occurs when a test fails to produce a statistically significant result for an effect when it is really present. A test with a high false negative rate tends to miss effects.
 
@@ -19,9 +19,9 @@ diets_model <- lm(WeightLoss ~ Plan, data = diet_effects)
 ```
 
 ```{block, type='do-something'}
-**Work through**
+**Walk through example**
 
-We are going to work with the diets example again. If you kept the DIET_EFFECTS.CSV file from the last chpater all you need to do is make sure your working directory is set the this location. Otherwise you'll need to download it again.
+We are going to work with the diets example again. If you kept the DIET_EFFECTS.CSV file from the last chapter all you need to do is make sure your working directory is set to this location. Otherwise you'll need to download it again.
 ```
 
 Let's work through the diet example again. Read the data into R we and fit an ANOVA model using the `lm` function. 
@@ -31,7 +31,7 @@ diet_effects <- read.csv(file = ".DIET_EFFECTS.CSV")
 # 2. fit anova model
 diets_model <- lm(WeightLoss ~ Plan, data = diet_effects)
 ```
-We stored the model object in `diets_model`. In the previous chapter we saw how to evaluate whether the means differ using the `anova` on this object. We use a couple of new functions to carry out a Tukey HSD test. First, we have to convert the linear model object into a different kind of model object using the `aov` function:
+We stored the model object in `diets_model`. In the previous chapter we saw how to evaluate whether the means differ using  `anova` on this object. We use a couple of new functions to carry out a Tukey HSD test. First, we have to convert the linear model object into a different kind of model object using the `aov` function:
 ```{r}
 diets_aov <- aov(diets_model)
 ```
@@ -41,16 +41,16 @@ It is easy to perform a Tukey HSD test once we have the 'aov' version of our mod
 ```{r, eval=FALSE}
 TukeyHSD(diets_aov, ordered = TRUE)
 ```
-Pay attention! We applied the `TukeyHSD` function to the 'aov' object, *not* the original `lm` object. We have suppressed the output for now. Before we review it we need to get a what it is going to show us.
+Pay attention! We applied the `TukeyHSD` function to the 'aov' object, *not* the original `lm` object. We have suppressed the output for now. Before we review it we need to get an idea of what it is going to show us.
 
-The `ordered = TRUE` tells the `TukeyHSD` that we want to order the treatment means from smallest to largest, and then apply every pairwise comparison, starting with the smallest mean ('Slimaid') and working up through the order. Here are the means ordered from smallest to largest, working left to right:
+The `ordered = TRUE` tells `TukeyHSD` that we want to order the treatment means from smallest to largest, and then apply every pairwise comparison, starting with the smallest mean ('Slimaid') and working up through the order. Here are the means ordered from smallest to largest, working left to right:
 
   ------ ------------- ---------- ------------- ------------ ------------
   Diet      Slimaid       None       F-Plan        Y-Plan       Waisted
   Mean       1.42         1.56        1.85          1.90         2.29
   ------ ------------- ---------- ------------- ------------ ------------
 
-So the `TukeyHSD` with `ordered = TRUE` will first compare 'Slimaid' to 'None', then 'Slimaid' to 'F-Plan', then 'Slimaid' to 'Y-Plan', then 'Slimaid' to 'Waisted', then 'None' to 'F-Plan', then 'None' to 'Y-Plan', .... and so on, until we get to 'Y-Plan' vs. 'Waisted'. Let's look at the output:
+So the `TukeyHSD` with `ordered = TRUE` will first compare 'Slimaid' to 'None', then 'Slimaid' to 'F-Plan', then 'Slimaid' to 'Y-Plan', then 'Slimaid' to 'Waisted', then 'None' to 'F-Plan', then 'None' to 'Y-Plan', ... and so on, until we get to 'Y-Plan' vs. 'Waisted'. Let's look at the output:
 
 ```{r, echo=FALSE}
 HSD.obj <- TukeyHSD(diets_aov, ordered = TRUE)
@@ -86,7 +86,7 @@ Now, using the table of Tukey results we can perform a sequence of pair-wise com
 ```{r, echo=FALSE}
 HSD.obj$Plan["None-Slimaid",]
 ```
-The last column gives the *p*-value which in this case is certainly not significant (it is much greater than 0.05), so we conclude there is no difference between the 'Slimaid' and 'None' treatments. So now we continue with 'Slimaid', but compare it to the next larger mean ('F-Plan'). In this case the values are:
+The last column gives the *p*-value, which in this case is certainly not significant (it is much greater than 0.05), so we conclude there is no difference between the 'Slimaid' and 'None' treatments. So now we continue with 'Slimaid', but compare it to the next larger mean ('F-Plan'). In this case the values are:
 ```{r, echo=FALSE}
 HSD.obj$Plan["F-plan-Slimaid",]
 ```
@@ -125,7 +125,7 @@ This leaves us with a concise and complete summary of where the differences betw
 
 ## Doing it the easy way...
 
-The results table we just produced are concise and complete, but no reasonable person would say they were easy to arrive at. As you might expect, someone has written an R function to do this for us. It isn't part of 'base R' though, so we have to install a package to use it. The package we need is called `agricolae`:
+The results table we just produced is concise and complete, but no reasonable person would say they were easy to arrive at. As you might expect, someone has written an R function to do this for us. It isn't part of 'base R' though, so we have to install a package to use it. The package we need is called `agricolae`:
 ```{r, eval = FALSE}
 install.packages("agricolae")
 ```
@@ -140,16 +140,16 @@ HSD.test(diets_aov, "Plan", console=TRUE)
 ```
 The `console = TRUE` argument tells the function to print the results for us. That's a lot of output, but we can ignore most of it. The part that matters most is the table at the very end. This shows the group identities as letters, the treatment names, and the treatment means. If we compare that table with the one we just made, we can see they convey the same information. The package labels each group with a letter. For example, we can see that 'Y-plan' and 'F-plan' are both members of the 'a' and 'b' group. Hopefully it is obvious why we used 'b' and then 'a' when building the table manually above.
 
-So, there is no need to build these Tukey HSD table by hand. We just use the `HSD.test` function in the `agricolae` package. So why did we do it the long way? Well, the usual reasoning applies: it is important to know how to do this because it improves our understanding of what the 'letters notation' actually means.
+So, there is no need to build these Tukey HSD tables by hand. We just use the `HSD.test` function in the `agricolae` package. So why did we do it the long way? Well, the usual reasoning applies: it is important to know how to do this because it improves our understanding of what the 'letters notation' actually means.
 
 ## Summarising and presenting the results of a Tukey test {#summarise}
 
-As with any statistical tests it will usually be necessary to summarise the result from the Tukey HSD test in a written form. With an ANOVA test of global significance and multiple comparisons of the means, this can become quite complex and hard to follow. In most cases it is best to summarise the ANOVA results and either the main differences between means, or concentrate on those comparisons which relate to the original hypothesis we were interested in, and then refer to a table or figure for the additional detail. For example...
+As with any statistical test it will usually be necessary to summarise the result from the Tukey HSD test in a written form. With an ANOVA test of global significance and multiple comparisons of the means, this can become quite complex and hard to follow. In most cases it is best to summarise the ANOVA results and either the main differences between means, or concentrate on those comparisons which relate to the original hypothesis we were interested in, and then refer to a table or figure for the additional detail. For example...
 
 > There was a significant effect of diet on the weight losses of subjects 
 > (ANOVA: F=5.1; d.f.= 4,35; p<0.01) (Figure 1). The only diet plan that  
 > led to a significantly higher rate of weight loss than the control group 
-> was Waisted (Tukey multiple comparisons test, p < 0.05)
+> was Waisted (Tukey multiple comparisons test, p < 0.05).
 
 When it comes to presenting the results in a report, we really need some way of presenting the means, and the results of the multiple comparison test, as the statement above cannot entirely capture the form of the results. The information can often be conveniently incorporated into a table or figure, using more or less the same format as the output from the `HSD.test` function in the `agricolae` package.
 
@@ -167,11 +167,11 @@ An example table might be:
 Note that, however we present it, we need to provide some explanation saying: (a) what test we did, (b) what the letter codes mean, and (c) the critical threshold we used to judge significance. In this case the information could be presented in a table legend:
 
 > Table 1: Mean weight loss of subjects in the five diet treatments. Means followed
-> by the same letter not differ significantly (Tukey test, p>0.05)
+> by the same letter did not differ significantly (Tukey test, p>0.05).
 
 Letter coding can also be used effectively in a figure. Again, we must ensure all the relevant information is given in the figure legend.
 
 ## Significant ANOVA but no differences in a Tukey test?
 
-It is possible to get a significant result from the global ANOVA test but find no significant differences in a Tukey test, though it doesn’t happen often. ANOVA and the Tukey HSD test (or indeed other multiple comparison tests) are different tests, with different null hypotheses. Because of this it is possible to end up with a significant result from ANOVA, indicating at least one difference between means, but fail to get any differences detected by the Tukey test. This usually happens when the ANOVA result is marginal (close to *p* = 0.05). If it happens then aside from running the experiment again with more replication, there isn’t much we can do except make the best interpretation we can from inspecting the data, and be suitably cautious in the conclusions we draw^[It might be tempting to run a new post hoc analysis with using a different kind of test. Don't do this. It is a terrible strategy for doing statistics because this kind of practise is guaranteed to increase the overall false positive rate.]. If in doubt seek some expert advice!
+It is possible to get a significant result from the global ANOVA test but find no significant differences in a Tukey test, though it doesn’t happen often. ANOVA and the Tukey HSD test (or indeed other multiple comparison tests) are different tests, with different null hypotheses. Because of this it is possible to end up with a significant result from ANOVA, indicating at least one difference between means, but fail to get any differences detected by the Tukey test. This usually happens when the ANOVA result is marginal (close to *p* = 0.05). If it happens then aside from running the experiment again with more replication, there isn’t much we can do except make the best interpretation we can from inspecting the data, and be suitably cautious in the conclusions we draw^[It might be tempting to run a new post hoc analysis using a different kind of test. Don't do this. It is a terrible strategy for doing statistics because this kind of practise is guaranteed to increase the overall false positive rate.]. If in doubt seek some expert advice!
 
