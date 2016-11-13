@@ -1,0 +1,248 @@
+# Data transformations
+
+## Data that violate ANOVA assumptions {#transforms-introduction}
+
+Up until now, the data you have been given have conformed, at least roughly, to the assumptions of the tests you have been using. All very handy. But the real world being the messy place it is, biological data often don’t even roughly conform to the assumptions of *t*-tests and ANOVA. There are various ways in which data can fail to meet the distributional assumptions:
+
+-   Data may not be normally distributed.
+
+-   Variances of samples may be unequal.
+
+The same kinds of problems with distributional assumptions can also arise when working in a regression (i.e. non-normal residuals, non-constant variance). Furthermore, we might run into additional problems if there is some kind of non-linearity in the relationship between the dependent variable and the independent (numeric) variable. These same issues can also arise when working with and ANCOVA.
+
+Most biological data are unlikely to conform perfectly to all the assumptions, but experience has shown that, fortunately, *t*-tests, ANOVA’s, regressions and ANCOVAs are generally quite robust---i.e. they perform reasonably well with data that deviate to some extent from the assumptions of the tests. However, in some cases residuals are clearly very far from normal, or the their variances changes a lot across groups or more generally, with respect to fitted values.
+
+In these cases steps may need to be taken to deal with the problem. This chapter deals with one way of tackling the analysis of data that don’t fit the assumptions --- **data transformation**. We will mostly focus on ANOVA and *t*-test settings, but the ideas are equally applicable to the analysis of data with numeric independent variables (regression and ANCOVA).
+
+## Data transformation: ANOVAs and *t*-tests {#ant-eg}
+
+### The data: foraging in ants 
+
+Red wood ants, *Formica rufa*, forage for food (mainly insects and ‘honeydew’ produced by aphids) both on the ground and in the canopies of trees. Rowan, oak and sycamore support very different communities of insect herbivores (including aphids) and it would be interesting to know whether the foraging efficiency of ant colonies is affected by the type of trees available to them. As part of an investigation of the foraging of *Formica rufa* observations were made of the prey being carried by ants down trunks of rowan, oak and sycamore trees. The total biomass of prey being transported was measured over a 30 minute sampling period and the data were expressed as the biomass (dry weight in mg) of prey divided by the total number of ants leaving the tree to give the rate of food collection per ant per half hour. Observations were made on 28 rowan, 26 sycamore, and 27 oak trees.
+
+The data are the file ANTS1.CSV. The `Tree` variable contains the tree identities and the `Food` variable contains the food collection rates.
+
+```{block, type='do-something'}
+**Work through the ants example**
+
+You should begin working through the ants example. You need to download the ANTS1.CSV file from MOLE and place it in your working directory. Read the data into an R data frame, giving it the name `ants`.
+```
+
+```{r}
+ants <- read.csv("./data_csv/ANTS1.CSV")
+```
+
+### Checking the assumptions
+
+As always, before we carry out any kind of statistical test, we should look at the raw data or even better, assess some regression diagnostics.
+
+What assumptions do we need to check? The test you are most likely to want to use with these data is an ANOVA, i.e. we want to assess whether the mean food collection rates are different among the three tree species. The following assumptions should therefore be checked:
+
+1. **Independence.** The experimental units of the data must be independent.
+
+2. **Measurement scale.** The data is measured on an interval or ratio scale.
+
+3. **Normality.** The data is normally distributed in each level of the grouping factor. 
+
+4. **Equal variance.** The variance in each level of the grouping factor is the same.
+
+As always, we'll have to assume the first assumption is OK. The food collection rate is obviously measured on a ratio scale. 
+
+The simplest way to check the normality assumption is to look at the histograms of the distributions of the samples:
+```{r}
+ggplot(ants, aes(x = Food)) + 
+  geom_histogram(binwidth = 6) + facet_wrap(~ Tree)
+```
+... or we could make a dot plot:
+```{r}
+ggplot(ants, aes(x = Food)) + 
+  geom_dotplot(binwidth = 6) + facet_wrap(~ Tree)
+```
+...or we could construct a box and whiskers plot:
+```{r}
+ggplot(ants, aes(x = Tree, y = Food)) + 
+  geom_boxplot()
+```
+These plots all tell much the same story---the food collection rate data seem to be right-skewed. Since we now know how to do it, let's produce a regression diagnostic plot to evaluate the normality assumption. Remember, we make these kinds of plots **after** we have fitted a statistical model (ANOVA in this instance): 
+```{r}
+ant.mod <- lm(Food ~ Tree, data = ants)
+```
+We need to produce a 'normal probability plot' to assess the normality assumption, which is easy to make once we have a fitted model object:
+```{r}
+plot(ant.mod, which = 2)
+```
+This plot exhibits the accelerating curvature that is indicative of right-skewed residuals. 
+
+So... no matter how we check the normality assumption, it looks like there is a problem. This sort of pattern is quite common in biological data, especially if the data involve counts. Clearly you might be a bit worried about using an ANOVA with these data since it assumes the data to be at least approximately normally distributed.
+
+Are the variances significantly different? Look at the box plots. You will also notice that the data from the three samples seem to have rather different scatter. The sample from the rowan has less variation than that from the sycamore, and the sycamore has less variation than the oak. The scale-location plot tell the same story?
+```{r}
+plot(ant.mod, which = 3)
+```
+This clearly shows that the variance increases with the fitted values. So it looks like there is also a problem with the constant variance assumption---i.e. the variance increases with the mean. Again, this pattern is very common in biological data.
+
+In the light of these evaluations, we have three options …
+
+1.  To carry on and carry out an ANOVA anyway---hoping that the violation of the assumptions won’t matter too much.
+
+2.  To try and transform the data in some way to make it fit the assumptions better, then carry out an ANOVA.
+
+3.  To use a different sort of test which doesn’t require the data to conform to these assumptions. Such tests are known as **nonparametric tests**.
+
+We will consider the first two options below, and return to the third next week.
+
+## Carrying on anyway {#carry-on}
+
+Carrying on and performing an analysis anyway doesn’t sound like a very good idea if you’ve already decided that the assumptions are suspect, but don’t dismiss it straight away. Mild departures from the assumptions often do not make a huge difference to the results of ANOVA (i.e. the *p*-values). At the very least, it can be instructive to carry out an analysis without 'fixing' the apparent problems so that we can assess whether they matter or not.
+
+We already fitted the ANOVA model so that we could make some diagnostic plots. All we have to do is pass this to the `anova` function to get the *F*-ratios and *p*-values:
+```{r}
+anova(ant.mod)
+```
+Based on these results, it looks like there is a highly significant difference in food collection rates across the three tree species. We know the data are problematic though, so the question is, does this result stand up when we deal with these problems?  
+
+```{block, type='advanced-box'}
+#### *t*-tests are robust
+
+The 'carry on anyway' strategy can often be justified if we just need to compare the sample means of two groups, because in this situation we can use a *t*-test rather than an ANOVA. Remember that by default R uses a version of the *t*-test that allows for unequal sample variances. This at least deals with one potential problem. The *t*-test is also fairly robust to violations of the normality assumption when the sample sizes are small, and when the sample sizes are large, the normality assumption matters even less.
+
+The ability to do a *t*-test which doesn’t require equal variances is extremely useful and should be used by default. A word of warning though: some people advise carrying out a statistical test of equal variance, and if the variances are deemed not to be significantly different, using the version of a two-sample *t*-test that assumes equal variances. This is not good advise. Following this procedure leads to less reliable *p*-values. The reason for this effect is somewhat technical, but trust us here, this procedure is not good statistical practise.
+```
+
+## Transforming the data {#transform}
+
+One approach to dealing with difficult data is to fiddle about with it until it fits the assumptions better: a process called *data transformation*. This may sound a bit dubious, but it is a perfectly valid procedure which will often allow you to use the test you want to even if the data don’t initially fit the assumptions. 
+
+### The logarithmic transformation
+
+Before worrying about whether such things should be allowed in the honest and objective world of data analysis, try a simple transformation on the samples in the ant data set. Instead of using the original numbers we will convert them to their logarithms. You can use common logs (logs to the base 10, written log$_{10}$) or natural logs (logs to the base, written log$_{e}$ or ln). It doesn't matter they have exactly the same effect on the data in terms of making it meet the assumptions of ANOVA (or not).
+
+Applying a log transform is quick and easy in R, as there are built in functions to take common logs and natural logs, called `log10` and `log`, respectively. We'll use mutate to add a new variable, which is the common log of `Food`:
+```{r}
+ants <- mutate(ants, logFood = log10(Food))
+```
+
+```{block, type='do-something'}
+**Asessing assumptions --- raw data**
+
+Create a log-transformed version of the `Food` variable and then assess the assumptions of ANOVA using this new variable. You should look at both the raw data using histograms, dot plots, or box and whisker plots, just as we did above. Do not produce any diagnostic plots yet.
+```
+
+You should have found that the distributions look rather more normal, and the scatter in the data seems similar in the three groups. So far so good. 
+
+```{block, type='do-something'}
+**Asessing assumptions --- regression diagnostics**
+
+Check the normality and constant variance assumptions again, but this time use appropriate regression diagnostic plots. You need to fit a new model with `lm` to do this (remembering to use the transformed version of `Food`!). 
+```
+
+What do the regression diagnostics show? The scale location-plot indicates that the constant variance assumption is now OK. The normal probability plot isn't bad (certainly better than before), but it's not perfect either, i.e., the points aren't all on the 1:1 line.
+
+Still, the log transformation seems to to have improved things quite a lot. Since all the assumptions are now (nearly) satisfied, we can now carry out an ANOVA to compare the means of the three samples by passing the new model object to `anova`.
+
+Record your results and compare them with those you obtained previously. What has happened? We still see evidence for a significant effect of tree (*p*<0.01) with the transformed data, but the *p*-value is somewhat bigger than when we used the original data. This illustrates why it is important to evaluate assumptions, and to deal with them when they are obviously violated---the output of a statistical test is affected. It did not matter too much here, but in other settings we can end up with misleading or downright spurious results if we ignore problems with the assumptions of a statistical model.
+
+```{block, type='advanced-box'}
+**Values of 0--what to do with them**
+
+One thing you need to beware of is that **you cannot take the log of zero**. If your data contain zeros you should add a small value (conventionally 1) to all the data before taking the logs (so your transformation is actually log$(x+1)$).
+```
+
+### Presenting results from analyses of transformed data
+
+Having compared the transformed means, how do you present the results in a report? There are three alternatives (illustrated here using the log-transformation, but applicable to others).
+
+1.  You could present the transformed means (having stated what the transformation was, e.g. $log_{e}(x+1)$). The disadvantage to this is that the numbers themselves convey little information about the data values on the original scale.
+
+2.  Your could back-transform the means of the log-transformed data by taking the antilogs (these usually appear as $10^{x}$ (for logs to the base 10) and $e^{x}$ (for natural logs) on calculators. (N.B. if you have used log$(x+1)$ remember to subtract the 1 again after taking the antilog.) If you back-transform data, however, you need to be aware of two things: (1) The back-transformed mean will not be the same as a mean calculated from the original data; (2) You cannot back-transform standard errors very easily. If you want to display the back-transformed means on a bar plot, with some indication of the variability of the data, you must calculate the standard errors and back transform the upper and lower limits, which will not then be symmetrical about the mean.
+
+3.  You could also present the means calculated from the original data but state clearly that the statistical analysis was carried out on transformed data.
+
+Generally, option 3 is the simplest.
+
+## Types of transformations and when to use them {#trans-types}
+
+Clearly, in the case study above, a log-transformation alters outcome of statistical tests applied to the data. It is not always the case that transforming the data will make the difference between a result being significant and not significant, or that the transformed data will give a less significant result. What you hope is that you can alter that data so that they conform, at least approximately, to the assumptions of the test you want to do, making the result from that test as reliable as possible.
+
+Taking logarithms is only one of many possible transformations. Each type of transformation is appropriate to solving different problems in the data. The following is a summary of the three most commonly used transformations and the sort of situations they are useful for.
+
+### Logarithms
+
+Log transformation, as you’ve just seen, affects the data in two ways:
+
+1.    A log-transformation stretches out the left hand side (smaller values) of the distribution and squashes in the right hand side (larger values). This is obviously useful where the data set has a long tail to the right as in the example above.
+
+2.    The 'squashing' effect of a log-transformation is more pronounced at higher values. This means a log-transformation may also deal with another common problem in biological data (also seen in the ant data)---samples with larger means having larger variances. 
+
+If you are doing an ANOVA and when you construct a scale-location plot you see a positive relationship—--i.e. groups with larger means have larger variances—--then a log transformation could be appropriate. Log transformations have a variety of other uses in statistics (and indeed elsewhere). One is in transforming data when looking at relationships between two variables.
+
+### Square roots
+
+Taking the square root of the data is often appropriate where the data are whole number counts. This typically occurs where your data are counts of organisms (e.g. algal cells in fields of view under a microscope). The corresponding back-transformation is obviously $x^{2}$.
+
+In R the square root of a set of data can be taken using the `sqrt` function. However, note that there is no `square` function in the list. Taking squares is done using the `^` operator with the number 2 on the right (e.g. if the variable is called `x`, use `x^2`).
+
+### Arcsine square root
+
+This transformation is generally used where the data are in the form of percentages or proportions. It can be shown in theory (even if not from the data you actually have) that such data are unlikely to be normally distributed. A correction for this effect is to take the inverse sines of the square roots of the original data, i.e. $\arcsin \sqrt{x}$.
+
+```{block, type='warning-box'}
+**Converting percentages to proportions**
+
+Although this transformation is usually discussed in the context of percentages you cannot actually take the arcsine of numbers larger than 1, and obviously percentages can range between 0 and 100. To get round this, if you are dealing with percentage data, simply express the percentages as proportions (e.g. 100% = 1, 20% = 0.2, 2% = 0.02, etc.) before doing the transformation.
+```
+
+In R the transformation can be achieved by combining the `sqrt` and `asin` functions inside `mutate`. For example, if we need to transform a proportion stored in the `x` variable use something like...
+```{r, eval = FALSE}
+mydata <- mutate(mydata, assqrt.x = asin(sqrt(x))
+```
+...where `mydata` is the name of hypothetical data frame containing the data. Just remember to apply `sqrt` and `asin` in the correct order. We used nested functions here, which are applied from the inside to the outside. If you find that confusing, you may want to break the calculation up into two separate steps inside `mutate`:
+```{r, eval = FALSE}
+mydata <- mutate(mydata, 
+                 assqrt.x = sqrt(x),
+                 assqrt.x = asin(assqrt.x))
+```
+
+### Other transformations
+
+In addition to the standard transformations above there are a variety of others less commonly used. One problem which the above transformations don’t deal with is when data have a negative skew (i.e. a long tail to
+the left).
+
+This problem can sometimes be dealt with, or at least reduced, by squaring the data values. In R the transformation can be achieved by combining the `^` operator inside `mutate`. For example, we might use something like...
+```{r, eval = FALSE}
+mydata <- mutate(mydata, sqr.x = x^2)
+```
+...where `mydata` is again the name of hypothetical data frame containing the data. 
+
+### Situations which cannot be dealt with by transformations
+
+There are some situations where no amount of transformation of the data will get round the fact that the data are just not right. Three in particular are worth noting...
+
+-   **Multimodal distributions**: these may in fact have only one actual mode, but nonetheless have two or more clear ‘peaks’ (N.B. not to be confused with distributions that are ‘spiky’ just because there are few data).
+
+-   **Dissimilar distribution shapes**: if the two (or more) samples have very different problems, e.g. one is strongly right-skewed and the other strongly left-skewed then no single transformation will be able to help---whatever corrects one sample will distort the other.
+
+-   **Samples with many exactly equal values**: with results that are small integer numbers (e.g. counts of numbers of eggs in birds’ nests) then there will be many identical values. If the non-normality results from lots of identical values forming a particular peak, for example, this cannot be corrected by transformation since equal values will still be equal even when transformed.
+
+```{block, type='advanced-box'}
+#### Is it fiddling the data?
+
+Changing the data by transformation can alter the results of a statistical test---so isn't this a bit dodgy?  The key thing here is to realise that the scales on which we measure things are, to some extent, arbitrary. Transforming data to a different scale replaces one arbitrary scale with another.  The transformations we have discussed don't alter the ordering of data points relative to each other---they only alter the size of the gaps between them. In some cases this rescaling can make the data more amenable to study, analysis or interpretation.
+
+In fact we often use data transformations, perhaps without realising it, in many situations other than doing statistical tests. For example, when you look at a set of pH readings you are already working with log transformed data since pH units (0-14) are actually the negative logarithms of the hydrogen ion concentration in the water. Similarly measurements of noise in decibels (dB), and seismic disturbance on the Richter scale, are actually logarithmic scales.
+
+In fact, there are subtle ways in which using a transformation can affect what aspect of the biological system it is your measurements are characterising but this is an issue beyond the scope of this course. We'll give one example that might make sense to you if you studied maths beyond secondary school---a logarithmic transformation turns a 'multiplicative' process into an 'additive' one.
+
+One final comment... Obviously you have to apply the same transformation to all the data, e.g. you can't log transform one sample in your *t*-test and leave the other alone---that really would be cheating!
+```
+
+## What about other kinds of models (regression, ANCOVA, etc)?
+
+We have focussed on ANOVA here for the simple reason that the assumptions are a bit easier to evaluate compared to regression or ANCOVA. However, exactly the same ideas apply when working with these kinds of models. Always check the diagnostic plots after you fit a regression or ANCOVA. If you see evidence for non-normality or non-constant variance, try transforming the dependent variable, using something like a log or square root transformation. Then refit the model and produce the regression diagnostics to see if the new model is any better. 
+
+## Final thoughts
+
+Evaluating assumptions and picking transformations is as much 'art' as science. It takes time and experience to learn how to do it. R makes it very easy to try out different options, so don't be afraid to do this. Frequently, with real biological data, no straightforward transformation really improves the form of the data or in correcting one problem you generate another. Fortunately, in many cases where the assumptions of a the test are not reasonably well fulfilled, there is an alternative approach---the use of a nonparametric test. Such tests are the topic of the next chapter.
+
+
+

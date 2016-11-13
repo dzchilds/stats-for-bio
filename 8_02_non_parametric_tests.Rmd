@@ -1,0 +1,281 @@
+# Non-parametric tests
+
+## What is a non-parametric test? {#what-is-non-par}
+
+Until now, the the majority of procedures we have used to evaluate statistical significance involve a number of assumptions about population distributions. These are referred to as parametric methods because they are underpinned by a mathematical model of the population(s) (we discussed this idea in the [Parametric statistics] chapter). For this reason, the corresponding statistical tests---e.g. global significance tests and multiple comparisons tests in ANOVA---are called **parametric tests**.
+
+There a number of statistical tests which make much weaker assumptions and can consequently be employed with a much wider range of forms of data. These are called **non-parametric tests**. Although non-parametric tests are less restrictive in their assumptions than their parametric equivalents, they are not, as is sometimes stated, assumption-free. The term non-parametric is just a catch-all term that applies to any test which doesn’t assume the data are drawn from a *specific* distribution. Examples of non-parametric tests that we've already seen include: 
+
+-   The bootstrap and permutation test procedures introduced in the first few chapters are non-parametric techniques.
+
+-   The $\chi^{2}$ goodness of fit and the $\chi^{2}$ contingency table tests both make fairly weak assumptions about the data.
+
+-   Spearman's rank correlation test is often viewed as a type of non-parametric test of association.
+
+In this chapter we are going to look at non-parametric tests which perform analyses equivalent to some of the parametric tests we have encountered (*t*-test and ANOVA).
+
+## How does a non-parametric test work? {#non-par-intro}
+
+The key thing about the non-parametric tests in this chapter is that the calculations are done using the rank order of the data, whatever the type of the original data-–-ratio, interval, or ordinal.
+
+The general principle of such a test can be easily illustrated with the following data...
+
+  ----------- ----- ----- ----- -----
+  Sample A:    1.3   2.8   4.1   3.2
+  Sample B:    7.2   3.0   4.2   6.2
+  ----------- ----- ----- ----- -----
+
+If all the data (i.e. from both samples) are put in ascending order...
+
+  ----------- ----- ----- ----- ----- ----- ----- ----- -----
+  Sample A:    1.3   2.8         3.2   4.1              
+  Sample B:                3.0               4.2   6.2   7.2
+  ----------- ----- ----- ----- ----- ----- ----- ----- -----
+
+Then each number can be given a rank according to its place in the ordering...
+
+  ----------- --- --- --- --- --- --- --- ---
+  Sample A:    1   2       4   5          
+  Sample B:            3           6   7   8
+  ----------- --- --- --- --- --- --- --- ---
+
+It is easy to see now that if the rank values from each sample are added up Sample A will have a lower value (sum = 12) than Sample B (sum = 24).
+
+If the samples had been completely non-overlapping the totals would have been...
+
+  ----------- ----- ----- ----- --- ----- ----- ----- --- ------
+  Sample A:    1 +   2 +   3 +   4                        = 10
+  Sample B:                          5 +   6 +   7 +   8  = 26
+  ----------- ----- ----- ----- --- ----- ----- ----- --- ------
+
+On the other hand, if the samples had been largely overlapping the rank totals would have been equal, or close to it...
+
+  ----------- ----- ----- ----- ----- ----- ----- --- --- ------
+  Sample A:    1 +               4 +         6 +   7      = 18
+  Sample B:          2 +   3 +         5 +             8  = 18
+  ----------- ----- ----- ----- ----- ----- ----- --- --- ------
+
+Obviously, the greater the difference in the rank totals the less likely it is that the two samples could have come from the same distribution of values---i.e. the more likely it is that difference between them may be statistically significant.
+
+The important thing to notice in such a procedure is that the original data could have been replaced with quite different values which, provided the ordering was the same, would have given exactly the same result. In other words the outcome of the test is reasonably insensitive to the underlying distribution of the data.
+
+## Non-parametric equivalents to *t*-tests and ANOVA
+
+There are several non-parametric procedures (all available R) which provide similar types of test to the simple parametric tests we have seen already. The actual calculations for the different tests are a little more involved than the general outline above, but they work from the same basic principle: find the rank order of all the data, and then use the ranks in different groups to assess the statistical significance of the observed differences.
+
+The three tests discussed here are:
+
+1) __Wilcoxon signed-rank test__: The test is equivalent to a one-sample and paired-sample *t*-test. This test also goes by the name of the Wilcoxon one-sample test or the Wilcoxon paired-sample test. It can be used to...
+    - compare a sample to a single value, or
+    - test for differences between paired samples.
+    
+(The Wilcoxon signed-rank test is almost always used to evaluate the significance of differences between paired samples)
+
+2) __Mann-Whitney *U*-test__: This is equivalent to the two-sample *t*-test. It tests for differences between two unpaired samples. This test also goes by the name of the Wilcoxon two-sample test, the Mann–Whitney–Wilcoxon, Wilcoxon rank-sum test.
+
+3) __Kruskal-Wallis test__: tests for differences between several samples. This is equivalent to a one-way analysis of variance.
+
+Notice that we haven't said anything about *what kind* of differences among samples these evaluate. We'll address this question as we discuss each test.
+
+## Wilcoxon signed-rank test
+
+The most widely used non-parametric equivalent to the one-sample *t*-test is the Wilcoxon signed-rank test. The test can be used for any situation requiring a test to compare the median of a sample against a single value. However, it is almost always used to analyse data collected using a paired-sample design, so we'll focus on that particular application of the test in this chapter. The test makes less stringent assumptions than the *t*-test, but it does still make assumptions about the data:
+
+*   The variable being tested is measured on ordinal, interval, or ratio scales
+
+*   The distribution of the variable is approximately symmetric^[There is an alternative to the Wilcoxon test which doesn’t make an assumption about the distribution being symmetrical---called the sign test. This can be done in R, but there isn't a dedicated function for the sign test, and in any case, it is not very powerful with smaller sample sizes.].
+
+The first assumption is simple enough---the variable can be anything but nominal. The second assumption essentially means that it doesn’t matter what the distribution of the variable looks like as long as it is symetric---it would not be satisfied if the distribution were strongly right- or left-skewed.
+
+As with the *t*-test, when applied to paired-sample data the Wilcoxon signed-rank test starts by finding the differences between all the pairs, and then tests whether these differences are significantly different form zero. The distribution under consideration is the *distribution of differences* between the pairs. The distribution of these differences will often be approximately normal even when the data in the two connected samples are not themselves normally distributed. Even if the samples have odd distributions, we may still find that we can use a paired-sample *t*-test because the set of differences has a perfectly acceptable distribution. However, if the distribution of differences is not normal then the Wilcoxon test provides an alternative. 
+
+The following is an example of a situation where the Wilcoxon test would be appropriate.
+
+### Leaf damage, plant defences and feeding by winter moth larvae
+
+```{r, echo=FALSE}
+leaves <- read.csv(file="./data_csv/LEAF_DAMAGE.CSV")
+```
+
+It has been hypothesised that plants respond to physical damage to their leaves from herbivores such as lepidopteran larvae by increasing production of defensive compounds such as phenolics. In an experiment to test this effect, birch saplings were subjected to artificial leaf damage (hole punching) on half the leaves on selected branches. After 24 h undamaged leaves from both the branches with hole-punched leaves and others distant from the damage site were collected and used in a choice test experiment with winter moth larvae. Twenty trials were carried out with a single caterpillar in each trial, offered one of each type of leaf (i.e. one leaf from close to the damage site and one from an undamaged area). The percentage of each leaf consumed was estimated (to the nearest 5%) after 24h.
+
+The data are in the file LEAF_DAMAGE.CSV: 
+```{r, eval=FALSE}
+leaves <- read.csv(file="LEAF_DAMAGE.CSV")
+glimpse(leaves)
+```
+There are three variables: `ID` contains a unique identifier for each pair of leaves in a trial (1-20), `Leaf` identifies the type of leaf ('Damaged' vs. 'Undamaged'), and `Damage` contains the percent damage score.
+
+We should visualise the distribution of the differences between pairs of observations. We'll use a dot plot:
+```{r}
+# step 1 -- calculate the differences
+leaves_diff <- 
+  leaves %>% 
+  group_by(ID) %>% 
+  summarise(DiffDamage = diff(Damage))
+# step 2 -- make the plot
+ggplot(leaves_diff, aes(x = DiffDamage)) + 
+  geom_dotplot(binwidth = 10)
+```
+There are large differences in both directions and the distribution does not seem to be normal---it is very 'flat'. The problem here is that caterpillars often spend time feeding on the first leaf they encounter (which is a more or less random choice); some may change leaves in quickly in response to the quality of the leaf, others may feed for sometime before leaving the leaf. We might still expect those on better defended leaves to feed less, as the leaves should be less palatable, but they may not make the behavioural decision to leave the leaf during the short period of the experiment (the experiment cannot go on for longer because the leaves change chemically the longer they are detached from the plant)
+
+The distribution may not be normal, but it is roughly symmetrical. so the assumption of the Wilcoxon signed-rank test seems reasonable. We can therefore use this test to examine whether there is any difference in caterpillar feeding on leaves from damaged areas and undamaged areas. We carry out the test using the `wilcox.test` function^[There are two different ways to use the `wilcox.test` function for a paired design. These are analogous to the two methods used to carry out a paired sample *t*-test: the first uses the raw data and makes use of the R's formula system. The second supplies the function with a vector of differences]:
+```{r}
+wilcox.test(Damage ~ LeafType, paired = TRUE, data = leaves)
+```
+We just have to remember to set `paired = TRUE`. If we forget to do this R will carry out the two-sample version of the test (the Mann-Whitney *U*-test discussed next).
+
+The elements of the output should be fairly easy to understand by now. We see a statement of the test hypothesis, followed by the results: a test statistic and *p*-value. Although the test statistic is given as 'V' in the output, it is conventional to quoted it as ‘W’ when writing it in a report. This seems a bit odd, but it stems from the fact that there is some variation in the literature about what we report, and how to report, non-parametric tests.
+
+Think about the test we just did. By default, the `wilcox.test` carries out a two-tailed test. That is, it makes no assumption about the direction of the difference. Is this reasonable? If not, carry out the test again using a one-tailed test. 
+
+```{block, type='do-something'}
+**MOLE question**
+
+State your result and conclusion from the test:
+```
+
+## The Mann-Whitney *U*-test {#mann-whitney}
+
+The Mann-Whitney *U*-test is the non-parametric equivalent to the independent two-sample *t*-test. The test can be used for any situation requiring a test to compare the median of two samples. The assumptions of the Mann-Whitney *U*-test are:
+
+*   Data are on ordinal, interval, or ratio scales.
+
+*   The observations from both groups are independent of one another.
+
+The first two assumptions are straightforward---data can be anything but nominal, and as with a paired-sample *t*-test, there must not be any dependence between the observations. Though not strictly necessary for the Mann-Whitney *U*-test to be valid we usually add a third assumption: 
+
+*   Though they need not be normal, the data in each group have similar distributions.
+
+This assumption essentially means that it doesn’t matter what the distributions of the data are like, but they should be at least roughly similar----it would not be satisfied if we plan to compare data from a strongly right-skewed distribution with data from a strongly left-skewed distribution.
+
+When all three of the above assumptions are satisfied the Mann-Whitney *U*-test is used as a way of looking for differences between the central tendency of two distributions. A two-sample *t*-test evaluates the statistical significance of differences between two means. The null hypothesis of the Mann-Whitney *U*-test (if all three of the above assumptions) is that the two distributions *have the same median* . A significant *p* value therefore indicates that the medians are likely to be different.
+
+### Ant foraging
+
+Let's use the Red wood ants example from the chapter on transformations to see how to carry out the Mann-Whitney *U*-test. The data are the file ANTS1.CSV (not ANTS2.CSV!). Recall that the total biomass of prey being transported (i.e. the rate of food collection per ant per half hour) on three different tree species (rowan, sycamore and oak) was measured in this study. The `Tree` variable contains the identities and the `Food` variable contains the food collection rates. 
+
+```{r, echo = FALSE}
+ants <- read.csv("./data_csv/ANTS1.CSV")
+```
+
+Since we the Mann-Whitney *U*-test only compares two samples, we will just focus on the oak and sycamore here. After reading the data into R...
+```{r, eval = FALSE}
+ants <- read.csv("ANTS1.CSV")
+```
+...we need to use the filter function to remove 'Rowan' cases:
+```{r}
+ants <- filter(ants, Tree != "Rowan")
+```
+The `Tree != "Rowan"` inside the filter function specifies that we want cases where `Tree` *is not equal to* (`!=`) 'Rowan'.
+
+It is easy to carry out a Mann-Whitney *U*-test in R, though somewhat confusingly, we have to use a function called `wilcox.test`. This is because, as we noted above, the Mann-Whitney *U*-test is also called a **two-sample Wilcoxon test**.
+
+The `wilcox.test` function works much like the `t.test` or `lm` function. The first argument should be a formula, and the second should be the data frame containing the relevant variables:
+```{r}
+wilcox.test(Food ~ Tree, data = ants)
+```
+The formula (`Food ~ Tree`) works in the same way as other statistical function in R: the variable containing the values we wish to compare (`Food`) is on the left hand side of the `~` and the variable containing the group identities (`Tree`) belongs to the right of it.
+
+The output from a Mann-Whitney *U*-test is a little cryptic, but not too dissimilar from that produced by the `t.test` function. At the top we see a summary of the test:
+```{r, echo=FALSE}
+cat("Wilcoxon rank sum test with continuity correction\n")
+```
+Remember, the two-sample Wilcoxon test is the same thing as a Mann-Whitney *U*-test so there is nothing to worry about here. After this line we are reminded about the data used in the test, and finally, we see a test statistic ('W'ilcoxon) and the associated *p*-value. Since *p*=0.07, we conclude the rates of removal of prey biomass were not significantly different between ants foraging in oak and in sycamore. In a report the conclusion from the test can be summarised...
+
+>  The rates of removal of prey biomass were not significantly different between ants foraging in oak and in sycamore (Mann-Whitney *U*-test: U=453.5, n~1~=26, n~2~=27, *p*=0.07).
+
+Notice how the statistics were reported. Because we are describing the test as a Mann-Whitney *U*-test, it is conventional to quote the test statistic as 'U', rather than 'W'. If we had decided to present the test as a two-sample Wilcoxon test the test can be summarised...
+
+>  The rates of removal of prey biomass were not significantly different between ants foraging in oak and in sycamore (two-sample Wilcoxon test: *W*=453.5, n~1~=26, n~2~=27, *p*=0.07).
+
+...remembering to change the name ('two-sample Wilcoxon test') and label ('W') used to describe the test statistic. In either case, we also have to provide the sample sizes associated with each tree group so that a reader can judge how powerful the test was. 
+
+Finally, note that we can use `wilcox.test` do a one-tailed or two-tailed test, just as with a *t*-test. Here we wanted a two-tailed test, as we did not have a prior expectation about the direction of the difference. If a one-tailed test was required we would set this using the `alternative` argument to 'greater' or 'less', e.g. 
+```{r, eval = FALSE}
+wilcox.test(Food ~ Tree, data = ants, alternative = 'greater')
+```
+
+## Non-parametric analysis of more than two samples {#more-than-two}
+
+### The Kruskal-Wallis test
+
+The *Kruskal-Wallis* test allows us to test for differences between more than two samples, in much the same way as a one-way ANOVA. Like the other rank-based tests we have encountered it has some assumptions, but these are less restrictive than those for ANOVA.
+
+### Learning in cuttlefish
+
+In a study of the ability of cuttlefish to learn, an experiment was conducted to determine how the length of exposure to a situation influenced the learning process. Cuttlefish feed on prawns. If they are presented with prawns in a glass tube they strike at them but, obviously, fail to capture the prey. Not surprisingly, after a period of this fruitless activity, they give up striking at the prawns.
+
+In the experiment, 50 cuttlefish were divided at random into 5 groups of 10 and cuttlefish from each group were presented with prawns in glass tubes for different lengths of time: 2 min., 4 min., 8 min., 15 min., and 30 min. for the 5 groups respectively. After 24 hours the same cuttlefish were presented with prawns again and the number of strikes they made (over a fixed period) were recorded.
+
+```{r, echo=FALSE}
+cuttlefish <- read.csv(file="./data_csv/CUTTLEFISH.CSV")
+```
+
+The data are in the file CUTTLEFISH.CSV. There are two variables: `Strikes` contains the number of strikes recorded and `Time` identifies the groups (period of previous exposure). Read these data into R, calling the data frame `cuttlefish`. Examine the data with `View`.
+
+Take a quick look at the data. We want to make plot dot plots of the data for each treatment separately...
+```{r}
+ggplot(cuttlefish, aes(x = Strikes)) + 
+  geom_dotplot(binwidth = 2) + facet_wrap(~ Time)
+```
+The data are clearly very variable, more so in some samples than others. The combination of this variation, possible skew, and the fact that the data are generally small whole numbers with several equal values in each sample, means that we may not be very successful in using a transformation to beat the data into shape---it might be simpler to go for a Kruskal-Wallis test.
+
+Predictably, the R function to carry out a Kruskal-Wallis test is called `kruskal.test`, and it is used in exactly the same way as every other statistical modelling function we have looked at:
+```{r}
+kruskal.test(Strikes ~ Time, data = cuttlefish)
+```
+
+And again... the elements of the output should be easy to work out. These are a statement of the test hypothesis, followed by the results: a test statistic (another type of 𝜒^2^ statistic), a degrees of freedom, and the all-important *p*-value. We report all of these when writing up results of a Kruskal-Wallis test. However, once again there is some disagreement in the literature how to report a Kruskal-Wallis test---some people report the statistic as a  𝜒^2^ , while others refer to it as an 'H' statistic. We will follow the common convention of reporting it as an 'H' value in this course.
+
+```{block, type='do-something'}
+**MOLE question**
+
+Write an appropriate summary/conclusion from this test:
+```
+
+The test (as with ANOVA) tells us that there is at least one difference amongst the groups, but it doesn’t tell where the difference or differences are. The output does not give the medians so we cannot judge how the samples are ordered. Instead, we use `dplyr` to calculate the group-specific medians... 
+```{r}
+cuttlefish %>% 
+  group_by(Time) %>% 
+  summarise(Median = median(Strikes))
+```
+...and in this case it is fairly clear that longer periods of exposure to the protected prawn do seem to result in fewer strikes in the later trial.
+
+If it was important to know exactly which treatments were significantly different, then some sort of multiple comparison test would be useful. Unfortunately there are no non-parametric multiple comparison tests available in base R, though they are implemented in the package **nparcomp**. Further details on this, and other appropriate tests can be found in intermediate level statistics text books.
+
+## Why use non-parametric tests ... and when? {#why-when}
+
+### What are the advantages?
+
+Since most non-parametric tests make relatively weak assumptions about the distribution of the data, they are obviously useful techniques for many situations where the data we have are not well suited to parametric tests. If in doubt, a non-parametric test may be a safe bet.
+
+They also have another important feature which hasn’t been emphasised yet but is of considerable value. Since non-parametric tests work with ranks of the original data, they can be used to analyse data originally collected only in ordinal, or rank, form.
+
+This is extremely useful in many investigations where the data cannot be collected any other way for example...
+
+-   Subjects in a psychology experiment might be asked to rank a series of photographs of people in order of attractiveness
+
+-   A panel of tasters judging the sweetness of wines may be able to score sweetness on a rank scale
+
+-   Encounters between animals might be scored on the basis of the aggressive behaviours shown which can be put in rank order (retreats, stands ground passively, fights when attacked, initiates attack)
+
+-   The apparatus for making actual measurements might be unavailable---but relative comparisons can be made by direct observation, perhaps in the field---e.g. ‘greenness’ of leaves, turbidity of water, crawling speed of caterpillars, order of dung fly species arrival on a new dung pat, etc.
+
+### What are the disadvantages?
+
+Given their advantages, there has to be a catch otherwise everyone would use them for everything!
+
+One problem with non-parametric tests is that if the data are actually appropriate for a parametric test the equivalent non-parametric test will be less powerful (i.e. less likely to find a difference even if there really is one). For some tests the difference is not enormous---for example, if data are suitable for a *t*-test the Mann-Whitney *U*-test is about 95% as powerful as the *t*-test. For this reason, an appropriate transformation followed by a parametric test will yield a more powerful analysis.
+
+A second limitation of non-parametric tests is that by their very nature, they are less informative than parametric tests. For example, if we find a significant differences between group medians using a Kruskal-Wallis test, it can be difficult to understand which differences are driving the significant effect (methods are available, but they are not easy to use). On the other hand, if we can determine a suitable transformation and use an ANOVA model we can deploy tools such as multiple comparison tests to better understand the data. 
+
+Parametric models make stronger distributional assumptions about the data, but in some ways they are much more flexible than non-parametric tests, i.e. there are non-parametric equivalents to many parametric tests, but there are some for which there is no readily available non-parametric equivalent (e.g., the more complex designs of ANOVA). There is a non-parametric equivalent to two-way ANOVA for randomized block designs, called *Friedman’s test* (available via the `friedman.test` function in R), but beyond that the options are very limited unless we are able to use advanced techniques such as the bootstrap. If we encounter a more complex analysis for which a non-parametric test would be appropriate but is not available we need to either use transformation, or break the analysis down into simpler parts that can be analysed non-parametrically, or collect the data in a different way.
+
+### Parting words
+
+Inappropriately distributed data can result in incorrectly high or incorrectly low significance levels. We should choose the statistical model we use on the basis of what the data look like in relation to the assumptions of the model, and reasons in principle, even if not clearly evident in a small sample, why the population from which the data are drawn might be expected to violate the test assumptions. On the principle that biological data rarely, if ever fully comply with the assumptions of parametric tests, it is sometimes advocated that non-parametric tests should always be used. This is not very good advice. There is more to statistics than just calculating *p*-values, and where possible, we should prefer readily intepretable models to more 'black box' approaches. Use both approaches as appropriate and be aware of the strengths and weaknesses of each.
+
+
+
+
