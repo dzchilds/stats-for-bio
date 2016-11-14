@@ -10,7 +10,7 @@ Our goal in this chapter is to learn how to work with two-way ANOVA models in R.
 festuca <- read.csv(file = "./data_csv/FESTUCA.CSV")
 ```
 
-Plants have an optimal soil pH for growth, and this varies between species. Consequently we would expect that if we grow two plants in competition with each other at different pH values the effect of competition might vary according to the soil pH. In a recent study the growth of the grass *Festuca ovina* (Sheep’s Fescue) in competition with the heather *Calluna vulgaris* (Ling) was investigated in soils with different pH. *Calluna* is well adapted to grow on very acidic soils such as on the Millstone grit and blanket bogs arround Sheffield. *Festuca* grows on soils with a much wider range of pH. We might hypothesise that *Calluna* will be a better competitor of *Festuca* in very acid soils than in moderately acid soils.
+Plants have an optimal soil pH for growth, and this varies between species. Consequently we would expect that if we grow two plants in competition with each other at different pH values the effect of competition might vary according to the soil pH. In a recent study the growth of the grass *Festuca ovina* (Sheep’s Fescue) in competition with the heather *Calluna vulgaris* (Ling) was investigated in soils with different pH. *Calluna* is well adapted to grow on very acidic soils such as on the Millstone grit and blanket bogs around Sheffield. *Festuca* grows on soils with a much wider range of pH. We might hypothesise that *Calluna* will be a better competitor of *Festuca* in very acid soils than in moderately acid soils.
 
 To test this hypothesis an experiment was designed in which Festuca seedlings were grown in pots at all combinations of two levels of two different kinds of treatment:
 
@@ -59,7 +59,7 @@ ggplot(data = festuca, aes(x = Calluna, y = Weight, colour = pH)) +
 
 The main purpose of a plot like this to help us understand what the treatments are doing. We want to quickly assess things like: How big are the main effects? What direction do they work in? Is there likely to be an interaction? It looks like the higher pH conditions tends to increase *Festuca* growth, and the presence of *Calluna* tends to reduce it (yes, plants compete!). The more interesting observation is that the effect of *Calluna* seems to be greater at higher pH. It looks like we might have an interaction.
 
-At this point it may be tempting to start evaluating the assumptions of our model. If we have a large number of replicates then it sometimes makes sense to do this with a box and whiskers plot, or seperate dot plots for each treatment combination. We don't have that many replicates though, and even if we did, it is much better to rely of regression diagnostics. We need to fit the model first to get at these.
+At this point it may be tempting to start evaluating the assumptions of our model. If we have a large number of replicates then it sometimes makes sense to do this with a box and whiskers plot, or separate dot plots for each treatment combination. We don't have that many replicates though, and even if we did, it is much better to rely of regression diagnostics. We need to fit the model first to get at these.
 
 ## Fitting the ANOVA model and interpreting the results
 
@@ -77,11 +77,11 @@ What kind of ANOVA have we fitted, i.e., what are the terms on the right hand si
 ```{r, eval = FALSE}
 Weight ~ pH + Calluna + pH:Calluna
 ```
-There are three terms, each seperated by a `+` symbol: `pH`, `Calluna` and `pH:Calluna`. This tells R that we want to fit a model that accounts for the main effects of `pH` and `Calluna`, and that we also wish to include the interaction between these two factors. The specification of the main effects is fairly self-explanatory---we just include the name of each factor variable in the formula. The interaction term is less obvious. It is specified by the a colon (the `:` symbol) with the two interacting variables either side of it. 
+There are three terms, each separated by a `+` symbol: `pH`, `Calluna` and `pH:Calluna`. This tells R that we want to fit a model that accounts for the main effects of `pH` and `Calluna`, and that we also wish to include the interaction between these two factors. The specification of the main effects is fairly self-explanatory---we just include the name of each factor variable in the formula. The interaction term is less obvious. It is specified by the a colon (the `:` symbol) with the two interacting variables either side of it. 
 
-In summary... 1) the `~` symbol specifies a formula in R, where the name on the left hand side is the variable we are analysing, and the names on the right denote the terms in the model; 2) we place a `+` between terms to delineate them (we are not adding anything up when the `+` is used in a formula); 3) each main effect is specifed by the corresponding factor name; and 4) an interaction between factors is specified by the `:` symbol.
+In summary... 1) the `~` symbol specifies a formula in R, where the name on the left hand side is the variable we are analysing, and the names on the right denote the terms in the model; 2) we place a `+` between terms to delineate them (we are not adding anything up when the `+` is used in a formula); 3) each main effect is specified by the corresponding factor name; and 4) an interaction between factors is specified by the `:` symbol.
 
-Notice that we assigned the result a name (`festuca_model`) which now refers to the model object produced by `lm`. Just as with a one-way anova, we can't extract *p*-values by printing this object to the console, because all this gives us is a limited summary of the fitted model's coefficients:
+Notice that we assigned the result a name (`festuca_model`) which now refers to the model object produced by `lm`. Just as with a one-way ANOVA, we can't extract *p*-values by printing this object to the console, because all this gives us is a limited summary of the fitted model's coefficients:
 ```{r}
 festuca_model
 ```
@@ -101,7 +101,7 @@ The scale-location plot allows us to see whether or not the variability of the r
 plot(festuca_model, which = 3, add.smooth = FALSE)
 ```
 
-We'r on the lookout for a systematic pattern in the size of the residuals and the fitted values---does the variability go up or down with the fitted values? There is no such pattern so it looks like the constant variance assumption is at least satisfied here.
+We're on the lookout for a systematic pattern in the size of the residuals and the fitted values---does the variability go up or down with the fitted values? There is no such pattern so it looks like the constant variance assumption is at least satisfied here.
 
 We've identified one potential problem. We'll ignore it for now and press on. The goal here is to learn the work flow for two-way ANOVA in R. However, keep in mind that if we were serious about the analysis we should find a way to 'fix' it. We're going to learn some useful tricks for doing this in later chapters.
 
@@ -135,7 +135,7 @@ An 'interaction diagram' provides a good way to think about these issues...
 
 ### Understanding the model graphically
 
-How should we go about interpreting the significant effects? To reiterate, the interaction tells us that the magnitude, or even direction, of the effect of one factor is dependent upon the levels of the other factor. In other words the treatment effects are contigent on one another. This contingency can arise in a number of ways, giving rise to different mixtures of main effects and interactions. This is illustrated most easily by considering some hypothetical results from a pH/*Calluna* experiment of this sort, in schematic form (the *Calluna* bars are linked by a dotted line):
+How should we go about interpreting the significant effects? To reiterate, the interaction tells us that the magnitude, or even direction, of the effect of one factor is dependent upon the levels of the other factor. In other words the treatment effects are contingent on one another. This contingency can arise in a number of ways, giving rise to different mixtures of main effects and interactions. This is illustrated most easily by considering some hypothetical results from a pH/*Calluna* experiment of this sort, in schematic form (the *Calluna* bars are linked by a dotted line):
 
 ```{r interaction-diagrams, echo = FALSE, out.width='100%', fig.align='center'}
 knitr::include_graphics(rep("./images/interaction-diagrams.png"))
@@ -180,7 +180,7 @@ festuca_aov <- aov(festuca_model)
 ```{r, eval = FALSE}
 TukeyHSD(festuca_aov, which = 'pH:Calluna')
 ```
-We have surpressed the output for now. The only new tweak that we have to learn is the `which` argument. Assigning this the value `'pH:Calluna'` makes the `TukeyHSD` function carry out all pairwise comparisons among the means of each treatment combination, i.e., we are considering with the full set of interactions. Here is the output:
+We have suppressed the output for now. The only new tweak that we have to learn is the `which` argument. Assigning this the value `'pH:Calluna'` makes the `TukeyHSD` function carry out all pairwise comparisons among the means of each treatment combination, i.e., we are considering with the full set of interactions. Here is the output:
 ```{r, echo = FALSE}
 TukeyHSD(festuca_aov, which = 'pH:Calluna')
 ```

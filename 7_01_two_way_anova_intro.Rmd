@@ -63,7 +63,7 @@ Notice that 'factor levels' and 'treatments' are synonymous when using the secon
 
 ## Degrees of freedom, mean squares, and *F*-statistics
 
-We are not going to step through the logic underpinning the calculations of the degrees of freedom, sum of squares, mean squares, and *F*-statistics. The logic is no different than that used in one-way ANOVA. It is a bit trickier to explain and visualise though. Ultimately, an *F*-statistic is calculated for each term, which is the ratio of the term's mean square and the error mean square. A higher *F*-statistic is more likley to be significant, and the *p*-value is calculated by comparing the *F*-statistic to the theoretical *F* distribution.
+We are not going to step through the logic underpinning the calculations of the degrees of freedom, sum of squares, mean squares, and *F*-statistics. The logic is no different than that used in one-way ANOVA. It is a bit trickier to explain and visualise though. Ultimately, an *F*-statistic is calculated for each term, which is the ratio of the term's mean square and the error mean square. A higher *F*-statistic is more likely to be significant, and the *p*-value is calculated by comparing the *F*-statistic to the theoretical *F* distribution.
 
 ## Multiple comparison tests
 

@@ -407,7 +407,7 @@ p = ?
 Write a statement of the result of the test suitable for inclusion in the results section of the plant pathologist's report.
 ```
 
-### Sheep, grass and nature reserves
+### Sheep, grass and nature reserves {#sheep-grass}
 
 The management committee of a nature reserve wants to manage some large grassland areas of the reserve using low density sheep grazing to prevent the grass becoming too long and making the habitat unsuitable for some of the low-growing herbaceous plants for which the reserve is important. Before implementing the plan they conduct a pilot experiment using some fenced plots on the reserve, to test whether low density sheep grazing affects various species of plants.
 
@@ -755,3 +755,127 @@ Prepare a summary of differences between means.
 Comment on any features of biological interest in the results.
 ```
 
+
+
+## Week 8
+
+### Limpets and salinity
+
+Limpets live on rocky shores, often in rock pools and on exposed rock surfaces. Those limpets which live in rock pools can experience a very wide range of salinity conditions during the daily tidal cycle, especially if fresh water from inshore flows into the pools when the tide is out. A researcher was interested in whether two different limpet species (*Acmaea scabra* and *Acmaea digitalis*) differ in their internal concentration of sodium ions when exposed to low salinity conditions.
+
+Eight limpets of each species were placed in tanks of water containing (100% sea water; 75% seawater diluted with distilled water, and 50% sea water diluted with distilled water. The data are stored in a file called ACMAEA.CSV. The layout of the data should be fairly obvious: sodium ion concentration is stored in the `Sodium` variable, species codes are in `Species` (levels: 'scabra' = *A. scabra*, 'digitalis' = *A. digitalis*), and salinity is in `Salinity` (levels: 50, 75 and 100).
+
+Use `glimpse` to understand the data set. What kind of variable is `Salinity`? It is not a factor. When R reads in the data it assumes `Salinity` is meant to be treated as a numeric vector because it contains numeric values. We need to convert it to a factor before proceeding so that `lm` fits the right kind of model (i.e. an ANOVA model). Use the `mutate` function with the `factor` function to convert `Salinity` to a factor variable.
+
+These data can be used to answer the following questions:
+
+1.  Does salinity affect the sodium concentration in the limpets?
+
+2.  Do the two species differ in their internal sodium concentrations?
+
+3.  Do the species differ in their response to changes in salinity?
+
+Prepare an interaction plot to allow you to visually assess the likely answers to these questions:
+
+```{r acmaea-interaction-plot, echo=FALSE, fig.align='center', fig.asp=0.8, fig.width=4}
+acmaea.sodium <- read.csv("./data_csv/ACMAEA.CSV")
+acmaea.sodium <- mutate(acmaea.sodium, Salinity = factor(Salinity))
+acmaea.means <- 
+  group_by(acmaea.sodium, Species, Salinity) %>% 
+  summarise(Means = mean(Sodium))
+ggplot(acmaea.means, 
+       aes(x = Salinity, y = Means, colour = Species, group = Species)) +
+  geom_point(size = 4) + geom_line()
+```
+
+Once you are satisfied you understand the relationships proceed with a statistical analysis to address the three questions.
+
+```{block, type='do-something'}
+**MOLE question**
+
+What effects does the analysis indicate? 
+
+| Term              | *F* | *d.f.* | *p* |
+|:------------------|:---:|:------:|:---:|
+| Salinity effect:  |  ?  |   ?    |  ?  |
+| Species effect:   |  ?  |   ?    |  ?  |
+| Interaction:      |  ?  |   ?    |  ?  |
+
+```
+
+Use your knowledge of the data and the fitted model object to check the assumptions of your analysis.
+
+```{block, type='do-something'}
+**MOLE question**
+
+What type of data are they?
+```
+
+```{block, type='do-something'}
+**MOLE question**
+
+Do the data satisfy the assumption of normality?
+```
+
+```{block, type='do-something'}
+**MOLE question**
+
+Are the variances similar among treatment combinations?
+```
+
+Finally, think about how to best summarise the results in written form.
+
+```{block, type='do-something'}
+**MOLE question**
+
+Summarise the results from the ANOVA in words.
+```
+
+If you find any the global significance tests to be significant, it may be appropriate to carry out one, or more, multiple comparison tests. You should not carry out tests for any effects that are not significant (there’s no point in testing means you already know not to be different!).
+
+```{block, type='do-something'}
+**MOLE question**
+
+If there were significant effects in the ANOVA summarise the differences between the means using a table of means with appropriate letter codes, and in words.
+```
+
+```{block, type='do-something'}
+**MOLE question**
+
+What does the analysis suggest about the osmoregulation of *Acmaea*.
+```
+
+Finally, see if you can prepare the following "publication quality" plot to summarise the results:
+
+```{r acmaea-pub-plot, echo=FALSE, fig.align='center', fig.asp=1., fig.width=4}
+acmaea.stats <- 
+  group_by(acmaea.sodium, Species, Salinity) %>% 
+  summarise(Means = mean(Sodium), SE = sd(Sodium)/sqrt(n()))
+
+pos <- position_dodge(0.25)
+ggplot(acmaea.stats, 
+       aes(x = Salinity, y = Means, colour = Species,
+           ymin = Means-SE, ymax = Means+SE)
+       ) +
+  geom_point(position = pos) + 
+  geom_errorbar(position = pos, width = 0.2) + 
+  theme_bw() + ylab("Sodium ion concentration")
+```
+
+### Sheep, grass and nature reserves (again)
+
+Take another look at the [Sheep, grass and nature reserves](#sheep-grass) question from the week 4 (the data are in GENTIANS_GRAZING.CSV). This was an example of a paired design, where the variable of interest was species diversity in pairs of grazed and ungrazed plots. The data were originally analysed using a paired-sample *t*-test. Repeat the analysis, but now do it in two ways: 1) use a paired-sample *t*-test, 2) use an appropriate ANOVA.
+
+Warning: Check the data carefully after you read it in. Pay close attention to the type of variable that R creates for the `Plot` column. You may need to prepare the data for analysis first...
+
+```{block, type='do-something'}
+**MOLE question**
+
+How similar are the results relating to grazing impacts from the two analyses?
+```
+
+```{block, type='do-something'}
+**MOLE question**
+
+What is the mathematical relationship between the *t*-statistic from the paired-sample *t*-test and the *F*-ratio (for the treatment effect) from the ANOVA?
+```

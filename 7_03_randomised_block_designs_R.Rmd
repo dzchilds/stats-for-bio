@@ -10,7 +10,7 @@ We have only considered one type of experimental ANOVA design up until now: the 
 
 A nuisance factor is one that has an effect on the response---it creates variation---but is of no interest to the experimenter. To end up with the most powerful experiment possible, the variability induced by nuisance factors should be accounted for at the design stage of an experiment. We can do this by **blocking** the experiment with respect to nuisance factors. The idea behind blocking was considered in the [Principles of experimental design] chapter. Let's consider a hypothetical experiment to remind ourselves how blocking works...
 
-Imagine we're evaluating the effect of three different fertilizer application rates on wheat yields (t/ha). We suspect that the soil type and managment histories of our experimental fields are quite different, leading to significant 'field effects' on yield. We don't care about these field effects---they are a nuisance---but we'd like to account for them. There are two factors in play in this setting: the first is the set of treatments that are the subject of the experiment (fertilizer application rate); the second is the source of nuisance variation (field). Fertilizer application rate is the 'treatment factor' and field is the 'blocking factor'.
+Imagine we're evaluating the effect of three different fertilizer application rates on wheat yields (t/ha). We suspect that the soil type and management histories of our experimental fields are quite different, leading to significant 'field effects' on yield. We don't care about these field effects---they are a nuisance---but we'd like to account for them. There are two factors in play in this setting: the first is the set of treatments that are the subject of the experiment (fertilizer application rate); the second is the source of nuisance variation (field). Fertilizer application rate is the 'treatment factor' and field is the 'blocking factor'.
 
 Here is one way to block the experiment. The essence of the design is that a set of fields are chosen, which may differ in various unknown conditions (soil water, aspect, disturbance, etc.) and within each field, three plots are set up. Each plot receives one of the three fertilizer rate treatments at random. If we chose to work with eight fields the resulting data might look like this:
 
@@ -26,11 +26,11 @@ Here is one way to block the experiment. The essence of the design is that a set
 |              | Field 8        | 9.1     | 7.0     |  8.1    |
 
 
-Each treatment level is represented in each field (blocks), but only once. The experiment ius 'blocked by field'. Now consider these two question:
+Each treatment level is represented in each field (blocks), but only once. The experiment is 'blocked by field'. Now consider these two question:
 
 -   Why is this design useful? Blocking allows us to partition out the environmental variation due to different field conditions. For example, the three treatments in field 5 produced a high yield relative to the yields within each treatment, while the yields in field 7 are consistently below average within each treatment. This among field variation is real, and if we hadn't blocked the experiment and used a CRD it would manifest itself in the 'noise' component of our analysis. But since we blocked the experiment, and every treatment is present in every block, we can 'remove' the block variation from the noise. Less noise means more statistical power.
 
--   Why is each treatment level is represented only once within blocks? This gives us eth best chance of generalising our results. If we are interested in the overall effect of fertilizer, we should prefer to put our effort into including a range of possible environmental conditions. If we only did the experiment in one field the results are might turn out to be rather unusual. We are not interested in the environmental variation as such, we just want to know for a range of conditions, whatever they might be, whether there are consistent differences between fertilizer application rates. 
+-   Why is each treatment level is represented only once within blocks? This gives us the best chance of generalising our results. If we are interested in the overall effect of fertilizer, we should prefer to put our effort into including a range of possible environmental conditions. If we only did the experiment in one field the results are might turn out to be rather unusual. We are not interested in the environmental variation as such, we just want to know for a range of conditions, whatever they might be, whether there are consistent differences between fertilizer application rates. 
 
 There are many different ways to introduce blocking into an experiment. The most commonly used design---and the one that is easiest to analyse---is called a **Randomized Complete Block Design**. The defining feature of this design is that *each block sees each treatment exactly once*. The fertiliser study is an example of an Randomized Complete Block Design (RCBD). The obvious question is: How do we analyse a RCBD? We'll explore that after a small detour....
 
@@ -87,7 +87,7 @@ On the face of it this looks like a straightforward one-way design, with each sp
 knitr::include_graphics(rep("./images/damselfly-expt-layouts.png"))
 ```
 
-What are the consequences of the two alternatives? If the cages are distributed at random (CRD) then they will cover a wide range of variation in these various factors. These sources of variation will almost certainly cause the density of midge larvae to vary around the pond un an unpredictable way, increasing the noise in the data. If we group sets of treatments into clusters we are creating 'spatial blocks'. There may be considerable differences between blocks, but these won’t obscure differences between the treatments because all three treatments are present in every block.
+What are the consequences of the two alternatives? If the cages are distributed at random (CRD) then they will cover a wide range of variation in these various factors. These sources of variation will almost certainly cause the density of midge larvae to vary around the pond in an unpredictable way, increasing the noise in the data. If we group sets of treatments into clusters we are creating 'spatial blocks'. There may be considerable differences between blocks, but these won’t obscure differences between the treatments because all three treatments are present in every block.
 
 ## Carrying out the analysis with R
 
@@ -116,7 +116,7 @@ damsels.model <- lm(Midge ~ Species + Block, data = damsels)
 anova(damsels.model)
 ```
 
-We surpressed the output for now. Notice that we only specified the two main effects (species and blocks)---we cannot test for the interaction. If we put an interaction term in the model, `lm` will fit it but the results from `anova` will be useless:
+We suppressed the output for now. Notice that we only specified the two main effects (species and blocks)---we cannot test for the interaction. If we put an interaction term in the model, `lm` will fit it but the results from `anova` will be useless:
 ```{r, echo = FALSE}
 wrong.model <- lm(Midge ~ Species + Block + Species:Block, data = damsels)
 anova(wrong.model)
@@ -129,6 +129,8 @@ anova(damsels.model)
 ```
 There are only two main effect terms in the ANOVA table, as expected. By this point we should be able to interpret these. There is a significant effect of block (*p* < 0.001), which says that the density of midge larvae varies across the lake. It looks like blocking was a good idea---there is a lot of spatial (nuisance) variation in midge larvae density. Of course what we actually care about is the damselfly species effect. This main effect term is not significant (*p* > 0.05), so we conclude that there is no difference in the impact that the predatory larvae of three damselfly species. 
 
+
+
 It is worth looking at what happens if we analyse the damselfly data as though they are from a one-way design. We do this by including only the experimental treatment term (Species) in the model:
 ```{r}
 damsels.oneway <- lm(Midge ~ Species, data = damsels)
@@ -138,12 +140,11 @@ Look at the degrees of freedom and the sums of squares of the residual (error). 
 
 ### Multiple comparisons anyone?
 
-In a randomised block analysis we are not usually interested in investigating significant block effects - the primary role of the blocking is to remove unwanted variation that might obscure the differences between treatments. R automatically gives us the a test of the block effect, and if it is significant it tells us that using the block layout has removed a considerable amount of variation (though even if the result isn’t quite what would conventionally be regarded as significant, i.e. if is not as low as 0.05, then the
-blocking may still have been helpful). For this, and other, technical reasons we never carry out multiple comparisons between the block means. If the treatment effect is significant, multiple comparisons can be done between the treatment means using the Tukey test.
+In a randomised block analysis we are not usually interested in investigating significant block effects - the primary role of the blocking is to remove unwanted variation that might obscure the differences between treatments. R automatically gives us the a test of the block effect, and if it is significant it tells us that using the block layout has removed a considerable amount of variation (though even if the result isn’t quite what would conventionally be regarded as significant, i.e. if is not as low as 0.05, then the blocking may still have been helpful). For this, and other, technical reasons we never carry out multiple comparisons between the block means. If the treatment effect is significant, multiple comparisons can be done between the treatment means using the Tukey test.
 
 ## Are there disadvantages to randomised block designs?
 
-The short answer is no, not really. There are instances when a randomised block design might appear to be disadvantageous at first glance, but these don't really stand up to critiscism:
+The short answer is no, not really. There are instances when a randomised block design might appear to be disadvantageous at first glance, but these don't really stand up to criticism:
 
 1.    What if we were interested in knowing whether there is an interaction between the levels of the block and the treatments? For example, in the damselfly experiment we might be interested to know whether, if the damselfly species have differing effects on the midge densities, these effects are consistent in all habitat areas (e.g. some species may forage more effectively in muddy areas, others where there are more leaves). If this is the question we are trying to answer, then we should really have designed a different experiment. For example, a two-way design (which might also include blocking) in which we consider treatment combinations of different midge species and habitat characteristics might be appropriate. Fundamentally, the goal of blocking is to account for *uncontrolled* variation. Designing a blocked experiment and then lamenting the fact that we can't fully evaluate differences among blocks is a good example of trying to "have our cake and eat it too". 
 
@@ -154,7 +155,7 @@ The advice contained in the quote at the beginning of this chapter is probably t
 ## Multiple blocking factors
 
 ```{block, type='do-something'}
-You will not be assessed on the material in this section. It is here to demonstrate that there are options beyond the Randomised Complete Block Design, but that they arenl;t easy to employ.
+You will not be assessed on the material in this section. It is here to demonstrate that there are options beyond the Randomised Complete Block Design, but that they aren't easy to employ.
 ```
 
 It is common to find ourselves in a situation whereby we need to account for more than one blocking factor. The simplest option is to combine the nuisance factors into a single factor. However, this isn't always possible, or even desirable. Consider an instance where there is a single factor of primary interest (the treatment factor) and two nuisance factors. For example, imagine that we want to test three drugs A, B, C for their effect in alleviating the symptoms of a disease. Three patients are available for a trial, and each will be available for three weeks. Testing a single drug requires a week, meaning an experimental unit is a ‘patient-week’. The obvious question is, how should we randomise treatments across ‘patient-weeks’?

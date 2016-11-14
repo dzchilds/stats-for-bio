@@ -1,111 +1,5 @@
 
-### Limpets and salinity
-
-#### The data
-
-Limpets live on rocky shores, often in rock pools and on exposed rock surfaces. Those limpets which live in rock pools can experience a very wide range of salinity conditions during the daily tidal cycle, especially if fresh water from inshore flows into the pools when the tide is out. A researcher was interested in whether two different limpet species (*Acmaea scabra* and *Acmaea digitalis*) differ in their internal concentration of sodium ions when exposed to low salinity conditions.
-
-Eight limpets of each species were placed in tanks of water containing (100% sea water; 75% seawater diluted with distilled water, and 50% sea water diluted with distilled water. The data are stored in a file called ACMAEA.CSV. The layout of the data should be fairly obvious: sodium ion concentration is stored in the `Sodium` variable, species codes are in `Species` (levels: 'scabra' = *A. scabra*, 'digitalis' = *A. digitalis*), and salinity is in `Salinity` (levels: 50, 75 and 100).
-
-Use `glimpse` to understand the data set. What kind of variable is `Salinity`? It is not a factor. When R reads in the data it assumes `Salinity` is meant to be treated as a numeric vector, because it only contains numeric values. We need to convert this to a factor before proceeding so that `lm` fits the right kind of model (i.e. ANOVA).
-
-Use the `mutate` function with the `factor` function to convert `Salinity` to a factor variable, remembering to assign the modified data frame a name so that you can use it in your analysis.
-
-Prepare an interaction plot to investigate the data. Do you think you are likely to find a significant interaction?
-
-```{r, eval = FALSE, echo = FALSE}
-acmaea.sodium <- mutate(acmaea.sodium, Salinity = factor(Salinity))
-
-acmaea.means <- 
-  group_by(acmaea.sodium, Species, Salinity) %>% 
-  summarise(Means = mean(Sodium))
-acmaea.means
-
-ggplot(acmaea.means, 
-       aes(x = Species, y = Means, colour = Salinity, group = Salinity)) +
-  geom_point(size = 4) + geom_line()
-
-anova(lm(Sodium ~ Salinity * Species, data = acmaea.sodium))
-```
-
-#### ANOVA - salinity, species and interaction?
-
-We want to use two-way ANOVA to answer the following questions:
-
-1.  Does salinity affect the sodium concentration in the limpets?
-
-2.  Do the two species differ in their internal sodium concentrations?
-
-3.  Do the species differ in their response to changes in salinity?
-
-If you think about these you can see that (1) concerns the salinity main effect, (2) the species main effect and (3) the interaction.
-
-The procedure to follow is much the same as with the *Festuca* example.
-
-First check the assumptions using a graphical approach.
-
-```{block, type='do-something'}
-**MOLE question**
-
-What type of data are they?
-```
-
-```{block, type='do-something'}
-**MOLE question**
-
-Do the data satisfy the assumption of normality?
-```
-
-```{block, type='do-something'}
-**MOLE question**
-
-Are the variances similar among treatment combinations?
-```
-
-If you are happy with the data proceed with the ANOVA.
-
-```{block, type='do-something'}
-**MOLE question**
-
-What effects does the ANOVA idicate? 
-
-| Term              | *F* | *d.f.* | *p* |
-|:------------------|:---:|:------:|:---:|
-| Salinity effect:  |  ?  |   ?    |  ?  |
-| Species effect:   |  ?  |   ?    |  ?  |
-| Interaction:      |  ?  |   ?    |  ?  |
-
-```
-
-```{block, type='do-something'}
-**MOLE question**
-
-Summarise the results from the ANOVA in words.
-```
-
-#### Multiple comparison tests
-
-If you find any effects from the overall ANOVA to be significant, it may be appropriate to carry out one, or more, multiple comparison tests. You should not carry out tests for any effects that are not significant (there’s no point in testing means you already know not to be different!).
-
-```{block, type='do-something'}
-**MOLE question**
-
-If there were significant effects in the ANOVA summarise the differences between the means using a table of means with appropriate letter codes, and in words.
-```
-
-```{block, type='do-something'}
-**MOLE question**
-
-What does the analysis suggest about the osmoregulation of *Acmaea*.
-```
-
 ## To transform or not - and how? {#when-how}
-
-```{block, type='do-something'}
-**Extended exericse with associated MOLE quiz**
-
-You should work through the exercise in this section step-by-step, following the instructions carefully. At various points we will interrupt the flow of instructions with a question. Make a note of your answer so that you can complete the associated MOLE quiz, which is called 'transformations 1'.   
-```
 
 In each of the following cases, examine the data, experiment with transformations, or use your biological insight or statistical knowledge, as appropriate.
 
@@ -113,8 +7,7 @@ In each of the following cases, examine the data, experiment with transformation
 
 (No actual data are provided for this exercise---we just want you to think about the hypothetical data)
 
-Spores of a particular fungal pathogen infect leaves of a tree wherever the spores happen to land and the subsequent development of the fungus causes a single distinct ’pustule’ on the leaf at each infection site
-(usually 0-10 per leaf). Imagine you have data from a study comparing the intensity of infection between canopy and sub-canopy leaves.
+Spores of a particular fungal pathogen infect leaves of a tree wherever the spores happen to land and the subsequent development of the fungus causes a single distinct ’pustule’ on the leaf at each infection site (usually 0-10 per leaf). Imagine you have data from a study comparing the intensity of infection between canopy and sub-canopy leaves.
 
 ```{block, type='do-something'}
 **MOLE question**
