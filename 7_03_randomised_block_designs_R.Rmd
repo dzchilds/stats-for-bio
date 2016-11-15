@@ -1,8 +1,8 @@
 # ANOVA for randomised block designs
 
-> Block what you can; randomize what you cannot.
+> *Block what you can; randomize what you cannot.*
 > 
-> --George Box
+> George Box
 
 ## Randomized Complete Block Designs
 
@@ -26,13 +26,13 @@ Here is one way to block the experiment. The essence of the design is that a set
 |              | Field 8        | 9.1     | 7.0     |  8.1    |
 
 
-Each treatment level is represented in each field (blocks), but only once. The experiment is 'blocked by field'. Now consider these two question:
+Each treatment level is represented in each field (block), but only once. The experiment is 'blocked by field'. Now consider these two questions:
 
 -   Why is this design useful? Blocking allows us to partition out the environmental variation due to different field conditions. For example, the three treatments in field 5 produced a high yield relative to the yields within each treatment, while the yields in field 7 are consistently below average within each treatment. This among field variation is real, and if we hadn't blocked the experiment and used a CRD it would manifest itself in the 'noise' component of our analysis. But since we blocked the experiment, and every treatment is present in every block, we can 'remove' the block variation from the noise. Less noise means more statistical power.
 
--   Why is each treatment level is represented only once within blocks? This gives us the best chance of generalising our results. If we are interested in the overall effect of fertilizer, we should prefer to put our effort into including a range of possible environmental conditions. If we only did the experiment in one field the results are might turn out to be rather unusual. We are not interested in the environmental variation as such, we just want to know for a range of conditions, whatever they might be, whether there are consistent differences between fertilizer application rates. 
+-   Why is each treatment level is represented only once within blocks? This gives us the best chance of generalising our results. If we are interested in the overall effect of fertilizer, we should prefer to put our effort into including a range of possible environmental conditions. If we only did the experiment in one field the results might turn out to be rather unusual. We are not interested in the environmental variation as such, we just want to know for a range of conditions, whatever they might be, whether there are consistent differences between fertilizer application rates. 
 
-There are many different ways to introduce blocking into an experiment. The most commonly used design---and the one that is easiest to analyse---is called a **Randomized Complete Block Design**. The defining feature of this design is that *each block sees each treatment exactly once*. The fertiliser study is an example of an Randomized Complete Block Design (RCBD). The obvious question is: How do we analyse a RCBD? We'll explore that after a small detour....
+There are many different ways to introduce blocking into an experiment. The most commonly used design---and the one that is easiest to analyse---is called a **Randomized Complete Block Design**. The defining feature of this design is that *each block sees each treatment exactly once*. The fertiliser study is an example of a Randomized Complete Block Design (RCBD). The obvious question is: How do we analyse an RCBD? We'll explore that after a small detour....
 
 ```{block, type='advanced-box'}
 **Remember the paired sample design?**
@@ -64,9 +64,9 @@ What's this... no replication? Isn't that a problem? In fact there is replicatio
 
 So... it is possible to carry out a two-way ANOVA without replication, though we can't learn anything about the interaction with this sort of design. Is this ever useful? There are two situations where this sort of unreplicated two-way arrangement is used:
 
-1. **One of the factors is a blocking factor**. We could have guessed this one, given what this chapter is about. If we have a single blocking factor and one treatment factor, and we adopt a RCBD, then this leads to an unreplicated two-way arrangement. The fact that we can't estimate the interaction is not a problem. In fact, "it's a feature, not a bug." We only care about the treatment factor. There might well be an interaction between the blocks and the experimental treatments, but we only need the average effect of treatments across blocks to be able to generalise our results.
+1. **One of the factors is a blocking factor**. We could have guessed this one, given what this chapter is about. If we have a single blocking factor and one treatment factor, and we adopt an RCBD, then this leads to an unreplicated two-way arrangement. The fact that we can't estimate the interaction is not a problem. In fact, "it's a feature, not a bug." We only care about the treatment factor. There might well be an interaction between the blocks and the experimental treatments, but we only need the average effect of treatments across blocks to be able to generalise our results.
 
-2. **We are considering two treatment factors (no blocks), but we are only interested in the main effects**. We have three choices in this situation: 1) conduct two separate one-way experiments, 2) construct a single two-way experiment without replication, or 3) construct a single two-way experiment with replication. The third option would be best, but sometimes we just don't have the resources to do it^[Having replication at each combination of factor will maximise statistical power, but it also makes for a more robust experiment---if we have only one replicate for a combination and we lose it then we have no information at all from that combination! If we lose just one of a number of replicates in a particular combination it may be a nuisance, but unlikely to ruin everything.]. What is the next best choice: option 1 or option 2? The two-way experiment without replication is the better option because a two-way design---with or without replication---is always more powerful than a pair of one-way experiments that include an equivalent number of replicates between them.
+2. **We are considering two treatment factors (no blocks), but we are only interested in the main effects**. We have three choices in this situation: 1) conduct two separate one-way experiments, 2) construct a single two-way experiment without replication, or 3) construct a single two-way experiment with replication. The third option would be best, but sometimes we just don't have the resources to do it^[Having replication at each combination of factors will maximise statistical power, but it also makes for a more robust experiment---if we have only one replicate for a combination and we lose it then we have no information at all from that combination! If we lose just one of a number of replicates in a particular combination it may be a nuisance, but unlikely to ruin everything.]. What is the next best choice: option 1 or option 2? The two-way experiment without replication is the better option because a two-way design---with or without replication---is always more powerful than a pair of one-way experiments that include an equivalent number of replicates between them.
 
 So there is nothing "dodgy" about a two-way design without replication. Indeed, it is 
 the best design to use in some situations. Let's see how to the analyse a Randomized Complete Block Design experiment. 
@@ -77,7 +77,7 @@ the best design to use in some situations. Let's see how to the analyse a Random
 It's important to realise that just because we can't test for the interaction, it does not mean there is no interaction effect between two factors. We simply can’t detect it even if it is there. However, as long as we have a balanced, orthogonal design, a significance test of main effects is still meaningful. If the balanced and orthogonal criteria are not met, then we do have to be very careful about how we interpret a significant main effect in the absence of replication, because the presence of an interaction may generate a spuriously significant main effect.
 ```
 
-## Analysing an RCBD experiments
+## Analysing an RCBD experiment
 
 Let's consider a new example to really drive home how an RCBD works. We want to assess whether there is a difference in the impact that the predatory larvae of three damselfly species (*Enallagma*, *Lestes* and *Pyrrhosoma*) have on the abundance of midge larvae in a pond. We plan to conduct an experiment in which small (1 m^2^) nylon mesh cages are set up in the pond. All damselfly larvae will be removed from the cages and each cage will then be stocked with 20 individuals of one of the species. After 3 weeks we will sample the cages and count the density of midge larvae in each. We have 12 cages altogether, so four replicates of each of the three species can be established.
 
@@ -110,8 +110,8 @@ glimpse(damsels)
 ```
 The density of midge larvae in each enclosure, after running the experiment for 3 weeks, are in the `Midge` variable (number m$^{-2}$); codes for species in the `Species` variable  (levels: *Enallagma*, *Lestes* and *Pyrrhosoma*), and the block identities (A, B, C, D) in the third column.
 
-The process of analysing an RCBD with is essentially the same as any other type of ANOVA. First we fit the model using the `lm` function and then we use `anova` to calculate *F*-statistics, degrees of freedom, and *p*-values:
-```{r, echo = FALSE}
+The process of analysing an RCBD is essentially the same as any other type of ANOVA. First we fit the model using the `lm` function and then we use `anova` to calculate *F*-statistics, degrees of freedom, and *p*-values:
+```{r, results = "hide"}
 damsels.model <- lm(Midge ~ Species + Block, data = damsels)
 anova(damsels.model)
 ```
@@ -121,13 +121,13 @@ We suppressed the output for now. Notice that we only specified the two main eff
 wrong.model <- lm(Midge ~ Species + Block + Species:Block, data = damsels)
 anova(wrong.model)
 ```
-Look at the residual degrees of freedom (the error degrees of freedom). The model we just fitted is called a saturated model---there are zero degrees of freedom left over after fitting the three terms. We can't calculate an error sum of squares, which means we can't calculate mean squares or F-ratios. This demonstrates that there really is no way estimate an interaction in ANOVA when there is no replication at the level of each combination of factor levels.
+Look at the residual degrees of freedom (the error degrees of freedom). The model we just fitted is called a saturated model---there are zero degrees of freedom left over after fitting the three terms. We can't calculate an error sum of squares, which means we can't calculate mean squares or *F*-ratios. This demonstrates that there really is no way to estimate an interaction in ANOVA when there is no replication at the level of each combination of factor levels.
 
 Here are the results of the global significance tests using the correct ANOVA model for our randomised block experiment:
 ```{r}
 anova(damsels.model)
 ```
-There are only two main effect terms in the ANOVA table, as expected. By this point we should be able to interpret these. There is a significant effect of block (*p* < 0.001), which says that the density of midge larvae varies across the lake. It looks like blocking was a good idea---there is a lot of spatial (nuisance) variation in midge larvae density. Of course what we actually care about is the damselfly species effect. This main effect term is not significant (*p* > 0.05), so we conclude that there is no difference in the impact that the predatory larvae of three damselfly species. 
+There are only two main effect terms in the ANOVA table, as expected. By this point we should be able to interpret these. There is a significant effect of block (*p* < 0.001), which says that the density of midge larvae varies across the lake. It looks like blocking was a good idea---there is a lot of spatial (nuisance) variation in midge larvae density. Of course what we actually care about is the damselfly species effect. This main effect term is not significant (*p* > 0.05), so we conclude that there is no difference in the impact of the predatory larvae of three damselfly species. 
 
 
 
@@ -136,11 +136,11 @@ It is worth looking at what happens if we analyse the damselfly data as though t
 damsels.oneway <- lm(Midge ~ Species, data = damsels)
 anova(damsels.oneway)
 ```
-Look at the degrees of freedom and the sums of squares of the residual (error). How do these compare to the previous model that accounted for the block effect? The degrees of freedom is higher. In principle this is a good thing because it means we have more power to detect a significant difference among the treatment means. However, the error sums of squares is also much higher when we ignore the block effect. We have accounted for much less noise by ignoring the block effect. As a result, the error mean square is much lower, and so the *F*-statistic associated with the treatment effect is also much lower. The take home message is that designing a blocked experiment, and properly accounting for the blocked structure, will (usually) result in a more powerful analysis.
+Look at the degrees of freedom and the sums of squares of the residual (error). How do these compare to the previous model that accounted for the block effect? The degrees of freedom is higher. In principle this is a good thing because it means we have more power to detect a significant difference among the treatment means. However, the error sum of squares is also much higher when we ignore the block effect. We have accounted for much less noise by ignoring the block effect. As a result, the error mean square is much lower, and so the *F*-statistic associated with the treatment effect is also much lower. The take home message is that designing a blocked experiment, and properly accounting for the blocked structure, will (usually) result in a more powerful analysis.
 
 ### Multiple comparisons anyone?
 
-In a randomised block analysis we are not usually interested in investigating significant block effects - the primary role of the blocking is to remove unwanted variation that might obscure the differences between treatments. R automatically gives us the a test of the block effect, and if it is significant it tells us that using the block layout has removed a considerable amount of variation (though even if the result isn’t quite what would conventionally be regarded as significant, i.e. if is not as low as 0.05, then the blocking may still have been helpful). For this, and other, technical reasons we never carry out multiple comparisons between the block means. If the treatment effect is significant, multiple comparisons can be done between the treatment means using the Tukey test.
+In a randomised block analysis we are not usually interested in investigating significant block effects---the primary role of the blocking is to remove unwanted variation that might obscure the differences between treatments. R automatically gives us a test of the block effect, and if it is significant it tells us that using the block layout has removed a considerable amount of variation (though even if the result isn’t quite what would conventionally be regarded as significant, i.e. if is not as low as 0.05, then the blocking may still have been helpful). For this, and other, technical reasons we never carry out multiple comparisons between the block means. If the treatment effect is significant, multiple comparisons can be done between the treatment means using the Tukey test.
 
 ## Are there disadvantages to randomised block designs?
 
