@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Our goal in this chapter is to learn how to work with two-way ANOVA models in R. As always, we'll do this by working through an example---using data from a plant a competition experiment. The work flow is very similar to one-way ANOVA in R. We'll start with the problem and the data, and then work through model fitting, evaluating assumptions, significance testing, and finally, presenting the results. 
+Our goal in this chapter is to learn how to work with two-way ANOVA models in R. As always, we'll do this by working through an example---using data from a plant competition experiment. The work flow is very similar to one-way ANOVA in R. We'll start with the problem and the data, and then work through model fitting, evaluating assumptions, significance testing, and finally, presenting the results. 
 
 ## Competition between *Calluna* and *Festuca*
 
@@ -46,7 +46,7 @@ A couple of points are worth noting at this point:
 
 1.  As is always the case in this book, the data are 'tidy'. Each experimental factor is in one column and each observation is in a single row. Last year we pointed out that data need to be in this format to be used effectively with `dplyr`. The same applies to the majority of R's statistical modelling tools---they expect data to be supplied in this format.
 
-2.  We avoided using numbers to encode the levels of the pH treatment. This is important, as it ensures that the `pH` variable will be converted into as a factor rather than a number when we read the data into R. We have said it before, but it is worth saying one more time: fewer mistakes will occur if we use words to encode the levels of a factor 
+2.  We avoided using numbers to encode the levels of the pH treatment. This is important, as it ensures that the `pH` variable will be converted into a factor rather than a number when we read the data into R. We have said it before, but it is worth saying one more time: fewer mistakes will occur if we use words to encode the levels of a factor.
 
 ## Visualising the data
 
@@ -57,9 +57,9 @@ ggplot(data = festuca, aes(x = Calluna, y = Weight, colour = pH)) +
   geom_boxplot()
 ```
 
-The main purpose of a plot like this to help us understand what the treatments are doing. We want to quickly assess things like: How big are the main effects? What direction do they work in? Is there likely to be an interaction? It looks like the higher pH conditions tends to increase *Festuca* growth, and the presence of *Calluna* tends to reduce it (yes, plants compete!). The more interesting observation is that the effect of *Calluna* seems to be greater at higher pH. It looks like we might have an interaction.
+The main purpose of a plot like this is to help us understand what the treatments are doing. We want to quickly assess things like: How big are the main effects? What direction do they work in? Is there likely to be an interaction? It looks like the higher pH conditions tends to increase *Festuca* growth, and the presence of *Calluna* tends to reduce it (yes, plants compete!). The more interesting observation is that the effect of *Calluna* seems to be greater at higher pH. It looks like we might have an interaction.
 
-At this point it may be tempting to start evaluating the assumptions of our model. If we have a large number of replicates then it sometimes makes sense to do this with a box and whiskers plot, or separate dot plots for each treatment combination. We don't have that many replicates though, and even if we did, it is much better to rely of regression diagnostics. We need to fit the model first to get at these.
+At this point it may be tempting to start evaluating the assumptions of our model. If we have a large number of replicates then it sometimes makes sense to do this with a box and whiskers plot, or separate dot plots for each treatment combination. We don't have that many replicates though, and even if we did, it is much better to rely on regression diagnostics. We need to fit the model first to get at these.
 
 ## Fitting the ANOVA model and interpreting the results
 
@@ -69,7 +69,7 @@ Here is the R code needed to carry out the model-fitting step with `lm`:
 ```{r}
 festuca_model <- lm(Weight ~ pH + Calluna + pH : Calluna, data = festuca)
 ```
-This is very similar to the R code used to fit a one-way ANOVA model. The first argument is a formula (notice the 'tilde' symbol: `~`) and the second argument is the name of the data frame that contain all the variables listed in the formula. That's all we need. 
+This is very similar to the R code used to fit a one-way ANOVA model. The first argument is a formula (notice the 'tilde' symbol: `~`) and the second argument is the name of the data frame that contains all the variables listed in the formula. That's all we need. 
 
 The specific model fitted by `lm` is a result of 1) the type of variables referenced in the formula, and 2) the symbols used to define the terms in the formula. To ensure that we have fitted an ANOVA model, the variables which appear to the right of the `~` must be factors or character vectors---an ANOVA only involves factors. The variable name to the left of the `~` is the numeric variable we are analysing. We know that `Calluna` and `pH` are factors, so we can be certain that `lm` has fitted some kind of ANOVA model.
 
@@ -77,7 +77,7 @@ What kind of ANOVA have we fitted, i.e., what are the terms on the right hand si
 ```{r, eval = FALSE}
 Weight ~ pH + Calluna + pH:Calluna
 ```
-There are three terms, each separated by a `+` symbol: `pH`, `Calluna` and `pH:Calluna`. This tells R that we want to fit a model that accounts for the main effects of `pH` and `Calluna`, and that we also wish to include the interaction between these two factors. The specification of the main effects is fairly self-explanatory---we just include the name of each factor variable in the formula. The interaction term is less obvious. It is specified by the a colon (the `:` symbol) with the two interacting variables either side of it. 
+There are three terms, each separated by a `+` symbol: `pH`, `Calluna` and `pH:Calluna`. This tells R that we want to fit a model that accounts for the main effects of `pH` and `Calluna`, and that we also wish to include the interaction between these two factors. The specification of the main effects is fairly self-explanatory---we just include the name of each factor variable in the formula. The interaction term is less obvious. It is specified by a colon (the `:` symbol) with the two interacting variables either side of it. 
 
 In summary... 1) the `~` symbol specifies a formula in R, where the name on the left hand side is the variable we are analysing, and the names on the right denote the terms in the model; 2) we place a `+` between terms to delineate them (we are not adding anything up when the `+` is used in a formula); 3) each main effect is specified by the corresponding factor name; and 4) an interaction between factors is specified by the `:` symbol.
 
@@ -125,7 +125,7 @@ invisible(sapply(festuca.out[4:8], function(line) cat(line, "\n")))
 ```
 This ANOVA table is similar to the ones we have already seen, except that now we have to consider three lines---one for each term in the model. The first is for the main effect of pH, the second for the main effect of *Calluna*, the third for the interaction between pH and *Calluna*. 
 
-The *F*-ratio is the test statistic for each term. These provides a measure of how large and consistent the effects associated with each term are. Each *F*-ratio has a pair of degrees of freedom associated with it: one belonging to the term itself, the other due to the error (residual). Together, *F*-ratio and its degrees of freedom determine the *p*-values. 
+The *F*-ratio is the test statistic for each term. These provides a measure of how large and consistent the effects associated with each term are. Each *F*-ratio has a pair of degrees of freedom associated with it: one belonging to the term itself, the other due to the error (residual). Together, the *F*-ratio and its degrees of freedom determines the *p*-value. 
 
 The *p*-value gives the probability that the differences between the set of means for each term in the model, or a more extreme difference, could have arisen through sampling variation under the null hypothesis of no difference. We take *p* < 0.05 as evidence that at least one of the treatments is having an effect. Here, *p* < 0.05 for three effects, so we conclude both main effects and the interaction are significant (though at different significance levels).
 
@@ -166,7 +166,7 @@ ggplot(festuca_means,
 
 Notice that we mapped pH to two aesthetics: colour and group. This 'trick' makes `ggplot2` link the levels of `pH` with lines, each of which gets its own colour.
 
-This clearly reveals how the different effects are working. Our interaction plot resembles the 4th hypothetical outcome. It is possible to make some interpretation of the main effects–--namely that increase in pH, and removal of *Calluna* increase *Festuca* yield. However, the magnitude of these effects is dependent on the other (interaction)---the effect of *Calluna* is increased at higher pH. 
+This clearly reveals how the different effects are working. Our interaction plot resembles the 4th hypothetical outcome. It is possible to make some interpretation of the main effects---namely that increase in pH, and removal of *Calluna* increase *Festuca* yield. However, the magnitude of these effects is dependent on the other (interaction)---the effect of *Calluna* is increased at higher pH. 
 
 ## Multiple comparison tests
 
@@ -180,7 +180,7 @@ festuca_aov <- aov(festuca_model)
 ```{r, eval = FALSE}
 TukeyHSD(festuca_aov, which = 'pH:Calluna')
 ```
-We have suppressed the output for now. The only new tweak that we have to learn is the `which` argument. Assigning this the value `'pH:Calluna'` makes the `TukeyHSD` function carry out all pairwise comparisons among the means of each treatment combination, i.e., we are considering with the full set of interactions. Here is the output:
+We have suppressed the output for now. The only new tweak that we have to learn is the `which` argument. Assigning this the value `'pH:Calluna'` makes the `TukeyHSD` function carry out all pairwise comparisons among the means of each treatment combination, i.e., we are considering the full set of interactions. Here is the output:
 ```{r, echo = FALSE}
 TukeyHSD(festuca_aov, which = 'pH:Calluna')
 ```
@@ -211,7 +211,7 @@ cld(lsm, alpha=.05, adjust="tukey", Letters = letters)
 ```{block, type='advanced-box'}
 **Multiple comparison tests for main effects**
 
-As mentioned above, in this experiment there is no point in trying to make further comparisons between the means from the main treatments (pH 3.5 and 5.5 , or with and without *Calluna*) since (a) there is a significant interaction, so detailed comparisons of the main effects are hard to interpret, and (b) even if that was not the case there are only two levels in each treatment so any difference must be between those two levels!
+As mentioned above, in this experiment there is no point in trying to make further comparisons between the means from the main treatments (pH 3.5 and 5.5, or with and without *Calluna*) since (a) there is a significant interaction, so detailed comparisons of the main effects are hard to interpret, and (b) even if that was not the case there are only two levels in each treatment so any difference must be between those two levels!
 
 However, it is quite common to have experiments with more than two levels in one or both factors. If the ANOVA indicates that there is a significant effect of one, or both, of the associated effects, and there is no interaction to worry about (don't forget this caveat), then you may wish to carry out multiple comparisons for the means associated with the main effects.
 
@@ -291,13 +291,13 @@ ggplot(festuca_stats,
   # controlling the appearance
   xlab("Calluna") + ylab("Festuca yield (g dry weight)")
 ```
-Remember (one more time) that we have to set the `stat` argument of `geom_bar` to `"identity"` to ensure it plots the y variable 'as is'. The only other other trick we need to apply is to set the `position` arguments of `geom_point` and `geom_bar` using `position_dodge`. If we don't do this, `ggplot2` will produce a stacked bar chart and the error bars will end up in the wrong place (the value of 0.9 used in `position_dodge(0.9)` ensures the error bars appear in the centre of each bar). 
+Remember (one more time) that we have to set the `stat` argument of `geom_bar` to `"identity"` to ensure it plots the y variable 'as is'. The only other other trick we need to apply is to set the `position` arguments of `geom_errorbar` and `geom_bar` using `position_dodge`. If we don't do this, `ggplot2` will produce a stacked bar chart and the error bars will end up in the wrong place (the value of 0.9 used in `position_dodge(0.9)` ensures the error bars appear in the centre of each bar). 
 
 ## Balanced or orthogonal designs
 
-We're going to finish this chapter with a small warning. In an ideal world, for ANOVA with two or more factors the experiment should be designed such that we have: 1) every possible combination of treatments represented, e.g. pH and *Calluna* factors each have two levels, so the experiment should have four treatment combinations; 2) equal numbers of replicates in each combination of treatments, e.g. all the cells in the data table for pH and *Calluna* treatments have equal numbers of data values. This leads to what is called a balanced, orthogonal experiment. The word balanced refers to 'equal numbers of replicates in each combination' aspect of the experiment. The word orthogonal refers to the 'every possible combination of treatments' aspect of the experiment.
+We're going to finish this chapter with a small warning. In an ideal world, for ANOVA with two or more factors the experiment should be designed such that we have: 1) every possible combination of treatments represented, e.g. pH and *Calluna* factors each have two levels, so the experiment should have four treatment combinations; 2) equal numbers of replicates in each combination of treatments, e.g. all the cells in the data table for pH and *Calluna* treatments have equal numbers of data values. This leads to what is called a balanced, orthogonal experiment. The word balanced refers to the 'equal numbers of replicates in each combination' aspect of the experiment. The word orthogonal refers to the 'every possible combination of treatments' aspect of the experiment.
 
-**The analysis workflow that we learn in this book assumes a balanced, orthogonal experimental design**. We put that in bold because it is a really important point to remember. If at all possible, aim for a balanced, orthogonal experimental design. This makes life much easier when the time comes to analyse the data. The workflow we're learning is only appropriate when using balanced, orthogonal design. If our experimental design does not meet these conditions, it is not necessarily a problem, but we need to consider its limitations. What are these? Here's the key one, we can't just take the fitted model object and pass it to the `anova` function to carry out the significance tests. We have to be a lot more careful than that.
+**The analysis workflow that we learn in this book assumes a balanced, orthogonal experimental design**. We put that in bold because it is a really important point to remember. If at all possible, aim for a balanced, orthogonal experimental design. This makes life much easier when the time comes to analyse the data. The workflow we're learning is only appropriate when using balanced, orthogonal design. If our experimental design does not meet these conditions, it is not necessarily a problem, but we need to consider its limitations. What are these? Here's the key one: we can't just take the fitted model object and pass it to the `anova` function to carry out the significance tests. We have to be a lot more careful than that.
 
 
 
