@@ -237,7 +237,7 @@ We want to plot some sample statistics (means and standard errors) so we first h
 festuca_stats <- 
   festuca %>% 
   group_by(Calluna, pH) %>% # <- remember to group by the two factors
-  summarise(Means = mean(Weight), SEs = sd(Weight)/n())
+  summarise(Means = mean(Weight), SEs = sd(Weight)/sqrt(n()))
 festuca_stats
 ```
 Once we've constructed a data frame containing the descriptive statistics we can make a plot:
