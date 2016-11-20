@@ -68,7 +68,7 @@ If we could measure every object in a population we wouldn't need to use statist
 
 A sample is just a subset of the wider population, which has been chosen so that it is representative of that population. That word 'representative' is very important. If we can't collect a representative sample it will be very difficult to infer anything useful about the population it came from. For example, if we aim to understand the reproductive characteristics of our favourite study organism, but we only sample young or old individuals, it will be impossible to generalise our findings if reproductive performance changes with age (which is almost always true).
 
-The study of how to generate useful samples from a population is an important part of statistics. It falls under the banners of experimental design and sampling theory. These are large, quite technical topics, so it is well beyond the scope of this course to study them in any great deal. Nonetheless, we will touch on a few of the more important practical aspects as we move through this course, particularly in the [Experimental design] chapter.
+The study of how to generate useful samples from a population is an important part of statistics. It falls under the banners of experimental design and sampling theory. These are large, technical topics, so it is well beyond the scope of this course to study them in any great deal. We will touch on a few of the more important practical aspects as we move through this course, particularly in the [Principles of experimental design] chapter.
 
 **Step 6: Estimate the population parameter(s)**
 

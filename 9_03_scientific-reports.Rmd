@@ -20,12 +20,11 @@ opts_chunk$set(fig.path = "./figures/scientific-reports-")
 
 ## Introduction
 
-Scientific information is communicated in a variety of ways, through talks and seminars, through posters at meetings, but mainly through scientific papers. Papers, published in books or journals provide the main route by which the substance of scientific findings are made available to others, for examination, testing and subsequent use. Over time the scientific paper, has developed into a fairly formal method of communication, with certain structures, styles and conventions. These mean that information is presented in a standardised way, and hence particular bits of information can be extracted more easily.
+Scientific information is communicated in a variety of ways, through talks and seminars, through posters at meetings, but mainly through scientific papers. Papers, published in books or journals provide the main route by which the substance of scientific findings are made available to others, for evaluation and subsequent use. Over time the scientific paper has developed into a fairly formal method of communication, with certain structures, styles and conventions. These mean that information is presented in a standardised way, meaning particular bits of information can be extracted more easily by a knowledgeable reader.
 
-Here, we will examine the structure and conventions of a biological paper, using an example (of a field study of the territorial behaviour of a damselfly), to illustrate the typical form and content. Of course papers vary in their exact requirements, and no one example can cover all the possibilities. Read recent papers in a relevant subject area and analyse what styles and structures they use, and which work best.
+In this chapter, we will examine the structure and conventions of a biological paper, using an example of a field study of the territorial behaviour of a damselfly. Our aim is to illustrate the typical form and content of a scientific paper. Of course papers vary in their exact requirements, and no one example can cover all the possibilities. Read recent papers in a relevant subject area and analyse what styles and structures they use, and which work best.
 
-The structures and conventions discussed below are not rules and should be flexibly interpreted, under the guiding principle that the aim is to present the information as clearly, concisely and unambiguously as
-possible. Although taking the scientific paper as a model, the principles here apply equally to other, less formal project write-ups and reports.
+The structures and conventions discussed below are not rules and should be flexibly interpreted, under the guiding principle that the aim is to present information as clearly, concisely and unambiguously as possible. Although taking the scientific paper as a model, the principles here apply equally to other, less formal project write-ups and reports.
 
 ## The structure of a scientific report
 
@@ -62,16 +61,15 @@ without being too long:
 
 > Reverse transcription-PCR detection of LaCrosse virus in mosquitoes and comparison with enzyme immunoassay and virus isolation.
 
-The important thing to note is that the titles contain a good deal of specific information - you have a pretty good idea what the paper is about before you read it. Avoid vague titles such as...
+The important thing to note is that the titles contain a good deal of specific information---we have a pretty good idea what the paper is about before we read it. Avoid vague titles such as...
 
 > A study of damselfly behaviour
 
-...when in fact you have looked at is the mating and oviposition behaviour of damselflies of a particular species in relation to the current speed in different areas of the river and what you want to say is:
+...when in fact we have looked at is the mating and oviposition behaviour of damselflies of a particular species in relation to the current speed in different areas of the river and what we want to say is:
 
 > The influence of river flow rate on mating behaviour and oviposition in the damselfly *Calopteryx splendens*
 
-But don’t put irrelevant specific information in the title. It might be irrelevant to say that you did your study in a particular river – for the question you are asking it is not important. The reference to the
-North York Moors above, however, is relevant because the study is of an area-specific problem (the study is primarily of use to people who want to know about bracken in that area).
+Don't put irrelevant specific information in the title. It might be irrelevant to say that we carried out a study in a particular river---that detail is probably not importantfor the question we're asking . The reference to the North York Moors above, however, is relevant because the study is of an area-specific problem (the study is primarily of use to people who want to know about bracken in that area).
 
 ### Abstract or Summary
 
@@ -99,9 +97,9 @@ For example:
 
 The introduction should:
 
--   set the background to the question, using the literature (Why is it interesting / important?)
+-   set the background to the question, using the literature (Why is it interesting? Why is it important?).
 
--   state the question, hypotheses and predictions. (What are you investigating?)
+-   state the question, hypotheses and predictions. (What is it that we're actually investigating?)
 
 -   briefly state what the study does (What is in this paper?)
 
@@ -121,49 +119,43 @@ Say what the study actually does:
 
 > In this study we investigated the physico-chemical differences between 'good' and 'poor' quality patches of weed as defined by the behaviour of the damselfly *Calopteryx virgo* Linnaeus.  We also tested the assumption  that males on more vigorously defended patches have greater mating success.
 
-Don’t separate out the question, hypothesis and predictions as special statements in bold or whatever, or put them under separate headings. Although they are vitally important to the way you do your study they should simply appear where necessary as part of the normal text.
+Don’t separate out the question, hypothesis and predictions as special statements in bold or whatever, or put them under separate headings. Although they provide vitally important context to a study they should simply appear where necessary as part of the normal text.
 
-<div class="advanced-box">
 #### Presenting species names
-<div class="box-text">
 
-A final thing worth noting, as there is an example of it in the passage above and often you will need to deal with it in the introduction, is the correct way to present species names.  This causes a great deal of trouble, largely because it is not always appreciated that specific meaning attaches to the conventions used for presenting species names.  You will see that the name above: *Calopteryx virgo* Linnaeus has several distinct elements in its presentation (italics, upper case initial letter(s) etc.).  **These elements matter**. The full meanings of each of the various elements you might find in a Latin name are too extensive to cover here, but the following guidelines should cover most situations.
+A final thing worth noting, as we often need to deal with it in the introduction, is the correct way to present species names (there is an example of it in the passage above). This causes a great deal of confusion, largely because it is not always appreciated that specific meaning attaches to the conventions used for presenting species names.  The name above, *Calopteryx virgo* Linnaeus, has several distinct elements in its presentation (italics, upper case initial letter(s) etc.).  **These elements matter**. The full meanings of each of the various elements one might find in a scientific name are too extensive to cover here, but the following guidelines should cover most situations.
 
-Presentation of common names is less fixed by convention that of Latin binomials but, in general, common names can be written with lower case initial letters unless the name itself contains a proper name (e.g. Norway spruce). Common names are written in the same typeface as the normal text. Common names can be used in reports, but the Latin binomial is a unique identifier that provides a standard, internationally recognized, label for a species.  A report should always include the scientific name of the species you are dealing with.   
+Presentation of common names is less fixed by convention than of scientific binomials but, in general, common names can be written with lower case initial letters unless the name itself contains a proper name (e.g. Norway spruce). Common names are written in the same typeface as the normal text. Common names can be used in reports, but the scientific binomial is a unique identifier that provides a standard, internationally recognized, label for a species. A report should always include the scientific name of the species we're dealing with.   
 
-Obviously you should ensure the scientific name is spelled correctly. Fortunately systematists' Latin is fairly simple phonetically, but nonetheless it is best to check the name from a reliable source when writing it for the first time if you have only heard it spoken (try searching for `calopterix' on the web!).   
-
-So now the spelling is right lets look at the parts of the name and how to present them. In typeset documents you will usually see: 
+Obviously it is important ensure the scientific name is spelled correctly. Fortunately systematists' scientific is fairly simple phonetically, but nonetheless it is best to check the name from a reliable source when writing it for the first time if you have only heard it spoken (try searching for `calopterix' on the web!). So now the spelling is right lets look at the parts of the name and how to present them. In typeset documents we usually see: 
 
 > *Calopteryx virgo*
 
-The first name (the genus) should begin with an upper case letter, and the second name (the species) should begin with a lower case letter (always: this is not a style choice, it is a rule!). Both names are usually written in italics, but you may sometimes see them written in normal type and underlined. Underlining is an alternative (don't use both together) which derives from the fact that single underlining is the printers' instruction to a typesetter to set the text in italic, and was widely used in the days before word-processors, as italic text was tricky to produce on a typewriter, or in handwritten manuscripts.
+The first name (the genus) should begin with an upper case letter, and the second name (the species) should begin with a lower case letter. This is not a style choice, it is a rule! Both names are usually written in italics, but sometimes they're written in normal type and underlined. Underlining is a less-used alternative that derives from the fact that single underlining was the printers' instruction to a typesetter to set the text in italic. This convention was widely used in the days before word-processors, as italic text was tricky to produce on a typewriter.
   
 Sometimes there will be more than just the genus and species names:  
 
 > *Calopteryx virgo*  (Odonata: Calopterygidae) 
 
-The names on the right (though they could equally well be on the left) are the higher taxonomic classification (order and family in this case) and are sometimes presented to enable a reader to easily place the organism.   Just having a species name is not always very informative unless you know what sort of organisms are being discussed.  These are written in normal text, but with an upper case initial letter.  Just to confuse things though, if you write the informal derivative version of such names  such as `odonate' or `calopterygid' (for example:
+The names on the right (though they could equally well be on the left) are the higher taxonomic classification (order and family in this case) and are sometimes presented to enable a reader to easily place the organism. Just having a species name is not always very informative unless the reader already knows what sort of organisms are being discussed. These are written in normal text, but with an upper case initial letter. Just to confuse things though, when we write the informal derivative version of such names such as 'odonate' or 'calopterygid', e.g.
 
 > ...calopterygids, unlike other odonates... 
 
 ...then they have a lower case intial letter. 
 
-If, as is occasionally the case, you have a subspecies of an organism (e.g. *Calopteryx splendens xanthostoma*) then the sub-species name (*xanthostoma*) is formatted the same way as the species name. 
+If, as is occasionally the case, we're describing the subspecies of an organism (e.g. *Calopteryx splendens xanthostoma*) then the sub-species name (*xanthostoma*) is formatted the same way as the species name. 
 
-In the passage above you will notice that the name of the damselfly is followed by a name: Linnaeus. This is the **authority**, the name of the taxonomist responsible for naming the species (in this case the famous Swedish systematist Carolus Linnaeus). Sometimes you will also see a year after the authority. Unfortunately, taxonomy changes as groups are revised and new classifications developed, and so species names are often not the same now as the ones they were originally given.  This results in a complicated system of having more than one authority, dates, and authorities appearing in different sorts of brackets and parentheses, sometimes abbreviated, sometimes not, e.g.,
+In the passage above the name of the damselfly is followed by a name: Linnaeus. This is the **authority**, the name of the taxonomist responsible for naming the species (in this case the famous Swedish systematist Carolus Linnaeus). Sometimes a year is also shown after the authority. Taxonomy changes as groups are revised and new classifications developed, and so species names are often not the same now as the ones they were originally given. This results in a complicated system of having more than one authority, dates, and authorities appearing in different sorts of brackets and parentheses, sometimes abbreviated, sometimes not, e.g.,
 
 > *Calopteryx virgo* Linnaeus 1758 <BR> *Calopteryx splendens xanthostoma* (Charpentier) <BR> *Althea rosea* (L.) Cavanille 
 
-To present things correctly in a report you don't need to know exactly what all these different arrangements mean, but the important thing to remember is that things like the arrangements of parentheses mean something specific -- don't just stick them in to make it look tidy.  And when authorities are abbreviated (e.g. Linnaeus to L.) these abbreviations are fixed, don't just decide to abbreviate an authority yourself to something that looks sensible.  If you need these esoteric details then copy them carefully from a reliable source. When should you include the authority?  In scientific paper it is conventional to include the authority when the species is first mentioned (in the main text, not the abstract), and leave it out thereafter.  However, for most other purposes you are unlikely to need to include the authority. 
+To present things correctly in a report there is no need to know exactly what all these different arrangements mean. The important thing to remember is that things like the arrangements of parentheses mean something specific -- don't just stick them in to make it look tidy. And when authorities are abbreviated (e.g. Linnaeus to L.) these abbreviations are fixed. We can't just decide to abbreviate an authority to something that looks sensible. If these esoteric details are really needed then copy them carefully from a reliable source. When should we include the authority?  In a scientific paper it is conventional to include the authority when the species is first mentioned (in the main text, not the abstract), and leave it out thereafter.  However, for most other purposes you are unlikely to need to include the authority. 
 
-Finally, abbreviation of names.  Once you have given the full name of a species it is often convenient to refer to it in an abbreviated form later in the report:
+Finally, abbreviation of names. Once we've given the full name of a species it is often convenient to refer to it in an abbreviated form later in the report:
 
 > Females of *C. virgo* were regularly observed...
 
-There is only one correct way of abbreviating the name: shorten the genus to its initial letter (plus full stop) and keep the full specific name; **never do the reverse** (*Calopteryx v.*).  If there is a subspecies name then you can abbreviate both generic and specific names, e.g., *C. s. xanthostoma*.
-</div>
-</div>
+There is only one correct way of abbreviating the name: shorten the genus to its initial letter (plus full stop) and keep the full specific name; **never do the reverse** (*Calopteryx v.*).  If there is a subspecies name then it's fine to abbreviate both generic and specific names, e.g., *C. s. xanthostoma*.
 
 ### Methods
 
@@ -177,9 +169,7 @@ The Methods section should provide enough information about how the study was ca
 
 -   Why (may be necessary to justify the use of a particular approach) ?
 
-You may have been told, at various times, to write the methods so that someone could repeat what you have done exactly. This is OK in principle, but often takes an excessive amount of space and shouldn’t be
-the overriding principle. The emphasis should be on giving the reader sufficient information to evaluate your results. Focus on the important detail: i.e., it doesn’t matter that you sorted your sample into Petri
-dishes, or which make of microscope you used to do it, but it does matter that you worked at 20x magnification, because that may determine how likely it is that you missed very small items. The main exception to this is if you are reporting a novel technique which other people are likely to want to use. In that case more detail than normal might be required.
+You may have been told, at various times, to write the methods so that someone could repeat what you have done exactly. This is OK in principle, but often takes an excessive amount of space and shouldn’t be the overriding principle. The emphasis should be on giving the reader sufficient information to evaluate your results. Focus on the important detail: i.e., it doesn’t matter that you sorted your sample into Petri dishes, or which make of microscope you used to do it, but it does matter that you worked at 20x magnification, because that may determine how likely it is that you missed very small items. The main exception to this is if you are reporting a novel technique which other people are likely to want to use. In that case more detail than normal might be required.
 
 Be concise. You do not need to explain the details of standard procedures. If you are using a procedure described by someone else then summarise the essential features and just cite the reference for the method. In the Methods you do not usually need to state which statistical tests you have used, unless they are non-standard or require particular discussion (for example you may wish to state that the data were transformed before analysis). Similarly, you don’t need to state what statistics package you used for standard statistical procedures (all those in this course are standard). Avoid ‘padding’ sentences that just waste space, such as:
 
@@ -207,7 +197,7 @@ A final point is that if you have several experiments, or sets of observations, 
 
 ### Results
 
-In the results you are aiming to provide a clear account of the material factual findings of the investigation, using a combination of text, summarized data, and figures (graphs). If you have described different parts of the study under different subheadings in the Methods, then use the same subheadings (where relevant) to organize the Results.
+In the results you are aiming to provide a clear account of the material factual findings of the investigation, using a combination of text, summarized data, and figures. If you have described different parts of the study under different subheadings in the Methods, then use the same subheadings (where relevant) to organize the Results.
 
 The Results section should focus on explaining clearly what the results are, but should not contain discussion of the biological implications of the results.
 

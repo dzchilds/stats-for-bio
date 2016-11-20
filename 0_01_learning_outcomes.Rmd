@@ -12,7 +12,7 @@
 
 -   Recognise the difference between the standard deviation (a property of a sample) and the standard error (a property of a sampling distribution).
 
--   Given a description of an experimental setting, be able to recognise...
+-   Given a description of an experimental setting, recognise...
 
     1. ...the difference between a statistical population and a sample from the population.
     2. ...the difference between a population parameter and a point estimate of the population parameter.
@@ -37,9 +37,114 @@ _You are not expected to be able to explain or use the the bootstrap or permutat
 
 -   Given an experimental scenario and question, choose the correct *t*-test to use to answer the question.
 
--   List the assumptions of the one-sample, two-sample, and paired-sample *t*-tests, and explain how you might check them for a given problem, using R.
+-   State the assumptions of the one-sample, two-sample, and paired-sample *t*-tests, and explain how you might check them for a given problem using R.
 
--   Carry out a one-sample, two-sample or paired-sample *t*-test using the `t.test` function in R, and be able to interpret the output produced by `t.test`.
+-   Carry out a one-sample, two-sample or paired-sample *t*-test using the `t.test` function, and be able to interpret the output produced by `t.test`.
 
 -   Write an informative and concise summary of the results from a one-sample, two-sample, or paired-sample *t*-test.
+
+## Categorical Data (chi-square tests)
+
+-   Recognise situations where you are studying one or more categorical variables and you need to compare the frequencies of each category (or combinations of categories) in some way.
+
+-   Given an experimental scenario and question...
+
+    1. ...decide on the appropriate type of analysis to use: goodness-of-fit, or contingency table.
+    2. ...state the null hypothesis of the required test.
+    
+-   State the assumptions of the goodness-of-fit and contingency table tests.
+
+-   Carry out a goodness-of-fit test using the `chisq.test` function.
+
+-   Use the `xtabs` function to convert a set of counts of different combinations of categories to a table of cross-tabulated counts (when necessary). 
+
+-   Carry out a contingency table test of association using the `chisq.test` function.
+
+-   Write an informative and concise summary of the results from goodness-of-fit and contingency table tests.
+
+## Associations and Relationships (regression)
+
+-   Understand what simple linear regression analysis does, and when to use it.
+
+-   State the assumptions of the simple linear regression model.
+
+-   Fit a simple linear regression using the `lm` function and interpret the output from...
+
+    1. ...`anova` to determine the significance of fit
+    2. ...`summary` to extract the variance explained ($R^{2}$) and the fitted coefficients (intercept and slope) 
+    
+-   Use the `plot` function with a fitted model object to...
+
+    1. ...construct a residuals vs. fitted values plot and evaluate the linearity assumption.
+    2. ...construct a normal probability plot and evaluate the normality assumption.
+    3. ...construct a scale-location plot and evaluate the constant variance assumption.
+
+(You are **not** expected to be able to produce these plots manually using functions like `resid` and `fitted`)
+
+-   Calculate predicted $y$-values from a fitted regression.
+
+-   Write an informative and concise summary of the results from a simple linear regression analysis.
+
+Your ability to summarise a regression analysis graphically---showing the data and the fitted line---will not be assessed.
+
+## Associations and Relationships (correlation)
+
+-   Distinguish between situations in which correlation or regression is the most appropriate technique to use.
+
+-   State the assumptions of parametric (Pearson) and nonparametric (Spearman rank) correlation techniques and determine which approach is most approapriate for a given scenario.
+
+-   Carry out the two types of correlation (Pearson and Spearman rank) using the `cor.test` function and interpret the results.
+
+-   Write an informative and concise summary of the results from a correlation analysis.
+
+## Experimental Design and ANOVA (I)
+
+-   Understand what one-way ANOVA does and when to use it.
+
+-   State the assumptions of one-way ANOVA model.
+
+-   Fit a one-way ANOVA using the `lm` function and interpret the global test of significance produced by the `anova` function.
+
+-   Use the `plot` function with a fitted model object to...
+
+    1. ...construct a normal probability plot and evaluate the normality assumption.
+    2. ...construct a scale-location plot and evaluate the constant variance assumption.
+
+-   Determine whether it is appropriate to carry out a multiple comparison test.
+
+-   Where appropriate, carry out a Tukey multiple comparison test using the `TukeyHSD` or `HSD.test` functions and interpret the results.
+
+-   Write an informative and concise summary of the results from a one-way ANOVA analysis.
+
+Your ability to summarise a one-way ANOVA graphically---showing the means and standard errrors---will not be assessed.
+
+## Experimental Design and ANOVA (II)
+
+-   Understand what two-way ANOVA does and when to use it.
+
+-   Understand what is meant by the terms 'main effect' and 'interaction' and evaluate the likley presence or absence of these effects using an interaction plot.
+
+-   State the assumptions of two-way ANOVA model.
+
+-   Fit a two-way ANOVA using the `lm` function and interpret the three global tests of significance produced by the `anova` function.
+
+-   Use the `plot` function with a fitted model object to...
+
+    1. ...construct a normal probability plot and evaluate the normality assumption.
+    2. ...construct a scale-location plot and evaluate the constant variance assumption.
+
+-   Identify the main effect and interaction terms for which it is appropriate to carry out a multiple comparisons test.
+
+-   Where appropriate, carry out Tukey multiple comparison test(s) using the `TukeyHSD` or `HSD.test` functions, and interpret the results.
+
+-   Write an informative and concise summary of the results from a two-way ANOVA analysis.
+
+Your ability to summarise a two-way ANOVA graphically---showing the means and standard errrors---will not be assessed.
+
+
+
+
+
+
+
 
