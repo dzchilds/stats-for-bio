@@ -290,7 +290,8 @@ Parametric models make stronger distributional assumptions about the data, but i
 
 ### Parting words
 
-Inappropriately distributed data can result in incorrectly high or incorrectly low *p*-values. We should choose the statistical model we use on the basis of what the data look like in relation to the assumptions of the model, and reasons in principle, even if not clearly evident in a small sample, why the population from which the data are drawn might be expected to violate the test assumptions. On the principle that biological data rarely, if ever fully comply with the assumptions of parametric tests, it is sometimes advocated that non-parametric tests should always be used. This is not very good advice. There is more to statistics than just calculating *p*-values, and where possible, we prefer readily intepretable models to more 'black box' approaches. Use both approaches as appropriate and be aware of the strengths and weaknesses of each.
+Inappropriately distributed data can result in incorrectly high or low *p*-values. We should choose the statistical model we use on the basis of what the data look like in relation to the assumptions of the model, and reasons in principle, even if not clearly evident in a small sample, why the population from which the data are drawn might be expected to violate the test assumptions. On the principle that biological data rarely, if ever fully comply with the assumptions of parametric tests, it is sometimes advocated that non-parametric tests should always be used. This is not very good advice. There is more to statistics than just calculating *p*-values, and where possible, we prefer readily intepretable models to more 'black box' approaches. Use both approaches as appropriate and be aware of the strengths and weaknesses of each.
+
 
 
 

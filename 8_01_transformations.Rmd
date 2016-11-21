@@ -191,7 +191,7 @@ Although this transformation is usually discussed in the context of percentages 
 
 In R the transformation can be achieved by combining the `sqrt` and `asin` functions inside `mutate`. For example, if we need to transform a proportion stored in the `x` variable use something like...
 ```{r, eval = FALSE}
-mydata <- mutate(mydata, assqrt.x = asin(sqrt(x))
+mydata <- mutate(mydata, assqrt.x = asin(sqrt(x)))
 ```
 ...where `mydata` is the name of hypothetical data frame containing the data. Just remember to apply `sqrt` and `asin` in the correct order. We used nested functions here, which are applied from the inside to the outside.
 

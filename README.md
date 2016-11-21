@@ -8,11 +8,13 @@ This is the course book for the Data Analysis in R course in the Department of A
 
 *   Place the experimental design stuff into its own section (probably just before the _t_-test section)
 
-*   Placce all references to experimental design in the learning from data chapter into their own section at the end.
+*   Place all references to experimental design in the learning from data chapter into their own section at the end.
 
 *   Move the categorical data analysis section to the end of the book.
 
 *   Move the one- vs. two-tailed discussion to SM or designate it 'non-assessed' 
+
+*   Move the Pearson's correlation to 'simple parametric stats' and move Spearman's rho stuff to the non-parametric tests chapter (remember to revise the exercises)
 
 ## To do list (small changes)
 
@@ -42,4 +44,3 @@ This is the course book for the Data Analysis in R course in the Department of A
 
 *  Change 'dependent' to 'response' throughout, AND use 'dependent' in the anova sections to hammer home the all models are lm's
 
-* Remove all references to 'non-parametric correlation' in the regression/correlation chapter, move Spearman's rho stuff to the non-parametric tests chapter (and rememebr to revise the exercises)
