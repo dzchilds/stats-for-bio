@@ -1,0 +1,911 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="828" height="550" viewBox="0, 0, 828, 550">
+  <g id="Layer_x0020_2">
+    <g>
+      <path d="M15.663,4 L812.337,4 C819.054,4 824.5,8.858 824.5,14.851 L824.5,535.65 C824.5,541.642 819.054,546.5 812.337,546.5 L15.663,546.5 C8.945,546.5 3.5,541.642 3.5,535.65 L3.5,14.851 C3.5,8.858 8.945,4 15.663,4 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M15.663,4 L812.337,4 C819.054,4 824.5,8.858 824.5,14.851 L824.5,535.65 C824.5,541.642 819.054,546.5 812.337,546.5 L15.663,546.5 C8.945,546.5 3.5,541.642 3.5,535.65 L3.5,14.851 C3.5,8.858 8.945,4 15.663,4 z" fill="#FFFFFF"/>
+        <path d="M15.663,4 L812.337,4 C819.054,4 824.5,8.858 824.5,14.851 L824.5,535.65 C824.5,541.642 819.054,546.5 812.337,546.5 L15.663,546.5 C8.945,546.5 3.5,541.642 3.5,535.65 L3.5,14.851 C3.5,8.858 8.945,4 15.663,4 z" fill-opacity="0" stroke="#373435" stroke-width="2"/>
+      </g>
+    </g>
+    <path d="M16.751,30.341 L253.989,30.341 L253.989,70.084 L16.751,70.084 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M190.989,70.012 L190.989,85.923" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M294.236,85.923 L294.236,133.658" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M80.11,85.779 L80.11,166.416" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M372.572,133.658 L218.205,133.658 M218.205,133.658 L218.205,168.144" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M255.645,167.712 L181.845,167.712 L181.845,231.286" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M255.645,168.216 L181.845,168.216 L181.845,167.208 L255.645,167.208 L256.149,167.712 L255.645,168.216 z M255.645,167.208 L256.149,167.208 L256.149,167.712 L255.645,167.208 z M255.141,227.902 L255.141,167.712 L256.149,167.712 L256.149,227.902 L255.141,227.902 z M255.645,233.734 L252.549,227.542 L258.741,227.542 L255.645,233.734 z" fill="#373435"/>
+    <path d="M114.958,167.208 L41.159,167.208 L41.159,166.2 L114.958,166.2 L115.462,166.704 L114.958,167.208 z M114.958,166.2 L115.462,166.2 L115.462,166.704 L114.958,166.2 z M114.454,226.894 L114.454,166.704 L115.462,166.704 L115.462,226.894 L114.454,226.894 z M114.958,232.726 L111.862,226.534 L118.054,226.534 L114.958,232.726 z" fill="#373435"/>
+    <path d="M181.845,233.518 L178.749,227.326 L184.941,227.326 L181.845,233.518 z M182.349,167.64 L182.349,227.686 L181.341,227.686 L181.341,167.64 L182.349,167.64 z" fill="#373435"/>
+    <path d="M41.159,232.582 L38.063,226.39 L44.255,226.39 L41.159,232.582 z M41.663,166.704 L41.663,226.75 L40.655,226.75 L40.655,166.704 L41.663,166.704 z" fill="#373435"/>
+    <path d="M372.572,133.658 L372.572,168" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M405.548,168.504 L340.82,168.504 L340.82,167.496 L405.548,167.496 L406.052,168 L405.548,168.504 z M405.548,167.496 L406.052,167.496 L406.052,168 L405.548,167.496 z M405.044,226.534 L405.044,168 L406.052,168 L406.052,226.534 L405.044,226.534 z M405.548,232.366 L402.452,226.174 L408.643,226.174 L405.548,232.366 z" fill="#373435"/>
+    <path d="M340.82,232.942 L337.724,226.75 L343.916,226.75 L340.82,232.942 z M341.324,167.856 L341.324,227.038 L340.316,227.038 L340.316,167.856 L341.324,167.856 z" fill="#373435"/>
+    <g>
+      <path d="M441.835,85.923 L441.835,295.508" fill="#FDF3DF"/>
+      <path d="M441.835,85.923 L441.835,295.508" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    </g>
+    <path d="M474.811,371.177 L474.811,295.076 L227.277,295.076 L227.277,338.059" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M163.198,338.275 L163.198,387.233" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M295.388,337.987 L295.388,386.585" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M163.126,427.912 L162.118,427.912 L162.118,425.896 L163.126,425.896 L163.126,427.912 z M163.126,430.935 L162.118,430.935 L162.118,428.92 L163.126,428.92 L163.126,430.935 z M163.126,433.959 L162.118,433.959 L162.118,431.943 L163.126,431.943 L163.126,433.959 z M163.126,436.983 L162.118,436.983 L162.118,434.967 L163.126,434.967 L163.126,436.983 z M163.126,440.007 L162.118,440.007 L162.118,437.991 L163.126,437.991 L163.126,440.007 z M163.126,443.031 L162.118,443.031 L162.118,441.015 L163.126,441.015 L163.126,443.031 z M163.126,446.055 L162.118,446.055 L162.118,444.039 L163.126,444.039 L163.126,446.055 z M163.126,449.079 L162.118,449.079 L162.118,447.063 L163.126,447.063 L163.126,449.079 z M163.126,452.103 L162.118,452.103 L162.118,450.087 L163.126,450.087 L163.126,452.103 z M163.126,455.127 L162.118,455.127 L162.118,453.111 L163.126,453.111 L163.126,455.127 z M163.126,458.151 L162.118,458.151 L162.118,456.135 L163.126,456.135 L163.126,458.151 z M163.126,461.174 L162.118,461.174 L162.118,459.159 L163.126,459.159 L163.126,461.174 z M163.126,464.198 L162.118,464.198 L162.118,462.182 L163.126,462.182 L163.126,464.198 z M163.126,467.222 L162.118,467.222 L162.118,465.206 L163.126,465.206 L163.126,467.222 z M163.126,470.246 L162.118,470.246 L162.118,468.23 L163.126,468.23 L163.126,470.246 z M163.126,473.27 L162.118,473.27 L162.118,471.254 L163.126,471.254 L163.126,473.27 z M163.126,476.294 L162.118,476.294 L162.118,474.278 L163.126,474.278 L163.126,476.294 z M162.622,482.99 L159.526,476.798 L165.718,476.798 L162.622,482.99 z" fill="#373435"/>
+    <path d="M474.307,380.753 L474.307,295.004 L475.315,295.004 L475.315,380.753 L474.307,380.753 z M474.811,386.585 L471.715,380.393 L477.907,380.393 L474.811,386.585 z" fill="#373435"/>
+    <path d="M474.811,425.824 L474.811,455.199" fill-opacity="0" stroke="#373435" stroke-width="1" stroke-dasharray="2,0.064"/>
+    <path d="M414.619,482.99 L411.523,476.798 L417.715,476.798 L414.619,482.99 z M414.115,475.142 L415.123,475.142 L415.123,477.158 L414.115,477.158 L414.115,475.142 z M414.115,472.118 L415.123,472.118 L415.123,474.134 L414.115,474.134 L414.115,472.118 z M414.115,469.094 L415.123,469.094 L415.123,471.11 L414.115,471.11 L414.115,469.094 z M414.115,466.07 L415.123,466.07 L415.123,468.086 L414.115,468.086 L414.115,466.07 z M414.115,463.046 L415.123,463.046 L415.123,465.062 L414.115,465.062 L414.115,463.046 z M414.115,460.022 L415.123,460.022 L415.123,462.038 L414.115,462.038 L414.115,460.022 z M414.115,456.999 L415.123,456.999 L415.123,459.014 L414.115,459.014 L414.115,456.999 z M415.123,454.767 L415.123,455.991 L414.115,455.991 L414.115,454.767 L414.619,454.263 L415.123,454.767 z M414.115,454.767 L414.115,454.263 L414.619,454.263 L414.115,454.767 z M415.339,454.263 L415.339,455.271 L414.619,455.271 L414.619,454.263 L415.339,454.263 z M418.363,454.263 L418.363,455.271 L416.347,455.271 L416.347,454.263 L418.363,454.263 z M421.387,454.263 L421.387,455.271 L419.371,455.271 L419.371,454.263 L421.387,454.263 z M424.411,454.263 L424.411,455.271 L422.395,455.271 L422.395,454.263 L424.411,454.263 z M427.435,454.263 L427.435,455.271 L425.419,455.271 L425.419,454.263 L427.435,454.263 z M430.459,454.263 L430.459,455.271 L428.443,455.271 L428.443,454.263 L430.459,454.263 z M433.483,454.263 L433.483,455.271 L431.467,455.271 L431.467,454.263 L433.483,454.263 z M436.507,454.263 L436.507,455.271 L434.491,455.271 L434.491,454.263 L436.507,454.263 z M439.531,454.263 L439.531,455.271 L437.515,455.271 L437.515,454.263 L439.531,454.263 z M442.555,454.263 L442.555,455.271 L440.539,455.271 L440.539,454.263 L442.555,454.263 z M445.579,454.263 L445.579,455.271 L443.563,455.271 L443.563,454.263 L445.579,454.263 z M448.603,454.263 L448.603,455.271 L446.587,455.271 L446.587,454.263 L448.603,454.263 z M451.627,454.263 L451.627,455.271 L449.611,455.271 L449.611,454.263 L451.627,454.263 z M454.651,454.263 L454.651,455.271 L452.635,455.271 L452.635,454.263 L454.651,454.263 z M457.675,454.263 L457.675,455.271 L455.659,455.271 L455.659,454.263 L457.675,454.263 z M460.699,454.263 L460.699,455.271 L458.683,455.271 L458.683,454.263 L460.699,454.263 z M463.723,454.263 L463.723,455.271 L461.707,455.271 L461.707,454.263 L463.723,454.263 z M466.747,454.263 L466.747,455.271 L464.731,455.271 L464.731,454.263 L466.747,454.263 z M469.771,454.263 L469.771,455.271 L467.755,455.271 L467.755,454.263 L469.771,454.263 z M472.795,454.263 L472.795,455.271 L470.779,455.271 L470.779,454.263 L472.795,454.263 z M475.819,454.263 L475.819,455.271 L473.803,455.271 L473.803,454.263 L475.819,454.263 z M478.843,454.263 L478.843,455.271 L476.827,455.271 L476.827,454.263 L478.843,454.263 z M481.867,454.263 L481.867,455.271 L479.851,455.271 L479.851,454.263 L481.867,454.263 z M484.891,454.263 L484.891,455.271 L482.875,455.271 L482.875,454.263 L484.891,454.263 z M487.915,454.263 L487.915,455.271 L485.899,455.271 L485.899,454.263 L487.915,454.263 z M490.939,454.263 L490.939,455.271 L488.923,455.271 L488.923,454.263 L490.939,454.263 z M493.963,454.263 L493.963,455.271 L491.947,455.271 L491.947,454.263 L493.963,454.263 z M496.987,454.263 L496.987,455.271 L494.971,455.271 L494.971,454.263 L496.987,454.263 z M500.011,454.263 L500.011,455.271 L497.995,455.271 L497.995,454.263 L500.011,454.263 z M503.035,454.263 L503.035,455.271 L501.019,455.271 L501.019,454.263 L503.035,454.263 z M506.059,454.263 L506.059,455.271 L504.043,455.271 L504.043,454.263 L506.059,454.263 z M509.083,454.263 L509.083,455.271 L507.067,455.271 L507.067,454.263 L509.083,454.263 z M512.107,454.263 L512.107,455.271 L510.091,455.271 L510.091,454.263 L512.107,454.263 z M515.131,454.263 L515.131,455.271 L513.115,455.271 L513.115,454.263 L515.131,454.263 z M518.155,454.263 L518.155,455.271 L516.139,455.271 L516.139,454.263 L518.155,454.263 z M521.179,454.263 L521.179,455.271 L519.163,455.271 L519.163,454.263 L521.179,454.263 z M524.203,454.263 L524.203,455.271 L522.187,455.271 L522.187,454.263 L524.203,454.263 z M527.226,454.263 L527.226,455.271 L525.211,455.271 L525.211,454.263 L527.226,454.263 z M529.026,455.271 L528.234,455.271 L528.234,454.263 L529.026,454.263 L529.53,454.767 L529.026,455.271 z M529.026,454.263 L529.53,454.263 L529.53,454.767 L529.026,454.263 z M529.53,455.991 L528.522,455.991 L528.522,454.767 L529.53,454.767 L529.53,455.991 z M529.53,459.014 L528.522,459.014 L528.522,456.999 L529.53,456.999 L529.53,459.014 z M529.53,462.038 L528.522,462.038 L528.522,460.022 L529.53,460.022 L529.53,462.038 z M529.53,465.062 L528.522,465.062 L528.522,463.046 L529.53,463.046 L529.53,465.062 z M529.53,468.086 L528.522,468.086 L528.522,466.07 L529.53,466.07 L529.53,468.086 z M529.53,471.11 L528.522,471.11 L528.522,469.094 L529.53,469.094 L529.53,471.11 z M529.53,474.134 L528.522,474.134 L528.522,472.118 L529.53,472.118 L529.53,474.134 z M529.53,477.158 L528.522,477.158 L528.522,475.142 L529.53,475.142 L529.53,477.158 z M529.026,483.782 L525.931,477.59 L532.122,477.59 L529.026,483.782 z" fill="#373435"/>
+    <path d="M531.834,70.084 L531.834,82.539" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M521.323,233.302 L518.227,227.11 L524.418,227.11 L521.323,233.302 z M521.826,82.539 L521.826,227.47 L520.819,227.47 L520.819,82.539 L521.323,82.035 L521.826,82.539 z M520.819,82.539 L520.819,82.035 L521.323,82.035 L520.819,82.539 z M639.402,83.043 L521.323,83.043 L521.323,82.035 L639.402,82.035 L639.906,82.539 L639.402,83.043 z M639.402,82.035 L639.906,82.035 L639.906,82.539 L639.402,82.035 z M638.898,149.425 L638.898,82.539 L639.906,82.539 L639.906,149.425 L638.898,149.425 z" fill="#373435"/>
+    <path d="M773.32,467.006 L770.224,460.814 L776.416,460.814 L773.32,467.006 z M773.824,308.828 L773.824,461.174 L772.816,461.174 L772.816,308.828 L773.32,308.324 L773.824,308.828 z M773.32,308.324 L773.824,308.324 L773.824,308.828 L773.32,308.324 z M698.369,308.324 L773.32,308.324 L773.32,309.332 L698.369,309.332 L697.865,308.828 L698.369,308.324 z M697.865,308.828 L697.865,308.324 L698.369,308.324 L697.865,308.828 z M697.865,460.67 L697.865,308.828 L698.873,308.828 L698.873,460.67 L697.865,460.67 z M698.369,466.502 L695.273,460.31 L701.465,460.31 L698.369,466.502 z" fill="#373435"/>
+    <path d="M735.881,69.796 L736.673,308.828" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M604.194,233.086 L601.098,226.894 L607.29,226.894 L604.194,233.086 z M604.698,149.857 L604.698,227.254 L603.69,227.254 L603.69,149.857 L604.194,149.353 L604.698,149.857 z M603.69,149.857 L603.69,149.353 L604.194,149.353 L603.69,149.857 z M674.609,150.361 L604.194,150.361 L604.194,149.353 L674.609,149.353 L675.113,149.857 L674.609,150.361 z M674.609,149.353 L675.113,149.353 L675.113,149.857 L674.609,149.353 z M674.105,227.254 L674.105,149.857 L675.113,149.857 L675.113,227.254 L674.105,227.254 z M674.609,233.086 L671.513,226.894 L677.705,226.894 L674.609,233.086 z" fill="#373435"/>
+    <path d="M303.884,30.341 L541.122,30.341 L541.122,70.084 L303.884,70.084 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M577.194,30.341 L813.208,30.341 L813.208,70.084 L577.194,70.084 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M83.638,233.662 L140.374,233.662 L140.374,272.109 L83.638,272.109 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M154.63,233.518 L213.669,233.518 L213.669,272.109 L154.63,272.109 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M226.989,233.23 L281.493,233.23 L281.493,272.469 L226.989,272.469 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M313.532,233.518 L369.188,233.518 L369.188,272.109 L313.532,272.109 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M377.108,233.086 L431.611,233.086 L431.611,272.109 L377.108,272.109 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M162.622,337.987 L295.46,337.987" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <text transform="matrix(0.072, 0, 0, 0.072, 32.588, 50.356)">
+      <tspan x="-81.965" y="108" font-family="Helvetica" font-size="292.961" fill="#373435">1</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 317.85, 50.644)">
+      <tspan x="-81.965" y="108" font-family="Helvetica" font-size="292.961" fill="#373435">2</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 591.087, 50.932)">
+      <tspan x="-81.965" y="108" font-family="Helvetica" font-size="292.961" fill="#373435">3</tspan>
+    </text>
+    <g>
+      <path d="M49.223,94.563 L112.15,94.563 L112.15,133.01 L49.223,133.01 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M49.223,94.563 L112.15,94.563 L112.15,133.01 L49.223,133.01 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M49.223,94.563 L112.15,94.563 L112.15,133.01 L49.223,133.01 z" fill="#FFFFFF"/>
+          <path d="M49.223,94.563 L112.15,94.563 L112.15,133.01 L49.223,133.01 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 80.736, 100.467)">
+      <tspan x="-252.695" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">Difference </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 80.749, 109.394)">
+      <tspan x="-256.872" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">between a </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 80.69, 118.322)">
+      <tspan x="-334.047" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">group and a </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 80.751, 127.25)">
+      <tspan x="-293.9" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">single value</tspan>
+    </text>
+    <g>
+      <path d="M145.918,177.504 L219.717,177.504 L219.717,221.351 L145.918,221.351 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M145.918,177.504 L219.717,177.504 L219.717,221.351 L145.918,221.351 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M145.918,177.504 L219.717,177.504 L219.717,221.351 L145.918,221.351 z" fill="#FFFFFF"/>
+          <path d="M145.918,177.504 L219.717,177.504 L219.717,221.351 L145.918,221.351 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <g>
+      <path d="M308.689,184.344 L434.217,184.344 L434.217,215.055 L308.689,215.055 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M308.689,184.344 L434.217,184.344 L434.217,215.055 L308.689,215.055 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M308.689,184.344 L434.217,184.344 L434.217,215.055 L308.689,215.055 z" fill="#FFFFFF"/>
+          <path d="M308.689,184.344 L434.217,184.344 L434.217,215.055 L308.689,215.055 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <g>
+      <text transform="matrix(0.072, 0, 0, 0.072, 341.802, 191.309)">
+        <tspan x="-335.548" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Data on ratio or </tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 341.802, 199.373)">
+        <tspan x="-330.113" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">interval scale &amp; </tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 341.802, 207.437)">
+        <tspan x="-421.969" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">normally distributed</tspan>
+      </text>
+    </g>
+    <g>
+      <path d="M414.331,343.746 L540.402,343.746 L540.402,375.857 L414.331,375.857 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M414.331,343.746 L540.402,343.746 L540.402,375.857 L414.331,375.857 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M414.331,343.746 L540.402,343.746 L540.402,375.857 L414.331,375.857 z" fill="#FFFFFF"/>
+          <path d="M414.331,343.746 L540.402,343.746 L540.402,375.857 L414.331,375.857 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 476.425, 348.714)">
+      <tspan x="-762.429" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Data on ratio or interval scale. Data </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 477.4, 356.49)">
+      <tspan x="-783.956" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">normally distributed, and with similar </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 476.388, 364.338)">
+      <tspan x="-794.898" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">variances within each combination of </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 474.696, 371.185)">
+      <tspan x="-343.618" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">treatment levels</tspan>
+    </text>
+    <g>
+      <path d="M109.99,344.754 L214.857,344.754 L214.857,380.236 L109.99,380.236 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M109.99,344.754 L214.857,344.754 L214.857,380.236 L109.99,380.236 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M109.99,344.754 L214.857,344.754 L214.857,380.236 L109.99,380.236 z" fill="#FFFFFF"/>
+          <path d="M109.99,344.754 L214.857,344.754 L214.857,380.236 L109.99,380.236 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 160.623, 349.65)">
+      <tspan x="-646.244" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Data on ratio or interval scale. </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 160.601, 357.498)">
+      <tspan x="-675.937" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Data normally distributed within </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 160.614, 365.274)">
+      <tspan x="-566.113" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">each treatment. Variances </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 160.599, 373.121)">
+      <tspan x="-548.905" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">similar for each treatment</tspan>
+    </text>
+    <g>
+      <path d="M244.557,345.042 L345.788,345.042 L345.788,380.236 L244.557,380.236 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M244.557,345.042 L345.788,345.042 L345.788,380.236 L244.557,380.236 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M244.557,345.042 L345.788,345.042 L345.788,380.236 L244.557,380.236 z" fill="#FFFFFF"/>
+          <path d="M244.557,345.042 L345.788,345.042 L345.788,380.236 L244.557,380.236 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 295.228, 349.938)">
+      <tspan x="-659.773" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Data are ranks, or do not meet </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 295.252, 357.786)">
+      <tspan x="-629.107" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">the assumptions of normality, </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 295.225, 365.562)">
+      <tspan x="-651.727" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">and equality of variance within </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 291.541, 373.409)">
+      <tspan x="-516.554" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">treaments combinations</tspan>
+    </text>
+    <g>
+      <path d="M572.586,156.049 L635.514,156.049 L635.514,216.455 L572.586,216.455 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M572.586,156.049 L635.514,156.049 L635.514,216.455 L572.586,216.455 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M572.586,156.049 L635.514,156.049 L635.514,216.455 L572.586,216.455 z" fill="#FFFFFF"/>
+          <path d="M572.586,156.049 L635.514,156.049 L635.514,216.455 L572.586,216.455 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 604.089, 161.809)">
+      <tspan x="-335.548" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Data on ratio or </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 604.1, 169.656)">
+      <tspan x="-297.69" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">interval scale. </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 604.089, 177.432)">
+      <tspan x="-308.537" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Both variables </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 604.135, 185.28)">
+      <tspan x="-184.188" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">normally </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 603.18, 193.055)">
+      <tspan x="-386.912" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">distributed. Linear </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 604.129, 200.903)">
+      <tspan x="-249.104" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">relationship </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 603.144, 208.751)">
+      <tspan x="-364.41" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">between x and y.</tspan>
+    </text>
+    <g>
+      <path d="M642.785,156.193 L705.713,156.193 L705.713,207.023 L642.785,207.023 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M642.785,156.193 L705.713,156.193 L705.713,207.023 L642.785,207.023 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M642.785,156.193 L705.713,156.193 L705.713,207.023 L642.785,207.023 z" fill="#FFFFFF"/>
+          <path d="M642.785,156.193 L705.713,156.193 L705.713,207.023 L642.785,207.023 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 674.272, 161.665)">
+      <tspan x="-319.313" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Data are ranks</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 673.415, 169.512)">
+      <tspan x="-73.415" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">OR</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 674.281, 177.288)">
+      <tspan x="-246.446" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">one or both </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 674.24, 185.136)">
+      <tspan x="-359.877" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">variables are not </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 674.263, 192.911)">
+      <tspan x="-184.188" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">normally </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 674.27, 200.759)">
+      <tspan x="-238.281" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">distributed.</tspan>
+    </text>
+    <g>
+      <path d="M663.953,366.93 L731.849,366.93 L731.849,435.183 L663.953,435.183 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M663.953,366.93 L731.849,366.93 L731.849,435.183 L663.953,435.183 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M663.953,366.93 L731.849,366.93 L731.849,435.183 L663.953,435.183 z" fill="#FFFFFF"/>
+          <path d="M663.953,366.93 L731.849,366.93 L731.849,435.183 L663.953,435.183 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 697.991, 372.905)">
+      <tspan x="-378.747" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Objects or events </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 697.95, 380.753)">
+      <tspan x="-438.18" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">classified into two or </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 697.939, 388.529)">
+      <tspan x="-349.03" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">more categories </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 697.992, 396.377)">
+      <tspan x="-297.762" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">using a single </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 697.998, 404.152)">
+      <tspan x="-386.84" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">variable (e.g. sex) </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 697.981, 412)">
+      <tspan x="-316.607" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">compared with </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 697.999, 419.848)">
+      <tspan x="-432.863" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">predicted proportion </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 697.944, 427.624)">
+      <tspan x="-367.092" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">in each category.</tspan>
+    </text>
+    <g>
+      <path d="M739.409,367.794 L807.952,367.794 L807.952,444.327 L739.409,444.327 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M739.409,367.794 L807.952,367.794 L807.952,444.327 L739.409,444.327 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M739.409,367.794 L807.952,367.794 L807.952,444.327 L739.409,444.327 z" fill="#FFFFFF"/>
+          <path d="M739.409,367.794 L807.952,367.794 L807.952,444.327 L739.409,444.327 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 773.734, 373.769)">
+      <tspan x="-378.747" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Objects or events </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 773.702, 381.617)">
+      <tspan x="-292.302" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">classified into </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 773.744, 389.393)">
+      <tspan x="-413.875" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">categories by more </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 773.725, 397.241)">
+      <tspan x="-335.619" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">than one factor, </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 773.73, 405.088)">
+      <tspan x="-397.687" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">compared with the </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 773.737, 412.864)">
+      <tspan x="-197.788" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">expected </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 773.731, 420.712)">
+      <tspan x="-370.7" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">frequencies if the </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 773.709, 428.488)">
+      <tspan x="-354.394" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">two factors were </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 773.725, 436.335)">
+      <tspan x="-281.621" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">independent.</tspan>
+    </text>
+    <g>
+      <path d="M472.939,156.049 L568.266,156.049 L568.266,221.999 L472.939,221.999 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M472.939,156.049 L568.266,156.049 L568.266,221.999 L472.939,221.999 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M472.939,156.049 L568.266,156.049 L568.266,221.999 L472.939,221.999 z" fill="#FFFFFF"/>
+          <path d="M472.939,156.049 L568.266,156.049 L568.266,221.999 L472.939,221.999 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 520.628, 161.953)">
+      <tspan x="-618.355" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Y variable on interval or ratio </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 519.682, 169.8)">
+      <tspan x="-538.224" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">scale. Linear relationship </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 520.662, 177.648)">
+      <tspan x="-405.829" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">between variables. </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 520.612, 185.424)">
+      <tspan x="-493.127" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Variances of y-variable </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 520.598, 193.271)">
+      <tspan x="-529.941" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">similar with increasing x-</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 519.675, 201.047)">
+      <tspan x="-584.129" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">values. X values measured </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 520.642, 208.895)">
+      <tspan x="-624.55" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">with little error compared to y </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 520.64, 216.743)">
+      <tspan x="-154.519" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">values.</tspan>
+    </text>
+    <g>
+      <path d="M265.797,95.787 L321.596,95.787 L321.596,126.17 L265.797,126.17 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M265.797,95.787 L321.596,95.787 L321.596,126.17 L265.797,126.17 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M265.797,95.787 L321.596,95.787 L321.596,126.17 L265.797,126.17 z" fill="#FFFFFF"/>
+          <path d="M265.797,95.787 L321.596,95.787 L321.596,126.17 L265.797,126.17 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 293.71, 102.123)">
+      <tspan x="-252.695" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">Difference </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 293.763, 111.05)">
+      <tspan x="-312.427" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">between two </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 293.759, 119.978)">
+      <tspan x="-207.366" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">groups</tspan>
+    </text>
+    <g>
+      <path d="M182.349,139.633 L254.349,139.633 L254.349,163.536 L182.349,163.536 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M182.349,139.633 L254.349,139.633 L254.349,163.536 L182.349,163.536 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M182.349,139.633 L254.349,139.633 L254.349,163.536 L182.349,163.536 z" fill="#FFFFFF"/>
+          <path d="M182.349,139.633 L254.349,139.633 L254.349,163.536 L182.349,163.536 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 218.401, 147.121)">
+      <tspan x="-287.715" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">Data paired </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 218.338, 156.049)">
+      <tspan x="-432.842" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">between samples</tspan>
+    </text>
+    <g>
+      <path d="M335.204,139.345 L407.204,139.345 L407.204,163.249 L335.204,163.249 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M335.204,139.345 L407.204,139.345 L407.204,163.249 L335.204,163.249 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M335.204,139.345 L407.204,139.345 L407.204,163.249 L335.204,163.249 z" fill="#FFFFFF"/>
+          <path d="M335.204,139.345 L407.204,139.345 L407.204,163.249 L335.204,163.249 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 371.231, 146.833)">
+      <tspan x="-380.379" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">Data not paired </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 371.264, 155.761)">
+      <tspan x="-432.842" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">between samples</tspan>
+    </text>
+    <g>
+      <path d="M413.755,94.779 L469.555,94.779 L469.555,135.529 L413.755,135.529 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M413.755,94.779 L469.555,94.779 L469.555,135.529 L413.755,135.529 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M413.755,94.779 L469.555,94.779 L469.555,135.529 L413.755,135.529 z" fill="#FFFFFF"/>
+          <path d="M413.755,94.779 L469.555,94.779 L469.555,135.529 L413.755,135.529 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 441.669, 101.763)">
+      <tspan x="-252.695" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">Difference </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 441.731, 110.762)">
+      <tspan x="-352.547" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">between more </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 441.728, 119.69)">
+      <tspan x="-210.513" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">than two </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 441.718, 128.618)">
+      <tspan x="-207.366" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">groups</tspan>
+    </text>
+    <g>
+      <path d="M480.067,91.827 L564.954,91.827 L564.954,150.145 L480.067,150.145 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M480.067,91.827 L564.954,91.827 L564.954,150.145 L480.067,150.145 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M480.067,91.827 L564.954,91.827 L564.954,150.145 L480.067,150.145 z" fill="#FFFFFF"/>
+          <path d="M480.067,91.827 L564.954,91.827 L564.954,150.145 L480.067,150.145 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 522.563, 98.091)">
+      <tspan x="-547.234" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">Strength and equation </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 522.586, 107.018)">
+      <tspan x="-457.554" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">for the relationship </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 522.575, 115.946)">
+      <tspan x="-346.39" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">describing the </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 522.564, 124.874)">
+      <tspan x="-476.244" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">dependence of one </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 522.582, 133.801)">
+      <tspan x="-352.493" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">variable (y) on </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 522.587, 142.729)">
+      <tspan x="-284.568" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">another (x). </tspan>
+    </text>
+    <g>
+      <path d="M595.626,92.259 L680.513,92.259 L680.513,139.705 L595.626,139.705 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M595.626,92.259 L680.513,92.259 L680.513,139.705 L595.626,139.705 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M595.626,92.259 L680.513,92.259 L680.513,139.705 L595.626,139.705 z" fill="#FFFFFF"/>
+          <path d="M595.626,92.259 L680.513,92.259 L680.513,139.705 L595.626,139.705 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 638.102, 98.163)">
+      <tspan x="-364.944" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">Strength of the </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 638.113, 107.09)">
+      <tspan x="-510.098" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">association between </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 638.092, 116.018)">
+      <tspan x="-432.814" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">two variables, not </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 638.073, 124.946)">
+      <tspan x="-559.549" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">assuming dependence </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 638.126, 133.874)">
+      <tspan x="-479.282" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">of one on the other. </tspan>
+    </text>
+    <g>
+      <path d="M666.041,315.667 L730.697,315.667 L730.697,345.402 L666.041,345.402 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M666.041,315.667 L730.697,315.667 L730.697,345.402 L666.041,345.402 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M666.041,315.667 L730.697,315.667 L730.697,345.402 L666.041,345.402 z" fill="#FFFFFF"/>
+          <path d="M666.041,315.667 L730.697,315.667 L730.697,345.402 L666.041,345.402 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 698.397, 321.067)">
+      <tspan x="-383.39" y="38" font-family="ArialMT" font-size="111.11" fill="#373435"> Fit of observed </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 698.404, 329.995)">
+      <tspan x="-349.482" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">frequencies to </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 698.405, 338.923)">
+      <tspan x="-420.499" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">predicted values. </tspan>
+    </text>
+    <g>
+      <path d="M412.387,300.836 L533.202,300.836 L533.202,338.275 L412.387,338.275 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M412.387,300.836 L533.202,300.836 L533.202,338.275 L412.387,338.275 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M412.387,300.836 L533.202,300.836 L533.202,338.275 L412.387,338.275 z" fill="#FFFFFF"/>
+          <path d="M412.387,300.836 L533.202,300.836 L533.202,338.275 L412.387,338.275 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 471.715, 306.452)">
+      <tspan x="-651.996" y="38" font-family="ArialMT" font-size="111.11" fill="#373435"> Groups classified by two </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 472.818, 315.379)">
+      <tspan x="-660.324" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">different types of treatment </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 472.817, 324.307)">
+      <tspan x="-772.302" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">(factor), with two or more levels </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 472.807, 333.235)">
+      <tspan x="-198.171" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">of each.</tspan>
+    </text>
+    <g>
+      <path d="M184.005,306.668 L271.485,306.668 L271.485,328.267 L184.005,328.267 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M184.005,306.668 L271.485,306.668 L271.485,328.267 L184.005,328.267 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M184.005,306.668 L271.485,306.668 L271.485,328.267 L184.005,328.267 z" fill="#FFFFFF"/>
+          <path d="M184.005,306.668 L271.485,306.668 L271.485,328.267 L184.005,328.267 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 227.853, 311.779)">
+      <tspan x="-581.006" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">Groups classified by a </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 227.783, 320.707)">
+      <tspan x="-300.03" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">single factor </tspan>
+    </text>
+    <g>
+      <path d="M370.556,463.046 L458.035,463.046 L458.035,471.542 L370.556,471.542 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M370.556,463.046 L458.035,463.046 L458.035,471.542 L370.556,471.542 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M370.556,463.046 L458.035,463.046 L458.035,471.542 L370.556,471.542 z" fill="#FFFFFF"/>
+          <path d="M370.556,463.046 L458.035,463.046 L458.035,471.542 L370.556,471.542 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 414.342, 467.222)">
+      <tspan x="-457.144" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">Interaction significant</tspan>
+    </text>
+    <g>
+      <path d="M484.315,463.046 L576.042,463.046 L576.042,471.542 L484.315,471.542 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M484.315,463.046 L576.042,463.046 L576.042,471.542 L484.315,471.542 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M484.315,463.046 L576.042,463.046 L576.042,471.542 L484.315,471.542 z" fill="#FFFFFF"/>
+          <path d="M484.315,463.046 L576.042,463.046 L576.042,471.542 L484.315,471.542 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 530.267, 467.222)">
+      <tspan x="-538.224" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">Interaction not significant</tspan>
+    </text>
+    <g>
+      <path d="M391.436,430.359 L556.026,430.359 L556.026,448.647 L391.436,448.647 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M391.436,430.359 L556.026,430.359 L556.026,448.647 L391.436,448.647 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M391.436,430.359 L556.026,430.359 L556.026,448.647 L391.436,448.647 z" fill="#FFFFFF"/>
+          <path d="M391.436,430.359 L556.026,430.359 L556.026,448.647 L391.436,448.647 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 473.767, 434.895)">
+      <tspan x="-1015.495" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">ANOVA is significant and it is desirable to know </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 473.815, 442.671)">
+      <tspan x="-956.156" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">between which means the differences occur. </tspan>
+    </text>
+    <g>
+      <path d="M98.83,435.255 L225.189,435.255 L225.189,459.806 L98.83,459.806 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M98.83,435.255 L225.189,435.255 L225.189,459.806 L98.83,459.806 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M98.83,435.255 L225.189,435.255 L225.189,459.806 L98.83,459.806 z" fill="#FFFFFF"/>
+          <path d="M98.83,435.255 L225.189,435.255 L225.189,459.806 L98.83,459.806 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 162.007, 439.935)">
+      <tspan x="-834.465" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">ANOVA is significant and it is desirable </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 162.016, 447.711)">
+      <tspan x="-743.583" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">to know between which means the </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 162.017, 455.559)">
+      <tspan x="-380.598" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">differences occur. </tspan>
+    </text>
+    <g>
+      <path d="M742.145,315.811 L806.8,315.811 L806.8,354.114 L742.145,354.114 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M742.145,315.811 L806.8,315.811 L806.8,354.114 L742.145,354.114 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M742.145,315.811 L806.8,315.811 L806.8,354.114 L742.145,354.114 z" fill="#FFFFFF"/>
+          <path d="M742.145,315.811 L806.8,315.811 L806.8,354.114 L742.145,354.114 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <text transform="matrix(0.072, 0, 0, 0.072, 774.525, 321.499)">
+      <tspan x="-358.732" y="38" font-family="ArialMT" font-size="111.11" fill="#373435"> Association of </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 774.524, 330.427)">
+      <tspan x="-287.715" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">frequencies </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 774.543, 339.355)">
+      <tspan x="-404.983" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">classified by two </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 774.508, 348.282)">
+      <tspan x="-389.493" y="38" font-family="ArialMT" font-size="111.11" fill="#373435">or more factors. </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 112.074, 249.07)">
+      <tspan x="-240.939" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">1-SAMPLE </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 99.695, 256.845)">
+      <tspan x="-14.005" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">t</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 113.047, 256.845)">
+      <tspan x="-172.463" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">-TEST *</tspan>
+    </text>
+    <path d="M79.894,86.139 L441.763,86.139" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <text transform="matrix(0.072, 0, 0, 0.072, 184.17, 248.998)">
+      <tspan x="-391.279" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">PAIRED-SAMPLE </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 171.838, 256.773)">
+      <tspan x="-14.005" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">t</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 185.191, 256.773)">
+      <tspan x="-172.463" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">-TEST *</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 254.289, 248.998)">
+      <tspan x="-265.173" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">WILCOXON </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 254.297, 256.773)">
+      <tspan x="-156.275" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">TEST *</tspan>
+    </text>
+    <path d="M15.383,233.446 L69.886,233.446 L69.886,271.965 L15.383,271.965 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <text transform="matrix(0.072, 0, 0, 0.072, 42.683, 248.854)">
+      <tspan x="-265.173" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">WILCOXON </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 42.69, 256.701)">
+      <tspan x="-156.275" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">TEST *</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 341.392, 248.998)">
+      <tspan x="-240.939" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">2-SAMPLE </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 331.317, 256.773)">
+      <tspan x="-14.005" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">t</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 342.398, 256.773)">
+      <tspan x="-140.918" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">-TEST</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 404.454, 244.822)">
+      <tspan x="-159.812" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">MANN-</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 404.45, 252.669)">
+      <tspan x="-223.755" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">WHITNEY </tspan>
+    </text>
+    <g>
+      <text transform="matrix(0.072, 0, 0, 0.072, 394.287, 260.517)">
+        <tspan x="-35.605" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">U</tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 406.924, 260.517)">
+        <tspan x="-140.918" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">-TEST</tspan>
+      </text>
+    </g>
+    <path d="M494.827,234.022 L549.33,234.022 L549.33,271.893 L494.827,271.893 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <text transform="matrix(0.072, 0, 0, 0.072, 522.121, 249.142)">
+      <tspan x="-176.094" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">LINEAR </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 522.16, 256.917)">
+      <tspan x="-324.63" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">REGRESSION</tspan>
+    </text>
+    <path d="M569.562,234.31 L636.81,234.31 L636.81,272.181 L569.562,272.181 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <text transform="matrix(0.072, 0, 0, 0.072, 603.252, 241.582)">
+      <tspan x="-279.913" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">PEARSON'S </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 603.211, 249.43)">
+      <tspan x="-254.35" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">PRODUCT-</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 603.232, 257.205)">
+      <tspan x="-215.637" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">MOMENT </tspan>
+    </text>
+    <path d="M642.282,234.166 L709.529,234.166 L709.529,272.037 L642.282,272.037 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <text transform="matrix(0.072, 0, 0, 0.072, 675.907, 245.398)">
+      <tspan x="-315.017" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">SPEARMAN'S </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 675.945, 253.173)">
+      <tspan x="-135.554" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">RANK </tspan>
+    </text>
+    <path d="M664.601,466.286 L731.849,466.286 L731.849,504.157 L664.601,504.157 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <path d="M441.043,387.665 L508.291,387.665 L508.291,425.536 L441.043,425.536 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <text transform="matrix(0.072, 0, 0, 0.072, 474.66, 406.672)">
+      <tspan x="-411.905" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">TWO-WAY ANOVA</tspan>
+    </text>
+    <path d="M128.566,387.305 L195.813,387.305 L195.813,425.176 L128.566,425.176 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <text transform="matrix(0.072, 0, 0, 0.072, 162.252, 406.312)">
+      <tspan x="-403.859" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">ONE-WAY ANOVA</tspan>
+    </text>
+    <path d="M259.893,387.233 L327.14,387.233 L327.14,425.104 L259.893,425.104 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <text transform="matrix(0.072, 0, 0, 0.072, 293.597, 402.352)">
+      <tspan x="-420.117" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">KRUSKAL-WALLIS </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 293.569, 410.128)">
+      <tspan x="-124.731" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">TEST</tspan>
+    </text>
+    <path d="M370.556,483.35 L461.347,483.35 L461.347,521.22 L370.556,521.22 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <text transform="matrix(0.072, 0, 0, 0.072, 416.009, 494.509)">
+      <tspan x="-409.294" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">TUKEY MULTIPLE </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 416.023, 502.357)">
+      <tspan x="-551.492" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">COMPARISON TEST ON </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 415.956, 510.133)">
+      <tspan x="-271.558" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">ALL MEANS</tspan>
+    </text>
+    <path d="M115.534,482.99 L206.325,482.99 L206.325,520.86 L115.534,520.86 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <text transform="matrix(0.072, 0, 0, 0.072, 160.987, 498.037)">
+      <tspan x="-409.294" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">TUKEY MULTIPLE </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 160.962, 505.885)">
+      <tspan x="-465.95" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">COMPARISON TEST</tspan>
+    </text>
+    <path d="M480.283,483.206 L578.274,483.206 L578.274,521.076 L480.283,521.076 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <text transform="matrix(0.072, 0, 0, 0.072, 529.336, 490.477)">
+      <tspan x="-409.294" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">TUKEY MULTIPLE </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 529.321, 498.253)">
+      <tspan x="-546.081" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">COMPARISON TEST OF </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 529.313, 506.101)">
+      <tspan x="-609.976" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">MEANS FOR SIGNIFICANT </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 529.269, 513.949)">
+      <tspan x="-326.363" y="33" font-family="ArialMT" font-size="97.22" fill="#373435">TREATMENTS</tspan>
+    </text>
+    <path d="M739.337,466.358 L806.584,466.358 L806.584,504.229 L739.337,504.229 z" fill-opacity="0" stroke="#373435" stroke-width="1"/>
+    <text transform="matrix(0.072, 0, 0, 0.072, 146.241, 50.508)">
+      <tspan x="-1409.489" y="-155.008" font-family="TimesNewRomanPSMT" font-size="111" fill="#000000">Are there significant differences between the means or </tspan>
+      <tspan x="-1409.489" y="-39.308" font-family="TimesNewRomanPSMT" font-size="111" fill="#000000">medians ('central tendency') of measurements made on objects </tspan>
+      <tspan x="-1409.489" y="76.392" font-family="TimesNewRomanPSMT" font-size="111" fill="#000000">in two or more groups, or between a single mean or median </tspan>
+      <tspan x="-1409.489" y="192.092" font-family="TimesNewRomanPSMT" font-size="111" fill="#000000">and a theoretical value?</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 423.289, 41.501)">
+      <tspan x="-1281.412" y="37" font-family="TimesNewRomanPSMT" font-size="111.11" fill="#373435">Is there a association between two variables? What is the </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 429.355, 50.356)">
+      <tspan x="-1365.667" y="37" font-family="TimesNewRomanPSMT" font-size="111.11" fill="#373435">equation that describes the dependence of one variable on the </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 341.058, 59.212)">
+      <tspan x="-139.306" y="37" font-family="TimesNewRomanPSMT" font-size="111.11" fill="#373435">other?</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 697.144, 41.789)">
+      <tspan x="-1305.988" y="37" font-family="TimesNewRomanPSMT" font-size="111.11" fill="#373435">Are there significant differences between the observed and </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 704.224, 50.644)">
+      <tspan x="-1404.322" y="37" font-family="TimesNewRomanPSMT" font-size="111.11" fill="#373435">expected number of objects or events classified by one or more </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 637.905, 59.5)">
+      <tspan x="-483.215" y="37" font-family="TimesNewRomanPSMT" font-size="111.11" fill="#373435">categorical variables?</tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 81.86, 282.44)">
+      <tspan x="-910.3" y="32.5" font-family="TimesNewRomanPSMT" font-size="97.22" fill="#373435">* these tests are all, in fact, tests of one sample </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 81.764, 290.216)">
+      <tspan x="-908.971" y="32.5" font-family="TimesNewRomanPSMT" font-size="97.22" fill="#373435">against a single value, but in the paired sample </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 86.854, 297.92)">
+      <tspan x="-979.654" y="32.5" font-family="TimesNewRomanPSMT" font-size="97.22" fill="#373435">situation the single sample is the set of differences </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 84.873, 305.696)">
+      <tspan x="-952.145" y="32.5" font-family="TimesNewRomanPSMT" font-size="97.22" fill="#373435">between the pairs of data in the original samples, </tspan>
+    </text>
+    <text transform="matrix(0.072, 0, 0, 0.072, 66.987, 313.471)">
+      <tspan x="-703.731" y="32.5" font-family="TimesNewRomanPSMT" font-size="97.22" fill="#373435">tested against a single value of zero.</tspan>
+    </text>
+    <text transform="matrix(1, 0.001, -0.001, 1, 604.681, 266.089)">
+      <tspan x="-29.148" y="2" font-family="ArialMT" font-size="6.8" fill="#1C1C1C">CORRELATION (r)</tspan>
+    </text>
+    <g>
+      <text transform="matrix(1, 0, 0, 1, 671.478, 483.185)">
+        <tspan x="-2.476" y="1.5" font-family="CambriaMath" font-size="6.8" fill="#1C1C1C">𝜒</tspan>
+      </text>
+      <text transform="matrix(1, 0, 0, 1, 674.586, 482.685)">
+        <tspan x="-1.632" y="2" font-family="Helvetica" font-size="6.8" fill="#262626">²</tspan>
+      </text>
+      <text transform="matrix(1, 0, 0, 1, 702.921, 482.685)">
+        <tspan x="-25.814" y="2" font-family="ArialMT" font-size="6.8" fill="#1C1C1C">GOODNESS OF</tspan>
+      </text>
+      <text transform="matrix(1, 0, 0, 1, 698.869, 490.685)">
+        <tspan x="-15.109" y="2" font-family="ArialMT" font-size="6.8" fill="#1C1C1C">FIT TEST</tspan>
+      </text>
+    </g>
+    <g>
+      <text transform="matrix(1, 0, 0, 1, 746.626, 482.897)">
+        <tspan x="-2.476" y="1.5" font-family="CambriaMath" font-size="6.8" fill="#1C1C1C">𝜒</tspan>
+      </text>
+      <text transform="matrix(1, 0, 0, 1, 749.733, 482.397)">
+        <tspan x="-1.632" y="2" font-family="Helvetica" font-size="6.8" fill="#262626">²</tspan>
+      </text>
+      <text transform="matrix(1, 0, 0, 1, 777.878, 482.397)">
+        <tspan x="-25.623" y="2" font-family="ArialMT" font-size="6.8" fill="#1C1C1C">CONTINGENCY</tspan>
+      </text>
+      <text transform="matrix(1, 0, 0, 1, 773.764, 490.397)">
+        <tspan x="-20.591" y="2" font-family="ArialMT" font-size="6.8" fill="#1C1C1C">TABLE TEST</tspan>
+      </text>
+    </g>
+    <g>
+      <text transform="matrix(1, 0.001, -0.001, 1, 674.69, 261.647)">
+        <tspan x="-26.883" y="2" font-family="ArialMT" font-size="6.8" fill="#1C1C1C">CORRELATION (</tspan>
+      </text>
+      <text transform="matrix(1, 0.001, -0.001, 1, 702.992, 262.176)">
+        <tspan x="-2.419" y="1.5" font-family="CambriaMath" font-size="6.8" fill="#1C1C1C">𝜌</tspan>
+      </text>
+      <text transform="matrix(1, 0.001, -0.001, 1, 706.044, 261.679)">
+        <tspan x="-1.632" y="2" font-family="ArialMT" font-size="6.8" fill="#1C1C1C">)</tspan>
+      </text>
+    </g>
+    <g>
+      <text transform="matrix(0.072, 0, 0, 0.072, 404.396, 191.309)">
+        <tspan x="-376.041" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Data are ranks or </tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 404.396, 199.373)">
+        <tspan x="-265.268" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">not normally </tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 404.396, 207.437)">
+        <tspan x="-224.775" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">distributed</tspan>
+      </text>
+    </g>
+    <g>
+      <path d="M222.088,184.576 L287.746,184.576 L287.746,215.286 L222.088,215.286 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M222.088,184.576 L287.746,184.576 L287.746,215.286 L222.088,215.286 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M222.088,184.576 L287.746,184.576 L287.746,215.286 L222.088,215.286 z" fill="#FFFFFF"/>
+          <path d="M222.088,184.576 L287.746,184.576 L287.746,215.286 L222.088,215.286 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <g>
+      <text transform="matrix(0.072, 0, 0, 0.072, 254.769, 191.579)">
+        <tspan x="-376.041" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Data are ranks or </tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 254.769, 199.643)">
+        <tspan x="-403.123" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">differences are not </tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 254.769, 207.707)">
+        <tspan x="-421.969" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">normally distributed</tspan>
+      </text>
+    </g>
+    <path d="M225.189,203.639 L259.893,203.783" fill-opacity="0" stroke="#000000" stroke-width="0.5"/>
+    <g>
+      <text transform="matrix(0.072, 0, 0, 0.072, 181.881, 183.12)">
+        <tspan x="-335.548" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Data on ratio or </tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 181.881, 191.184)">
+        <tspan x="-297.69" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">interval scale. </tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 181.881, 199.248)">
+        <tspan x="-443.639" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Differences between </tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 181.881, 207.312)">
+        <tspan x="-303.055" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">pairs normally </tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 181.881, 215.376)">
+        <tspan x="-224.775" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">distributed</tspan>
+      </text>
+    </g>
+    <path d="M150.237,203.495 L184.941,203.639" fill-opacity="0" stroke="#000000" stroke-width="0.5"/>
+    <g>
+      <path d="M86.887,182.067 L143.415,182.067 L143.415,220.027 L86.887,220.027 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M86.887,182.067 L143.415,182.067 L143.415,220.027 L86.887,220.027 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M86.887,182.067 L143.415,182.067 L143.415,220.027 L86.887,220.027 z" fill="#FFFFFF"/>
+          <path d="M86.887,182.067 L143.415,182.067 L143.415,220.027 L86.887,220.027 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <g>
+      <text transform="matrix(0.072, 0, 0, 0.072, 113.985, 187.835)">
+        <tspan x="-335.548" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">Data on ratio or </tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 113.985, 195.899)">
+        <tspan x="-284.185" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">interval scale </tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 113.985, 203.963)">
+        <tspan x="-278.797" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">and normally </tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 113.985, 212.027)">
+        <tspan x="-224.775" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#373435">distributed </tspan>
+      </text>
+    </g>
+    <g>
+      <path d="M14.237,185.115 L69.886,185.115 L69.886,215.826 L14.237,215.826 z" fill="#FFFFFF"/>
+      <g>
+        <path d="M14.237,185.115 L69.886,185.115 L69.886,215.826 L14.237,215.826 z" fill="#FFFFFF"/>
+        <g>
+          <path d="M14.237,185.115 L69.886,185.115 L69.886,215.826 L14.237,215.826 z" fill="#FFFFFF"/>
+          <path d="M14.237,185.115 L69.886,185.115 L69.886,215.826 L14.237,215.826 z" fill-opacity="0" stroke="#FEFEFE" stroke-width="0.216"/>
+        </g>
+      </g>
+    </g>
+    <g>
+      <text transform="matrix(0.072, 0, 0, 0.072, 41.195, 192.251)">
+        <tspan x="-319.313" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#000000">Data are ranks </tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 41.195, 200.315)">
+        <tspan x="-321.995" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#000000">or not normally </tspan>
+      </text>
+      <text transform="matrix(0.072, 0, 0, 0.072, 41.195, 208.379)">
+        <tspan x="-224.775" y="33" font-family="Arial-ItalicMT" font-size="97.22" fill="#000000">distributed </tspan>
+      </text>
+    </g>
+  </g>
+</svg>

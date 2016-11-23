@@ -1,0 +1,434 @@
+# Writing a scientific report
+
+> *“The question is,” said Alice, “whether you can make words mean so
+> many different things.” <BR>
+> “The question is,” said Humpty Dumpty, “which is to be master – that’s
+> all.”*
+>
+> Lewis Carroll, *Through the Looking Glass* (1871)
+
+## Introduction
+
+Scientific information is communicated in a variety of ways, through talks and seminars, through posters at meetings, but mainly through scientific papers. Papers, published in books or journals provide the main route by which the substance of scientific findings are made available to others, for evaluation and subsequent use. Over time the scientific paper has developed into a fairly formal method of communication, with certain structures, styles and conventions. These mean that information is presented in a standardised way, meaning particular bits of information can be extracted more easily by a knowledgeable reader.
+
+In this chapter, we will examine the structure and conventions of a biological paper, using an example of a field study of the territorial behaviour of a damselfly. Our aim is to illustrate the typical form and content of a scientific paper. Of course papers vary in their exact requirements, and no one example can cover all the possibilities. Read recent papers in a relevant subject area and analyse what styles and structures they use, and which work best.
+
+The structures and conventions discussed below are not rules and should be flexibly interpreted, under the guiding principle that the aim is to present information as clearly, concisely and unambiguously as possible. Although taking the scientific paper as a model, the principles here apply equally to other, less formal project write-ups and reports.
+
+## The structure of a scientific report
+
+The normal scientific report has a standard structure (parts in parentheses are optional):
+
+1.  Title
+
+2.  Abstract / Summary
+
+3.  Introduction
+
+4.  Methods
+
+5.  Results
+
+6.  Discussion
+
+7.  (Acknowledgements)
+
+8.  Literature cited
+
+9.  (Appendix)
+
+### Title
+
+Although not really a section of the paper, it is worth giving the title some thought. Aim for something that gives a fairly specific description of the topic of the paper, and possibly the essential result, but without being too long:
+
+> Diurnal changes in the depth distribution of copepods in lakes with and without planktivorous fish: evidence of a predator avoidance mechanism?
+
+> An experimental study of the effect of food supply on laying date in the coot.
+
+> The distribution and altitudinal limits of bracken (*Pteridium aquilinum*) in the North York Moors National Park.
+
+> Reverse transcription-PCR detection of LaCrosse virus in mosquitoes and comparison with enzyme immunoassay and virus isolation.
+
+The important thing to note is that the titles contain a good deal of specific information---we have a pretty good idea what the paper is about before we read it. Avoid vague titles such as...
+
+> A study of damselfly behaviour
+
+...when in fact we have looked at is the mating and oviposition behaviour of damselflies of a particular species in relation to the current speed in different areas of the river and what we want to say is:
+
+> The influence of river flow rate on mating behaviour and oviposition in the damselfly *Calopteryx splendens*
+
+Don't put irrelevant specific information in the title. It might be irrelevant to say that we carried out a study in a particular river---that detail is probably not important for the question we're asking . The reference to the North York Moors above, however, is relevant because the study is of an area-specific problem (the study is primarily of use to people who want to know about bracken in that area).
+
+### Abstract or Summary
+
+The purpose of an abstract is to present a factual summary of the main purpose, results and conclusions of the report which is short and makes sense on its own. Often it is best (and some journals require it) to do this as 3-6 numbered points comprising some, or all, the following:
+
+-   The scope and purpose of the study
+
+-   Methods (not always necessary)
+
+-   Result 1
+
+-   Result 2...
+
+-   Conclusion
+
+For example:
+
+> 
+-   The territorial behaviour, mating frequency and oviposition of *Calopteryx splendens* (Charpentier) (Odonata: Calopterygidae) were studied in relation to the water flow rate in the territories (weed patches) of individual males. 
+-   Weed patches with faster flow rates appeared to be preferentially selected by males, and more vigorously defended.  Weed patches in slow or still water were often unoccupied.  Experimental reduction of flow rate in individual patches caused males to desert previously defended territories. 
+-   Males had greater mating success on territories with higher flow rates and more ovipositions were observed in these patches.
+-   It is not known why weed patches with faster flows seem to be better quality sites for *Calopteryx* oviposition, but possible reasons include higher oxygen levels for developing eggs and better protection from egg parasitoids. 
+
+### Introduction
+
+The introduction should:
+
+-   set the background to the question, using the literature (Why is it interesting? Why is it important?).
+
+-   state the question, hypotheses and predictions. (What is it that we're actually investigating?)
+
+-   briefly state what the study does (What is in this paper?)
+
+Start with brief general statements to put the study into its broader context:
+
+> Oviposition site selection by female insects can be a critical factor in offspring survival, and hence fitness (Smith 1981).  In some insects, notably many of the Odonata, males occupy or defend oviposition sites and mate with arriving females before allowing them to oviposit at that site.  Males in such systems benefit in two ways from defending high quality sites: mating with all females ovipositing at the site ensures their offspring will have higher survival, and by occupying high quality sites, they will have access to more females (Jones 1976).
+
+Then move on to more specific detail about the type of system:
+
+> In calopterygid damselflies females oviposit in the submerged stems of aquatic plants in streams and small rivers (Hines 1956, Norman 1968).  Males defend patches of weed...
+
+Then develop the question:
+
+> It has been repeatedly observed that many weed patches are always occupied and are the subject of much territorial dispute amongst males, whilst others remain unoccupied or uncontested (Gateman and Nunn 1978, Speake 1982, Mollison 1987).  This suggests substantial differences in patch quality, but the basis of this difference is not known.  Since the larvae may disperse after hatching, the underwater environment of a weed patch seems most likely to be important for survival and development of the eggs.  One important physical factor which could influence the environment in a weed patch, and which may vary considerably in different parts of the river channel, is flow rate.  We therefore hypothesised that flow rates could be an important determinant of patch quality.
+
+Say what the study actually does:
+
+> In this study we investigated the physico-chemical differences between 'good' and 'poor' quality patches of weed as defined by the behaviour of the damselfly *Calopteryx virgo* Linnaeus. We also tested the assumption  that males on more vigorously defended patches have greater mating success.
+
+Don’t separate out the question, hypothesis and predictions as special statements in bold or whatever, or put them under separate headings. Although they provide vitally important context to a study they should simply appear where necessary as part of the normal text.
+
+### Methods
+
+The Methods section should provide enough information about how the study was carried out to enable the reader to evaluate the validity of the results.
+
+-   What was done?
+
+-   Where (usually necessary for field work) ?
+
+-   When (may be necessary for seasonally dependent studies) ?
+
+-   Why (may be necessary to justify the use of a particular approach) ?
+
+It is often said that we should write the methods so that someone could repeat what we've have done exactly. This is OK in principle, but often takes an excessive amount of space and shouldn't be the overriding principle. The emphasis should be on giving the reader sufficient information to evaluate the results of a study. Focus on the important detail: i.e., it doesn’t matter that we sorted our sample into Petri dishes, or which make of microscope we used, but it does matter that we worked at 20x magnification, because that may determine how likely it is that we missed very small items. The main exception to this is if we're reporting a novel technique that other people are likely to want to use. In that case more detail than normal will be required.
+
+Be concise. There is no need to explain the details of standard procedures. If we're using a procedure described by someone else then summarise the essential features and just cite the reference for the method. In the Methods it is not necessary to state which statistical tests were used unless they are non-standard or require particular discussion (e.g. it is useful to state that the data were transformed before analysis). Similarly, we don't need to state what statistics package were used for standard statistical procedures. Avoid ‘padding’ sentences that just waste space, such as:
+
+> The data were analysed statistically and by plotting graphs to see what the results were.
+
+The standard style in scientific reports is to write in the third person ("Experimental plots were marked out" rather than "We marked out experimental plots"). This an area where the accepted conventions vary between different areas of biology. In some the use of the first person, where it enhances readability of the text, is permitted and even encouraged. Judicious use of ‘I’ or ‘we’ can improve the clarity and readability of text and should be used where appropriate. Just keep in mind that the use of the first person is not accepted in some disciplines. If in doubt it is safest to stick with the third person approach. 
+
+Also try to use the active voice, i.e., avoid this style...
+
+> It was found that males always defended single weed patches.
+
+... and and use this style instead:
+
+> Males always defended single weed patches.
+
+A final point is that when a study is made up of several experiments, or sets of observations, it is a good idea to use appropriate subheadings to make it easier for the reader to follow, both within a particular section (such as the Methods) but then also using the equivalent subheadings to organise the Results and possibly the Discussion. e.g.,
+
+> MATERIALS AND METHODS
+>
+> **Study site**
+>
+> **Territory occupancy by males**
+>
+> **Oviposition behaviour**
+>
+> **Experimental manipulations of flow rate**
+
+### Results
+
+The central goal of a results section is to provide a clear account of the material factual findings of the investigation, using a combination of text, summarised data, and figures. If different parts of the study are covered under different subheadings in the Methods, then use the same subheadings (where relevant) to organize the Results.
+
+The Results section should focus on explaining clearly what the results are, but should not contain discussion of the biological implications of the results.
+
+Results are presented in a variety of different ways:
+
+**Text**. The text part is important. This must include clear statements of the results. No result should just be presented just as a figure or a table with no corresponding statement in the text. It is important to lead the reader through the information, bringing out the important features. This does not mean that we should duplicate information in text and figures, or tables, but if a figure is used then there should be a reference to that figure in the text, which summarizes the result.
+
+**Data**. Numerical data are normally presented in tables (see below), but sometimes 'stand-alone' simple numerical results can be given in the text. In either case the data is normally be presented in summarised form only (e.g. means and standard deviations).
+
+Presenting raw data may be appropriate if there are very few data, or there is a legitimate need to discuss the values of specific data points, but this is rarely the case. Don’t include big tables of raw data. If we want include the raw data (usually only the case if the data set may be of use to others as a basis for further analyses), they should go in as an appendix. Alternatively, if our goal is to share our data with the rest of the world we might consider using an online data repository like [Figshare](http://figshare.com).
+
+**Statistical summaries**. The results should be where most or all of the statistical results appear. There are three places to include summaries of statistics:
+
+1.  In the text...
+
+2.  In figure legends...
+
+3.  In tables. If there are large numbers of tests to present which would clutter the text, e.g. the analysis involves 10 regressions of the same kinds of variables, for a number of different taxa, then it may be convenient to summarise the slopes, intercepts and significance of the relationships in a table rather than trying to put all ten in the text (although a figure would be even better).
+
+Be sure to report statistical results in full: include the test statistic, degrees of freedom (both of them, when reporting an *F*-test), and the *p*-value. 
+
+**Figures and Tables**. Any type of graphical presentation is a figure. A table has just text and numbers. All figures and tables must be referred to in the text of the Results (or elsewhere).
+
+Tables...
+
+-   contain just text and numbers
+
+-   have the legend at the top
+
+-   use just horizontal lines as separators
+
+-   are labelled: Table 1, Table 2, etc.
+
+
+: <BR> **Table 2**.  The flow rates of the manipulated patches, and mean simultaneous number and turnover (number of different males per day) of territorial males on experimental patches. (Values in parentheses are standard errors for each mean).
+
++------------------------+----------------+----------------------+------------------------+
+| Experimental treatment | Mean flow rate | Mean number of       | Mean turnover of       |
+|                        | <BR> (m s^-1^) | <BR> males per patch | <BR> males per patch   |
++========================+================+======================+========================+
+| Increased flow         | 0.45 (0.11)    | 1.20 (0.22)           | 1.2 (0.4)              |
++------------------------+----------------+----------------------+------------------------+
+| Increased flow         | 0.18 (0.09)    | 0.18 (0.09)          | 3.1 (0.6)              |
++------------------------+----------------+----------------------+------------------------+
+| Increased flow         | 0.02 (0.01)    | 0.10 (0.03)          | 5.9 (0.9)              |
++------------------------+----------------+----------------------+------------------------+
+
+Figures...
+
+-   have a legend at the bottom
+
+-   should be labelled: Figure 1, Figure 2, etc.
+
+-   can comprise a single graph or diagram, but a single figure can also
+    comprise several graphs – in which case each should be labelled: a,
+    b, c, etc.
+
+```{block, type = 'advanced-box'}
+**Preparing a manuscript for publication**
+
+Word processing software makes it easy to incorporate tables and figures directly into a document. When writing a report which is not going to be typeset, then this allows the production of very professional looking documents. However, if the material is for publication, then the printers will usually require the text and figures (and sometimes tables) on separate pages. If sending a manuscript for publication, then the figures and tables should be put at the end of the document (after all the text and references), but in a normal document if a table or figure occurs on a separate page then the page should immediately follow the first point at which the figure is referred to in the text.
+```
+
+### Discussion
+
+The function of the discussion is to consider the meaning of the results and the light they throw on the original question; to assess the results in the context of other studies; and, if appropriate, to consider the limitations of the work and future directions for study. The exact structure and content of the Discussion will vary somewhat depending on the particular study and what the results show, but usually the following components should be included.
+
+It is usually helpful to start the discussion with a short paragraph, or so, summarizing the key results. e.g.,
+
+> *Calopteryx* females exhibit a distinct preference for weed beds in faster flowing  water as oviposition sites. Males recognise such good quality sites and occupy and defend them against other males, ignoring weed beds in slower water. This results in more copulations for males which occupy the fast flowing sites.  The assessment and response of males to flow rate changes can occur within a few hours
+
+Next, we usually consider the whether the results support the hypothesis or suggest it requires modification or rejection. e.g.,
+
+> The male damselflies' preferential occupancy and vigorous defence of  weed patches with faster flow rates, combined with a clear positive relationship between flow rate and oviposition frequency, provides strong support for the view that the underwater environment is an important determinant of oviposition site quality.
+
+It may be important to discuss the limitations of the study and the appropriate direction for further work, but these are not always required. Don't pad out the discussion with endless text considering every possible wrinkle in the study. When appropriate, a discussion of the limitations should be brief and to the point.
+
+> Although the results do implicate flow rate as a determinant of oviposition site, it is not clear whether females are responding directly to flow rate, or whether males are assessing flow rate and females are selecting the higher quality males (presumably those that occupy the best patches) assessed in some other way. This would require a separate experiment where females were allowed to select oviposition sites in the absence of males. 
+
+Don't just grumble and don't make stock criticisms without good reason (e.g., don’t automatically say it would have been better to have a larger sample size---this may be true, but it may not---large sample sizes don't solve everything). There may be unresolved, or unsolvable, problems. Be honest about these, but also be positive: if the author don't seem to be sure that a study is worth reporting, how will anyone else be convinced? A report does not require a section headed ‘Experimental Error’. Similarly don’t attribute any problems that can't be explained to experimental error; everyone knows measurements aren't perfect so it doesn't explain anything.
+
+Finally, bring out the wider implications (but be realistic about the significance of the work) and future directions, e.g.
+
+> These results indicate selection of oviposition sites, by females, on the basis of flow rate, but the reasons for such selectivity are not known.  Flow rate has been implicated in other studies of aquatic insects as being of importance for preventing low oxygen conditions developing (a stress to which developing eggs may be particularly sensitive) (Armherst 1989).  High flow may also reduce the ability of egg parasitoids to search the plants (Girton and Jenner 1976).  A critical part of assessing the basis of site choice, and evaluating the role of the underwater environment will be measurement of egg and larval survival in weed beds of different flow rates. <BR> <BR> It seems likely that the patterns observed in *Calopteryx* in a single section of the river may also be important in determining choice of habitat between different river sections or even different rivers with high or flow rates.  This also raises the unwelcome possibility that quite subtle changes in flow caused by water abstraction and river regulation (a problem on a neighbouring stream to the study site) could cause marked interference with *Calopteryx* breeding and even loss of the species from a river system.
+
+The Discussion should not contain new results (except occasionally for small additional analyses of the data that have arisen as a direct consequence of interpretation of the main results - and that shed light upon the questions in the paper). Also avoid over-extending the implications of what was found. A slight trend in the results from one particular experiment may not be an entirely sound basis from which to challenge the fundamental tenets of evolutionary biology. (On the other hand it just could be; the skill is in spotting the few occasions when it is!).
+
+Overall, keep the focus of the discussion firmly on the results, don’t wander off into ten pages of philosophical discourse on the state of the field in general. And keep the volume and depth of the discussion in proportion to the rest of the paper, and to the significance (biological rather than statistical) of the results.
+
+### Acknowledgements
+
+This is the place to acknowledge persons or organizations who have made significant contributions to the execution of the work. For example: funding bodies, people who have contributed ideas or assisted with some of the actual work, landowners giving access to sites, specialists who have made identifications and people who have read and commented on the manuscript. Don’t get carried away---there's no need to thank every friend, relation and loved one for general help through life’s little crises.
+
+### Literature cited / References
+
+This section should provide a complete listing of all, and only, references cited in the text of the report. There are three things to consider here:
+
+-   What to cite
+
+-   How to cite it in the text
+
+-   How to construct a reference list
+
+#### What to cite
+
+We should cite appropriate references wherever a point of substance (fact, or opinion) is made that is not our own or may not be regarded as common knowledge. e.g.
+
+Facts: 
+
+> Several species in the genus Calopteryx perform a complex `wing floating' display as part of the courtship behaviour (Malmquist 1956)
+
+Opinion of others:
+
+> This behaviour is generally considered to be a display of male quality (Fredenholm 1978, Summers 1991).
+
+Absence of citation is taken to indicate either the author's own view or a result generated by the present study:
+
+> The function of this behaviour may be to signal the flow rate, and hence quality of a patch, to a female.
+
+...or something sufficiently well known to be regarded as common knowledge:
+
+> Damselflies are predatory both in the larval and adult stages.
+
+#### Styles of citation
+
+If writing a manuscript for publication in a scientific journal, obviously use the style of the journal in question (exactly---including punctuation). When writing any other type of report, we can choose our own style, but if in doubt the easiest approach is probably to follow the style of a major journal in the appropriate subject area. There are two main styles in widespread use:
+
+The most common (and most straightforward) cites references in the text using names and dates, and lists all references alphabetically in the reference list.
+
+In the text, e.g.
+
+> Wide fluctuations in temperature reduce egg viability (Smith 1987).
+
+OR
+
+> Smith (1987) found that wide variations in temperature reduced egg viability.
+
+And in the reference list:
+
+> Smith, A. J. (1987) The effect of temperature on egg development and survival in the damselfly *Calopteryx virgo*. *J.  Zool. (Lond.)* 47: 231-243.
+
+Note that the necessary information about the journal is the: journal title, the volume number (47) and the pages of the article (231-243). Journals often also have a part number, e.g., volume 47(2). There is no to include this in the citation; the page numbers should be sufficient.
+
+The list should be in alphabetical order by first author. If there is more than one reference by the same author then order them by date. If there are papers with the same first author but different second/third authors then these come after the single author papers by the first author, and in alphabetical order by second, third, etc. authors, e.g.,
+
+> 
+Smith A J (1987)... <BR>
+Smith A J (1989)... <BR>
+Smith A J, Girton S and Mackay R H (1984)... <BR>
+Smith A J and Wallis K C (1983)... <BR>
+Smith A J and Wallis K C (1985)...
+
+If several citations by the same author in the same year are in the list, then denote them with letters e.g.
+
+In the text:
+
+> Smith (1987a),  Smith (1987b)
+
+In the list:
+
+> 
+Smith, A. J. (1987a) The effect of temperature on egg development and survival in the damselfly *Calopteryx virgo*.  *J.  Zool. (Lond.)* 47: 231-243
+Smith, A. J. (1987b) The oviposition behaviour of *Calopteryx virgo* (Odonata: Zygoptera).  *Anim. Behav.* 27: 197-209
+
+The other main style is to use numerical superscripts (or equivalent) in the text, numbering the references in the order in which they are mentioned in the text, and ordering the final reference list in the same way, e.g.
+
+In the text:
+
+> 
+Wide fluctuations in temperature reduce egg viability^23^.
+Smith^23^ found that wide variations in temperature reduced egg viability.
+
+In the reference list:
+
+> 
+22. Wilcove H, Papapangiotou L A and Lu, X (1978) Mating strategies in a calopterygid damselfly. *Anim. Behav.* 16:21-30
+23. Smith A J (1987) The effect of temperature on egg development and survival in the damselfly *Calopteryx virgo*. *J. Zool. (Lond.)* 47:231-243
+24. Morris L L (1991) A model of territory switching behaviour. *Am. Nat.* 230:390-395
+
+In many journals using this system, the titles of the references in the list are also omitted e.g.
+
+> 23. Smith A J (1987)\textit{ J. Zool. (Lond.)} 47: 231-243
+
+This is done purely to save space, so unless we are specifically asked to do this it is best to include the complete reference. Although such numerical systems usually require the reference list to be ordered by number, it is possible (and much more convenient) to use an alphabetical listing even if numbers are used in the text (alphabetically ordered references are numbered in order and then the numbers used in the text instead of names). The advantage to a numbering system is that is saves space in the text, the disadvantage is that the numbers don't tell a reader which paper is being referred to as they read---they have to keep looking them up in the list.
+
+Some final points to bear in mind about references and their citation: 1) every reference cited in the text must appear in the reference list, and every reference in the list must appear in the text; 2) we should never cite something we've not seen. If we need to cite something we have seen discussed or cited somewhere else, but haven’t seen our self (and cannot get hold of) we should make it clear that we're citing someone else's interpretation of the original reference, e.g.,
+
+> ...Jones (1928---cited in Smith 1987)
+
+In the list we should then give the full citation for Smith (1987), not Jones (1928). 
+
+There are standard abbreviations for journal names. These are often given in the journal itself, and are available on a list in the Library, or can be found by looking up the journal on Biological Abstracts. If we don’t know what the standard abbreviation is, and it is not obvious, then it's best to use the full name rather than making up a new abbreviation.
+
+```{block, type='advanced-box'}
+**Use a reference manager!**
+
+Managing citations and generating reference lists can be a painful process, especially when everything is done 'manually' (cut and paste, cut and paste, cut and paste...). These days a number of reasonably good reference managers (software packages) are available to help with the process of managing references, inserting citations, formatting, and generating reference lists. Endnote, Mendeley and Papers are probably the most popular, but there [are many different options](https://en.wikipedia.org/wiki/Comparison_of_reference_management_software). Choose one, and learn how to use it. This will save a huge amount of effort in the long run. 
+```
+
+### Appendices
+
+Use appendices for large amounts of raw data, long species lists, detailed mathematical or laboratory working, of a non-standard method, or (short) program listings, but only where the inclusion of such information markedly enhances the usefulness of the paper. Normally such appendices are not required. Avoid using them just to show how much work went into a study!
+
+## Presenting species names
+
+A final thing worth noting, is the correct way to present species names (there is an example of it in the passage above). This causes a great deal of confusion, largely because it is not always appreciated that specific meaning attaches to the conventions used for presenting species names.  The name above, *Calopteryx virgo* Linnaeus, has several distinct elements in its presentation (italics, upper case initial letter(s) etc.).  **These elements matter**. The full meanings of each of the various elements one might find in a scientific name are too extensive to cover here, but the following guidelines should cover most situations.
+
+Presentation of common names is less fixed by convention than of scientific binomials but, in general, common names can be written with lower case initial letters unless the name itself contains a proper name (e.g. Norway spruce). Common names are written in the same typeface as the normal text. Common names can be used in reports, but the scientific binomial is a unique identifier that provides a standard, internationally recognized, label for a species. A report should always include the scientific name of the species we're dealing with.   
+
+Obviously it is important ensure the scientific name is spelled correctly. Fortunately systematists' scientific latin is fairly simple phonetically, but nonetheless it is best to check the name from a reliable source when writing it for the first time (try searching for 'calopterix' on the web!). So now the spelling is right let's look at the parts of the name and how to present them. In typeset documents we usually see: 
+
+> *Calopteryx virgo*
+
+The first name (the genus) should begin with an upper case letter, and the second name (the species) should begin with a lower case letter. This is not a style choice, it is a rule! Both names are usually written in italics, but sometimes they're written in normal type and underlined. Underlining is a less-used alternative that derives from the fact that single underlining was the printers' instruction to a typesetter to set the text in italic. This convention was widely used in the days before word-processors, as italic text was tricky to produce on a typewriter.
+  
+Sometimes there will be more than just the genus and species names:  
+
+> *Calopteryx virgo*  (Odonata: Calopterygidae) 
+
+The names on the right (though they could equally well be on the left) are the higher taxonomic classification (order and family in this case) and are sometimes presented to enable a reader to easily place the organism. Just having a species name is not always very informative unless the reader already knows what sort of organisms are being discussed. These are written in normal text, but with an upper case initial letter. Just to confuse things though, when we write the informal derivative version of such names such as 'odonate' or 'calopterygid', e.g.
+
+> ...calopterygids, unlike other odonates... 
+
+...then they have a lower case initial letter. 
+
+If, as is occasionally the case, we're describing the subspecies of an organism (e.g. *Calopteryx splendens xanthostoma*) then the sub-species name (*xanthostoma*) is formatted the same way as the species name. 
+
+In the passage above the name of the damselfly is followed by a name: Linnaeus. This is the **authority**, the name of the taxonomist responsible for naming the species (in this case the famous Swedish systematist Carolus Linnaeus). Sometimes a year is also shown after the authority. Taxonomy changes as groups are revised and new classifications developed, and so species names are often not the same now as the ones they were originally given. This results in a complicated system of having more than one authority, dates, and authorities appearing in different sorts of brackets and parentheses, sometimes abbreviated, sometimes not, e.g.,
+
+> *Calopteryx virgo* Linnaeus 1758 <BR> *Calopteryx splendens xanthostoma* (Charpentier) <BR> *Althea rosea* (L.) Cavanille 
+
+To present things correctly in a report there is no need to know exactly what all these different arrangements mean. The important thing to remember is that things like the arrangements of parentheses mean something specific -- don't just stick them in to make it look tidy. And when authorities are abbreviated (e.g. Linnaeus to L.) these abbreviations are fixed. We can't just decide to abbreviate an authority to something that looks sensible. If these esoteric details are really needed then copy them carefully from a reliable source. When should we include the authority?  In a scientific paper it is conventional to include the authority when the species is first mentioned (in the main text, not the abstract), and leave it out thereafter.  However, for most other purposes there is no need to include the authority. 
+
+Finally, abbreviation of names. Once we've given the full name of a species it is often convenient to refer to it in an abbreviated form later in the report:
+
+> Females of *C. virgo* were regularly observed...
+
+There is only one correct way of abbreviating the name: shorten the genus to its initial letter (plus full stop) and keep the full specific name; **never do the reverse** (*Calopteryx v.*).  If there is a subspecies name then it's fine to abbreviate both generic and specific names, e.g., *C. s. xanthostoma*.
+
+## Approaches to writing
+
+Everyone will actually tackle the task of writing a report in different ways, dictated by a combination of personal preference and practical constraints. However, it is worth making some general suggestions.
+
+Separate the process of writing, editing and revising---these are not the same thing. Begin with a clear written plan of what to say before starting, but expect to go through several cycles of writing, editing and revising a report before it is satisfactory (it is impossible to get everything right first time):
+
+- When writing, focus on writing! Follow the plan and get the key ideas down, even if the text ends up a little ugly in places, and keep going. Avoid the urge to double back and polish up text.
+
+- Editing is essentially a sentence-level process. Editing is about the minutiae. It  addresses problems with spelling, grammar or word choice. This step doesn't involve large, structural changes to a document.
+
+- Revising concerns higher level criticism. Are the questions clearly elaborated? Is there a logical flow of ideas? Are the Results and Discussion connected. This step often involves moving (or removing) paragraphs, extending or narrowing text, or rewriting confusing text.
+
+Word processors greatly ease the task of editing and revising manuscripts but it is better to get a draft down and then work on it on paper, rather than agonising too long in front of the screen. It is much easier to get an overview of the structure, and to spot errors, from printed copy rather than trying to do it entirely on the computer, where we're always peering at a fragment of the manuscript though a little window. 
+
+It is generally suggested that starting with the Results and/or Methods sections is the easiest approach---these require straightforward reporting of factual information, and the pattern and presentation of results will be clearly established before it's time to move onto the Discussion and Introduction. If writing the Discussion and Introduction is still a struggle, try writing the Abstract first---this will crystallize the key messages. 
+
+Keep the writing simple, clear and concise. Science writing is about clear communication, not verbal acrobatics. Explain things to an appropriate level for the intended audience. This is harder than it sounds. By the time we reach the writing stage we have usually spent a good deal of time thinking about the problem we're discussing. Things that seem 'obvious' may not be so obvious to a naive reader.
+
+Find a critical friend to read a draft when it's ready (and be prepared to accept their honest comments!). It is of value to have the manuscript read by people who know the field and those who don't; they will pick up different things.
+
+If possible, it is worth putting the report away somewhere for a couple of weeks and doing something else, then going back and rereading it. A report’s faults are much easier to spot after a break from working on it.
+
+### A last piece of advice...
+
+No discussion can cover all the subtly different sorts of report that a scientist may be required to write at one time or another, but the ideas above provide a guide to one of the commonest. It is only a guide, and some circumstances will require a different approach, or structure.
+
+Writing isn't easy. Like any difficult skill, it takes a great deal of time and effort to develop. People learn to write in different ways, and what works for one person may not work for another. Nonetheless, two pieces of advice from experienced writers crop up time and time again:
+
+**Read actively.** A good way to develop your scientific writing is to think critically about the papers we read, not just in terms of the science they present, but also the effectiveness of that presentation. Decide what works well and what doesn’t, then adopt the good ideas. Of course, this only works if we spend time reading the scientific literature in the first place! It's very difficult (impossible perhaps) to become a competent writer without first becoming a regular and active reader.
+
+**Write often.**  Many good writers will say that although they don't always write a lot, they write often (every day!). Spread writing tasks out and set aside time to get them right. Rather than waiting until just before a deadline is looming to begin a project report or essay, start early and spend a little time every day working on it. Write regularly, but also write with effort---be prepared to critically evaluate, edit and revise written work.
+
+## Further reading
+
+Barnard C, Gilbert F and McGregor P (1993) *Asking questions in biology*. Longman.
+
+Booth V (1985) *Communicating in science: writing and speaking*. Cambridge University Press.
+
+Lindsay D (1990) *Scientific writing*. Longman
+
+
