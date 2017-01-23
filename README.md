@@ -24,14 +24,7 @@ This is the course book for the Data Analysis in R course in the Department of A
 
 * These changes would lead to the following structure:
 
-Collecting and Using Data
-Statistical Concepts
-Simple Stats (t-tests + correlation)
-Regression and One-way ANOVA
-Doing More with Models (multi-comp, diagnostics, transformations, work flow)
-Experimental Design, Paired design, ANOVA w/ Blocking 
-Beyond Simple Models (Two-way ANOVA and ANCOVA)
-Frequency Data + Non-parametric Tests
+Collecting and Using Data -- Statistical Concepts -- Simple Stats (t-tests + correlation) -- Regression and One-way ANOVA -- Doing More with Models (multi-comp, diagnostics, transformations, work flow) -- Experimental Design, Paired design, ANOVA w/ Blocking -- Beyond Simple Models (Two-way ANOVA and ANCOVA) -- Frequency Data + Non-parametric Tests
 
 ## To do list (small changes)
 
