@@ -6,15 +6,32 @@ This is the course book for the Data Analysis in R course in the Department of A
 
 ## To do list (organisation of the book)
 
-*   Place the experimental design stuff into its own section (probably just before the _t_-test section)
+*   Crteate a new chapter in statsitical principles which introduces observational and experimental data, and includde the experimental design stuff about controls 
 
-*   Place all references to experimental design in the learning from data chapter into their own section at the end.
+*   Move the one- vs. two-tailed discussion to SM and designate it 'non-assessed' 
 
-*   Move the categorical data analysis section to the end of the book.
+* Move the Pearson's correlation to 'simple parametric stats' and move Spearman's rho stuff to the non-parametric tests chapter. 
 
-*   Move the one- vs. two-tailed discussion to SM or designate it 'non-assessed' 
+* Place the experimental design stuff into its own section and combine the paired design stuff with blocked ANOVA.
 
-*   Move the Pearson's correlation to 'simple parametric stats' and move Spearman's rho stuff to the non-parametric tests chapter (remember to revise the exercises)
+* Place all references to experimental design in the learning from data chapter into their own section at the end.
+
+* Place one-way ANOVA and regression into their own section together and strtip out all the assumption checking. 
+
+* Move the regression diagnostics, multiple comparisons tests, and perhaps the transformations stuff into a new section ("dpoing more with your models")
+
+* Move the frequency data analysis section to the end of the book.
+
+* These changes would lead to the following structure:
+
+Collecting and Using Data
+Statistical Concepts
+Simple Stats (t-tests + correlation)
+Regression and One-way ANOVA
+Doing More with Models (multi-comp, diagnostics, transformations, work flow)
+Experimental Design, Paired design, ANOVA w/ Blocking 
+Beyond Simple Models (Two-way ANOVA and ANCOVA)
+Frequency Data + Non-parametric Tests
 
 ## To do list (small changes)
 
@@ -36,11 +53,15 @@ This is the course book for the Data Analysis in R course in the Department of A
 
 *   Make the 'classic checks' part of the regression diagnostics section shorter: remove the code and just show the plot with the data and fitted line. Students seems to think they have to do all this as well as use 'plot' at the moment.
 
-*  Remove rough checking of assumptions from one way anova and make that section about understanding the patterns. It confuses students -- they're not sure which methoid to use to evaluate assumptions.
+*  Remove rough checking of assumptions from one way anova and make that section about understanding the patterns. It confuses students -- they're not sure which method to use to evaluate assumptions.
 
-*  Remind them that the dignostics are based on the residuals in the anova diagnostics.
+*  Remind them that the dignostics are based on the residuals in the ANOVA diagnostics.
 
 *  Include ANOVA tables in the presentation of results sections.
 
 *  Change 'dependent' to 'response' throughout, AND use 'dependent' in the anova sections to hammer home the all models are lm's
+
+* Check each of the non-parametric questions to make sure they make sense -- some of them are fairly ambiguous at the moment on the basis of the diagnostics
+
+
 
