@@ -86,9 +86,9 @@ Notice that we are not interested in judging whether the proportion of males (or
 
 ### The assumptions and requirements of $\chi^{2}$ tests
 
-It's important to realise that in terms of the assumptions they rely on, contingency table and goodness-of-fit tests aren't fundamentally different from one another. The difference between the two types lies in the type of hypothesis evaluated. The only real difference is that when we carry out a goodness-of-fit test we have to supply the expected values, whereas the calculation of expected values is embedded in the formula used to carry out a contingency table test. That will make more sense once we've seen the two test in action...
+It's important to realise that in terms of the assumptions they rely on, contingency table and goodness-of-fit tests aren't fundamentally different from one another. The difference between the two types lies in the type of hypothesis evaluated. The only real difference is that when we carry out a goodness-of-fit test we have to supply the expected values, whereas the calculation of expected values is embedded in the formula used to carry out a contingency table test. That will make more sense once we've seen the two tests in action...
 
-$\chi^{2}$ tests are often characterised **non-parametric** tests because they do not assume any particular form for the distribution of the data. In fact, as with any statistical test, there are some assumptions, but these are relatively mild:
+$\chi^{2}$ tests are often characterised as **non-parametric** tests because they do not assume any particular form for the distribution of the data. In fact, as with any statistical test, there are some assumptions, but these are relatively mild:
 
 *   The data are independent counts of objects or events which can be classified into mutually exclusive categories. 
 
