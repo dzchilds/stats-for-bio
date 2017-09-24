@@ -13,33 +13,25 @@
 
 ## “Observations on material and obvious things”
 
-As Hooke’s observation suggests, science cannot proceed on theory alone. The information we gather about a system both stimulates questions and ideas about it and, in turn, can also allow us to test these ideas. In fact the idea of measuring and counting things is so familiar to us that it is easy to start a project without giving much thought to something as apparently mundane as the nature, quantity and resolution of the data we intend to collect. It is worth considering, however, as features of the data in a study determine both the types of analyses that can be carried out, and the confidence we can have in any conclusions that are drawn. We will spend quite a lot of time considering the statistical tools that can help us extract information from data, but no statistical wizardry can extract information that isn’t there to begin with.
+As Hooke’s observation suggests, science cannot proceed on theory alone. The information we gather about a system stimulates questions and ideas about it and, in turn, can also allow us to test these ideas. In fact the idea of measuring and counting things is so familiar that it is easy to start a project without giving much thought to something as apparently mundane as the nature, quantity and resolution of the data we intend to collect. Nonetheless, the features of the data we collect determine both the types of analyses that can be carried out, and the confidence we can have in the conclusions drawn. We will spend a lot of time considering the statistical tools that can help us extract information from data, but no level of statistical sophistication will enable us to extract information that isn’t there to begin with.
 
-So what is there to say about data? The first point to note is that, properly, the word data is the plural of datum (a single, often numerical, piece of information) ...so we should say “the data are...” not “the data is...”. However, the use of the word in the singular is becoming widespread, and you will commonly hear it used in this way. [Grammar Nazis](http://www.urbandictionary.com/define.php?term=Grammar%20Nazi) don't like this though, so it's worth knowing what the "correct" subject-verb agreement looks like if you want to avoid incurring their wrath.  
+So what is there to say about data? The first point to note is that, properly, the word data is the plural of datum (a single piece of information), so we should say “the data are...” not “the data is...”. That said, the use of the word in the singular is becoming more widespread, despite the objections of [Grammar Nazis](http://www.urbandictionary.com/define.php?term=Grammar%20Nazi). The second, and much more important, point is that there are many different sorts of data. Examples include spatial maps of species' occurance and/or environmental factors, the DNA sequences of individuals, and networks of feeding relationships among species (i.e. food webs).
 
-The second point is that there are many different sorts of data. Examples include spatial maps of the occurrence of a particular species and environmental variables, DNA sequences or even the whole genomes of individuals, and networks of feeding relationships among species (i.e. food webs). These kinds of data can be very challenging to analyse correctly. Fortunately for us, we are concerned with relatively simple kinds of data in this course.
-
-When we collect data it is typically organised as a set of one or more related statistical **variables**. Remember, what we learned last year. Statisticians use the word 'variable' as a generic term to refer to any characteristic that can be measured or experimentally controlled on different items or objects. We tend to think of variables as numeric quantities, but there is nothing to stop us working with non-numeric variables. Collectively, a set of related variables are referred to as a **data set** (or just 'the data'). 
-
-Confused? Let's look at a concrete example. Consider the spatial map example above. A minimal data set might comprise two variables containing the x and y position of sample locations, a third variable denoting the presence / absence of a species, and one or more additional variables containing information about the environmental factors we measured.
+The data we collect in a study can be organised one or more statistical **variables**. In its loosest sense, statisticians use the word 'variable' to mean any characteristic that can be measured or experimentally controlled on different items or objects. People tend to think of variables as numeric quantities, such as height, but there is nothing to stop us working with non-numeric variables, such as colour. Collectively, a set of related variables are referred to as a **data set** (or just 'the data'). Confused? Consider at a concrete example: the spatial map example above. A minimal data set might comprise two variables containing the x and y position of sample locations, a third variable denoting the presence / absence of a species, and one or more additional variables containing information about the environmental factors we measured.
 
 ```{block, type='advanced-box'}
 **Data and variables in R**
 
-Remember what you learned last year about data frames and vectors? When using R, we typically store a data set in a **data frame**. Each column in the data frame is one of R's **vectors** --- numeric, character, etc. Remember the 'tidy data' concept from last year? If the data are tidy then the columns of the data frame should correspond to the statistical variables in our data, and each row corresponds to a single observation. This simple connection between abstract statistical concepts and the concrete objects in R is not coincidence---R was designed first and foremost to analyse data.
+When using R, we often store a data set in a **data frame**. Each column in the data frame is one of R's **vectors** --- numeric, character, etc. The data are said to be **tidy** if the columns of the data frame  correspond to the statistical variables in our data, and each row corresponds to a single observation. This simple connection between abstract statistical concepts and the concrete objects in R is not coincidence. R was designed first and foremost to analyse data.
 ```
 
 ## Revision: Types of variable {#var-types}
 
-Again, because we handle data of one sort or another so frequently, we often don’t stop and think about exactly what kind of data we are using. Most of the time that doesn’t cause too much of a problem. However, when you come to design your own studies, and analyse your own data, it can be very important to understand what sort of data you need, or have, as it can affect what information you can extract from it.
-
-Last year we learned that the variables that comprise a data set can be classified as being either __numeric__ or __categorical__: categorical variables have values that describe a characteristic of an observation, like 'what type' or 'which category'; numeric variables have values that describe a measurable quantity as a number, like 'how many' or 'how much'. Categorical variables can be further characterised according to whether or not they have a natural order (__nominal__ vs. __ordinal__ variables), and numeric variables can be further characterised according to the type of scale they are meaured on (__interval__ vs. __ratio__ scales).
-
-Let's review these classifications.
+When it comes to designing an experimental study or carrying out data analysis, it is very important to understand what sort of data we need, or have, as this affects what we can do with it. The variables in a data set can often be classified as being either __numeric__ or __categorical__: numeric variables have values that describe a measurable quantity as a number, like 'how many' or 'how much'; categorical variables have values that describe a characteristic of an observation, like 'what type' or 'which category'. Numeric variables can be further characterised according to the type of scale they are meaured on (__interval__ vs. __ratio__ scales). Categorical variables can be further characterised according to whether or not they have a natural order (__nominal__ vs. __ordinal__ variables).
 
 ### Nominal (categorical) variables
 
-Nominal variables arise where observations are recorded as categories which have no natural ordering relative to each other. For example:
+Nominal variables arise when observations are recorded as categories that have no natural ordering relative to one other. For example:
 
 ---------------------  --------- ------------------
   **Marital status**    **Sex**   **Colour morph**
@@ -49,12 +41,11 @@ Nominal variables arise where observations are recorded as categories which have
         Divorced                 
 ---------------------  --------- ------------------  
 
-Data of this type are common in surveys where, for example, a record is made of the species found at each site.
+Variables of this type are common in surveys where, for example, a record is made of the 'type of thing' (e.g. the species) observed.
 
 ### Ordinal (categorical) data
 
-Ordinal variables occur where observations can be assigned some meaningful order, but where the exact numerical relationship between items in the order are not necessarily fixed, the same, or even known. For example If you are studying the behaviour of an animal when it meets another individual it may not be possible to obtain quantitative data about these interactions, but you can score the behaviours you see in order of
-aggressiveness:
+Ordinal variables occur where observations can be assigned some meaningful order, but where the exact 'distance' between items is not fixed, or even known. For example, if we are studying the behaviour of an animal when it meets another individual, it may not be possible to obtain quantitative data about the interaction, but we might be able to score the behaviours in order of aggressiveness:
 
   -------------------- -----------
   **Behaviour**         **Score**
@@ -64,35 +55,29 @@ aggressiveness:
   retreats                  0
   -------------------- -----------
 
-Rank orderings are also ordinal data. For example the order in which runners finish a race (1st, 2nd, 3rd, etc.) is a rank ordering---it doesn’t tell us whether it was a close finish or not, but still conveys important information about the result.
+Rank orderings are a type of ordinal data. For example, the order in which runners finish a race (1st, 2nd, 3rd, etc.) is a rank ordering. It doesn’t tell us whether it was a close finish or not, but still conveys important information about the result.
 
-In both situations you can say something about the relationships between categories: in the first example, the larger the score the more aggressive the response; in the second example the greater the rank the slower the runner. However, you can’t say that the gap between the first runner and the second was the same as between the second and third (even though 2-1=3-2) and you can’t say that a score of 2 is twice as aggressive as a score of 1.
+In both situations we can say something about the relationships between categories: in the first example, the larger the score the more aggressive the response; in the second example the greater the rank the slower the runner. However, we can’t say that the gap between the first runner and the second was the same as between the second and third and we can’t say that a score of 2 is twice as aggressive as a score of 1 (though people sometimes make this kind of mistake).
 
 ```{block, type='warning-box'}
-**How should you code different categories?**
+**How should you encode different categories in R?**
 
-We always have to define some kind of coding scheme to represent the different categories of a nominal/ordinal variables. It was once common practise to assign numbers to different categories (e.g. Female=1, Male=2) for handling data in computerised form. This method was sensible in the early days of computer-based data analysis because it allowed data to be stored efficiently---numbers take up less space in memory than words. However, this efficiency argument is much less relevant on a modern computer with many GB of memory. There *are* good reasons to avoid numeric coding schemes though:
+We have to define some kind of coding scheme to represent the different categories of a nominal/ordinal variables in computerised form. It was once common to assign numbers to different categories (e.g. Female=1, Male=2). This method was sensible in the early days of computer-based data analysis because it allowed data to be stored efficiently. This efficiency argument is not really relevant on a modern computer. What's more, there are good reasons to avoid coding categorical variables as numbers:
 
--   Numeric coding makes it harder to understand your raw data and to interpret the output of a statistical analysis of those data, because you have to remember which number is associated with each category. This is particularly problematic when a variable has many categories.
+-   Numeric coding makes it harder to understand the raw data and to interpret the output of a statistical analysis of those data. This is because we have to remember which number is associated with each category. This is particularly problematic when a variable has many categories.
 
--   Numeric codes are arbitrary. This means, for example, they should not be treated as numbers for mathematical operations (it is meaningless to say 2 ["male"] is larger than 1 ["female"]). R has a special way of representing categorical variables (called 'factors'), so it assumes that any variable containing numeric values is meant to be treated as a number. 
+-   Numeric codes are arbitrary and should not be used as numbers in mathematical operations. In the above example, it is meaningless to say 2 ["male"] is twice the size of than 1 ["female"]. 
 
-So here's the warning: **always** use words (e.g., 'female' vs. 'male'), not numbers, to describe the different categories when you are preparing your data for analysis in R. You are much more likely to make a silly mistake if you don't do this, as R will try to treat the offending categorical variable as a number.
+R usually assumes that a variable containing numeric values is meant to be treated as a number. If we use numeric coding for a categorical variable, R will try to treat the offending variable as a number, which can lead to confusing errors. The take home message: **Always** use words (e.g., 'female' vs. 'male'), not numbers, to describe categories in R. 
 ```
 
 ### Interval scale (numeric) variables
 
-Interval scale varaibles take values on a consistent numerical scale but where that scale starts at an arbitrary point.
-
-Temperature on the Celsius scale is a good example of interval data. You can say that 60$^{\circ}$C is hotter than 50$^{\circ}$C. You can also say that the difference in temperature between 60$^{\circ}$C and 70$^{\circ}$C is the same as that between -20$^{\circ}$C and -10$^{\circ}$C. However you cannot say that 60$^{\circ}$C is twice as hot as 30$^{\circ}$C because temperature on the Celsius scale has an artificial zero value (the freezing point of water). This point becomes obvious when you consider that temperature can equally well be measured on the Fahrenheit scale (where the freezing point of water is 32 degrees). There is a temperature scale which has a true zero: the Kelvin scale. Zero K is absolute zero, where a substance actually has no thermal energy whatsoever. So temperature in degrees K would not be interval data.
-
-You can add and subtract data measured on an interval scale but you cannot divide or multiply such data (and get a meaningful result). 
+Interval scale variables take values on a consistent numeric scale, but where that scale starts at an arbitrary point. Temperature on the Celsius scale is a good example of interval data. We can say that 60$^{\circ}$C is hotter than 50$^{\circ}$C, and we can say that the difference in temperature between 60$^{\circ}$C and 70$^{\circ}$C is the same as that between -20$^{\circ}$C and -10$^{\circ}$C. We cannot say that 60$^{\circ}$C is twice as hot as 30$^{\circ}$C. This is because temperature on the Celsius scale has an artificial zero value---the freezing point of water. The idea becomes obvious when we consider that temperature can equally well be measured on the Fahrenheit scale (where the freezing point of water is 32$^{\circ}$C).
 
 ### Ratio scale (numeric) variables
 
-Ratio scale variables have a true zero and known and consistent mathematical relationship between any points on the measurement scale. Temperature measurements in degrees K are on a ratio scale, i.e. it makes sense to say that 60 K is twice as hot as 30 K.
-
-These are the variables we are most used to, because physical quantities are often measured on a ratio scale. For example, length, weight, or numbers of organisms are usually measured on a ratio scale. You can add, subtract, multiply and divide this sort of data and get meaningful results.
+Ratio scale variables have a true zero and known and consistent mathematical relationship between any points on the measurement scale. For example, there is a temperature scale that has a true zero: the Kelvin scale. Zero K is absolute zero, where matter actually has no thermal energy whatsoever. Temperature measurements in degrees K are on a ratio scale, i.e. it does make sense to say that 60 K is twice as hot as 30 K. Interval scale numeric variables are be quite familiar, because the physical quantities that crop up in science are usually measured on a ratio scale: length, weight, and numbers of organisms are good examples. 
 
 ```{block, type='advanced-box'}
 **Continuous or discontinuous?**
@@ -101,15 +86,17 @@ A common confusion with numeric data concerns whether the data are on continuous
 So... just keep in mind that the fact that data look (or really are) discontinuous does not mean they are necessarily ordinal data.
 ```
 
+### Why does the distinction matter?
+
+The measurement scale affects what we can do (mathematically) to a numeric variable. We can add and subtract interval scale variables, but we can not divide or multiply them and arrive a meaningful result. In contrast, we can add, subtract, multiply or divide ratio scale variables. Put anothre way, differences and distances are meaningful for both interval and ratio scales, but ratios are only meaningful for ratio variables (the clue is in the name).
+
 ### Which is best?
 
-All types of data can be useful but it is important to be aware that not all types can be used with all statistical models. This is one very good reason for why it is worth having an idea of the statistical tools you intend to use when designing your study.
+All types of data can be useful, but it is important to be aware that not all types of data can be used with all statistical models. This is one very good reason for why it is worth having a clear idea of the statistical tools we intend to use when designing a study.
 
-In general, ratio data is the data type best suited for statistical analysis. But biological systems often cannot be readily represented as ratio data, or the work involved in collecting good ratio data may be vastly greater than the resources allow, or the question we are interested in may not demand ratio data to achieve a perfectly satisfactory answer.
+In general, ratio variables are best suited to statistical analysis. However, biological systems often cannot be readily represented as ratio data, or the work involved in collecting good ratio data may be vastly greater than the resources allow, or the question we are interested in may not demand ratio data to achieve a perfectly satisfactory answer. It is this last question that should come first when thinking about a study. What sort of data do we need to answer the question we are interested in? If it is clear at the outset that data on a rank scale will not be sufficiently detailed to enable us to answer the question, then we must either develop a better way of collecting the data, or abandon that approach altogether. If we know the data we're able to collect cannot address the question, then we should do something else.
 
-It is this last question that should really come first when thinking about a study. What sort of data do we need to answer the question we are interested in? If it is clear at the outset that data on a rank scale will not be sufficiently detailed to enable us to answer the question then we must either develop a better way of collecting the data, or abandon that approach altogether. If you know the data you are able to collect cannot address the question, then you would be better doing something else, so it is good to work that out in advance.
-
-And an obvious, but important point: you can always convert measurements taken on a ratio scale to an interval scale, but you cannot do the reverse. Similarly, you can convert interval scale data to ordinal data, but you cannot do the reverse. In general, it is a good idea to avoid such conversions if you can, as they inevitably result in a loss of information.
+An obvious, but important point: we can always convert measurements taken on a ratio scale to an interval scale, but we cannot do the reverse. Similarly, we can convert interval scale data to ordinal data, but we cannot do the reverse. That said, it's good practise to avoid such conversions as they inevitably result in a loss of information.
 
 ## Accuracy and precision {#accuracy-precision}
 
@@ -121,45 +108,40 @@ The two terms accuracy and precision are used more or less synonymously in every
 
 **Precision** – how repeatable a measure is, irrespective of whether it is close to the actual value.
 
-If you are measuring an insect’s weight on an old and poorly maintained balance, which measures to the nearest 0.1 g, you might weigh the same insect several times and each time get a different weight — the balance is not very precise, though some of the measurements might happen be quite close to the real weight. By contrast you could be using a new electronic balance, weighing to the nearest 0.01g, but which has been incorrectly zeroed so that it is 0.2 g out from the true weight. Repeated weighing here might yield results that are identical, but all incorrect (i.e. not the true value) — the balance is precise, but the results are inaccurate. The analogy often used is with shooting at a target:
+If we are measuring an insect’s weight on an old and poorly maintained balance, which measures to the nearest 0.1 g, we might weigh the same insect several times and each time get a different weight — the balance is not very precise, though some of the measurements might happen be quite close to the real weight. By contrast you could be using a new electronic balance, weighing to the nearest 0.01g, but which has been incorrectly zeroed so that it is 0.2 g out from the true weight. Repeated weighing here might yield results that are identical, but all incorrect (i.e. not the true value) — the balance is precise, but the results are inaccurate. The analogy often used is with shooting at a target:
 
 ```{r targets, echo = FALSE, out.width='60%', fig.align='center', fig.cap='Accuracy and precision'}
 knitr::include_graphics(rep("./images/targets.gif"))
 ```
 
-It is obviously important to know how accurate and how precise your data are. The ideal is the situation in the top left target in the diagram, but in many circumstances high precision is not possible and it is usually preferable to make measurements of whose accuracy you can be reasonably confident (bottom left), than more precise measurements, whose accuracy may be suspect (top right). Taking an average of the values for the bottom left target would produce a value pretty close to the centre; taking an average for the top right target wouldn’t help your accuracy at all (though the repeatability of the values might well give you spurious confidence in the data).
-
-It is also worth being aware that when you state results, you are making implicit statements of the precision of the measurement.
+It's obviously important to know how accurate and how precise our data are. The ideal is the situation in the top left target in the diagram, but in many circumstances high precision is not possible and it is usually preferable to make measurements of whose accuracy we can be reasonably confident (bottom left), than more precise measurements, whose accuracy may be suspect (top right). Taking an average of the values for the bottom left target would produce a value pretty close to the centre; taking an average for the top right target wouldn’t help the accuracy at all.
 
 ### Implied precision - significant figures
 
-The number of significant figures you use suggests something about the precision of the result. A result quoted as 12.375 mm implies the measurement is more precise than one quoted as 12.4 mm. A value of 12.4 actually measured with the same precision as 12.735 should properly be written 12.400. When quoting results look at the original data to decide how many significant figures to use - generally the same number of significant figures will be appropriate.
+It's worth being aware that when we state results, we're making implicit statements about the precision of the measurement. The number of significant figures we use suggests something about the precision of the result. A result quoted as 12.375 mm implies the measurement is more precise than one quoted as 12.4 mm. A value of 12.4 actually measured with the same precision as 12.735 should properly be written 12.400. When quoting results, look at the original data to decide how many significant figures to use---generally the same number of significant figures will be appropriate.
 
-If you are working with discrete data these considerations do not apply in quite the same way, e.g. precision of measurement is not an issue in recording the number of eggs in a nest. You use 4 not 4.0, but since 4 eggs implies 4.0 eggs you would be correct to quote average clutch size from several nests as 4.3 eggs. However, even with discrete data, if numbers are large then obviously precision is an issue again ... a figure of 300 000 ants in a nest is likely to imply a precision of plus or minus 50 000. A figure of 320987 ants implies a rather improbably precise measurement (nobody will believe you actually counted them all!).
+These considerations do not apply in quite the same way when working with discrete data, e.g. precision of measurement is not an issue in recording the number of eggs in a nest. We use 4 not 4.0, but since 4 eggs implies 4.0 eggs it's fine to quote average clutch size from several nests as 4.3 eggs. However, even with discrete data, if numbers are large then obviously precision is an issue again ... a figure of 300 000 ants in a nest is likely to imply a precision of plus or minus 50 000. A figure of 320987 ants implies a rather improbably precise measurement.
 
 ### How precise should measurements be?
 
-The appropriate precision to use when making measurements is largely common sense. It will depend on practicality (it may not be possible to weigh an elephant to the nearest 0.001g) and the use to which you wish to put the data (if you want to know whether the elephant will cause a 10 tonne bridge to collapse then the nearest tonne will be good enough, if you want to compare the mean sizes of male and female elephants then the nearest 100 kg may be sufficient, if you want to monitor the progress of a pregnant female elephant then the nearest 10 kg or less might be desirable).
+The appropriate precision to use when making measurements is largely common sense. It will depend on practicality and the use to which we wish to put the data. It may not be possible to weigh an elephant to the nearest 0.001g, but if we want to know whether the elephant will cause a 10 tonne bridge to collapse, then the nearest tonne will be good enough. On the other hand, if we want to compare the mean sizes of male and female elephants then the nearest 100 kg may be sufficient, but if we plan to monitor the progress of a pregnant female elephant then the nearest 10 kg or less might be desirable.
 
-As a rough guide aim, where possible, for a scale where the number of measurement steps is between 30 and 300. So for example, in a study of the variation in shell thickness of dogwhelks on a 300 m transect up a shore, it would be adequate to measure the position of each sampling point on the transect to the nearest metre, but shell thickness will almost certainly need to be measured to the nearest 0.1 mm.
+As a rough guide aim, where possible, for a scale where the number of measurement steps is between 30 and 300 over the expected range of the data. So for example, in a study of the variation in shell thickness of dogwhelks on a 300 m transect up a shore, it would be adequate to measure the position of each sampling point on the transect to the nearest metre, but shell thickness will almost certainly need to be measured to the nearest 0.1 mm.
 
 ### Error, bias and prejudice
 
 Error is present in almost all biological data, but not all error is equally problematic. Usually the worst form of error is bias. Bias is a systematic lack of accuracy, i.e. the data are not just inaccurate, but all tend to deviate from the true measurements in the same direction (situations B and D in the ‘target’ analogy above). Thus there is an important distinction in statistics between the situation where the measurements differ from the true value at random and those where they differ systematically. Measurements lacking some precision, such as the situation illustrated in C, may still yield a reasonable estimate of the true value if the mean of a number of values is taken.
 
-Avoiding bias in the collection of data is one of the most important skills in designing biological (or other) investigations. Some forms of bias are obvious, others more subtle and hard to spot. Some sources of bias in biology include:
+Avoiding bias in the collection of data is one of the most important skills in designing scientific investigations. Some forms of bias are obvious, others more subtle and hard to spot:
 
--   *Non-random sampling*. Many sampling techniques are selective, and may result in biased information. For example pitfall trapping of arthropods will favour collection of the very active species, which encounter traps most frequently. Studying escape responses of an organism in the lab may be biased since the process of catching organisms to use in the study may have selected for those whose escape response is poorest.
+-   *Non-random sampling*. Many sampling techniques are selective, and may result in biased information. For example, pitfall trapping of arthropods will favour collection of the very active species that encounter traps most frequently. Studying escape responses of an organism in the lab may be biased if the process of catching organisms to use in the study selected for those whose escape response is poorest.
 
--   *Conditioning of biological material*. Organisms kept under particular conditions, especially in a laboratory, for periods of time may become acclimatised to conditions unlike those they normally encounter, or if kept in a laboratory for many generations their characteristics may change through natural selection. Such organisms may give a biased impression of the behaviour of the organism in natural conditions.
+-   *Conditioning of biological material*. Organisms kept under particular conditions for long periods of time may become acclimatised to those conditions. Similarly, if stocks are kept in a laboratory for many generations their characteristics may change through natural selection. Such organisms may give a biased impression of the behaviour of the organism in natural conditions.
 
--   *Interference by the process of investigation*. Often the process of making a measurement itself distorts the characteristic being measured. For example it may be hard to measure the level of adrenalin in the blood of a small mammal, without affecting the adrenalin level in the process. Pitfall traps are often filled with a preservative, such as ethanol, but the ethanol attracts species of insect that normally feed on decaying fruit and use the fermentation products as a cue to find resources.
+-   *Interference by the process of investigation*. Often the process of making a measurement itself distorts the characteristic being measured. For example, it may be hard to measure the level of adrenalin in the blood of a small mammal without affecting the adrenalin level in the process. Pitfall traps are often filled with a preservative, such as ethanol, but the ethanol attracts species of insect that normally feed on decaying fruit and use the fermentation products as a cue to find resources.
 
--   *Investigator bias*. Measurements can be strongly influenced by conscious or unconscious prejudice on the part of the investigator. We rarely undertake studies without some initial idea of what we are expecting, or we form ideas about the patterns we think we are seeing as the study progresses. This can introduce bias. For example, rounding up ‘in between’ values in the samples you are expecting to have large values and rounding down where a smaller value is expected, or having another ‘random’ throw of a quadrat when it doesn’t land in a ‘typical’ bit of habitat.
+-   *Investigator bias*. Measurements can be strongly influenced by conscious or unconscious prejudice on the part of the investigator. We rarely undertake studies without some initial idea of what we are expecting, or we form ideas about the patterns we think we are seeing as the study progresses. For example, rounding up ‘in between’ values in the samples you are expecting to have large values and rounding down where a smaller value is expected, or having another ‘random’ throw of a quadrat when it doesn’t land in a ‘typical’ bit of habitat.
 
-The ways in which biases, conscious and unconscious, can affect our investigations are many, often subtle, and sometimes serious. Sutherland (1994) gives an illuminating and sometimes frightening catalogue of the ways in which biases affect our perception of the world and the
-judgements we make about it.
-
-The message is that the results you get from your investigation must always be judged and interpreted with respect to the nature of the data that were used to derive them – if the data are suspect, then the results will be suspect too.
+The ways in which biases, conscious and unconscious, can affect our investigations are many, often subtle, and sometimes serious. Sutherland (1994) gives an illuminating and sometimes frightening catalogue of the ways in which biases affect our perception of the world and the judgements we make about it. The message is that the results we get from an investigation must always be judged and interpreted with respect to the nature of the data used to derive them---if the data are suspect, the results will be suspect too.
 
 
