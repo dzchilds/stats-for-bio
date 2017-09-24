@@ -6,11 +6,11 @@ highlighter: pygments
 output: 
   ioslides_presentation:
     css: presentations.css
-    smaller: true
+    smaller: false
 ---
 
 ```{r, include=FALSE}
-showAnswers <- TRUE
+showAnswers <- FALSE
 
 library(dplyr)
 library(ggplot2)
@@ -32,22 +32,22 @@ theme_set(my_theme)
 
 ## While we're waiting
 
-1. Go to MOLE, dowload the STORMS.CSV file, and place it somewhere 'sensible' (i.e. make sure it is somewhere permanent, which you can find again).
+1. Go to MOLE, download the STORMS.CSV file, and place it somewhere 'sensible' --- i.e. a permanent that you can locate again.
 
 2. Start up RStudio (not R!) and stare at it... Can you remember much from last year? Maybe not... Don't worry, that's what today is all about.
 
 Basics | Setting up and reading in data
-======================================================================================
+===============================================================================
 
 ## The working directory {.build}
 
 A quick reminder of what it is and how to set it...
 
-- The **working directory** is a default location that R will use to looks for files. It is just a folder on your computer.
+- The **working directory** is a default location that R uses to looks for files. It is just a folder on your computer.
 
-- If you don't set the working directory, R will do it for you. This is probably not the folder you want to use.
+- If you don't set the working directory, R will do it for you. It probably won't use the folder you want to use.
 
-- **YOU should set the working directory EVERY TIME you start R/RStudio**. Setting your working directory should be the first thing you do.
+- **YOU should set the working directory**. Setting your working directory should be the first thing you do EVERY TIME you start R/RStudio.
 
 - Do not do this using R code in your script. Instead, do it using the RStudio menu system (there are other ways, don't use them).
 
@@ -67,7 +67,7 @@ Then add the following to the beginning of your script:
 # clear the workspace (aka R's 'brain')
 rm(list = ls())
 ```
-Can you remember what this does? Why is it a good idea always include it?
+Can you remember what this does? Why can it be a good idea include it?
 </div>
 
 This script hasn't been saved. Do that now...
@@ -96,16 +96,18 @@ A mobile phone App analogy:
 
 **Remember!**
 
-- Never use `install.packages` inside your scripts! You don't want to reinstall a package every time you plan to use it. 
+- Never use `install.packages` inside your scripts! You don't want to re-install a package every time you plan to use it. 
 
 - You can install a package via the Packages tab in RStudio. Use this if you don't like using `install.packages`.
 
-## We need **dplyr** abd **ggplot2**...
+## We need **dplyr** and **ggplot2**...
 
 <div>
-**Step 1.** Install **dplyr** abd **ggplot2**
+**Step 1.** Install **dplyr** and **ggplot2**
 
-Go to the Packages tab in RStudio (bottom right pane by default) and click the 'Install' button. Type the following: **dplyr**, **ggplot2**... and click the 'Install' button.
+Navigate to the Packages tab in RStudio (bottom right pane by default). Can you find **dplyr** and **ggplot2** in the list? 
+
+If not... click the 'Install' button. Type the following: **dplyr**, **ggplot2**... and click 'Install'.
 </div>
 
 <div>
@@ -132,22 +134,14 @@ str(storms)
 ```
 </div>
 
-What happened? Look at the 'Environment' tab in the top right pane. Can you see something called 'storms'? What information does `str` give you?
+What happened? Look at the 'Environment' tab in the top right pane. Can you see something called `storms`? What kind of object is `storms`?
 
 Data in R | Vectors, data frames, 'tibbles', etc.
-======================================================================================
-
-## Two views of data frames {.build}
-
-The first view: __Data frames are a collection of vectors__. These may be different types (numeric, character, others), but they must all be the same length.
-
-The second view: __Data frames are table-like objects__. Take another look at our simple data frame. This clearly has rows and columns. 
-
-Data frames are central to data analysis in R. We can think of each vector as corresponding to a __statistical variable__ that we want to analyse. Almost every function we will learn about this year works with data stored in a data frame.
+===============================================================================
 
 ## 'Tibbles' 
 
-Er, what the @^$£ is a 'tibble'?... They were called a 'tbl' last year (pronounced 'table'). Basically, a special version of the data frame. **dplyr** tends to produce them. We can convert if we need to, e.g.
+Er, what the @^$£ is a 'tibble'?... Basically, a special version of the data frame. **dplyr** tends to produce them. We can convert if we need to, e.g.
 
 ```{r, eval=FALSE}
 tbl_df(storms)        # <- the old way (deprecated)
@@ -160,23 +154,49 @@ Add this to your script now...
 ```{r}
 storms <- as_data_frame(storms)
 ```
+
 The **only** thing you really need to be aware of is that a tibble is printed to the Console more compactly than a data frame.
 
 ## Examining data frames {.build}
 
-Trying using `str` and `glimpse` on `storms`. Then try `View`...
+We can print the tibble straight to the console...
 
 ```{r}
+storms
+```
+
+This is quite verbose.
+
+## Examining data frames
+
+Trying using `str` or `glimpse` with `storms`. Then try `View`. Makes sure you can answer the following questions:
+
+ -  How many variables and observations does `storms` contain?
+ -  How many different *kinds* of variables does it contain? What are these?
+
+## Examining data frames
+
+Using `str`...
+
+```{r, eval=showAnswers, echo=showAnswers}
 str(storms)
 ```
 
 ## Examining data frames
 
-Trying using `str` and `glimpse` on `storms`. Then try `View`...
+Using `glimpse`...
 
-```{r}
+```{r, eval=showAnswers, echo=showAnswers}
 glimpse(storms)
 ```
+
+## Two views of data frames {.build}
+
+1.   __Data frames are a collection of vectors__. These may be different types (numeric, character, others), but they must all be the same length.
+
+2.   __Data frames are table-like objects__. Take another look at our simple data frame. This clearly has rows and columns. 
+
+Data frames are central to data analysis in R. We can think of each vector as corresponding to a __statistical variable__ that we want to analyse. Almost every function we will learn about this year works with data stored in a data frame.
 
 ## Extracting a vector (i.e. a column) {.build}
 
@@ -191,10 +211,19 @@ storms$name
 - Using the position and the `[[ ]]` operator
 </div>
 
-We'll just use the `$` method, and we won't need it often.
+We'll just use the `$` method, and we won't need it often. 
 
-Getting help | The many different routes
-======================================================================================
+## Using the `$` operator
+
+Using the `$` operator to extract the `type` variable and print it to the console. 
+
+```{r, eval=showAnswers, echo=showAnswers}
+storms$type
+```
+
+
+Getting help | Many different routes
+===============================================================================
 
 ## Built in 'help' files
 
@@ -213,7 +242,30 @@ Help files are really **documentation** files:
 - References
 - Examples <-- This is often the most useful part
 
-Better options for help are the internet (e.g. google, stack overflow), books and those cheat sheets...
+Better options for help are the internet (e.g. Google, stack overflow), books and those cheat sheets...
+
+## Other sources of help {.smaller .build}
+
+The internet is packed full of helpful resources:
+
+1. **Google** -- this might be obvious, but you have to work on your "Google-fu" to find what you want. The key is to pick the right search terms:
+
+    - include the function or package name
+    
+    - include the letter R!
+    
+    - be selective about which sites you look at...
+
+<div>
+2. **Stack Overflow** -- probably the best question and answer site for computing stuff. People can be a bit blunt though:
+
+    - check whether your question has been asked before (Google)
+    
+    - read the community guidelines
+    
+    - provide example code with your questions
+</div>
+
 
 The **dplyr** package | Manipulating data 
 ====================================================================
@@ -234,7 +286,8 @@ The **dplyr** package | Manipulating data
 
 <div>
 <br>
-**It is useful to classify the verbs according to what they work on:__
+
+**It is useful to classify the verbs according to what they work on:**
 
 - observations (rows): `filter` & `slice` & `arrange`
 - variables (columns): `select` & `rename` & `mutate`
@@ -283,7 +336,7 @@ The `<expression>` typically uses a combination of __relational__ (e.g. `<` and 
 <div id="exercise-box">
 __Subsetting observations on more than one variable__
 <div id="box-text">
-Use the `filter` function on the `storms` dataset to select the rows containing just the observations associated with 'Hurricanes' that took place in 1997 or later. Just print the result to the Console.
+Use the `filter` function on the `storms` data set to select the rows containing just the observations associated with 'Hurricanes' that took place in 1997 or later. Just print the result to the Console.
 
 If you're not sure where to start, use `glimpse` or `str` to remind yourself what the variables in `storms` are called. You need to work with the ones containing information about the storm category and year.
 </div>
@@ -311,7 +364,7 @@ __Arguments__
 <div id="exercise-box">
 __Selecting two variables__
 <div id="box-text">
-Use the `select` function on the `storms` dataset to make a new data set containing only `name`, `year` and `pressure`. Assign a name to the result (i.e. use `<-`) and then check that it contains the right variables using the `glimpse` function.
+Use the `select` function on the `storms` data set to make a new data set containing only `name`, `year` and `pressure`. Assign a name to the result (i.e. use `<-`) and then check that it contains the right variables using the `glimpse` function.
 </div>
 </div>
 
@@ -340,7 +393,7 @@ __Arguments__
 __Comments__
 
 - The `<expression>` that appears on the right hand side of the `=` can be any valid R expression that uses variables in `data`.
-- You can use more than one `NewVar = <expression>` at a time (seperated by `,`) if you need to construct several new variables.
+- You can use more than one `NewVar = <expression>` at a time (separated by `,`) if you need to construct several new variables.
 </div>
 
 ## Exercise {.build}
@@ -348,7 +401,7 @@ __Comments__
 <div id="exercise-box">
 __Making a new variable__
 <div id="box-text">
-The sea level pressure of every observation is measured in millibar. Use the `mutate` function on the `storms` dataset to make a new variable (inside `storms`) that is the sea level pressure in Pascal. Call the new variable `pressure_Pa`.
+The sea level pressure of every observation is measured in millibar. Use the `mutate` function on the `storms` data set to make a new variable (inside `storms`) that is the sea level pressure in Pascal. Call the new variable `pressure_Pa`.
 
 Hint: 1 mbar = 100 Pa
 </div>
@@ -363,7 +416,7 @@ The **dplyr** package | Piping operations and summarising data
 
 ## Using the 'pipe' `%>%`
 
-The **dplyr** package inmports a special operator, called 'the pipe'. It looks like this: `%>%`. This allows us to chain together a sequence of operations, reading from left to right and top to bottom. For example, take a look at this sequence of calculations:
+The **dplyr** package imports a special operator, called 'the pipe'. It looks like this: `%>%`. This allows us to chain together a sequence of operations, reading from left to right and top to bottom. For example, take a look at this sequence of calculations:
 
 ```{r}
 x <- 10
@@ -427,8 +480,8 @@ __Arguments__
 __Comments__
 
 - The `<expression>` that appears on the right hand side of the `=` can be any valid R expression that uses variables in `data`. However, `<expression>` **must return a single value** (e.g. `mean()`, `var()`, `sd()`, `n()` are all fine).
-- Although `summarise` looks a lot like `mutate`, it is designed to construct a completely new, much smaller, dataset containing summaries of one or more variables.
-- You may use more than one `SummaryStat = <expression>` at a time (seperated by `,`) if you need to construct several summaries.
+- Although `summarise` looks a lot like `mutate`, it is designed to construct a completely new, much smaller, data set containing summaries of one or more variables.
+- You may use more than one `SummaryStat = <expression>` at a time (separated by `,`) if you need to construct several summaries.
 </div>
 
 ## Using `group_by` {.build}
@@ -459,7 +512,7 @@ __Comments__
 <div id="exercise-box">
 __Using `group_by` to group by more than one variable__
 <div id="box-text">
-You're going to use `group_by` and `summarise` together, along with the pipe (` %>% `) in this exercise. Use the `group_by` and `summarise` functions on the `storms` dataset to calculate the minimum and maximum wind speed associated with each month. Call the summary variables `min_speed` and `max_speed`.
+You're going to use `group_by` and `summarise` together, along with the pipe (` %>% `) in this exercise. Use the `group_by` and `summarise` functions on the `storms` data set to calculate the minimum and maximum wind speed associated with each month. Call the summary variables `min_speed` and `max_speed`.
 
 Hint: You need to know the names of the two functions that calculate the minimum and maximum of a numeric vector.
 </div>
@@ -488,9 +541,9 @@ We build up a plot by combining different functions using the `+` operator. This
 
 ## Example: Scatter plots
 
-__Quick remoind of how all this works__:
+__Quick reminder of how all this works__:
 
-We don't have to build a plot object up in separate steps and then explicitly "print"" it to the Console. If we just want to make th eplot in one go we can do it like this:
+We don't have to build a plot object up in separate steps and then explicitly "print"" it to the Console. If we just want to make the plot in one go we can do it like this:
 ```{r, fig.height=2.6, fig.width=3.2}
 ggplot(storms, aes(x = pressure, y = wind)) + 
   geom_point(colour = "purple") + 
@@ -502,7 +555,7 @@ ggplot(storms, aes(x = pressure, y = wind)) +
 <div id="exercise-box">
 __Customising your plot__
 <div id="box-text">
-Repeat th at last example (a scatter plot of wind speed vs pressure), but now try to customise the point colours, size, and transparency.
+Repeat the last example (a scatter plot of wind speed vs pressure), but now try to customise the point colours, size, and transparency.
 
 Hint: Try `?geom_point` if you can't remember how to do this, looking at the **Aesthetics** section. An example of suitable output is given below.
 </div>
@@ -527,7 +580,7 @@ ggplot(storms, aes(x = pressure, y = wind)) +
 <div id="exercise-box">
 __Customising your plot__
 <div id="box-text">
-Repeat th at last example (a scatter plot of wind speed vs pressure), but now make the point colour depend upon storm type (i.e. the `type` variable).
+Repeat the last example (a scatter plot of wind speed vs pressure), but now make the point colour depend upon storm type (i.e. the `type` variable). This requires that you set up a new mapping between a variable and a suitable 'aesthetic'.
 </div>
 </div>
 
@@ -566,7 +619,7 @@ ggplot(storms, aes(x = pressure, y = wind, colour = type)) +
 
 ## What are histograms and dot plots?
 
-We use histograms and dot plots to understand the __distribution__ of a variable. They summarise the number of observations occuring in a contiguous series of bins. Use `geom_histogram` to construct a histogram and `geom_dotplot`. Here is an example:
+We use histograms and dot plots to understand the __distribution__ of a variable. They summarise the number of observations occurring in a contiguous series of bins. Use `geom_histogram` to construct a histogram and `geom_dotplot`. Here's an example:
 
 ```{r, echo = FALSE}
 ggplot(storms, aes(x = pressure)) + 
@@ -584,16 +637,53 @@ ggplot(storms, aes(x = pressure)) +
   labs(x = "Pressure", y = "Count")  
 ```
 
-## Miscellaneous 'stuff'
+## Using **dplyr** and **ggplot2** together
 
--   R does not change things 'in place'. You have to use assignment ` <- ` ('gets')...
+Dot plots are better than histograms for summarising the distribution of a variable in a small sample. You will see a lot of dot plots this year. See if you can produce one that summarises the distribution of wind speeds associated with storm 'Keith'. To do this, you will need to use **dplyr** to get the right set of observations.
 
--   Scientific notation in R looks like this: `1e-16`. That is R-speak for $1.0 \ times 10^{-16}$, i.e. a very small number.
+```{r, echo = FALSE}
+storms %>%
+  filter(name == "Keith") %>%
+  ggplot(aes(x = wind)) + 
+    geom_dotplot(colour = "darkgrey", fill = "grey", binwidth = 8) + 
+    labs(x = "Wind speed", y = "Count") 
+```
 
--   Don;t forget the basics, e.g. `mean()`, `var()`, `sd()`, `n()`
+## Answer
 
--   Keyboard shortcuts are useful. We really like 'Alt-Underscore' (` <- `) and 'Ctrl-Shift-M' (` %>% `).
+```{r, fig.height=3.1, fig.width=4.0, eval=showAnswers, echo=showAnswers}
+storms %>%
+  filter(name == "Keith") %>%
+  ggplot(aes(x = wind)) + 
+    geom_dotplot(colour = "darkgrey", fill = "grey", binwidth = 8) + 
+    labs(x = "Wind speed", y = "Count") 
+```
 
+## Plotting summary statistics (bar plots)
+
+
+
+
+
+
+Wrap up | 
+====================================================================
+
+## Miscellaneous 'stuff' {.build}
+
+- R does not change things 'in place'. You have to use assignment ` <- ` ('gets')...
+
+- Scientific notation in R looks like this: `1e-16`. That is R-speak for $1.0 \ times 10^{-16}$, i.e. a very small number.
+
+- Don't forget the basics, e.g. `mean()`, `var()`, `sd()`, `n()`
+
+- Keyboard shortcuts are useful. We really like 'Alt-Underscore' (` <- `) and 'Ctrl-Shift-M' (` %>% `).
+
+## Two tips for success {.build}
+
+1.  **Keep your scripts organised and well-commented** If you don't, you will make more mistakes, you will find it harder to revise, and next year, you won't have a clue how to analyse your own data.
+
+2.  **Read the required chapters each week, take good notes, and ask questions** People who do all three of these things tend not to struggle in this course.
 
 
 
