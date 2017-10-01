@@ -73,7 +73,7 @@ R usually assumes that a variable containing numeric values is meant to be treat
 
 ### Interval scale (numeric) variables
 
-Interval scale variables take values on a consistent numeric scale, but where that scale starts at an arbitrary point. Temperature on the Celsius scale is a good example of interval data. We can say that 60$^{\circ}$C is hotter than 50$^{\circ}$C, and we can say that the difference in temperature between 60$^{\circ}$C and 70$^{\circ}$C is the same as that between -20$^{\circ}$C and -10$^{\circ}$C. We cannot say that 60$^{\circ}$C is twice as hot as 30$^{\circ}$C. This is because temperature on the Celsius scale has an artificial zero value---the freezing point of water. The idea becomes obvious when we consider that temperature can equally well be measured on the Fahrenheit scale (where the freezing point of water is 32$^{\circ}$C).
+Interval scale variables take values on a consistent numeric scale, but where that scale starts at an arbitrary point. Temperature on the Celsius scale is a good example of interval data. We can say that 60$^{\circ}$C is hotter than 50$^{\circ}$C, and we can say that the difference in temperature between 60$^{\circ}$C and 70$^{\circ}$C is the same as that between -20$^{\circ}$C and -10$^{\circ}$C. We cannot say that 60$^{\circ}$C is twice as hot as 30$^{\circ}$C. This is because temperature on the Celsius scale has an artificial zero value---the freezing point of water. The idea becomes obvious when we consider that temperature can equally well be measured on the Fahrenheit scale (where the freezing point of water is 32$^{\circ}$F).
 
 ### Ratio scale (numeric) variables
 
@@ -88,7 +88,7 @@ So... just keep in mind that the fact that data look (or really are) discontinuo
 
 ### Why does the distinction matter?
 
-The measurement scale affects what we can do (mathematically) to a numeric variable. We can add and subtract interval scale variables, but we can not divide or multiply them and arrive a meaningful result. In contrast, we can add, subtract, multiply or divide ratio scale variables. Put anothre way, differences and distances are meaningful for both interval and ratio scales, but ratios are only meaningful for ratio variables (the clue is in the name).
+The measurement scale affects what we can do (mathematically) to a numeric variable. We can add and subtract interval scale variables, but we can not divide or multiply them and arrive a meaningful result. In contrast, we can add, subtract, multiply or divide ratio scale variables. Put another way, differences and distances are meaningful for both interval and ratio scales, but ratios are only meaningful for ratio variables (the clue is in the name).
 
 ### Which is best?
 

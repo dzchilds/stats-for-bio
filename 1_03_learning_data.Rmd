@@ -6,7 +6,7 @@
 > 
 > [Davidian and Louis (2012)](https://doi.org/10.1126/science.1218685)
 
-The particular flavour of statistics covered in this book is called '**frequentist statistics**'. It isn't really important that someone using frequentist statistics knows this. From a practical perspective, it's possible to apply frequentist tools by just learning a few basic 'rules'. Nonetheless, it is helpful to acquire a rough sense of how frequentist ideas work so that these rules can be applied correctly. Ultimately, it's much easier to use statistical tools if we understand (at least roughly) how they work.
+The particular flavour of statistics covered in this book is called '**frequentist statistics**'. In one sense, it isn't very important that we realise this. From a practical perspective, it's possible to apply frequentist tools by just learning a few basic 'rules'. Nonetheless, it is helpful to acquire a rough sense of how frequentist ideas work so that these rules can be applied correctly. Ultimately, it's much easier to use statistical tools if we understand (at least roughly) how they work.
 
 The goal of the next few chapters is to provide an overview of the important ideas. We're not going to cover the challenging mathematical details in any great detail. Instead, we just want to get a conceptual feel for the most important ideas. These can be difficult to understand at first. This is fine. We'll return to them repeatedly as we introduce different statistical models and tests.
 
