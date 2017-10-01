@@ -10,7 +10,7 @@ output:
 ---
 
 ```{r, include=FALSE}
-showAnswers <- FALSE
+showAnswers <- TRUE
 
 library(dplyr)
 library(ggplot2)
@@ -39,7 +39,7 @@ theme_set(my_theme)
 Basics | Setting up and reading in data
 ===============================================================================
 
-## The working directory {.build}
+## The working directory {.build .smaller}
 
 A quick reminder of what it is and how to set it...
 
@@ -72,7 +72,7 @@ Can you remember what this does? Why can it be a good idea include it?
 
 This script hasn't been saved. Do that now...
 
-## Packages 
+## Packages {.smaller}
 
 Packages extend what base R can do. Two things have to happen before you can actually use the functions in a package:
 
@@ -114,6 +114,7 @@ If not... click the 'Install' button. Type the following: **dplyr**, **ggplot2**
 **Step 2.** Place the following into your script, and then submit it to the Console:
 
 ```{r}
+# load and attach the packages we need
 library("dplyr")
 library("ggplot2")
 ```
@@ -129,19 +130,21 @@ This is easy if you've set the working directory properly.
 Include the following line in your script, and submit it to the Console
 
 ```{r, eval = FALSE}
+# read the data in STORMS.CSV into R + call the result 'storms'
 storms <- read.csv("STORMS.CSV")
-str(storms)
 ```
 </div>
 
-What happened? Look at the 'Environment' tab in the top right pane. Can you see something called `storms`? What kind of object is `storms`?
+What happened? If you ran into an error it means the working directory isn't set correctly or the file name is wrong. Get a TA to help you. 
 
-Data in R | Vectors, data frames, 'tibbles', etc.
+Once it is loaded... Look at the 'Environment' tab in the top right pane. Can you see something called `storms`? What kind of object is `storms`?
+
+Data in R | Vectors, data frames and tibbles...
 ===============================================================================
 
 ## 'Tibbles' 
 
-Er, what the @^$£ is a 'tibble'?... Basically, a special version of the data frame. **dplyr** tends to produce them. We can convert if we need to, e.g.
+Er, what the @^$£ is a 'tibble'?... Basically, a tibble is a special version of the data frame. The **dplyr** tends to produce them. We can convert a normal data frame to a tibble if we need to, e.g.
 
 ```{r, eval=FALSE}
 tbl_df(storms)        # <- the old way (deprecated)
@@ -152,16 +155,18 @@ as_data_frame(storms) # <- the new way
 Add this to your script now...
 
 ```{r}
+# convert the data frame to a tibble
 storms <- as_data_frame(storms)
 ```
 
 The **only** thing you really need to be aware of is that a tibble is printed to the Console more compactly than a data frame.
 
-## Examining data frames {.build}
+## Examining data frames {.build .smaller}
 
 We can print the tibble straight to the console...
 
 ```{r}
+# print the tibble to the console
 storms
 ```
 
@@ -190,13 +195,48 @@ Using `glimpse`...
 glimpse(storms)
 ```
 
+## Is your script well-organised?
+
+This is good...
+
+```{r, eval = FALSE}
+# clear the workspace (aka R's 'brain')
+rm(list = ls())
+
+# load and attach the packages we need
+library("dplyr")
+library("ggplot2")
+
+# read the data in STORMS.CSV into R + call the result 'storms'
+storms <- read.csv("STORMS.CSV")
+# convert the data frame to a tibble
+storms <- as_data_frame(storms)
+# take a look at the data
+glimpse(storms)
+```
+
+## Is your script well-organised?
+
+This is **not** so good...
+
+```{r, eval = FALSE}
+rm(list=ls())
+library("dplyr")
+library("ggplot2")
+storms<-read.csv("STORMS.CSV")
+storms<-as_data_frame(storms)
+glimpse(storms)
+```
+
 ## Two views of data frames {.build}
 
-1.   __Data frames are a collection of vectors__. These may be different types (numeric, character, others), but they must all be the same length.
+1.   __Data frames are a collection of vectors__. These may be different types (numeric, character, others) but they must all be the same length.
 
-2.   __Data frames are table-like objects__. Take another look at our simple data frame. This clearly has rows and columns. 
+2.   __Data frames are table-like objects__. Take another look at your `storms` data frame. This has rows and columns. 
 
-Data frames are central to data analysis in R. We can think of each vector as corresponding to a __statistical variable__ that we want to analyse. Almost every function we will learn about this year works with data stored in a data frame.
+Data frames are central to data analysis in R. We can think of each vector as corresponding to a __statistical variable__ that we want to analyse. Almost every function we will use this year works with data stored in a data frame.
+
+If every row in the data frame corresponds to a single observation, and every variable is only found in one column, the data are "tidy". We only use tidy data in this course, because this is what R expects most of the time. **Do the same in your own work.**
 
 ## Extracting a vector (i.e. a column) {.build}
 
@@ -208,14 +248,20 @@ We can extract a vector from a data frame in a few different ways:
 storms$name
 ```
 - Using the name and the `[[ ]]` operator
+```{r, eval = FALSE}
+storms[["name"]]
+```
 - Using the position and the `[[ ]]` operator
+```{r, eval = FALSE}
+storms[[1]]
+```
 </div>
 
 We'll just use the `$` method, and we won't need it often. 
 
 ## Using the `$` operator
 
-Using the `$` operator to extract the `type` variable and print it to the console. 
+Use the `$` operator to extract the `type` variable and print it to the console. 
 
 ```{r, eval=showAnswers, echo=showAnswers}
 storms$type
@@ -225,7 +271,7 @@ storms$type
 Getting help | Many different routes
 ===============================================================================
 
-## Built in 'help' files
+## Built in 'help' files {.smaller}
 
 We do the following:
 
@@ -242,7 +288,7 @@ Help files are really **documentation** files:
 - References
 - Examples <-- This is often the most useful part
 
-Better options for help are the internet (e.g. Google, stack overflow), books and those cheat sheets...
+Better options for help can be found the interweb (e.g. Google, Stack Overflow), books and those cheat sheets... Remember the cheat sheets? Can you find them again?
 
 ## Other sources of help {.smaller .build}
 
@@ -270,10 +316,10 @@ The internet is packed full of helpful resources:
 The **dplyr** package | Manipulating data 
 ====================================================================
 
-## The five key verbs {.build} 
+## The five key verbs {.build .smaller} 
 
 <div>
-****dplyr** has five main "verbs", each of which corresponds to a function:**
+**dplyr** has five main "verbs", each of which corresponds to a function:
 
 - `select`: Extract a subset of variables
 - `filter`: Extract a subset of rows
@@ -287,7 +333,7 @@ The **dplyr** package | Manipulating data
 <div>
 <br>
 
-**It is useful to classify the verbs according to what they work on:**
+**We can classify the verbs according to what they work on:**
 
 - observations (rows): `filter` & `slice` & `arrange`
 - variables (columns): `select` & `rename` & `mutate`
@@ -296,8 +342,6 @@ The **dplyr** package | Manipulating data
 </div>
 
 ## Using `filter` {.build .smaller}
-
-**Reminder: comparing values**
 
 <div>
 Use __relational operators__ to compare the elements of vectors:
@@ -308,6 +352,13 @@ Use __relational operators__ to compare the elements of vectors:
 - `x >= y`: is x greater than or equal to y?
 - `x == y`: is x equal to y?
 - `x != y`: is x not equal to y?
+</div>
+
+<div>
+Use __logical operators__ to combine comparisons:
+
+- `x & y`: are both x AND y TRUE?
+- `x & y`: is x OR y true?
 </div>
 
 ## Using `filter` {.build}
@@ -328,7 +379,7 @@ __Arguments__
 <div>
 __Comments__
 
-The `<expression>` typically uses a combination of __relational__ (e.g. `<` and `==`) operators (+ maybe __logical__ (e.g. `&` and `|`) operators)
+The `<expression>` typically uses a combination of __relational__ (e.g. `<` and `==`) and (sometimes) __logical__ (e.g. `&` and `|`) operators
 </div>
 
 ## Exercise {.build}
@@ -336,7 +387,7 @@ The `<expression>` typically uses a combination of __relational__ (e.g. `<` and 
 <div id="exercise-box">
 __Subsetting observations on more than one variable__
 <div id="box-text">
-Use the `filter` function on the `storms` data set to select the rows containing just the observations associated with 'Hurricanes' that took place in 1997 or later. Just print the result to the Console.
+Use the `filter` function on the `storms` data set to select the rows containing just the observations associated with 'Hurricanes' that took place in 1997 or later. Print the result to the Console.
 
 If you're not sure where to start, use `glimpse` or `str` to remind yourself what the variables in `storms` are called. You need to work with the ones containing information about the storm category and year.
 </div>
@@ -460,7 +511,7 @@ processed_storms <-
   mutate(pressure_Pa = 100 * pressure)
 ```
 
-## Using `summarise` {.build}
+## Using the `summarise` function {.smaller .build}
 
 <div>
 We use summarise to __calculate summaries of variables__. This is how we use `summarise`:
@@ -484,7 +535,7 @@ __Comments__
 - You may use more than one `SummaryStat = <expression>` at a time (separated by `,`) if you need to construct several summaries.
 </div>
 
-## Using `group_by` {.build}
+## Using the `group_by` function {.build .smaller}
 
 <div>
 Use `group_by` to add grouping information to a tibble or data frame. This is how we use `group_by`:
@@ -513,8 +564,6 @@ __Comments__
 __Using `group_by` to group by more than one variable__
 <div id="box-text">
 You're going to use `group_by` and `summarise` together, along with the pipe (` %>% `) in this exercise. Use the `group_by` and `summarise` functions on the `storms` data set to calculate the minimum and maximum wind speed associated with each month. Call the summary variables `min_speed` and `max_speed`.
-
-Hint: You need to know the names of the two functions that calculate the minimum and maximum of a numeric vector.
 </div>
 </div>
 
@@ -661,9 +710,7 @@ storms %>%
 
 ## Plotting summary statistics (bar plots)
 
-
-
-
+Still need to add this...
 
 
 Wrap up | 
@@ -671,19 +718,19 @@ Wrap up |
 
 ## Miscellaneous 'stuff' {.build}
 
-- R does not change things 'in place'. You have to use assignment ` <- ` ('gets')...
+- R does not change things 'in place'. You have to use assignment ` <- ` ('gets') to store copies of objects...
 
 - Scientific notation in R looks like this: `1e-16`. That is R-speak for $1.0 \ times 10^{-16}$, i.e. a very small number.
 
 - Don't forget the basics, e.g. `mean()`, `var()`, `sd()`, `n()`
 
-- Keyboard shortcuts are useful. We really like 'Alt-Underscore' (` <- `) and 'Ctrl-Shift-M' (` %>% `).
+- Keyboard shortcuts are useful. You should learn a few. I really like 'Alt-Underscore' and 'Ctrl-Shift-M'.
 
 ## Two tips for success {.build}
 
-1.  **Keep your scripts organised and well-commented** If you don't, you will make more mistakes, you will find it harder to revise, and next year, you won't have a clue how to analyse your own data.
+1.  **Keep your scripts organised and well-commented** If you don't, you will make a lot of mistakes, you will find it harder to revise, and next year, you won't have a clue how to analyse your own data.
 
-2.  **Read the required chapters each week, take good notes, and ask questions** People who do all three of these things tend not to struggle in this course.
+2.  **Do required reading each week, take good notes, and ask questions** It may be tempting to skip the reading each week. Don't do this. At the very least, work through it quickly, noting anything that is confusing you. 
 
 
 
