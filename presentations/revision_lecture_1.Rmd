@@ -1,0 +1,317 @@
+---
+title: Revising APS 135 
+author: Dylan Childs
+date: Tuesday 27, 2016
+highlighter: pygments
+output: 
+  ioslides_presentation:
+    css: presentations.css
+    smaller: false
+---
+
+```{r, include=FALSE}
+showAnswers <- TRUE
+
+library(dplyr)
+library(ggplot2)
+library(grid)
+library(knitr)
+
+storms <- read.csv("../data_csv/STORMS.CSV")
+
+opts_chunk$set(fig.width=4.5, fig.height=3.3, warning=FALSE, message=FALSE, 
+               dev.args = list(bg = 'transparent'), fig.align='center')
+
+my_theme <- theme_gray() + theme(
+  plot.background = element_rect(fill = "transparent", colour = NA),
+  axis.title.x = element_text(vjust=-0.5),
+  axis.title.y = element_text(vjust=+1.5)
+  )
+theme_set(my_theme)
+```
+
+## While we're waiting
+
+1. Go to MOLE, download the STORMS.CSV file, and place it somewhere 'sensible' --- i.e. a permanent that you can locate again.
+
+2. Start up RStudio (not R!) and stare at it... Can you remember much from last year? Maybe not... Don't worry, that's what today is all about.
+
+Basics | Setting up and reading in data
+===============================================================================
+
+## The working directory {.build .smaller}
+
+A quick reminder of what it is and how to set it...
+
+- The **working directory** is a default location that R uses to looks for files. It is just a folder on your computer.
+
+- If you don't set the working directory, R will do it for you. It probably won't use the folder you want to use.
+
+- **YOU should set the working directory**. Setting your working directory should be the first thing you do EVERY TIME you start R/RStudio.
+
+- Do not do this using R code in your script. Instead, do it using the RStudio menu system (there are other ways, don't use them).
+
+<br><br>
+
+<div>
+Set your working directory now using: **Session > Set Working Directory > Choose Directory...**
+</div>
+
+## Starting a new script {.build}
+
+Start a new script using: **File > New File... > R Script**
+
+<div>
+Then add the following to the beginning of your script:
+```{r, eval=FALSE}
+# clear the workspace (aka R's 'brain')
+rm(list = ls())
+```
+Can you remember what this does? Why can it be a good idea include it?
+</div>
+
+This script hasn't been saved. Do that now...
+
+## Packages {.smaller}
+
+Packages extend what base R can do. Two things have to happen before you can actually use the functions in a package:
+
+1. You have to **install** it. This is a "do once" operation. After a package is installed you can restart R and it is still installed.
+
+2. You have to **load and attach** it. This is a "do every time" operation. You have to load and attach the package every time you start a new session (= open R).
+
+<br><br><br><hr>
+
+A mobile phone App analogy: 
+
+- installing a package <=> getting an App from an App store
+
+- loading and attaching a package <=> opening the App on your phone
+
+## Accessing a package
+
+1. We **install** a package with the `install.packages` function
+
+2. We **load and attach** an installed package with the `library` function
+
+**Remember!**
+
+- Never use `install.packages` inside your scripts! You don't want to re-install a package every time you plan to use it. 
+
+- You can install a package via the Packages tab in RStudio. Use this if you don't like using `install.packages`.
+
+## We need **dplyr** and **ggplot2**...
+
+<div>
+**Step 1.** Install **dplyr** and **ggplot2**
+
+Navigate to the Packages tab in RStudio (bottom right pane by default). Can you find **dplyr** and **ggplot2** in the list? 
+
+If not... click the 'Install' button. Type the following: **dplyr**, **ggplot2**... and click 'Install'.
+</div>
+
+<div>
+**Step 2.** Place the following into your script, and then submit it to the Console:
+
+```{r}
+# load and attach the packages we need
+library("dplyr")
+library("ggplot2")
+```
+</div>
+
+**Remember: you don't have to repeat 'Step 1' in every new R session**
+
+## Reading a CSV file into R {.build}
+
+This is easy if you've set the working directory properly.
+
+<div>
+Include the following line in your script, and submit it to the Console
+
+```{r, eval = FALSE}
+# read the data in STORMS.CSV into R + call the result 'storms'
+storms <- read.csv("STORMS.CSV")
+```
+</div>
+
+What happened? If you ran into an error it means the working directory isn't set correctly or the file name is wrong. Get a TA to help you. 
+
+Once it is loaded... Look at the 'Environment' tab in the top right pane. Can you see something called `storms`? What kind of object is `storms`?
+
+Data in R | Vectors, data frames and tibbles...
+===============================================================================
+
+## 'Tibbles' 
+
+Er, what the @^$£ is a 'tibble'?... Basically, a tibble is a special version of the data frame. The **dplyr** tends to produce them. We can convert a normal data frame to a tibble if we need to, e.g.
+
+```{r, eval=FALSE}
+tbl_df(storms)        # <- the old way (deprecated)
+# or
+as_data_frame(storms) # <- the new way
+```
+
+Add this to your script now...
+
+```{r}
+# convert the data frame to a tibble
+storms <- as_data_frame(storms)
+```
+
+The **only** thing you really need to be aware of is that a tibble is printed to the Console more compactly than a data frame.
+
+## Examining data frames {.build .smaller}
+
+We can print the tibble straight to the console...
+
+```{r}
+# print the tibble to the console
+storms
+```
+
+This is quite verbose.
+
+## Examining data frames
+
+Trying using `str` or `glimpse` with `storms`. Then try `View`. Makes sure you can answer the following questions:
+
+ -  How many variables and observations does `storms` contain?
+ -  How many different *kinds* of variables does it contain? What are these?
+
+## Examining data frames
+
+Using `str`...
+
+```{r, eval=showAnswers, echo=showAnswers}
+str(storms)
+```
+
+## Examining data frames
+
+Using `glimpse`...
+
+```{r, eval=showAnswers, echo=showAnswers}
+glimpse(storms)
+```
+
+## Is your script well-organised?
+
+This is good...
+
+```{r, eval = FALSE}
+# clear the workspace (aka R's 'brain')
+rm(list = ls())
+
+# load and attach the packages we need
+library("dplyr")
+library("ggplot2")
+
+# read the data in STORMS.CSV into R + call the result 'storms'
+storms <- read.csv("STORMS.CSV")
+# convert the data frame to a tibble
+storms <- as_data_frame(storms)
+# take a look at the data
+glimpse(storms)
+```
+
+## Is your script well-organised?
+
+This is **not** so good...
+
+```{r, eval = FALSE}
+rm(list=ls())
+library("dplyr")
+library("ggplot2")
+storms<-read.csv("STORMS.CSV")
+storms<-as_data_frame(storms)
+glimpse(storms)
+```
+
+## Two views of data frames {.build}
+
+1.   __Data frames are a collection of vectors__. These may be different types (numeric, character, others) but they must all be the same length.
+
+2.   __Data frames are table-like objects__. Take another look at your `storms` data frame. This has rows and columns. 
+
+Data frames are central to data analysis in R. We can think of each vector as corresponding to a __statistical variable__ that we want to analyse. Almost every function we will use this year works with data stored in a data frame.
+
+If every row in the data frame corresponds to a single observation, and every variable is only found in one column, the data are "tidy". We only use tidy data in this course, because this is what R expects most of the time. **Do the same in your own work.**
+
+## Extracting a vector (i.e. a column) {.build}
+
+We can extract a vector from a data frame in a few different ways:
+
+<div>
+- Using the name and the `$` operator
+```{r, eval = FALSE}
+storms$name
+```
+- Using the name and the `[[ ]]` operator
+```{r, eval = FALSE}
+storms[["name"]]
+```
+- Using the position and the `[[ ]]` operator
+```{r, eval = FALSE}
+storms[[1]]
+```
+</div>
+
+We'll just use the `$` method, and we won't need it often. 
+
+## Using the `$` operator
+
+Use the `$` operator to extract the `type` variable and print it to the console. 
+
+```{r, eval=showAnswers, echo=showAnswers}
+storms$type
+```
+
+
+Getting help | Many different routes
+===============================================================================
+
+## Built in 'help' files {.smaller}
+
+We do the following:
+
+```{r, eval=FALSE}
+?name_of_a_useful_function
+```
+
+Help files are really **documentation** files:
+
+- Description
+- Usage
+- Arguments
+- Details
+- References
+- Examples <-- This is often the most useful part
+
+Better options for help can be found the interweb (e.g. Google, Stack Overflow), books and those cheat sheets... Remember the cheat sheets? Can you find them again?
+
+## Other sources of help {.smaller .build}
+
+The internet is packed full of helpful resources:
+
+1. **Google** -- this might be obvious, but you have to work on your "Google-fu" to find what you want. The key is to pick the right search terms:
+
+    - include the function or package name
+    
+    - include the letter R!
+    
+    - be selective about which sites you look at...
+
+<div>
+2. **Stack Overflow** -- probably the best question and answer site for computing stuff. People can be a bit blunt though:
+
+    - check whether your question has been asked before (Google)
+    
+    - read the community guidelines
+    
+    - provide example code with your questions
+</div>
+
+
+
+
