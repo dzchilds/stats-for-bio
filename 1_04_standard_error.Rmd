@@ -48,11 +48,11 @@ ggplot(out, aes(x = n.purple)) + geom_bar() +
 
 This bar plot summarises the result from 100000 samples. In each sample, we took `r sampsize1` individuals from our hypothetical population and calculated the number of purple morphs found. The bar plot shows the number of times we found 0, 1, 2, 3, ... purple individuals, all the way up to the maximum possible (`r sampsize1`). We could have converted these numbers to frequencies, but here we're just summarising the raw distribution of purple morph counts. 
 
-This kind of distribution has a special name. It is called a **sampling distribution**. The sampling distribution is the distribution we expect a particular estimate to follow. In order to to work this out, we have to postulate values for the population parameters, and we have to know how the population was sampled. This can often be done using mathematical reasoning. Here, we used brute-force simulation to approximate the sampling distribution of purple morph counts that arises when we sample `r sampsize1` individuals from our hypothetical population.
+This kind of distribution has a special name. It is called a **sampling distribution**. The sampling distribution is the distribution we expect a particular estimate to follow. In order to work this out, we have to postulate values for the population parameters, and we have to know how the population was sampled. This can often be done using mathematical reasoning. Here, we used brute-force simulation to approximate the sampling distribution of purple morph counts that arises when we sample `r sampsize1` individuals from our hypothetical population.
 
 What does this particular sampling distribution show? It shows us the range of outcomes we can expect to observe when we repeat the same sampling process over and over again. The most common outcome is 8 purple morphs, which would yield an estimate of 8/20 = 40% for the purple morph frequency.
 
-Although there is no way to know this without being told, a 40% purple morph frequency is actually the number used to simulate the original, hypothetical data set. So it turns out that the true value of parameter we're trying to learn about also happens to be the most common estimate we expect to see under repeated sampling. So now we know the answer to our question---the purple morph frequency is 40%. Of course, we have 'cheated' because we used information from 1000s of samples. In the real world we have to work with one sample.
+Although there is no way to know this without being told, a 40% purple morph frequency is actually the number used to simulate the original, hypothetical data set. So it turns out that the true value of the parameter we're trying to learn about also happens to be the most common estimate we expect to see under repeated sampling. So now we know the answer to our question---the purple morph frequency is 40%. Of course, we have 'cheated' because we used information from 1000s of samples. In the real world we have to work with one sample.
 
 The sampling distribution is the key to 'doing statistics'. Look at the spread (dispersion) of the sampling distribution. The range of outcomes is roughly 2 to 15, which corresponds to estimated frequencies of the purple morph in the range of 10-75% (we sampled `r sampsize1` individuals). This tells us that when we sample only `r sampsize1` individuals, the sampling error for a frequency estimate can be quite large.
 
@@ -62,7 +62,7 @@ Once we know how to calculate the sampling distribution for a particular problem
 
 ## The effect of sample size
 
-One of the most important aspect of a sampling scheme is the **sample size** (often denoted 'n'). This is the number of observations---individuals, objects, items, etc---in a sample. What happens when we change the sample size in our example? We'll repeat the multiple sampling exercise, but this time using two different sample sizes. First we'll use a sample size of `r sampsize2` individuals, and then we'll take a sample of `r sampsize3` individuals. As before, we'll take a total 100000 repeated samples from the population:
+One of the most important aspects of a sampling scheme is the **sample size** (often denoted 'n'). This is the number of observations---individuals, objects, items, etc---in a sample. What happens when we change the sample size in our example? We'll repeat the multiple sampling exercise, but this time using two different sample sizes. First we'll use a sample size of `r sampsize2` individuals, and then we'll take a sample of `r sampsize3` individuals. As before, we'll take a total 100000 repeated samples from the population:
 
 ```{r samp-dist-2, echo = FALSE, out.width='100%', fig.asp=0.5, fig.align='center', fig.cap='Distribution of number of purple morphs sampled (n = 40)'}
 x <- rbinom(n = 100000, size = sampsize2, prob = prop.purp)
@@ -122,7 +122,7 @@ percent_samples <- 100 * raw_samples / sample_size
 ```
 The details of the R code are not important here (a minimum of A-level statistics is needed to understand what the `rbinom` function is doing). We're only showing the code to demonstrate that seemingly complex simulations are often easy to do in R.
 
-The result is what matters. We simulated the percentage of purple morph individuals found in 100000 samples of 20 individuals, assuming the purple morph frequency is always 40%. The results are now stored the result in a vector called `percent_samples`. Here are its first 50 values:
+The result is what matters. We simulated the percentage of purple morph individuals found in 100000 samples of 80 individuals, assuming the purple morph frequency is always 40%. The results are now stored the result in a vector called `percent_samples`. Here are its first 50 values:
 ```{r, echo=FALSE}
 head(percent_samples, 50)
 ```
