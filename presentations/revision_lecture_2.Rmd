@@ -10,7 +10,7 @@ output:
 ---
 
 ```{r, include=FALSE}
-showAnswers <- FALSE
+showAnswers <- TRUE
 
 library(dplyr)
 library(ggplot2)
