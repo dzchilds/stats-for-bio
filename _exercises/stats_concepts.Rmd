@@ -126,21 +126,13 @@ Use the above code to vary the sample size from around 20 to 500---the exact num
 Does the standard error halve when you double the sample size, or is the relationship more complicated? If you think the relationship is more complicated, what form does it take?
 ```
 
-Now repeat the exercise with assuming that the purple morph frequency is 0.1 (`prob = 0.1`).
-
-```{block, type='do-something'}
-**MOLE Question**
-
-Does the standard error depend on purple morph frequency? Does it get smaller or larger when we move from a frequency of 0.4 to 0.1?
-```
-
 ## Sample size and statistical power
 
 ```{r, echo=FALSE}
 pop_info_1 <- read.csv("../data_csv/TWO_POPS_1.CSV")
 ```
 
-The *TWO_POPS_1.CSV* file contains values of a numeric variable in two different populations (labelled A and B). The file contains a large sample from each of the two populations. For the purpose of this exercise you can treat these as though they are the 'whole population', even though they are just limited samples. 
+The *TWO_POPS_1.CSV* file contains values of a numeric variable in two different populations, labelled A and B. The file contains a large sample from each of the two populations. For the purpose of this exercise you treat these as though they are the 'whole population' (though they are just limited samples). 
 
 Download the *TWO_POPS_1.CSV* file from MOLE and place it in your working directory, then read this into an R data frame called `pop_info_1`. Examine the populations, both in terms of their descriptive statistics, and visually:
 
@@ -186,7 +178,7 @@ plt_info <- replicate(1000, simplify = TRUE, {
     `$`(X) %>% diff
 }) %>% data.frame(diff_means = .)
 ```
-There are quite a few new tricks used in that R code and you are not expected to understand how it all works. Ultimately, it produces an approximate 'null distribution' for the difference between means. You just need to be able to use this code chunk, so copy it into your script.
+There are quite a few new tricks used in that R code and you are not expected to understand how it all works. Ultimately, it produces an approximate 'null distribution' for the difference between means. You can just use this code chunk without necessarily understanding how it works. Copy it into your script.
 
 Finally, here is some R code that plots the resulting null distribution along with the difference actually observed in the sample (red line):
 ```{r, eval = FALSE}
@@ -222,7 +214,7 @@ Here's what we want you to do with all of this... Using a sample size of 10 (i.e
 Is a sample size of 10 sufficient to reliably detect a difference between the population means? Make sure you can explain your answer.
 ```
 
-Now repeat this exercise, using successively larger sample sizes, e.g. 10, 20, 40, 80, and 160. To use a sample size of 20 you would change `sample_n(10)` to `sample_n(20)`. There's no need to make a new copy of all the code (it will end up as a big mess if you do this). Just change the `sample_n` part and run the new version of everything several times. You might need to experiment a bit with the sample sizes, but don't make them much bigger than about 200.
+Now repeat this exercise, using successively larger sample sizes, e.g. 10, 20, 40, 80, 160 and 320. To use a sample size of 20 you would change `sample_n(10)` to `sample_n(20)`. There's no need to make a new copy of all the code (it will end up as a big mess if you do this). Just change the `sample_n` part and run the new version of everything several times. You might need to experiment a bit with the sample sizes, but don't make them much bigger than about 500.
 
 ```{block, type='do-something'}
 **MOLE Question**
