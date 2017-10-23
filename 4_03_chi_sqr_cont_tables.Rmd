@@ -2,7 +2,7 @@
 
 ## When do we use a chi-square contingency table test?
 
-A $\chi^{2}$ contingency table test is appropriate in situations where we are studying _two or more_ categorical variables---i.e., each object is classified according to more than one categorical variable---and we want to evaluate whether categories are associated. Here are a couple of examples:
+A $\chi^{2}$ contingency table test is appropriate in situations where we are studying _two or more_ categorical variables---each object is classified according to more than one categorical variable---and we want to evaluate whether categories are associated. Here are a couple of examples:
 
 - Going back to the data on biology students, we suggested that we might want to know if eye colour was related to sex in any way. That is, we want to know whether brown and blue eyes occur in different proportions among males and females. If we recorded the sex and eye colour of male and female students we could use a $\chi^{2}$ contingency table test to evaluate whether eye colour is associated with sex.
 
@@ -15,7 +15,9 @@ Let's think about what these kinds of data look like. Here are the biology stude
   **Male**        22           10
   **Female**      29           21
 
-This is called a two-way contingency table. It is called a *two-way* contingency table because it summarises the frequency distribution of two categorical variables at the same time^[This is called their 'joint distribution', in case you were wondering.]. If we had measured three variables we would have ended up with a *three-way* contingency table (e.g. 2 x 2 x 2). A contingency table takes its name from the fact that it captures the 'contingencies' among the categorical variables: it summarises how the frequencies of one categorical variable are associated with the categories of another^[The term association is use here to describe the non-independence of categories among categorical variables. You may also come across many other terms used to refer to the same thing (e.g. linkage, heterogeneity, non-independence, and interaction), but we'll generally stick with the word 'association'.].
+This is called a two-way contingency table. It is a *two-way* contingency table because it summarises the frequency distribution of two categorical variables at the same time^[This is called their 'joint distribution', in case you were wondering.]. If we had measured three variables we would have ended up with a *three-way* contingency table (e.g. 2 x 2 x 2). 
+
+A contingency table takes its name from the fact that it captures the 'contingencies' among the categorical variables: it summarises how the frequencies of one categorical variable are associated with the categories of another. The term association is use here to describe the non-independence of categories among categorical variables. Other terms used to refer to the same idea include 'linkage', 'non-independence', and 'interaction'.
 
 Associations are evident when the proportions of objects in one set of categories (e.g. R1 and R2) depends on a second set of categories (e.g. C1 and C2). Here are two possibilities:
 
@@ -31,25 +33,25 @@ knitr::kable(
 )
 ```
 
--   In the first table (left) there is no association: the numbers in category R1 are 1/4 of those in category R2, whether the observations are in category C1 or C2. Notice that this reasoning isn't about the total numbers in each category (e.g. there are 100 category C2 cases and only 50 category C1 cases). 
+-   In the first table (left) there is no association: the numbers in category R1 are 1/4 of those in category R2, whether the observations are in category C1 or C2. Notice that this reasoning isn't about the total numbers in each category---there are 100 category C2 cases and only 50 category C1 cases. 
 
 -   In the second table (right) this is evidence of an association: the proportion of observations in R1 changes markedly depending on whether we are looking at observations for category C1 or category C2. The R1 cases are less frequent in the C1 column, relative to the C2 column. Again, it is the proportions that matter, not the raw numbers.
 
-A variety of different questions can be asked of data in a contingency table, but most often, they are used to test for associations between the variables they summarise. That's the topic of this chapter. There are different ways to carry out such tests of association. We'll focus on the most widely used tool---the 'Pearson's Chi Square' ($\chi^{2}$) contingency table test^[This is the same Pearson who invented the correlation coefficient for measuring linear associations by the way.]. 
+A variety of different questions can be asked of data in a contingency table, but they are usually used to test for associations between the variables they summarise. That's the topic of this chapter. There are different ways to carry out such tests of association. We'll focus on the most widely used tool---the 'Pearson's Chi Square' ($\chi^{2}$) contingency table test^[This is the same Pearson who invented the correlation coefficient for measuring linear associations by the way.]. 
 
-## How does the chi-square contingency table test work?
+## How does the chi-square contingency table test work?
 
-The $\chi^{2}$ contingency table test uses data in the form of a contingency table to address questions about the dependence between two or more different *kinds* of outcomes, or events. As always, we tackle this question by setting up the appropriate null hypothesis. This null hypothesis is always the same for the standard contingency table test of association: we assume the different kinds of events are independent of one another. This means we are assuming the occurrence of one kind of event does not depend on the other kind of event, i.e. they are *not* associated. 
+The $\chi^{2}$ contingency table test uses data in the form of a contingency table to address questions about the dependence between two or more different *kinds* of outcomes, or events. We start to tackle this question by setting up the appropriate null hypothesis. The null hypothesis is always the same for the standard contingency table test of association: it proposes that the different kinds of events are independent of one another. This means the occurrence of one kind of event does not depend on the other kind of event, i.e. they are *not* associated. 
 
-Once the correct null hypothesis has been worked out, the remaining calculations are no different from those used in a goodness of fit test. We calculate the frequencies expected in each cell under the null hypothesis, we calculate a $\chi^{2}$ test statistic to summarise the mismatch between observed and expected values, and then use this to assess how likely the observed result is under the null hypothesis, resulting in the *p*-value.
+Once the null hypothesis has been worked out, the remaining calculations are no different from those used in a goodness of fit test. We calculate the frequencies expected in each cell under the null hypothesis, we calculate a $\chi^{2}$ test statistic to summarise the mismatch between observed and expected values, and then use this to assess how likely the observed result is under the null hypothesis, resulting in the *p*-value.
 
-Let's carry on with the two-spot ladybird (*Adalia bipunctata*) example from the beginning of this chapter. Here's a bit more information... The dark (melanic) form is under the control of a single gene. Melanic and red types occur at different frequencies in different areas. Two observations are pertinent to this study:
+We'll continue with the two-spot ladybird (*Adalia bipunctata*) example from the beginning of this chapter. Here's a bit more information... The dark (melanic) form is under the control of a single gene. Melanic and red types occur at different frequencies in different areas. Two observations are pertinent to this study:
 
 1. In London melanics comprise about 10%, whereas in rural towns in northern England the frequency is greater (e.g. Harrogate 63%, Hexham 75%). 
 
 2. The frequency of melanics has decreased in Birmingham since smoke control legislation was introduced. 
 
-It was thought that the different forms might be differentially susceptible to some toxic component of smoke, but this doesn’t explain the geographic variation in proportions of melanics. It turns out that the effect is a rather subtle one in which melanic forms do rather better in conditions of lower sunshine than red forms, due to their greater ability to absorb solar radiation. So where the climate is naturally less sunny melanics are favoured (giving geographic variation), but there will also be smaller scale variations due to local environmental conditions such as smoke, that affect solar radiation.
+It was thought that the different forms might be differentially susceptible to some toxic component of smoke, but this doesn’t explain the geographic variation in proportions of melanics. It turns out that the effect is a rather subtle one in which melanic forms do rather better in conditions of lower sunshine than red forms, due to their greater ability to absorb solar radiation. So where the climate is naturally less sunny melanics are favoured, though there will also be smaller scale variations due to local environmental conditions such as smoke, that affect solar radiation.
 
 To test whether this effect still occurs in industrial areas, a survey was carried out of *Adalia bipunctata* in a large urban area and the more rural surrounding areas. The following frequencies of different colour forms were obtained.
 
@@ -122,7 +124,7 @@ You should work through the example in this section.
 
 Let's carry on with the ladybird colour and habitat type example. You need to download three data sets to work through this section: LADYBIRDS1.CSV, LADYBIRDS2.CSV, and LADYBIRDS3.CSV. These all contain the same information---it is just organised differently in each case.
 
-Carrying out a $\chi^{2}$ contingency table test in R is very simple: we use the `chisq.test` function again. The only slight snag is that we have to ensure the data is formatted correctly before it can be used. Whenever we read data into R using `read.csv` we end up with a data frame. Unfortunately, the `chisq.test` function is one of the few statistical functions not designed to work with data frames. This means we first have to use a function called `xtabs` to construct something called a contingency table object.^[The table objects produced by `xtabs` are **not** the same as the `dplyr` table-like objects: 'tibbles' and 'tbls'. This is one of the reasons that dplyr adopted the name 'tibble'. The overlap in names is unfortunate, but we'll have to live with it---there are only so many ways to name things that look like tables.]. The `xtabs` function does categorical 'cross tabulation'^[Pivot tables can be used to do the same thing in Excel.], i.e., it sums up the number of occurrences of different combinations of categories among variables. 
+Carrying out a $\chi^{2}$ contingency table test in R is very simple: we use the `chisq.test` function again. The only slight snag is that we have to ensure the data is formatted correctly before it can be used. Whenever we read data into R using `read.csv` we end up with a data frame. Unfortunately, the `chisq.test` function is one of the few statistical functions not designed to work with data frames. This means we first have to use a function called `xtabs` to construct something called a contingency table object.^[The table objects produced by `xtabs` are **not** the same as the `dplyr` table-like objects: 'tibbles'. This is one of the reasons that dplyr adopted the name 'tibble'. The overlap in names is unfortunate, but we'll have to live with it---there are only so many ways to name things that look like tables.]. The `xtabs` function does categorical 'cross tabulation'^[Pivot tables can be used to do the same thing in Excel.], i.e., it sums up the number of occurrences of different combinations of categories among variables. 
 
 We'll look at how to use `xtabs` before running through the actual test...
 
@@ -154,7 +156,7 @@ We require a two-way table that contains the total counts in each combination of
 lady_bird_table <- xtabs(~ Habitat + Colour, data = lady_bird_df)
 lady_bird_table
 ```
-When used like this, `xtabs` will sum up the number of observations with different combinations of `Habitat` and `Colour`. We called the output `lady_bird_table` to emphasise that the data from `xtabs` are now stored in a contingency table. When we print this to the console we see that `lady_bird_table` does indeed refer to something that looks like a 2 x 2 contincency table of counts. 
+When used like this, `xtabs` will sum up the number of observations with different combinations of `Habitat` and `Colour`. We called the output `lady_bird_table` to emphasise that the data from `xtabs` are now stored in a contingency table. When we print this to the console we see that `lady_bird_table` does indeed refer to something that looks like a 2 x 2 contingency table of counts. 
 
 **Case 2...**
 
@@ -233,7 +235,7 @@ Notice that we summarised the nature of the association alongside the statistica
 
 Interpreting the results of a contingency table test is fairly straightforward in the case of a 2 x 2 table. We can certainly use contingency table tests with larger two-way tables (e.g. 3 x 2, 3 x 3, 3 x 4, etc), and higher dimensional tables (e.g. 2 x 2 x 2), but the results become progressively harder to understand as the tables increase in size. If you get a significant result, it is often best to compare the observed and expected counts for each cell and look for the highest differences to try and establish what is driving the significant association. Visualising the data with a bar chart can also help with interpretation. 
 
-There are ways of subdividing large tables to make subsequent $\chi^{2}$ tests on individual parts of a table, in order to establish specific effects, but these are not detailed here. Unless we plan to make the more detailed comparisons before we started collecting the data, it is hard to justify this kind of *post hoc* analysis. 
+There are ways of subdividing large tables to make subsequent $\chi^{2}$ tests on individual parts of a table, in order to establish specific effects, but these are not detailed here. Unless we plan to make the more detailed comparisons before we started collecting the data, it is hard to justify this kind of *post hoc* analysis.
 
 
 

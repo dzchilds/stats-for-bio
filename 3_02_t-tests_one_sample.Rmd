@@ -132,7 +132,7 @@ The first line tells us what kind of *t*-test we used. This says: `One Sample t-
 
 The third line of text is the most important. This says: `t = 3.1811, df = 76, p-value = 0.002125`. The first part of this, `t = 3.1811`, is the test statistic, i.e. the value of the *t*-statistic. The second part, `df = 76`, summarise the 'degrees of freedom'. This is essentially a measure of how much power our statistical test has (see the box below). The third part, `p-value = 0.002125`, is the all-important *p*-value. 
 
-The *p*-value indicates that there is a statistically significant difference in the mean dry weight biomass of the two colour morphs, because *p* < 0.05. Because the *p*-value is less than 0.01 but greater than 0.001, we report this as '*p* < 0.01'. Read through the [Hypotheses and *p*-values][presenting-p-values] section again if logic is confusing.
+The *p*-value indicates that there is a statistically significant between the mean dry weight biomass and the expected value value of 710 g (*p* is less than 0.05). Because the *p*-value is less than 0.01 but greater than 0.001, we report this as '*p* < 0.01'. Read through the [Hypotheses and *p*-values][presenting-p-values] section again if logic is confusing.
 
 Don't ignore the fourth line of text (`alternative hypothesis: true mean is not equal to 710`). This reminds us what the alternative to the null hypothesis is (H~1~). It tells us what expected value was used in the test (710).
 

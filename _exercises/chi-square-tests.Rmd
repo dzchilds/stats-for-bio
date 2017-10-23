@@ -1,0 +1,97 @@
+---
+title: "Using chi-square tests"
+output:
+  html_document:
+    css: ../extras.css
+    theme: cerulean
+    highlight: tango
+---
+
+You should work through the exercises step-by-step, following the instructions carefully. At various points we will interrupt the flow of instructions with a question. Make a note of your answers so that you can complete the MOLE quiz for this week.
+
+```{r, include = FALSE}
+library(dplyr)
+library(ggplot2)
+```
+
+### Oviposition behaviour in bean weevils
+
+The bean weevil, *Callosobruchus maculatus*, lays its eggs on the surface of legume seeds such as black-eyed beans and aduki beans. In an experiment to test whether female *Callosobruchus* are selective in the type of beans on which they oviposit, choice tests were carried out. In each, a single newly mated female was introduced into an experimental arena containing one each of 5 bean types. The bean on which the first egg was laid was recorded. The test was repeated 45 times with a different beetle each time.
+
+  Bean type                 Aduki   Black-eyed   Kidney   Haricot   Pinto
+  ------------------------ ------- ------------ -------- --------- -------
+  Number of times chosen      6         16         10        8        5
+
+
+Construct a data frame containing these data. It needs to have two columns: `Bean` should contain the bean type, and `Frequency` should contain the number of times the bean was chosen. Make the following bar plot to summarise them:
+
+```{r, echo=FALSE, fig.width=4, fig.asp=1.2, fig.align='center'}
+data.frame(Bean = c("Aduki","Black-eyed","Kidney","Haricot","Pinto"),
+           Frequency = c(6, 16, 10, 8, 5)) %>%
+  ggplot() + aes(x = Bean, y = Frequency) +
+  geom_bar(stat = "identity")
+```
+
+Carry out an appropriate test to determine whether *Callosobruchus* are selective in the type of beans on which they oviposit.
+
+```{block, type='do-something'}
+**MOLE question**
+
+Summarise the results from the test.
+```
+
+### Determining expected values
+
+What might be an appropriate way to obtain a set of expected frequencies for an ornithologist who wants to analyse data on observations of great tits foraging to see if they prefer to forage in particular tree species? Imagine that along a transect through a wood a record was made every time a great tit was seen and of the tree species in which it was foraging...
+
+```{block, type='do-something'}
+**MOLE question**
+
+What, if any, additional data would this require the ornithologist to collect?
+```
+
+### Sex and eye colour
+
+```{r, eval=FALSE, echo=FALSE}
+read.csv(file = "../data_csv/CLASS.CSV") %>% 
+  xtabs(~ Eye + Sex, data = .) %>% chisq.test
+```
+
+Let's return to the initial example used to illustrate a contingency table, we might want to ask if there is an association between eye colour and sex. Data in the file CLASS.CSV show a number of attributes measured from a sample of APS students from a few years ago. Each row contains observations from one student. The two variables we are interested in here are `Sex` (values: 'Female' and 'Male') and `Eye` (values: 'Blue', 'Brown' and 'Green').
+
+Carry out a $\chi^{2}$ test to determine whether eye colour and sex are associated in this sample.
+
+```{block, type='do-something'}
+**MOLE question**
+
+What do you conclude about the association between sex and eye colour?
+```
+
+### Eagle owls and prey choice
+
+There are many situations which may produce tables larger than a 2 x 2 contingency table. For example, we could have used the same experimental procedure as in the *Callosobruchus* experiment given earlier but looked at bean choice for 5 sets of females each of which had themselves been reared on a different bean type to see if selection of oviposition site is influenced by the bean type the female developed on.
+
+In fact we are going to look at prey choice between male and female eagle owls. You will recall that the prey of eagle owls can be established by examination of the pellets containing the undigested remains of their prey. In the eagle owl study the diets of the male and female of a pair were studied by examination of the pellets collected from beneath their roosts (fortunately, an individual tends to use the same roosting site, and individuals tend not to roost together). The numbers of all prey types found in the pellets were recorded.
+
+These data are in the file EAGLES.CSV. Read these data into R and inspect them to ensure you understand how they are organised. Once you understand the data, see if you can make the following bar plot to summarise them:
+
+```{r, echo=FALSE, fig.width=5, fig.asp=0.7, fig.align='center'}
+read.csv("../data_csv/EAGLES.CSV") %>%
+  ggplot() + aes(x = Prey, y = Count, fill = Sex) +
+  geom_bar(stat = "identity")
+```
+
+Analyse whether there is any evidence of differences in the diets of the male and female eagle owls.
+
+```{block, type='do-something'}
+**MOLE question**
+
+What do you conclude?
+```
+
+```{block, type='do-something'}
+**MOLE question**
+
+If there is an effect, what might account for the result?
+```
+

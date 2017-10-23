@@ -2,43 +2,47 @@
 
 ## When do we use a chi-square goodness of fit test?
 
-A $\chi^{2}$ goodness of fit test is appropriate in situations where we are studying a categorical variable and we want to to compare the frequencies of each category to a set of expected values. Here are a couple of examples:
+A $\chi^{2}$ goodness of fit test is appropriate in situations where we are studying a categorical variable and we want to to compare the frequencies of each category to pre-specified, expected values. Here are a couple of examples:
 
--   We've already seen a situation where a goodness of fit test might be useful: the analysis of the sex ratio among biology undergraduates. We have a prior prediction about what the sex ratio should be in the absence of bias (1:1), and we wanted to know if there was any evidence for sex-related bias in the decision to study biology. We could use a goodness of fit test to compare of the number of males and females in a sample of students with the predicted values to determine whether the data are consistent with the prediction. 
+-   We've already seen one situation where a goodness of fit test might be useful: the analysis of the sex ratio among biology undergraduates. We have a prior prediction about what the sex ratio should be in the absence of bias (1:1), and we wanted to know if there was any evidence for sex-related bias in the decision to study biology. We can use a goodness of fit test to compare of the number of males and females in a sample of students with the predicted values to determine whether the data are consistent with the equal sex ratio prediction. 
 
--   Red campion (*Silene dioica*) has separate male (stamen bearing) and female (ovary and stigma bearing) plants. Both sexes can be infected by the anther smut *Ustillago violacea*. This smut produces spores in the anthers of the plant which are then transported to other host plants by insect vectors. On infecting the female flowers, *Ustillago* causes their sex to change, so their flowers produce anthers containing infective spores. In populations of *Silene* in which there is no infection by *Ustillago* the ratio of male to female flowers is 1:1. Significant amounts of infection by the fungus may be indicated if there is an increase in the proportion of apparently male flowers relative to the expected 1:1 ratio.
+-   Red campion (*Silene dioica*) has separate male (stamen bearing) and female (ovary and stigma bearing) plants. Both sexes can be infected by the anther smut *Ustillago violacea*. This smut produces spores in the anthers of the plant which are then transported to other host plants by insect vectors. On infecting the female flowers, *Ustillago* causes their sex to change, triggering stamen development in the genetically female flowers. In populations of *Silene* in which there is no infection by *Ustillago* the ratio of male to female flowers is 1:1. Significant amounts of infection by the fungus may be indicated if there is an increase in the proportion of apparently male flowers relative to the expected 1:1 ratio.
 
-The two examples considered above are about as simple as things get: there are only two categories (i.e. Males and Females) and we expect a 1:1 ratio. The $\chi^{2}$ goodness of fit test can also be employed in more complex settings...
+The two examples considered above are about as simple as things get: there are only two categories (Males and Females) and we expect a 1:1 ratio. However, the $\chi^{2}$ goodness of fit test can be employed in more complicated situations...
 
--   The test can be applied to any number of categories. For example, we might have a diet choice experiment where squirrels are offered four different food types in equal proportions, and the chosen food is recorded over a short period. The study variable would then have four categories: one for each food type.
+-   The test can be applied to any number of categories. For example, we might have a diet choice experiment where squirrels are offered four different food types in equal proportions, and the food chosen by each squirrel is recorded. The study variable would then have four categories: one for each food type.
 
--   The expected ratio need not be 1:1. For example, the principles of Mendelian genetics predict that the offspring of two plants which are heterozygous for flower colour (white recessive, pink dominant) will be either pink or white flowered, in the ratio 3:1. Plants from a real breeding experiment could be tested against this expected ratio.
+-   The expected ratio need not be 1:1. For example, the principles of Mendelian genetics predict that the offspring of two plants which are heterozygous for flower colour (white recessive, pink dominant) will be either pink or white flowered, in the ratio 3:1. Plants from a breeding experiment could be tested against this expected ratio.
 
 ## How does the chi-square goodness of fit test work?
 
-The $\chi^{2}$ goodness of fit test uses raw counts to address questions about proportions, or probabilities of events^[We said it before, but it's worth saying again. Do not apply the goodness of fit test to proportions or means.]. As always, we start by setting up the appropriate null hypothesis. This will be question specific, but it must always be framed in terms of 'no effect' or 'no difference'. We then work out what a sampling distribution of some kind looks like under this null hypothesis, and use this to assess how likely the observed result is (i.e. we calculate a *p*-value). In reality, we don't need to work directly with the sampling distributions of counts in each category. Instead, we calculate an appropriate $\chi^{2}$ test statistic. The way to think about this is that the $\chi^{2}$ statistic reduces the information in the separate category counts down to a single number.
+The $\chi^{2}$ goodness of fit test uses raw counts to address questions about expected proportions, or probabilities of events^[We said it before, but it's worth saying again. Do not apply the goodness of fit test to proportions or means.]. As always, we start by setting up the appropriate null hypothesis. This will be question specific, but it must always be framed in terms of 'no effect' or 'no difference'. We then work out what a sampling distribution of some kind looks like under this null hypothesis, and use this to assess how likely the observed result is (i.e. calculate a *p*-value). 
 
-Let's see how the $\chi^{2}$ goodness of fit test works using the *Silene* example discussed above. Imagine we have collected data on the frequency of plants bearing male and female flowers in a population of *Silene dioica*:
+We don't need to work directly with the sampling distributions of counts in each category. Instead, we calculate an appropriate $\chi^{2}$ test statistic. The way to think about this is that the $\chi^{2}$ statistic reduces the information in the separate category counts down to a single number.
+
+Let's see how the $\chi^{2}$ goodness of fit test works using the *Silene* example discussed above. Imagine that we collected data on the frequency of plants bearing male and female flowers in a population of *Silene dioica*:
 
                  Male   Female
   ------------- ------ --------
   **Observed**   105      87
 
-We want to test whether the ratio of males to female flowers differs significantly from that expected in an uninfected population. The 'expected in an uninfected population' situation is the null hypothesis for the test.
+We want to test whether the ratio of male to female flowers differs significantly from that expected in an uninfected population. The 'expected in an uninfected population' situation is the null hypothesis for the test.
 
-**Step 1.** Calculate the counts expected when the null hypothesis is correct. This is the critical step. In the *Silene* example, we need to work out how many male and female plants we expected to sample if the sex ratio really were 1:1. These numbers are: (105 + 87)/2 = 192/2 = 96 of each sex^[Note that we actually work with expected proportions, not counts, when using R. These get converted to expected counts.].
+**Step 1.** Calculate the counts expected when the null hypothesis is correct. This is the critical step. In the *Silene* example, we need to work out how many male and female plants we expected to sample if the sex ratio really were 1:1. These numbers are: (105 + 87)/2 = 192/2 = 96 of each sex.
 
-**Step 2.** Calculate the $\chi^{2}$ test statistic from the observed and expected counts. We will show you how to do this later, but this calculation isn't all that important, in the sense that we don't learn much by actually doing it. The resulting $\chi^{2}$ statistic summarises---across all the categories---how likely (or unlikely) the observed data are under the null hypothesis.
+**Step 2.** Calculate the $\chi^{2}$ test statistic from the observed and expected counts. We will show you how to do this later. However, this calculation isn't all that important, in the sense that we don't learn much by doing it. The resulting $\chi^{2}$ statistic summarises---across all the categories---how likely the observed data are under the null hypothesis.
 
-**Step 3.**  Compare the $\chi^{2}$ statistic to the theoretical predictions of the $\chi^{2}$ distribution to assess the statistical significance of the difference between observed and expected counts. The interpretation of this *p*-value is the same as for any other kind of statistical test: it is probability we would see the observed frequencies, or more extreme values, under the null hypothesis. 
+**Step 3.**  Compare the $\chi^{2}$ statistic to the theoretical predictions of the $\chi^{2}$ distribution to assess the statistical significance of the difference between observed and expected counts. 
+
+The interpretation of this *p*-value in this test is the same as for any other kind of statistical test: it is probability we would see the observed frequencies, or more extreme values, under the null hypothesis.
 
 ### Assumptions of the chi-square goodness of fit test
 
-Now is a good time to remind ourselves about the assumptions of the $\chi^{2}$ goodness of fit test:
+Let's remind ourselves about the assumptions of the $\chi^{2}$ goodness of fit test:
 
-1.   The data are independent counts of objects or events which can be classified into mutually exclusive categories. For example, we couldn't aggregate *Silene* sex data from different surveys unless we were absolutely certain each survey had sampled different populations.
+1.   The data are independent counts of objects or events which can be classified into mutually exclusive categories. We shouldn't aggregate *Silene* sex data from different surveys unless we were absolutely certain each survey had sampled different populations.
 
-2.   The expected counts are not too low. The rule of thumb is that the expected values  (not the observed counts!) should be greater than 5. If any of the expected values are below 5 the _p_-values generated by the test start to become less reliable. 
+2.   The expected counts are not too low. The rule of thumb is that the expected values (not the observed counts!) should be greater than 5. If any of the expected values are below 5 the _p_-values generated by the test start to become less reliable. 
 
 ## Carrying out a chi-square goodness of fit test in R
 
@@ -46,28 +50,31 @@ Now is a good time to remind ourselves about the assumptions of the $\chi^{2}$ g
 Work through the example in this section.  
 ```
 
-Let's see how to use R to carry out a $\chi^{2}$ goodness of fit test with the *Silene* sex data. There is no need to download any data for this example. The data used in a $\chi^{2}$ goodness of fit test are so simple that we usually just include it in the R script. There is nothing stopping us from putting the data into a CSV file and reading it into R if we wanted to^[In general, it is a good idea to keep data and R code separate, but we sometimes break this rule for simple analyses.].
+Let's see how to use R to carry out a $\chi^{2}$ goodness of fit test with the *Silene* sex data. There is no need to download any data for this example. The data used in a $\chi^{2}$ goodness of fit test are so simple that we often just place it into an R script, though there is nothing stopping us from putting the data into a CSV file and reading it into R^[In general, it is a good idea to keep data and R code separate, but we sometimes break this rule for simple analyses.].
 
-The first step is to construct a numeric vector (not a data frame) containing the *observed frequencies* for each category. We'll call this `observed_freqs`:
+The first step is to construct a numeric vector containing the *observed frequencies* for each category. We'll call this `observed_freqs`:
 ```{r}
 observed_freqs <- c(105, 87)
 observed_freqs
 ```
-It doesn't matter what order the two category counts are supplied in. 
+Note that `observed_freqs` is a numeric vector, not a data frame. It doesn't matter what order the two category counts are supplied in.
 
-Next, we need to calculate the *expected frequencies* of each category. Rather than expressing these as expected counts, R is expecting these to be proportions. Again, we need to construct a numeric vector containing this information. We'll call this `expected_probs`: 
+Next, we need to calculate the *expected frequencies* of each category. Rather than expressing these as counts, R expects these to be proportions. We need to construct a second numeric vector containing this information. We'll call this `expected_probs`: 
 ```{r}
+# calculate the number of categories
 n_cat <- length(observed_freqs)
-expected_probs <- rep(1, n_cat) / n_cat 
+# calculate the number in each category (equal frequencies in this e.g.)
+expected_probs <- rep(1, n_cat) / n_cat
 expected_probs
 ```
-Finally, we use the `chisq.test` function to calculate the $\chi^{2}$ value, degrees of freedom and *p*-value. The first argument is the numeric vector of counts (i.e. the data) and the second is the expected proportions in each category:
+
+Finally, use the `chisq.test` function to calculate the $\chi^{2}$ value, degrees of freedom and *p*-value for the test. The first argument is the numeric vector of observed counts (the data) and the second is the expected proportions in each category:
 ```{r}
 chisq.test(observed_freqs, p = expected_probs)
 ```
-The vectors containing the data and expected proportions have to be the same length for this to work (R will throw an error otherwise).
+The vectors containing the data and expected proportions have to be the same length for this to work. R will complain and throw an error otherwise.
 
-The output is straightforward to interpret. The first part (`Chi-squared test for given probabilities`) reminds us what kind of test we did. The phrase 'for given probabilities' is R-speak informing us that we have carried out a goodness of fit test. The next line (`data:  observed_freqs`) reminds us about the data we used. The final line is the one we care about: `X-squared = 1.6875, df = 1, p-value = 0.1939`. This output shows us the $\chi^{2}$ test statistic (R uses an 'X' for this), the degrees of freedom associated with the test, and the *p*-value. Since *p* > 0.05, we conclude that the sex ratio is not significantly different from a 1:1 ratio.
+The output is straightforward to interpret. The first part (`Chi-squared test for given probabilities`) reminds us what kind of test we did. The phrase 'for given probabilities' is R-speak informing us that we have carried out a goodness of fit test. The next line (`data:  observed_freqs`) reminds us what data we used. The final line is the one we care about: `X-squared = 1.6875, df = 1, p-value = 0.1939`. This output shows us the $\chi^{2}$ test statistic, the degrees of freedom associated with the test, and the *p*-value. Since *p* > 0.05, we conclude that the sex ratio is not significantly different from a 1:1 ratio.
 
 ```{block, type='advanced-box'}
 **Degrees of freedom for a $\chi^{2}$ goodness of fit test**
@@ -83,21 +90,25 @@ Having obtained the result we need to write the conclusion. As always, we always
 
 ### A bit more about goodness of fit tests in R
 
-There is a useful shortcut that we can often employ when using R when we expect equal numbers in every category (as was the case above). In this case there is no need to calculate the expected proportions as R will assume we meant to use the 'equal frequencies' null hypothesis. So the following...
+There is a useful short cut that we can employ when we expect equal numbers in every category (as above). In this situation there is no need to calculate the expected proportions because R will assume we meant to use the 'equal frequencies' null hypothesis. So the following...
 ```{r}
 chisq.test(observed_freqs)
 ```
-...is exactly equivalent to the longer method we used first. We showed you the first method in case you ever need to carry out a goodness of fit test assuming unequal expected proportions.
+...is exactly equivalent to the longer method we used first. We showed you the first method because we do sometimes need to carry out a goodness of fit test assuming unequal expected values.
 
-Note that R will warn you if it thinks the data are not suitable for a $\chi^{2}$ test. It is sometimes safe to ignore the warnings produced by R, but this is one situation where you should pay attention to it. We can see what this warning looks like by using `chisq.test` with a fake data set:
+R will warn us if it thinks the data are not suitable for a $\chi^{2}$ test. It is often safe to ignore the warnings produced by R. However, this is one situation where it is important to pay attention to the warning. We can see what the important warning looks like by using `chisq.test` with a fake data set:
 ```{r, warning=TRUE}
 chisq.test(c(2,5,7,5,5))
 ```
-The warning `Chi-squared approximation may be incorrect` is telling us that there might be a problem with the test. Can you see why R flagged a problem in this example? The expected counts are below 5, which means the *p*-values produced by `chisq.test` will not be reliable.
+The warning `Chi-squared approximation may be incorrect` is telling us that there might be a problem with the test. What is the problem? The expected counts are below 5, which means the *p*-values produced by `chisq.test` will not be reliable.
 
 ### Doing it the long way...
 
-Nobody really does a $\chi^{2}$ test by hand these days. Nonetheless, just to prove that R isn't really doing anything too clever in the background, let's work through the calculations involved in goodness of fit test. The $\chi^{2}$ test statistic is found by taking the difference of each observed and expected count, squaring these differences, dividing each of these squared differences by the expected frequency, and finally, summing these numbers over the categories. That's what this formula for the $\chi^{2}$ test statistic means:
+```{block, type='do-something'}
+It's fine to skip this section if you're not the kind of person who likes to know how things work.
+```
+
+Nobody really does a $\chi^{2}$ test by hand these days. Nonetheless, just to prove that R isn't really doing anything too clever, let's work through the calculations involved in goodness of fit test. The $\chi^{2}$ test statistic is found by taking the difference of each observed and expected count, squaring these differences, dividing each of these squared differences by the expected frequency, and finally, summing these numbers over the categories. That's what this formula for the $\chi^{2}$ test statistic means:
 
 $$\chi^{2}=\sum\frac{(O_i-E_i)^{2}}{E_i}$$
 
@@ -134,7 +145,7 @@ No surprises there... The *p*-value is the same as before.
 
 ## Determining appropriate expected values
 
-Obviously unless you can find some expected values with which to compare your observed counts, a goodness of fit test will be of little use. Equally obviously, by using inappropriate expected values almost anything can be made significant! This means you need to have a good justifiable basis for choosing the expected values. In many cases the experiment can be designed, or the data collected, in such a way that if whatever it is we are interested in is not having an effect then we would expect to find equal numbers in each category. At other times the expectation can be generated by knowledge, or prediction, of a biological process e.g. a 1:1 sex ratio, a 3:1 ratio of phenotypes. At other times the expectation may need a bit more working out.
+Obviously unless we can find some expected values with which to compare the observed counts, a goodness of fit test will be of little use. Equally obviously, by using inappropriate expected values almost anything can be made significant! This means we always need to have a justifiable basis for choosing the expected values. In many cases the experiment can be designed, or the data collected, in such a way that we would expect to find equal numbers in each category if whatever it is we are interested in is not having an effect. At other times the expectation can be generated by knowledge, or prediction, of a biological process e.g. a 1:1 sex ratio, a 3:1 ratio of phenotypes. At other times the expectation may need a bit more working out.
 
 
 
