@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The majority of statistical tools that we use in this book share one important feature: they are underpinned by a mathematical model of some kind. Because a mathematical model is lurking in the background, this particular flavour of statistics is known as **parameteric statistics**. In this context, the word 'parametric' refers to the fact that the behaviour of such a model is defined by one or more quantities known as 'parameters'.
+The majority of statistical tools that we use in this book share one important feature: they are underpinned by a mathematical model of some kind. Because a mathematical model is lurking in the background, this particular flavour of statistics is known as **parametric statistics**. In this context, the word 'parametric' refers to the fact that the behaviour of such a model is defined by one or more quantities known as 'parameters'.
 
 We aren't going to study the mathematical details of these models in any detail. This isn't a maths book. However, it's important to at least understand the **assumptions** underlying a statistical model. Mathematical assumptions are the aspects of a system that we accept as true, or at least nearly true. If these aren't reasonable for a given situation, we can't be sure that the results of the corresponding analysis (e.g. a statistical test) will be reliable. We always need to evaluate the assumptions of an analysis to determine whether or not we trust it.
 
