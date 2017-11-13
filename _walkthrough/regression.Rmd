@@ -1,0 +1,131 @@
+---
+title: "Regression"
+output:
+  html_document:
+    css: ../extras.css
+    theme: cerulean
+    highlight: tango
+---
+
+In this example we will look at whether the abundance of hedgerows in agricultural land had an effect on the abundance of grey partridge.  
+
+### First steps
+As always start by loading the necessary packages.
+```{r, message = FALSE}
+library(dplyr)
+library(ggplot2)
+```
+
+Set your working directory (using Session tab, Set working Directory, Choose Directory). This must be set to the folder containing the data set that you want to work with. Then read the data into R (remember to assign it a name).
+
+```{r setup, include = FALSE}
+knitr::opts_knit$set(root.dir = "../data_csv")
+```
+
+```{r}
+partridge <- read.csv("PARTRIDG.CSV")  
+```
+
+Start by having a quick look at the data. How many variables are there? Is the format appropriate for a regression (i.e. are the dependent and independent variables both numerical)? 
+
+```{r}
+glimpse(partridge)
+```
+
+Remember that regression also requires that the data are independent and that there is negligible measurement error in the values of $x$. These two assumptions should have been considered earlier, as part of the experimental design.
+
+### Visualising the data
+
+Next make a quick plot of the data. Remember that the independent and dependent variables should go on the $x$ and $y$ axes respectively. This plot allows for crude checks of whether there is a linear relationship between the two variables and whether the variance is constant (i.e. that the scatter in $y$ neither increases nor decreases substantially with increasing values of $x$).
+
+```{r, fig.width=4, fig.asp=1.0, fig.align='center'}
+ggplot(partridge, aes(x=Hedgerow, y = Partridge)) + 
+  geom_point() 
+```
+
+Here, there does appear to be a linear relationship and there is no obvious violation of the constant variance assumption.
+
+### Fitting the model
+
+Fit the model using the `lm` function, which takes a formula and a data frame containing the variables in the formula as its two arguments. Remember that in the formula the dependent and independent variables go on the left and right side of the ~ respectively.
+```{r}
+partridge_model <- lm(Partridge ~ Hedgerow, data = partridge)
+```
+
+### Check the model diagnostics
+
+Check the model diagnostics before looking at the statistical output.  
+
+First plot the residuals against the fitted values. This allows the assumption that the relationship between the independent (hedgerow density) and dependent (partridge density) is linear to be checked. Look for patterns (such as u- or hump-shapes) that may suggest that there is a pattern between the variables that is not accommodated by the fitted model. 
+```{r, fig.width=4, fig.asp=1.0, fig.align='center'}
+plot(partridge_model, add.smooth = FALSE, which = 1)
+```
+
+Next check the normality assumption using a normal probability plot. Here, if the residuals are normally distributed they will be positioned on the dashed line of best fit. Note that we don't expect to see a perfect relationship, but the majority of the points should be very close to the line. 
+```{r, fig.width=4, fig.asp=1.0, fig.align='center'}
+plot(partridge_model, which = 2)
+```
+
+Finally, check the constant variance assumption using a scale-location plot. Ideally there should be a flat relationship between the transformed residuals and the fitted values. If the residuals either increase or decrease as the fitted values increase then the constant variance assumption is violated.
+```{r, fig.width=4, fig.asp=1.0, fig.align='center'}
+plot(partridge_model, which = 3)
+```
+
+Remember that regression is fairly robust to small violations in these assumptions. If there are large violations transforming the data may help e.g. using logs, square roots (if count data), arcsine square roots (if percentages or proportions), or squares. After fitting the model to the transformed data the model diagnostics must be repeated to check whether or not the assumptions are now met. 
+
+### Statistical output
+
+If the model assumptions were not violated now look at the model output. An *F*-test can be used to determine whether the slope of the fitted model is significantly different to zero. This is carried out using the `anova` function, which takes the name of the fitted model as its only argument. 
+
+```{r}
+anova(partridge_model)
+```
+
+This summarises the different parts of the *F*-test calculations: `Df` – degrees of freedom, `Sum Sq` – the sum of squares, `Mean Sq` – the mean square, `*F* value` – the *F*-statistic, `Pr(>F)` – the p-value. The *F*-statistic is the key term; larger values of the *F* statistic indicate a stronger relationship between the independent and dependent variables. A p-value of less than 0.05 indicates the result is statistically significant. Also make a note of the degrees of freedom, as these should be included in the results.
+
+Next use the `summary` function to extract some more information about the fitted model. As with the `anova` function this takes the name of the fitted model as its one argument.
+
+```{r}
+summary(partridge_model)
+```
+
+The first couple of lines here gives the formula for the model. The next few lines gives some properties of the residuals, which can be ignored. 
+
+The next few lines gives the coefficients table. The first (`(Intercept)`) and second (`Hedgerow`) rows relate to the intercept and slope respectively. The columns (`Estimate`, `Std. Error`, `t value`, and `Pr(>|t|)`) show the estimates of each coefficient, standard error associated with each coefficient, the corresponding t-statistics, and the p-values respectively. In this example, the slope, but not the intercept, is significantly different to zero. Note that most of the time it is whether the slope significantly differs from zero that is of biological interest. In the case of the linear regression the p-value here for the slope term is the same as that shown by the `anova` function above.
+
+The `Multiple-R-squared` value shows the proportion of variance in the dependent variable that is explained by the independent variable. As it is a proportion it is always between 0 and 1, with values of 0 or 1 indicating that none or all of the variation has been explained respectively. The value of 0.72 here is reasonably high, but there is still some unexplained variation. 
+
+### Presenting the results
+
+The results could be summarised in text as follows:
+
+>There is a significant positive relationship between the density of hedgerows and partridge density ($y = -5.7 + 0.86x$; F=26.5, d.f=1,10, *p*<0.001). 
+
+The degrees of freedom (d.f) should be reported as the slope degrees of freedom first then the error degrees of freedom.  
+
+Often the results are easier to interpret as a figure, showing the raw data and the fitted regression line. To do this first create a data frame with values for the independent variable over the observed range. These are the values over which the dependent variable will be predicted. The `seq` function can be used to create a sequence of (25) evenly spaced numbers from the minimum (8.4) to the maximum (34.8) value of the independent variable (hedgerow density in this case) from the raw data. 
+
+```{r}
+pred.data <- data.frame(Hedgerow = seq(8.4, 34.8, length.out = 25))
+```
+
+Next use the `predict` function, within `mutate`, to predict values of the dependent variable (number of partridges) for each value of the independent variable, using the fitted model. 
+
+```{r}
+pred.data <- mutate(pred.data, Partridge = predict(partridge_model, pred.data))
+```
+
+Finally, plot the raw data and the fitted line.
+```{r, fig.width=4, fig.asp=1.0, fig.align='center'}
+ggplot(pred.data, aes(x = Hedgerow, y = Partridge)) + 
+  ## Plot the fitted line
+  geom_line(colour = "steelblue") + 
+  ## Add the points to the plot using the raw data   
+  geom_point(data = partridge) + 
+  ## Change the axis labels
+  labs(x = "Hedgerow density (km per km²)", y = "Partridge density (no. per km²)") + 
+  ## Change the theme (sets background colour etc)
+  theme_bw()
+```
+
+
