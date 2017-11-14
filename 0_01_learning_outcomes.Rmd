@@ -141,6 +141,33 @@ Your ability to summarise a one-way ANOVA graphically---showing the means and st
 
 Your ability to summarise a two-way ANOVA graphically---showing the means and standard errrors---will not be assessed.
 
+## Fixing Problems
+
+-   Use regression diagnostic plots to identify potential problems with the assumptions of a model.
+
+-   When a problem with the assumptions of a model has been identified, choose an appropriate mathematical transformation to remedy the problem from...
+
+    1. logarithm (including the "add 1" case when zeros are present)
+    2. square root
+    3. arcsine square root
+    
+-   Identify situations where transforming a variable fails, so that a non-parametric test is required.
+
+-   Recognise that the Wilcoxon signed-rank test
+
+    1. ...is an alternative to one-sample and paired-sample t-test
+    2. ...is carried out by the wilcox.test function in R
+    
+-   Recognise that the Mann-Whitney U-test
+
+    1. ...is an alternative to two-sample t-test
+    2. ...is carried out by the wilcox.test (note the name!) function in R
+
+-   Recognise that the Kruskal-Wallis test
+
+    1. ...is an alternative to one-way ANOVA
+    2. ...is carried out by the kruskal.test function in R
+
 
 
 

@@ -1,5 +1,5 @@
 ---
-title: "Using t-tests"
+title: "Two-way ANOVA"
 output:
   html_document:
     css: ../extras.css
