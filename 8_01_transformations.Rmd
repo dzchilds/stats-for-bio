@@ -10,7 +10,7 @@ Up until now, the data we've examined have conformed, at least roughly, to the a
 
 The same kinds of problems with these **distributional assumptions** can also arise when working in a regression (i.e. non-normal residuals, non-constant variance). Furthermore, we might run into additional problems if there is some kind of non-linearity in the relationship between the dependent and independent (numeric) variables.
 
-Most biological data are unlikely to conform perfectly to all the assumptions, but experience has shown (fortunately) that *t*-tests, ANOVA’s and regressions are generally quite robust---they perform reasonably well with data that deviate to some extent from the assumptions of the tests. However, in some cases residuals are clearly very far from normal, or variances changes a lot across groups.
+Most biological data are unlikely to conform perfectly to all the assumptions, but experience has shown (fortunately) that *t*-tests, ANOVAs and regressions are generally quite robust---they perform reasonably well with data that deviate to some extent from the assumptions of the tests. However, in some cases residuals are clearly very far from normal, or variances change a lot across groups.
 
 In these cases steps may need to be taken to deal with the problem. This chapter deals with one way of tackling the analysis of data that don’t fit the assumptions: **data transformation**. We will mostly focus on ANOVA / *t*-test setting, but keep in mind that the ideas are equally applicable to regression analysis.
 
@@ -103,16 +103,16 @@ Based on these results, it looks like there is a highly significant difference i
 
 The 'carry on anyway' strategy can often be justified if we just need to compare the sample means of two groups because in this situation we can use a two-sample *t*-test rather than an ANOVA. By default R uses a version of the *t*-test that allows for unequal sample variances. This at least deals with one potential problem. The *t*-test is also fairly robust to violations of the normality assumption when the sample sizes are small, and when the sample sizes are large, the normality assumption matters even less.
 
-The ability to do a *t*-test which doesn’t require equal variances is extremely useful. A word of warning though: some people advise carrying out a statistical test of equal variance, and if the variances are deemed not to be significantly different, using the version of a two-sample *t*-test that assumes equal variances. This is not good advise. Following this procedure leads to less reliable *p*-values. The reason for this effect is somewhat technical, but trust us, this procedure is not good statistical practise.
+The ability to do a *t*-test which doesn’t require equal variances is extremely useful. A word of warning though: some people advise carrying out a statistical test of equal variance, and if the variances are deemed not to be significantly different, using the version of a two-sample *t*-test that assumes equal variances. This is not good advice. Following this procedure leads to less reliable *p*-values. The reason for this effect is somewhat technical, but trust us, this procedure is not good statistical practise.
 ```
 
 ## Transforming the data {#transform}
 
-One approach to dealing with difficult data is to apply a mathematical function to it to make the transformed data fits the model assumptions better: a process called *data transformation*. This may sound a bit dubious, but it is a perfectly valid procedure that will often allow us to use the statistical model we want to even if the data don’t initially fit the assumptions. The key thing to keep in mind is that the transformatoin should be applied to the *dependent variable*. 
+One approach to dealing with difficult data is to apply a mathematical function to it to make the transformed data fits the model assumptions better: a process called *data transformation*. This may sound a bit dubious, but it is a perfectly valid procedure that will often allow us to use the statistical model we want to even if the data don’t initially fit the assumptions. The key thing to keep in mind is that the transformation should be applied to the *dependent variable*. 
 
 ### The logarithmic transformation
 
-let's try a simple transformation on the food collection rate variabe in the ant data set. Instead of using the original numbers we will convert them to their logarithms. We can use common logs (logs to the base 10, written log$_{10}$) or natural logs (logs to the base, written log$_{e}$ or ln). It doesn't matter: they have exactly the same effect on the data in terms of making it meet the assumptions of ANOVA (or not).
+Let's try a simple transformation on the food collection rate variable in the ant data set. Instead of using the original numbers we will convert them to their logarithms. We can use common logs (logs to the base 10, written log$_{10}$) or natural logs (logs to the base, written log$_{e}$ or ln). It doesn't matter: they have exactly the same effect on the data in terms of making it meet the assumptions of ANOVA (or not).
 
 Applying a log transform is quick and easy in R---there are built in functions to take common logs and natural logs, called `log10` and `log`, respectively. We'll use `mutate` to add a new variable, which is the common log of `Food`:
 ```{r}
@@ -157,7 +157,7 @@ Having compared the transformed means, how should we present the results in a re
 
 ## Types of transformations {#trans-types}
 
-Clearly, in the case study above, a log-transformation alters outcome of statistical tests applied to the data. It is not always the case that transforming the data will make the difference between a result being significant and not significant, or that the transformed data will give a less significant result. 
+Clearly, in the case study above, a log-transformation alters the outcome of statistical tests applied to the data. It is not always the case that transforming the data will make the difference between a result being significant and not significant, or that the transformed data will give a less significant result. 
 
 Never use *p*-values to judge the success of a transformation! We use diagnostic plots to make that assessment. What we hope is that we can transform the dependent variable so that it conforms, at least approximately, to the assumptions of the statistical model we want to use, making the result from associated tests as reliable as possible.
 
@@ -171,7 +171,7 @@ Log transformation, as we've just seen, affects the data in two ways:
 
 2.    The 'squashing' effect of a log-transformation is more pronounced at higher values. This means a log-transformation may also deal with another common problem in biological data (also seen in the ant data)---samples with larger means having larger variances. 
 
-If we are carrying out an ANOVA and the scale-location plot exhibits a positive relationship—--i.e. groups with larger means have larger variances—--then a log transformation could be appropriate^[Log transformations have a variety of other uses in statistics. One is in transforming an *independent* variable when looking at the form of relationships between two variables.].
+If we are carrying out an ANOVA and the scale-location plot exhibits a positive relationship---i.e. groups with larger means have larger variances---then a log transformation could be appropriate^[Log transformations have a variety of other uses in statistics. One is in transforming an *independent* variable when looking at the form of relationships between two variables.].
 
 ### Square roots
 
@@ -235,13 +235,13 @@ We have focussed on ANOVA here for the simple reason that the assumptions are a 
 
 2.  If there is evidence for a problem with the assumptions, try transforming the dependent variable.
 
-3.  Refit the model ing the transformed variable and generate new diagnostic plots to see if the new model is any better.
+3.  Refit the model using the transformed variable and generate new diagnostic plots to see if the new model is any better.
 
 Finally, keep in mind that this is often an iterative process. We might have to go through several rounds of transforming and model checking before we arrive at a good model.
 
 ## Final thoughts
 
-Evaluating assumptions and picking transformations is as much 'art' as science. It takes time and experience to learn how to do it. R makes it very easy to try out different options, so don't be afraid to do this. Frequently, with real biological data, no straightforward transformation really improves the form of the data or in correcting one problem you generate another. Fortunately, in many cases where the assumptions of a the test are not reasonably well fulfilled, there is an alternative approach---the use of a nonparametric test. These tests are the topic of the next chapter.
+Evaluating assumptions and picking transformations is as much 'art' as science. It takes time and experience to learn how to do it. R makes it very easy to try out different options, so don't be afraid to do this. Frequently, with real biological data, no straightforward transformation really improves the form of the data or in correcting one problem you generate another. Fortunately, in many cases where the assumptions of a test are not reasonably well fulfilled, there is an alternative approach---the use of a nonparametric test. These tests are the topic of the next chapter.
 
 
 
