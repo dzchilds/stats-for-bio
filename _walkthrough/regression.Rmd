@@ -7,7 +7,11 @@ output:
     highlight: tango
 ---
 
-In this example we will look at whether the abundance of hedgerows in agricultural land had an effect on the abundance of grey partridge.  
+### Hedgerows and partridges
+
+Hedgerows are the main nesting habitat of the grey partridge (*Perdix perdix*). A survey was carried out to establish whether the abundance of hedgerows in agricultural land had an effect on the abundance of grey partridge. From an area of agricultural land covering several farms, twelve plots were selected which had land uses as similar as possible but differed in the density of hedgerows (km hedgerow per km2). Plots were deliberately selected to cover a wide range of hedgerow densities. The total hedgerow lengths, and exact plot areas, were measured by use of large scale maps. The density of partridges was established by visiting all fields in a study plot once immediately after dawn and once just before dusk, when partridges are feeding and therefore most likely to be seen. Counts of birds observed were made on each visit and the dawn and dusk data were averaged to give a value for partridge abundance for each study plot.
+
+The data are stored in a CSV file PARTRIDG.CSV. Take note: this is a different data set than the one used in the ‘Regression diagnostics’ chapter. The density of hedgerows (km per km2) is in the `Hedgerow` variable and the density of partridges (no. per km2) is in the `Partridge` variable.
 
 ### First steps
 As always start by loading the necessary packages.
@@ -26,13 +30,13 @@ knitr::opts_knit$set(root.dir = "../data_csv")
 partridge <- read.csv("PARTRIDG.CSV")  
 ```
 
-Start by having a quick look at the data. How many variables are there? Is the format appropriate for a regression (i.e. are the dependent and independent variables both numerical)? 
+Start by having a quick look at the data. How many variables are there? Is the format appropriate for a regression (i.e. are the dependent and independent variables on an interval or ratio scale)? 
 
 ```{r}
 glimpse(partridge)
 ```
 
-Remember that regression also requires that the data are independent and that there is negligible measurement error in the values of $x$. These two assumptions should have been considered earlier, as part of the experimental design.
+Remember that regression also requires that the residuals are independent (i.e. that the value of one residual does not depend on the value of other residuals) and that there is negligible measurement error in the values of $x$. These two assumptions should have been considered earlier, as part of the experimental design.
 
 ### Visualising the data
 
@@ -43,7 +47,7 @@ ggplot(partridge, aes(x=Hedgerow, y = Partridge)) +
   geom_point() 
 ```
 
-Here, there does appear to be a linear relationship and there is no obvious violation of the constant variance assumption.
+Here, there does appear to be a linear relationship and there is no obvious violation of the constant variance assumption. We will come back to these assumptions using regression diagnostics, after fitting the model.
 
 ### Fitting the model
 
@@ -60,16 +64,19 @@ First plot the residuals against the fitted values. This allows the assumption t
 ```{r, fig.width=4, fig.asp=1.0, fig.align='center'}
 plot(partridge_model, add.smooth = FALSE, which = 1)
 ```
+There are no obvious patterns in this plot, suggesting that the linear relationship assumption is met.
 
 Next check the normality assumption using a normal probability plot. Here, if the residuals are normally distributed they will be positioned on the dashed line of best fit. Note that we don't expect to see a perfect relationship, but the majority of the points should be very close to the line. 
 ```{r, fig.width=4, fig.asp=1.0, fig.align='center'}
 plot(partridge_model, which = 2)
 ```
+In this example nearly all of the points are very close to the line, suggesting that the residuals are drawn from a normal distribution.
 
 Finally, check the constant variance assumption using a scale-location plot. Ideally there should be a flat relationship between the transformed residuals and the fitted values. If the residuals either increase or decrease as the fitted values increase then the constant variance assumption is violated.
 ```{r, fig.width=4, fig.asp=1.0, fig.align='center'}
 plot(partridge_model, which = 3)
 ```
+There does not appear to be a trend here (i.e the residuals do not increase or decrease as the fitted values increase).
 
 Remember that regression is fairly robust to small violations in these assumptions. If there are large violations transforming the data may help e.g. using logs, square roots (if count data), arcsine square roots (if percentages or proportions), or squares. After fitting the model to the transformed data the model diagnostics must be repeated to check whether or not the assumptions are now met. 
 
@@ -81,7 +88,7 @@ If the model assumptions were not violated now look at the model output. An *F*-
 anova(partridge_model)
 ```
 
-This summarises the different parts of the *F*-test calculations: `Df` – degrees of freedom, `Sum Sq` – the sum of squares, `Mean Sq` – the mean square, `*F* value` – the *F*-statistic, `Pr(>F)` – the p-value. The *F*-statistic is the key term; larger values of the *F* statistic indicate a stronger relationship between the independent and dependent variables. A p-value of less than 0.05 indicates the result is statistically significant. Also make a note of the degrees of freedom, as these should be included in the results.
+The table summarises the different parts of the *F*-test calculations: `Df` – degrees of freedom, `Sum Sq` – the sum of squares, `Mean Sq` – the mean square, `F value` – the *F*-statistic, `Pr(>F)` – the p-value. The *F*-statistic is the key term; larger values of the *F* statistic indicate a stronger relationship between the independent and dependent variables. A p-value of less than 0.05 indicates the result is statistically significant. Also make a note of the degrees of freedom, as these should be included in the results.
 
 Next use the `summary` function to extract some more information about the fitted model. As with the `anova` function this takes the name of the fitted model as its one argument.
 
@@ -89,17 +96,16 @@ Next use the `summary` function to extract some more information about the fitte
 summary(partridge_model)
 ```
 
-The first couple of lines here gives the formula for the model. The next few lines gives some properties of the residuals, which can be ignored. 
+The first couple of lines here give the formula for the model. The next few lines gives some properties of the residuals, which can be ignored. 
+The next few lines gives the coefficients table. The first (`(Intercept)`) and second (`Hedgerow`) rows relate to the intercept and slope respectively. The columns (`Estimate`, `Std. Error`, `t value`, and `Pr(>|t|)`) show the estimates of each coefficient, standard error associated with each coefficient, the corresponding t-statistics, and the p-values respectively. In this example, the slope, but not the intercept, is significantly different to zero. Note that most of the time it is whether the slope significantly differs from zero that is of biological interest. In this example it suggests that there is a significant effect of hedgerow density on partridge density. In the case of the linear regression the p-value here for the slope term is the same as that shown by the `anova` function above.
 
-The next few lines gives the coefficients table. The first (`(Intercept)`) and second (`Hedgerow`) rows relate to the intercept and slope respectively. The columns (`Estimate`, `Std. Error`, `t value`, and `Pr(>|t|)`) show the estimates of each coefficient, standard error associated with each coefficient, the corresponding t-statistics, and the p-values respectively. In this example, the slope, but not the intercept, is significantly different to zero. Note that most of the time it is whether the slope significantly differs from zero that is of biological interest. In the case of the linear regression the p-value here for the slope term is the same as that shown by the `anova` function above.
-
-The `Multiple-R-squared` value shows the proportion of variance in the dependent variable that is explained by the independent variable. As it is a proportion it is always between 0 and 1, with values of 0 or 1 indicating that none or all of the variation has been explained respectively. The value of 0.72 here is reasonably high, but there is still some unexplained variation. 
+The `Multiple-R-squared` value shows the proportion of variance in the dependent variable that is explained by the independent variable. As it is a proportion it is always between 0 and 1, with values of 0 or 1 indicating that none or all of the variation has been explained respectively. The value of 0.73 here is reasonably high, but there is still some unexplained variation. 
 
 ### Presenting the results
 
 The results could be summarised in text as follows:
 
->There is a significant positive relationship between the density of hedgerows and partridge density ($y = -5.7 + 0.86x$; F=26.5, d.f=1,10, *p*<0.001). 
+>There is a significant positive relationship between the density of hedgerows and partridges ($y = -5.7 + 0.86x$; F=26.5, d.f=1,10, *p*<0.001). 
 
 The degrees of freedom (d.f) should be reported as the slope degrees of freedom first then the error degrees of freedom.  
 
@@ -109,7 +115,7 @@ Often the results are easier to interpret as a figure, showing the raw data and 
 pred.data <- data.frame(Hedgerow = seq(8.4, 34.8, length.out = 25))
 ```
 
-Next use the `predict` function, within `mutate`, to predict values of the dependent variable (number of partridges) for each value of the independent variable, using the fitted model. 
+Next use the `predict` function, within `mutate`, to predict the values of the dependent variable (partridge density) for each value of the independent variable, using the fitted model. 
 
 ```{r}
 pred.data <- mutate(pred.data, Partridge = predict(partridge_model, pred.data))
