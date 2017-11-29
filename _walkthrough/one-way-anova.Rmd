@@ -7,12 +7,16 @@ output:
     highlight: tango
 ---
 
+## Slugit
+
 Garden slugs of the same species and approximately the same size were given either a full dose, a half strength dose, or a one tenth strength dose of a molluscicide (‘Slugit’) dissolved in water. A control group were treated with just water. The rate of movement of the slugs on a moist wooden board after treatment was recorded (cm per min). There were 8 replicate slugs for each treatment.
 
 The data are stored in a CSV file SLUGIT.CSV. The rate of movement is stored in the Distance variable and the treatment codes are in the SlugitTreat variable (levels: ‘full dose’, ‘half dose’, ‘one tenth dose’, ‘control’).
 
 ### First steps
+
 As always start by loading the necessary packages.
+
 ```{r, message = FALSE, warning = FALSE}
 library(dplyr)
 library(ggplot2)
@@ -29,46 +33,60 @@ knitr::opts_knit$set(root.dir = "../data_csv")
 slug <- read.csv("SLUGIT.CSV")  
 ```
 
-Start by having a quick look at the data. How many variables are there? How many observations? Is the focal variable (Distance) on a ratio or interval scale? 
+Start by having a quick look at the data. How many variables are there? How many observations? Is the focal variable (`Distance`) on a ratio or interval scale?
+
 ```{r}
 glimpse(slug)
 ```
-Remember that for a one-way ANOVA the treatment (SlugitTreat) should not be stored as numbers (i.e. do not call the treatments "1, 2, 3,...") as this will result in a linear regression when the model is fitted below, rather than an ANOVA. 
+
+Remember that for a one-way ANOVA the independent variable which encodes the treatments must not be stored as numbers (i.e. do not call the treatments "1, 2, 3,..."). Using a numeric variable will result in a linear regression being fitted, rather than an ANOVA. In this example, the `SlugitTreat` variable takes values such as 'full dose' so we don't need to worry about this problem. However, if the treatments had been encoded as numbers we should use `mutate` to convert `SlugitTreat` to an R factor before doing anything else, e.g.
+
+```{r, eval = FALSE}
+slug <- mutate(slug, SlugitTreat = factor(SlugitTreat))
+```
 
 The one-way ANOVA also requires that the experimental units are independent. This assumption should have been considered earlier, as part of the experimental design.
 
 ### Visualising the data
 
-Next make a quick plot of the data (either a box and whiskers plot as below or a separate dot plot for each group). The two assumptions to check with this plot are that the within group variance is constant and that within each group the focal variable is normally distributed. 
+Next make a quick plot of the data (either a box and whiskers plot as below or a separate dot plot for each group).
 
 ```{r, fig.width=4, fig.asp=1.0, fig.align='center'}
 ggplot(slug, aes(x = SlugitTreat, y = Distance)) + 
   geom_boxplot() 
 ```
 
-Here, the variability within each group appears roughly similar. The distributions also look roughly symmetrical and there are no 'outliers' suggesting that the normal distribution assumption is not violated. You should come back to these assumptions again later, by carrying out the model diagnostics once the model has been fitted. 
+The main thing to do here is use the plot to understand the patterns in the data. It looks like both a full dose and half dose reduce the movement rate of slugs (relative to the control). This suggests that 'slugit' might be an effective molluscicide. However, 1/10 dose actually caused the slugs to move more. Ask yourself, do these patterns make sense?
+
+We can also use the plot to very roughly evaluate two of the assumptions of one-way ANOVA, i.e. that the within-group variance is roughly constant and that the dependent variable is normally distributed within each group. Here, the variability within each group appears roughly similar. The distributions also look roughly symmetrical and there are no 'outliers', suggesting that the normal distribution assumption is not violated. 
+
+It's OK to quickly check assumptions this way, but you should always evaluate them properly by plotting the model diagnostics once the model has been fitted. 
 
 ### Fitting the model
 
-Fit the model using the `lm` function, which takes a formula and a data frame containing the variables in the formula as its two arguments. Remember that in the formula the focal variable and the treatment go on the left and right of the ~ respectively.
+Fit the model using the `lm` function, which takes a formula and a data frame containing the variables in the formula as its two arguments. Remember that in the formula the dependent variable and the treatment go on the left and right of the `~`, respectively. Don't mix these positions up!
 ```{r}
 slug_model <- lm(Distance ~ SlugitTreat, data = slug)
 ```
 
 ### Check the model diagnostics
 
-Remember to check the model diagnostics before looking at the statistical output.  
+Check the model diagnostics __before__ looking at the statistical output. This is important. There is no point worrying about *p*-values until you're convinced the assumptions of a model have been met.
 
-Check the normality assumption using a normal probability plot. Here, if the residuals are normally distributed they will be positioned on the dashed line of best fit. Note that we don't expect to see a perfect relationship, but the majority of the points should be very close to the line. 
+Check the normality assumption using a normal probability plot. Here, if the residuals are normally distributed they will be positioned near the dashed line. Note that we don't expect to see a perfect relationship, but the majority of the points should be close to the line.
+
 ```{r, fig.width=4, fig.asp=1.0, fig.align='center'}
 plot(slug_model, which = 2)
 ```
+
 This plot looks fine - the points don't deviate from the line in any systematic way.
 
 Finally, check the constant variance assumption using a scale-location plot. Ideally there should be a flat relationship between the transformed residuals (y-axis) and the fitted values (x-axis). If the magnitude of the residuals either increases or decreases as the fitted values increase then the constant variance assumption is violated.
+
 ```{r, fig.width=4, fig.asp=1.0, fig.align='center'}
 plot(slug_model, which = 3, add.smooth = FALSE)
 ```
+
 There doesn't appear to be a systematic pattern in the residuals here so the constant variance assumption is met. 
 
 Remember that if the data do not fit the assumptions of the one-way ANOVA the focal variable can be transformed. After fitting the model to the transformed data remember to check the diagnostics again to see if the assumptions are now met. If the assumptions are still not met it may be possible to use a non-parametric test instead. The non-parametric equivalent to a one-way ANOVA is the Kruskal-Wallis test. 
@@ -86,14 +104,16 @@ The table summarises the different parts of the *F*-test calculations: `Df` – 
 Also make a note of the degrees of freedom, as these should be included in the results.
 
 ### Multiple comparisons
-The results so far suggest that molluscicide dosage affects slug activity, but not which treatments differed significantly from each other. To determine which groups significantly differ from each other a posthoc multiple comparisons test, such as the Tukey multiple comparison test, must be used.
 
-To do this the linear model object must first be changed into a different kind of model object using the `aov` function.
+The results so far suggest that molluscicide dosage affects slug activity, but not which treatments differed significantly from each other. To determine which groups significantly differ from each other a posthoc multiple comparisons test, such as the Tukey multiple comparison test, must be used. Remember, it only makes sense to run this kind of test if the global significance test from `anova` was significant.
+
+To carry out a Tukey multiple comparison test the linear model object must first be changed into a different kind of model object using the `aov` function.
+
 ```{r}
 slug_aov <- aov(slug_model)
 ```
 
-The Tukey test can be carried out using the `HSD.test` function from the `agricolae` package. Make sure you have loaded the `agricolae` package as above (under First steps) before running the following code. Remember to carry the test out on the `aov` object (not the original fitted model object).
+The easiest way to carry out a Tukey test is via the `HSD.test` function from the `agricolae` package. Make sure you have loaded the `agricolae` package as above (under First steps) before running the following code. Remember to carry the test out on the `aov` object (not the original fitted model object).
 
 ```{r}
 HSD.test(slug_aov, "SlugitTreat", console=TRUE)
@@ -107,7 +127,8 @@ The results could be summarised in text as follows:
 
 > There was a significant effect of the dosage of molluscicide on slug activity (ANOVA; F=34.2; d.f.= 3,28; p<0.001) (Figure 1). Slug movement was significantly higher than the control at the one-tenth dose and lower at the half and full doses (Tukey multiple comparison test; p<0.05). Increasing the dosage from a half to a full dose did not have a significant effect on slug activity (Tukey multiple comparison test p>0.05).
 
-Finally make a plot to summarise the results. Start by calculating the mean and standard error of the mean for each group. 
+Finally make a plot to summarise the results. Start by calculating the mean and standard error of the mean for each group.
+
 ```{r}
 slug_stats <- 
   slug %>% 

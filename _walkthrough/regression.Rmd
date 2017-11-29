@@ -7,15 +7,17 @@ output:
     highlight: tango
 ---
 
-### Hedgerows and partridges
+## Hedgerows and partridges
 
 Hedgerows are the main nesting habitat of the grey partridge (*Perdix perdix*). A survey was carried out to establish whether the abundance of hedgerows in agricultural land had an effect on the abundance of grey partridge. From an area of agricultural land covering several farms, twelve plots were selected which had land uses as similar as possible but differed in the density of hedgerows (km hedgerow per km2). Plots were deliberately selected to cover a wide range of hedgerow densities. The total hedgerow lengths, and exact plot areas, were measured by use of large scale maps. The density of partridges was established by visiting all fields in a study plot once immediately after dawn and once just before dusk, when partridges are feeding and therefore most likely to be seen. Counts of birds observed were made on each visit and the dawn and dusk data were averaged to give a value for partridge abundance for each study plot.
 
 The data are stored in a CSV file PARTRIDG.CSV. Take note: this is a different data set than the one used in the ‘Regression diagnostics’ chapter. The density of hedgerows (km per km2) is in the `Hedgerow` variable and the density of partridges (no. per km2) is in the `Partridge` variable.
 
 ### First steps
+
 As always start by loading the necessary packages.
-```{r, message = FALSE}
+
+```{r, message = FALSE, warning=FALSE}
 library(dplyr)
 library(ggplot2)
 ```
@@ -51,38 +53,45 @@ Here, there does appear to be a linear relationship and there is no obvious viol
 
 ### Fitting the model
 
-Fit the model using the `lm` function, which takes a formula and a data frame containing the variables in the formula as its two arguments. Remember that in the formula the dependent and independent variables go on the left and right side of the ~ respectively.
+Fit the model using the `lm` function, which takes a formula and a data frame containing the variables in the formula as its two arguments. Remember that in the formula the dependent and independent variables go on the left and right side of the `~` respectively.
+
 ```{r}
 partridge_model <- lm(Partridge ~ Hedgerow, data = partridge)
 ```
 
 ### Check the model diagnostics
 
-Check the model diagnostics before looking at the statistical output.  
+Check the model diagnostics __before__ looking at the statistical output. This is important. There is no point worrying about *p*-values until you're convinced the assumptions of a model have been met.
 
-First plot the residuals against the fitted values. This allows the assumption that the relationship between the independent (hedgerow density) and dependent (partridge density) is linear to be checked. Look for patterns (such as u- or hump-shapes) that may suggest that there is a pattern between the variables that is not accommodated by the fitted model. 
+First plot the residuals against the fitted values. This allows the assumption that the relationship between the independent (hedgerow density) and dependent (partridge density) is linear to be checked. Look for patterns (such as u- or hump-shapes) that may suggest that there is a pattern between the variables that is not accommodated by the fitted model.
+
 ```{r, fig.width=4, fig.asp=1.0, fig.align='center'}
 plot(partridge_model, add.smooth = FALSE, which = 1)
 ```
+
 There are no obvious patterns in this plot, suggesting that the linear relationship assumption is met.
 
-Next check the normality assumption using a normal probability plot. Here, if the residuals are normally distributed they will be positioned on the dashed line of best fit. Note that we don't expect to see a perfect relationship, but the majority of the points should be very close to the line. 
+Next check the normality assumption using a normal probability plot. Here, if the residuals are normally distributed they will be positioned on the dashed line of best fit. Note that we don't expect to see a perfect relationship, but the majority of the points should be close to the line.
+
 ```{r, fig.width=4, fig.asp=1.0, fig.align='center'}
 plot(partridge_model, which = 2)
 ```
+
 In this example nearly all of the points are very close to the line, suggesting that the residuals are drawn from a normal distribution.
 
 Finally, check the constant variance assumption using a scale-location plot. Ideally there should be a flat relationship between the transformed residuals and the fitted values. If the residuals either increase or decrease as the fitted values increase then the constant variance assumption is violated.
+
 ```{r, fig.width=4, fig.asp=1.0, fig.align='center'}
 plot(partridge_model, which = 3)
 ```
+
 There does not appear to be a trend here (i.e the residuals do not increase or decrease as the fitted values increase).
 
 Remember that regression is fairly robust to small violations in these assumptions. If there are large violations transforming the data may help e.g. using logs, square roots (if count data), arcsine square roots (if percentages or proportions), or squares. After fitting the model to the transformed data the model diagnostics must be repeated to check whether or not the assumptions are now met. 
 
 ### Statistical output
 
-If the model assumptions were not violated now look at the model output. An *F*-test can be used to determine whether the slope of the fitted model is significantly different to zero. This is carried out using the `anova` function, which takes the name of the fitted model as its only argument. 
+If, and only if, the model assumptions were not violated, it is now time to look at the model output. An *F*-test can be used to determine whether the slope of the fitted model is significantly different to zero. This is carried out using the `anova` function, which takes the name of the fitted model as its only argument.
 
 ```{r}
 anova(partridge_model)
@@ -90,16 +99,21 @@ anova(partridge_model)
 
 The table summarises the different parts of the *F*-test calculations: `Df` – degrees of freedom, `Sum Sq` – the sum of squares, `Mean Sq` – the mean square, `F value` – the *F*-statistic, `Pr(>F)` – the p-value. The *F*-statistic is the key term; larger values of the *F* statistic indicate a stronger relationship between the independent and dependent variables. A p-value of less than 0.05 indicates the result is statistically significant. Also make a note of the degrees of freedom, as these should be included in the results.
 
+In this example, the slope is significantly different to zero, which suggests that there is a significant effect of hedgerow density on partridge density.
+
+### Extracting a bit more information from the model (optional)
+
 Next use the `summary` function to extract some more information about the fitted model. As with the `anova` function this takes the name of the fitted model as its one argument.
 
 ```{r}
 summary(partridge_model)
 ```
 
-The first couple of lines here give the formula for the model. The next few lines gives some properties of the residuals, which can be ignored. 
-The next few lines gives the coefficients table. The first (`(Intercept)`) and second (`Hedgerow`) rows relate to the intercept and slope respectively. The columns (`Estimate`, `Std. Error`, `t value`, and `Pr(>|t|)`) show the estimates of each coefficient, standard error associated with each coefficient, the corresponding t-statistics, and the p-values respectively. In this example, the slope, but not the intercept, is significantly different to zero. Note that most of the time it is whether the slope significantly differs from zero that is of biological interest. In this example it suggests that there is a significant effect of hedgerow density on partridge density. In the case of the linear regression the p-value here for the slope term is the same as that shown by the `anova` function above.
+The first couple of lines here give the formula for the model. The next few lines gives some properties of the residuals, which can be ignored. The next few lines gives the coefficients table. The first (`(Intercept)`) and second (`Hedgerow`) rows relate to the intercept and slope of the fitted line, respectively. The columns (`Estimate`, `Std. Error`, `t value`, and `Pr(>|t|)`) show the estimates of each coefficient, standard error associated with each coefficient, the corresponding t-statistics, and the p-values respectively. The estimated intercept and slope coefficients are the useful bit here. These allow us to make predictions, i.e. for a given a value of hedgerow density, we can predict how many partidges we expect to find. 
 
-The `Multiple-R-squared` value shows the proportion of variance in the dependent variable that is explained by the independent variable. As it is a proportion it is always between 0 and 1, with values of 0 or 1 indicating that none or all of the variation has been explained respectively. The value of 0.73 here is reasonably high, but there is still some unexplained variation. 
+The `Multiple-R-squared` value is also useful. This shows the proportion of variance in the dependent variable that is explained by the independent variable. As it is a proportion it is always between 0 and 1, with values of 0 or 1 indicating that none or all of the variation has been explained by the model, respectively. The value of 0.73 here is reasonably high, but there is still some unexplained variation. 
+
+Be careful with the *p*-values in the summary output. Sometimes these are useful, sometimes thay are not. In this example, the summary output indicates that, the slope, but not the intercept, is significantly different to zero. In the case of a simple linear regression the *p*-value for the slope term produced by `summary` is the same as that produced by the `anova` function above. The same equivalence is not seen with other kinds of models (e.g. one way Analysis of Variance). In general, you should play it safe and use `anova` (not `summary`!) to assess significance of model terms.
 
 ### Presenting the results
 
