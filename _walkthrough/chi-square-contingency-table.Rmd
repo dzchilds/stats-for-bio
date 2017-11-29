@@ -1,0 +1,87 @@
+---
+title: "Chi-square contingency table"
+output:
+  html_document:
+    css: ../extras.css
+    theme: cerulean
+    highlight: tango
+---
+
+The prey of eagle owls can be established by examination of the pellets containing the undigested remains of their prey. In the eagle owl study the diets of the male and female of a pair were studied by examination of the pellets collected from beneath their roosts (fortunately, an individual tends to use the same roosting site, and individuals tend not to roost together). The numbers of all prey types found in the pellets were recorded.
+
+These data are in the file EAGLES.CSV.
+
+### First steps
+As always start by loading the necessary packages.
+```{r, message = FALSE, warning = FALSE}
+library(dplyr)
+library(ggplot2)
+```
+
+```{r setup, include = FALSE}
+knitr::opts_knit$set(root.dir = "../data_csv")
+```
+
+Set your working directory (using Session tab, Set working Directory, Choose Directory). This must be set to the folder containing the data set that you want to work with. Then read the data into R (remember to assign it a name).
+
+```{r}
+eagles <- read.csv("EAGLES.CSV")
+```
+
+Have a look at the data using both `glimpse` and `View`- how are they organised? Remember that data for a $\chi^2$ contingency table can be formatted in multiple different ways. Here, the data are total counts.
+```{r}
+glimpse(eagles)
+```
+
+### Visualising the data
+
+Make a bar plot of the data. 
+
+```{r, fig.width=5, fig.asp=0.7, fig.align='center'}
+ggplot(eagles, aes(x=Prey, y = Count, fill = Sex)) + 
+  geom_bar(stat="identity") + 
+  theme_bw()
+```
+
+### Carrying out the $\chi^2$ test
+
+Remember that the `chisq.test` function requires the data to be in a contingency table format (not a data frame). To do this we use the `xtabs` function. The `xtabs` function takes two arguments - a formula and a data frame.
+
+```{r}
+eagles_table <- xtabs(Count ~ Sex + Prey, data=eagles)
+eagles_table
+```
+
+Remember that the formula for the `xtabs` function depends on how the data are formatted originally.  
+
+Now that the data are in a contingency table format you can carry out the $\chi^2$ test, using the `chisq.test` function. This function takes the contingency table as its single argument.
+
+```{r}
+chisq.test(eagles_table)
+```
+
+With a contingency table bigger than 2x2 it can be difficult to know which differences are driving a significant result. To give an idea of this you can calculate the differences between the observed and expected values. To do this first assign the output of the $\chi^2$ test to a name. Then extract the observed and expected values from the model output using the `$`.
+
+```{r}
+eagleschi <- chisq.test(eagles_table)
+
+eagleschi$observed - eagleschi$expected
+
+```
+
+Here, we can see that there differences between the observed and expected values are relatively small for birds and squirrels. Males appear more likely than females to prey on rats and voles (as the observed values are higher than the expected values) and less likely to prey on waterbirds and hares (as the expected values are higher than the observed values here).
+
+### Summarising the results
+
+Visualising the observed data using a bar plot (see visualising the data section above) can also help us to see where the differences occur.
+
+The results could be summarised as follows:
+
+> There is a significant association between prey choice and sex in eagle owls ($\chi^2$=12.6, df = 5, p = 0.03). Males appear to be more likely to take voles and rats as prey, whilst females appear more likely to prey on hares and waterbirds (Figure 1).
+
+
+
+
+
+
+
