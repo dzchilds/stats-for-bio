@@ -1,0 +1,105 @@
+---
+title: "Two sample t-test"
+output:
+  html_document:
+    css: ../extras.css
+    theme: cerulean
+    highlight: tango
+---
+
+### Eagle owls and Norway rats
+
+A data set containing information about the sizes of Norway rat skulls in the pellets of Scandinavian eagle-owls is available in the RATSKULL.CSV file. The data comprise a column of rat skull sizes (measured in grams) and a column of codes indicating the season when a particular skull sample was taken. These data were collected in order to evaluate whether there is a difference between sizes of rats eaten in summer and winter, i.e. we want to know if there is a statistically significant difference between the mean rat skull sizes in the winter and summer samples.
+
+### First steps
+
+As always start by loading the necessary packages.
+
+```{r, message = FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+```
+
+Set your working directory (using Session tab, Set working Directory, Choose Directory). This must be set to the folder containing the data set that you want to work with. Then read the data into R (remember to assign it a name).
+
+```{r setup, include = FALSE}
+knitr::opts_knit$set(root.dir = "../data_csv")
+```
+
+```{r}
+rats <- read.csv("RATSKULL.CSV")  
+```
+
+Start by having a quick look at the data. How many variables are there? How many observations? Is the focal variable (`Weight`) on a ratio or interval scale? 
+
+```{r}
+glimpse(rats)
+```
+
+Remember that the data must also be independent. This assumption should have been considered earlier, as part of the experimental design.  
+
+### Visualising the data
+Start by calculating some summary statistics (e.g. the means, standard deviations, and sample sizes for each group). 
+
+```{r}
+ratmeans <- rats %>%
+  group_by(Season) %>% # Use group_by to calculate the means etc for each group
+  summarise(mean = mean(Weight), 
+            sd = sd(Weight), 
+            samp_size = n())
+```
+
+Here, we can see that the mean rat skull weight is larger in summer than in winter. We have a fairly reasonable sample size of 25 observations for each group.
+
+Next use a histogram to visualise the sample distributions. Remember that the *t*-test assumes that the variable is normally distributed within both populations. 
+
+```{r, fig.width=5, fig.height = 4, fig.align='center'}
+ggplot(rats, aes(x=Weight)) + 
+  # Plot the histogram, changing the number or width of the bins so it's appropriate for the data
+  geom_histogram(bins = 15) + 
+  # Split into two panels, one for each season
+  facet_wrap(~Season, ncol = 1)
+```
+
+The weights appears to be generally higher in the summer sample. Weight looks roughly normally distributed in both samples here so we can assume that they both came from normally distributed populations.
+
+Sometimes you may see it said that equal variances between the two populations is an assumption of the *t*-test. However, by default R uses the Welch version of the *t*-test, which does not require the variances to be equal. Even though the variability in the data appear similar here it is generally safer to stick with the Welch version of the *t*-test.
+
+### Carrying out the test
+Use the `t.test` function to carry out the two-sample *t*-test. Remember that the first argument to the `t.test` function is a formula. The variable on the left of the ~ in the formula must be the variable whose mean we want to compare (`Weight`). The variable on the right is the indicator variable that says which group each observation belongs to (`Season`). The second argument is the name of the data frame that contains the variables listed in the formula. 
+
+```{r}
+t.test(Weight ~ Season, rats)
+```
+
+The first line of the output reminds us what kind of *t*-test we used. This says: `Welch two-sample t-test`, so we know that we used the Welch version of the test that accounts for the possibility of unequal variance. The next line reminds us of the variables used e.g. here we compared the means of the `Weight` variable, where the sample membership is defined by the values of the `Season` variable.
+
+The third line of text is the most important. This says: `t = 2.6961, d.f. = 47.987, p-value = 0.009645`. The first part, `t = 2.6961`, is the *t*-statistic. The second part, `df = 47.987`, summarises the degrees of freedom. The third part, `p-value = 0.009645`, is the *p*-value. This says there is a statistically significant difference in the weight of the rat skulls between summer and winter, because *p*<0.05. 
+
+The next two lines show us the ‘95% confidence interval’ for the difference between the two means. We can think of this interval as a rough summary of the likely values of the true difference.
+
+The last few lines summarise the sample means of each group, which we've already calculated.
+
+### Summarising the result
+The results could be summarised in the text as follows
+
+> There was a significant difference in mean weight between skulls from the summer and winter samples (*t* = 2.70, d.f. = 48, *p*<0.01) with the summer samples having greater mean skull weight.
+
+Finally make a plot to summarise the results. We've already calculated the means (see Visualising the data) so now we can add the standard errors to that data frame using `mutate`.
+```{r, warning=FALSE}
+ratmeans <- ratmeans %>% mutate(SE = sd/sqrt(samp_size))
+```
+
+Then plot the means as points and the standard errors as the bars. Alternatively you could use a bar plot for these data using `geom_bar`. 
+
+```{r, fig.width=2.5, fig.height =3, fig.align='center'} 
+ggplot(ratmeans, aes(x=Season, y = mean)) + 
+  # Add the points 
+  geom_point() + 
+  # Add the error bars
+  geom_errorbar(aes(ymin = mean -SE, ymax = mean+SE), width = 0.1) + 
+  # Make the labels more informative
+  ylab("Rat skull weight (g)") + 
+  # Use a more professional theme
+  theme_bw()
+```

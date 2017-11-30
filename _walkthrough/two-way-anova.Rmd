@@ -1,0 +1,194 @@
+---
+title: "Two-way ANOVA"
+output:
+  html_document:
+    css: ../extras.css
+    theme: cerulean
+    highlight: tango
+---
+
+## Limpets and salinity
+
+Limpets live on rocky shores, often in rock pools and on exposed rock surfaces. Those limpets which live in rock pools can experience a very wide range of salinity conditions during the daily tidal cycle, especially if fresh water from inshore flows into the pools when the tide is out. A researcher was interested in whether two different limpet species (*Acmaea scabra* and *Acmaea digitalis*) differ in their internal concentration of sodium ions when exposed to low salinity conditions.
+
+Eight limpets of each species were placed in tanks of water containing (100% sea water; 75% seawater diluted with distilled water, and 50% sea water diluted with distilled water. The data are stored in a file called ACMAEA.CSV. The layout of the data should be fairly obvious: sodium ion concentration is stored in the Sodium variable, species codes are in Species (levels: ‘scabra’ = *A. scabra* ‘digitalis’ = *A. digitalis*), and salinity is in Salinity (levels: 50, 75 and 100).
+
+### First steps
+
+As always start by loading the necessary packages.
+
+```{r, message = FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(agricolae)
+```
+
+Set your working directory (using Session tab, Set working Directory, Choose Directory). This must be set to the folder containing the data set that you want to work with. Then read the data into R (remember to assign it a name).
+
+```{r setup, include = FALSE}
+knitr::opts_knit$set(root.dir = "../data_csv")
+```
+
+```{r}
+limpets <- read.csv("ACMAEA.CSV")  
+```
+
+Start by having a quick look at the data. How many variables are there? How many observations? Is the focal variable (`Sodium`) on a ratio or interval scale? Are the two independent variables factors or character vectors? 
+
+```{r}
+glimpse(limpets)
+```
+
+Remember that the `lm` function determines which type of statistical model to fit by looking at the type(s) of the independent variable(s) on the right hand side of the ~ in a formula. These all need to be factors or character vectors in order to fit an ANOVA model. Note that `Salinity` is an integer. This means if `Salinity` isn’t converted to a factor, `lm` will still fit a model, but it won’t be an ANOVA. 
+
+Use `mutate` to convert `Salinity` to an R factor before doing anything else. Remember that you can avoid this problem by not storing the independent variables, which encode the treatments, as numbers (i.e. do not call the treatments "1, 2, 3,...").
+
+```{r, warning=FALSE}
+limpets <- mutate(limpets, Salinity = factor(Salinity))
+```
+
+ANOVA also requires that the experimental units are independent. This assumption should have been considered earlier, as part of the experimental design.
+
+You should also be aware that the workflow below assumes a balanced (equal number of replicates in each treatment combination), orthogonal (every possible combination of treatments) experimental design. If the experimental design does not meet these conditions, it is not necessarily a problem, but we need to consider its limitations. What are these? Here’s the key one: we can’t just take the fitted model object and pass it to the `anova` function (as in the Statistical Output section below) to carry out the significance tests. 
+
+We can check the number of replicates in each treatment combination using the `summarise` function (though if you're working with your own data you probably will already know how many replicates you have for each treatment combination).
+
+```{r}
+group_by(limpets, Salinity, Species) %>% summarise(n = n())
+```
+
+Here, every combination of `Salinity` and `Species` exists (we have 6 treatment combinations as there are 2 levels for `Species` and 3 for `Sodium`). For each treatment combination we have 8 replicates. Therefore, this experimental design is both balanced and orthogonal.
+
+### Visualising the data
+
+Next make a quick plot of the data using a box and whiskers plot.
+
+```{r, fig.width=5, fig.asp=0.7, fig.align='center'}
+ggplot(data = limpets, aes(x = Salinity, y = Sodium, colour = Species)) + 
+  geom_boxplot()
+```
+
+The main thing to do here is use the plot to understand the patterns in the data. Sodium concentration appears to increase with increasing salinity. There is no clear sign of an interaction (i.e. the effect of salinity does not appear to differ between the two species). In fact species appears to have little effect on the sodium concentration. Ask yourself, do these patterns make sense?
+
+We can also use the plot to very roughly evaluate two of the assumptions of two-way ANOVA, i.e. that the within-group variance is roughly constant and that the dependent variable is normally distributed within each group. Here, the variability within each group appears roughly similar. The distributions also look roughly symmetrical (though there is one outlier), suggesting that they are roughly normally distributed. 
+
+It's OK to quickly check assumptions this way, but you should always evaluate them properly by plotting the model diagnostics once the model has been fitted. 
+
+### Fitting the model
+
+Fit the model using the `lm` function, which takes a formula and a data frame containing the variables in the formula as its two arguments. Remember that in the formula the dependent variable and the treatments go on the left and right of the `~`, respectively. Don't mix these positions up!
+```{r}
+limpet_model <- lm(Sodium ~ Salinity + Species + Salinity:Species, data = limpets)
+```
+
+Here, there are three terms to the right of the ~ in the formula, each separated by a + symbol: `Salinity`, `Species`, and `Salinity:Species`. This tells R that we want to fit a model that accounts for the main effects of salinity and species, and that we also wish to include the interaction between these two factors. To specify the main effects we just include the name of each factor variable in the formula. The interaction term is specified by a colon (the : symbol) with the two interacting variables either side of it.
+
+### Check the model diagnostics
+
+Check the model diagnostics __before__ looking at the statistical output. This is important. There is no point worrying about *p*-values until you're convinced the assumptions of a model have been met.
+
+Check the normality assumption using a normal probability plot. Here, if the residuals are normally distributed they will be positioned near the dashed line. Note that we don't expect to see a perfect relationship, but the majority of the points should be close to the line.
+
+```{r, fig.width=4, fig.asp=1.0, fig.align='center'}
+plot(limpet_model, which = 2)
+```
+
+As the points do not deviate from the line in a systematic way there is nothing to worry about here. 
+
+Next check the equal variance assumption using a scale-location plot. 
+
+```{r, fig.width = 4, fig.asp=1.0, fig.align="center"}
+plot(limpet_model, which = 3, add.smooth = FALSE)
+```
+
+If there is a systematic pattern in the size of the residuals and the fitted values (i.e. if the variability goes up or down with the fitted values) then the constant variance assumption is violated. There is no sign of such a pattern here so the constant variance assumption is satisfied.
+
+Remember that if the data do not fit the assumptions of the one-way ANOVA the focal variable can be transformed. After fitting the model to the transformed data remember to check the diagnostics again to see if the assumptions are now met.
+
+### Statistical output
+
+If, and only if, the model assumptions were not violated, now look at the model output. Use the `anova` function to calculate the *F*-ratio for the main effects and interaction terms. This function takes the name of the fitted model as its only argument.
+
+```{r}
+anova(limpet_model)
+```
+
+The table contains the key information here. The first row in the table is for the main effect of salinity, the second for the main effect of species, and the third for the interaction between salinity and species.
+
+The *F*-ratio is the test statistic for each term. These provide a measure of how large and consistent the effects associated with each term are. Each *F*-ratio has a pair of degrees of freedom associated with it: one belonging to the term itself, the other due to the error (residual). Together, the *F*-ratio and its degrees of freedom determines the *p*-value.
+
+The *p*-value gives the probability that the differences between the set of means for each term in the model, or a more extreme difference, could have arisen through sampling variation under the null hypothesis of no difference. We take *p*< 0.05 as evidence that at least one of the treatments is having an effect. Here, *p*< 0.05 for salinity, but not for species nor for the interaction term. Thus we conclude that only salinity has a significant effect on sodium concentration. 
+
+### Interaction plots
+
+An interaction plot can help us to interpret the results. Such plots may be particularly helpful when there is a significant interaction, but we'll make one here even without a significant interaction to show how it is done. 
+
+First calculate the mean sodium concentration for each treatment combination.
+```{r}
+limpet_means <- 
+  limpets %>% 
+  group_by(Salinity, Species) %>% # Remember to group by both factors
+  summarise(Means = mean(Sodium))
+```
+
+Then make the interaction plot, using points and lines.
+```{r, fig.asp=1., fig.width=4, fig.align='center'}
+ggplot(limpet_means, aes(x=Salinity, y = Means, colour = Species, group = Species)) + 
+   # Add the means as points 
+  geom_point() +  
+  # Join the means using lines
+  geom_line()  
+```
+
+Here, the lines are pretty much parallel, as would be expected in the absence of an interaction. The sodium concentration increases with increasing salinity and there is little difference between the means for each species.
+
+### Multiple comparisons
+
+If you find any of the global significance tests to be significant, it may be appropriate to carry out one, or more, multiple comparison tests. It is important to remember here that you should not carry out tests for any effects that are not significant (there’s no point in testing means you already know not to be significantly different!). In this example there was a significant effect of salinity so we can use a Tukey HSD test to see which levels of salinity differ significantly.  
+
+Remember that to use the Tukey test we first have to convert the model object into an `aov` object.
+```{r}
+limpet_aov <- aov(limpet_model)
+```
+
+Then we can run the Tukey test using the `HSD.test` function on the `aov` object. This function is from the `agricolae` package so make sure you have loaded this package as above (under First steps) before running the following code. We can use the `trt` argument to specify which effects we are interested in. In this case as only salinity was significant we will only look at that treatment. If the interaction is significant it is difficult to interpret the main effects seperately from each other, so here you should compare all pairwise comparisons among the means of each treatment combination using for example `trt= c("Salinity", "Species")`.
+```{r}
+HSD.test(limpet_aov, trt = c("Salinity"), console = TRUE)
+```
+
+The part of the output that we're really interested in here is the final table. The first and second columns show the treatment names and the mean of the focal variable for that treatment respectively. The third column shows which treatments differed significantly from each other - treatments with the same letter did not differ significantly from each other. In this example as all three levels of salinity have been given a different letter they are all significantly different from each other. 
+
+### Presenting the results
+
+The results could be summarised in the text as follows:
+
+> There is a highly significant effect of salinity on internal sodium concentration in both species of limpets (ANOVA: *F*=59.6, d.f.=2,42, *p*<0.001), with higher salinity resulting in significantly higher sodium concentration (Tukey multiple comparison test, *p*<0.05). The two limpet species do not differ significantly in their internal sodium concentrations (*F*=2.75, d.f.=1,42, *p*=0.11), and there is no interaction between species and salinity (*F*=0.61, d.f.=2,42, *p*=0.55). 
+
+Finally make a plot to summarise the results. Start by calculating the mean and standard error of the mean for each treatment combination.
+
+```{r}
+limp_stats <- 
+  limpets %>% 
+  group_by(Salinity, Species) %>% # Remember you can group by multiple variables at once
+  summarise(Mean = mean(Sodium), SE = sd(Sodium)/sqrt(n()))
+```
+
+Then plot the means as points and the standard errors as bars. Set the position arguments of `geom_point` and `geom_errorbar` using `position_dodge`. Without this the standard error bars would overlap. Remember to use this argument for both the points and error bars or they won't be aligned with each other. 
+
+```{r, fig.asp=1., fig.width=4, fig.align='center'}
+# define a position adjustment
+pos <- position_dodge(0.25)
+
+# make the plot
+ggplot(data = limp_stats, aes(x = Salinity, y = Mean, ymin = Mean - SE, ymax = Mean + SE, colour = Species)) + 
+  # this adds the means as points (shift positions with 'position = ')
+  geom_point(position = pos) + 
+  # this adds the error bars (shift positions with 'position = ')
+  geom_errorbar(width = 0.1, position = pos) + 
+  # make the labels more informative
+  ylab("Sodium ion concentration") +
+  # use a more professional theme
+  theme_bw()
+```
+
+
