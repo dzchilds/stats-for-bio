@@ -1,0 +1,93 @@
+---
+title: "Paired-sample t-test"
+output:
+  html_document:
+    css: ../extras.css
+    theme: cerulean
+    highlight: tango
+---
+
+### Sheep, grass and nature reserves 
+
+The management committee of a nature reserve wants to manage some large grassland areas of the reserve using low density sheep grazing to prevent the grass becoming too long and making the habitat unsuitable for some of the low-growing herbaceous plants for which the reserve is important. Before implementing the plan they conduct a pilot experiment using some fenced plots on the reserve, to test whether low density sheep grazing affects various species of plants.
+
+One problem is that the area is very variable---some parts are wetter than others, and the plants of interest are not particularly evenly distributed. There is also a limit to the number of plots (and sheep) they can use in the experiment. In order to make the maximum use of the resources and, take some account of the variability in the habitat the experiment is set up by randomly placing eight fenced plots around the reserve, with each plot being divided in half by a fence down the middle. Sheep are introduced to one half of each plot (the half being randomly selected in each case), and allowed to graze for the appropriate period of the year. The other half is left ungrazed. Over the next 2 years, the abundances of various plants in the in the plots are surveyed.
+
+The data below give the numbers of gentians from each of the eight half-plots with sheep ('grazed +'), and the corresponding ungrazed halves ('grazed -') after one year of the experiment.
+  
+|   Plot ID  | Grazed + | Grazed - |
+|:--------:|:------:|:------:|
+| 1 | 27 | 14 |
+| 2 | 1 | 6 |
+| 3 | 16 | 17 |
+| 4 | 8 | 5 |
+| 5 | 10 | 0 |
+| 6 | 19 | 11 |
+| 7 | 30 | 21 |
+| 8 | 9 | 6 |
+  
+Use Excel to construct a 'tidy' data set containg these data, then export this to a CSV file in your working directory. 
+
+### First steps
+
+As always start by loading the necessary packages.
+
+```{r, message = FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+```
+
+Set your working directory (using Session tab, Set working Directory, Choose Directory). This must be set to the folder containing the data set that you want to work with. Then read the data into R (remember to assign it a name).
+
+```{r setup, include = FALSE}
+knitr::opts_knit$set(root.dir = "../data_csv")
+```
+
+```{r}
+sheep <- read.csv("GENTIANS_GRAZING.CSV")  
+```
+
+Start by having a quick look at the data. How many variables are there? How many observations? Is the focal variable (`Number`) on a ratio or interval scale? What is the pairing variable (`Plot` in this case)?
+
+```{r}
+glimpse(sheep)
+```
+
+Remember that the data must also be independent. This assumption should have been considered earlier, as part of the experimental design.  
+
+### Visualising the data
+Remember that for the paired-sample *t*-test the normality assumption refers to the within pair differences (not the raw data). Start by calculating the differences between each pair. To do this group the data by the values of `Plot` and then use the `diff` function within `summarise` to calculate the difference between the number of gentians *within each plot*.
+
+```{r, warning = FALSE}
+sheep_diffs <- 
+  sheep %>%
+  group_by(Plot) %>%
+  summarise(Difference = diff(Number))
+sheep_diffs 
+```
+
+Plot the distribution of the data using a dot plot (as below) or a histogram (using `geom_histogram` if you have more data)
+```{r, fig.width=4, fig.height = 3, fig.align='center', message = FALSE}
+ggplot(sheep_diffs, aes(x=Difference)) +
+  geom_dotplot()
+```
+
+Remember that the null hypothesis of the paired-sample *t*-test is that the mean of the differences is zero. Here, we can see that most of the differences are negative (in most cases there are more gentians in the grazed than ungrazed half of the plot), but a couple are positive (in these plots there are more gentians in the ungrazed half than the grazed half of the plot). 
+
+With only 8 data points it is difficult to assess normality, but there is nothing of concern about this plot so we can carry on with the *t*-test.
+
+### Carrying out the test
+Use the `t.test` function to carry out the paired-sample *t*-test. Remember that the first argument to the `t.test` function is a formula. The variable on the left of the ~ in the formula must be the variable whose mean we want to compare (`Number`). The variable on the right is the indicator variable that says which group each observation belongs to (`Treatment`). The second argument is the name of the data frame that contains the variables listed in the formula. Finally, we set `paired = TRUE` to tell R that we want to use the paired version of the *t*-test.
+
+```{r}
+t.test(Number ~ Treatment, data = sheep, paired = TRUE)
+```
+
+The third line of the output is the important one: `t = 2.3295, df = 7, p-value = 0.05266`. This gives the *t*-statistic, the degrees of freedom, and the all-important *p*-value associated with the test. The *p*-value tells us that the mean within-plot difference is not significantly different from zero at the *p* < 0.05 level. The final line gives us the mean within-plot difference from our sample.
+
+It is important to remember that the only information R uses to associate pairs of observations is their order in each group i.e. the first observation in the ‘grazed’ group is paired with the first observation in the ‘ungrazed’ group, the second observation in the ‘grazed’ group is paired with the second observation in the ‘ungrazed’ group, and so on. If the items/individuals aren’t ordered the same way in each group, the test will be wrong and we’ll end up with a meaningless p-value!
+
+### Summarising the result
+The results could be summarised in the text as follows:
+
+> Grazing did not significantly affect the number of gentians found in the individual plots (*t* = 2.33, d.f = 7, *p* =0.053).
