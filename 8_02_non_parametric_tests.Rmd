@@ -2,17 +2,15 @@
 
 ## What is a non-parametric test? {#what-is-non-par}
 
-The the majority of procedures we have been using to evaluate statistical significance require various assumptions about population distributions to be satisfied. These are referred to as parametric methods because they are underpinned by a mathematical model of the population(s) (we discussed this idea in the [Parametric statistics] chapter). For this reason, the statistical tests associated with these methods---e.g. global significance tests and multiple comparisons tests in ANOVA---are called **parametric tests**.
+The majority of procedures we have been using to evaluate statistical significance require various assumptions about population distributions to be satisfied. These are referred to as parametric methods because they are underpinned by a mathematical model of the population(s) (we discussed this idea in the [Parametric statistics] chapter). For this reason, the statistical tests associated with these methods---e.g. global significance tests and multiple comparisons tests in ANOVA---are called **parametric tests**.
 
-This is a class of statistical tests that make much weaker assumptions. These are called **non-parametric tests**.  The advantage of non-parametric tests is that they can be employed with a much wider range of forms of data than their parametric cousins. Although non-parametric tests are less restrictive in their assumptions, they are not, as is sometimes stated, assumption-free. The term non-parametric is just a catch-all term that applies to any test which doesn’t assume the data are drawn from a *specific* distribution. We have already seen a number of examples of non-parametric tests: 
+**Non-parametric tests** are a class of statistical tests that make much weaker assumptions.  The advantage of non-parametric tests is that they can be employed with a much wider range of forms of data than their parametric cousins. Although non-parametric tests are less restrictive in their assumptions, they are not, as is sometimes stated, assumption-free. The term non-parametric is just a catch-all term that applies to any test which doesn’t assume the data are drawn from a *specific* distribution. We have already seen a number of examples of non-parametric tests: 
 
 -   The bootstrap and permutation test procedures introduced in the first few chapters are non-parametric techniques.
 
 -   The $\chi^{2}$ goodness of fit and the $\chi^{2}$ contingency table tests make weak assumptions about the frequency data.
 
--   Spearman's rank correlation test is viewed as a type of non-parametric test of association.
-
-In this chapter we are going to look at non-parametric tests which perform analyses equivalent to *t*-tests and the global significance test in one-way ANOVA.
+In this chapter we are going to look at non-parametric tests which perform analyses equivalent to *t*-tests, correlation, and the global significance test in one-way ANOVA.
 
 ## How does a non-parametric test work? {#non-par-intro}
 
@@ -59,21 +57,21 @@ Obviously, the greater the difference in the rank totals the less likely it is t
 
 The important thing to notice in such a procedure is that the original data could have been replaced with quite different values which, provided the ordering was the same, would have given exactly the same result. In other words the outcome of the test is reasonably insensitive to the underlying distribution of the data.
 
-## Non-parametric equivalents to *t*-tests and ANOVA
+## Non-parametric equivalents
 
-There are several non-parametric procedures (all available R) which provide similar types of test to the simple parametric tests we have seen already. The actual calculations for the different tests are a little more involved than the general outline above, but they work from the same basic principle: find the rank order of all the data, and then use the ranks in different groups to assess the statistical significance of the observed differences. As always, we have to specify some kind of null hypothesis (e.g. the medians of two samples are the same) to make the significance calculation work. 
+There are several non-parametric procedures (all available in R) which provide similar types of test to the simple parametric tests we have seen already. The actual calculations for the different tests are a little more involved than the general outline above, but they work from the same basic principle: find the rank order of all the data, and then use the ranks in different groups to assess the statistical significance of the observed differences. As always, we have to specify some kind of null hypothesis (e.g. the medians of two samples are the same) to make the significance calculation work. 
 
-The three tests discussed here are:
+The four tests discussed here are:
 
 1) __Wilcoxon signed-rank test__: The test is equivalent to a one-sample and paired-sample *t*-test. This test also goes by the name of the Wilcoxon one-sample test, the Wilcoxon matched-pairs test, the Wilcoxon paired-sample test. It can be used to...
     - compare a sample to a single value, or
     - test for differences between paired samples.
     
-(The Wilcoxon signed-rank test is almost always used to evaluate the significance of differences between paired samples)
-
 2) __Mann-Whitney *U*-test__: This is equivalent to the two-sample *t*-test. It tests for differences between two unpaired samples. This test also goes by the name of the Wilcoxon two-sample test, the Mann–Whitney–Wilcoxon, Wilcoxon rank-sum test.
 
 3) __Kruskal-Wallis test__: tests for differences between several samples. This is equivalent to a one-way analysis of variance.
+
+4) __Spearman's Rank correlation__: tests for an association between two variables. This is equivalent to Pearson's correlation. 
 
 Notice that we haven't said anything about *what kind* of differences among samples these evaluate, i.e. we didn't specify the null hypothesis. We'll address this question as we discuss each test.
 
@@ -260,13 +258,73 @@ In this case it is fairly clear that longer periods of exposure to the protected
 
 If it was important to know exactly which treatments were significantly different, then some sort of multiple comparison test would be useful. There are no non-parametric multiple comparison tests available in base R, but they are implemented in the package called **nparcomp**.
 
+## Spearman’s rank correlation
+
+Spearman's rank correlation ($\rho$) tests for an association between two numeric variables. It is equivalent to Pearson's correlation. The advantages of using Spearman’s rank correlation are: 1) the two variables do not need to be normally distributed, and 2) ordinal data can be used. This means Spearman’s rank correlation can be used with data having skewed (or other odd) distributions, or with data originally collected on a rank/ordinal scale. 
+
+The key assumptions of Spearman’s rank correlation are: 
+
+-   Both variables are measured on ordinal, interval or ratio scales.
+
+-   There is a monotonic relationship between the two variables.
+
+A monotonic relationship occurs when, in general, the variables increase in value together, or when the values of one variable increase, the other variable tends to decrease. What this means in practice is that we should not use Spearman’s rank correlation if a scatter plot of the data forms a clear 'hill' or 'valley' shape.
+
+Spearman’s rank correlation is somewhat less powerful (roughly 91% in some evaluations) than Pearson’s method when the data are suitable for the latter. Otherwise it may even be more powerful. We'll work through an example to learn about Spearman’s correlation...
+
+### Grouse lekking
+
+```{r, echo=FALSE}
+grouse <- read.csv("./data_csv/GROUSE.CSV")
+```
+
+Some bird species, at a particular point in the spring, form ‘leks’---gatherings of birds, with males each defending a small area of ground, displaying, and each mating with such females as he is successful in attracting. In general, in leks, a few birds secure many matings and most birds secure rather few. In a study of lekking in black grouse, a biologist is interested in whether birds that secure many matings in one season also do better the next year. Using a population with many colour-ringed birds he is able to get data for a reasonable number of males from two leks in successive years.
+
+The data are in the file GROUSE.CSV. Read these data into a data frame, calling it `grouse`.
+```{r, eval=FALSE}
+grouse <- read.csv("GROUSE.CSV")
+```
+```{r}
+glimpse(grouse)
+```
+Each row of the data is the number of matings for a male in the two successive leks: `Year1` (year 1) and `Year2` (year 2). The first thing we should do is summarise the distribution of each variable:
+```{r grouse-years-dist, fig.show = 'hold', fig.width=4, fig.asp=1, out.width='40%'}
+ggplot(grouse, aes(x = Year1)) + geom_dotplot(binwidth = 2)
+ggplot(grouse, aes(x = Year2)) + geom_dotplot(binwidth = 2)
+```
+
+Notice that the data are integer-valued (i.e. they are counts). These distributions seems to tie in with the biological observation that the distribution of matings is right-skewed: in both years there are only a few males that have high mating success, with most males securing only a handful of matings. Next we need to visualise the association:
+
+```{r grouse-years-scatter, echo=FALSE, fig.width=3.5, fig.asp=1, fig.align='center'}
+ggplot(grouse, aes(x = Year1, y = Year2)) +
+  geom_point(alpha = 0.5)
+```
+
+The data are integers, which means there is a risk of over-plotting (points will lie on top of one another). We made the points semi-transparent `alpha = 0.5` to pick this up where it occurs. It seems clear that mating success is positively associated, but we should confirm this with a statistical test. We'll base this on Spearman's correlation.
+
+**How do we know to use a correlation analysis with these data?** Although there seems to be an association between the counts, it is not obvious that success in one year 'causes' success in another year and neither variable is controlled by the investigator. We're also not interested in using the success measure in year 1 to predict success in year 2. This indicates that correlation analysis is the appropriate method to evaluate the significance of the association.
+
+**Why are we using Spearman's correlation?** The relationship appears roughly linear, so in that regard Pearson's correlation might be appropriate. However, the distribution of each count variable is right-skewed, which means the normality assumption is probably suspect in this instance. We're left with no choice but to use Spearman's correlation.
+
+Carrying out a correlation analysis using Spearman’s rank correlation in R is simple. Again, we use the `cor.test` function to do this:
+```{r}
+cor.test(~ Year1 + Year2, method = "spearman", data = grouse)
+```
+The only other thing we had to change, compared to the Pearson's correlation example, was to set `method = "spearman"` to specify the use of Spearman’s rank correlation. Notice the warning message: 'Cannot compute exact p-value with ties'. This is generally not something we need to worry about for this particular test.
+
+The output is very similar to that produced by `cor.test` when using Pearson's correlation. Once again, the `S = 592.12, p-value = 0.01112` line is the one we care about. The main difference is that instead of a *t*-statistic, we end up working with a different kind of test statistic ('*S*'). We aren't going to explain where this comes from because it's quite technical. Next we see the *p*-value. This is generated under the null hypothesis of zero correlation ($\rho = 0$). Since *p* < 0.05, we conclude that there is a statistically significant correlation between mating success in successive years. Wait, where are the degrees of freedom? Simple---there aren't any for a Spearman's correlation test.
+
+What is the correlation between mating success? That's given at the bottom of the test output again: $+0.55$. This says that there is a moderate, positive association between mating success in successive years, which is what we expect from the scatter plot.
+
+When using the Spearman method it is fine to report just the value of the correlation coefficient, the sample size, and the *p*-value (there is no need to report the test statistic). Here's how to report the results of this analysis:
+
+> There is a positive association between the number of matings achieved by a particular male in one lek and the number the same male achieves in a subsequent lek (Spearman's rho=0.55, n=20, p < 0.05).
+
 ## Why use non-parametric tests ... and when? {#why-when}
 
 ### What are the advantages?
 
-Since most non-parametric tests make relatively weak assumptions about the distribution of the data, they are obviously useful techniques for many situations where the data we have are not well suited to parametric tests. If in doubt, a non-parametric test may be a safe bet.
-
-They also have another important feature which hasn’t been emphasised yet but is of considerable value. Since non-parametric tests work with ranks of the original data, they can be used to analyse data originally collected in ordinal, or rank, form.
+Since most non-parametric tests make relatively weak assumptions about the distribution of the data, they are obviously useful techniques for many situations where the data we have are not well suited to parametric tests. If in doubt, a non-parametric test may be a safe bet. Importantly, since non-parametric tests work with ranks of the original data, they can be used to analyse data originally collected in ordinal, or rank, form.
 
 This is extremely useful in many investigations where the data cannot be collected any other way for example...
 
@@ -280,7 +338,7 @@ This is extremely useful in many investigations where the data cannot be collect
 
 ### What are the disadvantages?
 
-Given their advantages, there has to be a catch otherwise everyone would use non-parametric tests all the time. In fact, they are usually use as a last resort.
+Given their advantages, there has to be a catch otherwise everyone would use non-parametric tests all the time. In fact, they are usually used as a last resort.
 
 One problem with non-parametric tests is that if the data are actually appropriate for a parametric test the equivalent non-parametric test will be less powerful (i.e. less likely to find a difference even if there really is one). For some tests the difference is not enormous---for example, if data are suitable for a *t*-test the Mann-Whitney *U*-test is about 95% as powerful as the *t*-test. For this reason, an appropriate transformation followed by a parametric test will yield a more powerful analysis.
 

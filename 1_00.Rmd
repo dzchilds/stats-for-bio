@@ -1,2 +1,2 @@
-# (PART) Statistical Concepts (I) {-}
+# (PART) Collecting and using data {-}
 

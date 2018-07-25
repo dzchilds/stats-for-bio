@@ -58,7 +58,7 @@ That's it, if we know the variance and the size of a sample, it's easy to estima
 
 ### The *t* distribution
 
-The normal distribution is usually the first distribution people learn about. The reasons for this are: 1) it crops a lot because of something called 'the central limit theorem' and 2) many other distributions are related to the normal distribution. One of the most important of these 'other distributions' is Student's *t*-distribution^[Why is it called Student's *t*? The *t*-distribution was discovered by W.G. Gosset, a statistician employed by the Guinness Brewery. He published his statistical work under the pseudonym of 'Student', because Guinness would have claimed ownership of his work if he had used his real name.]. This arises when...
+The normal distribution is usually the first distribution people learn about. The reasons for this are: 1) it crops up a lot because of something called 'the central limit theorem' and 2) many other distributions are related to the normal distribution. One of the most important of these 'other distributions' is Student's *t*-distribution^[Why is it called Student's *t*? The *t*-distribution was discovered by W.G. Gosset, a statistician employed by the Guinness Brewery. He published his statistical work under the pseudonym of 'Student', because Guinness would have claimed ownership of his work if he had used his real name.]. This arises when...
 
 - we take a sample from a normally distributed variable, 
 
@@ -68,7 +68,7 @@ The normal distribution is usually the first distribution people learn about. Th
 
 The sampling distribution of this new quantity has a particular form. It follows a Student's *t*-distribution. Student's *t*-distribution arises all the time in relation to means. For example, what happens if we take samples from a pair of normal distributions, calculate the difference between their estimated means, and then divide this difference by its standard error? The sampling distribution of the scaled difference between means also follows a Student's *t*-distribution.
 
-Because it involves rescaling a mean by its standard error, the form of the resulting *t*-distribution only depends on one thing: the sample size. This may not sound like an important result, but it is because it allows us to construct simple statistical tests to evaluate differences between means. We'll use this result in the next three chapters as we learn about so-called '*t*-tests'.
+Because it involves rescaling a mean by its standard error, the form of the resulting *t*-distribution only depends on one thing: the sample size. This may not sound like an important result, but it is because it allows us to construct simple statistical tests to evaluate differences between means. We'll use this result in the next two chapters as we learn about so-called '*t*-tests'.
 
 
 

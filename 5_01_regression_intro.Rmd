@@ -2,9 +2,9 @@
 
 ## Introduction
 
-The simple *t*-tests we encountered earlier were concerned with how to compare mean(s) of numeric variables. We learned how to: (1) compare one mean to any particular value via the one-sample *t*-test, (2) compare means among two groups or conditions via the two-sample *t*-test, (3) compare two conditions *within* items / objects via the paired-sample *t*-test. One way to think about the two-sample and paired-sample *t*-tests is that they evaluate whether or not the variable changes among two groups or experimental conditions. Membership of the different groups/conditions can be encoded by a categorical variable. In R, we use a formula involving the numeric (`num_var`) and categorical (`cat_var`) variables to set up the test (e.g. `num_var ~ cat_var`). There is a good reason for doing things this way. The formula reflects the fact that we can conceptualise the *t*-tests as considering a *relationship* between between a numeric and categorical variable^[It is perfectly possible to evaluate differences among means in more than two categories, but we don't use *t*-tests to do this. Instead, we us a more sophisticated tool called Analysis of Variance (ANOVA). We'll learn about ANOVA in later chapters.].
+In the previous chapter we learnt about one technique for analysing associations between numeric variables (correlation). A correlation coefficient only quantifies the strength and direction of an association between two variables. It will be close to zero if there is no association between the variables; a strong association is implied if the coefficient is near -1 or +1. A correlation coefficient tells us nothing about the form of a relationship. Nor does it allow us to make predictions about the value of one variable from the value of a second variable. Regression, which is the focus of this chapter, does allow this because it involves fitting a line through the data. 
 
-This chapter introduces a different kind of relationship. The question we want to address is: what should we do when we want to understand how two numeric variables are related? Much of biology is concerned with relationships between numeric variables. For example...
+Much of biology is concerned with relationships between numeric variables. For example...
 
 -   We sample fish and measure their length and weight because we want to understand how weight scales with respect to length.
 
@@ -56,6 +56,24 @@ We might not be very confident in judging which, if either, of these plots provi
 
 A linear regression analysis allows us to do all this. 
 
+## Correlation or regression?
+
+Whilst regression and correlation are both concerned with associations between numeric variables they are different techniques and each is appropriate under different circumstances. This is a frequent source of confusion. Which technique is required for a particular analysis depends on the way the data were collected and the purpose of the analysis. There are two broad questions to consider:
+
+#### Where do the data come from? {-}
+
+Think about how the data have been collected. If the data are from an experimental study where one of the variables has been manipulated, then choosing the best analysis is easy. We should use a regression analysis, in which the independent variable is the experimentally manipulated  variable  and the dependent variable is the measured outcome. The fitted line from a regression analysis describes how the outcome variable *depends on* the manipulated variable---it describes the causal relationship between them. 
+
+It is generally inappropriate to use correlation to analyse data from an experimental setting. A correlation analysis examines association but does not imply the dependence of one variable on another. Since there is no distinction of dependent or independent variables, it doesn’t matter which way round we do a correlation. (The phrase 'which way round' doesn't even make sense in the context of a correlation.)
+
+If the data are from an observational study, either method may be appropriate. Time to ask another question...
+
+#### What is the goal of the analysis? {-}
+
+Think about what question is being addressed. A correlation coefficient only quantifies the strength and direction of an association between two variables, it tells us nothing about the form of a relationship. Nor does it allow us to make predictions about the value of one variable from the value of a second variable. A regression does allow this because it involves fitting a line through the data---i.e. there's a model for the relationship. 
+
+This means that if the goal of an analysis is to understand the form of a relationship between two variables, or to use a fitted model to make predictions, we have to use regression. If we just want to know whether two variables are associated or not, the direction of the association, and whether the association is strong or weak, then a correlation analysis is sufficient. It is better to use a correlation analysis when the extra information produced by a regression is not needed, because the former will be simpler and potentially more robust (if we use Spearman's correlation).
+
 ## What does linear regression do?
 
 **Simple linear regression** finds the straight-line relationship which best describes the dependence of one variable (the **dependent variable**) on the other (the **independent variable**). 
@@ -74,7 +92,7 @@ Another way to describe linear regression is that it allows us to *predict* how 
 
 How do we decide how to select which is to be used as the dependent variable and which as the independent variable? The decision is fairly straightforward in an experimental setting: the manipulated variable is the independent variable, and the measured outcome is the dependent variable. Consider the thermal tolerance example from earlier. Temperature was manipulated in this experiment, so it must be designated the independent variable. Moreover, *a priori* (before conducting the experiment), we can reasonably suppose that changes in temperature may cause changes in enzyme activity, but the reverse seems pretty unlikely. 
 
-Things may not be so clear cut when we are working with data from an observational study as it may not be obvious that one variable depends upon the other (in a causal sense). These problems will be discussed in more detail in later chapters. There is one important point to be aware of now though: in regression it matters which way round we designate the dependent and independent variables. If you have two variables A and B, the relationship you find from a regression will not be the same for A against B as for B against A.
+Things may not be so clear cut when we are working with data from an observational study as it may not be obvious that one variable depends upon the other (in a causal sense). In regression it matters which way round we designate the dependent and independent variables. If you have two variables A and B, the relationship you find from a regression will not be the same for A against B as for B against A.
 
 ## How does simple linear regression work?
 

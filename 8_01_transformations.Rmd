@@ -241,7 +241,4 @@ Finally, keep in mind that this is often an iterative process. We might have to 
 
 ## Final thoughts
 
-Evaluating assumptions and picking transformations is as much 'art' as science. It takes time and experience to learn how to do it. R makes it very easy to try out different options, so don't be afraid to do this. Frequently, with real biological data, no straightforward transformation really improves the form of the data or in correcting one problem you generate another. Fortunately, in many cases where the assumptions of a test are not reasonably well fulfilled, there is an alternative approach---the use of a nonparametric test. These tests are the topic of the next chapter.
-
-
-
+Evaluating assumptions and picking transformations is as much 'art' as science. It takes time and experience to learn how to do it. R makes it very easy to try out different options, so don't be afraid to do this. Frequently, with real biological data, no straightforward transformation really improves the form of the data or in correcting one problem you generate another. Fortunately, in many cases where the assumptions of a test are not reasonably well fulfilled, there is an alternative approach--- which we will discuss in the [Non-parametric tests] chapter.

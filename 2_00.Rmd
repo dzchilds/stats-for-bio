@@ -1,2 +1,2 @@
-# (PART) Statistical Concepts (II) {-} 
+# (PART) Statistical Concepts {-} 
 

@@ -2,7 +2,7 @@
 
 ## When do we use one-sample *t*-test?
 
-The one-sample *t*-test is the simplest of statistical tests. It is used in situations where we have a sample of numeric variable from a population, and we need to to compare the population mean to a particular value. The one-sample *t*-test test uses information in the sample to evaluate whether the population mean is likely to be different from this value. The expected value might be something predicted from theory, or some other prespecified value we are interested in. Here are a couple of examples:
+The one-sample *t*-test is the simplest of statistical tests. It is used in situations where we have a sample of numeric variable from a population, and we need to compare the population mean to a particular value. The one-sample *t*-test uses information in the sample to evaluate whether the population mean is likely to be different from this value. The expected value might be something predicted from theory, or some other prespecified value we are interested in. Here are a couple of examples:
 
 -   We have a theoretical model of foraging behaviour that predicts an animal should leave a food patch after 10 minutes. If we have data on the actual time spent by 25 animals observed foraging in the patch, we could test whether the mean foraging time is significantly different from the prediction using a one-sample *t*-test.
 
@@ -79,7 +79,7 @@ morph.data <- filter(morph.data, Colour == "Purple")
 You should work through the example in this section.
 ```
 
-We're going to use the plant morph example again to learn how to carry out a one-sample *t*-test in R. Remember, the data were 'collected' to 1) compare the frequency of purple morphs to a prediction and 2) compare the mean dry weight of purple and green morphs. Neither of these questions can be tackled with a one-sample *t*-test. Instead, let's pretend that we have unearthed a report from 30 years ago that found the mean size of purple morphs to be 710 grams. We want to evaluate whether the mean size of purple plants in the contemporary population is different from this expectation because we think they may have adapted to local conditions.
+We're going to use the plant morph example again to learn how to carry out a one-sample *t*-test in R. Remember, the data were 'collected' to 1) compare the frequency of purple morphs to a prediction and 2) compare the mean dry weight of purple and green morphs. Neither of these questions can be tackled with a one-sample *t*-test. Instead, let's pretend that we have unearthed a report from 30 years ago that found the mean size of purple morphs to be 710 grams. We want to evaluate whether the mean size of purple plants in the contemporary population is different from this expectation, because we think they may have adapted to local conditions.
 
 Read the data in MORPH_DATA.CSV into an R data frame, giving it the name `morph.data`. We only need the purple morph data for this example, so we need to also `filter` the data to get hold of only the purple plants:
 
