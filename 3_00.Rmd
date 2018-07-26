@@ -1,2 +1,2 @@
-# (PART) Simple Parametric Statistics {-} 
+# (PART) Simple Statistics {-} 
 

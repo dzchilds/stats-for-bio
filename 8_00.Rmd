@@ -1,2 +1,2 @@
-# (PART) Fixing Problems {-}
+# (PART) Frequency Data and Non-parametric Tests {-}
 

@@ -1,2 +1,2 @@
-# (PART) Collecting and using data {-}
+# (PART) Collecting and Using Data {-}
 

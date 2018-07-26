@@ -34,7 +34,7 @@ We want to test whether the ratio of male to female flowers differs significantl
 
 **Step 3.**  Compare the $\chi^{2}$ statistic to the theoretical predictions of the $\chi^{2}$ distribution to assess the statistical significance of the difference between observed and expected counts. 
 
-The interpretation of this *p*-value in this test is the same as for any other kind of statistical test: it is probability we would see the observed frequencies, or more extreme values, under the null hypothesis.
+The interpretation of this *p*-value in this test is the same as for any other kind of statistical test: it is the probability we would see the observed frequencies, or more extreme values, under the null hypothesis.
 
 ### Assumptions of the chi-square goodness of fit test
 

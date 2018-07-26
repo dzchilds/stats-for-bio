@@ -8,7 +8,7 @@ However, we sometimes find a situation in which the ‘measurement’ we are int
 
 ## A new kind of distribution
 
-There are a quite a few options for dealing with categorical data^[e.g. the 'log-linear model', 'Fisher's exact test', and the 'G-test'.]. We're just going to look at one option in this book: $\chi^2$ tests. This is pronounced, and sometimes written, 'chi-square'. The 'ch' is a hard 'ch', as in 'character'. This isn't necessarily the best approach for every problem, but $\chi^2$ tests are widely used in biology so they are a good place to start.
+There are quite a few options for dealing with categorical data^[e.g. the 'log-linear model', 'Fisher's exact test', and the 'G-test'.]. We're just going to look at one option in this book: $\chi^2$ tests. This is pronounced, and sometimes written, 'chi-square'. The 'ch' is a hard 'ch', as in 'character'. This isn't necessarily the best approach for every problem, but $\chi^2$ tests are widely used in biology so they are a good place to start.
 
 ```{block, type='do-something'}
 It is not critical that you understand everything in this section. This material is here to help those who like to have a sense of how statistical tests work. You won't be assessed on it.
@@ -18,7 +18,7 @@ The $\chi^2$ tests that we're going to study borrow their name from a particular
 
 1. The $\chi^2$ distribution pops up a lot in statistics. However, in contrast to the normal distribution, it isn't often used to model the distribution of a variable we've sampled (i.e. 'the data'). Instead, the $\chi^2$ distribution is often associated with a test statistic of some kind.
 
-2. The standard $\chi^2$ distribution is completely described by only one parameter, called the degrees of freedom. This is closely related to the degrees of freedom idea introduced in the last few chapters on *t*-tests.
+2. The standard $\chi^2$ distribution is completely described by only one parameter, called the degrees of freedom. This is closely related to the degrees of freedom idea introduced in the chapters on *t*-tests.
 
 3. The $\chi^2$ distribution is appropriate for positive-valued numeric variables. Negative values can't be accommodated. This is because the distribution arises whenever we take one or more normally distributed variables, square these, and then add them up.
 
@@ -89,7 +89,7 @@ Notice that we are not interested in judging whether the proportion of males, or
 
 ### The assumptions and requirements of $\chi^{2}$ tests
 
-It's important to realise that in terms of their assumptions, analysis of a contingency tables and goodness-of-fit tests aren't fundamentally different from one another. The difference between the two types lies in the type of hypothesis evaluated. When we carry out a goodness-of-fit test we have to supply the expected values, whereas the calculation of expected values is embedded in the formula used to carry out a contingency table test. That will make more sense once we've seen the two tests in action.
+It's important to realise that in terms of their assumptions, contingency tables and goodness-of-fit tests aren't fundamentally different from one another. The difference between the two types lies in the type of hypothesis evaluated. When we carry out a goodness-of-fit test we have to supply the expected values, whereas the calculation of expected values is embedded in the formula used to carry out a contingency table test. That will make more sense once we've seen the two tests in action.
 
 $\chi^{2}$ tests are often characterised as **non-parametric** tests because they do not assume any particular form for the distribution of the data. In fact, as with any statistical test, there are some assumptions in play, but these are relatively mild:
 

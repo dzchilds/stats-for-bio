@@ -17,7 +17,7 @@ Let's think about what these kinds of data look like. Here are the biology stude
 
 This is called a two-way contingency table. It is a *two-way* contingency table because it summarises the frequency distribution of two categorical variables at the same time^[This is called their 'joint distribution', in case you were wondering.]. If we had measured three variables we would have ended up with a *three-way* contingency table (e.g. 2 x 2 x 2). 
 
-A contingency table takes its name from the fact that it captures the 'contingencies' among the categorical variables: it summarises how the frequencies of one categorical variable are associated with the categories of another. The term association is use here to describe the non-independence of categories among categorical variables. Other terms used to refer to the same idea include 'linkage', 'non-independence', and 'interaction'.
+A contingency table takes its name from the fact that it captures the 'contingencies' among the categorical variables: it summarises how the frequencies of one categorical variable are associated with the categories of another. The term association is used here to describe the non-independence of categories among categorical variables. Other terms used to refer to the same idea include 'linkage', 'non-independence', and 'interaction'.
 
 Associations are evident when the proportions of objects in one set of categories (e.g. R1 and R2) depends on a second set of categories (e.g. C1 and C2). Here are two possibilities:
 

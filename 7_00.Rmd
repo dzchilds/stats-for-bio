@@ -1,2 +1,2 @@
-# (PART) Experimental Design and ANOVA (II) {-}
+# (PART) Beyond Simple Models {-}
 

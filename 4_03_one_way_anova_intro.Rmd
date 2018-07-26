@@ -2,7 +2,7 @@
 
 ## Introduction {#intro}
 
-The two-sample *t*-tests evaluate whether or not the mean of a numeric variable changes among two groups or experimental conditions. At the beginning of the [Relationships and regression] chapter we pointed out that the different groups/conditions can be encoded by a categorical variable. We pointed out that we could conceptualise these *t*-tests as evaluating a relationship between between the numeric and categorical variable. The obvious question is, what happens if we need to evaluate differences among means of more than two groups? The 'obvious' thing to do might seem to be to test each pair of means using a *t*-test. However this procedure is tedious and, most importantly, statistically flawed.
+The two-sample *t*-tests evaluate whether or not the mean of a numeric variable changes among two groups or experimental conditions, which can be encoded by a categorical variable. We pointed out that we could conceptualise these *t*-tests as evaluating a relationship between between the numeric and categorical variable. The obvious question is, what happens if we need to evaluate differences among means of more than two groups? The 'obvious' thing to do might seem to be to test each pair of means using a *t*-test. However this procedure is tedious and, most importantly, statistically flawed.
 
 In this chapter we will introduce an alternative method that allows us to assess the statistical significance of differences among several means at the same time. This method is called **Analysis of Variance** (abbreviated to ANOVA). ANOVA is one of those statistical terms that unfortunately has two slightly different meanings:
 
