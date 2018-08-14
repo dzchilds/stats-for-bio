@@ -34,7 +34,7 @@ sim.wl <- function(variables) {
 }
 ```
 
-Let's consider the diet example from the previous chapter. We wanted to compare the weight loss of people on 4 different diets to determine which diet is the most effective for losing weight, so we conducted an experiment in which groups of 8 volunteers follow one of the diets for a month. A fifth group of 8 volunteers served as the control group---they follow NHS eating guidelines. At the end of the experiment we measured how much weight each person had lost over the month. 
+Let's consider the diet example from the previous chapter. We wanted to compare the weight loss (this is our response variable) of people on 4 different diets (the predictor variable) to determine which diet is the most effective for losing weight, so we conducted an experiment in which groups of 8 volunteers follow one of the diets for a month. A fifth group of 8 volunteers served as the control group---they follow NHS eating guidelines. At the end of the experiment we measured how much weight each person had lost over the month. 
 
 Once the data have been collected we need to understand the results. The weight loss of 8 volunteers on each of the diets could be plotted (this is the raw data), along with the means of each diet group, the standard error of the mean, and the sample mean of all the data:
 
@@ -68,7 +68,7 @@ Perhaps all of this could be explained away as sampling variation---i.e. the die
 
 It might be tempting to use *t*-tests to compare each mean value with every other. However, this would it would involve 10 *t*-tests. Remember, if there is no effect of diet, each time we do a *t*-test there is a chance that we will get a false significant result. If we use the conventional *p* = 0.05 significance level, there is a 1 in 20 chance of getting such 'false positives'. Doing a large number of such tests increases the overall risk of finding a false positive. In fact doing ten *t*-tests on all possible comparisons of the 5 different diets gives about 40% chance of at least one test giving a false significant difference, even though each individual test is conducted with *p* = 0.05. 
 
-That doesn't sound like a very good way to do science. We need a reliable way  to determine whether there is a significance of differences between several means without increasing the chance of getting a spurious result. That's the job of Analysis of Variance (ANOVA). Just as a two sample *t*-test compares means between two groups, ANOVA compares means among two *or more* groups. The fundamental job of an ANOVA model is to compares means. So why is it called Analysis of *Variance*? Let's find out...
+That doesn't sound like a very good way to do science. We need a reliable way to determine whether there is a significance of differences between several means without increasing the chance of getting a spurious result. That's the job of Analysis of Variance (ANOVA). Just as a two sample *t*-test compares means between two groups, ANOVA compares means among two *or more* groups. The fundamental job of an ANOVA model is to compares means. So why is it called Analysis of *Variance*? Let's find out...
 
 ## How does ANOVA work?
 
@@ -79,7 +79,7 @@ plt.data <-
          PlanNum = PlanNum + seq(-n()/2, n()/2, length = n())/18) %>% ungroup
 ```
 
-The key to understanding ANOVA is to realise that it works by examining the magnitudes of different sources of variation in the data. We start with the total variation---the variation among all the units in the study---and then partition this into two sources: 
+The key to understanding ANOVA is to realise that it works by examining the magnitudes of different sources of variation in the data. We start with the total variation in the response variable---the variation among all the units in the study---and then partition this into two sources: 
 
 1.    Variation due to the effect of experimental treatments or control groups. This is called the 'between-group' variation. This describes that variability that can be attributed to the different groups in the data (e.g. the diet groups). This is the same as the 'explained variation' described in the [Relationships and regression] chapter. It quantifies the variation that is 'explained' by the different means.
 
@@ -110,7 +110,7 @@ What measure of variability should we use? We can't add up the deviations becaus
 (total.devs <- sim1$wloss.data$WeightLoss-mean(sim1$wloss.data$WeightLoss))
 SS.Tot <- sum(total.devs^2)
 ```
-The sum of squares of these numbers is `r round(SS.Tot, 2)`. This is called the total sum of squares, because this measure of variability completely ignores the information about treatment groups. It is a measure of the total variability in the data, calculated relative to the grand mean. 
+The sum of squares of these numbers is `r round(SS.Tot, 2)`. This is called the total sum of squares, because this measure of variability completely ignores the information about treatment groups. It is a measure of the total variability in the response variable, calculated relative to the grand mean. 
 
 #### Residual variation {-}
 
@@ -209,23 +209,9 @@ In order to work through these calculations we make one key assumption about the
 
 This procedure is a type of *F*-test---it is really no different from the significance testing methodology outlined for regression models. The important message is that ANOVA works by making just one comparison: the treatment variation and the error variation, rather than the ten *t*-tests that would have been required to compare all the pairs.
 
-### Assumptions of ANOVA
-
-We just discussed the main assumption that makes ANOVA work. This is the normality of residuals assumption. There are other assumptions that must be met for an ANOVA analysis to be valid:
-
-1. **Independence.** If the experimental units of the data are not independent, then the *p*-values generated by an *F*-test in an ANOVA will not be reliable. This one is important. Even mild non-independence can be a serious problem.
-
-2. **Measurement scale.** The variable that you are working with should be measured on an interval or ratio scale.
-
-3. **Equal variance.** The validity of *F*-tests associated with ANOVA depends on an assumption of equal variance in the treatment groups. If this assumption is not supported by the data, then it needs to be addressed. If you ignore it, the *p*-values that you generate cannot be trusted. There is a version of one-way ANOVA that can work with unequal variances, but we won't study it in this course.
-
-4. **Normality.** The validity of *F*-tests associated with ANOVA also depends on the assumption of normality. ANOVA is reasonably robust to small departures from normality, but larger departures can start to matter. Unlike the *t*-test, having a large number of samples doesn't make this assumption less important.
-
-Strictly speaking, assumptions 3 and 4 really apply to the (unobserved) population from which the experimental samples are derived, i.e., the equal variance and normality assumptions are with respect to the variable of interest *in the population*. However, we often just informally refer to 'the data' when discussing the assumptions of ANOVA.
-
 ## Different kinds of ANOVA model
 
-There are many different flavours of ANOVA model. The one we've just been learning about is called a one-way ANOVA. It's called one-way ANOVA because it involves only one factor: diet type (this includes the control). If we had considered two factors---e.g. diet type and exercise regime---we would have to use something called a two-way ANOVA. A degin with three factors is called a three-way ANOVA, and... you get the idea. 
+There are many different flavours of ANOVA model. The one we've just been learning about is called a one-way ANOVA. It's called one-way ANOVA because it involves only one factor: diet type (this includes the control). If we had considered two factors---e.g. diet type and exercise regime---we would have to use something called a two-way ANOVA. A design with three factors is called a three-way ANOVA, and... you get the idea. 
 
 There are many other ANOVA models, each of which is used to analyse a specific type of experimental design. We are only going to consider three different types of ANOVA in this book: one-way ANOVA, two-way ANOVA, and ANOVA for one-way, blocked design experiments.
 
