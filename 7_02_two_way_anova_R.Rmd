@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Our goal in this chapter is to learn how to work with two-way ANOVA models in R. As always, we'll do this by working through an example---using data from a plant competition experiment. The work flow is very similar to one-way ANOVA in R. We'll start with the problem and the data, and then work through model fitting, evaluating assumptions, significance testing, and finally, presenting the results. 
+Our goal in this chapter is to learn how to work with two-way ANOVA models in R, using an example from a plant competition experiment. The work flow is very similar to one-way ANOVA in R. We'll start with the problem and the data, and then work through model fitting, evaluating assumptions, significance testing, and finally, presenting the results. 
 
 ## Competition between *Calluna* and *Festuca*
 
@@ -40,7 +40,7 @@ festuca <- read.csv(file = "FESTUCA.CSV")
 ```{r, echo=FALSE}
 festuca
 ```
-Notice that the data for a two-factor experiment can be laid out in a very similar manner to those from a one factor experiment, with the actual data in one column, but now there are two additional columns containing the codes for the treatments, one for pH and one for *Calluna*. The first column (`Weight`) contains the *Festuca* dry weights, the second column (`pH`) contains the codes for the pH treatment (levels: pH3.5, pH5.5), the third column (`Calluna`) contains the codes for the presence or absence of *Calluna* (levels: Present, Absent). 
+Notice that the data for a two-factor experiment can be laid out in a very similar manner to those from a one factor experiment, with the response variable in one column, but now there are two additional columns containing the codes for the treatments, one for pH and one for *Calluna*. The first column (`Weight`) contains the *Festuca* dry weights, the second column (`pH`) contains the codes for the pH treatment (levels: pH3.5, pH5.5), the third column (`Calluna`) contains the codes for the presence or absence of *Calluna* (levels: Present, Absent). 
 
 A couple of points are worth noting at this point:
 
@@ -59,9 +59,9 @@ ggplot(data = festuca, aes(x = Calluna, y = Weight, colour = pH)) +
 
 The main purpose of a plot like this is to help us understand what the treatments are doing. We want to quickly assess things like: How big are the main effects? What direction do they work in? Is there likely to be an interaction? It looks like the higher pH conditions tends to increase *Festuca* growth, and the presence of *Calluna* tends to reduce it (yes, plants compete!). The more interesting observation is that the effect of *Calluna* seems to be greater at higher pH. It looks like we might have an interaction.
 
-At this point it may be tempting to start evaluating the assumptions of our model. If we have a large number of replicates then it sometimes makes sense to do this with a box and whiskers plot, or separate dot plots for each treatment combination. We don't have that many replicates though, and even if we did, it is much better to rely on regression diagnostics. We need to fit the model first to get at these.
+The next thing we should do is check whether any of the assumptions have been violated. We can do this using the regression diagnostics that we learnt about in the [Diagnostics] chapter.  To do this we need to fit the model first.
 
-## Fitting the ANOVA model and interpreting the results
+## Fitting the ANOVA model
 
 Carrying out a two-way ANOVA in R is really no different from one-way ANOVA. It still involves two steps. First we have to fit the model using the `lm` function, remembering to store the fitted model object. This is the step where R calculates the relevant means, along with the additional information needed to generate the results in step two. The second step uses the `anova` function to calculate *F*-statistics, degrees of freedom, and *p*-values. 
 
@@ -71,7 +71,7 @@ festuca_model <- lm(Weight ~ pH + Calluna + pH : Calluna, data = festuca)
 ```
 This is very similar to the R code used to fit a one-way ANOVA model. The first argument is a formula (notice the 'tilde' symbol: `~`) and the second argument is the name of the data frame that contains all the variables listed in the formula. That's all we need. 
 
-The specific model fitted by `lm` is a result of 1) the type of variables referenced in the formula, and 2) the symbols used to define the terms in the formula. To ensure that we have fitted an ANOVA model, the variables which appear to the right of the `~` must be factors or character vectors---an ANOVA only involves factors. The variable name to the left of the `~` is the numeric variable we are analysing. We know that `Calluna` and `pH` are factors, so we can be certain that `lm` has fitted some kind of ANOVA model.
+The specific model fitted by `lm` is a result of 1) the type of variables referenced in the formula, and 2) the symbols used to define the terms in the formula. To ensure that we have fitted an ANOVA model, the variables which appear to the right of the `~` must be factors or character vectors---an ANOVA only involves factors. The variable name to the left of the `~` is the numeric response variable we are analysing. We know that `Calluna` and `pH` are factors, so we can be certain that `lm` has fitted some kind of ANOVA model.
 
 What kind of ANOVA have we fitted, i.e., what are the terms on the right hand side of the formula doing? Here is the formula we used:
 ```{r, eval = FALSE}
@@ -79,7 +79,7 @@ Weight ~ pH + Calluna + pH:Calluna
 ```
 There are three terms, each separated by a `+` symbol: `pH`, `Calluna` and `pH:Calluna`. This tells R that we want to fit a model that accounts for the main effects of `pH` and `Calluna`, and that we also wish to include the interaction between these two factors. The specification of the main effects is fairly self-explanatory---we just include the name of each factor variable in the formula. The interaction term is less obvious. It is specified by a colon (the `:` symbol) with the two interacting variables either side of it. 
 
-In summary... 1) the `~` symbol specifies a formula in R, where the name on the left hand side is the variable we are analysing, and the names on the right denote the terms in the model; 2) we place a `+` between terms to delineate them (we are not adding anything up when the `+` is used in a formula); 3) each main effect is specified by the corresponding factor name; and 4) an interaction between factors is specified by the `:` symbol.
+In summary... 1) the `~` symbol specifies a formula in R, where the name on the left hand side is the response variable we are analysing, and the names on the right denote the terms in the model; 2) we place a `+` between terms to delineate them (we are not adding anything up when the `+` is used in a formula); 3) each main effect is specified by the corresponding factor name; and 4) an interaction between factors is specified by the `:` symbol.
 
 Notice that we assigned the result a name (`festuca_model`) which now refers to the model object produced by `lm`. Just as with a one-way ANOVA, we can't extract *p*-values by printing this object to the console, because all this gives us is a limited summary of the fitted model's coefficients:
 ```{r}
@@ -103,7 +103,7 @@ plot(festuca_model, which = 3, add.smooth = FALSE)
 
 We're on the lookout for a systematic pattern in the size of the residuals and the fitted values---does the variability go up or down with the fitted values? There is no such pattern so it looks like the constant variance assumption is at least satisfied here.
 
-We've identified one potential problem. We'll ignore it for now and press on. The goal here is to learn the work flow for two-way ANOVA in R. However, keep in mind that if we were serious about the analysis we should find a way to 'fix' it. We're going to learn some useful tricks for doing this in later chapters.
+We've identified one potential problem. We'll ignore it for now and press on. The goal here is to learn the work flow for two-way ANOVA in R. However, keep in mind that if we were serious about the analysis we should find a way to 'fix' it, for example using the methods we discussed in the [Data transformations] chapter.
 
 ## Interpreting the results
 
@@ -119,7 +119,7 @@ What does all this mean? We interpret each line of the ANOVA table in exactly th
 ```{r, echo=FALSE}
 invisible(sapply(festuca.out[1:3], function(line) cat(line, "\n")))
 ```
-This reminds us that we are looking at an ANOVA table where we analysed a variable called `Weight`. The table contains the key information:
+This reminds us that we are looking at an ANOVA table where our response variable was called `Weight`. The table contains the key information:
 ```{r, echo=FALSE}
 invisible(sapply(festuca.out[4:8], function(line) cat(line, "\n")))
 ```
@@ -279,19 +279,19 @@ ggplot(festuca_stats,
 
 Look at the new positions of the points and error bars at each level of `Calluna`---they have shifted very slightly to the left and right. We don't need to do this in the Calluna example of course, because there is no overlap to deal with. If the points/SEs had overlapped, this would now be avoided because the data would be plotted side-by-side. 
 
-We could also use a bar chart with error bars to summarise the data. You only have to change one thing about the last chunk of `ggplot2` code to make this. You can probably guess how to do this---instead of using a `geom_point`, we use `geom_bar`...
+We could also use a bar chart with error bars to summarise the data. You only have to change one thing about the last chunk of `ggplot2` code to make this. You can probably guess how to do this---instead of using a `geom_point`, we use `geom_col`...
 ```{r festuca-summary-bar, fig.align='center', fig.asp=1, fig.width=3.4}
 ggplot(festuca_stats, 
        aes(x = Calluna, y = Means, fill = pH,
            ymin = Means - SEs, ymax = Means + SEs)) +
   # this adds the mean
-  geom_bar(stat = "identity", position = position_dodge()) +
+  geom_col(position = position_dodge()) +
   # this adds the error bars
   geom_errorbar(position = position_dodge(0.9), width=.2) +
   # controlling the appearance
   xlab("Calluna") + ylab("Festuca yield (g dry weight)")
 ```
-Remember (one more time) that we have to set the `stat` argument of `geom_bar` to `"identity"` to ensure it plots the y variable 'as is'. The only other other trick we need to apply is to set the `position` arguments of `geom_errorbar` and `geom_bar` using `position_dodge`. If we don't do this, `ggplot2` will produce a stacked bar chart and the error bars will end up in the wrong place (the value of 0.9 used in `position_dodge(0.9)` ensures the error bars appear in the centre of each bar). 
+The only other other trick we need to apply is to set the `position` arguments of `geom_errorbar` and `geom_bar` using `position_dodge`. If we don't do this, `ggplot2` will produce a stacked bar chart and the error bars will end up in the wrong place (the value of 0.9 used in `position_dodge(0.9)` ensures the error bars appear in the centre of each bar). 
 
 ## Balanced or orthogonal designs
 
