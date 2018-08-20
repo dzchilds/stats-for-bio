@@ -34,7 +34,7 @@ sim.wl <- function(variables) {
 }
 ```
 
-Let's consider the diet example from the previous chapter. We wanted to compare the weight loss (this is our response variable) of people on 4 different diets (the predictor variable) to determine which diet is the most effective for losing weight, so we conducted an experiment in which groups of 8 volunteers follow one of the diets for a month. A fifth group of 8 volunteers served as the control group---they follow NHS eating guidelines. At the end of the experiment we measured how much weight each person had lost over the month. 
+We wanted to compare the weight loss (this is our response variable) of people on 4 different diets (the predictor variable) to determine which diet is the most effective for losing weight, so we conducted an experiment in which groups of 8 volunteers follow one of the diets for a month. A fifth group of 8 volunteers served as the control group---they follow NHS eating guidelines. At the end of the experiment we measured how much weight each person had lost over the month. 
 
 Once the data have been collected we need to understand the results. The weight loss of 8 volunteers on each of the diets could be plotted (this is the raw data), along with the means of each diet group, the standard error of the mean, and the sample mean of all the data:
 
