@@ -1,16 +1,8 @@
-# Diagnostics
+# Introduction to regression diagnostics
 
 In the previous chapter we learnt about the assumptions made when using a linear regression and one-way ANOVA. Here, we will learn how to check whether each assumption applies to your data. Some of the assumptions can't be checked by looking at the data - they are features of the experimental design. This is why it's very important to consider how you are going to analyse your data before you start collecting it. You don't want to spend lots of time and effort collecting data that you won't be able to analyse. A special set of tools called 'regression diagnostics' allow us to evaluate the other assumptions. Regression diagnostics use properties of the fitted model to understand how well the model fits the data and evaluate the model assumptions.
 
-In this chapter we will use examples to step through how to check the assumptions of the two types of linear model we have focused on so far: regression and one-way ANOVA.
-
 ## Diagnostics for simple linear regression {#regres-diagnose}
-
-```{block, type='do-something'}
-**Walk through example**
-
-You should work through the example in the next few sections.
-```
 
 ```{r, echo = FALSE, eval = FALSE}
 set.seed(27081980)
@@ -35,12 +27,12 @@ write.csv(partridge, row.names = FALSE,
           file = "./course-data/PARTRIDG_BIGSTUDY.CSV")
 ```
 
-A survey was carried out to establish whether the abundance of hedgerows in agricultural land had an effect on the abundance of grey partridge. From an area of agricultural land covering several farms, 40 plots were selected which had land uses as similar as possible, but differed in the density of hedgerows (km hedgerow per km^2^). Plots were selected to cover a wide range of hedgerow densities. The density of partridges was established by visiting all fields in a study plot once immediately after dawn and once just before dusk, when partridges are most likely to be seen. Counts of birds observed were made on each visit and the dawn and dusk data were averaged to give a value for partridge abundance for each study plot.
+A survey was carried out to establish whether the abundance of hedgerows in agricultural land had an effect on the abundance of grey partridge. From an area of agricultural land covering several farms, 40 plots were selected which had land uses as similar as possible, but differed in the density of hedgerows (km hedgerow per km^2^). The density of partridges was established by visiting all fields in a study plot once immediately after dawn and once just before dusk, when partridges are most likely to be seen. Counts of birds observed were made on each visit and the dawn and dusk data were averaged to give a value for partridge abundance for each study plot.
 
 Assumptions 1 (independence), 2 (measurement scale) and 6 (measurement error) are features of the experimental design and the data collection protocol. Assumption 2 (measurement scale) is easy to evaluate. Assumptions 1 (independence) and 6 (measurement error) can't be checked by just looking at the data; we have to think about the data to decide if there are any obvious reasons why they might not be valid. We'll assume here that the independence assumption is true. 
 
 ```{block, type='do-something'}
-Why do you think we averaged the dawn and dusk partridge counts? If you're not sure ask a TA to explain it to you. We'll come back to this idea in the [Principles of experimental design] chapter.
+Why do you think we averaged the dawn and dusk partridge counts rather than including both counts in the model? Which assumption would this have invalidated? If you're not sure ask a TA. We'll come back to this more in the [Principles of experimental design] chapter.
 ```
 
 As hedges cannot move there should be relatively little measurement error in the values of the predictor variable in this study. This leaves assumptions 3 (linearity), 4 (constant variance) and 5 (normality). There is a specific diagnostic plot for each of these.
@@ -49,11 +41,7 @@ As hedges cannot move there should be relatively little measurement error in the
 partridge <- read.csv(file = "./data_csv/PARTRIDG_BIGSTUDY.CSV")
 ```
 
-The data are stored in a CSV file PARTRIDG_BIGSTUDY.CSV (not PARTRIDG.CSV!). The density of hedgerows (km per km^2^) is in the `Hedgerow` variable and the density of partridges (no. per km^2^) is in the `Partridge` variable. Read the data into R, calling it `partridge`.
-
-### Simple checks 
-
-Remember in the [Simple regression in R] chapter we started by plotting our data, as this gave us a rough check of whether or not there was a linear relationship between the two variables. We'll do that again here. We can add a fitted line to our scatter plot to help us evaluate this assumption.
+The data are stored in a CSV file PARTRIDG_BIGSTUDY.CSV (not PARTRIDG.CSV!). The density of hedgerows (km per km^2^) is in the `Hedgerow` variable and the density of partridges (no. per km^2^) is in the `Partridge` variable. Read the data into R, calling it `partridge`. As always we'll start by plotting our data.
 
 ```{r, fig.align='center', fig.asp=1, fig.width=4, echo = FALSE}
 partridge_model <- lm(Partridge ~ Hedgerow, data = partridge)
@@ -69,7 +57,7 @@ ggplot(pred.data, aes(x = Hedgerow, y = Partridge)) +
 ```
 
 ```{block, type='do-something'}
-Spend some time looking at the scatter plot. Do you think these data satisfy the linearity assumption? Consider the constant variance and normality assumptions as well - can this plot help us to evaluate those assumptions too?
+Spend some time looking at the scatter plot. Do you think these data satisfy the linearity assumption? 
 ```
 
 ### Fitted values
@@ -98,7 +86,7 @@ fitted(partridge_model) %>% round(1)
 Notice that some of the fitted values are below zero. Why do we see negative fitted values? This doesn't make much sense biologically (negative partridges?). Do you think it is a problem?
 ```
 
-### Checking the linearity assumption
+## Checking the linearity assumption
 
 The linearity assumption states that the general relationship between the response and predictor variable should look like a straight line. We can evaluate this assumption by constructing a **residuals vs. fitted values** plot. 
 
@@ -114,7 +102,7 @@ ggplot(plt_data, aes(x = Fitted, y = Resids)) +
   geom_point() + 
   xlab("Fitted values") + ylab("Residuals")
 ```
-What does this plot tell us? It indicates that the residuals tend to be positive at the largest and smallest fitted values, and that they are generally negative in the middle of the range. This U-shaped pattern is indicative of a problem with our model. It tells us that there is some kind of pattern in the association between the two variables that is not being accommodated by the linear regression model we fitted to the data. The U-shape indicates that the relationship is non-linear, and that it 'curves upward'. We can see where this pattern comes from when we look at the raw data and fitted model again:
+This plot indicates that the residuals tend to be positive at the largest and smallest fitted values, and that they are generally negative in the middle of the range. This U-shaped pattern is indicative of a problem with our model. It tells us that there is some kind of pattern in the association between the two variables that is not being accommodated by the linear regression model we fitted. The U-shape indicates that the relationship is non-linear, and that it 'curves upward'. We can see where this pattern comes from when we look at the raw data and fitted model again:
 
 ```{r, , fig.align='center', fig.asp=1, fig.width=4, echo = FALSE}
 ggplot(partridge, aes(x = Hedgerow, y = Partridge)) + 
@@ -123,7 +111,7 @@ ggplot(partridge, aes(x = Hedgerow, y = Partridge)) +
   xlab("Hedgerow density (km per km²)") + ylab("Partridge Count")
 ```
 
-There is obviously some curvature in the relationship between partridge counts and hedgerow density, yet we fitted a straight line through the data. The U-shape in the residuals vs. fitted value plot comes from the fact that the relationship between the response and predictor variables is 'accelerating' (also called 'convex').
+There is obviously some curvature in the relationship between partridge counts and hedgerow density, yet we fitted a straight line through the data. The U-shape in the residuals vs. fitted value plot comes from an 'accelerating' (or 'convex') relationship between the response and predictor variables.
 
 ```{r, echo = FALSE}
 set.seed(27081976)
@@ -145,14 +133,14 @@ lin.mod <- lm(y ~ x * Label, data = eg.data)
 eg.data <- mutate(eg.data, Fitted = fitted(lin.mod))
 ```
 
-What other kinds of patterns might we see in a residuals vs. fitted value plot? Two are particularly common: U-shapes (the one we just saw) and hump-shapes. Look at the two artificial data sets below... 
+What other kinds of patterns might we see in a residuals vs. fitted value plot? Two are particularly common: U-shapes and hump-shapes. Look at the two artificial data sets below... 
 
 ```{r, fig.align='center', fig.asp=.5, fig.width=7, echo = FALSE}
 ggplot(eg.data, aes(x = x, y = y, group = Label)) + 
   geom_point() + facet_wrap(~ Label)
 ```
 
-The data labelled 'Accelerating' is similar to the partridge data: it exhibits a curved, accelerating relationship between the response variable and the predictor variable. The data labelled 'Decelerating' shows a different kind of relationship: there is a curved, decelerating relationship between the two variables. We can fit a linear model to each of these data sets, and then visualise the corresponding residuals vs. fitted value plots:
+The left hand plot is similar to the partridge data: it exhibits a curved, accelerating relationship between the response variable and the predictor variable. The right plot shows a different kind of relationship: there is a curved, decelerating relationship between the two variables. We can fit a linear model to each of these data sets, and then visualise the corresponding residuals vs. fitted value plots:
 
 ```{r, fig.align='center', fig.asp=.5, fig.width=7, echo = FALSE}
 ggplot(eg.data, aes(x = x, y = y-Fitted, group = Label)) + 
@@ -160,13 +148,13 @@ ggplot(eg.data, aes(x = x, y = y-Fitted, group = Label)) +
   xlab("Fitted values") + ylab("Residuals")
 ```
 
-Here we see the characteristic U-shape and hump-shape patterns we mentioned above. The U-shape occurs when there is an accelerating relationship between the response variable and the predictor variable. The hump-shape occurs when there is an decelerating relationship between the response variable and the predictor variable.
+Here we see the characteristic U-shape and hump-shape patterns we mentioned above, these occur when there is an accelerating or decelerating relationship respectively between the response variable and predictor variable. 
 
-By this point something may be bothering you. This seems like a lot of extra work to evaluate an aspect of the model that we can assess by just plotting the raw data. This is true when we are working with a simple linear regression model. However, it can much harder to evaluate the linearity assumption when working with more complicated models where there is more than one predictor variable^[This is the situation we face with multiple regression. A multiple regression is a type of regression with more than one predictor variable---we don't study them in this course, but they are often used in biology.]. In these situations, a residuals vs. fitted values plot gives us a powerful way to evaluate whether or not the assumption of a linear relationship is reasonable. 
+This may seem like a lot of extra work to evaluate an aspect of the model that we can assess by just plotting the raw data. This is true when we are working with a simple linear regression model. However, it can much harder to evaluate the linearity assumption when working with more complicated models where there is more than one predictor variable^[This is the situation we face with multiple regression. A multiple regression is a type of regression with more than one predictor variable---we don't study them in this course, but they are often used in biology.]. In these situations, a residuals vs. fitted values plot gives us a powerful way to evaluate whether or not the assumption of a linear relationship is reasonable. 
 
 That's enough about the residuals vs. fitted values plot. Let's move on to the normality evaluation...
 
-### Checking the normality assumption
+## Checking the normality assumption
 
 How should we evaluate the normality assumption of linear regression? That is, how do we assess whether or not the residuals are drawn from a normal distribution? We could extract the residuals from a model and plot their distribution, but there is a more powerful graphical technique to available to us: the **normal probability plot**.
 
@@ -241,7 +229,7 @@ You should always use normal probability plots to assess normality assumptions i
 
 That's enough discussion of normal probability plots. Let's move on to the constant variance evaluation...
 
-### Checking the constant variance assumption
+## Checking the constant variance assumption
 
 How do we evaluate the constant variance assumption of a linear regression? That is, how do we assess whether or not the variability of the residuals is constant or not? This assumption can be evaluated in a similar way to the linearity assumption, by producing something called a 'scale-location plot'. We construct this by plotting residuals against the fitted values, but instead of plotting raw residuals, we transform them first using the following 'recipe':
 
@@ -275,7 +263,7 @@ ggplot(plt_data, aes(x = Fitted, y = Resids)) +
   geom_point() + 
   xlab("Fitted values") + ylab("Square root of absolute residuals")
 ```
-This is a scale-location plot. Why is this useful? We are looking to see if there is any kind of relationship between the transformed residuals and the fitted values, i.e., we want to assess whether or not the size of these new residuals increase or decrease as the fitted values get larger. If they do not---the relationship is essentially flat---then we can conclude that the variability in the residuals is constant. Otherwise, we have to conclude that the constant variance assumption is violated. 
+This is a scale-location plot. Why is this useful? We want to assess whether or not the size of these new residuals increase or decrease as the fitted values get larger. If they do not---the relationship is essentially flat---then we can conclude that the variability in the residuals is constant. Otherwise, we have to conclude that the constant variance assumption is violated. 
 
 Although the pattern is not exactly clear cut, in this example there seems to be a bit of an upward trend with respect to the fitted values. This suggests that the variability (more formally, the 'variance') of the residuals increases with the fitted values. Larger partridge counts seem to be associated with more variability. This is a very common feature of count data. 
 
@@ -286,79 +274,3 @@ It is worth reflecting on the ambiguity in this pattern. It is suggestive, but i
 ```
 
 Non-constant variance can be a problem because it affects the validity of *p*-values associated with a model. You should aim to use scale-location plots to assess the constant variance assumption in your own analyses, but keep in mind that a scale-location plot may also reflect non-linearity.
-
-## Regression diagnostics the easy way
-
-It turns out that we didn't have to do all that work to construct the diagnostic plots. R has a built in facility to plot these. It works via a function called `plot`. For example, to produce a residuals vs fitted values plot, we use:
-
-```{r, fig.align='center', fig.asp=1, fig.width=4}
-plot(partridge_model, add.smooth = FALSE, which = 1)
-```
-
-The first argument is the name of fitted model object. The second argument controls the output of the `plot` function: `which = 1` argument tells it to produce a residuals vs. fitted values plot. The `add.smooth = FALSE` is telling the function not to add a line called a 'loess smooth'. This line is supposed to help us pick out patterns, but it tends to over fit the relationship and leads people to see problems that aren't there. If we can't see a clear pattern without the line, it probably isn't there, so it's better not to include it at all.
-
-The other two plots are produced in the same way. We use the `plot` function to plot a normal probability diagnostic by setting `which = 2`:
-
-```{r, fig.align='center', fig.asp=1, fig.width=4}
-plot(partridge_model, which = 2)
-```
-
-This produces essentially the same kind of plot we made above, with one small difference. Rather than drawing a 1:1 line, the 'plot' function shows us a line of best fit. This just allows us to pick out the curvature a little more easily. Finally, we can produce a scale-location diagnostic plot using the `plot` function with `which = 3`, suppressing the line to avoid finding spurious patterns:
-
-```{r, fig.align='center', fig.asp=1, fig.width=4}
-plot(partridge_model, add.smooth = FALSE, which = 3)
-```
-
-```{block, type='advanced-box'}
-**Don't panic if your diagnostics aren't perfect!**
-
-The good news about regression is that it is quite a robust technique. It will often give us reasonable answers even when the assumptions are not perfectly fulfilled. We should be aware of the assumptions but should not become too obsessed by them. If the violations are modest, it is often fine to proceed. We just need to interpret results with care. Of course, we have to know what constitutes a 'modest' violation. There are no hard and fast rules. The ability to make that judgement is something that comes with experience.
-```
-
-## Diagnostics for one-way ANOVA
-
-The term 'regression diagnostic' is a bit of a misnomer. A more accurate term might be 'linear model diagnostic' but no one really uses this. Regression diagnostics can be used with many different kinds of models. In fact, the diagnostic plots we have introduced above can be applied to any model fitted by the `lm` function, including ANOVA models. Let's step through the diagnostics for a one way ANOVA now, using the diets example we used before.
-
-Read the data into R again and fit the model as before. 
-
-```{r, eval=FALSE}
-diet_effects <- read.csv(file = "DIET_EFFECTS.CSV")
-
-```
-
-```{r}
-diets_model <- lm(WeightLoss ~ Plan, data = diet_effects)
-```
-
-The first diagnostic plot we produced for the regression model above is the residuals vs. fitted values plot. In a regression this is used to evaluate the linearity assumption. What does it do in a one-way ANOVA? Not much of use to be honest. There isn't much point making a residuals vs. fitted values plot for a one-way ANOVA. Why? Because the residuals will never show a trend with respect to the 'fitted values', which are just the group-specific means. That's one thing less to worry about.
-
-The normal probability plot is used to identify departures from normality. This plot allows us to check whether the deviations from the group means (the residuals) are likely to have been drawn from a normal distribution. Here's the normal probability plot for the diet example: 
-
-```{r diet-diag-2, fig.align='center', fig.asp=1.1, fig.width=4}
-plot(diets_model, which = 2, add.smooth = FALSE)
-```
-This looks very good. The points don't deviate from the line in a systematic way (except for a couple at the lower end---this is nothing to worry about) so it looks like the normality assumption is satisfied.
-
-The scale-location plot allows us to evaluate the constant variance assumption of ANOVA. This allows us to see whether or not the variability of the residuals is roughly constant within each group. Here's the scale-location plot for the diet example: 
-
-```{r diet-diag-3, fig.align='center', fig.asp=1.1, fig.width=4}
-plot(diets_model, which = 3, add.smooth = FALSE)
-```
-
-The warning sign we're looking for here is a systematic pattern. We want to see if the magnitude of the residuals tends to increase or decrease with the fitted values. If such a pattern is apparent then it suggests that variance changes with the mean. There is no such pattern in the above plot so it looks like the constant variance assumption is satisfied.
-
-A word of warning, it may be tempting to evaluate the assumptions of an ANOVA by plotting the distribution of residuals in each group. Don't do this---use the regression diagnostics instead. They are a much more powerful diagnostic tool than dot plots or histograms of residuals.
-
-### Aside: formal test of equality of variance
-
-```{block, , type='do-something'}
-It is not critical that you learn the material in this short section. It is provided so that you know how to test for equality of variance. You won't be asked to do this in an assessment.
-```
-
-Looking back over the scale-location plot, it seems like three of the treatment groups exhibit similar variability, while the remaining two are more variable. They aren't wildly different, so it is reasonable to assume the differences are due to sampling variation. People are sometimes uncomfortable using this sort of visual assessment. They want to see a *p*-value... A number of statistical tests have been designed to evaluate the equality of variance assumption. The most widely used is the Bartlett test (the `bartlett.test` function in R). Here is how to use it:
-```{r}
-bartlett.test(WeightLoss ~ Plan, data = diet_effects)
-```
-This looks just like the *t*-test specification. We use a 'formula' (`WeightLoss ~ Plan`) to specify the response variable (`WeightLoss`) and the grouping variable (`Plan`), and use the `data` argument to tell the `bartlett.test` function where to look for these variables. The null hypothesis of a Bartlett test is that the *variances are equal*, so a non-significant *p*-value (>0.05) indicates that the data are consistent with the equal variance assumption. That's what we find here.
-
-Generally speaking, we don't recommend that you carry out a statistical test to evaluate the equality of variance assumption. We have shown it because some people seem to think they are needed. Here is why we think they are wrong: formal tests of equality of variance are not very powerful (in the statistical sense). This means that in order to detect a difference, we either need a lot of data, or the differences need to be so large that they would be easy to spot using a graphical approach.
