@@ -32,7 +32,7 @@ The red line shows the sample mean, and the blue line shows the expected value (
 
 There are some minor differences in the details, but this chain of reasoning is no different from that developed in the bootstrapping example considered in the [Statistical significance and *p*-values] chapter. The new idea is that now we will make an extra assumption. The key assumption of one-sample *t*-test that *the variable is normally distributed in the population*. The distribution above look roughly bell-shaped, so it seems plausible that it was drawn from a normal distribution.
 
-Now, because we're now prepared to make the normality assumption, the whole process of carrying out the statistical test is very simple. The consequence of the normality assumption is that the null distribution will have a known mathematical form---it's related to the *t*-distribution. We can use this knowledge to construct the test of statistical significance. But instead of using the whole sample, as we did with bootstrapping, we only need three pieces of information to construct the test: the sample size, the sample variance, and the sample means. No resampling of data is involved.
+Now, because we're prepared to make the normality assumption, the whole process of carrying out the statistical test is very simple. The consequence of the normality assumption is that the null distribution will have a known mathematical form---it's related to the *t*-distribution. We can use this knowledge to construct the test of statistical significance. But instead of using the whole sample, as we did with bootstrapping, we only need three pieces of information to construct the test: the sample size, the sample variance, and the sample means. No resampling of data is involved.
 
 So how does a one-sample *t*-test it actually work? It is carried out as follows:
 
@@ -90,11 +90,11 @@ morph.data <- read.csv(file = "MORPH_DATA.CSV")
 morph.data <- filter(morph.data, Colour == "Purple")
 ```
 
-Next, we need to do explore the data...
+Next, we need to explore the data...
 
 ### Visualising the data and checking the assumptions
 
-We should calculate a few summary statistics and then visualise the sample distribution purple morph dry weights. We already did this in the [Comparing populations] chapter. Here is the **dplyr** code to produce the descriptive statistics again:
+We should calculate a few summary statistics and then visualise the sample distribution of purple morph dry weights. We already did this in the [Comparing populations] chapter. Here is the **dplyr** code to produce the descriptive statistics again:
 ```{r}
 morph.data %>% 
   summarise(mean = mean(Weight), 
@@ -132,7 +132,7 @@ The first line tells us what kind of *t*-test we used. This says: `One Sample t-
 
 The third line of text is the most important. This says: `t = 3.1811, df = 76, p-value = 0.002125`. The first part of this, `t = 3.1811`, is the test statistic, i.e. the value of the *t*-statistic. The second part, `df = 76`, summarise the 'degrees of freedom'. This is essentially a measure of how much power our statistical test has (see the box below). The third part, `p-value = 0.002125`, is the all-important *p*-value. 
 
-The *p*-value indicates that there is a statistically significant between the mean dry weight biomass and the expected value value of 710 g (*p* is less than 0.05). Because the *p*-value is less than 0.01 but greater than 0.001, we report this as '*p* < 0.01'. Read through the [Hypotheses and *p*-values][presenting-p-values] section again if logic is confusing.
+The *p*-value indicates that there is a statistically significant difference between the mean dry weight biomass and the expected value of 710 g (*p* is less than 0.05). Because the *p*-value is less than 0.01 but greater than 0.001, we report this as '*p* < 0.01'. Read through the [Presenting *p*-values] section again if this logic is confusing.
 
 Don't ignore the fourth line of text (`alternative hypothesis: true mean is not equal to 710`). This reminds us what the alternative to the null hypothesis is (H~1~). It tells us what expected value was used in the test (710).
 

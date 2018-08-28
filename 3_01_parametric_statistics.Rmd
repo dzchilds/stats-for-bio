@@ -30,7 +30,7 @@ Each of these two descriptions represents a partially specified statistical mode
 
 Most people will come across the normal distribution at one point or another, though they may not realise it at the time. Here's a histogram of 100000 values drawn from a normal distribution (the details don't matter here):
 
-```{r norm-dist-eg, echo = TRUE, out.width='60%', fig.asp=1, fig.align='center', fig.cap='Distribution of a large sample of normally distributed variable'}
+```{r norm-dist-eg, echo = FALSE, out.width='60%', fig.asp=1, fig.align='center', fig.cap='Distribution of a large sample of normally distributed variable'}
 set.seed(27081975)
 data.frame(x = rnorm(100000, mean = 5, sd = 1)) %>%
   ggplot(aes(x = x)) + geom_histogram(bins = 25)

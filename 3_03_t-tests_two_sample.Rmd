@@ -4,7 +4,7 @@
 
 The two-sample *t*-test is a parametric version of the permutation procedure we studied in the [Comparing populations] chapter. The test is used to compare the means of a numeric variable sampled from two independent populations. The aim of a two-sample *t*-test is to evaluate whether or not this mean is different in the two populations. Here are two examples:
 
--   We're studying how the the dietary habits of Scandinavian eagle-owls vary among seasons. We suspect that the dietary value of a prey item is different in the winter and summer. To evaluate this prediction, we measure the size of Norway rat skulls in the pellets of eagle-owls in summer and winter, and then compare the mean size of rat skulls in each season using a two-sample *t*-test.
+-   We're studying how the dietary habits of Scandinavian eagle-owls vary among seasons. We suspect that the dietary value of a prey item is different in the winter and summer. To evaluate this prediction, we measure the size of Norway rat skulls in the pellets of eagle-owls in summer and winter, and then compare the mean size of rat skulls in each season using a two-sample *t*-test.
 
 -   We're interested in the costs of anti-predator behaviour in *Daphnia* spp. We conducted an experiment where we added predator kairomones---chemicals that signal the presence of a predator---to jars containing individual Daphnia. There is a second control group where no kairomone was added. The change in body size of individuals was measured after one week. We could use a two-sample *t*-test to compare the mean growth rate in the control and treatment groups.
 
@@ -88,7 +88,7 @@ nG <- table(morph.data$Colour)["Green"]
 You should work through the example in this section.
 ```
 
-We'll work with the plant morph example one last time to learn how to carry out a two-sample *t*-test in R. We'll use the test evaluate whether or not the mean dry weight of purple plants is different from that of green plants.
+We'll work with the plant morph example one last time to learn how to carry out a two-sample *t*-test in R. We'll use the test to evaluate whether or not the mean dry weight of purple plants is different from that of green plants.
 
 Read the data in MORPH_DATA.CSV into an R data frame, giving it the name `morph.data`:
 

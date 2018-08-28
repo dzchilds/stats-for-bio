@@ -3,11 +3,10 @@
 This chapter gives a quick overview of the prerequisite R skills needed to use this book (we studied these last year). We will use these skills this year, so you may need to spend revising them if you feel that you're a little rusty.
 
 ```{block, type='do-something'}
-**Biology students**
 
-The key R skills you need to have in place to use this book will be revised in the first practical session. The lecture slides will be placed on MOLE after the practical. You can also access a version without the answers to exercises [here](./presentations/revision_lecture_students.html).
+The key R skills you need to have in place to use this book will be revised in the first two practical sessions. The lecture slides will be placed on MOLE after the practical.
 
-**Environmental Science and transfer students**
+**Transfer students**
 
 The material in this chapter won't make any sense at the moment if you are an Environmental Sciences student joining us from Geography, or a student transferring into APS from a different department. Don't panic! You will have the opportunity to catch up in the first few weeks.
 ```
