@@ -2,8 +2,6 @@
 
 ## Introduction
 
-In the previous chapter we learnt about one technique for analysing associations between numeric variables (correlation). A correlation coefficient only quantifies the strength and direction of an association between two variables. It will be close to zero if there is no association between the variables; a strong association is implied if the coefficient is near -1 or +1. A correlation coefficient tells us nothing about the form of a relationship. Nor does it allow us to make predictions about the value of one variable from the value of a second variable. Regression, which is the focus of this chapter, does allow this because it involves fitting a line through the data. 
-
 Much of biology is concerned with relationships between numeric variables. For example...
 
 -   We sample fish and measure their length and weight because we want to understand how weight scales with respect to length.
@@ -12,12 +10,14 @@ Much of biology is concerned with relationships between numeric variables. For e
 
 -   We manipulate temperature and measure fitness in insects because we want to characterise their thermal tolerance.
 
+In the previous chapter we learnt about one technique for analysing associations between numeric variables (correlation). A correlation coefficient only quantifies the strength and direction of an association between two variables. It will be close to zero if there is no association between the variables; a strong association is implied if the coefficient is near -1 or +1. A correlation coefficient tells us nothing about the form of a relationship. Nor does it allow us to make predictions about the value of one variable from the value of a second variable. Regression, which is the focus of this chapter, does allow this because it involves fitting a line through the data. 
+
 ```{r, echo = FALSE}
 x <- data.frame(x = seq(-2, 2, length.out = 50))
 set.seed(27081975)
 ```
 
-In each of these settings the goal is to understand how one numeric variable depends on the values of another. Graphically, we evaluate such dependencies using a scatter plot. We may be interested in knowing:
+In the relationships mentioned above the goal is to understand how one numeric variable depends on the values of another. Graphically, we evaluate such dependencies using a scatter plot. We may be interested in knowing:
 
 1.    Are the variables related or not? There's not much point studying a relationship that isn't there:
 
@@ -156,7 +156,7 @@ ggplot(exp.data.C, aes(x = x, y = y)) +
   geom_point(data = exp.data, colour = "blue")
 ```
 
-In this plot the blue points are the data and the vertical lines represent the residuals. The residuals represent the variation that is ‘left over’ after the line has been fitted through the data. They give an indication of how well the line fits the data. If all the points lay close to the line the variability of the residuals would be low relative to the variation in the response variable, $y$. When the observations are more scattered around the line the the variability of the residuals would be large relative to the variation in the response variable, $y$.
+In this plot the blue points are the data and the vertical lines represent the residuals. The residuals represent the variation that is ‘left over’ after the line has been fitted through the data. They give an indication of how well the line fits the data. If all the points lay close to the line the variability of the residuals would be low relative to the variation in the response variable, $y$. When the observations are more scattered around the line the variability of the residuals would be large relative to the variation in the response variable, $y$.
 
 Regression works by finding the line which minimises the size of the residuals in some sense. We'll explain exactly how in a moment. The following illustration indicates the principle of this process:
 
@@ -331,7 +331,7 @@ A mean square is actually an estimate of variance. Remember the variance? It is 
 
 Now for the important bit. The two mean squares can be compared by calculating the ratio between them, which is designated by the letter *F*:
 
-$$F = \mbox{Variance Ratio} = \frac{\mbox{Explained Mean Square}}{\mbox{Residual Mean square}}$$
+$$F = \mbox{Variance Ratio} = \frac{\mbox{Explained Mean Square}}{\mbox{Residual Mean Square}}$$
 
 This is called the *F* ratio, or sometimes, the variance ratio. If the explained variation is large compared to the residual variation then the *F* ratio will be large. Conversely, if the explained variation is relatively small then *F* will be small. We can see where this is heading... 
 

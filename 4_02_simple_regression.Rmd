@@ -73,7 +73,7 @@ vicia_model <- lm(Glucose ~ Temperature, data = vicia_germ)
 
 This should look quite familiar. We have to assign two arguments:
 
-1. The first argument is a **formula**. We know this because it includes a 'tilde' symbol: `~`. The variable name on the left of the `~` should be the response variable. The variable name on the right should be the predictor variable. These are `Glucose` and `Temperature`, respectively. make sure you get these the right way round when carrying out regression: the response variable goes on the left; the predictor variable goes on the right.
+1. The first argument is a **formula**. We know this because it includes a 'tilde' symbol: `~`. The variable name on the left of the `~` should be the response variable. The variable name on the right should be the predictor variable. These are `Glucose` and `Temperature`, respectively. Make sure you get these the right way round when carrying out regression.
 
 2. The second argument is the name of the data frame that contains the two variables listed in the formula (`vicia_germ`).
 

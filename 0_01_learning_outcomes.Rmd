@@ -1,10 +1,13 @@
 # Expected learning outcomes
 
-## Statistical Concepts (I)
+## Collecting and using data
 
 -   Given a description of some data, classify variables as numeric vs categorical, ratio vs. interval, and ordinal vs. nominal.
 
 -   Construct simple summaries of numeric variables in R using the `mean`, `sd`, `var` functions.
+
+
+## Statistical Concepts
 
 -   Explain what sampling error is (in non-technical terms) and understand why it is necessary to quantify sampling error alongside point estimates.
 
@@ -17,8 +20,6 @@
     1. ...the difference between a statistical population and a sample from the population.
     2. ...the difference between a population parameter and a point estimate of the population parameter.
 
-## Statistical Concepts (II)
-
 -   Understand what is meant by the term 'null hypothesis' and, given a scenario, state the appropriate null hypothesis for the associated statistical test.
 
 -   Identify whether or not a result is 'statistically significance' by examining the *p*-value it produces. 
@@ -27,23 +28,114 @@
 
 _You are not expected to be able to explain or use the the bootstrap or permutation test---this were introduced to help you learn the principles listed above._
 
-## Simple parametric statistics (*t*-tests)
+
+## Simple parametric statistics 
 
 -   Understand that a one-sample *t*-test is used to assess whether a population mean is different from a particular reference value (often 0).
 
 -   Understand that a two-sample *t*-test is used to assess whether two population means are different from one another. 
 
+-   Given an experimental scenario and question, choose the correct *t*-test to use to answer the question.
+
+-   State the assumptions of the one-sample, and two-sample *t*-tests, and explain how you might check them for a given problem using R.
+
+-   Carry out a one-sample or two-sample *t*-test using the `t.test` function, and be able to interpret the output produced by `t.test`.
+
+-   Write an informative and concise summary of the results from a one-sample or two-sample *t*-test.
+
+-   State the assumptions of Pearson's correlation and determine which when it is appropriate to use.
+
+-   Carry out Pearson's correlation using the `cor.test` function and interpret the results.
+
+-   Write an informative and concise summary of the results from a correlation analysis.
+
+
+## Regression and ANOVA
+
+-   Understand what simple linear regression and one-way ANOVA do, and when to use them.
+
+-   Distinguish between situations in which correlation or regression is the most appropriate technique to use.
+
+-   Fit a simple linear regression using the `lm` function and interpret the output from...
+
+    1. ...`anova` to determine the significance of fit
+    2. ...`summary` to extract the variance explained ($R^{2}$) and the fitted coefficients (intercept and slope) 
+
+-   Calculate predicted $y$-values from a fitted regression.
+
+-   Fit a one-way ANOVA using the `lm` function and interpret the global test of significance produced by the `anova` function.
+
+-   Write an informative and concise summary of the results from a simple linear regression and one-way ANOVA analyses.
+
+_Your ability to summarise a one-way ANOVA or regression analysis graphically---showing the means and standard errors (ANOVA) or the data and fitted line (regression)---will not be assessed._
+
+
+## Doing more with models
+
+-   State the assumptions of the simple linear regression and one-way ANOVA models.
+
+-   Use regression diagnostic plots to identify potential problems with the assumptions of a model.
+
+-   Use the `plot` function with a fitted model object to...
+
+    1. ...construct a residuals vs. fitted values plot and evaluate the linearity assumption (regression only).
+    2. ...construct a normal probability plot and evaluate the normality assumption.
+    3. ...construct a scale-location plot and evaluate the constant variance assumption.
+
+(You are **not** expected to be able to produce these plots manually using functions like `resid` and `fitted`)
+
+-   When a problem with the assumptions of a model has been identified, choose an appropriate mathematical transformation to remedy the problem from...
+
+    1. ...logarithm (including the "add 1" case when zeros are present)
+    2. ...square root
+    3. ...arcsine square root
+    
+-   Identify situations where transforming a variable fails, so that a non-parametric test is required.
+
+-   Determine whether it is appropriate to carry out a multiple comparison test.
+
+-   Where appropriate, carry out a Tukey multiple comparison test using the `TukeyHSD` or `HSD.test` functions and interpret the results.
+
+
+## Experimental design
+
 -   Understand that a paired-sample *t*-test is used to assess whether the mean difference among paired cases is different from reference value (usually 0). 
 
 -   Given an experimental scenario and question, choose the correct *t*-test to use to answer the question.
 
--   State the assumptions of the one-sample, two-sample, and paired-sample *t*-tests, and explain how you might check them for a given problem using R.
+-   State the assumptions of the paired-sample *t*-tests, and explain how you might check them for a given problem using R.
 
--   Carry out a one-sample, two-sample or paired-sample *t*-test using the `t.test` function, and be able to interpret the output produced by `t.test`.
+-   Carry out a paired-sample *t*-test using the `t.test` function, and be able to interpret the output produced by `t.test`.
 
--   Write an informative and concise summary of the results from a one-sample, two-sample, or paired-sample *t*-test.
+-   Write an informative and concise summary of the results from a paired-sample *t*-test.
 
-## Categorical Data (chi-square tests)
+
+## Beyond simple models
+
+-   Understand what two-way ANOVA and ANCOVA do and when to use them.
+
+-   Understand what is meant by the terms 'main effect' and 'interaction' and evaluate the likley presence or absence of these effects using an interaction plot.
+
+-   State the assumptions of the two-way ANOVA and ANCOVA models.
+
+-   Fit a two-way ANOVA and ANCOVA using the `lm` function and interpret the three global tests of significance produced by the `anova` function.
+
+-   Use the `plot` function with a fitted model object to...
+
+    1. ...construct a residuals vs. fitted values plot and evaluate the linearity assumption (ANCOVA only).
+    2. ...construct a normal probability plot and evaluate the normality assumption.
+    3. ...construct a scale-location plot and evaluate the constant variance assumption.
+
+-   Identify the main effect and interaction terms for which it is appropriate to carry out a multiple comparisons test.
+
+-   Where appropriate, carry out Tukey multiple comparison test(s) using the `TukeyHSD` or `HSD.test` functions, and interpret the results.
+
+-   Write an informative and concise summary of the results from a two-way ANOVA and ANCOVA analyses.
+
+_Your ability to summarise a two-way ANOVA or ANCOVA graphically will not be assessed._
+
+
+## Frequency data and non-parameteric tests
 
 -   Recognise situations where you are studying one or more categorical variables and you need to compare the frequencies of each category (or combinations of categories) in some way.
 
@@ -62,97 +154,6 @@ _You are not expected to be able to explain or use the the bootstrap or permutat
 
 -   Write an informative and concise summary of the results from goodness-of-fit and contingency table tests.
 
-## Associations and Relationships (regression)
-
--   Understand what simple linear regression analysis does, and when to use it.
-
--   State the assumptions of the simple linear regression model.
-
--   Fit a simple linear regression using the `lm` function and interpret the output from...
-
-    1. ...`anova` to determine the significance of fit
-    2. ...`summary` to extract the variance explained ($R^{2}$) and the fitted coefficients (intercept and slope) 
-    
--   Use the `plot` function with a fitted model object to...
-
-    1. ...construct a residuals vs. fitted values plot and evaluate the linearity assumption.
-    2. ...construct a normal probability plot and evaluate the normality assumption.
-    3. ...construct a scale-location plot and evaluate the constant variance assumption.
-
-(You are **not** expected to be able to produce these plots manually using functions like `resid` and `fitted`)
-
--   Calculate predicted $y$-values from a fitted regression.
-
--   Write an informative and concise summary of the results from a simple linear regression analysis.
-
-Your ability to summarise a regression analysis graphically---showing the data and the fitted line---will not be assessed.
-
-## Associations and Relationships (correlation)
-
--   Distinguish between situations in which correlation or regression is the most appropriate technique to use.
-
--   State the assumptions of parametric (Pearson) and nonparametric (Spearman rank) correlation techniques and determine which approach is most approapriate for a given scenario.
-
--   Carry out the two types of correlation (Pearson and Spearman rank) using the `cor.test` function and interpret the results.
-
--   Write an informative and concise summary of the results from a correlation analysis.
-
-## Experimental Design and ANOVA (I)
-
--   Understand what one-way ANOVA does and when to use it.
-
--   State the assumptions of one-way ANOVA model.
-
--   Fit a one-way ANOVA using the `lm` function and interpret the global test of significance produced by the `anova` function.
-
--   Use the `plot` function with a fitted model object to...
-
-    1. ...construct a normal probability plot and evaluate the normality assumption.
-    2. ...construct a scale-location plot and evaluate the constant variance assumption.
-
--   Determine whether it is appropriate to carry out a multiple comparison test.
-
--   Where appropriate, carry out a Tukey multiple comparison test using the `TukeyHSD` or `HSD.test` functions and interpret the results.
-
--   Write an informative and concise summary of the results from a one-way ANOVA analysis.
-
-Your ability to summarise a one-way ANOVA graphically---showing the means and standard errrors---will not be assessed.
-
-## Experimental Design and ANOVA (II)
-
--   Understand what two-way ANOVA does and when to use it.
-
--   Understand what is meant by the terms 'main effect' and 'interaction' and evaluate the likley presence or absence of these effects using an interaction plot.
-
--   State the assumptions of two-way ANOVA model.
-
--   Fit a two-way ANOVA using the `lm` function and interpret the three global tests of significance produced by the `anova` function.
-
--   Use the `plot` function with a fitted model object to...
-
-    1. ...construct a normal probability plot and evaluate the normality assumption.
-    2. ...construct a scale-location plot and evaluate the constant variance assumption.
-
--   Identify the main effect and interaction terms for which it is appropriate to carry out a multiple comparisons test.
-
--   Where appropriate, carry out Tukey multiple comparison test(s) using the `TukeyHSD` or `HSD.test` functions, and interpret the results.
-
--   Write an informative and concise summary of the results from a two-way ANOVA analysis.
-
-Your ability to summarise a two-way ANOVA graphically---showing the means and standard errrors---will not be assessed.
-
-## Fixing Problems
-
--   Use regression diagnostic plots to identify potential problems with the assumptions of a model.
-
--   When a problem with the assumptions of a model has been identified, choose an appropriate mathematical transformation to remedy the problem from...
-
-    1. logarithm (including the "add 1" case when zeros are present)
-    2. square root
-    3. arcsine square root
-    
--   Identify situations where transforming a variable fails, so that a non-parametric test is required.
-
 -   Recognise that the Wilcoxon signed-rank test
 
     1. ...is an alternative to one-sample and paired-sample t-test
@@ -168,10 +169,8 @@ Your ability to summarise a two-way ANOVA graphically---showing the means and st
     1. ...is an alternative to one-way ANOVA
     2. ...is carried out by the kruskal.test function in R
 
+-   Recognise that the Spearman's rank test
 
-
-
-
-
-
+    1. ...is an alternative to Pearson's correlation and when it is appropriate to use each method
+    2. ...is carried out by the cor.test function in R
 
