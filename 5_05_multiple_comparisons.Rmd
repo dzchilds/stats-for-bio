@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In the previous chapter we learned how to use ANOVA to examine the global hypothesis of no difference between means---we did not learn how to evaluate *which* means might be driving such a significant result. For example, we found evidence for a significant difference between the means in the diet example, but we were not able to say which diets are better or worse, and did not make any statements about which diets differ significantly from each other. The purpose of this chapter is to examine one method for assessing where the differences actually lie.
+In the [One-way ANOVA in R] chapter we learned how to use ANOVA to examine the global hypothesis of no difference between means---we did not learn how to evaluate *which* means might be driving such a significant result. For example, we found evidence for a significant difference between the means in the corn crake example, but we were not able to say which supplements are better or worse, and did not make any statements about which supplements differ significantly from each other. The purpose of this chapter is to examine one method for assessing where the differences actually lie.
 
 The general method we will use is called a **post hoc multiple comparisons test**. The phrase 'post hoc' refers to the fact that these tests are conducted without any particular prior comparisons in mind. The words 'multiple comparisons' refer to the fact that they consider many different pairwise comparisons. There are quite a few multiple comparison tests---Scheffé’s test, the Student-Newman-Keuls test, Duncan’s new multiple range test, Dunnett’s test, ... (the list goes on and on). Each one is applicable to particular circumstances, and none is universally accepted as 'the best'. We are going to work with the most widely used test: the **Tukey multiple comparison test**. This test is also known as Tukey’s Honestly Significant Difference (Tukey HSD) test^[N.B. Try to avoid a common mistake: it is *Tukey*, after its originator, the statistician Prof. John Tukey, not Turkey, a large domesticated bird which has made no useful contributions to statistical theory or practice.]. 
 
@@ -12,64 +12,64 @@ There is one line of thinking that says post hoc multiple comparisons tests of a
 
 ## Tukey's HSD in R {#mult-comp-R}
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning = FALSE}
 library("agricolae")
-diet_effects <- read.csv(file = "./data_csv/DIET_EFFECTS.CSV")
-diets_model <- lm(WeightLoss ~ Plan, data = diet_effects)
+corn_crake <- read.csv(file = "./data_csv/CORN_CRAKE.CSV")
+corncrake_model <- lm(WeightGain ~ Supplement, data = corn_crake)
 ```
 
 ```{block, type='do-something'}
 **Walk through example**
 
-We are going to work with the diets example again. If you kept the DIET_EFFECTS.CSV file from the last chapter all you need to do is make sure your working directory is set to this location. Otherwise you'll need to download it again.
+We are going to work with the corn crake example again. If you kept the CORN_CRAKE.CSV file from before all you need to do is make sure your working directory is set to this location. Otherwise you'll need to download it again.
 ```
 
-Let's work through the diet example again. Read the data into R we and fit an ANOVA model using the `lm` function. 
+Let's work through the corn crake example again. Read the data into R we and fit an ANOVA model using the `lm` function. 
 ```{r, eval=FALSE}
 # 1. read in data
-diet_effects <- read.csv(file = ".DIET_EFFECTS.CSV")
+corn_crake <- read.csv(file = "CORN_CRAKE.CSV")
 # 2. fit anova model
-diets_model <- lm(WeightLoss ~ Plan, data = diet_effects)
+corncrake_model <- lm(WeightGain ~ Supplement, data = corn_crake)
 ```
-We stored the model object in `diets_model`. In the previous chapter we saw how to evaluate whether the means differ using  `anova` on this object. We use a couple of new functions to carry out a Tukey HSD test. First, we have to convert the linear model object into a different kind of model object using the `aov` function:
+We stored the model object in `corncrake_model`. In the [One-way ANOVA in R] chapter we saw how to evaluate whether the means differ using  `anova` on this object. We use a couple of new functions to carry out a Tukey HSD test. First, we have to convert the linear model object into a different kind of model object using the `aov` function:
 ```{r}
-diets_aov <- aov(diets_model)
+corncrake_aov <- aov(corncrake_model)
 ```
-We don't really need to understand what this is doing---`aov` prepares the model so that we can perform a Tukey HSD test. Notice that we gave the new object its own name (`diets_aov`) because we need to use it in the next step.
+We don't really need to understand what this is doing---`aov` prepares the model so that we can perform a Tukey HSD test. Notice that we gave the new object its own name (`corncrake_aov`) because we need to use it in the next step.
 
 It is easy to perform a Tukey HSD test once we have the 'aov' version of our model. There are a few different options. Here is how to do this using the `TukeyHSD` function:  
 ```{r, eval=FALSE}
-TukeyHSD(diets_aov, ordered = TRUE)
+TukeyHSD(corncrake_aov, ordered = TRUE)
 ```
 Pay attention! We applied the `TukeyHSD` function to the 'aov' object, *not* the original `lm` object. We have suppressed the output for now. Before we review it we need to get an idea of what it is going to show us.
 
-The `ordered = TRUE` tells `TukeyHSD` that we want to order the treatment means from smallest to largest, and then apply every pairwise comparison, starting with the smallest mean ('Slimaid') and working up through the order. Here are the means ordered from smallest to largest, working left to right:
+The `ordered = TRUE` tells `TukeyHSD` that we want to order the treatment means from smallest to largest, and then apply every pairwise comparison, starting with the smallest mean ('Allvit') and working up through the order. Here are the means ordered from smallest to largest, working left to right:
 
-  ------ ------------- ---------- ------------- ------------ ------------
-  Diet      Slimaid       None       F-Plan        Y-Plan       Waisted
-  Mean       1.42         1.56        1.85          1.90         2.29
-  ------ ------------- ---------- ------------- ------------ ------------
+  ------------ ------------- ----------- ------------- ------------ ------------
+  Supplement      Allvit        None       Linseed      Growfast     Earlybird
+  Mean             14.3         15.6        18.5          19.0         22.9
+  ------------ ------------- ----------- ------------- ------------ ------------
 
-So the `TukeyHSD` with `ordered = TRUE` will first compare 'Slimaid' to 'None', then 'Slimaid' to 'F-Plan', then 'Slimaid' to 'Y-Plan', then 'Slimaid' to 'Waisted', then 'None' to 'F-Plan', then 'None' to 'Y-Plan', ... and so on, until we get to 'Y-Plan' vs. 'Waisted'. Let's look at the output:
+So the `TukeyHSD` with `ordered = TRUE` will first compare 'Allvit' to 'None', then 'Allvit' to 'Linseed', then 'Allvit' to 'Growfast', then 'Allvit' to 'Earlybird', then 'None' to 'Linseed', then 'None' to 'Growfast', ... and so on, until we get to 'Growfast' vs. 'Earlybird'. Let's look at the output:
 
 ```{r, echo=FALSE}
-HSD.obj <- TukeyHSD(diets_aov, ordered = TRUE)
-HSD.out <- capture.output(TukeyHSD(diets_aov, ordered = TRUE))
+HSD.obj <- TukeyHSD(corncrake_aov, ordered = TRUE)
+HSD.out <- capture.output(TukeyHSD(corncrake_aov, ordered = TRUE))
 HSD.obj
 ```
 
-This table look confusing at first glance. It enables you to look up every pair of treatments, and see whether they are significantly different from each other. Lets see how this works... The first four lines compare the Slimaid treatment ('Slimaid') with each of the other treatments in turn:
+This table look confusing at first glance. It enables you to look up every pair of treatments, and see whether they are significantly different from each other. Lets see how this works... The first four lines compare the Allvit treatment ('Allvit') with each of the other treatments in turn:
 ```{r, echo=FALSE}
-firstcomp <- HSD.obj$Plan["None-Slimaid",]
+firstcomp <- HSD.obj$Supplement["None-Allvit",]
 invisible(sapply(HSD.out[c(8, 9:12)], function(line) cat(line, "\n")))
 ```
-So to look up the difference between the control treatment and the 'Slimaid' treatment, we read the first results row in the table. This says the means differ by `r firstcomp["diff"]`, the confidence interval associated with this difference is [`r round(firstcomp["lwr"],2)`, `r round(firstcomp["upr"],2)`], and that the comparison has a *p*-value of `r round(firstcomp["p adj"],2)`. So in this case we would conclude that there was a no significant difference between the control treatment and the 'Slimaid' treatment. We could look up any comparison of the 'Slimaid' treatment with a different treatment in the next three lines of this portion of the table.
+So to look up the difference between the control treatment and the 'Allvit' treatment, we read the first results row in the table. This says the means differ by `r firstcomp["diff"]`, the confidence interval associated with this difference is [`r round(firstcomp["lwr"],2)`, `r round(firstcomp["upr"],2)`], and that the comparison has a *p*-value of `r round(firstcomp["p adj"],2)`. So in this case we would conclude that there was a no significant difference between the control treatment and the 'Allvit' treatment. We could look up any comparison of the 'Allvit' treatment with a different treatment in the next three lines of this portion of the table.
 
-This basic logic extends to the rest of the table. If we want to know whether the 'Waisted' treatment is different from the control, we look up the 'Waisted-None' row:
+This basic logic extends to the rest of the table. If we want to know whether the 'Earlybird' treatment is different from the control, we look up the 'Earlybird-None' row:
 ```{r, echo=FALSE}
 invisible(sapply(HSD.out[c(8, 15)], function(line) cat(line, "\n")))
 ```
-It looks like the means of the 'Waisted' and 'None' levels are significantly different at the *p* < 0.05 level.
+It looks like the means of the 'Earlybird' and 'None' levels are significantly different at the *p* < 0.05 level.
 
 Now we know how to look up any set of comparisons we need to see whether the difference is significant. The next question is: How should we summarise such a table?
 
@@ -77,49 +77,49 @@ Now we know how to look up any set of comparisons we need to see whether the dif
 
 Summarising the results of multiple comparison tests can be a tricky business. The first rule is: don’t present the results like the `TukeyHSD` function does! A clear summary of the results will help us to interpret them correctly and makes it easier to explain them to others. How should we do this? Let's list the means in order from smallest to largest again (2 decimal places is sufficient precision for these data):
 
-  ------ ------------- ---------- ------------- ------------ ------------
-  Diet      Slimaid       None       F-Plan        Y-Plan       Waisted
-  Mean       1.42         1.56        1.85          1.90         2.29
-  ------ ------------- ---------- ------------- ------------ ------------
+  ------------ ------------- ----------- ------------- ------------ ------------
+  Supplement      Allvit        None       Linseed      Growfast     Earlybird
+  Mean             14.3         15.6        18.5          19.0         22.9
+  ------------ ------------- ----------- ------------- ------------ ------------
 
-Now, using the table of Tukey results we can perform a sequence of pair-wise comparisons between the diets starting with the smallest pair... 'Slimaid' and 'None'. The appropriate test is in the first table:
+Now, using the table of Tukey results we can perform a sequence of pair-wise comparisons between the supplements starting with the smallest pair... 'Allvit' and 'None'. The appropriate test is in the first table:
 ```{r, echo=FALSE}
-HSD.obj$Plan["None-Slimaid",]
+HSD.obj$Supplement["None-Allvit",]
 ```
-The last column gives the *p*-value, which in this case is certainly not significant (it is much greater than 0.05), so we conclude there is no difference between the 'Slimaid' and 'None' treatments. So now we continue with 'Slimaid', but compare it to the next larger mean ('F-Plan'). In this case the values are:
+The last column gives the *p*-value, which in this case is certainly not significant (it is much greater than 0.05), so we conclude there is no difference between the 'Allvit' and 'None' treatments. So now we continue with 'Allvit', but compare it to the next larger mean ('Linseed'). In this case the values are:
 ```{r, echo=FALSE}
-HSD.obj$Plan["F-plan-Slimaid",]
+HSD.obj$Supplement["Linseed-Allvit",]
 ```
-The last column gives the *p*-value, which again is not significant, so we conclude there is no difference between the 'Slimaid' and 'F-Plan' treatments. So now we continue with 'Slimaid', but compare it to the next larger mean ('Y-Plan'). In this case the values are:
+The last column gives the *p*-value, which again is not significant, so we conclude there is no difference between the 'Allvit' and 'Linseed' treatments. So now we continue with 'Allvit', but compare it to the next larger mean ('Growfast'). In this case the values are:
 ```{r, echo=FALSE}
-HSD.obj$Plan["Y-plan-Slimaid",]
+HSD.obj$Supplement["Growfast-Allvit",]
 ```
-Once again, this difference is not significant, so we conclude there is no difference between the 'Slimaid' and 'Y-Plan' treatments either. So again, we continue with 'Slimaid', which we compare to the next larger mean ('Waisted'). 
+Once again, this difference is not significant, so we conclude there is no difference between the 'Allvit' and 'Growfast' treatments either. So again, we continue with 'Allvit', which we compare to the next larger mean ('Earlybird'). 
 ```{r, echo=FALSE}
-HSD.obj$Plan["Waisted-Slimaid",]
+HSD.obj$Supplement["Earlybird-Allvit",]
 ```
-This time the *p*-value is clearly less than 0.05 so we conclude that this pair of treatments are significantly different. We record this by marking 'Slimaid', 'None', 'F-plan' and 'Y-Plan' to indicate that they don’t differ from each other. We'll use the letter 'b' to do this.
+This time the *p*-value is clearly less than 0.05 so we conclude that this pair of treatments are significantly different. We record this by marking 'Allvit', 'None', 'Linseed' and 'Growfast' to indicate that they don’t differ from each other. We'll use the letter 'b' to do this.
 
-  ------ ------------- ------------ ------------ ------------ ------------
-  Diet      Slimaid       None       F-Plan        Y-Plan       Waisted
-  Mean       1.42         1.56        1.85          1.90         2.29
-               b            b           b             b
-  ------ ------------- ------------ ------------ ------------ ------------
+  ------------ ------------- ----------- ------------- ------------ ------------
+  Supplement      Allvit        None       Linseed      Growfast     Earlybird
+  Mean             14.3         15.6        18.5          19.0         22.9
+                    b            b           b             b
+  ------------ ------------- ----------- ------------- ------------ ------------
 
-The 'b' defines a group of treatment means---'Slimaid', 'None', 'F-plan' and 'Y-Plan'---that are not significantly different from one another. It doesn't matter which letter we use by the way (the reason for using 'b' here will become apparent in a moment). 
+The 'b' defines a group of treatment means---'Allvit', 'None', 'Linseed' and 'Growfast'---that are not significantly different from one another. It doesn't matter which letter we use by the way (the reason for using 'b' here will become apparent in a moment). 
 
-The means are ordered from smallest to largest which means we can forget about 'None', 'F-Plan' and 'Y-Plan' treatments for a moment---if they are not significantly different from 'Slimaid' they can't be significantly different from one another. 
+The means are ordered from smallest to largest which means we can forget about 'None', 'Linseed' and 'Growfast' treatments for a moment---if they are not significantly different from 'Allvit' they can't be significantly different from one another. 
 
-We move on to 'Waisted', but now, we *work back down* the treatments to see if we can define another overlapping group of means that are not significantly different from one another. When we do this, we find that 'Waisted' is not significantly different from 'F-Plan' and 'Y-Plan', but that it is significantly different from 'None'. This forms a second 'not significantly different' group. We will denote this with a new letter ('a') in our table:
+We move on to 'Earlybird', but now, we *work back down* the treatments to see if we can define another overlapping group of means that are not significantly different from one another. When we do this, we find that 'Earlybird' is not significantly different from 'Linseed' and 'Growfast', but that it is significantly different from 'None'. This forms a second 'not significantly different' group. We will denote this with a new letter ('a') in our table:
 
-  ------ ------------- ------------ ------------ ------------ ------------
-  Diet      Slimaid       None       F-Plan        Y-Plan       Waisted
-  Mean       1.42         1.56        1.85          1.90         2.29
-               b            b           b             b
-                                        a             a            a
-  ------ ------------- ------------ ------------ ------------ ------------
+  ------------ ------------- ----------- ------------- ------------ ------------
+  Supplement      Allvit        None       Linseed      Growfast     Earlybird
+  Mean             14.3         15.6        18.5          19.0         22.9
+                    b            b           b             b
+                                             a             a            a
+  ------------ ------------- ----------- ------------- ------------ ------------
 
-If there were additional treatments with a mean that was greater than 'Waisted' we would have to carry on this process, *working back up* from 'Waisted'. Thankfully, there are no more treatments, so we are finished.
+If there were additional treatments with a mean that was greater than 'Earlybird' we would have to carry on this process, *working back up* from 'Earlybird'. Thankfully, there are no more treatments, so we are finished.
 
 This leaves us with a concise and complete summary of where the differences between treatments are, which greatly simplifies the task of interpreting the results. Treatments that share a letter form groups within which means are not different from each other. Treatments that are not linked are significantly different.
 
@@ -136,9 +136,9 @@ library("agricolae")
 
 Now that the package is loaded we can carry out the Tukey HSD test and find the 'not significantly different' groups using the `HSD.test` function:
 ```{r}
-HSD.test(diets_aov, "Plan", console=TRUE)
+HSD.test(corncrake_aov, "Supplement", console=TRUE)
 ```
-The `console = TRUE` argument tells the function to print the results for us. That's a lot of output, but we can ignore most of it. The part that matters most is the table at the very end. This shows the group identities as letters, the treatment names, and the treatment means. If we compare that table with the one we just made, we can see they convey the same information. The package labels each group with a letter. For example, we can see that 'Y-plan' and 'F-plan' are both members of the 'a' and 'b' group. Hopefully it is obvious why we used 'b' and then 'a' when building the table manually above.
+The `console = TRUE` argument tells the function to print the results for us. That's a lot of output, but we can ignore most of it. The part that matters most is the table at the very end. This shows the group identities as letters, the treatment names, and the treatment means. If we compare that table with the one we just made, we can see they convey the same information. The package labels each group with a letter. For example, we can see that 'Linseed' and 'GrowFast' are both members of the 'a' and 'b' group. Hopefully it is obvious why we used 'b' and then 'a' when building the table manually above.
 
 So, there is no need to build these Tukey HSD tables by hand. We just use the `HSD.test` function in the `agricolae` package. So why did we do it the long way? Well, the usual reasoning applies: it is important to know how to do this because it improves our understanding of what the 'letters notation' actually means.
 
@@ -146,27 +146,27 @@ So, there is no need to build these Tukey HSD tables by hand. We just use the `H
 
 As with any statistical test it will usually be necessary to summarise the result from the Tukey HSD test in a written form. With an ANOVA test of global significance and multiple comparisons of the means, this can become quite complex and hard to follow. In most cases it is best to summarise the ANOVA results and either the main differences between means, or concentrate on those comparisons which relate to the original hypothesis we were interested in, and then refer to a table or figure for the additional detail. For example...
 
-> There was a significant effect of diet on the weight losses of subjects 
-> (ANOVA: F=5.1; d.f.= 4,35; p<0.01) (Figure 1). The only diet plan that  
-> led to a significantly higher rate of weight loss than the control group 
-> was Waisted (Tukey multiple comparisons test, p < 0.05).
+> There was a significant effect of supplement on the weight gain of hatchlings 
+> (ANOVA: F=5.1; d.f.= 4,35; p<0.01) (Figure 1). The only supplement that 
+> led to a significantly higher rate of weight gain than the control group 
+> was Earlybird (Tukey multiple comparisons test, p < 0.05).
 
 When it comes to presenting the results in a report, we really need some way of presenting the means, and the results of the multiple comparison test, as the statement above cannot entirely capture the form of the results. The information can often be conveniently incorporated into a table or figure, using more or less the same format as the output from the `HSD.test` function in the `agricolae` package.
 
 An example table might be:
 
 
-  **Diet**       Mean weight loss (kg)
------------  --------------------------
-  Waisted        2.29^a^
-  Y-plan         1.90^ab^
-  F-plan         1.85^ab^
-  None           1.56^b^
-  Slimaid        1.43^b^
+  **Supplement**       Mean weight gain (g)
+-----------------  --------------------------
+  Earlybird                    22.9^a^
+  Growfast                     19.0^ab^
+  Linseed                      18.5^ab^
+  None                         15.6^b^
+  Allvit                       14.3^b^
 
 Note that, however we present it, we need to provide some explanation saying: (a) what test we did, (b) what the letter codes mean, and (c) the critical threshold we used to judge significance. In this case the information could be presented in a table legend:
 
-> Table 1: Mean weight loss of subjects in the five diet treatments. Means followed
+> Table 1: Mean weight gain of hatchlings in the five supplement treatments. Means followed
 > by the same letter did not differ significantly (Tukey test, p>0.05).
 
 Letter coding can also be used effectively in a figure. Again, we must ensure all the relevant information is given in the figure legend.
