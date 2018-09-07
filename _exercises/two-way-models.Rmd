@@ -1,5 +1,5 @@
 ---
-title: "Two-way ANOVA"
+title: "Two-way ANOVA and ANCOVA"
 output:
   html_document:
     css: ../extras.css
@@ -119,31 +119,40 @@ ggplot(acmaea.stats,
   theme_bw() + ylab("Sodium ion concentration")
 ```
 
-### Sheep, grass and nature reserves (again)
+## Density dependence in limpets
 
-The aim of this exercise is to demonstrate that experimental design and statistical analysis are distinct activities. A particular design may be best served by a certain analysis, but there is often be more than one option available. A particularly clear example of this occurs when working with data from a paired-design experiment.
+Negative density-dependent processes occur when the vital rates of individuals decrease as a function of population density. The strength of density dependent effects often vary with the seasons. Within the intertidal zone, food availability is generally lower in spring than summer, and so we expect that reproduction of intertidal species will lower in spring, compared to summer. However, little is known about the relative strength of density dependence in the two seasons. In order to investigate seasonal density dependent effects, the reproductive performance of the 'false limpet' *Siphonaria diemenensis* (a sea snail) was investigated by manipulating population density in spring and summer.
 
-Take another look at the 'Sheep, grass and nature reserves' question from the Week 4. The experiment that produced these data is an example of a paired design---the variable of interest was species diversity in pairs of grazed and ungrazed plots. 
-
-The data were provided as a table. You used Excel to construct a ‘tidy’ version of the data set, which was then exported to a CSV file. If you kept the CSV file you can use this again here. If not, you'll need to make the tidy CSV file again.
-
-Once you have the CSV file, read the data it contains into R and use the `glimpse` function to understand what kind of variables you are working with. **Warning!** Pay close attention to the type of variable that R places in the `Plot` column. You may need to prepare the data for analysis first...
-
-There is no need to visualise the data or check the assumptions again. You can skip these steps and jump straight into the statistical analysis. Do it two different ways:
-
-1) Carry out a paired-sample *t*-test again using the `t.test` function.
-
-2) Then carry out an ANOVA analysis using the `lm` and `anova` functions. 
+In each season, density was manipulated within 15x15cm enclosures to generate local density treatments of 8, 15, 30 and 50 individuals per enclosure. Enclosures were chosen by randomly positioning enclosures on a 500 meters stretch of coastline. Each density treatment was replicated three times. Mean per capita egg production was estimated over the course of one week to assess reproductive performance. The data are stored in a file called LIMPETS.CSV. The layout of the data should be fairly obvious: egg production is stored in the Eggs variable, season codes are in Season (levels: 'spring' and 'summer'), and density is in Density (levels: 8, 15, 30 and 50).
 
 ```{block, type='do-something'}
 **MOLE question**
 
-How similar are the results relating to grazing impacts from the two analyses?
+Evaluate the following assumptions:
+Are the residuals likely to be independent?
+
+Are the numeric variables measured on an appropriate scale?
+
+The values of the independent numeric variable are determined with negligible error?
 ```
+
+Construct a scatter plot showing the relationship between egg production and density, highlighting the data for each season in a different colour. Do you think you are likely to find a significant interaction?
 
 ```{block, type='do-something'}
 **MOLE question**
+Evaluate the remaining assumptions:
 
-What is the mathematical relationship between the *t*-statistic from the paired-sample *t*-test and the *F*-ratio for the treatment effect from the ANOVA?
+Do the data conform to the linearity assumption?
+
+Are the residuals are drawn from a normal distribution and is their variance constant?
 ```
+
+If you are happy with the data proceed with the ANCOVA.
+
+```{block, type='do-something'}
+**MOLE question**
+Summarise the results from the ANCOVA in words. Include a clear statement about the seasonal effect of density dependence.
+```
+
+Finally, produce a publication quality figure to help you summarise your analysis.
 

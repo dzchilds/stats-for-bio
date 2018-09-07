@@ -1,0 +1,86 @@
+---
+title: "Analysing blocked data"
+output:
+  html_document:
+    css: ../extras.css
+    theme: cerulean
+    highlight: tango
+---
+
+You should work through the exercises step-by-step, following the instructions carefully. At various points we will interrupt the flow of instructions with a question. Make a note of your answers so that you can complete the MOLE quiz for this week.
+
+```{r, include=FALSE}
+library(dplyr)
+library(ggplot2)
+```
+
+### The power of pairing
+
+The paired-sample *t*-test is a very useful technique, for the simple reason that it can improve the power of simple experiments. You can get an idea of the value of a paired-sample *t*-test by seeing what happens when you ignore the pairing structure of a paired-design data set. We want you to do this with the glycolip data introduced in the 'Paired-sample *t*-tests' chapter. 
+
+The pairing was with respect to patients in this example. Let's see what happens if you ignore the pairing. Download the GLYCOLIPID.CSV file, and then reanalyse the data using an ordinary unpaired two-sample *t*-test (N.B.---This analysis is wrong! Remember that one of the assumptions of the two sample *t*-test is independence).
+
+```{block, type='do-something'}
+**MOLE question**
+
+What result do you get and how does this compare with the paired-sample test?
+```
+
+### Sheep, grass and nature reserves {#sheep-grass}
+
+The management committee of a nature reserve wants to manage some large grassland areas of the reserve using low density sheep grazing to prevent the grass becoming too long and making the habitat unsuitable for some of the low-growing herbaceous plants for which the reserve is important. Before implementing the plan they conduct a pilot experiment using some fenced plots on the reserve, to test whether low density sheep grazing affects various species of plants.
+
+One problem is that the area is very variable---some parts are wetter than others, and the plants of interest are not particularly evenly distributed. There is also a limit to the number of plots (and sheep) they can use in the experiment. In order to make the maximum use of the resources and, take some account of the variability in the habitat the experiment is set up by randomly placing eight fenced plots around the reserve, with each plot being divided in half by a fence down the middle. Sheep are introduced to one half of each plot (the half being randomly selected in each case), and allowed to graze for the appropriate period of the year. The other half is left ungrazed.
+
+```{block, type='do-something'}
+**MOLE question**
+
+Why is this a better design than just having separate grazed and ungrazed plots positioned at random?
+```
+
+Over the next 2 years, the abundances of various plants in the plots were surveyed.
+
+The data below give the numbers of gentians from each of the eight half-plots with sheep ('grazed +'), and the corresponding ungrazed halves ('grazed -') after one year of the experiment.
+  
+|   Plot ID  | Grazed + | Grazed - |
+|:--------:|:------:|:------:|
+| 1 | 27 | 14 |
+| 2 | 1 | 6 |
+| 3 | 16 | 17 |
+| 4 | 8 | 5 |
+| 5 | 10 | 0 |
+| 6 | 19 | 11 |
+| 7 | 30 | 21 |
+| 8 | 9 | 6 |
+  
+Use Excel to construct a 'tidy' data set containing these data, then export this to a CSV file in your working directory. Read the data into an R data frame, visualise the data, and generate some summary statistics. Once you understand the data, test whether there is any evidence for an effect of sheep grazing on the numbers of gentians using an appropriate *t*-test.
+
+```{block, type='do-something'}
+**MOLE question**
+
+What is your conclusion?
+```
+
+```{block, type='do-something'}
+**MOLE question**
+
+What other comparison would it be useful to be able to make in order to reach a satisfactory conclusion about the effects of grazing?  What test would you do for this?
+```
+
+### Sheep, grass and nature reserves (again!)
+
+The aim of this exercise is to demonstrate that experimental design and statistical analysis are distinct activities. A particular design may be best served by a certain analysis, but there is often be more than one option available. A particularly clear example of this occurs when working with data from a paired-design experiment.
+
+Using the gentian data from the previous exercise carry out an ANOVA analysis using the `lm` and `anova` functions. **Warning!** Pay close attention to the type of variable that R places in the `Plot` column (use the `glimpse` function to understand what kind of variables you are working with). You may need to prepare the data for analysis first... 
+
+```{block, type='do-something'}
+**MOLE question**
+
+How similar are the results relating to grazing impacts from the two analyses?
+```
+
+```{block, type='do-something'}
+**MOLE question**
+
+What is the mathematical relationship between the *t*-statistic from the paired-sample *t*-test and the *F*-ratio for the treatment effect from the ANOVA?
+```

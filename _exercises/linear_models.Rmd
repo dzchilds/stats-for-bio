@@ -1,5 +1,5 @@
 ---
-title: "One way analysis of variance"
+title: "Regression and ANOVA"
 output:
   html_document:
     css: ../extras.css
@@ -20,15 +20,9 @@ The United States Water Quality and Purity Board have been monitoring the concen
 
 Data for lead in trout in the lakes are in a CSV file LAKEPB.CSV. The measurements are the concentration of lead (mg kg^-1^) from 6 randomly sampled trout in each lake. The concentration measurements are stored in the `Lead` variable and the lake codes are in the `Lake` variable.
 
-Read this data file into R, explore the data visually using a box and whiskers plot, and then proceed to fit a one-way ANOVA model with the `lm` function. Use the `plot` function on the resulting fitted model object to evaluate whether or not the data conform to the assumptions of ANOVA:
+Read this data file into R, explore the data visually using a box and whiskers plot, and then proceed to fit a one-way ANOVA model with the `lm` function. 
 
-```{block, type='do-something'}
-**MOLE question**
-
-Do you feel the data conform acceptably to the assumptions of ANOVA?
-```
-
-Next, assume the assumptions are met and carry out the global significance test to evaluate whether the means are different. Write a concise summary of the results from the ANOVA:
+Next, carry out the global significance test to evaluate whether the means are different. Write a concise summary of the results from the ANOVA:
 
 ```{block, type='do-something'}
 **MOLE question**
@@ -38,7 +32,7 @@ Summary:
 Do you have any comments on the possible biological reasons for the patterns you see in the data?
 ```
 
-Finally, produce a 'publication ready' bar plot that shows the mean and standard erros of the lead concentration in each lake. It should look similar to this:
+Finally, produce a 'publication ready' bar plot that shows the mean and standard errors of the lead concentration in each lake. It should look similar to this:
 
 ```{r lead-lake-pub-plot, warning=FALSE, echo=FALSE, fig.align='center', fig.asp=1.5, fig.width=3}
 lake_pb <- read.csv(file="../data_csv/LAKEPB.CSV")
@@ -65,21 +59,7 @@ Garden slugs of the same species and approximately the same size were given eith
 
 The data are stored in a CSV file SLUGIT.CSV. The rate of movement is stored in the `Distance` variable and the treatment codes are in the `SlugitTreat` variable (levels: 'full dose', 'half dose', 'one tenth dose', 'control'). Read in the data, explore them using a multi-panel dot plot, and then fit a one-way ANOVA model.
 
-Use the exploratory plot and fitted model to evaluate the assumptions of ANOVA:
-
-```{block, type='do-something'}
-**MOLE question**
-
-Do you feel the data conform acceptably to the assumptions on ANOVA?
-
-*   Data type?
-
-*   Normally distributed?
-
-*   Similar variances in each treatment?
-```
-
-If the data are appropriate carry out the global significance test and write a concise summary of the results from the ANOVA:
+Carry out the global significance test and write a concise summary of the results from the ANOVA:
 
 ```{block, type='do-something'}
 **MOLE question**
@@ -115,18 +95,45 @@ ggplot(data = slugit_stats,
   theme_bw()
 ```
 
-### Multiple comparisons --- slug movement and molluscicide
+### Hedgerows and partridges
 
-Return to the slug molluscicide exercise and carry out the Tukey HSD test on the movement rates of slugs following different doses of Slugit.
+Hedgerows are the main nesting habitat of the grey partridge (*Perdix perdix*). A survey was carried out to establish whether the abundance of hedgerows in agricultural land had an effect on the abundance of grey partridge. From an area of agricultural land covering several farms, twelve plots were selected which had land uses as similar as possible but differed in the density of hedgerows (km hedgerow per km^2^). Plots were deliberately selected to cover a wide range of hedgerow densities. The total hedgerow lengths, and exact plot areas, were measured by use of large scale maps. The density of partridges was established by visiting all fields in a study plot once immediately after dawn and once just before dusk, when partridges are feeding and therefore most likely to be seen. Counts of birds observed were made on each visit and the dawn and dusk data were averaged to give a value for partridge abundance for each study plot.
+
+The data are stored in a CSV file PARTRIDG.CSV. The density of hedgerows (km per km^2^) is in the `Hedgerow` variable and the density of partridges (no. per km^2^) is in the `Partridge` variable. Read in the data and take a look at it using the `View` function.
 
 ```{block, type='do-something'}
 **MOLE question**
 
-Prepare a summary of differences between means.
+Which way round should the variables be?
+
+-   Predictor ($x$):
+
+-   Response ($y$):
 ```
 
+Plot the data and decide whether you think there is a relationship between the two variables. If there is a relationship does it appear to be linear?
+
+Use the `lm` function to fit a linear regression model for the relationship between hedgerow density and partridge density. Be sure to assign a name to the resulting model object. 
+
+Next, carry out a statistical significance test to evaluate whether the slope of the regression line is different from 0 (use an *F*-test).
+
 ```{block, type='do-something'}
 **MOLE question**
 
-Comment on any features of biological interest in the results.
+Summarise the results of your analysis in words.
+```
+
+Finish up by preparing a figure that summarises the data and the best fit line estimated from the regression. Do not use `geom_smooth`!
+
+```{r partridge-publication, fig.width=4, fig.asp=1.0, fig.align='center', echo=FALSE, warning=FALSE}
+partridge <- read.csv("../data_csv/PARTRIDG.CSV")
+reg_mod <- lm(Partridge ~ Hedgerow, data = partridge)
+pred_data <- 
+  data.frame(Hedgerow = range(partridge$Hedgerow)) %>%
+  mutate(Partridge = predict(reg_mod, .))
+ggplot(partridge, aes(x = Hedgerow, y = Partridge)) + 
+  geom_point() + geom_line(data = pred_data, colour = "steelblue") + 
+  theme_bw() + 
+  xlab("Hedgerow density (km per km²)") + 
+  ylab("Partridge density (no. per km²)")
 ```
