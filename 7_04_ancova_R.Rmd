@@ -88,7 +88,7 @@ This doesn't look great, very few of the points are on the dashed line and there
 ```{block, type='do-something'}
 **Normality assumption**
 
-Can you think of any reason that we might expect the residuals in these data not to be normally distributed? 
+Can you think of any reason that we might expect the residuals in these data not to be normally distributed? What kind of transformation might help?
 ```
 
 Finally, we'll consider the constant variance assumption using the **scale location plot**. 

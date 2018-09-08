@@ -41,6 +41,13 @@ As hedges cannot move there should be relatively little measurement error in the
 partridge <- read.csv(file = "./data_csv/PARTRIDG_BIGSTUDY.CSV")
 ```
 
+
+```{block, type='do-something'}
+**Walk through**
+
+You should begin working through the example from this point. 
+```
+
 The data are stored in a CSV file PARTRIDG_BIGSTUDY.CSV (not PARTRIDG.CSV!). The density of hedgerows (km per km^2^) is in the `Hedgerow` variable and the density of partridges (no. per km^2^) is in the `Partridge` variable. Read the data into R, calling it `partridge`. As always we'll start by plotting our data.
 
 ```{r, fig.align='center', fig.asp=1, fig.width=4, echo = FALSE}
@@ -191,7 +198,7 @@ The last step is the tricky one. Once we have established the rank order of the 
 all_resids <- qqnorm(mod_resids, plot.it = FALSE)
 all_resids <- as.data.frame(all_resids)
 ```
-The `qqnorm` doesn't produce a data frame by default, so we had to covert the result using a function called `as.data.frame`. This extra little step isn't really all that important.
+The `qqnorm` doesn't produce a data frame by default, so we had to convert the result using a function called `as.data.frame`. This extra little step isn't really all that important.
 
 The `all_resids` object is now a data frame with two variables: `x` contains the theoretical values of normally distributed residuals, based on the rank orders of the residuals from the model, and `y` contains the actual standardised residuals. Here are the first 10 values:
 ```{r}

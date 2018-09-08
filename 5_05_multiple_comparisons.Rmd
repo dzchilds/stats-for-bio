@@ -46,11 +46,11 @@ Pay attention! We applied the `TukeyHSD` function to the 'aov' object, *not* the
 The `ordered = TRUE` tells `TukeyHSD` that we want to order the treatment means from smallest to largest, and then apply every pairwise comparison, starting with the smallest mean ('Allvit') and working up through the order. Here are the means ordered from smallest to largest, working left to right:
 
   ------------ ------------- ----------- ------------- ------------ ------------
-  Supplement      Allvit        None       Linseed      Growfast     Earlybird
+  Supplement      Allvit        None       Linseed      Sizefast     Earlybird
   Mean             14.3         15.6        18.5          19.0         22.9
   ------------ ------------- ----------- ------------- ------------ ------------
 
-So the `TukeyHSD` with `ordered = TRUE` will first compare 'Allvit' to 'None', then 'Allvit' to 'Linseed', then 'Allvit' to 'Growfast', then 'Allvit' to 'Earlybird', then 'None' to 'Linseed', then 'None' to 'Growfast', ... and so on, until we get to 'Growfast' vs. 'Earlybird'. Let's look at the output:
+So the `TukeyHSD` with `ordered = TRUE` will first compare 'Allvit' to 'None', then 'Allvit' to 'Linseed', then 'Allvit' to 'Sizefast', then 'Allvit' to 'Earlybird', then 'None' to 'Linseed', then 'None' to 'Sizefast', ... and so on, until we get to 'Sizefast' vs. 'Earlybird'. Let's look at the output:
 
 ```{r, echo=FALSE}
 HSD.obj <- TukeyHSD(corncrake_aov, ordered = TRUE)
@@ -75,10 +75,10 @@ Now we know how to look up any set of comparisons we need to see whether the dif
 
 ## How to summarise multiple-comparison results
 
-Summarising the results of multiple comparison tests can be a tricky business. The first rule is: don’t present the results like the `TukeyHSD` function does! A clear summary of the results will help us to interpret them correctly and makes it easier to explain them to others. How should we do this? Let's list the means in order from smallest to largest again (2 decimal places is sufficient precision for these data):
+Summarising the results of multiple comparison tests can be a tricky business. The first rule is: don’t present the results like the `TukeyHSD` function does! A clear summary of the results will help us to interpret them correctly and makes it easier to explain them to others. How should we do this? Let's list the means in order from smallest to largest again:
 
   ------------ ------------- ----------- ------------- ------------ ------------
-  Supplement      Allvit        None       Linseed      Growfast     Earlybird
+  Supplement      Allvit        None       Linseed      Sizefast     Earlybird
   Mean             14.3         15.6        18.5          19.0         22.9
   ------------ ------------- ----------- ------------- ------------ ------------
 
@@ -90,30 +90,30 @@ The last column gives the *p*-value, which in this case is certainly not signifi
 ```{r, echo=FALSE}
 HSD.obj$Supplement["Linseed-Allvit",]
 ```
-The last column gives the *p*-value, which again is not significant, so we conclude there is no difference between the 'Allvit' and 'Linseed' treatments. So now we continue with 'Allvit', but compare it to the next larger mean ('Growfast'). In this case the values are:
+The last column gives the *p*-value, which again is not significant, so we conclude there is no difference between the 'Allvit' and 'Linseed' treatments. So now we continue with 'Allvit', but compare it to the next larger mean ('Sizefast'). In this case the values are:
 ```{r, echo=FALSE}
-HSD.obj$Supplement["Growfast-Allvit",]
+HSD.obj$Supplement["Sizefast-Allvit",]
 ```
-Once again, this difference is not significant, so we conclude there is no difference between the 'Allvit' and 'Growfast' treatments either. So again, we continue with 'Allvit', which we compare to the next larger mean ('Earlybird'). 
+Once again, this difference is not significant, so we conclude there is no difference between the 'Allvit' and 'Sizefast' treatments either. So again, we continue with 'Allvit', which we compare to the next larger mean ('Earlybird'). 
 ```{r, echo=FALSE}
 HSD.obj$Supplement["Earlybird-Allvit",]
 ```
-This time the *p*-value is clearly less than 0.05 so we conclude that this pair of treatments are significantly different. We record this by marking 'Allvit', 'None', 'Linseed' and 'Growfast' to indicate that they don’t differ from each other. We'll use the letter 'b' to do this.
+This time the *p*-value is clearly less than 0.05 so we conclude that this pair of treatments are significantly different. We record this by marking 'Allvit', 'None', 'Linseed' and 'Sizefast' to indicate that they don’t differ from each other. We'll use the letter 'b' to do this.
 
   ------------ ------------- ----------- ------------- ------------ ------------
-  Supplement      Allvit        None       Linseed      Growfast     Earlybird
+  Supplement      Allvit        None       Linseed      Sizefast     Earlybird
   Mean             14.3         15.6        18.5          19.0         22.9
                     b            b           b             b
   ------------ ------------- ----------- ------------- ------------ ------------
 
-The 'b' defines a group of treatment means---'Allvit', 'None', 'Linseed' and 'Growfast'---that are not significantly different from one another. It doesn't matter which letter we use by the way (the reason for using 'b' here will become apparent in a moment). 
+The 'b' defines a group of treatment means---'Allvit', 'None', 'Linseed' and 'Sizefast'---that are not significantly different from one another. It doesn't matter which letter we use by the way (the reason for using 'b' here will become apparent in a moment). 
 
-The means are ordered from smallest to largest which means we can forget about 'None', 'Linseed' and 'Growfast' treatments for a moment---if they are not significantly different from 'Allvit' they can't be significantly different from one another. 
+The means are ordered from smallest to largest which means we can forget about 'None', 'Linseed' and 'Sizefast' treatments for a moment---if they are not significantly different from 'Allvit' they can't be significantly different from one another. 
 
-We move on to 'Earlybird', but now, we *work back down* the treatments to see if we can define another overlapping group of means that are not significantly different from one another. When we do this, we find that 'Earlybird' is not significantly different from 'Linseed' and 'Growfast', but that it is significantly different from 'None'. This forms a second 'not significantly different' group. We will denote this with a new letter ('a') in our table:
+We move on to 'Earlybird', but now, we *work back down* the treatments to see if we can define another overlapping group of means that are not significantly different from one another. When we do this, we find that 'Earlybird' is not significantly different from 'Linseed' and 'Sizefast', but that it is significantly different from 'None'. This forms a second 'not significantly different' group. We will denote this with a new letter ('a') in our table:
 
   ------------ ------------- ----------- ------------- ------------ ------------
-  Supplement      Allvit        None       Linseed      Growfast     Earlybird
+  Supplement      Allvit        None       Linseed      Sizefast     Earlybird
   Mean             14.3         15.6        18.5          19.0         22.9
                     b            b           b             b
                                              a             a            a
@@ -138,7 +138,7 @@ Now that the package is loaded we can carry out the Tukey HSD test and find the 
 ```{r}
 HSD.test(corncrake_aov, "Supplement", console=TRUE)
 ```
-The `console = TRUE` argument tells the function to print the results for us. That's a lot of output, but we can ignore most of it. The part that matters most is the table at the very end. This shows the group identities as letters, the treatment names, and the treatment means. If we compare that table with the one we just made, we can see they convey the same information. The package labels each group with a letter. For example, we can see that 'Linseed' and 'GrowFast' are both members of the 'a' and 'b' group. Hopefully it is obvious why we used 'b' and then 'a' when building the table manually above.
+The `console = TRUE` argument tells the function to print the results for us. That's a lot of output, but we can ignore most of it. The part that matters most is the table at the very end. This shows the group identities as letters, the treatment names, and the treatment means. If we compare that table with the one we just made, we can see they convey the same information. The package labels each group with a letter. For example, we can see that 'Linseed' and 'SizeFast' are both members of the 'a' and 'b' group. Hopefully it is obvious why we used 'b' and then 'a' when building the table manually above.
 
 So, there is no need to build these Tukey HSD tables by hand. We just use the `HSD.test` function in the `agricolae` package. So why did we do it the long way? Well, the usual reasoning applies: it is important to know how to do this because it improves our understanding of what the 'letters notation' actually means.
 
@@ -159,7 +159,7 @@ An example table might be:
   **Supplement**       Mean weight gain (g)
 -----------------  --------------------------
   Earlybird                    22.9^a^
-  Growfast                     19.0^ab^
+  Sizefast                     19.0^ab^
   Linseed                      18.5^ab^
   None                         15.6^b^
   Allvit                       14.3^b^

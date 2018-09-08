@@ -28,7 +28,7 @@ First, we need to be able to actually recognise a factor when we see one. Here i
 ```{r}
 glimpse(corn_crake)
 ```
-This tells us that there are `r nrow(corn_crake)` observations in the data set and `r ncol(corn_crake)` variables (columns), called `Supplement` and `WeightGain`. The text next to `$ Supplement` says `<fctr>`. We can guess what that stands for.... it is telling us that the `Supplement` vector inside `corn_crake` is a factor. The `Supplement` factor was created automatically when we read the data stored in DIET_EFFECTS.CSV into R. When we read in a column of data that is non-numeric, `read.csv` will often decide to turn it into a factor for us^[This behaviour isn't really all that helpful. It would be better if R let us, the users, decide whether or not to turn something into a factor vector. However, in the early days of R computers had limited memory, which meant storing a categorical variable as a factor made sense; it saved memory. This benefit of factors has long since disappeared, but we're stuck with the turn-everything-into-a-factor behaviour.]. 
+This tells us that there are `r nrow(corn_crake)` observations in the data set and `r ncol(corn_crake)` variables (columns), called `Supplement` and `WeightGain`. The text next to `$ Supplement` says `<fctr>`. We can guess what that stands for.... it is telling us that the `Supplement` vector inside `corn_crake` is a factor. The `Supplement` factor was created automatically when we read the data stored in CORN_CRAKE.CSV into R. When we read in a column of data that is non-numeric, `read.csv` will often decide to turn it into a factor for us^[This behaviour isn't really all that helpful. It would be better if R let us, the users, decide whether or not to turn something into a factor vector. However, in the early days of R computers had limited memory, which meant storing a categorical variable as a factor made sense; it saved memory. This benefit of factors has long since disappeared, but we're stuck with the turn-everything-into-a-factor behaviour.]. 
 
 R is generally fairly good at alerting us to the fact that a variable is stored as a factor. For example, look what happens if we extract the `Supplement` column from `corn_crake` and print it to the screen: 
 ```{r}
@@ -44,13 +44,13 @@ This alerts us to the fact that `Supplement` is a factor, with `r length(levels(
 
 Carrying out ANOVA in R is quite simple, but as with regression, there is more than one step. The first involves a process known as *fitting the model* (or just *model fitting*). This is the step where R calculates the relevant means, along with the additional information needed to generate the results in step two. We call this step model fitting because an ANOVA is a type of model for our data: it is a model that allows the mean of a variable to vary among groups.
 
-How do we fit an ANOVA model in R? We will do it using the `lm` function again. Remember what the letters 'lm' stand for? They stand for '(general) linear model'. So... an ANOVA model is just another special case of the general linear model. Here is how we fit a one-way ANOVA in R, using the diet data:
+How do we fit an ANOVA model in R? We will do it using the `lm` function again. Remember what the letters 'lm' stand for? They stand for '(general) linear model'. So... an ANOVA model is just another special case of the general linear model. Here is how we fit a one-way ANOVA in R, using the corncrake data:
 ```{r}
 corncrake_model <- lm(WeightGain ~ Supplement, data = corn_crake)
 ```
 Hopefully by now this kind of thing is starting to look familiar. We have to assign two arguments:
 
-1. The first argument is a formula. We know this because it includes a 'tilde' symbol: `~`. The variable name on the left of the `~` must be the numeric response variable whose means we want to compare among groups. The variable on the right should be the indicator variable that says which group each observation belongs to. These are `WeightGain` and `Supplement`, respectively.
+1. The first argument is a formula. We know this because it includes a 'tilde' symbol: `~`. The variable name on the left of the `~` must be the numeric response variable whose means we want to compare among groups. The variable on the right should be the indicator (or predictor) variable that says which group each observation belongs to. These are `WeightGain` and `Supplement`, respectively.
 
 2. The second argument is the name of the data frame that contains the two variables listed in the formula.
 
@@ -88,7 +88,7 @@ This is an Analysis of Variance Table. It summarises the parts of the ANOVA calc
 
 The *F*-ratio (variance ratio) is the key term. This is the test statistic. It provides a measure of how large and consistent the differences between the means of the five different treatments are. Larger values indicate clearer differences between means, in just the same way that large values of Student’s *t* indicate clearer differences between means in the two sample situation.
 
-The *p*-value gives the probability that the observed differences between the means, or a more extreme difference, could have arisen through sampling variation under the null hypothesis. What is the null hypothesis: it is one of no effect of treatment, i.e. the null hypothesis is that all the means are the same. As always, the *p*-value of 0.05 is used as the significance threshold, and we take *p* < 0.05 as evidence that at least one of the treatments is having an effect. For the diet data, the value is `r round(anova(corncrake_model)$"F value"[1], 1)`, and the probability (*p*) of getting an *F*-ratio this large is given by R as `r round(anova(corncrake_model)$"Pr(>F)"[1], 4)`, i.e. less than 0.05. This provides good evidence that there are differences in weight loss between at least some of the treatments. 
+The *p*-value gives the probability that the observed differences between the means, or a more extreme difference, could have arisen through sampling variation under the null hypothesis. What is the null hypothesis: it is one of no effect of treatment, i.e. the null hypothesis is that all the means are the same. As always, the *p*-value of 0.05 is used as the significance threshold, and we take *p* < 0.05 as evidence that at least one of the treatments is having an effect. For the corncrake data, the value is `r round(anova(corncrake_model)$"F value"[1], 1)`, and the probability (*p*) of getting an *F*-ratio this large is given by R as `r round(anova(corncrake_model)$"Pr(>F)"[1], 4)`, i.e. less than 0.05. This provides good evidence that there are differences in weight gain between at least some of the treatments. 
 
 So far so good. The test that we have just carried out is called the **global test of significance**. It goes by this name because it doesn't tell us anything about which means are different. The analyses suggest that there is an effect of supplement on weight gain, but some uncertainty remains because we have only established that there are differences among at least some supplements. A global test doesn't say which supplements are better or worse. This could be very important. If the significant result is generated by all supplements being equally effective (hence differing from the control but not from each other) we would draw very different conclusions than if the result was a consequence of one supplement being very effective and all the others being useless. Our result could even be produced by the supplements all being less effective than the control!
 
@@ -98,7 +98,7 @@ So having got a significant result in the ANOVA, we should always look at the me
 corncrake_stats.t <- 
   corn_crake %>% 
   mutate(Supplement = factor(Supplement, 
-                       levels = c("None", "Growfast", "Linseed", "Allvit", "Earlybird"))) %>%
+                       levels = c("None", "Sizefast", "Linseed", "Allvit", "Earlybird"))) %>%
   group_by(Supplement) %>% 
   summarise(Mean = mean(WeightGain), SE = sd(WeightGain)/sqrt(n()))
 ggplot(data = corncrake_stats.t, aes(x = Supplement)) + 
@@ -109,15 +109,15 @@ ggplot(data = corncrake_stats.t, aes(x = Supplement)) +
   xlab("Supplement") + ylab("Weight gain (g)")
 ```
 
-What looking at the means tells us is that the effect of the supplements is generally to increase weight gain (with one exception, 'Allvit') relative to the control group ('None'), and that it looks as though 'Earlybird' is the most effective, followed by 'Growfast' and 'Linseed'.
+What looking at the means tells us is that the effect of the supplements is generally to increase weight gain (with one exception, 'Allvit') relative to the control group ('None'), and that it looks as though 'Earlybird' is the most effective, followed by 'Sizefast' and 'Linseed'.
 
 Often inspection of the means in this way will tell us all we need to know and no further work will be required. However, sometimes it is desirable to have a more rigorous way of testing where the significant differences between treatments occur. A number of tests exist as ‘add ons’ to ANOVA which enable you to do this. These are called **post hoc multiple comparison tests** (sometimes just 'multiple comparison tests'). We'll see how to conduct these in the [Multiple comparison tests] chapter.
 
 ## Summarising and presenting the results of ANOVA {#summarise-results}
 
-As with all tests it will usually be necessary to summarise the result from the test in a written form. With an ANOVA on several treatments, we always need to at least summarise the results of the global test of significance. Here is again:
+As with all tests it will usually be necessary to summarise the result from the test in a written form. With an ANOVA on several treatments, we always need to at least summarise the results of the global test of significance, for example:
 
-> There was a significant effect of diet on the weight losses of subjects 
+> There was a significant effect of supplement on the weight gain of the corncrake hatchlings 
 > (ANOVA: F=5.1; d.f.= 4,35; p<0.01).
 
 There are several things to notice here:
@@ -177,7 +177,7 @@ Take a close look at that last figure. Is there anything wrong with it? The cont
 ```{r}
 corncrake_stats <- 
   corncrake_stats %>% 
-  mutate(Supplement = factor(Supplement, levels = c("None", "Growfast", "Linseed", "Allvit", "Earlybird")))
+  mutate(Supplement = factor(Supplement, levels = c("None", "Sizefast", "Linseed", "Allvit", "Earlybird")))
 ```
 We use `mutate` to update `Supplement`, using the `factor` function to redefine the levels of `Supplement` and overwrite the original. Now, when we rerun the `ggplot2` code we end up with a figure like this:
 

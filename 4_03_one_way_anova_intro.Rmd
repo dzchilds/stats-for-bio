@@ -16,7 +16,7 @@ ANOVA models underpin the analysis of many different kinds of experimental data;
 
 ```{r, echo=FALSE}
 means <- c(1.5, 2.0, 1.8, 1.4, 1.9); 
-plans <- c("None", "Growfast", "Linseed", "Allvit", "Earlybird")
+plans <- c("None", "Sizefast", "Linseed", "Allvit", "Earlybird")
 sim.wl <- function(variables) {
   # 
   wloss.data <- 
@@ -34,9 +34,9 @@ sim.wl <- function(variables) {
 }
 ```
 
-The corncrake, *Crex crex*, underwent severe declines in the UK. Captive breeding and reintroduction programmes were introduced to try to help supplement the wild population. The scientists in charge of the breeding programme wanted to determine the success of 4 different supplementss (the predictor variable) for increasing initial growth (the response variable) in the captively bred hatchlings. They conducted an experiment in which groups of 8 hatchlings were fed with different supplements. A fifth group of 8 hatchlings served as the control group—they were given the base diet with no supplements. At the end of the experiment they measured how much weight each hatchling had gained over the week.
+The corncrake, *Crex crex*, underwent severe declines in the UK thought to be due to changes in farming practices. Captive breeding and reintroduction programmes were introduced to try to help supplement the wild population. The scientists in charge of the breeding programme wanted to determine the success of 4 different supplements (the predictor variable) for increasing initial growth (the response variable) in the captively bred hatchlings. They conducted an experiment in which groups of 8 hatchlings were fed with different supplements. A fifth group of 8 hatchlings served as the control group—they were given the base diet with no supplements. At the end of the experiment they measured how much weight each hatchling had gained over the week.
 
-Once the data have been collected we need to understand the results. The weight gain of 8 hatchlings on each of the supplements could be plotted (this is the raw data), along with the means of each supplement group, the standard error of the mean, and the sample mean of all the data:
+We can plot the weight gain of 8 hatchlings on each of the supplements (this is the raw data), along with the means of each supplement group, the standard error of the mean, and the sample mean of all the data:
 
 ```{r, echo=FALSE, fig.align='center', fig.asp=1, fig.width=4}
 set.seed(30081975)
@@ -66,7 +66,7 @@ The grey points are the raw data, the means and standard error of each group are
 
 Perhaps all of this could be explained away as sampling variation---i.e. the supplements make no difference at all to weight gain. Obviously we need to apply a statistical test to decide whether these differences are 'real'. 
 
-It might be tempting to use *t*-tests to compare each mean value with every other. However, this would it would involve 10 *t*-tests. Remember, if there is no effect of supplement, each time we do a *t*-test there is a chance that we will get a false significant result. If we use the conventional *p* = 0.05 significance level, there is a 1 in 20 chance of getting such 'false positives'. Doing a large number of such tests increases the overall risk of finding a false positive. In fact doing ten *t*-tests on all possible comparisons of the 5 different supplements gives about 40% chance of at least one test giving a false significant difference, even though each individual test is conducted with *p* = 0.05. 
+It might be tempting to use *t*-tests to compare each mean value with every other. However, this would involve 10 *t*-tests. Remember, if there is no effect of supplement, each time we do a *t*-test there is a chance that we will get a false significant result. If we use the conventional *p* = 0.05 significance level, there is a 1 in 20 chance of getting such 'false positives'. Doing a large number of such tests increases the overall risk of finding a false positive. In fact doing ten *t*-tests on all possible comparisons of the 5 different supplements gives about 40% chance of at least one test giving a false significant difference, even though each individual test is conducted with *p* = 0.05. 
 
 That doesn't sound like a very good way to do science. We need a reliable way to determine whether there is a significance of differences between several means without increasing the chance of getting a spurious result. That's the job of Analysis of Variance (ANOVA). Just as a two sample *t*-test compares means between two groups, ANOVA compares means among two *or more* groups. The fundamental job of an ANOVA model is to compares means. So why is it called Analysis of *Variance*? Let's find out...
 
@@ -81,7 +81,7 @@ plt.data <-
 
 The key to understanding ANOVA is to realise that it works by examining the magnitudes of different sources of variation in the data. We start with the total variation in the response variable---the variation among all the units in the study---and then partition this into two sources: 
 
-1.    Variation due to the effect of experimental treatments or control groups. This is called the 'between-group' variation. This describes that variability that can be attributed to the different groups in the data (e.g. the supplement groups). This is the same as the 'explained variation' described in the [Relationships and regression] chapter. It quantifies the variation that is 'explained' by the different means.
+1.    Variation due to the effect of experimental treatments or control groups. This is called the 'between-group' variation. This describes the variability that can be attributed to the different groups in the data (e.g. the supplement groups). This is the same as the 'explained variation' described in the [Relationships and regression] chapter. It quantifies the variation that is 'explained' by the different means.
 
 2.    Variation due to other sources. This second source of variation is usually referred to as the 'within-group' variation because it applies to experimental units within each group. This quantifies the variation due to everything else that isn't accounted for by the treatments. Within-group variation is also called the 'error variation'. We'll mostly use this latter term because it is a bit more general.
 
@@ -105,7 +105,7 @@ ggplot(data = plt.data, aes(x = SuppNum)) +
 
 The vertical lines show the distance between each observation and the grand mean---we have ordered the data within each group so that the plot is a little tidier. A positive deviation occurs when a point is above the line, and a negative deviation corresponds to a case where the point is below the line. We're not interested in the direction of these deviations. What we need to quantify is the variability of the deviations, which is a feature of their magnitude (the length of the lines). 
 
-What measure of variability should we use? We can't add up the deviations because they add to zero. Instead, we apply the same idea introduced in the regression chapter: the measure of variability we need is based on the 'sum of squares' (abbreviated SS) of the deviations. A sum of squares is calculated by taking each deviation in turn, squaring it, and adding up the squared values. Here are the numeric values of the deviations shown graphically above:
+What measure of variability should we use? We can't add up the deviations because they add to zero. Instead, we apply the same idea introduced in the [Relationships and regression] chapter: the measure of variability we need is based on the 'sum of squares' (abbreviated SS) of the deviations. A sum of squares is calculated by taking each deviation in turn, squaring it, and adding up the squared values. Here are the numeric values of the deviations shown graphically above:
 ```{r, echo=FALSE}
 (total.devs <- sim1$wloss.data$WeightGain-mean(sim1$wloss.data$WeightGain))
 SS.Tot <- sum(total.devs^2)

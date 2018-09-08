@@ -4,7 +4,7 @@ We usually have an analysis in mind when we design an experiment or observationa
 
 As we learnt in the last section regression and one-way ANOVA are both types of linear model. They are parametric techniques and as such they make a number of assumptions that we need to be aware of. If our data do not meet the assumptions of the tests then we cannot rely on the results (i.e. the *p*-values) given by those tests. 
 
-### Understanding data
+## Understanding data
 
 We've been using 'well-behaved' data sets in this book so far, which tends to give the impression that visual inspections of the data are not all that necessary. Here's an example of why it matters. Imagine we are interested in quantifying the relationship between two variables, called $x$ and $y$. We might be tempted to carry out a linear regression analysis without first inspecting these data to get straight to 'the answer': the coefficients of the linear regression model. This could be very misleading. Take a look at these four scatter plots:
 
@@ -19,6 +19,7 @@ rbind(select(anscombe, x = x1, y = y1) %>% mutate(case = "Case 1"),
 These four artificial data sets were constructed by the statistician Francis Anscombe. The means and variances of $x$ and $y$ are nearly identical in all four data sets, and what's more, the intercepts and slopes of the best fit regression lines are almost identical (the intercept and slope are 3.00 and 0.500, respectively). The nature of the relationship between $x$ and $y$ is quite obviously different among the four cases:
 
 1. "Case 1" shows two linearly related, normally distributed variables. This is the kind of data we often hope for in a statistical analysis. 
+
 2. "Case 2" shows two variables that are not normally distributed, but there is a perfect non-linear relationship between the two. 
 
 3. "Case 3" shows an example the variables are perfectly linearly associated for all but one observation which ruins the perfect relationship.
@@ -27,7 +28,7 @@ These four artificial data sets were constructed by the statistician Francis Ans
 
 Each of these plots tells a different story about the relationship between $x$ and $y$, yet the linear regression model says the same thing is happening in each case. These are obviously somewhat pathological examples, but they clearly illustrate the kinds of issues that can, and do, arise with real data. There is a real risk we will apply an inappropriate analysis if we fail to detect these kinds of problems. 
 
-Every statistical model makes certain assumptions about the data^[Even so-called 'non-parametric' models have underpinning assumptions; these are just not as restrictive as their parametric counterparts.]. Even if a dataset doesn't exhibit the very obvious problems seen in the Anscombe examples, we still need to assess whether the assumptions of the statistical model we want to use are likely to be valid. For example, when working with a linear regression model, we started with a scatter plot of the response variable vs. the predictor variable. This allowed us to assess whether the two variables are linearly related. However, as we noted at the time linearity is not the only assumption we need to think about when carrying out a linear regression. In the rest of this chapter we'll go through the remaining assumptions for regression and also consider the assumptions for a one-way ANOVA. In the [Diagnostics] chapter we'll move on to how to check whether these assumptions are valid with your data.
+Every statistical model makes certain assumptions about the data^[Even so-called 'non-parametric' models have underpinning assumptions; these are just not as restrictive as their parametric counterparts.]. Even if a dataset doesn't exhibit the very obvious problems seen in the Anscombe examples, we still need to assess whether the assumptions of the statistical model we want to use are likely to be valid. For example, when working with a linear regression model, we started with a scatter plot of the response variable vs. the predictor variable. This allowed us to assess whether the two variables are linearly related. However, as we noted at the time linearity is not the only assumption we need to think about when carrying out a linear regression. In the rest of this chapter we'll go through the remaining assumptions for regression and also consider the assumptions for a one-way ANOVA. In the [Introduction to regression diagnostics] and [Using regression diagnostics] chapters we'll move on to how to check whether these assumptions are valid with your data.
 
 ## Assumptions of regression
 

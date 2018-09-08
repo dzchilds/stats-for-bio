@@ -6,7 +6,7 @@ In the last chapter we learnt how to carry out regression diagnostics. Fortunate
 
 ## Diagnostics for regression
 
-We'll use the example from the [Simple regression in R] chapter to step through the easy way to make diagnostic plots. 
+We'll use the glucose release example from the [Simple regression in R] chapter to step through the easy way to make diagnostic plots. 
 
 ```{block, type='do-something'}
 **Walk through example**
@@ -36,7 +36,7 @@ plot(vicia_model, which = 1, add.smooth = FALSE)
 
 The first argument is the name of fitted model object. The second argument controls the output of the `plot` function: `which = 1` argument tells it to produce a residuals vs. fitted values plot. The `add.smooth = FALSE` is telling the function not to add a line called a 'loess smooth'. This line is supposed to help us pick out patterns, but it tends to over fit the relationship and leads people to see problems that aren't there. If we can't see a clear pattern without the line, it probably isn't there, so it's better not to include it at all.
 
-Remember that this plot allows us to evaluate the linearity assumption. Here, we're looking for any evidence of a systematic trend here. As there's no obvious pattern we can accept the linearity assumption and move on to the normality assumption. 
+Remember that this plot allows us to evaluate the linearity assumption. Here, we're looking for any evidence of a systematic trend (e.g. a hump or U-shaped curve) here. As there's no obvious pattern we can accept the linearity assumption and move on to the normality assumption. 
 
 We use the `plot` function to plot a normal probability diagnostic by setting `which = 2`:
 
@@ -70,7 +70,7 @@ The term 'regression diagnostic' is a bit of a misnomer. A more accurate term mi
 You should work through the example in the next few sections.
 ```
 
-Let's step through the diagnostics for a one way ANOVA now, using the corn crake supplements example we used before. Read the data into R again and fit the model as before. 
+Let's step through the diagnostics for a one way ANOVA now, using the corncrake hatchlings example from the [One-way ANOVA in R] chapter. Read the data into R again and fit the model as before. 
 
 ```{r, echo=FALSE}
 corn_crake <- read.csv(file = "./data_csv/CORN_CRAKE.CSV")

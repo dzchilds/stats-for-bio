@@ -8,7 +8,7 @@ Up until now, the data we've examined have conformed, at least roughly, to the a
 
 -   Variances may be unequal among groups.
 
-The same kinds of problems with these **distributional assumptions** can also arise when working in a regression (i.e. non-normal residuals, non-constant variance). Furthermore, we might run into additional problems if there is some kind of non-linearity in the relationship between the dependent and independent (numeric) variables.
+The same kinds of problems with these **distributional assumptions** can also arise when working in a regression (i.e. non-normal residuals, non-constant variance). Furthermore, we might run into additional problems if there is some kind of non-linearity in the relationship between the response and predictor (numeric) variables.
 
 Most biological data are unlikely to conform perfectly to all the assumptions, but experience has shown (fortunately) that *t*-tests, ANOVAs and regressions are generally quite robust---they perform reasonably well with data that deviate to some extent from the assumptions of the tests. However, in some cases residuals are clearly very far from normal, or variances change a lot across groups.
 
@@ -56,7 +56,7 @@ This chapter is about fixing models when the assumptions are not satisfied. What
 
 1. **Independence.** The experimental units of the data must be independent.
 
-2. **Measurement scale.** The dependent variable is measured on an interval or ratio scale.
+2. **Measurement scale.** The response variable is measured on an interval or ratio scale.
 
 3. **Normality.** The residuals are normally distributed in each level of the grouping factor. 
 
@@ -108,7 +108,7 @@ The ability to do a *t*-test which doesn’t require equal variances is extremel
 
 ## Transforming the data {#transform}
 
-One approach to dealing with difficult data is to apply a mathematical function to it to make the transformed data fits the model assumptions better: a process called *data transformation*. This may sound a bit dubious, but it is a perfectly valid procedure that will often allow us to use the statistical model we want to even if the data don’t initially fit the assumptions. The key thing to keep in mind is that the transformation should be applied to the *dependent variable*. 
+One approach to dealing with difficult data is to apply a mathematical function to it to make the transformed data fits the model assumptions better: a process called *data transformation*. This may sound a bit dubious, but it is a perfectly valid procedure that will often allow us to use the statistical model we want to even if the data don’t initially fit the assumptions. The key thing to keep in mind is that the transformation should be applied to the *response variable*. 
 
 ### The logarithmic transformation
 
@@ -149,7 +149,7 @@ One thing to be aware of is that **we cannot take the log of zero**. If our data
 
 Having compared the transformed means, how should we present the results in a report? There are three alternatives. We'll illustrate them using the log-transformation, but they applicable to other kinds of transformations.
 
-1.  We could present the transformed means (having stated what the transformation was, e.g. $log_{e}(x+1)$). The disadvantage to this is that the numbers themselves convey little information about the data values on the original scale. This isn't always a problem. For example, effects given on a log scale act in a 'multiplicative' manner, so a model with log-transformed dependent variable can still be interpreted if we know what we're doing.
+1.  We could present the transformed means (having stated what the transformation was, e.g. $log_{e}(x+1)$). The disadvantage to this is that the numbers themselves convey little information about the data values on the original scale. This isn't always a problem. For example, effects given on a log scale act in a 'multiplicative' manner, so a model with log-transformed response variable can still be interpreted if we know what we're doing.
 
 2.  We could back-transform the means of the log-transformed data by taking the antilogs: $10^{x}$ (for logs to the base 10) and $e^{x}$ (for natural logs)^[N.B. if we used log$(x+1)$ we must remember to subtract the 1 again after taking the antilog.]. When we back-transform data, however, we need to be aware of two things: (1) The back-transformed mean will not be the same as a mean calculated from the original data; (2) We have to be careful when we back-transform standard errors. If we want to display the back-transformed means on a bar plot, with some indication of the variability of the data, we must calculate the standard errors and then back transform the upper and lower limits, which will not then be symmetrical about the mean.
 
@@ -159,7 +159,7 @@ Having compared the transformed means, how should we present the results in a re
 
 Clearly, in the case study above, a log-transformation alters the outcome of statistical tests applied to the data. It is not always the case that transforming the data will make the difference between a result being significant and not significant, or that the transformed data will give a less significant result. 
 
-Never use *p*-values to judge the success of a transformation! We use diagnostic plots to make that assessment. What we hope is that we can transform the dependent variable so that it conforms, at least approximately, to the assumptions of the statistical model we want to use, making the result from associated tests as reliable as possible.
+Never use *p*-values to judge the success of a transformation! We use diagnostic plots to make that assessment. What we hope is that we can transform the response variable so that it conforms, at least approximately, to the assumptions of the statistical model we want to use, making the result from associated tests as reliable as possible.
 
 Taking logarithms is only one of many possible transformations. Each type of transformation is appropriate to solving different problems in the data. The following is a summary of the three most commonly used transformations and the sort of situations they are useful for.
 
@@ -171,7 +171,7 @@ Log transformation, as we've just seen, affects the data in two ways:
 
 2.    The 'squashing' effect of a log-transformation is more pronounced at higher values. This means a log-transformation may also deal with another common problem in biological data (also seen in the ant data)---samples with larger means having larger variances. 
 
-If we are carrying out an ANOVA and the scale-location plot exhibits a positive relationship---i.e. groups with larger means have larger variances---then a log transformation could be appropriate^[Log transformations have a variety of other uses in statistics. One is in transforming an *independent* variable when looking at the form of relationships between two variables.].
+If we are carrying out an ANOVA and the scale-location plot exhibits a positive relationship---i.e. groups with larger means have larger variances---then a log transformation could be appropriate^[Log transformations have a variety of other uses in statistics. One is in transforming a *predictor* variable when looking at the form of relationships between two variables.].
 
 ### Square roots
 
@@ -233,7 +233,7 @@ We have focussed on ANOVA here for the simple reason that the assumptions are a 
 
 1.  Always check the diagnostic plots after we fit a regression or ANOVA (and do this before worrying about *p*-values). 
 
-2.  If there is evidence for a problem with the assumptions, try transforming the dependent variable.
+2.  If there is evidence for a problem with the assumptions, try transforming the response variable.
 
 3.  Refit the model using the transformed variable and generate new diagnostic plots to see if the new model is any better.
 

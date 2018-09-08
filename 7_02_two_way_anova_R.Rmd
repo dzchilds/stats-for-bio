@@ -125,7 +125,7 @@ invisible(sapply(festuca.out[4:8], function(line) cat(line, "\n")))
 ```
 This ANOVA table is similar to the ones we have already seen, except that now we have to consider three lines---one for each term in the model. The first is for the main effect of pH, the second for the main effect of *Calluna*, the third for the interaction between pH and *Calluna*. 
 
-The *F*-ratio is the test statistic for each term. These provides a measure of how large and consistent the effects associated with each term are. Each *F*-ratio has a pair of degrees of freedom associated with it: one belonging to the term itself, the other due to the error (residual). Together, the *F*-ratio and its degrees of freedom determines the *p*-value. 
+The *F*-ratio is the test statistic for each term. These provide a measure of how large and consistent the effects associated with each term are. Each *F*-ratio has a pair of degrees of freedom associated with it: one belonging to the term itself, the other due to the error (residual). Together, the *F*-ratio and its degrees of freedom determines the *p*-value. 
 
 The *p*-value gives the probability that the differences between the set of means for each term in the model, or a more extreme difference, could have arisen through sampling variation under the null hypothesis of no difference. We take *p* < 0.05 as evidence that at least one of the treatments is having an effect. Here, *p* < 0.05 for three effects, so we conclude both main effects and the interaction are significant (though at different significance levels).
 
@@ -252,7 +252,9 @@ ggplot(festuca_stats,
   geom_errorbar(width = 0.1) +
   # controlling the appearance
   scale_y_continuous(limits = c(2, 7)) + 
-  xlab("Calluna") + ylab("Festuca yield (g dry weight)")
+  xlab("Calluna") + ylab("Festuca yield (g dry weight)") + 
+  # use a more professional theme
+  theme_bw()
 ```
 
 This is very similar to the `ggplot2` code used to make the summary figure in the one-way ANOVA example. We set the `data` argument in `ggplot` to be the data frame containing the statistics (not the original raw data), and this time, we set up **five** aesthetic mappings: `x`, `y`, `colour`, `ymin` and `ymax`. We use the colour aesthetic to delineate the levels of `pH`. We added two layers: one layer is added with `geom_point` to include the individual points based on the `x` and `y` mappings; the second layer is added with `geom_errorbar` to include the error bars based on the `x`, `ymin` and `ymax` mappings.
@@ -274,7 +276,9 @@ ggplot(festuca_stats,
   geom_errorbar(width = 0.1, position = pos) +
   # controlling the appearance
   scale_y_continuous(limits = c(2, 7)) + 
-  xlab("Calluna") + ylab("Festuca yield (g dry weight)")
+  xlab("Calluna") + ylab("Festuca yield (g dry weight)") + 
+  # use a more professional theme
+  theme_bw()
 ```
 
 Look at the new positions of the points and error bars at each level of `Calluna`---they have shifted very slightly to the left and right. We don't need to do this in the Calluna example of course, because there is no overlap to deal with. If the points/SEs had overlapped, this would now be avoided because the data would be plotted side-by-side. 

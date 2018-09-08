@@ -66,7 +66,7 @@ The four tests discussed here are:
 1) __Wilcoxon signed-rank test__: The test is equivalent to a one-sample and paired-sample *t*-test. This test also goes by the name of the Wilcoxon one-sample test, the Wilcoxon matched-pairs test, the Wilcoxon paired-sample test. It can be used to...
     - compare a sample to a single value, or
     - test for differences between paired samples.
-    
+
 2) __Mann-Whitney *U*-test__: This is equivalent to the two-sample *t*-test. It tests for differences between two unpaired samples. This test also goes by the name of the Wilcoxon two-sample test, the Mann–Whitney–Wilcoxon, Wilcoxon rank-sum test.
 
 3) __Kruskal-Wallis test__: tests for differences between several samples. This is equivalent to a one-way analysis of variance.
@@ -242,9 +242,9 @@ Predictably, the R function to carry out a Kruskal-Wallis test is called `kruska
 kruskal.test(Strikes ~ Time, data = cuttlefish)
 ```
 
-And... one more time... the elements of the output should be easy to work out. These are a statement of the test used and the data, followed by the results: a test statistic (another type of $\Chi^2$ statistic), a degrees of freedom, and the all-important *p*-value. 
+And... one more time... the elements of the output should be easy to work out. These are a statement of the test used and the data, followed by the results: a test statistic (another type of $\chi^2$ statistic), a degrees of freedom, and the all-important *p*-value. 
 
-We report all of these when writing up results of a Kruskal-Wallis test. However, there is some disagreement in the literature how to report a Kruskal-Wallis test---some people report the statistic as a $\Chi^2$, while others refer to it as an 'H' statistic. We will follow the common convention of reporting it as an 'H' value.
+We report all of these when writing up results of a Kruskal-Wallis test. However, there is some disagreement in the literature how to report a Kruskal-Wallis test---some people report the statistic as a $\chi^2$, while others refer to it as an 'H' statistic. We will follow the common convention of reporting it as an 'H' value.
 
 The test (as with ANOVA) tells us that there is at least one difference among the groups, but it doesn’t tell where the difference or differences are. The output does not give the medians so we cannot judge how the samples are ordered. We can use `dplyr` to calculate the group-specific medians though: 
 ```{r}

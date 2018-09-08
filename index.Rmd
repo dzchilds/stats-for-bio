@@ -19,7 +19,7 @@ description: "Course book for Data Analysis and Statistics with R (APS 240) in t
 
 This is the online course book for the __Data Analysis and Statistics with R__ ([APS 240](https://www.shef.ac.uk/aps/currentug/level2/aps240)) module. You can view this book in any modern desktop browser, as well as on your phone or tablet device. The site is self-contained---it contains all the material you are expected to learn this year.
 
-[Dylan Childs](https://www.shef.ac.uk/aps/staff-and-students/acadstaff/childs) is the course co-coordinator. Please [email him](mailto:d.childs@sheffield.ac.uk?Subject=APS%20133%20general%20query) if you have have any general queries about the course. [Andrew Beckerman](https://www.shef.ac.uk/aps/staff-and-students/acadstaff/beckerman) is the second course instructor. The Teaching Assistants ('TAs') this year are Ross Booton, Matthew Hethcoat, Bethan Hindle, Tamora James, Felix Lim, and Simon Mills.
+Bethan Hindle is running the course. Please [email her](mailto:b.hindle@sheffield.ac.uk?Subject=APS%20133%20general%20query) if you have any general queries about the course. 
 
 ## Why do a data analysis course? {#why-data-analysis}
 
@@ -40,12 +40,6 @@ By the end of the course you should be familiar with the principles and use of a
 ### Assumed background {#assumed-background}
 
 You are assumed to be familiar with the use of personal computers on the University network, and with the use of R for data input, manipulation and plotting introduced in [APS 135](https://www.shef.ac.uk/aps/currentug/level1/aps135). If you are unsure about these basic methods, then you will need to revise the material covered in the Level 1 IT practicals. The key skills you need are covered in the [Programming prerequisites] chapter. We will revise the most important topics in the first practical session. 
-
-```{block, type='do-something'}
-**Environmental Sciences Students** 
-
-Don't panic if you are one of the Environmental Sciences students joining us from Geography. We'll provide targetted help at the beginning of the course to help you learn the fundamentals of R.
-```
 
 ### Methods {#methods}
 

@@ -50,7 +50,7 @@ $$\text{t} = \frac{\text{Sample Mean}}{\text{Standard Error of the Mean}}$$
 
 Why is this useful? If our normality assumption is reasonable this test-statistic follows a *t*-distribution. This is guaranteed by the normality assumption. So this particular test statistic is also a *t*-statistic. That's why we label it *t*. This knowledge leads to the final step...
 
-**Step 4.** Compare the*t*-statistic to the theoretical predictions of the *t*-distribution to assess the statistical significance of the difference between observed and expected value. We calculate the probability that we would have observed a difference with a magnitude as large as, or larger than, the observed difference, if the null hypothesis were true. That's the *p*-value for the test.
+**Step 4.** Compare the *t*-statistic to the theoretical predictions of the *t*-distribution to assess the statistical significance of the difference between observed and expected value. We calculate the probability that we would have observed a difference with a magnitude as large as, or larger than, the observed difference, if the null hypothesis were true. That's the *p*-value for the test.
 
 We could step through the actual calculations involved in these steps in detail, using R to help us, but there's no need to do this. We can let R handle everything for us. But first, we should review the assumptions of the one-sample *t*-test.
 
@@ -62,7 +62,7 @@ There are a number of assumptions that need to be met in order for a one-sample 
 
 2. **Measurement scale.** The variable being analysed should be measured on an interval or ratio scale, i.e. it should be a numeric variable. It doesn't make much sense to apply a one-sample *t*-test to a variable that isn't measured on one of these scales. 
 
-3. **Normality.** The one-sample *t*-test will only produce completely reliable *p*-values if the variable is normally distributed in the population. This assumptions is less important than many people think. The *t*-test is fairly robust to mild departures from normality when the sample size is small, and when the sample size is large the normality assumption matters even less. 
+3. **Normality.** The one-sample *t*-test will only produce completely reliable *p*-values if the variable is normally distributed in the population. This assumption is less important than many people think. The *t*-test is fairly robust to mild departures from normality when the sample size is small, and when the sample size is large the normality assumption matters even less. 
 
 We don't have the time to properly explain why the normality assumption is not too important for large samples, but we will at least state the reason: it is a consequence of something called the ['central limit theorem'](https://www.khanacademy.org/math/statistics-probability/sampling-distributions-library/sample-means/v/central-limit-theorem).
 
