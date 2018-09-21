@@ -40,6 +40,23 @@ cat("Levels:", levels(corn_crake$Supplement))
 ```
 This alerts us to the fact that `Supplement` is a factor, with `r length(levels(corn_crake$Supplement))` levels (the different supplements). Look at the order of the levels: these are alphabetical by default. Remember that! The order of the levels in a factor can be important as it controls the order of plotting in `ggplot2` and it affects the way R presents the summaries of statistics. This is why we are introducing factors now---we are going to need to manipulate the levels of factors to alter the way our data are plotted and analysed.
 
+## Visualising the data 
+
+As always before we fit a model we should plot our data. We can do this using a boxplot.
+
+```{r, fig.align='center', fig.asp=0.5, fig.width=5}
+ggplot(corn_crake, aes(x = Supplement, y = WeightGain)) + 
+  geom_boxplot()
+```
+
+At this point we just want to get an idea of what our data look like. We don't need to worry about customising the plot to make it look nicer. 
+
+```{block, type='do-something'}
+**Examine the plot**
+
+Have a look at the plot and think about what it means biologically e.g. which supplement seems to have had the biggest effect? Do all of the supplements increase growth relative to the control?
+```
+
 ## Fitting the ANOVA model
 
 Carrying out ANOVA in R is quite simple, but as with regression, there is more than one step. The first involves a process known as *fitting the model* (or just *model fitting*). This is the step where R calculates the relevant means, along with the additional information needed to generate the results in step two. We call this step model fitting because an ANOVA is a type of model for our data: it is a model that allows the mean of a variable to vary among groups.
