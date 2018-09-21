@@ -1,7 +1,7 @@
 ---
 title: Revising APS 135 
-author: Dylan Childs
-date: Tuesday 27, 2016
+author: Bethan Hindle
+date: Tuesday 25th September, 2018
 highlighter: pygments
 output: 
   ioslides_presentation:
@@ -32,7 +32,7 @@ theme_set(my_theme)
 
 ## While we're waiting
 
-1. Go to MOLE, download the STORMS.CSV file, and place it somewhere 'sensible' --- i.e. a permanent that you can locate again.
+1. Go to MOLE, download the STORMS.CSV file, and place it somewhere 'sensible' --- i.e. somewhere that you can locate again.
 
 2. Start up RStudio (not R!) and stare at it... Can you remember much from last year? Maybe not... Don't worry, that's what today is all about.
 
@@ -142,6 +142,45 @@ Once it is loaded... Look at the 'Environment' tab in the top right pane. Can yo
 Data in R | Vectors, data frames and tibbles...
 ===============================================================================
 
+## Two views of data frames {.build}
+
+1.   __Data frames are a collection of vectors__. These may be different types (numeric, character, others) but they must all be the same length.
+
+2.   __Data frames are table-like objects__. Take another look at your `storms` data frame. This has rows and columns. 
+
+Data frames are central to data analysis in R. We can think of each vector as corresponding to a __statistical variable__ that we want to analyse. Almost every function we will use this year works with data stored in a data frame.
+
+If every row in the data frame corresponds to a single observation, and every variable is only found in one column, the data are "tidy". We only use tidy data in this course, because this is what R expects most of the time. **Do the same in your own work.**
+
+## Extracting a vector (i.e. a column) {.build}
+
+We can extract a vector from a data frame in a few different ways:
+
+<div>
+- Using the name and the `$` operator
+```{r, eval = FALSE}
+storms$name
+```
+- Using the name and the `[[ ]]` operator
+```{r, eval = FALSE}
+storms[["name"]]
+```
+- Using the position and the `[[ ]]` operator
+```{r, eval = FALSE}
+storms[[1]]
+```
+</div>
+
+We'll just use the `$` method, and we won't need it often. 
+
+## Using the `$` operator
+
+Use the `$` operator to extract the `type` variable and print it to the console. 
+
+```{r, eval=showAnswers, echo=showAnswers}
+storms$type
+```
+
 ## 'Tibbles' 
 
 Er, what the @^$£ is a 'tibble'?... Basically, a tibble is a special version of the data frame. The **dplyr** tends to produce them. We can convert a normal data frame to a tibble if we need to, e.g.
@@ -195,6 +234,59 @@ Using `glimpse`...
 glimpse(storms)
 ```
 
+## A quick introduction to factors {.build}
+
+By default when we read categorical variables into R it turns them into factors e.g. `name` and `type` in the storms data set.
+
+Let's have a closer look at a factor. Print the `type` variable to your console.
+
+```{r, eval=FALSE, echo=showAnswers}
+storms$type
+```
+
+Have a look at the last line:
+
+```{r, echo=FALSE}
+cat("Levels:", levels(storms$type))
+```
+
+What do you think this shows? What do you notice about the ordering?
+
+## A quick introduction to factors {.build}
+
+We can change the order of a factor using `mutate`:
+
+```{r, eval=showAnswers, echo=showAnswers}
+storms <- storms %>% 
+  mutate(type = factor(type, 
+    levels = c("Tropical Depression", "Extratropical", 
+               "Tropical Storm", "Hurricane")))
+```
+
+Have a look at the last line again
+
+```{r, eval=FALSE, echo=showAnswers}
+storms$type
+```
+
+```{r, eval=showAnswers, echo=FALSE}
+cat("Levels:", levels(storms$type))
+```
+
+This can be useful for plotting e.g. here we want to have the storms in order of severity.
+
+## A quick introduction to factors {.build}
+
+Avoid using numbers to encode categorical variables, if you want to avoid making mistakes in R.
+
+I.e. if your treatments are categorical (e.g. feed types) do **not** enter your data like this:
+
+```{r, eval=TRUE, echo=FALSE}
+example <- data.frame(Treatment = rep(1:3, each = 3), Count = sample(0:15, 9, replace = TRUE), row.names = NULL)
+print(example)
+
+```
+
 ## Is your script well-organised?
 
 This is good...
@@ -228,44 +320,23 @@ storms<-as_data_frame(storms)
 glimpse(storms)
 ```
 
-## Two views of data frames {.build}
+## RStudio keyboard shortcuts 
 
-1.   __Data frames are a collection of vectors__. These may be different types (numeric, character, others) but they must all be the same length.
+We have seen a few of these already.
 
-2.   __Data frames are table-like objects__. Take another look at your `storms` data frame. This has rows and columns. 
+- Navigate command history:	Up/Down
 
-Data frames are central to data analysis in R. We can think of each vector as corresponding to a __statistical variable__ that we want to analyse. Almost every function we will use this year works with data stored in a data frame.
+- Evaluate an expression: Ctrl+Return
 
-If every row in the data frame corresponds to a single observation, and every variable is only found in one column, the data are "tidy". We only use tidy data in this course, because this is what R expects most of the time. **Do the same in your own work.**
+- Insert the assignment operator ` <- `: Alt+Dash(-)
 
-## Extracting a vector (i.e. a column) {.build}
+- Insert the pipe ` %>% `: Ctrl+Shift+m
 
-We can extract a vector from a data frame in a few different ways:
+- Move cursor to Source Editor:	Ctrl+1
 
-<div>
-- Using the name and the `$` operator
-```{r, eval = FALSE}
-storms$name
-```
-- Using the name and the `[[ ]]` operator
-```{r, eval = FALSE}
-storms[["name"]]
-```
-- Using the position and the `[[ ]]` operator
-```{r, eval = FALSE}
-storms[[1]]
-```
-</div>
+- Move cursor to Console:	Ctrl+2
 
-We'll just use the `$` method, and we won't need it often. 
-
-## Using the `$` operator
-
-Use the `$` operator to extract the `type` variable and print it to the console. 
-
-```{r, eval=showAnswers, echo=showAnswers}
-storms$type
-```
+Many more here: [https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts](https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts)
 
 
 Getting help | Many different routes
@@ -294,7 +365,7 @@ Better options for help can be found the interweb (e.g. Google, Stack Overflow),
 
 The internet is packed full of helpful resources:
 
-1. **Google** -- this might be obvious, but you have to work on your "Google-fu" to find what you want. The key is to pick the right search terms:
+- **Google** -- this might be obvious, but you have to work on your "Google-fu" to find what you want. The key is to pick the right search terms:
 
     - include the function or package name
     
@@ -303,7 +374,7 @@ The internet is packed full of helpful resources:
     - be selective about which sites you look at...
 
 <div>
-2. **Stack Overflow** -- probably the best question and answer site for computing stuff. People can be a bit blunt though:
+- **Stack Overflow** -- probably the best question and answer site for computing stuff. People can be a bit blunt though:
 
     - check whether your question has been asked before (Google)
     
@@ -312,6 +383,30 @@ The internet is packed full of helpful resources:
     - provide example code with your questions
 </div>
 
+## Other sources of help {.build}
 
+- **Ask us**
 
+    - Me or the TAs during the workshops
+    
+    - Attend the drop in help sessions (12-2 on Fridays in B56)
+    
+    - Send me an email (b.hindle@sheffield.ac.uk)
+    
+<div>
 
+- **L1 coursebook**
+
+    - http://dzchilds.github.io/eda-for-bio
+
+</div>
+
+## What's next?
+
+- Next week:
+  
+    - dplyr and ggplot2 revision
+  
+    - Start reading the coursebook: http://dzchilds.github.io/stats-for-bio/  
+    Check which chapters you need to read under Week 2 on MOLE
+        

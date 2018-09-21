@@ -30,7 +30,7 @@
       // Author information
       presenters: [
             {
-        name:  'Dylan Childs' ,
+        name:  'Bethan Hindle' ,
         company: '',
         gplus: '',
         twitter: '',
@@ -94,7 +94,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">Tuesday 27, 2016</p>
+            <p style="margin-top: 6px; margin-left: -2px;">Tuesday 25th September, 2018</p>
           </hgroup>
   </slide>
 
@@ -204,123 +204,6 @@ storms &lt;- read.csv(&quot;STORMS.CSV&quot;)</pre></div>
 <p>Once it is loaded&#8230; Look at the &#39;Environment&#39; tab in the top right pane. Can you see something called <code>storms</code>? What kind of object is <code>storms</code>?</p>
 
 </article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Data in R </h2><h3> Vectors, data frames and tibbles&#8230;</h3></hgroup><article  id="data-in-r-vectors-data-frames-and-tibbles...">
-
-</article></slide><slide class=''><hgroup><h2>&#39;Tibbles&#39;</h2></hgroup><article  id="tibbles">
-
-<p>Er, what the @^$£ is a &#39;tibble&#39;?&#8230; Basically, a tibble is a special version of the data frame. The <strong>dplyr</strong> tends to produce them. We can convert a normal data frame to a tibble if we need to, e.g.</p>
-
-<pre class = 'prettyprint lang-r'>tbl_df(storms)        # &lt;- the old way (deprecated)
-# or
-as_data_frame(storms) # &lt;- the new way</pre>
-
-<p>Add this to your script now&#8230;</p>
-
-<pre class = 'prettyprint lang-r'># convert the data frame to a tibble
-storms &lt;- as_data_frame(storms)</pre>
-
-<p>The <strong>only</strong> thing you really need to be aware of is that a tibble is printed to the Console more compactly than a data frame.</p>
-
-</article></slide><slide class=''><hgroup><h2>Examining data frames</h2></hgroup><article  id="examining-data-frames" class="build smaller">
-
-<p>We can print the tibble straight to the console&#8230;</p>
-
-<pre class = 'prettyprint lang-r'># print the tibble to the console
-storms</pre>
-
-<pre >## # A tibble: 2,747 × 11
-##       name  year month   day  hour   lat  long pressure  wind
-##     &lt;fctr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt; &lt;int&gt;
-## 1  Allison  1995     6     3     0  17.4 -84.3     1005    30
-## 2  Allison  1995     6     3     6  18.3 -84.9     1004    30
-## 3  Allison  1995     6     3    12  19.3 -85.7     1003    35
-## 4  Allison  1995     6     3    18  20.6 -85.8     1001    40
-## 5  Allison  1995     6     4     0  22.0 -86.0      997    50
-## 6  Allison  1995     6     4     6  23.3 -86.3      995    60
-## 7  Allison  1995     6     4    12  24.7 -86.2      987    65
-## 8  Allison  1995     6     4    18  26.2 -86.2      988    65
-## 9  Allison  1995     6     5     0  27.6 -86.1      988    65
-## 10 Allison  1995     6     5     6  28.5 -85.6      990    60
-## # ... with 2,737 more rows, and 2 more variables: type &lt;fctr&gt;,
-## #   seasday &lt;int&gt;</pre>
-
-<p>This is quite verbose.</p>
-
-</article></slide><slide class=''><hgroup><h2>Examining data frames</h2></hgroup><article  id="examining-data-frames-1">
-
-<p>Trying using <code>str</code> or <code>glimpse</code> with <code>storms</code>. Then try <code>View</code>. Makes sure you can answer the following questions:</p>
-
-<ul>
-<li>How many variables and observations does <code>storms</code> contain?</li>
-<li>How many different <em>kinds</em> of variables does it contain? What are these?</li>
-</ul>
-
-</article></slide><slide class=''><hgroup><h2>Examining data frames</h2></hgroup><article  id="examining-data-frames-2">
-
-<p>Using <code>str</code>&#8230;</p>
-
-<pre class = 'prettyprint lang-r'>str(storms)</pre>
-
-<pre >## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    2747 obs. of  11 variables:
-##  $ name    : Factor w/ 79 levels &quot;Alberto&quot;,&quot;Alex&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
-##  $ year    : int  1995 1995 1995 1995 1995 1995 1995 1995 1995 1995 ...
-##  $ month   : int  6 6 6 6 6 6 6 6 6 6 ...
-##  $ day     : int  3 3 3 3 4 4 4 4 5 5 ...
-##  $ hour    : int  0 6 12 18 0 6 12 18 0 6 ...
-##  $ lat     : num  17.4 18.3 19.3 20.6 22 23.3 24.7 26.2 27.6 28.5 ...
-##  $ long    : num  -84.3 -84.9 -85.7 -85.8 -86 -86.3 -86.2 -86.2 -86.1 -85.6 ...
-##  $ pressure: int  1005 1004 1003 1001 997 995 987 988 988 990 ...
-##  $ wind    : int  30 30 35 40 50 60 65 65 65 60 ...
-##  $ type    : Factor w/ 4 levels &quot;Extratropical&quot;,..: 3 3 4 4 4 4 2 2 2 4 ...
-##  $ seasday : int  3 3 3 3 4 4 4 4 5 5 ...</pre>
-
-</article></slide><slide class=''><hgroup><h2>Examining data frames</h2></hgroup><article  id="examining-data-frames-3">
-
-<p>Using <code>glimpse</code>&#8230;</p>
-
-<pre class = 'prettyprint lang-r'>glimpse(storms)</pre>
-
-<pre >## Observations: 2,747
-## Variables: 11
-## $ name     &lt;fctr&gt; Allison, Allison, Allison, Allison, Allison, Allison...
-## $ year     &lt;int&gt; 1995, 1995, 1995, 1995, 1995, 1995, 1995, 1995, 1995,...
-## $ month    &lt;int&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,...
-## $ day      &lt;int&gt; 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7,...
-## $ hour     &lt;int&gt; 0, 6, 12, 18, 0, 6, 12, 18, 0, 6, 12, 18, 0, 6, 12, 1...
-## $ lat      &lt;dbl&gt; 17.4, 18.3, 19.3, 20.6, 22.0, 23.3, 24.7, 26.2, 27.6,...
-## $ long     &lt;dbl&gt; -84.3, -84.9, -85.7, -85.8, -86.0, -86.3, -86.2, -86....
-## $ pressure &lt;int&gt; 1005, 1004, 1003, 1001, 997, 995, 987, 988, 988, 990,...
-## $ wind     &lt;int&gt; 30, 30, 35, 40, 50, 60, 65, 65, 65, 60, 60, 45, 30, 3...
-## $ type     &lt;fctr&gt; Tropical Depression, Tropical Depression, Tropical S...
-## $ seasday  &lt;int&gt; 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7,...</pre>
-
-</article></slide><slide class=''><hgroup><h2>Is your script well-organised?</h2></hgroup><article  id="is-your-script-well-organised">
-
-<p>This is good&#8230;</p>
-
-<pre class = 'prettyprint lang-r'># clear the workspace (aka R&#39;s &#39;brain&#39;)
-rm(list = ls())
-
-# load and attach the packages we need
-library(&quot;dplyr&quot;)
-library(&quot;ggplot2&quot;)
-
-# read the data in STORMS.CSV into R + call the result &#39;storms&#39;
-storms &lt;- read.csv(&quot;STORMS.CSV&quot;)
-# convert the data frame to a tibble
-storms &lt;- as_data_frame(storms)
-# take a look at the data
-glimpse(storms)</pre>
-
-</article></slide><slide class=''><hgroup><h2>Is your script well-organised?</h2></hgroup><article  id="is-your-script-well-organised-1">
-
-<p>This is <strong>not</strong> so good&#8230;</p>
-
-<pre class = 'prettyprint lang-r'>rm(list=ls())
-library(&quot;dplyr&quot;)
-library(&quot;ggplot2&quot;)
-storms&lt;-read.csv(&quot;STORMS.CSV&quot;)
-storms&lt;-as_data_frame(storms)
-glimpse(storms)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Two views of data frames</h2></hgroup><article  id="two-views-of-data-frames" class="build">
 
@@ -1282,6 +1165,186 @@ glimpse(storms)</pre>
 ## [2746] Extratropical       Extratropical      
 ## Levels: Extratropical Hurricane Tropical Depression Tropical Storm</pre>
 
+</article></slide><slide class=''><hgroup><h2>&#39;Tibbles&#39;</h2></hgroup><article  id="tibbles">
+
+<p>Er, what the @^$£ is a &#39;tibble&#39;?&#8230; Basically, a tibble is a special version of the data frame. The <strong>dplyr</strong> tends to produce them. We can convert a normal data frame to a tibble if we need to, e.g.</p>
+
+<pre class = 'prettyprint lang-r'>tbl_df(storms)        # &lt;- the old way (deprecated)
+# or
+as_data_frame(storms) # &lt;- the new way</pre>
+
+<p>Add this to your script now&#8230;</p>
+
+<pre class = 'prettyprint lang-r'># convert the data frame to a tibble
+storms &lt;- as_data_frame(storms)</pre>
+
+<p>The <strong>only</strong> thing you really need to be aware of is that a tibble is printed to the Console more compactly than a data frame.</p>
+
+</article></slide><slide class=''><hgroup><h2>Examining data frames</h2></hgroup><article  id="examining-data-frames" class="build smaller">
+
+<p>We can print the tibble straight to the console&#8230;</p>
+
+<pre class = 'prettyprint lang-r'># print the tibble to the console
+storms</pre>
+
+<pre >## # A tibble: 2,747 x 11
+##       name  year month   day  hour   lat  long pressure  wind
+##     &lt;fctr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt; &lt;int&gt;
+##  1 Allison  1995     6     3     0  17.4 -84.3     1005    30
+##  2 Allison  1995     6     3     6  18.3 -84.9     1004    30
+##  3 Allison  1995     6     3    12  19.3 -85.7     1003    35
+##  4 Allison  1995     6     3    18  20.6 -85.8     1001    40
+##  5 Allison  1995     6     4     0  22.0 -86.0      997    50
+##  6 Allison  1995     6     4     6  23.3 -86.3      995    60
+##  7 Allison  1995     6     4    12  24.7 -86.2      987    65
+##  8 Allison  1995     6     4    18  26.2 -86.2      988    65
+##  9 Allison  1995     6     5     0  27.6 -86.1      988    65
+## 10 Allison  1995     6     5     6  28.5 -85.6      990    60
+## # ... with 2,737 more rows, and 2 more variables: type &lt;fctr&gt;,
+## #   seasday &lt;int&gt;</pre>
+
+<p>This is quite verbose.</p>
+
+</article></slide><slide class=''><hgroup><h2>Examining data frames</h2></hgroup><article  id="examining-data-frames-1">
+
+<p>Trying using <code>str</code> or <code>glimpse</code> with <code>storms</code>. Then try <code>View</code>. Makes sure you can answer the following questions:</p>
+
+<ul>
+<li>How many variables and observations does <code>storms</code> contain?</li>
+<li>How many different <em>kinds</em> of variables does it contain? What are these?</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Examining data frames</h2></hgroup><article  id="examining-data-frames-2">
+
+<p>Using <code>str</code>&#8230;</p>
+
+<pre class = 'prettyprint lang-r'>str(storms)</pre>
+
+<pre >## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    2747 obs. of  11 variables:
+##  $ name    : Factor w/ 79 levels &quot;Alberto&quot;,&quot;Alex&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ year    : int  1995 1995 1995 1995 1995 1995 1995 1995 1995 1995 ...
+##  $ month   : int  6 6 6 6 6 6 6 6 6 6 ...
+##  $ day     : int  3 3 3 3 4 4 4 4 5 5 ...
+##  $ hour    : int  0 6 12 18 0 6 12 18 0 6 ...
+##  $ lat     : num  17.4 18.3 19.3 20.6 22 23.3 24.7 26.2 27.6 28.5 ...
+##  $ long    : num  -84.3 -84.9 -85.7 -85.8 -86 -86.3 -86.2 -86.2 -86.1 -85.6 ...
+##  $ pressure: int  1005 1004 1003 1001 997 995 987 988 988 990 ...
+##  $ wind    : int  30 30 35 40 50 60 65 65 65 60 ...
+##  $ type    : Factor w/ 4 levels &quot;Extratropical&quot;,..: 3 3 4 4 4 4 2 2 2 4 ...
+##  $ seasday : int  3 3 3 3 4 4 4 4 5 5 ...</pre>
+
+</article></slide><slide class=''><hgroup><h2>Examining data frames</h2></hgroup><article  id="examining-data-frames-3">
+
+<p>Using <code>glimpse</code>&#8230;</p>
+
+<pre class = 'prettyprint lang-r'>glimpse(storms)</pre>
+
+<pre >## Observations: 2,747
+## Variables: 11
+## $ name     &lt;fctr&gt; Allison, Allison, Allison, Allison, Allison, Allison...
+## $ year     &lt;int&gt; 1995, 1995, 1995, 1995, 1995, 1995, 1995, 1995, 1995,...
+## $ month    &lt;int&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,...
+## $ day      &lt;int&gt; 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7,...
+## $ hour     &lt;int&gt; 0, 6, 12, 18, 0, 6, 12, 18, 0, 6, 12, 18, 0, 6, 12, 1...
+## $ lat      &lt;dbl&gt; 17.4, 18.3, 19.3, 20.6, 22.0, 23.3, 24.7, 26.2, 27.6,...
+## $ long     &lt;dbl&gt; -84.3, -84.9, -85.7, -85.8, -86.0, -86.3, -86.2, -86....
+## $ pressure &lt;int&gt; 1005, 1004, 1003, 1001, 997, 995, 987, 988, 988, 990,...
+## $ wind     &lt;int&gt; 30, 30, 35, 40, 50, 60, 65, 65, 65, 60, 60, 45, 30, 3...
+## $ type     &lt;fctr&gt; Tropical Depression, Tropical Depression, Tropical S...
+## $ seasday  &lt;int&gt; 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7,...</pre>
+
+</article></slide><slide class=''><hgroup><h2>A quick introduction to factors</h2></hgroup><article  id="a-quick-introduction-to-factors" class="build">
+
+<p>By default when we read categorical variables into R it turns them into factors e.g. <code>name</code> and <code>type</code> in the storms data set.</p>
+
+<p>Let&#39;s have a closer look at a factor. Print the <code>type</code> variable to your console.</p>
+
+<pre class = 'prettyprint lang-r'>storms$type</pre>
+
+<p>Have a look at the last line:</p>
+
+<pre >## Levels: Extratropical Hurricane Tropical Depression Tropical Storm</pre>
+
+<p>What do you think this shows? What do you notice about the ordering?</p>
+
+</article></slide><slide class=''><hgroup><h2>A quick introduction to factors</h2></hgroup><article  id="a-quick-introduction-to-factors-1" class="build">
+
+<p>We can change the order of a factor using <code>mutate</code>:</p>
+
+<pre class = 'prettyprint lang-r'>storms &lt;- storms %&gt;% 
+  mutate(type = factor(type, 
+    levels = c(&quot;Tropical Depression&quot;, &quot;Extratropical&quot;, 
+               &quot;Tropical Storm&quot;, &quot;Hurricane&quot;)))</pre>
+
+<p>Have a look at the last line again</p>
+
+<pre class = 'prettyprint lang-r'>storms$type</pre>
+
+<pre >## Levels: Tropical Depression Extratropical Tropical Storm Hurricane</pre>
+
+<p>This can be useful for plotting e.g. here we want to have the storms in order of severity.</p>
+
+</article></slide><slide class=''><hgroup><h2>A quick introduction to factors</h2></hgroup><article  id="a-quick-introduction-to-factors-2" class="build">
+
+<p>Avoid using numbers to encode categorical variables, if you want to avoid making mistakes in R.</p>
+
+<p>I.e. if your treatments are categorical (e.g. feed types) do <strong>not</strong> enter your data like this:</p>
+
+<pre >##   Treatment Count
+## 1         1     2
+## 2         1    14
+## 3         1    13
+## 4         2    11
+## 5         2    10
+## 6         2     6
+## 7         3     0
+## 8         3     7
+## 9         3    13</pre>
+
+</article></slide><slide class=''><hgroup><h2>Is your script well-organised?</h2></hgroup><article  id="is-your-script-well-organised">
+
+<p>This is good&#8230;</p>
+
+<pre class = 'prettyprint lang-r'># clear the workspace (aka R&#39;s &#39;brain&#39;)
+rm(list = ls())
+
+# load and attach the packages we need
+library(&quot;dplyr&quot;)
+library(&quot;ggplot2&quot;)
+
+# read the data in STORMS.CSV into R + call the result &#39;storms&#39;
+storms &lt;- read.csv(&quot;STORMS.CSV&quot;)
+# convert the data frame to a tibble
+storms &lt;- as_data_frame(storms)
+# take a look at the data
+glimpse(storms)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Is your script well-organised?</h2></hgroup><article  id="is-your-script-well-organised-1">
+
+<p>This is <strong>not</strong> so good&#8230;</p>
+
+<pre class = 'prettyprint lang-r'>rm(list=ls())
+library(&quot;dplyr&quot;)
+library(&quot;ggplot2&quot;)
+storms&lt;-read.csv(&quot;STORMS.CSV&quot;)
+storms&lt;-as_data_frame(storms)
+glimpse(storms)</pre>
+
+</article></slide><slide class=''><hgroup><h2>RStudio keyboard shortcuts</h2></hgroup><article  id="rstudio-keyboard-shortcuts">
+
+<p>We have seen a few of these already.</p>
+
+<ul>
+<li><p>Navigate command history: Up/Down</p></li>
+<li><p>Evaluate an expression: Ctrl+Return</p></li>
+<li><p>Insert the assignment operator <code>&lt;-</code>: Alt+Dash(-)</p></li>
+<li><p>Insert the pipe <code>%&gt;%</code>: Ctrl+Shift+m</p></li>
+<li><p>Move cursor to Source Editor: Ctrl+1</p></li>
+<li><p>Move cursor to Console: Ctrl+2</p></li>
+</ul>
+
+<p>Many more here: <a href='https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts' title=''>https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts</a></p>
+
 </article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Getting help </h2><h3> Many different routes</h3></hgroup><article  id="getting-help-many-different-routes">
 
 </article></slide><slide class=''><hgroup><h2>Built in &#39;help&#39; files</h2></hgroup><article  id="built-in-help-files" class="smaller">
@@ -1307,7 +1370,7 @@ glimpse(storms)</pre>
 
 <p>The internet is packed full of helpful resources:</p>
 
-<ol>
+<ul>
 <li><p><strong>Google</strong> &#8211; this might be obvious, but you have to work on your &quot;Google-fu&quot; to find what you want. The key is to pick the right search terms:</p>
 
 <ul>
@@ -1315,10 +1378,10 @@ glimpse(storms)</pre>
 <li><p>include the letter R!</p></li>
 <li><p>be selective about which sites you look at&#8230;</p></li>
 </ul></li>
-</ol>
+</ul>
 
 <div>
-<ol>
+<ul>
 <li><p><strong>Stack Overflow</strong> &#8211; probably the best question and answer site for computing stuff. People can be a bit blunt though:</p>
 
 <ul>
@@ -1326,7 +1389,39 @@ glimpse(storms)</pre>
 <li><p>read the community guidelines</p></li>
 <li>provide example code with your questions</li>
 </ul></li>
-</ol></div></article></slide>
+</ul></div>
+
+</article></slide><slide class=''><hgroup><h2>Other sources of help</h2></hgroup><article  id="other-sources-of-help-1" class="build">
+
+<ul>
+<li><p><strong>Ask us</strong></p>
+
+<ul>
+<li><p>Me or the TAs during the workshops</p></li>
+<li><p>Attend the drop in help sessions (12-2 on Fridays in B56)</p></li>
+<li><p>Send me an email (<a href='mailto:b.hindle@sheffield.ac.uk' title=''>b.hindle@sheffield.ac.uk</a>)</p></li>
+</ul></li>
+</ul>
+
+<div>
+<ul>
+<li><p><strong>L1 coursebook</strong></p>
+
+<ul>
+<li><a href='http://dzchilds.github.io/eda-for-bio' title=''>http://dzchilds.github.io/eda-for-bio</a></li>
+</ul></li>
+</ul></div>
+
+</article></slide><slide class=''><hgroup><h2>What&#39;s next?</h2></hgroup><article  id="whats-next">
+
+<ul>
+<li><p>Next week:</p>
+
+<ul>
+<li><p>dplyr and ggplot2 revision</p></li>
+<li><p>Start reading the coursebook: <a href='http://dzchilds.github.io/stats-for-bio/' title=''>http://dzchilds.github.io/stats-for-bio/</a><br/>Check which chapters you need to read under Week 2 on MOLE</p></li>
+</ul></li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>
