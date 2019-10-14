@@ -28,77 +28,13 @@ knitr::kable(
 
 There are no answers to this question on MOLE. If you're not 100% sure what the right answer is in any of these examples, ask a TA or instructor for help.
 
-## What form do sampling distributions take?
-
-```{r, echo=FALSE}
-all_pops <- read.csv(file = "../data_csv/SKEWED_POPULATIONS.CSV")
-```
-
-Samples of a variable taken from three different populations (labelled A, B, and C) are stored in *SKEWED_POPULATIONS.CSV*. Download this file from MOLE and place it in your working directory. Read *SKEWED_POPULATIONS.CSV* into an R data frame called `all_pops` and investigate the data set:
-
-**Inspection.** Use the `View` function and `glimpse` (or `str`) to inspect these 'data'. Which variables are in the data frame? What kind of variables are they (numeric, categorical, etc)? 
-
-**Descriptive statistics.** Use the appropriate **dplyr** functions (`group_by` and `summarise`) to calculate the mean and standard deviation of the `Values` variable in each population.
-
-**Graphs.** Use **ggplot2** to construct three histograms to summarise the distribution of the variable in each population. You will need to use `geom_histogram` and the `facet_wrap` functions to do this. Make sure you use the original data (`all_pops`)---not the summarised data.
-
-```{block, type='do-something'}
-**MOLE Question**
-
-How does the distribution of the variable differ across populations in terms of its central tendency, dispersion and skewness?
-
-In which population is the variable `Values` the most skewed?
-```
-
-Now that you understand a bit about the distribution of the variable in each population you're going to investigate the following question: __How does the shape of a variable's distribution influence the sampling distribution of its mean?__ This exercise uses ideas from the 'Sampling error' chapter. You're going to use the bootstrapping trick to construct sampling distributions of the mean. There are three steps involved:
-
-1. Extract the subset of values we require and store these in a numeric vector. 
-
-2. Use a bit of R trickery to calculate 10000 bootstrapped means 
-
-3. Parcel up the result into a data frame and plot the sampling distribution
-
-Here's how this works for variable A:
-
-```{r, fig.width=4, fig.asp=1, fig.align='center'}
-# 1. extract the values of the variable
-x <- filter(all_pops, Population == "A")$Values
-# 2. carry out the bootstrapping (you don't need to understand this)
-boot_means <- replicate(10000, mean(sample(x, size = 25, replace = TRUE)))
-# 3. wrap up the result as a data frame
-plot_df <- data.frame(boot_means)
-# ... and plot the bootstrapped distribution
-ggplot(plot_df, aes(x = boot_means)) + 
-  geom_histogram()
-```
-
-Note that this code creates bootstrapped samples of 25 observations to construct the sampling distribution (`size = 25`).
-
-Use this code to visualise the sampling distribution of the mean of each population, using samples of 25 observations. Look at each one carefully, paying close attention to the shape of the original sample's distribution and the shape of the corresponding sampling distribution of the mean. It's fine to visualise each one on its own---there's no need to try to make one plot containing all three histograms. 
-
-```{block, type='do-something'}
-**MOLE Question**
-
-Are the sampling distributions of the means more, or less, skewed than the distribution of the corresponding variables?
-
-Which variable (A, B, or C) has the most skewed sampling distribution associated with its mean?
-```
-
-You used bootstrapped samples of 25 observations to construct the sampling distributions above. You can change this number by altering the `size ` argument of the `sample` function. Use this fact to explore how the shape of the sampling distribution changes as you increase sample size of the 'C' variable. Start by using only 10 observations in each bootstrapped sample, then gradually increase this to 100 in steps of 10.
-
-```{block, type='do-something'}
-**MOLE Question**
-
-What happens to the shape of the sampling distribution of the mean of the 'C' variable as you change the bootstrapped sample size?
-```
-
 ## How does sample size influence the standard error?
 
-Think back to the plant colour morph example. We used R to simulate the approximate sampling distribution of purple morph frequency estimates. We found that the amount of sampling variation declines with sample size. The bigger our sample, the more precise the mean estimate, i.e. the smaller its standard error. The question we want to address now is: What form does the relationship between sample size and standard error take?
+The Soay coat example demonstrates that the amount of sampling variation associated with an estimate declines with sample size. The bigger our sample, the more precise the estimate of dark coat frequency, i.e. the smaller its standard error. The question we want to address now is: What form does the relationship between sample size and standard error take?
 
-The snippet of R code below defines a function that will allow you to explore how the size of a sample influence the standard error of a frequency estimate. To use this function you need to first highlight it and send it all to the console (using Ctrl+Enter):
+The snippet of R code below defines a function that will allow you to explore how the size of a sample influence the standard error of a frequency estimate. It expresses the frequency as a percentage:
 ```{r, eval = TRUE}
-sample_plants <- function(samp_sizes, prob) {
+sample_sheep <- function(samp_sizes, prob) {
   sapply(samp_sizes, function (size) {
     raw_samples <- rbinom(n = 10000, size = size, prob = prob)
     sd(100 * raw_samples / size)
@@ -106,119 +42,28 @@ sample_plants <- function(samp_sizes, prob) {
 }
 ```
 
-The above R code defines a function called `sample_plants`. You are not expected to understand how this works! Here's how to use the function:
+To use this function you need to copy it into your script, highlight the whole thing, and then send it all to the console using Ctrl+Enter. This defines a custom R function called `sample_sheep` that will generate a set of standard errors associated with different sized samples.
+
+You are not expected to understand how this works! You just need to be able to use the function:
 ```{r}
-sample_plants(samp_sizes = c(10, 20, 40, 100), prob = 0.4)
+sample_sheep(samp_sizes = c(10, 20, 40, 100), prob = 0.4)
 ```
-The first argument, `samp_sizes = c(10, 20, 40, 100)`, provides the set of sample sizes. The second argument, `prob = 0.4`, is the frequency of purple plants (expressed as a probability) in the population. The function returns a vector of numbers that are the **standard errors** of the frequency estimate at each sample size.
+The first argument, `samp_sizes = c(10, 20, 40, 100)`, defines the set of sample sizes you want to use. This example will generate the standard error for samples of 10, 20, 40 and 100 individuals. The second argument, `prob = 0.4`, is the frequency of dark coat individuals in the population (expressed as a probability). The function returns a vector of numbers that are the **standard errors** of the frequency estimate at each sample size.
 
 The simplest way to explore the relationship between sample size and standard error is to plot it. We need to collect together the inputs and outputs of these simulations into a data frame to do this:
 ```{r}
 sim_data <- data.frame(sample_size = c(10, 20, 40, 100))
-sim_data <- mutate(sim_data, se = sample_plants(sample_size, prob = 0.4))
+sim_data <- mutate(sim_data, se = sample_sheep(sample_size, prob = 0.4))
 sim_data
 ```
-Use the above code to vary the sample size from around 20 to 500---the exact numbers don't matter too much---assuming that the purple morph frequency is 0.4 (`prob = 0.4`). You only need to vary the values assigned to `sample.size` to do this. Make a plot to investigate how the standard error changes as the sample size increases.
+
+Vary the sample size from around 20 to 500 indivduals, assuming that the dark coat frequency is fixed at 0.4 (`prob = 0.4`). You only need to vary the values assigned to `sample.size` to do this. The exact set of numbers you use does not matter too much. Just don't make the upper sample size much bigger than about 1000. 
 
 ```{block, type='do-something'}
-**MOLE Question**
+**Question**
 
 Does the standard error halve when you double the sample size, or is the relationship more complicated? If you think the relationship is more complicated, what form does it take?
 ```
 
-## Sample size and statistical power
-
-```{r, echo=FALSE}
-pop_info_1 <- read.csv("../data_csv/TWO_POPS_1.CSV")
-```
-
-The *TWO_POPS_1.CSV* file contains values of a numeric variable in two different populations, labelled A and B. The file contains a large sample from each of the two populations. For the purpose of this exercise you treat these as though they are the 'whole population' (though they are just limited samples). 
-
-Download the *TWO_POPS_1.CSV* file from MOLE and place it in your working directory, then read this into an R data frame called `pop_info_1`. Examine the populations, both in terms of their descriptive statistics, and visually:
-
-**Inspection.** Use the `View` function and **dplyr** function `glimpse` (or `str`) to inspect the 'data'. Which variables are in the data frame? What kind of variables are they (numeric, categorical, etc)? 
-
-**Descriptive statistics.** Use the appropriate **dplyr** functions (`group_by` and `summarise`) to calculate the mean, standard deviation and sample size of `Values` in each population.
-
-**Graphs.** Use **ggplot2** to construct a pair of histograms to summarise the distribution of the variable in each population. This is most easily done using `facet_wrap`.
-
-```{block, type='do-something'}
-**MOLE Question**
-
-Note down the key features of the distribution of the variable in each population. Does it seem to be normally distributed? How do the distributions differ in terms of their central tendency and dispersion?  
-```
-
-```{r, echo=FALSE}
-set.seed(27081975)
-```
-
-Now that you understand the two populations a little bit you can start to work with them. We want you to investigate what happens when you draw different sized samples from these two populations. Specifically, you're going to explore how the sample size influences your ability to detect a difference in the population means. You'll do this with a permutation test. 
-
-To begin, use **dplyr** to simulate the process of drawing an equal sized sample from each population:
-```{r}
-# take a sample from each population
-use_data <- 
-  pop_info_1 %>% 
-  group_by(Population) %>% 
-  sample_n(10) %>% 
-  ungroup
-```
-Copy this first chunk of **dplyr** code into your script and run it. After doing this, `use_data` will contain a sample of 10 observations from each population (use `View` to verify this). You haven't seen it before, but the `sample_n` function just takes a sample from a data frame. The `ungroup` bit at the end removes the grouping information from the output. The next bit won't work properly if you forget to do this.
-
-Now that you have a sample to work with, you need to use a statistical test to assess the strength of evidence for whether or not the population means are different. You'll use a permutation test to do this. You should skim back over the 'Comparing populations' chapter if you're not sure how this works.
-
-Here is some R code that performs the permutation test:
-```{r}
-# permutation test (difficult R code!)
-plt_info <- replicate(1000, simplify = TRUE, {
-  use_data %>% 
-    mutate(Values = sample(Values)) %>% 
-    group_by(Population) %>% 
-    summarise(X = mean(Values)) %>% 
-    `$`(X) %>% diff
-}) %>% data.frame(diff_means = .)
-```
-There are quite a few new tricks used in that R code and you are not expected to understand how it all works. Ultimately, it produces an approximate 'null distribution' for the difference between means. You can just use this code chunk without necessarily understanding how it works. Copy it into your script.
-
-Finally, here is some R code that plots the resulting null distribution along with the difference actually observed in the sample (red line):
-```{r, eval = FALSE}
-# compute the difference between (more tricky code)
-mean_diff <- use_data %>% 
-  group_by(Population) %>% 
-  summarise(X = mean(Values)) %>% `$`(X) %>% diff
-# plot everything (this bit should make sense to you)
-ggplot(plt_info, aes(x = diff_means)) + 
-  geom_histogram(bins = 18) +
-  geom_vline(xintercept = mean_diff, colour = "red")
-```
-Copy this last chunk of code into your script. You should now have a script that contains all three chunks of code, in the correct order. Run it all together. If everything is working you should end up with a picture like this one:
-
-```{r, echo=FALSE, fig.width=4, fig.asp=1, fig.align='center', fig.cap='Example null distribution from the permutation test'}
-# compute the difference between (more tricky code)
-mean_diff <- use_data %>% 
-  group_by(Population) %>% 
-  summarise(X = mean(Values)) %>% `$`(X) %>% diff
-# plot everything (this bit should make sense to you)
-ggplot(plt_info, aes(x = diff_means)) + 
-  geom_histogram(bins = 18) +
-  geom_vline(xintercept = mean_diff, colour = "red")
-```
-
-Yours won't be exactly the same because you will have used a different sample. In this example, the observed difference (red line) sits well within the range of variation predicted by the null distribution, and so we have to conclude that there's not much evidence for a difference between the two means.
-
-Here's what we want you to do with all of this... Using a sample size of 10 (i.e. leave `sample_n(10)` as it is), run all three chunks several times, checking the final plot each time before you run them again. About 10-20 runs should be enough to answer the first question...
-
-```{block, type='do-something'}
-**MOLE Question**
-
-Is a sample size of 10 sufficient to reliably detect a difference between the population means? Make sure you can explain your answer.
-```
-
-Now repeat this exercise, using successively larger sample sizes, e.g. 10, 20, 40, 80, 160 and 320. To use a sample size of 20 you would change `sample_n(10)` to `sample_n(20)`. There's no need to make a new copy of all the code (it will end up as a big mess if you do this). Just change the `sample_n` part and run the new version of everything several times. You might need to experiment a bit with the sample sizes, but don't make them much bigger than about 500.
-
-```{block, type='do-something'}
-**MOLE Question**
-
-Which sample size seems to be sufficient to reliably detect a difference between the population means?
-```
+HINT: Plot the standard error ('y' axis) against the sample size ('x' axis). Make several plots, trying out a range of different transformations of the sample size until you end up with a roughly linear relationship (i.e. a straight line).
 
