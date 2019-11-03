@@ -18,9 +18,9 @@ library(ggplot2)
 
 We have constructed four artificial data sets to practice interpreting regression diagnostic plots. Each case study corresponds to a hypothetical study where we wish to understand the dependence of numeric variable $y$ on numeric variable $x$. This is a simple linear regression setting where $y$ is the response variable and $x$ is the predictor variable.
 
-All four data sets are stored in one file called SIMPLEREG_EGS.CSV---the response variable is stored in `y`, and the predictor variable is stored in `x`. Each case study is identified by the `Case` variable (values: 'A', 'B', 'C' and 'D').
+The four data sets are stored seperately in files called SIMPLEREG_A.CSV, SIMPLEREG_B.CSV, SIMPLEREG_C.CSV and SIMPLEREG_D.CSV. In each example, the response variable is stored in the `y` column and the predictor variable is stored in the `x` column.
 
-Fit a linear regression model to each case in turn, and then use the `plot` function to produce the residuals vs. fitted plot, the normal probability plot, and the scale-location plot. Hint: you will need to first extract the required subset of data using the `filter` function from **dplyr** function.
+Fit a linear regression model to each case in turn and then use the `plot` function to produce the residuals vs. fitted plot, the normal probability plot, and the scale-location plot. 
 
 ```{block, type='do-something'}
 **MOLE question**
@@ -34,21 +34,11 @@ Is the normality assumption satisfied?
 Is the constant variance assumption satisfied?
 ```
 
-### Fungal pathogen infection on leaves
-
-No data are provided for this exercise. Spores of a particular fungal pathogen infect leaves of a tree wherever the spores happen to land and the subsequent development of the fungus causes a single distinct 'pustule' on the leaf at each infection site (typically <20 pustules are found on each leaf). Imagine you have data from a study comparing the intensity of infection between canopy and sub-canopy leaves.
-
-```{block, type='do-something'}
-**MOLE question**
-
-What sort of transformation might be appropriate for these data?
-```
-
 ### Pollution sensitive stoneflies - what’s going into the river?
 
-The data for this exercise are in STONEFLY.CSV. Counts of the abundances of stonefly nymphs (which are generally intolerant of organic pollution) at three sites are stored in the `Stonefly` variable. The `Site` variable has three values ('Above', 'Adjacent' and 'Downstream') which index the three study sites: immediately above ('Above'), adjacent to ('Adjacent'), and 0.5 km downstream ('Downstream') of a discharge point for a storm drain.
+The data for this exercise are in STONEFLY.CSV. Counts of the abundances of stonefly nymphs -- which are generally intolerant of organic pollution -- at three sites are stored in the `Stonefly` variable. The `Site` variable has three values that index the three study sites: immediately above ('Above'), adjacent to ('Adjacent'), and 0.5 km downstream ('Downstream') of a discharge point for a storm drain.
 
-Read these data into R and examine them to evaluate whether they are suitable for using one way ANOVA to test for differences in abundance at the three sites. Hint: fit the appropriate model with `lm` and then construct the regression diagnostic plots using `plot`.
+Read these data into R and examine them to evaluate whether they are suitable for using one way ANOVA to test for differences in abundance at the three sites. Hint: fit the appropriate model with `lm` and then construct the regression diagnostic plots using `plot`. 
 
 Suggest a transformation that may help. Carry out the transformation to see whether it has the desired effect.
 
@@ -60,11 +50,11 @@ What do you recommend and why?
 What do you learn from the diagnostics derived from the ANOVA with the transformed data?
 ```
 
-### Ants again
+### Ant foraging
 
-The data for this exercise are in ANTS2.CSV. These data describe ant foraging on sycamores and oaks. The number of lepidopteran caterpillars observed as prey items in ants foraging is recorded in the `Caterpillars` variable. The total number of prey items being carried during the observation period (1h) are in the `Total` variable. The `Tree` variable has two values ('Sycamore' and 'Oak') that index the tree type. 
+The data for this exercise are in ANTS2.CSV. These data describe ant foraging on sycamores and oaks. The number of lepidopteran caterpillars observed as prey items in ants foraging is recorded in the `Caterpillars` variable. The total number of prey items being  are in the `Total` variable. Both observations were made during the same 1 hr observation period. The theird `Tree` variable has two values -- 'Sycamore' and 'Oak' -- that index the tree species ants were foraging on (different trees were used for each measurement). 
 
-Calculate the number of lepidopteran larvae taken as a proportion of all prey (do this with `mutate`). Carry out a parametric test to determine whether caterpillars constitute a significantly higher proportion of the diet in oak than sycamore.
+Calculate the number of lepidopteran larvae taken as a proportion of all prey. Carry out a parametric test to determine whether caterpillars constitute a significantly higher proportion of the diet in oak than sycamore.
 
 ```{block, type='do-something'}
 **MOLE question**
@@ -84,35 +74,17 @@ What test is required?
 What do you conclude from the test?
 ```
 
-### Bryophyte diversity in a woodland
-
-The data for this exercise are in BRYOPHYTE.CSV. As part of a survey of bryophyte communities in two areas of woodland with differing canopy species data of species diversity was recorded by randomly positioning quadrats (1m by 1m) and recording the species found in each quadrat. As part of the analysis, of the data, the surveyor wants to determine whether the species diversity (no. of spp. per quadrat) is different between the two sites. The `Site` variable indexes the site (1 or 2) and the `Bryophyte` variable contains the species diversity. 
-
-Examine these data using the `View` function and prepare a plot to visualise the distribution of Bryophyte diversity in each area of the woodland. The data are not suitable for analysis with a *t*-test.
-
-```{block, type='do-something'}
-**MOLE question**
-
-Is there a transformation that would help?
-```
-
 ### Slug movement and molluscicide
 
-Return to the slug molluscicide exercise. Use the fitted model to evaluate the assumptions of ANOVA:
+Return to the slug molluscicide exercise and rerun the analysis using `lm` and `anova`.
 
 ```{block, type='do-something'}
 **MOLE question**
 
-Do you feel the data conform acceptably to the assumptions on ANOVA?
-
-*   Data type?
-
-*   Normally distributed?
-
-*   Similar variances in each treatment?
+Would a Tukey HSD test be appropriate here? Why?
 ```
 
-Carry out the Tukey HSD test on the movement rates of slugs following different doses of Slugit.
+Regrdless of you answer to this question, carry out the Tukey HSD test on the movement rates of slugs following different doses of Slugit.
 
 ```{block, type='do-something'}
 **MOLE question**
@@ -124,4 +96,16 @@ Prepare a summary of differences between means.
 **MOLE question**
 
 Comment on any features of biological interest in the results.
+```
+
+### Bryophyte diversity in a woodland
+
+The data for this exercise are in BRYOPHYTE.CSV. As part of a survey of bryophyte communities in two areas of woodland with differing canopy species, data of species diversity was recorded by randomly positioning quadrats (1m by 1m) and recording the species found in each quadrat. As part of the analysis of the data, the surveyor wants to determine whether the species diversity (no. of spp. per quadrat) is different between the two sites. The `Site` variable indexes the site (1 or 2) and the `Bryophyte` variable contains the species diversity. 
+
+Examine these data using the `View` function and prepare a plot to visualise the distribution of Bryophyte diversity in each area of the woodland. The raw data are not suitable for analysis with a *t*-test.
+
+```{block, type='do-something'}
+**MOLE question**
+
+Is there a transformation that would help?
 ```
