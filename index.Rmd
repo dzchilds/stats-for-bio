@@ -1,6 +1,6 @@
 --- 
 title: "APS 240: Data Analysis and Statistics with R"
-author: "Dylan Z. Childs"
+author: "Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output:
@@ -17,121 +17,113 @@ description: "Course book for Data Analysis and Statistics with R (APS 240) in t
 
 # Course information and overview
 
-This is the online course book for the __Data Analysis and Statistics with R__ ([APS 240](https://www.shef.ac.uk/aps/currentug/level2/aps240)) module. You can view this book in any modern desktop browser, as well as on your phone or tablet device. The site is self-contained---it contains all the material you are expected to learn this year.
-
-Bethan Hindle is running the course. Please [email her](mailto:b.hindle@sheffield.ac.uk?Subject=APS%20133%20general%20query) if you have any general queries about the course. 
+This is the online course book for the __Data Analysis and Statistics with R__ ([APS 240](https://www.shef.ac.uk/aps/currentug/level2/aps240)) module. You can view this book in any modern desktop browser, as well as on your phone or tablet device.
 
 ## Why do a data analysis course? {#why-data-analysis}
 
-To do science yourself, or to understand the science other people do, you need some understanding of the principles of experimental design, data collection, data presentation and data analysis. That doesn’t mean becoming a maths wizard, or a computer genius. It means knowing how to take sensible decisions about designing studies and collecting data, and then being able to interpret those data correctly. Sometimes the methods required are extremely simple, sometimes more complex. You aren’t expected to get to grips with all of them, but what we hope to do in the course is to give you a good practical grasp of the core techniques that are widely used in biology and environmental sciences. You should then be equipped to use these techniques intelligently and, equally importantly, know when they are not appropriate, and when you need to seek help to find the correct way to design or analyse your study.
+To do science yourself, or to understand the science other people do, you need some understanding of the principles of experimental design, data collection, statistical analysis and scientific presentation. That doesn’t mean becoming a maths wizard, or a computer genius. It means knowing how to take sensible decisions about designing studies and collecting data, and then being able to interpret those data correctly. Sometimes the methods required are extremely simple, sometimes more complex. You aren’t expected to get to grips with all of them, but what we hope to do in the course is to give you a good practical grasp of the core techniques that are widely used in biology. You should then be equipped to use these techniques intelligently and, equally importantly, know when they are not appropriate, and when you need to seek help to find the correct way to design or analyse your study.
 
-You should, with some work on your part, acquire a set of skills which you will use at various stages throughout the remainder of your course, in practicals, field courses and in your project work. These same skills will almost certainly also be useful after your degree, whether doing biology, or something completely different. We live in a world that is increasingly flooded with data, and people who know how to make sense of this are in high demand. The R statistical programming environment underpins much of this endeavour, in both academic and commercial settings. Learning the basic principles of data analysis with R will only improve your employment prospects. 
+You should, with some work on your part, acquire a set of skills which you will use at various stages throughout the remainder of your course, in practicals, field courses and in your project work. These same skills will almost certainly also be useful after your degree, whether doing biology, or something completely different. We live in a world that is increasingly flooded with data, and people who know how to make sense of this are in high demand.
 
 ## Course overview {#overview}
 
 ### Aims {#aims}
 
-This course has two main, and equal, aims. The first is to provide a basic training in the use of statistical methods and software (R and RStudio) to analyse biological data. The second is to introduce some of the principles of experimental design, sampling, data interpretation, graphical presentation and scientific writing relevant to the biological and environmental sciences.
+This course has two main, and equal, aims. The first is to provide a basic training in the use of statistical methods and software (R and RStudio) to analyse biological data. The second is to introduce some of the principles of experimental design, sampling, data interpretation, graphical presentation and scientific writing relevant to the biological sciences.
 
 ### Objectives {#objectives}
 
-By the end of the course you should be familiar with the principles and use of a range of basic statistical techniques, be able to use the R programming language to carry out appropriate analyses of biological data, evaluate your statistical models, and make sensible interpretation of the results. You should be able to relate the ways in which data are collected (by different designs of sampling or experiment) to the types of statistical methods that can be used to analyse those data. In combination with the skills you developed in [APS 135](https://www.shef.ac.uk/aps/currentug/level1/aps135), you should be able to decide on appropriate ways of investigate data graphically, be able to produce good quality scientific figures, and incorporate these, along with statistical results, into a formal report.
+By the end of the course you should be familiar with the principles and use of a range of basic statistical techniques, be able to use the R programming language to carry out appropriate analyses, evaluate your statistical models, and make sensible interpretation of the results. You should be able to relate the ways in which data are collected to the types of statistical methods that can be used to analyse those data. In combination with the skills you developed in [APS 135](https://www.shef.ac.uk/aps/currentug/level1/aps135), you should be able to decide on appropriate ways of investigate data graphically, be able to produce good quality scientific figures, and incorporate these, along with statistical results, into a formal report.
 
 ### Assumed background {#assumed-background}
 
-You are assumed to be familiar with the use of personal computers on the University network, and with the use of R for data input, manipulation and plotting introduced in [APS 135](https://www.shef.ac.uk/aps/currentug/level1/aps135). If you are unsure about these basic methods, then you will need to revise the material covered in the Level 1 IT practicals. The key skills you need are covered in the [Programming prerequisites] chapter. We will revise the most important topics in the first practical session. 
+You are assumed to be familiar with the use of personal computers and with the use of R for data input, manipulation and plotting. The key skills required are reviewed in the [prerequisites](#prerequisites) chapter. If you are unsure about these basic methods you should familiarise yourself with the material introduced in [APS 135](https://www.shef.ac.uk/aps/currentug/level1/aps135).
 
 ### Methods {#methods}
 
-The course runs over semester 1, in weeks 1-12. The first 10 weeks consists of a 2-hour IT practical each week, along with some additional preparatory practical work and reading. All components of the course are compulsory. The remaining 2 weeks are devoted to revision and an assessed data analysis project.
+Students come to this course with very different prior experiences and competencies. Consequently, the course is designed as a ‘self-directed’ module to provide flexibility in how people work through the material. 
 
-Students come to APS 240 with very different experiences and competancies. Because of this unavoidable situation, the course is designed as a ‘self-teaching’ module to you flexibility in the rate at which you work through the material. This doesn't mean no one is going to help you, but you are expected to take responsibility of your own learning. 
+Everything is meant to be covered in one semester (~12 weeks). Each week involves a block of preparatory reading and 'walk-through' R practical from the course book, which is then followed by one or more interactive **learnr** tutorials to practise application and consolidate learning.
 
 #### Preparatory reading and practical work
 
-Each week starts with some preparatory reading and 'walk-through' practical work from the course book. We'll let you know what you need to do each week. The book chapters generally come in one of two forms:
+The book chapters are generally of one of two types:
 
--   **Practical walk-through chapters.** These are designed to introduce the practical aspects of different analysis techniques. These generally focus on the 'when' and 'why' we use a particular technique, as well how to actually do it in R. You are free (encouraged even) to work through these in groups.
+-   **Concept chapters.** These focus on ideas and concepts, rather then using R *per se*. They provide background information or more detailed discussion relating to each topic. These are an integral part of the course. Please don't skip them!
 
--   **Concept chapters.** These focus on ideas and concepts, rather then using R *per se* (though they may use R from time to time). They provide background information or more detailed discussion relating to the topics you are covering. These are an integral part of the course. Please don't skip them!
+-   **Practical walk-through chapters.** These are designed to introduce the practical aspects of different analysis techniques. These generally focus on the 'when' and 'why' we use a particular technique, as well how to actually do it in R.
 
-It is up to you to complete the preparatory work in your own time. However, we are not expecting you to understand everything the first time around. This point is so important it's worth saying again---you are not expected to understand everything in the course book the first time you read it. Just do your best to understand it, taking careful notes of anything you're struggling with. The TAs and staff will happily answer any questions you have during the timetabled sessions. Indeed, that is what they're there to do.
+It is up to you to complete the preparatory work in your own time. However, we are not expecting you to understand everything when you first encounter it. This point is so important it's worth saying again---you are not expected to understand everything in the course book the first time you read it. Just do your best to understand it, taking careful notes of anything you're struggling with. The TAs and staff will happily answer any questions you have via the discussion board or feedback lectures.
 
-#### Timetabled practicals
+#### Interactive **learnr** tutorials
 
-The **timetabled practicals** take place in the APS IT rooms, either Perak IT labs or B56. In each of these sessions, you will work through a number of small exercises to help you consolidate what you're been working on. You'll be asked to note down your answers to some of the exercises. The correct answers will be available. TAs and staff are there to help if you get stuck, so don't suffer in silence. You can (should!) also use this time to ask questions about concepts that are confusing you.
+*This section is being revised for the 2020-2021 session*
 
-You are welcome to use your own computer to complete your work. Keep in mind that the university computers are the only 'officially supported' platform. If you run into a problem using your own computer, the TAs and staff will try to help resolve these. Unfortunately, if these prove to be intractable, you will have to use the university computing facilities. It just isn't fair on other students for teaching staff to spend valuable contact time trying to solve installation / setup problems.
+### What do you need to learn?
 
-### Non-assessed material
-
-Although every topic is important, in the sense that it contains material that will help you become a better data analyst, we want to avoid creating too much of an assessment burden in this course. To this end, the material in a few of the chapters is be formally assessed. The [Expected learning outcomes] chapter tells you what you need to be able to know by the end of the course. If you're the kind of person who wants to focus on the assessment, you should use that as your guide. As always, feel free ask an instructor (not a TA) for clarification if you're not sure of what you need to be able to do.
+The [learning outcomes](#expected-learning) chapter tells you what you should know and be able to do by the end of the course. It also highlights what you **don't** need to know from an assessment perspective. As always, feel free to post a message on the discussion board if you're not sure of what you need to be able to do.
 
 ### What is required of you? {#what-is-required-of-you}
 
-A willingness to learn and to take responsibility for your learning! Data analysis is not the easiest subject in the world, but neither is it the most difficult. It's worth making the effort. What you learn in this course will form the basis for much of what you do in field course, practical and project work that follows in later semesters.
+A willingness to learn and to take responsibility for your learning! Data analysis is not the easiest subject in the world, but neither is it the most difficult. It's worth making the effort because what you learn in this course will form the basis for much of what you do in practical and project work that follows in later semesters.
 
 The minimum requirement for the course is that you:
 
--   attend your designated practical session each week (please ensure that you arrive on time and register, or you will be recorded as absent),
-
 -   complete the preparatory practical work and reading, taking careful notes of anything that you don't understand,
 
--   be proactive about your lerning and ask the TAs and staff questions about things you're struggling with,
+-   be proactive about your learning and post questions on the discussion about things you're struggling with,
 
--   complete the exercises for each week before the next practical class, and check through your answers to questions using MOLE.
+-   work through the **learnr** tutorials each week to consolidate your learning and practise using R.
 
-How you work through the book is fairly flexible, but remember, the self-study preparatory work lays the foundatation for the material covered in the timetabled practicals. Take our word for it, you won't get much out of the timetabled sessions if you skip the preparatory work.
+How you work through the book is fairly flexible, but remember, the self-study preparatory work lays the foundation for the material covered in the tutorials. Take our word for it, you will probably struggle with the tutorials if you skip the preparatory reading.
 
-In each practical session you should aim to complete most, if not all, of the exercises for that practical. If you don’t manage to do this you should try to finish off the work in your own time before the next practical. However, if you have problems with any of the work, staff will help you during the practical sessions, even if it is not the topic designated for that session. So if you need to catch up, there will be opportunities to do so. 
+A word of advice: Don’t let the flexibility of the course tempt you into letting a backlog of work build up. It will be hard to catch up later if you haven't made a good 'first pass' at all the material during semester.
 
-A word of advice: Don’t let the flexibility of the course tempt you into letting a backlog of work build up. This will compromise your ability to do the assessed work when it is set and will make it difficult to revise for the exam.
-
-One last point: **the university guidelines assume the total study time associated with a 10 credit module to be about 100 hours**. There is an expectation that you will spend significant time outside the timetabled practical classes working on this module. You should aim to spend about 5 hours each week working through the chapters, completing the practical exercises, and finally, working on the assessed project. This leaves you about 40 hours to revise for the formal exam in the new year.
+One last point: **the university guidelines assume the total study time associated with a 10 credit module to be about 100 hours**. You should aim to spend about 4-5 hours each week working through the chapters, completing the tutorials, and attending feedback sessions during semester. This leaves you about 40-50 hours to revise for the formal exam in the new year.
 
 ### Assessment {#assessment}
 
-Assessment of the course will have two components. The first is a short data analysis project in weeks 11-12 of the course, the second is an open book exam in the winter exam period. 'Open book' means you will have access to this book during the exam, i.e. you don't have to memorise everything in here, just understand it!
-
-Further details will be given as the course progresses.
+*This section is being revised for the 2020-2021 session*
 
 ## How to use the teaching material {#how-to-use-the-teaching-material}
 
 ### The online course book {#printed-material}
 
-All of the teaching material will be made available through a single online course book (this website). The book is organised such that it forms a complete, stand-alone introduction to data analysis. You should bookmark this now if you haven't already done so. There are a couple of very good reasons for delivering the course material this way: 
+All of the teaching material is available through this online course book. The book is organised such that it forms a complete, stand-alone introduction to data analysis. Bookmark it now if you haven't already done so. There are a couple of good reasons for delivering the course material this way: 
 
--   **Practicality**: Most exercises can be completed by building on the examples in the course material. Copying the relevant R code from the course website and pasting it into your script is much more efficient, and less error-prone, than copying by eye from a printed page. A website also allows us to cross-reference topics and link to the odd bit of outside reading.
+-   **Practicality**: Most exercises can be completed by building on the examples in the course material. Copying bits of relevant R code from the course website into a script is much more efficient, and less error-prone, than copying by eye from a printed page. A website also allows us to cross-reference topics and link to the odd bit of outside reading.
 
--   **Permanence**: Experience suggests that many of you will want to refer to the material in this course after you graduate. However, bits of paper are easy to lose, and because the R landscape is always changing, some elements of the course may be less relevant in a few years time. By putting everything on a website, we can ensure that you will always be able to access a familiar, but up-to-date data analysis course.
+-   **Permanence**: Experience suggests that many students will want to refer to the material in this course after they graduate. Bits of paper are easy to lose, and because the R landscape is always changing, some elements of the course may be less relevant in a few years time. Putting everything on a website ensures you will always be able to access a familiar but up-to-date data analysis course.
 
-### Printed material {#printed-material}
+<!-- ### Printed material {#printed-material} -->
 
-There is a small amount of printed material in this course:
+<!-- There is a small amount of printed material in this course: -->
 
--   **Cheat sheets**: We will supply you with copies of the `dplyr` and `ggplot2` [cheat sheets](https://www.rstudio.com/resources/cheatsheets/) produced by the people who build RStudio . It may help you to refer to these when you need use either the `dplyr` or `ggplot2` packages in a practical.
+<!-- -   **Cheat sheets**: We will supply you with copies of the `dplyr` and `ggplot2` [cheat sheets](https://www.rstudio.com/resources/cheatsheets/) produced by the people who build RStudio . It may help you to refer to these when you need use either the `dplyr` or `ggplot2` packages in a practical. -->
 
--   **Assessment information**: Although much of the assessment will be done on the computer, any information relating to the assessments will be produced in printed form. This will be handed out in week 10.
+<!-- -   **Assessment information**: Although much of the assessment will be done on the computer, any information relating to the assessments will be produced in printed form. This will be handed out in week 10. -->
 
 ### How to make best use of the teaching material {#how-to-make-best-use-of-it}
 
 DO:
 
--   When working through an exercise, follow the instructions carefully, but also **think about what you are doing**. Work at your own pace; you are not being assessed on whether you can do an exercise in a particular time.
+-   When working through a tutorial exercise, follow the instructions carefully, but also **think about what you are doing**. Work at your own pace; you are not going to be assessed on whether you can do an analysis quickly.
 
--   Ask teaching staff for help in the practicals if there are things that you don’t follow, or when things don’t seem to come out the way they should---that’s what they’re there for!
+-   Ask teaching staff for help using eth discussion boards if there are things you don’t follow, or when things don’t seem to come out the way they should---that’s what they’re there for!
 
 -   Collaborate! If you are not sure you understand something feel free to discuss it with a friend---more often than not this is exactly how scientists resolve and clarify problems in their experimental design and analysis.
 
--   Be prepared to experiment with R to solve problems that you encounter. You can't break your R or RStudio by generating errors. When you run into a problem, go back to the line of code that generated the first error and try making a change.
+-   Be prepared to experiment with R to solve problems that you encounter. You can't break R or RStudio by generating an error. When you run into a problem, go back to the line of code that generated the first error and try making a change.
 
--   Complete each week’s work before the next week’s session. You may be able to complete some sessions quite quickly, others may take more time and require more work on your own outside the timetabled periods.
+-   Complete each week’s work before the next week’s session. You may be able to complete some sessions quite quickly, others may take more time and require more effort form you.
 
 DON’T:
 
--   Just copy what someone else tells you to do without understanding why you are doing it. You need to understand it for yourself (and you’ll be on your own in the exam).
+-   Just copy what someone else tells you to do without understanding why you are doing it. You need to understand it for yourself!
 
--   Skip practicals or preparatory work and get behind schedule — there is too much material to assimilate all at once when you get to the assessments. Like all skills data analysis is something you have practice.
+-   Skip preparatory work or get behind schedule — there is too much material to assimilate all at once. 
+
+Like all skills, data analysis is something you have practice. It often feels difficult and confusing at first but it does get easier with practise.
 
 ### Conventions used in the course material {#conventions}
 
@@ -139,9 +131,9 @@ The teaching material, as far as possible, uses a standard set of conventions to
 
 #### Text, instructions, and explanations
 
-Normal text, instructions, explanations etc. are written in the same type as this paragarph (obvious really), we will tend to use bold to highlight specific technical terms when they are first introduced. Italics are generally used for emphasis and with Latin names.
+Normal text, instructions, explanations etc. are written in the same type as this paragraph (obvious really). We will often use bold to highlight specific technical terms when they are first introduced. Italics are generally used for emphasis and with Latin names.
 
-When we want you to do something important or pay particular attentions---e.g., waksing you to write down an answer or giving you a set of instructions---we place the text inside a box like this one: 
+When we want you to do something important or pay particular attention we place the text inside a box like this one: 
 
 ```{block, type='do-something'}
 **Brown boxes**
@@ -149,7 +141,9 @@ When we want you to do something important or pay particular attentions---e.g., 
 Here is some important text telling you to do something or remember something important. Sometimes it just contains a warning that the next bit will be hard...
 ```
 
-Please don't ignore these. At various points in the text you will also come across different coloured boxes that contain additional information:
+Please don't ignore these boxes.
+
+At various points in the text you will also come across different coloured boxes that contain additional information:
 
 ```{block, type='advanced-box'}
 **Blue boxes**
@@ -160,10 +154,10 @@ These aim to offer a not-too-technical discussion of how or why something works 
 ```{block, type='warning-box'}
 **Red boxes**
 
-These contain a __warning__ or flag a common __gotcha__ that may trip you up. They highlight potential pitfalls and show you how to avoid them. You will avoid a lot of future mistakes if pay close attention to these.
+These contain a __warning__ or flag a common __gotcha__ that may trip you up. They highlight potential pitfalls and show you how to avoid them. You will avoid future mistakes if pay close attention to these.
 ```
 
-We use block quotations to indicate an example of how a particular statistical result should be presented when you write it in a report: e.g.
+We use block quotations to indicate an example of how a statistical result should be presented when you write it in a report: e.g.
 
 > The mean lengths of male and female locusts differed significantly (t=4.04, df=15, p=0.001), with males being significantly larger.
 
@@ -177,29 +171,33 @@ File names referred to in general text are given in upper case in the normal typ
 
 ### Feedback {#feedback}
 
-There are a number of ways in which you can obtain feedback on how well you understand the course material
+There are a number of ways in which you can obtain feedback on how well you understand the course material.
 
 #### Self-assessment questions:
 
-At various points in the course material there are questions for you to answer. When you reach one of these, you should be in a position to answer the question —- so make a note of the answer! When you’ve completed the session, you can check your answers using the ‘self-test’ for that particular session on MOLE. You will see if you have the correct answer and in some cases you will also get some additional explanation as to why that answer is right (or wrong!).
+There are multiple choice questions for you to answer at various points in the **learnr** tutorials. These provide a bit of instant instant 'formative assessment', i.e. they allow you to check your understanding of a topic. They will often provide some additional explanation as to why that answer is right (or wrong!).
 
-#### Each other:
+#### Discussion boards:
 
-Discussing what you are doing with someone as you go along, or working through a problem with someone else, can help clarify your understanding. Please bear in mind, however, that you learn little or nothing by simply copying information from someone else, and when it comes to the assessed project, it must be your own work.
+You can use the online discussion boards post questions and discuss any  conceptual or practical aspect of the course causing you problems. The boards will be checked regularly by academic staff and teaching assistants. However, **you** are also very welcome--encouraged even--to answer one-another's questions.
 
-#### Staff:
+#### Feedback lectures:
 
-In the practicals you will have opportunities to ask questions and discuss what you are doing with staff and teaching assistants. They are not just there to help you with the practical. You should use them to help you work through any problems you have with the course material, both conceptual and practical. There will also be an opportunity to have topics you raise discussed in later practicals.
+*This section is being revised for the 2020-2021 session*
 
-### Help sessions {#help}
+#### Working together:
 
-We will run an open 'help' session every Friday from 12-2.00pm, in the B56 IT Room in APS. An instructor will be on hand during this period to answer specific questions about the course material. This room holds about 40 students, so please only attend if you require one-to-one assistance, i.e, don't just use this session to complete unfinished practicals (unless you are stuck of course).
+Discussing what you are doing or working through a problem with someone else can help clarify your understanding and we encourage you to work with one another on tutorial exercises. Use whatever chat or video conferencing platform works best for you to make this happen. Bear in mind, however, that you learn little or nothing by simply copying information from someone else, and when it comes to an assessment, it must be your own work.
+
+<!-- ### Help sessions {#help} -->
+
+<!-- We will run an open 'help' session every Friday from 12-2.00pm, in the B56 IT Room in APS. An instructor will be on hand during this period to answer specific questions about the course material. This room holds about 40 students, so please only attend if you require one-to-one assistance, i.e, don't just use this session to complete unfinished practicals (unless you are stuck of course). -->
 
 ### Overall… {#overall}
 
 We hope that the material is clear and easy to use, and that you find the course useful, or even enjoy it!
 
-In a text of this size, which is continually being improved and updated, errors do creep in; if you find something you think is wrong please tell us. If it’s not wrong we will be happy to explain why, and if it is then you will save yourself and others a lot of confusion. Similarly, if you have any comments or suggestions for improving the teaching materials please let us know.
+In a text of this size, which is continually being improved and updated, errors do creep in; if you find something you think is wrong please tell us. If it’s not wrong we will happily to explain why, and if it is then you will save yourself and others a lot of confusion. Similarly, if you have any comments or suggestions for improving the teaching materials please let us know.
 
 ## Health and safety using display screen equipment {#health-and-safety}
 
@@ -218,18 +216,12 @@ Although using a computer may not seem like a particularly risky activity you sh
 
     -   if you are using a mouse, have it far enough away from the edge
         of the desk so that your wrist is supported whilst you use it.
-        If you can learn to use the mouse with either hand then this can
-        help avoid strains
 
 -   Do not have your screen positioned in such a way that there is glare
     or reflections from the windows or room lights on the screen.
 
--   Maintain good posture.
-
 -   Take regular breaks away from the computer. It is recommended that
     you take about 10 minutes break every hour.
-
-Most Departments will have a Display Screen Trainer or Advisor, who can offer specific advice if you are using a display screen for a substantial amount of time, or if you experience, or anticipate, specific problems.
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages

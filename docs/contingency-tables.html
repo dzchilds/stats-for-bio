@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>APS 240: Data Analysis and Statistics with R</title>
-  <meta name="description" content="Course book for Data Analysis and Statistics with R (APS 240) in the Department of Animal and Plant Sciences, University of Sheffield">
-  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 32 Contingency tables | APS 240: Data Analysis and Statistics with R</title>
+  <meta name="description" content="Course book for Data Analysis and Statistics with R (APS 240) in the Department of Animal and Plant Sciences, University of Sheffield" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="APS 240: Data Analysis and Statistics with R" />
+  <meta property="og:title" content="Chapter 32 Contingency tables | APS 240: Data Analysis and Statistics with R" />
   <meta property="og:type" content="book" />
   
   
@@ -17,29 +16,31 @@
   <meta name="github-repo" content="dzchilds/stats-for-bio" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="APS 240: Data Analysis and Statistics with R" />
+  <meta name="twitter:title" content="Chapter 32 Contingency tables | APS 240: Data Analysis and Statistics with R" />
   
   <meta name="twitter:description" content="Course book for Data Analysis and Statistics with R (APS 240) in the Department of Animal and Plant Sciences, University of Sheffield" />
   
 
-<meta name="author" content="Dylan Z. Childs">
+<meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2018-09-21">
+<meta name="date" content="2020-09-01" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="goodness-of-fit-tests.html">
-<link rel="next" href="non-parametric-tests.html">
+<link rel="prev" href="goodness-of-fit-tests.html"/>
+<link rel="next" href="non-parametric-tests.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -47,6 +48,9 @@
 
 
 
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -74,41 +78,68 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -134,35 +165,33 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#objectives"><i class="fa fa-check"></i><b>1.2.2</b> Objectives</a></li>
 <li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#assumed-background"><i class="fa fa-check"></i><b>1.2.3</b> Assumed background</a></li>
 <li class="chapter" data-level="1.2.4" data-path="index.html"><a href="index.html#methods"><i class="fa fa-check"></i><b>1.2.4</b> Methods</a></li>
-<li class="chapter" data-level="1.2.5" data-path="index.html"><a href="index.html#non-assessed-material"><i class="fa fa-check"></i><b>1.2.5</b> Non-assessed material</a></li>
+<li class="chapter" data-level="1.2.5" data-path="index.html"><a href="index.html#what-do-you-need-to-learn"><i class="fa fa-check"></i><b>1.2.5</b> What do you need to learn?</a></li>
 <li class="chapter" data-level="1.2.6" data-path="index.html"><a href="index.html#what-is-required-of-you"><i class="fa fa-check"></i><b>1.2.6</b> What is required of you?</a></li>
 <li class="chapter" data-level="1.2.7" data-path="index.html"><a href="index.html#assessment"><i class="fa fa-check"></i><b>1.2.7</b> Assessment</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#how-to-use-the-teaching-material"><i class="fa fa-check"></i><b>1.3</b> How to use the teaching material</a><ul>
 <li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#printed-material"><i class="fa fa-check"></i><b>1.3.1</b> The online course book</a></li>
-<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#printed-material"><i class="fa fa-check"></i><b>1.3.2</b> Printed material</a></li>
-<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#how-to-make-best-use-of-it"><i class="fa fa-check"></i><b>1.3.3</b> How to make best use of the teaching material</a></li>
-<li class="chapter" data-level="1.3.4" data-path="index.html"><a href="index.html#conventions"><i class="fa fa-check"></i><b>1.3.4</b> Conventions used in the course material</a></li>
-<li class="chapter" data-level="1.3.5" data-path="index.html"><a href="index.html#feedback"><i class="fa fa-check"></i><b>1.3.5</b> Feedback</a></li>
-<li class="chapter" data-level="1.3.6" data-path="index.html"><a href="index.html#help"><i class="fa fa-check"></i><b>1.3.6</b> Help sessions</a></li>
-<li class="chapter" data-level="1.3.7" data-path="index.html"><a href="index.html#overall"><i class="fa fa-check"></i><b>1.3.7</b> Overall…</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#how-to-make-best-use-of-it"><i class="fa fa-check"></i><b>1.3.2</b> How to make best use of the teaching material</a></li>
+<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#conventions"><i class="fa fa-check"></i><b>1.3.3</b> Conventions used in the course material</a></li>
+<li class="chapter" data-level="1.3.4" data-path="index.html"><a href="index.html#feedback"><i class="fa fa-check"></i><b>1.3.4</b> Feedback</a></li>
+<li class="chapter" data-level="1.3.5" data-path="index.html"><a href="index.html#overall"><i class="fa fa-check"></i><b>1.3.5</b> Overall…</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#health-and-safety"><i class="fa fa-check"></i><b>1.4</b> Health and safety using display screen equipment</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html"><i class="fa fa-check"></i><b>2</b> Expected learning outcomes</a><ul>
-<li class="chapter" data-level="2.1" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#collecting-and-using-data"><i class="fa fa-check"></i><b>2.1</b> Collecting and using data</a></li>
-<li class="chapter" data-level="2.2" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#statistical-concepts"><i class="fa fa-check"></i><b>2.2</b> Statistical Concepts</a></li>
-<li class="chapter" data-level="2.3" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#simple-parametric-statistics"><i class="fa fa-check"></i><b>2.3</b> Simple parametric statistics</a></li>
-<li class="chapter" data-level="2.4" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#regression-and-anova"><i class="fa fa-check"></i><b>2.4</b> Regression and ANOVA</a></li>
-<li class="chapter" data-level="2.5" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#doing-more-with-models"><i class="fa fa-check"></i><b>2.5</b> Doing more with models</a></li>
-<li class="chapter" data-level="2.6" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#experimental-design"><i class="fa fa-check"></i><b>2.6</b> Experimental design</a></li>
-<li class="chapter" data-level="2.7" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#beyond-simple-models"><i class="fa fa-check"></i><b>2.7</b> Beyond simple models</a></li>
-<li class="chapter" data-level="2.8" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#frequency-data-and-non-parameteric-tests"><i class="fa fa-check"></i><b>2.8</b> Frequency data and non-parameteric tests</a></li>
+<li class="chapter" data-level="2" data-path="expected-learning.html"><a href="expected-learning.html"><i class="fa fa-check"></i><b>2</b> Expected learning outcomes</a><ul>
+<li class="chapter" data-level="2.1" data-path="expected-learning.html"><a href="expected-learning.html#collecting-and-using-data"><i class="fa fa-check"></i><b>2.1</b> Collecting and using data</a></li>
+<li class="chapter" data-level="2.2" data-path="expected-learning.html"><a href="expected-learning.html#statistical-concepts"><i class="fa fa-check"></i><b>2.2</b> Statistical Concepts</a></li>
+<li class="chapter" data-level="2.3" data-path="expected-learning.html"><a href="expected-learning.html#simple-parametric-statistics"><i class="fa fa-check"></i><b>2.3</b> Simple parametric statistics</a></li>
+<li class="chapter" data-level="2.4" data-path="expected-learning.html"><a href="expected-learning.html#regression-and-anova"><i class="fa fa-check"></i><b>2.4</b> Regression and ANOVA</a></li>
+<li class="chapter" data-level="2.5" data-path="expected-learning.html"><a href="expected-learning.html#doing-more-with-models"><i class="fa fa-check"></i><b>2.5</b> Doing more with models</a></li>
+<li class="chapter" data-level="2.6" data-path="expected-learning.html"><a href="expected-learning.html#experimental-design"><i class="fa fa-check"></i><b>2.6</b> Experimental design</a></li>
+<li class="chapter" data-level="2.7" data-path="expected-learning.html"><a href="expected-learning.html#beyond-simple-models"><i class="fa fa-check"></i><b>2.7</b> Beyond simple models</a></li>
+<li class="chapter" data-level="2.8" data-path="expected-learning.html"><a href="expected-learning.html#frequency-data-and-non-parameteric-tests"><i class="fa fa-check"></i><b>2.8</b> Frequency data and non-parameteric tests</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="programming-prerequisites.html"><a href="programming-prerequisites.html"><i class="fa fa-check"></i><b>3</b> Programming prerequisites</a><ul>
-<li class="chapter" data-level="3.1" data-path="programming-prerequisites.html"><a href="programming-prerequisites.html#starting-an-r-session-in-rstudio"><i class="fa fa-check"></i><b>3.1</b> Starting an R session in RStudio</a></li>
-<li class="chapter" data-level="3.2" data-path="programming-prerequisites.html"><a href="programming-prerequisites.html#using-packages"><i class="fa fa-check"></i><b>3.2</b> Using packages</a></li>
-<li class="chapter" data-level="3.3" data-path="programming-prerequisites.html"><a href="programming-prerequisites.html#reading-data-into-r"><i class="fa fa-check"></i><b>3.3</b> Reading data into R</a></li>
+<li class="chapter" data-level="3" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>3</b> Programming prerequisites</a><ul>
+<li class="chapter" data-level="3.1" data-path="prerequisites.html"><a href="prerequisites.html#starting-an-r-session-in-rstudio"><i class="fa fa-check"></i><b>3.1</b> Starting an R session in RStudio</a></li>
+<li class="chapter" data-level="3.2" data-path="prerequisites.html"><a href="prerequisites.html#using-packages"><i class="fa fa-check"></i><b>3.2</b> Using packages</a></li>
+<li class="chapter" data-level="3.3" data-path="prerequisites.html"><a href="prerequisites.html#reading-data-into-r"><i class="fa fa-check"></i><b>3.3</b> Reading data into R</a></li>
 </ul></li>
 <li class="part"><span><b>I Collecting and Using Data</b></span></li>
 <li class="chapter" data-level="4" data-path="the-scientific-process.html"><a href="the-scientific-process.html"><i class="fa fa-check"></i><b>4</b> The scientific process</a><ul>
@@ -229,7 +258,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="10.2.1" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#careful-with-those-p-values"><i class="fa fa-check"></i><b>10.2.1</b> Careful with those <em>p</em>-values</a></li>
 <li class="chapter" data-level="10.2.2" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#presenting-p-values"><i class="fa fa-check"></i><b>10.2.2</b> Presenting <em>p</em>-values</a></li>
 </ul></li>
-<li class="chapter" data-level="10.3" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#biological-vs.statistical-significance"><i class="fa fa-check"></i><b>10.3</b> Biological vs. statistical significance</a></li>
+<li class="chapter" data-level="10.3" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#biological-vs.-statistical-significance"><i class="fa fa-check"></i><b>10.3</b> Biological vs. statistical significance</a></li>
 </ul></li>
 <li class="part"><span><b>III Simple Statistics</b></span></li>
 <li class="chapter" data-level="11" data-path="parametric-statistics.html"><a href="parametric-statistics.html"><i class="fa fa-check"></i><b>11</b> Parametric statistics</a><ul>
@@ -258,13 +287,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="13.2.2" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#what-about-the-equal-variance-assumption"><i class="fa fa-check"></i><b>13.2.2</b> What about the <em>equal variance</em> assumption?</a></li>
 </ul></li>
 <li class="chapter" data-level="13.3" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#carrying-out-a-two-sample-t-test-in-r"><i class="fa fa-check"></i><b>13.3</b> Carrying out a two-sample <em>t</em>-test in R</a><ul>
-<li class="chapter" data-level="13.3.1" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#visualising-the-data-and-checking-the-assumptions-1"><i class="fa fa-check"></i><b>13.3.1</b> Visualising the data and checking the assumptions</a></li>
-<li class="chapter" data-level="13.3.2" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#carrying-out-the-test-1"><i class="fa fa-check"></i><b>13.3.2</b> Carrying out the test</a></li>
-<li class="chapter" data-level="13.3.3" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#summarising-the-result-1"><i class="fa fa-check"></i><b>13.3.3</b> Summarising the result</a></li>
+<li class="chapter" data-level="13.3.1" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#visualising-the-data-and-checking-the-assumptions"><i class="fa fa-check"></i><b>13.3.1</b> Visualising the data and checking the assumptions</a></li>
+<li class="chapter" data-level="13.3.2" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#carrying-out-the-test"><i class="fa fa-check"></i><b>13.3.2</b> Carrying out the test</a></li>
+<li class="chapter" data-level="13.3.3" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#summarising-the-result"><i class="fa fa-check"></i><b>13.3.3</b> Summarising the result</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>14</b> Correlation</a><ul>
-<li class="chapter" data-level="14.1" data-path="correlation.html"><a href="correlation.html#introduction-1"><i class="fa fa-check"></i><b>14.1</b> Introduction</a></li>
+<li class="chapter" data-level="14.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>14.1</b> Introduction</a></li>
 <li class="chapter" data-level="14.2" data-path="correlation.html"><a href="correlation.html#pearsons-product-moment-correlation-coefficient"><i class="fa fa-check"></i><b>14.2</b> Pearson’s product-moment correlation coefficient</a><ul>
 <li class="chapter" data-level="14.2.1" data-path="correlation.html"><a href="correlation.html#pearsons-product-moment-correlation-coefficient-in-r"><i class="fa fa-check"></i><b>14.2.1</b> Pearson’s product-moment correlation coefficient in R</a></li>
 <li class="chapter" data-level="14.2.2" data-path="correlation.html"><a href="correlation.html#reporting-the-result"><i class="fa fa-check"></i><b>14.2.2</b> Reporting the result</a></li>
@@ -272,7 +301,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="part"><span><b>IV Regression and ANOVA</b></span></li>
 <li class="chapter" data-level="15" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html"><i class="fa fa-check"></i><b>15</b> Relationships and regression</a><ul>
-<li class="chapter" data-level="15.1" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#introduction-2"><i class="fa fa-check"></i><b>15.1</b> Introduction</a></li>
+<li class="chapter" data-level="15.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>15.1</b> Introduction</a></li>
 <li class="chapter" data-level="15.2" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#correlation-or-regression"><i class="fa fa-check"></i><b>15.2</b> Correlation or regression?</a></li>
 <li class="chapter" data-level="15.3" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#what-does-linear-regression-do"><i class="fa fa-check"></i><b>15.3</b> What does linear regression do?</a></li>
 <li class="chapter" data-level="15.4" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#how-does-simple-linear-regression-work"><i class="fa fa-check"></i><b>15.4</b> How does simple linear regression work?</a><ul>
@@ -311,9 +340,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="18" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html"><i class="fa fa-check"></i><b>18</b> One-way ANOVA in R</a><ul>
-<li class="chapter" data-level="18.1" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#introduction-3"><i class="fa fa-check"></i><b>18.1</b> Introduction</a></li>
+<li class="chapter" data-level="18.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>18.1</b> Introduction</a></li>
 <li class="chapter" data-level="18.2" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#factors-in-r"><i class="fa fa-check"></i><b>18.2</b> Factors in R</a></li>
-<li class="chapter" data-level="18.3" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#visualising-the-data-1"><i class="fa fa-check"></i><b>18.3</b> Visualising the data</a></li>
+<li class="chapter" data-level="18.3" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#visualising-the-data"><i class="fa fa-check"></i><b>18.3</b> Visualising the data</a></li>
 <li class="chapter" data-level="18.4" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#fitting-the-anova-model"><i class="fa fa-check"></i><b>18.4</b> Fitting the ANOVA model</a></li>
 <li class="chapter" data-level="18.5" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#interpreting-the-results"><i class="fa fa-check"></i><b>18.5</b> Interpreting the results</a></li>
 <li class="chapter" data-level="18.6" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#summarise-results"><i class="fa fa-check"></i><b>18.6</b> Summarising and presenting the results of ANOVA</a></li>
@@ -331,7 +360,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="19.4" data-path="assumptions-and-diagnostics.html"><a href="assumptions-and-diagnostics.html#assumptions-of-one-way-anova"><i class="fa fa-check"></i><b>19.4</b> Assumptions of one-way ANOVA</a></li>
 </ul></li>
 <li class="chapter" data-level="20" data-path="using-regression-diagnostics.html"><a href="using-regression-diagnostics.html"><i class="fa fa-check"></i><b>20</b> Using regression diagnostics</a><ul>
-<li class="chapter" data-level="20.1" data-path="using-regression-diagnostics.html"><a href="using-regression-diagnostics.html#introduction-4"><i class="fa fa-check"></i><b>20.1</b> Introduction</a></li>
+<li class="chapter" data-level="20.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>20.1</b> Introduction</a></li>
 <li class="chapter" data-level="20.2" data-path="using-regression-diagnostics.html"><a href="using-regression-diagnostics.html#diagnostics-for-regression"><i class="fa fa-check"></i><b>20.2</b> Diagnostics for regression</a></li>
 <li class="chapter" data-level="20.3" data-path="using-regression-diagnostics.html"><a href="using-regression-diagnostics.html#diagnostics-for-one-way-anova"><i class="fa fa-check"></i><b>20.3</b> Diagnostics for one-way ANOVA</a><ul>
 <li class="chapter" data-level="20.3.1" data-path="using-regression-diagnostics.html"><a href="using-regression-diagnostics.html#aside-formal-test-of-equality-of-variance"><i class="fa fa-check"></i><b>20.3.1</b> Aside: formal test of equality of variance</a></li>
@@ -359,7 +388,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="21.7" data-path="data-transformations.html"><a href="data-transformations.html#final-thoughts"><i class="fa fa-check"></i><b>21.7</b> Final thoughts</a></li>
 </ul></li>
 <li class="chapter" data-level="22" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html"><i class="fa fa-check"></i><b>22</b> Multiple comparison tests</a><ul>
-<li class="chapter" data-level="22.1" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#introduction-5"><i class="fa fa-check"></i><b>22.1</b> Introduction</a></li>
+<li class="chapter" data-level="22.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>22.1</b> Introduction</a></li>
 <li class="chapter" data-level="22.2" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#mult-comp-R"><i class="fa fa-check"></i><b>22.2</b> Tukey’s HSD in R</a></li>
 <li class="chapter" data-level="22.3" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#how-to-summarise-multiple-comparison-results"><i class="fa fa-check"></i><b>22.3</b> How to summarise multiple-comparison results</a></li>
 <li class="chapter" data-level="22.4" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#doing-it-the-easy-way"><i class="fa fa-check"></i><b>22.4</b> Doing it the easy way…</a></li>
@@ -368,7 +397,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="part"><span><b>VI Experimental Design</b></span></li>
 <li class="chapter" data-level="23" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html"><i class="fa fa-check"></i><b>23</b> Principles of experimental design</a><ul>
-<li class="chapter" data-level="23.1" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#introduction-6"><i class="fa fa-check"></i><b>23.1</b> Introduction</a></li>
+<li class="chapter" data-level="23.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>23.1</b> Introduction</a></li>
 <li class="chapter" data-level="23.2" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#jargon-busting"><i class="fa fa-check"></i><b>23.2</b> Jargon busting</a></li>
 <li class="chapter" data-level="23.3" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#replication"><i class="fa fa-check"></i><b>23.3</b> Replication</a><ul>
 <li class="chapter" data-level="23.3.1" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#independence"><i class="fa fa-check"></i><b>23.3.1</b> Independence and pseudoreplication</a></li>
@@ -411,19 +440,19 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="26" data-path="introduction-to-two-way-anova.html"><a href="introduction-to-two-way-anova.html"><i class="fa fa-check"></i><b>26</b> Introduction to two-way ANOVA</a><ul>
 <li class="chapter" data-level="26.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>26.1</b> Introduction</a></li>
 <li class="chapter" data-level="26.2" data-path="introduction-to-two-way-anova.html"><a href="introduction-to-two-way-anova.html#degrees-of-freedom-mean-squares-and-f-statistics"><i class="fa fa-check"></i><b>26.2</b> Degrees of freedom, mean squares, and <em>F</em>-statistics</a></li>
-<li class="chapter" data-level="26.3" data-path="introduction-to-two-way-anova.html"><a href="introduction-to-two-way-anova.html#multiple-comparison-tests-1"><i class="fa fa-check"></i><b>26.3</b> Multiple comparison tests</a></li>
+<li class="chapter" data-level="26.3" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#multiple-comparison-tests"><i class="fa fa-check"></i><b>26.3</b> Multiple comparison tests</a></li>
 <li class="chapter" data-level="26.4" data-path="introduction-to-two-way-anova.html"><a href="introduction-to-two-way-anova.html#beyond-two-way-anova"><i class="fa fa-check"></i><b>26.4</b> Beyond two-way ANOVA</a></li>
 </ul></li>
 <li class="chapter" data-level="27" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html"><i class="fa fa-check"></i><b>27</b> Two-way ANOVA in R</a><ul>
-<li class="chapter" data-level="27.1" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#introduction-7"><i class="fa fa-check"></i><b>27.1</b> Introduction</a></li>
+<li class="chapter" data-level="27.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>27.1</b> Introduction</a></li>
 <li class="chapter" data-level="27.2" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#competition-between-calluna-and-festuca"><i class="fa fa-check"></i><b>27.2</b> Competition between <em>Calluna</em> and <em>Festuca</em></a></li>
-<li class="chapter" data-level="27.3" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#visualising-the-data-2"><i class="fa fa-check"></i><b>27.3</b> Visualising the data</a></li>
-<li class="chapter" data-level="27.4" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#fitting-the-anova-model-1"><i class="fa fa-check"></i><b>27.4</b> Fitting the ANOVA model</a></li>
+<li class="chapter" data-level="27.3" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#visualising-the-data"><i class="fa fa-check"></i><b>27.3</b> Visualising the data</a></li>
+<li class="chapter" data-level="27.4" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#fitting-the-anova-model"><i class="fa fa-check"></i><b>27.4</b> Fitting the ANOVA model</a></li>
 <li class="chapter" data-level="27.5" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#diagnostics"><i class="fa fa-check"></i><b>27.5</b> Diagnostics</a></li>
-<li class="chapter" data-level="27.6" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#interpreting-the-results-1"><i class="fa fa-check"></i><b>27.6</b> Interpreting the results</a><ul>
+<li class="chapter" data-level="27.6" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#interpreting-the-results"><i class="fa fa-check"></i><b>27.6</b> Interpreting the results</a><ul>
 <li class="chapter" data-level="27.6.1" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#understanding-the-model-graphically"><i class="fa fa-check"></i><b>27.6.1</b> Understanding the model graphically</a></li>
 </ul></li>
-<li class="chapter" data-level="27.7" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#multiple-comparison-tests-2"><i class="fa fa-check"></i><b>27.7</b> Multiple comparison tests</a></li>
+<li class="chapter" data-level="27.7" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#multiple-comparison-tests"><i class="fa fa-check"></i><b>27.7</b> Multiple comparison tests</a></li>
 <li class="chapter" data-level="27.8" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#drawing-conclusions-and-presenting-results"><i class="fa fa-check"></i><b>27.8</b> Drawing conclusions and presenting results</a><ul>
 <li class="chapter" data-level="27.8.1" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#a-little-more-customisation"><i class="fa fa-check"></i><b>27.8.1</b> A little more customisation</a></li>
 </ul></li>
@@ -433,20 +462,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="28.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>28.1</b> Introduction</a></li>
 <li class="chapter" data-level="28.2" data-path="introduction-to-ancova.html"><a href="introduction-to-ancova.html#why-do-we-need-ancova-models"><i class="fa fa-check"></i><b>28.2</b> Why do we need ANCOVA models?</a></li>
 <li class="chapter" data-level="28.3" data-path="introduction-to-ancova.html"><a href="introduction-to-ancova.html#how-does-ancova-work"><i class="fa fa-check"></i><b>28.3</b> How does ANCOVA work?</a></li>
-<li class="chapter" data-level="28.4" data-path="introduction-to-ancova.html"><a href="introduction-to-ancova.html#degrees-of-freedom-mean-squares-and-f-statistics-1"><i class="fa fa-check"></i><b>28.4</b> Degrees of freedom, mean squares and F-statistics</a></li>
+<li class="chapter" data-level="28.4" data-path="introduction-to-two-way-anova.html"><a href="introduction-to-two-way-anova.html#degrees-of-freedom-mean-squares-and-f-statistics"><i class="fa fa-check"></i><b>28.4</b> Degrees of freedom, mean squares and F-statistics</a></li>
 <li class="chapter" data-level="28.5" data-path="introduction-to-ancova.html"><a href="introduction-to-ancova.html#assumptions-of-ancova"><i class="fa fa-check"></i><b>28.5</b> Assumptions of ANCOVA</a></li>
 </ul></li>
 <li class="chapter" data-level="29" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html"><i class="fa fa-check"></i><b>29</b> Two-way ANCOVA in R</a><ul>
-<li class="chapter" data-level="29.1" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html#introduction-8"><i class="fa fa-check"></i><b>29.1</b> Introduction</a></li>
-<li class="chapter" data-level="29.2" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html#visualising-the-data-3"><i class="fa fa-check"></i><b>29.2</b> Visualising the data</a></li>
+<li class="chapter" data-level="29.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>29.1</b> Introduction</a></li>
+<li class="chapter" data-level="29.2" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#visualising-the-data"><i class="fa fa-check"></i><b>29.2</b> Visualising the data</a></li>
 <li class="chapter" data-level="29.3" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html#fitting-an-ancova"><i class="fa fa-check"></i><b>29.3</b> Fitting an ANCOVA</a></li>
-<li class="chapter" data-level="29.4" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html#diagnostics-1"><i class="fa fa-check"></i><b>29.4</b> Diagnostics</a></li>
-<li class="chapter" data-level="29.5" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html#interpreting-the-results-2"><i class="fa fa-check"></i><b>29.5</b> Interpreting the results</a></li>
+<li class="chapter" data-level="29.4" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#diagnostics"><i class="fa fa-check"></i><b>29.4</b> Diagnostics</a></li>
+<li class="chapter" data-level="29.5" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#interpreting-the-results"><i class="fa fa-check"></i><b>29.5</b> Interpreting the results</a></li>
 <li class="chapter" data-level="29.6" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html#presenting-the-results"><i class="fa fa-check"></i><b>29.6</b> Presenting the results</a></li>
 </ul></li>
 <li class="part"><span><b>VIII Frequency Data and Non-parametric Tests</b></span></li>
 <li class="chapter" data-level="30" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html"><i class="fa fa-check"></i><b>30</b> Working with frequencies</a><ul>
-<li class="chapter" data-level="30.1" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html#introduction-9"><i class="fa fa-check"></i><b>30.1</b> Introduction</a></li>
+<li class="chapter" data-level="30.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>30.1</b> Introduction</a></li>
 <li class="chapter" data-level="30.2" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html#a-new-kind-of-distribution"><i class="fa fa-check"></i><b>30.2</b> A new kind of distribution</a></li>
 <li class="chapter" data-level="30.3" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html#types-of-test"><i class="fa fa-check"></i><b>30.3</b> Types of test</a><ul>
 <li class="chapter" data-level="30.3.1" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html#chi2-goodness-of-fit-test"><i class="fa fa-check"></i><b>30.3.1</b> <span class="math inline">\(\chi^{2}\)</span> goodness of fit test</a></li>
@@ -460,7 +489,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="31.2.1" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#assumptions-of-the-chi-square-goodness-of-fit-test"><i class="fa fa-check"></i><b>31.2.1</b> Assumptions of the chi-square goodness of fit test</a></li>
 </ul></li>
 <li class="chapter" data-level="31.3" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#carrying-out-a-chi-square-goodness-of-fit-test-in-r"><i class="fa fa-check"></i><b>31.3</b> Carrying out a chi-square goodness of fit test in R</a><ul>
-<li class="chapter" data-level="31.3.1" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#summarising-the-result-2"><i class="fa fa-check"></i><b>31.3.1</b> Summarising the result</a></li>
+<li class="chapter" data-level="31.3.1" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#summarising-the-result"><i class="fa fa-check"></i><b>31.3.1</b> Summarising the result</a></li>
 <li class="chapter" data-level="31.3.2" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#a-bit-more-about-goodness-of-fit-tests-in-r"><i class="fa fa-check"></i><b>31.3.2</b> A bit more about goodness of fit tests in R</a></li>
 <li class="chapter" data-level="31.3.3" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#doing-it-the-long-way"><i class="fa fa-check"></i><b>31.3.3</b> Doing it the long way…</a></li>
 </ul></li>
@@ -474,7 +503,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="32.3" data-path="contingency-tables.html"><a href="contingency-tables.html#carrying-out-a-chi-square-contingency-table-test-in-r"><i class="fa fa-check"></i><b>32.3</b> Carrying out a chi-square contingency table test in R</a><ul>
 <li class="chapter" data-level="32.3.1" data-path="contingency-tables.html"><a href="contingency-tables.html#step-1.-getting-the-data-into-the-correct-format"><i class="fa fa-check"></i><b>32.3.1</b> Step 1. Getting the data into the correct format</a></li>
 <li class="chapter" data-level="32.3.2" data-path="contingency-tables.html"><a href="contingency-tables.html#step-2.-doing-the-test"><i class="fa fa-check"></i><b>32.3.2</b> Step 2. Doing the test</a></li>
-<li class="chapter" data-level="32.3.3" data-path="contingency-tables.html"><a href="contingency-tables.html#summarising-the-result-3"><i class="fa fa-check"></i><b>32.3.3</b> Summarising the result</a></li>
+<li class="chapter" data-level="32.3.3" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#summarising-the-result"><i class="fa fa-check"></i><b>32.3.3</b> Summarising the result</a></li>
 </ul></li>
 <li class="chapter" data-level="32.4" data-path="contingency-tables.html"><a href="contingency-tables.html#working-with-larger-tables"><i class="fa fa-check"></i><b>32.4</b> Working with larger tables</a></li>
 </ul></li>
@@ -519,16 +548,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="A.7" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#qu4"><i class="fa fa-check"></i><b>A.7</b> Question 3 -– Frequencies of categorical data</a></li>
 <li class="chapter" data-level="A.8" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#var-cat"><i class="fa fa-check"></i><b>A.8</b> Variables or categories?</a><ul>
-<li class="chapter" data-level="A.8.1" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#anova-vs.regression"><i class="fa fa-check"></i><b>A.8.1</b> ANOVA vs. regression</a></li>
+<li class="chapter" data-level="A.8.1" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#anova-vs.-regression"><i class="fa fa-check"></i><b>A.8.1</b> ANOVA vs. regression</a></li>
 <li class="chapter" data-level="A.8.2" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#making-categories-out-of-continuous-measures"><i class="fa fa-check"></i><b>A.8.2</b> Making categories out of continuous measures</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="B" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html"><i class="fa fa-check"></i><b>B</b> Writing a scientific report</a><ul>
-<li class="chapter" data-level="B.1" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#introduction-10"><i class="fa fa-check"></i><b>B.1</b> Introduction</a></li>
+<li class="chapter" data-level="B.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>B.1</b> Introduction</a></li>
 <li class="chapter" data-level="B.2" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#the-structure-of-a-scientific-report"><i class="fa fa-check"></i><b>B.2</b> The structure of a scientific report</a><ul>
 <li class="chapter" data-level="B.2.1" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#title"><i class="fa fa-check"></i><b>B.2.1</b> Title</a></li>
 <li class="chapter" data-level="B.2.2" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#abstract-or-summary"><i class="fa fa-check"></i><b>B.2.2</b> Abstract or Summary</a></li>
-<li class="chapter" data-level="B.2.3" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#introduction-11"><i class="fa fa-check"></i><b>B.2.3</b> Introduction</a></li>
+<li class="chapter" data-level="B.2.3" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#introduction-1"><i class="fa fa-check"></i><b>B.2.3</b> Introduction</a></li>
 <li class="chapter" data-level="B.2.4" data-path="index.html"><a href="index.html#methods"><i class="fa fa-check"></i><b>B.2.4</b> Methods</a></li>
 <li class="chapter" data-level="B.2.5" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#results"><i class="fa fa-check"></i><b>B.2.5</b> Results</a></li>
 <li class="chapter" data-level="B.2.6" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#discussion"><i class="fa fa-check"></i><b>B.2.6</b> Discussion</a></li>
@@ -536,14 +565,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="B.2.8" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#literature-cited-references"><i class="fa fa-check"></i><b>B.2.8</b> Literature cited / References</a></li>
 <li class="chapter" data-level="B.2.9" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#appendices"><i class="fa fa-check"></i><b>B.2.9</b> Appendices</a></li>
 </ul></li>
-<li class="chapter" data-level="B.3" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#presenting-species-names"><i class="fa fa-check"></i><b>B.3</b> Presenting species names</a></li>
-<li class="chapter" data-level="B.4" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#approaches-to-writing"><i class="fa fa-check"></i><b>B.4</b>  Approaches to writing</a><ul>
-<li class="chapter" data-level="B.4.1" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#a-last-piece-of-advice"><i class="fa fa-check"></i><b>B.4.1</b> A last piece of advice…</a></li>
+<li class="chapter" data-level="B.3" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#presenting-species-names"><i class="fa fa-check"></i><b>B.3</b> Presenting species names</a><ul>
+<li class="chapter" data-level="B.3.1" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#a-last-piece-of-advice"><i class="fa fa-check"></i><b>B.3.1</b> A last piece of advice…</a></li>
 </ul></li>
-<li class="chapter" data-level="B.5" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#further-reading-1"><i class="fa fa-check"></i><b>B.5</b> Further reading</a></li>
+<li class="chapter" data-level="B.4" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#further-reading"><i class="fa fa-check"></i><b>B.4</b> Further reading</a></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="one-tailed-vs-two-tailed-tests.html"><a href="one-tailed-vs-two-tailed-tests.html"><i class="fa fa-check"></i><b>C</b> One-tailed vs. two-tailed tests</a><ul>
-<li class="chapter" data-level="C.1" data-path="one-tailed-vs-two-tailed-tests.html"><a href="one-tailed-vs-two-tailed-tests.html#introduction-12"><i class="fa fa-check"></i><b>C.1</b> Introduction</a></li>
+<li class="chapter" data-level="C.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>C.1</b> Introduction</a></li>
 <li class="chapter" data-level="C.2" data-path="one-tailed-vs-two-tailed-tests.html"><a href="one-tailed-vs-two-tailed-tests.html#an-example-of-a-one-tailed-hypothesis"><i class="fa fa-check"></i><b>C.2</b> An example of a one-tailed hypothesis</a></li>
 <li class="chapter" data-level="C.3" data-path="one-tailed-vs-two-tailed-tests.html"><a href="one-tailed-vs-two-tailed-tests.html#so-how-do-we-perform-a-one-tailed-t-test"><i class="fa fa-check"></i><b>C.3</b> So how do we perform a one-tailed <em>t</em>-test?</a><ul>
 <li class="chapter" data-level="C.3.1" data-path="one-tailed-vs-two-tailed-tests.html"><a href="one-tailed-vs-two-tailed-tests.html#carrying-out-one-tailed-t-tests-in-r"><i class="fa fa-check"></i><b>C.3.1</b> Carrying out one-tailed <em>t</em>-tests in R</a></li>
@@ -601,12 +629,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 </tbody>
 </table>
-<p>This is called a two-way contingency table. It is a <em>two-way</em> contingency table because it summarises the frequency distribution of two categorical variables at the same time<a href="#fn28" class="footnoteRef" id="fnref28"><sup>28</sup></a>. If we had measured three variables we would have ended up with a <em>three-way</em> contingency table (e.g. 2 x 2 x 2).</p>
+<p>This is called a two-way contingency table. It is a <em>two-way</em> contingency table because it summarises the frequency distribution of two categorical variables at the same time<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a>. If we had measured three variables we would have ended up with a <em>three-way</em> contingency table (e.g. 2 x 2 x 2).</p>
 <p>A contingency table takes its name from the fact that it captures the ‘contingencies’ among the categorical variables: it summarises how the frequencies of one categorical variable are associated with the categories of another. The term association is used here to describe the non-independence of categories among categorical variables. Other terms used to refer to the same idea include ‘linkage’, ‘non-independence’, and ‘interaction’.</p>
 <p>Associations are evident when the proportions of objects in one set of categories (e.g. R1 and R2) depends on a second set of categories (e.g. C1 and C2). Here are two possibilities:</p>
 <table class="kable_wrapper">
 <caption>
-<span id="tab:unnamed-chunk-325">Table 32.1: </span>Contingency tables without an association (left table), and with an association (right table), among two categorical variables
+<span id="tab:unnamed-chunk-325">Table 32.1: </span>Contingency tables without an association (left table),
+and with an association (right table), among two categorical variables
 </caption>
 <tbody>
 <tr>
@@ -614,19 +643,19 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <table>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">C1</th>
 <th align="right">C2</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>R1</strong></td>
+<td align="left"><strong>R1</strong></td>
 <td align="right">10</td>
 <td align="right">20</td>
 </tr>
 <tr class="even">
-<td><strong>R2</strong></td>
+<td align="left"><strong>R2</strong></td>
 <td align="right">40</td>
 <td align="right">80</td>
 </tr>
@@ -637,19 +666,19 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <table>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">C1</th>
 <th align="right">C2</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>R1</strong></td>
+<td align="left"><strong>R1</strong></td>
 <td align="right">10</td>
 <td align="right">80</td>
 </tr>
 <tr class="even">
-<td><strong>R2</strong></td>
+<td align="left"><strong>R2</strong></td>
 <td align="right">40</td>
 <td align="right">20</td>
 </tr>
@@ -663,7 +692,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><p>In the first table (left) there is no association: the numbers in category R1 are 1/4 of those in category R2, whether the observations are in category C1 or C2. Notice that this reasoning isn’t about the total numbers in each category—there are 100 category C2 cases and only 50 category C1 cases.</p></li>
 <li><p>In the second table (right) this is evidence of an association: the proportion of observations in R1 changes markedly depending on whether we are looking at observations for category C1 or category C2. The R1 cases are less frequent in the C1 column, relative to the C2 column. Again, it is the proportions that matter, not the raw numbers.</p></li>
 </ul>
-<p>A variety of different questions can be asked of data in a contingency table, but they are usually used to test for associations between the variables they summarise. That’s the topic of this chapter. There are different ways to carry out such tests of association. We’ll focus on the most widely used tool—the ‘Pearson’s Chi Square’ (<span class="math inline">\(\chi^{2}\)</span>) contingency table test<a href="#fn29" class="footnoteRef" id="fnref29"><sup>29</sup></a>.</p>
+<p>A variety of different questions can be asked of data in a contingency table, but they are usually used to test for associations between the variables they summarise. That’s the topic of this chapter. There are different ways to carry out such tests of association. We’ll focus on the most widely used tool—the ‘Pearson’s Chi Square’ (<span class="math inline">\(\chi^{2}\)</span>) contingency table test<a href="#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a>.</p>
 </div>
 <div id="how-does-the-chi-square-contingency-table-test-work" class="section level2">
 <h2><span class="header-section-number">32.2</span> How does the chi-square contingency table test work?</h2>
@@ -679,30 +708,30 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <table>
 <thead>
 <tr class="header">
-<th></th>
-<th align="center">Black</th>
-<th align="center">Red</th>
-<th align="center">Totals</th>
+<th align="right">B</th>
+<th>lack R</th>
+<th>ed To</th>
+<th align="left">tals</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Rural</strong></td>
-<td align="center">30</td>
-<td align="center">70</td>
-<td align="center"><em>100</em></td>
+<td align="right"><strong>Rural</strong></td>
+<td>30</td>
+<td>70</td>
+<td align="left"><em>100</em></td>
 </tr>
 <tr class="even">
-<td><strong>Industrial</strong></td>
-<td align="center">115</td>
-<td align="center">85</td>
-<td align="center"><em>200</em></td>
+<td align="right"><strong>Industrial</strong></td>
+<td>115</td>
+<td>85</td>
+<td align="left"><em>200</em></td>
 </tr>
 <tr class="odd">
-<td><strong>Totals</strong></td>
-<td align="center"><em>145</em></td>
-<td align="center"><em>155</em></td>
-<td align="center"><em>300</em></td>
+<td align="right"><strong>Totals</strong></td>
+<td><em>145</em></td>
+<td><em>155</em></td>
+<td align="left"><em>300</em></td>
 </tr>
 </tbody>
 </table>
@@ -710,30 +739,30 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <table>
 <thead>
 <tr class="header">
-<th></th>
-<th align="center">Black</th>
-<th align="center">Red</th>
-<th align="center">Totals</th>
+<th align="right">Bl</th>
+<th>ack Re</th>
+<th>d To</th>
+<th align="left">tals</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Rural</strong></td>
-<td align="center"><span class="math inline">\(a\)</span></td>
-<td align="center"><span class="math inline">\(b\)</span></td>
-<td align="center"><span class="math inline">\(e\)</span></td>
+<td align="right"><strong>Rural</strong></td>
+<td><span class="math inline">\(a\)</span></td>
+<td><span class="math inline">\(b\)</span></td>
+<td align="left"><span class="math inline">\(e\)</span></td>
 </tr>
 <tr class="even">
-<td><strong>Industrial</strong></td>
-<td align="center"><span class="math inline">\(c\)</span></td>
-<td align="center"><span class="math inline">\(d\)</span></td>
-<td align="center"><span class="math inline">\(f\)</span></td>
+<td align="right"><strong>Industrial</strong></td>
+<td><span class="math inline">\(c\)</span></td>
+<td><span class="math inline">\(d\)</span></td>
+<td align="left"><span class="math inline">\(f\)</span></td>
 </tr>
 <tr class="odd">
-<td><strong>Totals</strong></td>
-<td align="center"><span class="math inline">\(g\)</span></td>
-<td align="center"><span class="math inline">\(h\)</span></td>
-<td align="center"><span class="math inline">\(k\)</span></td>
+<td align="right"><strong>Totals</strong></td>
+<td><span class="math inline">\(g\)</span></td>
+<td><span class="math inline">\(h\)</span></td>
+<td align="left"><span class="math inline">\(k\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -763,10 +792,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <strong>Method for hand calculation of 2 x 2 contingency tables</strong>
 </p>
 <p>
-For a 2 x 2 table there is a short cut method which is quicker than the general method outlined above. The formula for <span class="math inline"><em>χ</em><sup>2</sup></span> for a 2 x 2 table table (using the letter labels as in the table above) is:
+For a 2 x 2 table there is a short cut method which is quicker than the general method outlined above. The formula for <span class="math inline"><span class="math inline">\(\chi^{2}\)</span></span> for a 2 x 2 table table (using the letter labels as in the table above) is:
 </p>
 <p>
-<br /><span class="math display"><span class="math display">\[\chi^{2}=\frac{k(bc-ad)^{2}}{efgh}\]</span></span><br />
+<span class="math display"><span class="math display">\[\chi^{2}=\frac{k(bc-ad)^{2}}{efgh}\]</span></span>
 </p>
 <p>
 The only problem with this short cut method is that this formula does not show us what the expected values are. If we think it might be a problem, then we should pick the smallest column and row totals and calculate the expected value for the corresponding cell, using the formula above—this is the smallest expected value.
@@ -792,21 +821,21 @@ You should work through the example in this section.
 </p>
 </div>
 <p>Let’s carry on with the ladybird colour and habitat type example. You need to download three data sets to work through this section: LADYBIRDS1.CSV, LADYBIRDS2.CSV, and LADYBIRDS3.CSV. These all contain the same information—it is just organised differently in each case.</p>
-<p>Carrying out a <span class="math inline">\(\chi^{2}\)</span> contingency table test in R is very simple: we use the <code>chisq.test</code> function again. The only slight snag is that we have to ensure the data is formatted correctly before it can be used. Whenever we read data into R using <code>read.csv</code> we end up with a data frame. Unfortunately, the <code>chisq.test</code> function is one of the few statistical functions not designed to work with data frames. This means we first have to use a function called <code>xtabs</code> to construct something called a contingency table object.<a href="#fn30" class="footnoteRef" id="fnref30"><sup>30</sup></a>. The <code>xtabs</code> function does categorical ‘cross tabulation’<a href="#fn31" class="footnoteRef" id="fnref31"><sup>31</sup></a>, i.e., it sums up the number of occurrences of different combinations of categories among variables.</p>
+<p>Carrying out a <span class="math inline">\(\chi^{2}\)</span> contingency table test in R is very simple: we use the <code>chisq.test</code> function again. The only slight snag is that we have to ensure the data is formatted correctly before it can be used. Whenever we read data into R using <code>read.csv</code> we end up with a data frame. Unfortunately, the <code>chisq.test</code> function is one of the few statistical functions not designed to work with data frames. This means we first have to use a function called <code>xtabs</code> to construct something called a contingency table object.<a href="#fn30" class="footnote-ref" id="fnref30"><sup>30</sup></a>. The <code>xtabs</code> function does categorical ‘cross tabulation’<a href="#fn31" class="footnote-ref" id="fnref31"><sup>31</sup></a>, i.e., it sums up the number of occurrences of different combinations of categories among variables.</p>
 <p>We’ll look at how to use <code>xtabs</code> before running through the actual test…</p>
 <div id="step-1.-getting-the-data-into-the-correct-format" class="section level3">
 <h3><span class="header-section-number">32.3.1</span> Step 1. Getting the data into the correct format</h3>
 <p>It is not difficult to use, but the precise usage of <code>xtabs</code> depends upon how the raw data are organised. We’ll examine the three main cases in turn.</p>
 <p><strong>Case 1…</strong></p>
 <p>Data suitable for analysis with a <span class="math inline">\(\chi^{2}\)</span> contingency table test are often represented in a data set with one column per categorical variable, and one row per observation. The <code>LADYBIRDS1.CSV</code> file contains the data in this format. Read it into an R data frame:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lady_bird_df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;LADYBIRDS1.CSV&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="contingency-tables.html#cb264-1"></a>lady_bird_df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;LADYBIRDS1.CSV&quot;</span>)</span></code></pre></div>
 <p>We called the data <code>lady_bird_df</code> to emphasise that they are stored in a data frame at this point. We can use <code>glimpse</code>, <code>head</code> and <code>tail</code> to get a sense of how the data are organised:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glimpse</span>(lady_bird_df)</code></pre></div>
-<pre><code>## Observations: 300
-## Variables: 2
-## $ Habitat &lt;fctr&gt; Rural, Rural, Rural, Rural, Rural, Rural, Rural, Rura...
-## $ Colour  &lt;fctr&gt; Black, Black, Black, Black, Black, Black, Black, Blac...</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(lady_bird_df, <span class="dv">10</span>)</code></pre></div>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="contingency-tables.html#cb265-1"></a><span class="kw">glimpse</span>(lady_bird_df)</span></code></pre></div>
+<pre><code>## Rows: 300
+## Columns: 2
+## $ Habitat &lt;chr&gt; &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;…
+## $ Colour  &lt;chr&gt; &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;…</code></pre>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="contingency-tables.html#cb267-1"></a><span class="kw">head</span>(lady_bird_df, <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##    Habitat Colour
 ## 1    Rural  Black
 ## 2    Rural  Black
@@ -818,7 +847,7 @@ You should work through the example in this section.
 ## 8    Rural  Black
 ## 9    Rural  Black
 ## 10   Rural  Black</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(lady_bird_df, <span class="dv">10</span>)</code></pre></div>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="contingency-tables.html#cb269-1"></a><span class="kw">tail</span>(lady_bird_df, <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##        Habitat Colour
 ## 291 Industrial    Red
 ## 292 Industrial    Red
@@ -832,8 +861,8 @@ You should work through the example in this section.
 ## 300 Industrial    Red</code></pre>
 <p>We only showed you the first and last 10 values—you should take a full look at the data with the <code>View</code> function. You will see that the data frame contains 300 rows—one for each ladybird—and two variables (<code>Habitat</code> and <code>Colour</code>). The two variables obviously contain the information about the categorisation of each ladybird in the sample.</p>
 <p>We require a two-way table that contains the total counts in each combination of categories. This is what <code>xtabs</code> does. It takes two arguments: the first is a formula (involving the <code>~</code> symbol) that specifies the required contingency table; the second is the name of the data frame containing the raw data. When working with data in the above format—one observation per row—we use a formula that only contains the names of the categorical variables on the right hand side of the <code>~</code> (i.e., <code>~ Habitat + Colour</code>):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lady_bird_table &lt;-<span class="st"> </span><span class="kw">xtabs</span>(<span class="op">~</span><span class="st"> </span>Habitat <span class="op">+</span><span class="st"> </span>Colour, <span class="dt">data =</span> lady_bird_df)
-lady_bird_table</code></pre></div>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="contingency-tables.html#cb271-1"></a>lady_bird_table &lt;-<span class="st"> </span><span class="kw">xtabs</span>(<span class="op">~</span><span class="st"> </span>Habitat <span class="op">+</span><span class="st"> </span>Colour, <span class="dt">data =</span> lady_bird_df)</span>
+<span id="cb271-2"><a href="contingency-tables.html#cb271-2"></a>lady_bird_table</span></code></pre></div>
 <pre><code>##             Colour
 ## Habitat      Black Red
 ##   Industrial   115  85
@@ -841,15 +870,15 @@ lady_bird_table</code></pre></div>
 <p>When used like this, <code>xtabs</code> will sum up the number of observations with different combinations of <code>Habitat</code> and <code>Colour</code>. We called the output <code>lady_bird_table</code> to emphasise that the data from <code>xtabs</code> are now stored in a contingency table. When we print this to the console we see that <code>lady_bird_table</code> does indeed refer to something that looks like a 2 x 2 contingency table of counts.</p>
 <p><strong>Case 2…</strong></p>
 <p>Sometimes data suitable for analysis with a <span class="math inline">\(\chi^{2}\)</span> contingency table test are partially summarised into counts. For example, imagine that we had visited five rural sites and five urban sites and recorded the numbers of red and black colour forms found at each site. Data in this format are stored in the <code>LADYBIRDS2.CSV</code> file. Read this into an R data frame and examine this with the <code>View</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lady_bird_df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;LADYBIRDS2.CSV&quot;</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glimpse</span>(lady_bird_df)</code></pre></div>
-<pre><code>## Observations: 20
-## Variables: 4
-## $ Habitat &lt;fctr&gt; Rural, Rural, Rural, Rural, Rural, Rural, Rural, Rura...
-## $ Site    &lt;fctr&gt; R1, R2, R3, R4, R5, R1, R2, R3, R4, R5, U1, U2, U3, U...
-## $ Colour  &lt;fctr&gt; Black, Black, Black, Black, Black, Red, Red, Red, Red...
-## $ Number  &lt;int&gt; 10, 3, 4, 7, 6, 15, 18, 9, 12, 16, 32, 25, 25, 17, 16,...</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lady_bird_df</code></pre></div>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="contingency-tables.html#cb273-1"></a>lady_bird_df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;LADYBIRDS2.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="contingency-tables.html#cb274-1"></a><span class="kw">glimpse</span>(lady_bird_df)</span></code></pre></div>
+<pre><code>## Rows: 20
+## Columns: 4
+## $ Habitat &lt;chr&gt; &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;…
+## $ Site    &lt;chr&gt; &quot;R1&quot;, &quot;R2&quot;, &quot;R3&quot;, &quot;R4&quot;, &quot;R5&quot;, &quot;R1&quot;, &quot;R2&quot;, &quot;R3&quot;, &quot;R4&quot;, &quot;R5&quot;, &quot;…
+## $ Colour  &lt;chr&gt; &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;, &quot;Red&quot;, &quot;Red&quot;, &quot;R…
+## $ Number  &lt;int&gt; 10, 3, 4, 7, 6, 15, 18, 9, 12, 16, 32, 25, 25, 17, 16, 17, 23…</code></pre>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="contingency-tables.html#cb276-1"></a>lady_bird_df</span></code></pre></div>
 <pre><code>##       Habitat Site Colour Number
 ## 1       Rural   R1  Black     10
 ## 2       Rural   R2  Black      3
@@ -872,8 +901,8 @@ lady_bird_table</code></pre></div>
 ## 19 Industrial   U4    Red      9
 ## 20 Industrial   U5    Red     15</code></pre>
 <p>This time we printed at the whole dataset (it’s easier to use <code>View</code>, but that won’t render in this book). The counts at each site are in the <code>Number</code> variable, and the site identities are in the <code>Site</code> variable. We need to sum over the sites to get the total number within each combination of <code>Habitat</code> and <code>Colour</code>. We use <code>xtabs</code> again, but this time we have to tell it which variable to sum over:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lady_bird_table &lt;-<span class="st"> </span><span class="kw">xtabs</span>(Number <span class="op">~</span><span class="st"> </span>Habitat <span class="op">+</span><span class="st"> </span>Colour, <span class="dt">data =</span> lady_bird_df)
-lady_bird_table</code></pre></div>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="contingency-tables.html#cb278-1"></a>lady_bird_table &lt;-<span class="st"> </span><span class="kw">xtabs</span>(Number <span class="op">~</span><span class="st"> </span>Habitat <span class="op">+</span><span class="st"> </span>Colour, <span class="dt">data =</span> lady_bird_df)</span>
+<span id="cb278-2"><a href="contingency-tables.html#cb278-2"></a>lady_bird_table</span></code></pre></div>
 <pre><code>##             Colour
 ## Habitat      Black Red
 ##   Industrial   115  85
@@ -881,16 +910,16 @@ lady_bird_table</code></pre></div>
 <p>When working with data in this format—more than one observation per row—we use a formula where the name of the variable containing the counts is on left hand side of the <code>~</code>, and the names of the categorical variables to sum over are on the right hand side of the <code>~</code> (i.e., <code>Number ~ Habitat + Colour</code>). When used like this <code>xtabs</code> will sum up the counts associated with different combinations of <code>Habitat</code> and <code>Colour</code>. The <code>lady_bird_table</code> object produced by <code>xtabs</code> is no different than before. Good! These are the same data.</p>
 <p><strong>Case 3…</strong></p>
 <p>Data suitable for analysis with a <span class="math inline">\(\chi^{2}\)</span> contingency table test are sometimes already summarised into total counts. Data in this format are stored in the <code>LADYBIRDS3.CSV</code> file. Read this into an R data frame and print it to the console (it’s very small, so there’s no need to use <code>View</code>):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lady_bird_df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;LADYBIRDS3.CSV&quot;</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lady_bird_df</code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="contingency-tables.html#cb280-1"></a>lady_bird_df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;LADYBIRDS3.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="contingency-tables.html#cb281-1"></a>lady_bird_df</span></code></pre></div>
 <pre><code>##      Habitat Colour Number
 ## 1 Industrial  Black    115
 ## 2 Industrial    Red     85
 ## 3      Rural  Black     30
 ## 4      Rural    Red     70</code></pre>
 <p>The total counts are already in the <code>Number</code> variable so there is no real need to sum over anything to get the total for each combination of <code>Habitat</code> and <code>Colour</code>. However, we still need to convert the data from a data frame to a contingency table. There are various ways to do this, but it is easiest to use <code>xtabs</code>. The R code is identical to the previous case:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lady_bird_table &lt;-<span class="st"> </span><span class="kw">xtabs</span>(Number <span class="op">~</span><span class="st"> </span>Habitat <span class="op">+</span><span class="st"> </span>Colour, <span class="dt">data =</span> lady_bird_df)
-lady_bird_table</code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="contingency-tables.html#cb283-1"></a>lady_bird_table &lt;-<span class="st"> </span><span class="kw">xtabs</span>(Number <span class="op">~</span><span class="st"> </span>Habitat <span class="op">+</span><span class="st"> </span>Colour, <span class="dt">data =</span> lady_bird_df)</span>
+<span id="cb283-2"><a href="contingency-tables.html#cb283-2"></a>lady_bird_table</span></code></pre></div>
 <pre><code>##             Colour
 ## Habitat      Black Red
 ##   Industrial   115  85
@@ -900,33 +929,33 @@ lady_bird_table</code></pre></div>
 <div id="step-2.-doing-the-test" class="section level3">
 <h3><span class="header-section-number">32.3.2</span> Step 2. Doing the test</h3>
 <p>Once we have the data in the form of a contingency table the associated <span class="math inline">\(\chi^{2}\)</span> test of independence between the two categorical variables is easy to carry out with <code>chisq.test</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chisq.test</span>(lady_bird_table)</code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="contingency-tables.html#cb285-1"></a><span class="kw">chisq.test</span>(lady_bird_table)</span></code></pre></div>
 <pre><code>## 
-##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 	Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
 ## 
 ## data:  lady_bird_table
 ## X-squared = 19.103, df = 1, p-value = 1.239e-05</code></pre>
 <p>That’s all we have to do. Just pass one argument to <code>chisq.test</code>: the contingency table.</p>
-<p>This output should make sense in the light of what we saw in the previous chapter. R first prints a reminder of the test employed (<code>Pearson's Chi-squared test with Yates' continuity correction</code>) and the data used (<code>data:  lady_bird_table</code>). We’ll come back to the “Yates’ continuity correction” bit in a moment. R then summarises the <span class="math inline">\(\chi^{2}\)</span> value, the degrees of freedom, and the <em>p</em>-value: <code>X-squared = 19.103, df = 1, p-value = 1.239e-05</code> The <em>p</em>-value is highly significant (<em>p</em>&lt;0.001) indicating that the colour type frequency varies among the two kinds of habitats.<a href="#fn32" class="footnoteRef" id="fnref32"><sup>32</sup></a></p>
+<p>This output should make sense in the light of what we saw in the previous chapter. R first prints a reminder of the test employed (<code>Pearson's Chi-squared test with Yates' continuity correction</code>) and the data used (<code>data:  lady_bird_table</code>). We’ll come back to the “Yates’ continuity correction” bit in a moment. R then summarises the <span class="math inline">\(\chi^{2}\)</span> value, the degrees of freedom, and the <em>p</em>-value: <code>X-squared = 19.103, df = 1, p-value = 1.239e-05</code> The <em>p</em>-value is highly significant (<em>p</em>&lt;0.001) indicating that the colour type frequency varies among the two kinds of habitats.<a href="#fn32" class="footnote-ref" id="fnref32"><sup>32</sup></a></p>
 <div class="advanced-box">
 <p>
-<strong>Degrees of freedom for a <span class="math inline"><em>χ</em><sup>2</sup></span> contingency table test</strong>
+<strong>Degrees of freedom for a <span class="math inline"><span class="math inline">\(\chi^{2}\)</span></span> contingency table test</strong>
 </p>
 <p>
-We need to know the degrees of freedom associated with the test: in a two-way <span class="math inline"><em>χ</em><sup>2</sup></span> contingency table test these are <span class="math inline">(<em>n</em><sub><em>A</em></sub> − 1)×(<em>n</em><sub><em>B</em></sub> − 1)</span>, where <span class="math inline"><em>n</em><sub><em>A</em></sub> − 1</span> is the number of categories in the first variable, and <span class="math inline"><em>n</em><sub><em>B</em></sub> − 1</span> is the number of categories in the second variable. So if we’re working with a 2 x 2 table the d.f. are 1, if we’re working with a 2 x 3 table the d.f. are 2, if we’re working with a 3 x 3 table the d.f. are 4, and so on.
+We need to know the degrees of freedom associated with the test: in a two-way <span class="math inline"><span class="math inline">\(\chi^{2}\)</span></span> contingency table test these are <span class="math inline"><span class="math inline">\((n_A-1) \times (n_B-1)\)</span></span>, where <span class="math inline"><span class="math inline">\(n_A-1\)</span></span> is the number of categories in the first variable, and <span class="math inline"><span class="math inline">\(n_B-1\)</span></span> is the number of categories in the second variable. So if we’re working with a 2 x 2 table the d.f. are 1, if we’re working with a 2 x 3 table the d.f. are 2, if we’re working with a 3 x 3 table the d.f. are 4, and so on.
 </p>
 </div>
 <p>What was that “Yates’ continuity correction” all about? The reasoning behind using this correction is a bit beyond this course, but in a nutshell, it generates more reliable <em>p</em>-values under certain circumstances. By default, the <code>chisq.test</code> function applies this correction to all 2 x 2 contingency tables. We can force R to use the standard calculation by setting <code>correct = FALSE</code> if we want to:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chisq.test</span>(lady_bird_table, <span class="dt">correct =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="contingency-tables.html#cb287-1"></a><span class="kw">chisq.test</span>(lady_bird_table, <span class="dt">correct =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <pre><code>## 
-##  Pearson&#39;s Chi-squared test
+## 	Pearson&#39;s Chi-squared test
 ## 
 ## data:  lady_bird_table
 ## X-squared = 20.189, df = 1, p-value = 7.015e-06</code></pre>
 <p>Both methods give similar results in this example, though they aren’t exactly the same—the <span class="math inline">\(\chi^{2}\)</span> value calculated when <code>correct = FALSE</code> is very slightly higher than the value found when using the correction.</p>
 <p>Don’t use the <code>correct = FALSE</code> option! The default correction is a safer option for 2 x 2 tables.</p>
 </div>
-<div id="summarising-the-result-3" class="section level3">
+<div id="summarising-the-result" class="section level3">
 <h3><span class="header-section-number">32.3.3</span> Summarising the result</h3>
 <p>We have obtained the result so now we need to write the conclusion. As always, we go back to the original question to write the conclusion. In this case the appropriate conclusion is:</p>
 <blockquote>
@@ -945,11 +974,11 @@ We need to know the degrees of freedom associated with the test: in a two-way <s
 <div class="footnotes">
 <hr />
 <ol start="28">
-<li id="fn28"><p>This is called their ‘joint distribution’, in case you were wondering.<a href="contingency-tables.html#fnref28">↩</a></p></li>
-<li id="fn29"><p>This is the same Pearson who invented the correlation coefficient for measuring linear associations by the way.<a href="contingency-tables.html#fnref29">↩</a></p></li>
-<li id="fn30"><p>The table objects produced by <code>xtabs</code> are <strong>not</strong> the same as the <code>dplyr</code> table-like objects: ‘tibbles’. This is one of the reasons that dplyr adopted the name ‘tibble’. The overlap in names is unfortunate, but we’ll have to live with it—there are only so many ways to name things that look like tables.<a href="contingency-tables.html#fnref30">↩</a></p></li>
-<li id="fn31"><p>Pivot tables can be used to do the same thing in Excel.<a href="contingency-tables.html#fnref31">↩</a></p></li>
-<li id="fn32"><p>We could have summarised the result as: habitat type varies among the two colour types. This way of explaining the result seems odd though. Ladybirds are found within habitats, not the other way around. Just keep in mind that this is a semantic issue. The contingency table test doesn’t make a distinction between directions of effects.<a href="contingency-tables.html#fnref32">↩</a></p></li>
+<li id="fn28"><p>This is called their ‘joint distribution’, in case you were wondering.<a href="contingency-tables.html#fnref28" class="footnote-back">↩︎</a></p></li>
+<li id="fn29"><p>This is the same Pearson who invented the correlation coefficient for measuring linear associations by the way.<a href="contingency-tables.html#fnref29" class="footnote-back">↩︎</a></p></li>
+<li id="fn30"><p>The table objects produced by <code>xtabs</code> are <strong>not</strong> the same as the <code>dplyr</code> table-like objects: ‘tibbles’. This is one of the reasons that dplyr adopted the name ‘tibble’. The overlap in names is unfortunate, but we’ll have to live with it—there are only so many ways to name things that look like tables.<a href="contingency-tables.html#fnref30" class="footnote-back">↩︎</a></p></li>
+<li id="fn31"><p>Pivot tables can be used to do the same thing in Excel.<a href="contingency-tables.html#fnref31" class="footnote-back">↩︎</a></p></li>
+<li id="fn32"><p>We could have summarised the result as: habitat type varies among the two colour types. This way of explaining the result seems odd though. Ladybirds are found within habitats, not the other way around. Just keep in mind that this is a semantic issue. The contingency table test doesn’t make a distinction between directions of effects.<a href="contingency-tables.html#fnref32" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -963,11 +992,13 @@ We need to know the degrees of freedom associated with the test: in a two-way <s
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -975,11 +1006,11 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
+"linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -989,6 +1020,14 @@ gitbook.start({
 "edit": {
 "link": "https://github.com/dzchilds/stats-for-bio/edit/master/8_03_chi_sqr_cont_tables.Rmd",
 "text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
 },
 "download": null,
 "toc": {
@@ -1004,9 +1043,12 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(script.src))
-      script.src  = script.src.replace(/^https?:/, '');
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

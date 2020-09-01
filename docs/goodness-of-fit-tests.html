@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>APS 240: Data Analysis and Statistics with R</title>
-  <meta name="description" content="Course book for Data Analysis and Statistics with R (APS 240) in the Department of Animal and Plant Sciences, University of Sheffield">
-  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 31 Goodness of fit tests | APS 240: Data Analysis and Statistics with R</title>
+  <meta name="description" content="Course book for Data Analysis and Statistics with R (APS 240) in the Department of Animal and Plant Sciences, University of Sheffield" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="APS 240: Data Analysis and Statistics with R" />
+  <meta property="og:title" content="Chapter 31 Goodness of fit tests | APS 240: Data Analysis and Statistics with R" />
   <meta property="og:type" content="book" />
   
   
@@ -17,29 +16,31 @@
   <meta name="github-repo" content="dzchilds/stats-for-bio" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="APS 240: Data Analysis and Statistics with R" />
+  <meta name="twitter:title" content="Chapter 31 Goodness of fit tests | APS 240: Data Analysis and Statistics with R" />
   
   <meta name="twitter:description" content="Course book for Data Analysis and Statistics with R (APS 240) in the Department of Animal and Plant Sciences, University of Sheffield" />
   
 
-<meta name="author" content="Dylan Z. Childs">
+<meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2018-09-21">
+<meta name="date" content="2020-09-01" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="working-with-frequencies.html">
-<link rel="next" href="contingency-tables.html">
+<link rel="prev" href="working-with-frequencies.html"/>
+<link rel="next" href="contingency-tables.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -47,6 +48,9 @@
 
 
 
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -74,41 +78,68 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -134,35 +165,33 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#objectives"><i class="fa fa-check"></i><b>1.2.2</b> Objectives</a></li>
 <li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#assumed-background"><i class="fa fa-check"></i><b>1.2.3</b> Assumed background</a></li>
 <li class="chapter" data-level="1.2.4" data-path="index.html"><a href="index.html#methods"><i class="fa fa-check"></i><b>1.2.4</b> Methods</a></li>
-<li class="chapter" data-level="1.2.5" data-path="index.html"><a href="index.html#non-assessed-material"><i class="fa fa-check"></i><b>1.2.5</b> Non-assessed material</a></li>
+<li class="chapter" data-level="1.2.5" data-path="index.html"><a href="index.html#what-do-you-need-to-learn"><i class="fa fa-check"></i><b>1.2.5</b> What do you need to learn?</a></li>
 <li class="chapter" data-level="1.2.6" data-path="index.html"><a href="index.html#what-is-required-of-you"><i class="fa fa-check"></i><b>1.2.6</b> What is required of you?</a></li>
 <li class="chapter" data-level="1.2.7" data-path="index.html"><a href="index.html#assessment"><i class="fa fa-check"></i><b>1.2.7</b> Assessment</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#how-to-use-the-teaching-material"><i class="fa fa-check"></i><b>1.3</b> How to use the teaching material</a><ul>
 <li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#printed-material"><i class="fa fa-check"></i><b>1.3.1</b> The online course book</a></li>
-<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#printed-material"><i class="fa fa-check"></i><b>1.3.2</b> Printed material</a></li>
-<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#how-to-make-best-use-of-it"><i class="fa fa-check"></i><b>1.3.3</b> How to make best use of the teaching material</a></li>
-<li class="chapter" data-level="1.3.4" data-path="index.html"><a href="index.html#conventions"><i class="fa fa-check"></i><b>1.3.4</b> Conventions used in the course material</a></li>
-<li class="chapter" data-level="1.3.5" data-path="index.html"><a href="index.html#feedback"><i class="fa fa-check"></i><b>1.3.5</b> Feedback</a></li>
-<li class="chapter" data-level="1.3.6" data-path="index.html"><a href="index.html#help"><i class="fa fa-check"></i><b>1.3.6</b> Help sessions</a></li>
-<li class="chapter" data-level="1.3.7" data-path="index.html"><a href="index.html#overall"><i class="fa fa-check"></i><b>1.3.7</b> Overall…</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#how-to-make-best-use-of-it"><i class="fa fa-check"></i><b>1.3.2</b> How to make best use of the teaching material</a></li>
+<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#conventions"><i class="fa fa-check"></i><b>1.3.3</b> Conventions used in the course material</a></li>
+<li class="chapter" data-level="1.3.4" data-path="index.html"><a href="index.html#feedback"><i class="fa fa-check"></i><b>1.3.4</b> Feedback</a></li>
+<li class="chapter" data-level="1.3.5" data-path="index.html"><a href="index.html#overall"><i class="fa fa-check"></i><b>1.3.5</b> Overall…</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#health-and-safety"><i class="fa fa-check"></i><b>1.4</b> Health and safety using display screen equipment</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html"><i class="fa fa-check"></i><b>2</b> Expected learning outcomes</a><ul>
-<li class="chapter" data-level="2.1" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#collecting-and-using-data"><i class="fa fa-check"></i><b>2.1</b> Collecting and using data</a></li>
-<li class="chapter" data-level="2.2" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#statistical-concepts"><i class="fa fa-check"></i><b>2.2</b> Statistical Concepts</a></li>
-<li class="chapter" data-level="2.3" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#simple-parametric-statistics"><i class="fa fa-check"></i><b>2.3</b> Simple parametric statistics</a></li>
-<li class="chapter" data-level="2.4" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#regression-and-anova"><i class="fa fa-check"></i><b>2.4</b> Regression and ANOVA</a></li>
-<li class="chapter" data-level="2.5" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#doing-more-with-models"><i class="fa fa-check"></i><b>2.5</b> Doing more with models</a></li>
-<li class="chapter" data-level="2.6" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#experimental-design"><i class="fa fa-check"></i><b>2.6</b> Experimental design</a></li>
-<li class="chapter" data-level="2.7" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#beyond-simple-models"><i class="fa fa-check"></i><b>2.7</b> Beyond simple models</a></li>
-<li class="chapter" data-level="2.8" data-path="expected-learning-outcomes.html"><a href="expected-learning-outcomes.html#frequency-data-and-non-parameteric-tests"><i class="fa fa-check"></i><b>2.8</b> Frequency data and non-parameteric tests</a></li>
+<li class="chapter" data-level="2" data-path="expected-learning.html"><a href="expected-learning.html"><i class="fa fa-check"></i><b>2</b> Expected learning outcomes</a><ul>
+<li class="chapter" data-level="2.1" data-path="expected-learning.html"><a href="expected-learning.html#collecting-and-using-data"><i class="fa fa-check"></i><b>2.1</b> Collecting and using data</a></li>
+<li class="chapter" data-level="2.2" data-path="expected-learning.html"><a href="expected-learning.html#statistical-concepts"><i class="fa fa-check"></i><b>2.2</b> Statistical Concepts</a></li>
+<li class="chapter" data-level="2.3" data-path="expected-learning.html"><a href="expected-learning.html#simple-parametric-statistics"><i class="fa fa-check"></i><b>2.3</b> Simple parametric statistics</a></li>
+<li class="chapter" data-level="2.4" data-path="expected-learning.html"><a href="expected-learning.html#regression-and-anova"><i class="fa fa-check"></i><b>2.4</b> Regression and ANOVA</a></li>
+<li class="chapter" data-level="2.5" data-path="expected-learning.html"><a href="expected-learning.html#doing-more-with-models"><i class="fa fa-check"></i><b>2.5</b> Doing more with models</a></li>
+<li class="chapter" data-level="2.6" data-path="expected-learning.html"><a href="expected-learning.html#experimental-design"><i class="fa fa-check"></i><b>2.6</b> Experimental design</a></li>
+<li class="chapter" data-level="2.7" data-path="expected-learning.html"><a href="expected-learning.html#beyond-simple-models"><i class="fa fa-check"></i><b>2.7</b> Beyond simple models</a></li>
+<li class="chapter" data-level="2.8" data-path="expected-learning.html"><a href="expected-learning.html#frequency-data-and-non-parameteric-tests"><i class="fa fa-check"></i><b>2.8</b> Frequency data and non-parameteric tests</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="programming-prerequisites.html"><a href="programming-prerequisites.html"><i class="fa fa-check"></i><b>3</b> Programming prerequisites</a><ul>
-<li class="chapter" data-level="3.1" data-path="programming-prerequisites.html"><a href="programming-prerequisites.html#starting-an-r-session-in-rstudio"><i class="fa fa-check"></i><b>3.1</b> Starting an R session in RStudio</a></li>
-<li class="chapter" data-level="3.2" data-path="programming-prerequisites.html"><a href="programming-prerequisites.html#using-packages"><i class="fa fa-check"></i><b>3.2</b> Using packages</a></li>
-<li class="chapter" data-level="3.3" data-path="programming-prerequisites.html"><a href="programming-prerequisites.html#reading-data-into-r"><i class="fa fa-check"></i><b>3.3</b> Reading data into R</a></li>
+<li class="chapter" data-level="3" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>3</b> Programming prerequisites</a><ul>
+<li class="chapter" data-level="3.1" data-path="prerequisites.html"><a href="prerequisites.html#starting-an-r-session-in-rstudio"><i class="fa fa-check"></i><b>3.1</b> Starting an R session in RStudio</a></li>
+<li class="chapter" data-level="3.2" data-path="prerequisites.html"><a href="prerequisites.html#using-packages"><i class="fa fa-check"></i><b>3.2</b> Using packages</a></li>
+<li class="chapter" data-level="3.3" data-path="prerequisites.html"><a href="prerequisites.html#reading-data-into-r"><i class="fa fa-check"></i><b>3.3</b> Reading data into R</a></li>
 </ul></li>
 <li class="part"><span><b>I Collecting and Using Data</b></span></li>
 <li class="chapter" data-level="4" data-path="the-scientific-process.html"><a href="the-scientific-process.html"><i class="fa fa-check"></i><b>4</b> The scientific process</a><ul>
@@ -229,7 +258,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="10.2.1" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#careful-with-those-p-values"><i class="fa fa-check"></i><b>10.2.1</b> Careful with those <em>p</em>-values</a></li>
 <li class="chapter" data-level="10.2.2" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#presenting-p-values"><i class="fa fa-check"></i><b>10.2.2</b> Presenting <em>p</em>-values</a></li>
 </ul></li>
-<li class="chapter" data-level="10.3" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#biological-vs.statistical-significance"><i class="fa fa-check"></i><b>10.3</b> Biological vs. statistical significance</a></li>
+<li class="chapter" data-level="10.3" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#biological-vs.-statistical-significance"><i class="fa fa-check"></i><b>10.3</b> Biological vs. statistical significance</a></li>
 </ul></li>
 <li class="part"><span><b>III Simple Statistics</b></span></li>
 <li class="chapter" data-level="11" data-path="parametric-statistics.html"><a href="parametric-statistics.html"><i class="fa fa-check"></i><b>11</b> Parametric statistics</a><ul>
@@ -258,13 +287,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="13.2.2" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#what-about-the-equal-variance-assumption"><i class="fa fa-check"></i><b>13.2.2</b> What about the <em>equal variance</em> assumption?</a></li>
 </ul></li>
 <li class="chapter" data-level="13.3" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#carrying-out-a-two-sample-t-test-in-r"><i class="fa fa-check"></i><b>13.3</b> Carrying out a two-sample <em>t</em>-test in R</a><ul>
-<li class="chapter" data-level="13.3.1" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#visualising-the-data-and-checking-the-assumptions-1"><i class="fa fa-check"></i><b>13.3.1</b> Visualising the data and checking the assumptions</a></li>
-<li class="chapter" data-level="13.3.2" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#carrying-out-the-test-1"><i class="fa fa-check"></i><b>13.3.2</b> Carrying out the test</a></li>
-<li class="chapter" data-level="13.3.3" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#summarising-the-result-1"><i class="fa fa-check"></i><b>13.3.3</b> Summarising the result</a></li>
+<li class="chapter" data-level="13.3.1" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#visualising-the-data-and-checking-the-assumptions"><i class="fa fa-check"></i><b>13.3.1</b> Visualising the data and checking the assumptions</a></li>
+<li class="chapter" data-level="13.3.2" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#carrying-out-the-test"><i class="fa fa-check"></i><b>13.3.2</b> Carrying out the test</a></li>
+<li class="chapter" data-level="13.3.3" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#summarising-the-result"><i class="fa fa-check"></i><b>13.3.3</b> Summarising the result</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>14</b> Correlation</a><ul>
-<li class="chapter" data-level="14.1" data-path="correlation.html"><a href="correlation.html#introduction-1"><i class="fa fa-check"></i><b>14.1</b> Introduction</a></li>
+<li class="chapter" data-level="14.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>14.1</b> Introduction</a></li>
 <li class="chapter" data-level="14.2" data-path="correlation.html"><a href="correlation.html#pearsons-product-moment-correlation-coefficient"><i class="fa fa-check"></i><b>14.2</b> Pearson’s product-moment correlation coefficient</a><ul>
 <li class="chapter" data-level="14.2.1" data-path="correlation.html"><a href="correlation.html#pearsons-product-moment-correlation-coefficient-in-r"><i class="fa fa-check"></i><b>14.2.1</b> Pearson’s product-moment correlation coefficient in R</a></li>
 <li class="chapter" data-level="14.2.2" data-path="correlation.html"><a href="correlation.html#reporting-the-result"><i class="fa fa-check"></i><b>14.2.2</b> Reporting the result</a></li>
@@ -272,7 +301,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="part"><span><b>IV Regression and ANOVA</b></span></li>
 <li class="chapter" data-level="15" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html"><i class="fa fa-check"></i><b>15</b> Relationships and regression</a><ul>
-<li class="chapter" data-level="15.1" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#introduction-2"><i class="fa fa-check"></i><b>15.1</b> Introduction</a></li>
+<li class="chapter" data-level="15.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>15.1</b> Introduction</a></li>
 <li class="chapter" data-level="15.2" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#correlation-or-regression"><i class="fa fa-check"></i><b>15.2</b> Correlation or regression?</a></li>
 <li class="chapter" data-level="15.3" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#what-does-linear-regression-do"><i class="fa fa-check"></i><b>15.3</b> What does linear regression do?</a></li>
 <li class="chapter" data-level="15.4" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#how-does-simple-linear-regression-work"><i class="fa fa-check"></i><b>15.4</b> How does simple linear regression work?</a><ul>
@@ -311,9 +340,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="18" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html"><i class="fa fa-check"></i><b>18</b> One-way ANOVA in R</a><ul>
-<li class="chapter" data-level="18.1" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#introduction-3"><i class="fa fa-check"></i><b>18.1</b> Introduction</a></li>
+<li class="chapter" data-level="18.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>18.1</b> Introduction</a></li>
 <li class="chapter" data-level="18.2" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#factors-in-r"><i class="fa fa-check"></i><b>18.2</b> Factors in R</a></li>
-<li class="chapter" data-level="18.3" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#visualising-the-data-1"><i class="fa fa-check"></i><b>18.3</b> Visualising the data</a></li>
+<li class="chapter" data-level="18.3" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#visualising-the-data"><i class="fa fa-check"></i><b>18.3</b> Visualising the data</a></li>
 <li class="chapter" data-level="18.4" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#fitting-the-anova-model"><i class="fa fa-check"></i><b>18.4</b> Fitting the ANOVA model</a></li>
 <li class="chapter" data-level="18.5" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#interpreting-the-results"><i class="fa fa-check"></i><b>18.5</b> Interpreting the results</a></li>
 <li class="chapter" data-level="18.6" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#summarise-results"><i class="fa fa-check"></i><b>18.6</b> Summarising and presenting the results of ANOVA</a></li>
@@ -331,7 +360,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="19.4" data-path="assumptions-and-diagnostics.html"><a href="assumptions-and-diagnostics.html#assumptions-of-one-way-anova"><i class="fa fa-check"></i><b>19.4</b> Assumptions of one-way ANOVA</a></li>
 </ul></li>
 <li class="chapter" data-level="20" data-path="using-regression-diagnostics.html"><a href="using-regression-diagnostics.html"><i class="fa fa-check"></i><b>20</b> Using regression diagnostics</a><ul>
-<li class="chapter" data-level="20.1" data-path="using-regression-diagnostics.html"><a href="using-regression-diagnostics.html#introduction-4"><i class="fa fa-check"></i><b>20.1</b> Introduction</a></li>
+<li class="chapter" data-level="20.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>20.1</b> Introduction</a></li>
 <li class="chapter" data-level="20.2" data-path="using-regression-diagnostics.html"><a href="using-regression-diagnostics.html#diagnostics-for-regression"><i class="fa fa-check"></i><b>20.2</b> Diagnostics for regression</a></li>
 <li class="chapter" data-level="20.3" data-path="using-regression-diagnostics.html"><a href="using-regression-diagnostics.html#diagnostics-for-one-way-anova"><i class="fa fa-check"></i><b>20.3</b> Diagnostics for one-way ANOVA</a><ul>
 <li class="chapter" data-level="20.3.1" data-path="using-regression-diagnostics.html"><a href="using-regression-diagnostics.html#aside-formal-test-of-equality-of-variance"><i class="fa fa-check"></i><b>20.3.1</b> Aside: formal test of equality of variance</a></li>
@@ -359,7 +388,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="21.7" data-path="data-transformations.html"><a href="data-transformations.html#final-thoughts"><i class="fa fa-check"></i><b>21.7</b> Final thoughts</a></li>
 </ul></li>
 <li class="chapter" data-level="22" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html"><i class="fa fa-check"></i><b>22</b> Multiple comparison tests</a><ul>
-<li class="chapter" data-level="22.1" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#introduction-5"><i class="fa fa-check"></i><b>22.1</b> Introduction</a></li>
+<li class="chapter" data-level="22.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>22.1</b> Introduction</a></li>
 <li class="chapter" data-level="22.2" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#mult-comp-R"><i class="fa fa-check"></i><b>22.2</b> Tukey’s HSD in R</a></li>
 <li class="chapter" data-level="22.3" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#how-to-summarise-multiple-comparison-results"><i class="fa fa-check"></i><b>22.3</b> How to summarise multiple-comparison results</a></li>
 <li class="chapter" data-level="22.4" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#doing-it-the-easy-way"><i class="fa fa-check"></i><b>22.4</b> Doing it the easy way…</a></li>
@@ -368,7 +397,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="part"><span><b>VI Experimental Design</b></span></li>
 <li class="chapter" data-level="23" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html"><i class="fa fa-check"></i><b>23</b> Principles of experimental design</a><ul>
-<li class="chapter" data-level="23.1" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#introduction-6"><i class="fa fa-check"></i><b>23.1</b> Introduction</a></li>
+<li class="chapter" data-level="23.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>23.1</b> Introduction</a></li>
 <li class="chapter" data-level="23.2" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#jargon-busting"><i class="fa fa-check"></i><b>23.2</b> Jargon busting</a></li>
 <li class="chapter" data-level="23.3" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#replication"><i class="fa fa-check"></i><b>23.3</b> Replication</a><ul>
 <li class="chapter" data-level="23.3.1" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#independence"><i class="fa fa-check"></i><b>23.3.1</b> Independence and pseudoreplication</a></li>
@@ -411,19 +440,19 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="26" data-path="introduction-to-two-way-anova.html"><a href="introduction-to-two-way-anova.html"><i class="fa fa-check"></i><b>26</b> Introduction to two-way ANOVA</a><ul>
 <li class="chapter" data-level="26.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>26.1</b> Introduction</a></li>
 <li class="chapter" data-level="26.2" data-path="introduction-to-two-way-anova.html"><a href="introduction-to-two-way-anova.html#degrees-of-freedom-mean-squares-and-f-statistics"><i class="fa fa-check"></i><b>26.2</b> Degrees of freedom, mean squares, and <em>F</em>-statistics</a></li>
-<li class="chapter" data-level="26.3" data-path="introduction-to-two-way-anova.html"><a href="introduction-to-two-way-anova.html#multiple-comparison-tests-1"><i class="fa fa-check"></i><b>26.3</b> Multiple comparison tests</a></li>
+<li class="chapter" data-level="26.3" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#multiple-comparison-tests"><i class="fa fa-check"></i><b>26.3</b> Multiple comparison tests</a></li>
 <li class="chapter" data-level="26.4" data-path="introduction-to-two-way-anova.html"><a href="introduction-to-two-way-anova.html#beyond-two-way-anova"><i class="fa fa-check"></i><b>26.4</b> Beyond two-way ANOVA</a></li>
 </ul></li>
 <li class="chapter" data-level="27" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html"><i class="fa fa-check"></i><b>27</b> Two-way ANOVA in R</a><ul>
-<li class="chapter" data-level="27.1" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#introduction-7"><i class="fa fa-check"></i><b>27.1</b> Introduction</a></li>
+<li class="chapter" data-level="27.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>27.1</b> Introduction</a></li>
 <li class="chapter" data-level="27.2" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#competition-between-calluna-and-festuca"><i class="fa fa-check"></i><b>27.2</b> Competition between <em>Calluna</em> and <em>Festuca</em></a></li>
-<li class="chapter" data-level="27.3" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#visualising-the-data-2"><i class="fa fa-check"></i><b>27.3</b> Visualising the data</a></li>
-<li class="chapter" data-level="27.4" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#fitting-the-anova-model-1"><i class="fa fa-check"></i><b>27.4</b> Fitting the ANOVA model</a></li>
+<li class="chapter" data-level="27.3" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#visualising-the-data"><i class="fa fa-check"></i><b>27.3</b> Visualising the data</a></li>
+<li class="chapter" data-level="27.4" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#fitting-the-anova-model"><i class="fa fa-check"></i><b>27.4</b> Fitting the ANOVA model</a></li>
 <li class="chapter" data-level="27.5" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#diagnostics"><i class="fa fa-check"></i><b>27.5</b> Diagnostics</a></li>
-<li class="chapter" data-level="27.6" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#interpreting-the-results-1"><i class="fa fa-check"></i><b>27.6</b> Interpreting the results</a><ul>
+<li class="chapter" data-level="27.6" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#interpreting-the-results"><i class="fa fa-check"></i><b>27.6</b> Interpreting the results</a><ul>
 <li class="chapter" data-level="27.6.1" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#understanding-the-model-graphically"><i class="fa fa-check"></i><b>27.6.1</b> Understanding the model graphically</a></li>
 </ul></li>
-<li class="chapter" data-level="27.7" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#multiple-comparison-tests-2"><i class="fa fa-check"></i><b>27.7</b> Multiple comparison tests</a></li>
+<li class="chapter" data-level="27.7" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#multiple-comparison-tests"><i class="fa fa-check"></i><b>27.7</b> Multiple comparison tests</a></li>
 <li class="chapter" data-level="27.8" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#drawing-conclusions-and-presenting-results"><i class="fa fa-check"></i><b>27.8</b> Drawing conclusions and presenting results</a><ul>
 <li class="chapter" data-level="27.8.1" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#a-little-more-customisation"><i class="fa fa-check"></i><b>27.8.1</b> A little more customisation</a></li>
 </ul></li>
@@ -433,20 +462,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="28.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>28.1</b> Introduction</a></li>
 <li class="chapter" data-level="28.2" data-path="introduction-to-ancova.html"><a href="introduction-to-ancova.html#why-do-we-need-ancova-models"><i class="fa fa-check"></i><b>28.2</b> Why do we need ANCOVA models?</a></li>
 <li class="chapter" data-level="28.3" data-path="introduction-to-ancova.html"><a href="introduction-to-ancova.html#how-does-ancova-work"><i class="fa fa-check"></i><b>28.3</b> How does ANCOVA work?</a></li>
-<li class="chapter" data-level="28.4" data-path="introduction-to-ancova.html"><a href="introduction-to-ancova.html#degrees-of-freedom-mean-squares-and-f-statistics-1"><i class="fa fa-check"></i><b>28.4</b> Degrees of freedom, mean squares and F-statistics</a></li>
+<li class="chapter" data-level="28.4" data-path="introduction-to-two-way-anova.html"><a href="introduction-to-two-way-anova.html#degrees-of-freedom-mean-squares-and-f-statistics"><i class="fa fa-check"></i><b>28.4</b> Degrees of freedom, mean squares and F-statistics</a></li>
 <li class="chapter" data-level="28.5" data-path="introduction-to-ancova.html"><a href="introduction-to-ancova.html#assumptions-of-ancova"><i class="fa fa-check"></i><b>28.5</b> Assumptions of ANCOVA</a></li>
 </ul></li>
 <li class="chapter" data-level="29" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html"><i class="fa fa-check"></i><b>29</b> Two-way ANCOVA in R</a><ul>
-<li class="chapter" data-level="29.1" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html#introduction-8"><i class="fa fa-check"></i><b>29.1</b> Introduction</a></li>
-<li class="chapter" data-level="29.2" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html#visualising-the-data-3"><i class="fa fa-check"></i><b>29.2</b> Visualising the data</a></li>
+<li class="chapter" data-level="29.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>29.1</b> Introduction</a></li>
+<li class="chapter" data-level="29.2" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#visualising-the-data"><i class="fa fa-check"></i><b>29.2</b> Visualising the data</a></li>
 <li class="chapter" data-level="29.3" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html#fitting-an-ancova"><i class="fa fa-check"></i><b>29.3</b> Fitting an ANCOVA</a></li>
-<li class="chapter" data-level="29.4" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html#diagnostics-1"><i class="fa fa-check"></i><b>29.4</b> Diagnostics</a></li>
-<li class="chapter" data-level="29.5" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html#interpreting-the-results-2"><i class="fa fa-check"></i><b>29.5</b> Interpreting the results</a></li>
+<li class="chapter" data-level="29.4" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#diagnostics"><i class="fa fa-check"></i><b>29.4</b> Diagnostics</a></li>
+<li class="chapter" data-level="29.5" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#interpreting-the-results"><i class="fa fa-check"></i><b>29.5</b> Interpreting the results</a></li>
 <li class="chapter" data-level="29.6" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html#presenting-the-results"><i class="fa fa-check"></i><b>29.6</b> Presenting the results</a></li>
 </ul></li>
 <li class="part"><span><b>VIII Frequency Data and Non-parametric Tests</b></span></li>
 <li class="chapter" data-level="30" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html"><i class="fa fa-check"></i><b>30</b> Working with frequencies</a><ul>
-<li class="chapter" data-level="30.1" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html#introduction-9"><i class="fa fa-check"></i><b>30.1</b> Introduction</a></li>
+<li class="chapter" data-level="30.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>30.1</b> Introduction</a></li>
 <li class="chapter" data-level="30.2" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html#a-new-kind-of-distribution"><i class="fa fa-check"></i><b>30.2</b> A new kind of distribution</a></li>
 <li class="chapter" data-level="30.3" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html#types-of-test"><i class="fa fa-check"></i><b>30.3</b> Types of test</a><ul>
 <li class="chapter" data-level="30.3.1" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html#chi2-goodness-of-fit-test"><i class="fa fa-check"></i><b>30.3.1</b> <span class="math inline">\(\chi^{2}\)</span> goodness of fit test</a></li>
@@ -460,7 +489,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="31.2.1" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#assumptions-of-the-chi-square-goodness-of-fit-test"><i class="fa fa-check"></i><b>31.2.1</b> Assumptions of the chi-square goodness of fit test</a></li>
 </ul></li>
 <li class="chapter" data-level="31.3" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#carrying-out-a-chi-square-goodness-of-fit-test-in-r"><i class="fa fa-check"></i><b>31.3</b> Carrying out a chi-square goodness of fit test in R</a><ul>
-<li class="chapter" data-level="31.3.1" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#summarising-the-result-2"><i class="fa fa-check"></i><b>31.3.1</b> Summarising the result</a></li>
+<li class="chapter" data-level="31.3.1" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#summarising-the-result"><i class="fa fa-check"></i><b>31.3.1</b> Summarising the result</a></li>
 <li class="chapter" data-level="31.3.2" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#a-bit-more-about-goodness-of-fit-tests-in-r"><i class="fa fa-check"></i><b>31.3.2</b> A bit more about goodness of fit tests in R</a></li>
 <li class="chapter" data-level="31.3.3" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#doing-it-the-long-way"><i class="fa fa-check"></i><b>31.3.3</b> Doing it the long way…</a></li>
 </ul></li>
@@ -474,7 +503,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="32.3" data-path="contingency-tables.html"><a href="contingency-tables.html#carrying-out-a-chi-square-contingency-table-test-in-r"><i class="fa fa-check"></i><b>32.3</b> Carrying out a chi-square contingency table test in R</a><ul>
 <li class="chapter" data-level="32.3.1" data-path="contingency-tables.html"><a href="contingency-tables.html#step-1.-getting-the-data-into-the-correct-format"><i class="fa fa-check"></i><b>32.3.1</b> Step 1. Getting the data into the correct format</a></li>
 <li class="chapter" data-level="32.3.2" data-path="contingency-tables.html"><a href="contingency-tables.html#step-2.-doing-the-test"><i class="fa fa-check"></i><b>32.3.2</b> Step 2. Doing the test</a></li>
-<li class="chapter" data-level="32.3.3" data-path="contingency-tables.html"><a href="contingency-tables.html#summarising-the-result-3"><i class="fa fa-check"></i><b>32.3.3</b> Summarising the result</a></li>
+<li class="chapter" data-level="32.3.3" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#summarising-the-result"><i class="fa fa-check"></i><b>32.3.3</b> Summarising the result</a></li>
 </ul></li>
 <li class="chapter" data-level="32.4" data-path="contingency-tables.html"><a href="contingency-tables.html#working-with-larger-tables"><i class="fa fa-check"></i><b>32.4</b> Working with larger tables</a></li>
 </ul></li>
@@ -519,16 +548,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="A.7" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#qu4"><i class="fa fa-check"></i><b>A.7</b> Question 3 -– Frequencies of categorical data</a></li>
 <li class="chapter" data-level="A.8" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#var-cat"><i class="fa fa-check"></i><b>A.8</b> Variables or categories?</a><ul>
-<li class="chapter" data-level="A.8.1" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#anova-vs.regression"><i class="fa fa-check"></i><b>A.8.1</b> ANOVA vs. regression</a></li>
+<li class="chapter" data-level="A.8.1" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#anova-vs.-regression"><i class="fa fa-check"></i><b>A.8.1</b> ANOVA vs. regression</a></li>
 <li class="chapter" data-level="A.8.2" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#making-categories-out-of-continuous-measures"><i class="fa fa-check"></i><b>A.8.2</b> Making categories out of continuous measures</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="B" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html"><i class="fa fa-check"></i><b>B</b> Writing a scientific report</a><ul>
-<li class="chapter" data-level="B.1" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#introduction-10"><i class="fa fa-check"></i><b>B.1</b> Introduction</a></li>
+<li class="chapter" data-level="B.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>B.1</b> Introduction</a></li>
 <li class="chapter" data-level="B.2" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#the-structure-of-a-scientific-report"><i class="fa fa-check"></i><b>B.2</b> The structure of a scientific report</a><ul>
 <li class="chapter" data-level="B.2.1" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#title"><i class="fa fa-check"></i><b>B.2.1</b> Title</a></li>
 <li class="chapter" data-level="B.2.2" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#abstract-or-summary"><i class="fa fa-check"></i><b>B.2.2</b> Abstract or Summary</a></li>
-<li class="chapter" data-level="B.2.3" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#introduction-11"><i class="fa fa-check"></i><b>B.2.3</b> Introduction</a></li>
+<li class="chapter" data-level="B.2.3" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#introduction-1"><i class="fa fa-check"></i><b>B.2.3</b> Introduction</a></li>
 <li class="chapter" data-level="B.2.4" data-path="index.html"><a href="index.html#methods"><i class="fa fa-check"></i><b>B.2.4</b> Methods</a></li>
 <li class="chapter" data-level="B.2.5" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#results"><i class="fa fa-check"></i><b>B.2.5</b> Results</a></li>
 <li class="chapter" data-level="B.2.6" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#discussion"><i class="fa fa-check"></i><b>B.2.6</b> Discussion</a></li>
@@ -536,14 +565,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="B.2.8" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#literature-cited-references"><i class="fa fa-check"></i><b>B.2.8</b> Literature cited / References</a></li>
 <li class="chapter" data-level="B.2.9" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#appendices"><i class="fa fa-check"></i><b>B.2.9</b> Appendices</a></li>
 </ul></li>
-<li class="chapter" data-level="B.3" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#presenting-species-names"><i class="fa fa-check"></i><b>B.3</b> Presenting species names</a></li>
-<li class="chapter" data-level="B.4" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#approaches-to-writing"><i class="fa fa-check"></i><b>B.4</b>  Approaches to writing</a><ul>
-<li class="chapter" data-level="B.4.1" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#a-last-piece-of-advice"><i class="fa fa-check"></i><b>B.4.1</b> A last piece of advice…</a></li>
+<li class="chapter" data-level="B.3" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#presenting-species-names"><i class="fa fa-check"></i><b>B.3</b> Presenting species names</a><ul>
+<li class="chapter" data-level="B.3.1" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#a-last-piece-of-advice"><i class="fa fa-check"></i><b>B.3.1</b> A last piece of advice…</a></li>
 </ul></li>
-<li class="chapter" data-level="B.5" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#further-reading-1"><i class="fa fa-check"></i><b>B.5</b> Further reading</a></li>
+<li class="chapter" data-level="B.4" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#further-reading"><i class="fa fa-check"></i><b>B.4</b> Further reading</a></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="one-tailed-vs-two-tailed-tests.html"><a href="one-tailed-vs-two-tailed-tests.html"><i class="fa fa-check"></i><b>C</b> One-tailed vs. two-tailed tests</a><ul>
-<li class="chapter" data-level="C.1" data-path="one-tailed-vs-two-tailed-tests.html"><a href="one-tailed-vs-two-tailed-tests.html#introduction-12"><i class="fa fa-check"></i><b>C.1</b> Introduction</a></li>
+<li class="chapter" data-level="C.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>C.1</b> Introduction</a></li>
 <li class="chapter" data-level="C.2" data-path="one-tailed-vs-two-tailed-tests.html"><a href="one-tailed-vs-two-tailed-tests.html#an-example-of-a-one-tailed-hypothesis"><i class="fa fa-check"></i><b>C.2</b> An example of a one-tailed hypothesis</a></li>
 <li class="chapter" data-level="C.3" data-path="one-tailed-vs-two-tailed-tests.html"><a href="one-tailed-vs-two-tailed-tests.html#so-how-do-we-perform-a-one-tailed-t-test"><i class="fa fa-check"></i><b>C.3</b> So how do we perform a one-tailed <em>t</em>-test?</a><ul>
 <li class="chapter" data-level="C.3.1" data-path="one-tailed-vs-two-tailed-tests.html"><a href="one-tailed-vs-two-tailed-tests.html#carrying-out-one-tailed-t-tests-in-r"><i class="fa fa-check"></i><b>C.3.1</b> Carrying out one-tailed <em>t</em>-tests in R</a></li>
@@ -587,7 +615,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="how-does-the-chi-square-goodness-of-fit-test-work" class="section level2">
 <h2><span class="header-section-number">31.2</span> How does the chi-square goodness of fit test work?</h2>
-<p>The <span class="math inline">\(\chi^{2}\)</span> goodness of fit test uses raw counts to address questions about expected proportions, or probabilities of events<a href="#fn25" class="footnoteRef" id="fnref25"><sup>25</sup></a>. As always, we start by setting up the appropriate null hypothesis. This will be question specific, but it must always be framed in terms of ‘no effect’ or ‘no difference’. We then work out what a sampling distribution of some kind looks like under this null hypothesis, and use this to assess how likely the observed result is (i.e. calculate a <em>p</em>-value).</p>
+<p>The <span class="math inline">\(\chi^{2}\)</span> goodness of fit test uses raw counts to address questions about expected proportions, or probabilities of events<a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a>. As always, we start by setting up the appropriate null hypothesis. This will be question specific, but it must always be framed in terms of ‘no effect’ or ‘no difference’. We then work out what a sampling distribution of some kind looks like under this null hypothesis, and use this to assess how likely the observed result is (i.e. calculate a <em>p</em>-value).</p>
 <p>We don’t need to work directly with the sampling distributions of counts in each category. Instead, we calculate an appropriate <span class="math inline">\(\chi^{2}\)</span> test statistic. The way to think about this is that the <span class="math inline">\(\chi^{2}\)</span> statistic reduces the information in the separate category counts down to a single number.</p>
 <p>Let’s see how the <span class="math inline">\(\chi^{2}\)</span> goodness of fit test works using the <em>Silene</em> example discussed above. Imagine that we collected data on the frequency of plants bearing male and female flowers in a population of <em>Silene dioica</em>:</p>
 <table>
@@ -627,23 +655,23 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 Work through the example in this section.
 </p>
 </div>
-<p>Let’s see how to use R to carry out a <span class="math inline">\(\chi^{2}\)</span> goodness of fit test with the <em>Silene</em> sex data. There is no need to download any data for this example. The data used in a <span class="math inline">\(\chi^{2}\)</span> goodness of fit test are so simple that we often just place it into an R script, though there is nothing stopping us from putting the data into a CSV file and reading it into R<a href="#fn26" class="footnoteRef" id="fnref26"><sup>26</sup></a>.</p>
+<p>Let’s see how to use R to carry out a <span class="math inline">\(\chi^{2}\)</span> goodness of fit test with the <em>Silene</em> sex data. There is no need to download any data for this example. The data used in a <span class="math inline">\(\chi^{2}\)</span> goodness of fit test are so simple that we often just place it into an R script, though there is nothing stopping us from putting the data into a CSV file and reading it into R<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a>.</p>
 <p>The first step is to construct a numeric vector containing the <em>observed frequencies</em> for each category. We’ll call this <code>observed_freqs</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">observed_freqs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">105</span>, <span class="dv">87</span>)
-observed_freqs</code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="goodness-of-fit-tests.html#cb246-1"></a>observed_freqs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">105</span>, <span class="dv">87</span>)</span>
+<span id="cb246-2"><a href="goodness-of-fit-tests.html#cb246-2"></a>observed_freqs</span></code></pre></div>
 <pre><code>## [1] 105  87</code></pre>
 <p>Note that <code>observed_freqs</code> is a numeric vector, not a data frame. It doesn’t matter what order the two category counts are supplied in.</p>
 <p>Next, we need to calculate the <em>expected frequencies</em> of each category. Rather than expressing these as counts, R expects these to be proportions. We need to construct a second numeric vector containing this information. We’ll call this <code>expected_probs</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate the number of categories</span>
-n_cat &lt;-<span class="st"> </span><span class="kw">length</span>(observed_freqs)
-<span class="co"># calculate the number in each category (equal frequencies in this e.g.)</span>
-expected_probs &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, n_cat) <span class="op">/</span><span class="st"> </span>n_cat
-expected_probs</code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="goodness-of-fit-tests.html#cb248-1"></a><span class="co"># calculate the number of categories</span></span>
+<span id="cb248-2"><a href="goodness-of-fit-tests.html#cb248-2"></a>n_cat &lt;-<span class="st"> </span><span class="kw">length</span>(observed_freqs)</span>
+<span id="cb248-3"><a href="goodness-of-fit-tests.html#cb248-3"></a><span class="co"># calculate the number in each category (equal frequencies in this e.g.)</span></span>
+<span id="cb248-4"><a href="goodness-of-fit-tests.html#cb248-4"></a>expected_probs &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, n_cat) <span class="op">/</span><span class="st"> </span>n_cat</span>
+<span id="cb248-5"><a href="goodness-of-fit-tests.html#cb248-5"></a>expected_probs</span></code></pre></div>
 <pre><code>## [1] 0.5 0.5</code></pre>
 <p>Finally, use the <code>chisq.test</code> function to calculate the <span class="math inline">\(\chi^{2}\)</span> value, degrees of freedom and <em>p</em>-value for the test. The first argument is the numeric vector of observed counts (the data) and the second is the expected proportions in each category:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chisq.test</span>(observed_freqs, <span class="dt">p =</span> expected_probs)</code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="goodness-of-fit-tests.html#cb250-1"></a><span class="kw">chisq.test</span>(observed_freqs, <span class="dt">p =</span> expected_probs)</span></code></pre></div>
 <pre><code>## 
-##  Chi-squared test for given probabilities
+## 	Chi-squared test for given probabilities
 ## 
 ## data:  observed_freqs
 ## X-squared = 1.6875, df = 1, p-value = 0.1939</code></pre>
@@ -651,13 +679,13 @@ expected_probs</code></pre></div>
 <p>The output is straightforward to interpret. The first part (<code>Chi-squared test for given probabilities</code>) reminds us what kind of test we did. The phrase ‘for given probabilities’ is R-speak informing us that we have carried out a goodness of fit test. The next line (<code>data:  observed_freqs</code>) reminds us what data we used. The final line is the one we care about: <code>X-squared = 1.6875, df = 1, p-value = 0.1939</code>. This output shows us the <span class="math inline">\(\chi^{2}\)</span> test statistic, the degrees of freedom associated with the test, and the <em>p</em>-value. Since <em>p</em> &gt; 0.05, we conclude that the sex ratio is not significantly different from a 1:1 ratio.</p>
 <div class="advanced-box">
 <p>
-<strong>Degrees of freedom for a <span class="math inline"><em>χ</em><sup>2</sup></span> goodness of fit test</strong>
+<strong>Degrees of freedom for a <span class="math inline"><span class="math inline">\(\chi^{2}\)</span></span> goodness of fit test</strong>
 </p>
 <p>
-We need to calculate the degrees of freedom associated with the test: in a <span class="math inline"><em>χ</em><sup>2</sup></span> goodness-of-fit test these are <span class="math inline"><em>n</em> − 1</span>, where <span class="math inline"><em>n</em> − 1</span> is the number of categories. This comes from the fact that we have to calculate one expected frequency per category (= <span class="math inline"><em>n</em></span> frequencies), but since the frequencies have to add up to the total number of observations, once we know <span class="math inline"><em>n</em> − 1</span> frequencies the last one is fixed.
+We need to calculate the degrees of freedom associated with the test: in a <span class="math inline"><span class="math inline">\(\chi^{2}\)</span></span> goodness-of-fit test these are <span class="math inline"><span class="math inline">\(n-1\)</span></span>, where <span class="math inline"><span class="math inline">\(n-1\)</span></span> is the number of categories. This comes from the fact that we have to calculate one expected frequency per category (= <span class="math inline"><span class="math inline">\(n\)</span></span> frequencies), but since the frequencies have to add up to the total number of observations, once we know <span class="math inline"><span class="math inline">\(n-1\)</span></span> frequencies the last one is fixed.
 </p>
 </div>
-<div id="summarising-the-result-2" class="section level3">
+<div id="summarising-the-result" class="section level3">
 <h3><span class="header-section-number">31.3.1</span> Summarising the result</h3>
 <p>Having obtained the result we need to write the conclusion. As always, we always go back to the original question to write the conclusion. In this case the appropriate conclusion is:</p>
 <blockquote>
@@ -667,19 +695,19 @@ We need to calculate the degrees of freedom associated with the test: in a <span
 <div id="a-bit-more-about-goodness-of-fit-tests-in-r" class="section level3">
 <h3><span class="header-section-number">31.3.2</span> A bit more about goodness of fit tests in R</h3>
 <p>There is a useful short cut that we can employ when we expect equal numbers in every category (as above). In this situation there is no need to calculate the expected proportions because R will assume we meant to use the ‘equal frequencies’ null hypothesis. So the following…</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chisq.test</span>(observed_freqs)</code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="goodness-of-fit-tests.html#cb252-1"></a><span class="kw">chisq.test</span>(observed_freqs)</span></code></pre></div>
 <pre><code>## 
-##  Chi-squared test for given probabilities
+## 	Chi-squared test for given probabilities
 ## 
 ## data:  observed_freqs
 ## X-squared = 1.6875, df = 1, p-value = 0.1939</code></pre>
 <p>…is exactly equivalent to the longer method we used first. We showed you the first method because we do sometimes need to carry out a goodness of fit test assuming unequal expected values.</p>
 <p>R will warn us if it thinks the data are not suitable for a <span class="math inline">\(\chi^{2}\)</span> test. It is often safe to ignore the warnings produced by R. However, this is one situation where it is important to pay attention to the warning. We can see what the important warning looks like by using <code>chisq.test</code> with a fake data set:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chisq.test</span>(<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">5</span>,<span class="dv">5</span>))</code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="goodness-of-fit-tests.html#cb254-1"></a><span class="kw">chisq.test</span>(<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">5</span>,<span class="dv">5</span>))</span></code></pre></div>
 <pre><code>## Warning in chisq.test(c(2, 5, 7, 5, 5)): Chi-squared approximation may be
 ## incorrect</code></pre>
 <pre><code>## 
-##  Chi-squared test for given probabilities
+## 	Chi-squared test for given probabilities
 ## 
 ## data:  c(2, 5, 7, 5, 5)
 ## X-squared = 2.6667, df = 4, p-value = 0.6151</code></pre>
@@ -697,28 +725,28 @@ It’s fine to skip this section if you’re not the kind of person who likes to
 <p>In this formula the <span class="math inline">\(O_i\)</span> are the observed frequencies, the <span class="math inline">\(E_i\)</span> are the expected frequencies, the <span class="math inline">\(i\)</span> in <span class="math inline">\(O_i\)</span> and <span class="math inline">\(E_i\)</span> refer to the different categories, and the <span class="math inline">\(\Sigma\)</span> means summation (‘add up’). Here’s how to apply this to our example:</p>
 <ol style="list-style-type: decimal">
 <li><p>Work out how many male and female plants we would have sampled on average if the sex ratio really were 1:1. We already did this—the numbers are: (105 + 87)/2 = 192/2 = 96 of each sex.</p></li>
-<li><p>Calculate the <span class="math inline">\(\frac{(O_i-E_i)^2}{E_i}\)</span> term associated with each category. For the males, we have (105-96)<sup>2</sup> / 96 = 0.844, and for females we (87-96)<sup>2</sup> / 96 = 0.844<a href="#fn27" class="footnoteRef" id="fnref27"><sup>27</sup></a>. The <span class="math inline">\(\chi^{2}\)</span> statistic is the sum of these two values.</p></li>
+<li><p>Calculate the <span class="math inline">\(\frac{(O_i-E_i)^2}{E_i}\)</span> term associated with each category. For the males, we have (105-96)<sup>2</sup> / 96 = 0.844, and for females we (87-96)<sup>2</sup> / 96 = 0.844<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a>. The <span class="math inline">\(\chi^{2}\)</span> statistic is the sum of these two values.</p></li>
 </ol>
 <p>Here’s some R code that does this for us:</p>
 <ol style="list-style-type: decimal">
 <li>Calculate observed and expected frequencies**</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">O_freqs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">105</span>, <span class="dv">87</span>)
-E_freqs &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">sum</span>(O_freqs)<span class="op">/</span><span class="dv">2</span>, <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="goodness-of-fit-tests.html#cb257-1"></a>O_freqs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">105</span>, <span class="dv">87</span>)</span>
+<span id="cb257-2"><a href="goodness-of-fit-tests.html#cb257-2"></a>E_freqs &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">sum</span>(O_freqs)<span class="op">/</span><span class="dv">2</span>, <span class="dv">2</span>)</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Calculate <span class="math inline">\(\chi^{2}\)</span> test statistic</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Chi_test_stat &lt;-<span class="st"> </span><span class="kw">sum</span>((O_freqs<span class="op">-</span>E_freqs)<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>E_freqs)
-Chi_test_stat</code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="goodness-of-fit-tests.html#cb258-1"></a>Chi_test_stat &lt;-<span class="st"> </span><span class="kw">sum</span>((O_freqs<span class="op">-</span>E_freqs)<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>E_freqs)</span>
+<span id="cb258-2"><a href="goodness-of-fit-tests.html#cb258-2"></a>Chi_test_stat</span></code></pre></div>
 <pre><code>## [1] 1.6875</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>Calculate degrees of freedom</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Chi_df &lt;-<span class="st"> </span><span class="kw">length</span>(O_freqs) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>
-Chi_df</code></pre></div>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="goodness-of-fit-tests.html#cb260-1"></a>Chi_df &lt;-<span class="st"> </span><span class="kw">length</span>(O_freqs) <span class="op">-</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb260-2"><a href="goodness-of-fit-tests.html#cb260-2"></a>Chi_df</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <p>Once we have obtained the <span class="math inline">\(\chi^{2}\)</span> value and the degrees of freedom we need to calculate the <em>p</em>-value associated with these values. Once upon a time we would have looked this up in a table of some kind. It is much easier to let R handle the calculations for us, using a function called <code>pchisq</code>. This does the ‘probability we would see the observed frequencies, or more extreme values’ calculation mentioned above. <code>pchisq</code> takes three arguments: the first is the <span class="math inline">\(\chi^{2}\)</span> value, the second is the degrees of freedom, and the third says which tail of the distribution it should use. Here’s how to calculate the required <em>p</em>-value from the <span class="math inline">\(\chi^{2}\)</span> and d.f. values we just calculated:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pchisq</span>(Chi_test_stat, Chi_df, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="goodness-of-fit-tests.html#cb262-1"></a><span class="kw">pchisq</span>(Chi_test_stat, Chi_df, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <pre><code>## [1] 0.1939309</code></pre>
 <p>No surprises there… The <em>p</em>-value is the same as before.</p>
 </div>
@@ -732,9 +760,9 @@ Chi_df</code></pre></div>
 <div class="footnotes">
 <hr />
 <ol start="25">
-<li id="fn25"><p>We said it before, but it’s worth saying again. Do not apply the goodness of fit test to proportions or means.<a href="goodness-of-fit-tests.html#fnref25">↩</a></p></li>
-<li id="fn26"><p>In general, it is a good idea to keep data and R code separate, but we sometimes break this rule for simple analyses.<a href="goodness-of-fit-tests.html#fnref26">↩</a></p></li>
-<li id="fn27"><p>These are the same because there are only two categories in this example.<a href="goodness-of-fit-tests.html#fnref27">↩</a></p></li>
+<li id="fn25"><p>We said it before, but it’s worth saying again. Do not apply the goodness of fit test to proportions or means.<a href="goodness-of-fit-tests.html#fnref25" class="footnote-back">↩︎</a></p></li>
+<li id="fn26"><p>In general, it is a good idea to keep data and R code separate, but we sometimes break this rule for simple analyses.<a href="goodness-of-fit-tests.html#fnref26" class="footnote-back">↩︎</a></p></li>
+<li id="fn27"><p>These are the same because there are only two categories in this example.<a href="goodness-of-fit-tests.html#fnref27" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -748,11 +776,13 @@ Chi_df</code></pre></div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -760,11 +790,11 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
+"linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -774,6 +804,14 @@ gitbook.start({
 "edit": {
 "link": "https://github.com/dzchilds/stats-for-bio/edit/master/8_02_chi_sqr_gof.Rmd",
 "text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
 },
 "download": null,
 "toc": {
@@ -789,9 +827,12 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(script.src))
-      script.src  = script.src.replace(/^https?:/, '');
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

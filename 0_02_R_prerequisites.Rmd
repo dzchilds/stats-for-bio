@@ -1,4 +1,4 @@
-# Programming prerequisites
+# Programming prerequisites {#prerequisites}
 
 This chapter gives a quick overview of the prerequisite R skills needed to use this book (we studied these last year). We will use these skills this year, so you may need to spend revising them if you feel that you're a little rusty.
 
