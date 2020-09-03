@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-09-01" />
+<meta name="date" content="2020-09-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -202,16 +202,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1.3" data-path="the-scientific-process.html"><a href="the-scientific-process.html#stages-hypotheses"><i class="fa fa-check"></i><b>4.1.3</b> Hypotheses</a></li>
 <li class="chapter" data-level="4.1.4" data-path="the-scientific-process.html"><a href="the-scientific-process.html#stages-predictions"><i class="fa fa-check"></i><b>4.1.4</b> Predictions</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="the-scientific-process.html"><a href="the-scientific-process.html#hypothesis-testing"><i class="fa fa-check"></i><b>4.2</b> Hypothesis testing</a></li>
-<li class="chapter" data-level="4.3" data-path="the-scientific-process.html"><a href="the-scientific-process.html#are-we-sure"><i class="fa fa-check"></i><b>4.3</b> Don’t we ever know anything for sure?</a></li>
+<li class="chapter" data-level="4.2" data-path="the-scientific-process.html"><a href="the-scientific-process.html#an-example"><i class="fa fa-check"></i><b>4.2</b> An example</a></li>
+<li class="chapter" data-level="4.3" data-path="the-scientific-process.html"><a href="the-scientific-process.html#hypothesis-testing"><i class="fa fa-check"></i><b>4.3</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="4.4" data-path="the-scientific-process.html"><a href="the-scientific-process.html#are-we-sure"><i class="fa fa-check"></i><b>4.4</b> Don’t we ever know anything for sure?</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="data-and-variables.html"><a href="data-and-variables.html"><i class="fa fa-check"></i><b>5</b> Data and variables</a><ul>
 <li class="chapter" data-level="5.1" data-path="data-and-variables.html"><a href="data-and-variables.html#observations-on-material-and-obvious-things"><i class="fa fa-check"></i><b>5.1</b> “Observations on material and obvious things”</a></li>
 <li class="chapter" data-level="5.2" data-path="data-and-variables.html"><a href="data-and-variables.html#var-types"><i class="fa fa-check"></i><b>5.2</b> Revision: Types of variable</a><ul>
 <li class="chapter" data-level="5.2.1" data-path="data-and-variables.html"><a href="data-and-variables.html#nominal-categorical-variables"><i class="fa fa-check"></i><b>5.2.1</b> Nominal (categorical) variables</a></li>
 <li class="chapter" data-level="5.2.2" data-path="data-and-variables.html"><a href="data-and-variables.html#ordinal-categorical-data"><i class="fa fa-check"></i><b>5.2.2</b> Ordinal (categorical) data</a></li>
-<li class="chapter" data-level="5.2.3" data-path="data-and-variables.html"><a href="data-and-variables.html#interval-scale-numeric-variables"><i class="fa fa-check"></i><b>5.2.3</b> Interval scale (numeric) variables</a></li>
-<li class="chapter" data-level="5.2.4" data-path="data-and-variables.html"><a href="data-and-variables.html#ratio-scale-numeric-variables"><i class="fa fa-check"></i><b>5.2.4</b> Ratio scale (numeric) variables</a></li>
+<li class="chapter" data-level="5.2.3" data-path="data-and-variables.html"><a href="data-and-variables.html#ratio-scale-numeric-variables"><i class="fa fa-check"></i><b>5.2.3</b> Ratio scale (numeric) variables</a></li>
+<li class="chapter" data-level="5.2.4" data-path="data-and-variables.html"><a href="data-and-variables.html#interval-scale-numeric-variables"><i class="fa fa-check"></i><b>5.2.4</b> Interval scale (numeric) variables</a></li>
 <li class="chapter" data-level="5.2.5" data-path="data-and-variables.html"><a href="data-and-variables.html#why-does-the-distinction-matter"><i class="fa fa-check"></i><b>5.2.5</b> Why does the distinction matter?</a></li>
 <li class="chapter" data-level="5.2.6" data-path="data-and-variables.html"><a href="data-and-variables.html#which-is-best"><i class="fa fa-check"></i><b>5.2.6</b> Which is best?</a></li>
 </ul></li>
@@ -612,21 +613,39 @@ material and obvious things.</em></p>
 </blockquote>
 <div id="observations-on-material-and-obvious-things" class="section level2">
 <h2><span class="header-section-number">5.1</span> “Observations on material and obvious things”</h2>
-<p>As Hooke’s observation suggests, science cannot proceed on theory alone. The information we gather about a system stimulates questions and ideas about it and, in turn, can also allow us to test these ideas. In fact the idea of measuring and counting things is so familiar that it is easy to start a project without giving much thought to something as apparently mundane as the nature, quantity and resolution of the data we intend to collect. Nonetheless, the features of the data we collect determine both the types of analyses that can be carried out, and the confidence we can have in the conclusions drawn. We will spend a lot of time considering the statistical tools that can help us extract information from data, but no level of statistical sophistication will enable us to extract information that isn’t there to begin with.</p>
-<p>So what is there to say about data? The first point to note is that, properly, the word data is the plural of datum (a single piece of information), so we should say “the data are…” not “the data is…”. That said, the use of the word in the singular is becoming more widespread, despite the objections of <a href="http://www.urbandictionary.com/define.php?term=Grammar%20Nazi">Grammar Nazis</a>. The second, and much more important, point is that there are many different sorts of data. Examples include spatial maps of species’ occurrence and/or environmental factors, the DNA sequences of individuals, and networks of feeding relationships among species (i.e. food webs).</p>
-<p>The data we collect in a study can be organised one or more statistical <strong>variables</strong>. In its loosest sense, statisticians use the word ‘variable’ to mean any characteristic that can be measured or experimentally controlled on different items or objects. People tend to think of variables as numeric quantities, such as height, but there is nothing to stop us working with non-numeric variables, such as colour. Collectively, a set of related variables are referred to as a <strong>data set</strong> (or just ‘the data’). Confused? Consider a concrete example: the spatial map example above. A minimal data set might comprise two variables containing the x and y position of sample locations, a third variable denoting the presence / absence of a species, and one or more additional variables containing information about the environmental factors we measured.</p>
+<p>As Hooke’s observation suggests, science cannot proceed on theory alone. The information we gather about a system stimulates questions and ideas about it and, in turn, can also allow us to test these ideas. In fact the idea of measuring and counting things is so familiar that it is easy to start a project without giving much thought to something as apparently mundane as the nature, quantity and resolution of the data we intend to collect. Nonetheless, the features of the data we collect determine both the types of analyses that can be carried out, and the confidence we can have in the conclusions drawn. In the end, no level of analytical sophistication will enable us to extract information that is not there to begin with.</p>
+<p>So what is there to say about data? The first point to note is that there are many different sorts of data. We focus on simple kinds of data in this book, such as quantities (‘how much’) or classifications (‘what kind’), but not everything can be thought of in simple terms. Examples of more complex data types include spatial maps of species’ occurrence, the DNA sequences of individuals, and networks of feeding relationships among species (i.e. food webs) or gene activation (gene regulatory networks).</p>
+<p>The data we collect in a study can be organised one or more statistical <strong>variables</strong>. In its loosest sense, statisticians use the word ‘variable’ to mean any characteristic that can be measured or experimentally controlled on different items or objects. People tend to think of variables as numeric quantities, such as cell size, but there is nothing to stop us working with non-numeric variables, such as developmental stage.</p>
+<p>Collectively, a set of related variables are referred to as a <strong>data set</strong> (or just ‘the data’). Confused? Consider a concrete example: the spatial map example above. A minimal data set might comprise two variables containing the x and y position of sample locations, a third variable denoting the presence / absence of a species, and one or more additional variables containing information about the environmental factors we measured.</p>
 <div class="advanced-box">
 <p>
 <strong>Data and variables in R</strong>
 </p>
 <p>
-When using R, we often store a data set in a <strong>data frame</strong>. Each column in the data frame is one of R’s <strong>vectors</strong> — numeric, character, etc. The data are said to be <strong>tidy</strong> if the columns of the data frame correspond to the statistical variables in our data, and each row corresponds to a single observation. This simple connection between abstract statistical concepts and the concrete objects in R is not coincidence. R was designed first and foremost to analyse data.
+Data sets are often stored in data frames when working with R. A data frame can be thought of as having rows and columns. Each column in a data frame has to be one of R’s many types of ‘vector’. Typically, these are simple things, like numeric or character vectors, but other kinds of vector can be used (e.g. dates and intervals of times). The data it contains are said to be <a href="https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html">tidy</a> when each column of a data frame corresponds to statistical variable, and each row corresponds to a single observation (a cell, a tissue sample, an animal, etc).
+</p>
+<p>
+This simple connection between abstract statistical concepts and concrete objects in R is not coincidence. Its structures and abstractions reflect the fact that R was designed first and foremost to analyse data.
+</p>
+</div>
+<div class="advanced-box">
+<p>
+<strong>The data are or the data is?</strong>
+</p>
+<p>
+Strictly speaking, the word data is the plural of datum (a single piece of information), so we should say “the data are…” not “the data is…”. That said, the use of the word in the singular is becoming more widespread, despite the objections of <a href="http://www.urbandictionary.com/define.php?term=Grammar%20Nazi">Grammar Nazis</a>, and to be perfectly honest, either usage is fine these days. We use both in this book…
 </p>
 </div>
 </div>
 <div id="var-types" class="section level2">
 <h2><span class="header-section-number">5.2</span> Revision: Types of variable</h2>
-<p>When it comes to designing an experimental study or carrying out data analysis, it is very important to understand what sort of data we need, or have, as this affects what we can do with it. The variables in a data set can often be classified as being either <strong>numeric</strong> or <strong>categorical</strong>: numeric variables have values that describe a measurable quantity as a number, like ‘how many’ or ‘how much’; categorical variables have values that describe a characteristic of an observation, like ‘what type’ or ‘which category’. Numeric variables can be further characterised according to the type of scale they are measured on (<strong>interval</strong> vs. <strong>ratio</strong> scales). Categorical variables can be further characterised according to whether or not they have a natural order (<strong>nominal</strong> vs. <strong>ordinal</strong> variables).</p>
+<p>When it comes to designing an experiment or carrying out some data analysis, it is very important to understand what sort of data we need, or have, as this affects what we can do with it. The variables in a data set are often classified as being either <strong>numeric</strong> or <strong>categorical</strong>:</p>
+<ul>
+<li><p>numeric variables have values that describe a measurable quantity as a number, like ‘how many’ or ‘how much’;</p></li>
+<li><p>categorical variables have values that describe a characteristic of an observation, like ‘what type’ or ‘which category’.</p></li>
+</ul>
+<p>Numeric variables can be further characterised according to the type of scale they are measured on (<strong>interval</strong> vs. <strong>ratio</strong> scales). Categorical variables can be further characterised according to whether or not they have a natural order (<strong>nominal</strong> vs. <strong>ordinal</strong> variables).</p>
+<p>This is probably the minimal classification scheme we need to learn if we want to analyse our data well. Let’s take a closer look at this scheme…</p>
 <div id="nominal-categorical-variables" class="section level3">
 <h3><span class="header-section-number">5.2.1</span> Nominal (categorical) variables</h3>
 <p>Nominal variables arise when observations are recorded as categories that have no natural ordering relative to one other. For example:</p>
@@ -689,50 +708,53 @@ When using R, we often store a data set in a <strong>data frame</strong>. Each c
 </tbody>
 </table>
 <p>Rank orderings are a type of ordinal data. For example, the order in which runners finish a race (1st, 2nd, 3rd, etc.) is a rank ordering. It doesn’t tell us whether it was a close finish or not, but still conveys important information about the result.</p>
-<p>In both situations we can say something about the relationships between categories: in the first example, the larger the score the more aggressive the response; in the second example the greater the rank the slower the runner. However, we can’t say that the gap between the first runner and the second was the same as between the second and third and we can’t say that a score of 2 is twice as aggressive as a score of 1 (though people sometimes make this kind of mistake).</p>
+<p>In both situations we can say something about the relationships between categories: in the first example, the larger the score the more aggressive the response; in the second example the greater the rank the slower the runner. However, we can’t say that the gap between the first runner and the second was the same as between the second and third and we can’t say that a score of 2 is twice as aggressive as a score of 1.</p>
 <div class="warning-box">
 <p>
 <strong>How should you encode different categories in R?</strong>
 </p>
 <p>
-We have to define some kind of coding scheme to represent the different categories of a nominal/ordinal variables in computerised form. It was once common to assign numbers to different categories (e.g. Female=1, Male=2). This method was sensible in the early days of computer-based data analysis because it allowed data to be stored efficiently. This efficiency argument is not really relevant on a modern computer. What’s more, there are good reasons to avoid coding categorical variables as numbers:
+We have to define some kind of coding scheme to represent the categories of nominal/ordinal variables in computerised form. It was once common to assign numbers to different categories (e.g. Female=1, Male=2). This method was sensible in the early days of computer-based analysis because it allowed data to be stored efficiently. This efficiency argument is no longer relevant. What’s more, there are good <em>practical</em> reasons to avoid coding categorical variables as numbers:
 </p>
 <ul>
 <li>
 <p>
-Numeric coding makes it harder to understand the raw data and to interpret the output of a statistical analysis of those data. This is because we have to remember which number is associated with each category. This is particularly problematic when a variable has many categories.
+Numeric coding makes it harder to understand our raw data and interpret the output of a statistical analysis of those data. This is because we have to remember which number is associated with each category.
 </p>
 </li>
 <li>
 <p>
-  Numeric codes are arbitrary and should not be used as numbers in mathematical operations. In the above example, it is meaningless to say 2 [“male”] is twice the size of 1 [“female”].
+Numeric codes are arbitrary and should not be used as numbers in mathematical operations. In the above example, it is meaningless to say 2 [“male”] is twice the size of 1 [“female”].
 </p>
 </li>
 </ul>
 <p>
-R usually assumes that a variable containing numeric values is meant to be treated as a number. If we use numeric coding for a categorical variable, R will try to treat the offending variable as a number, which can lead to confusing errors. The take home message: <strong>Always</strong> use words (e.g., ‘female’ vs. ‘male’), not numbers, to describe categories in R.
+R usually assumes that a variable containing numeric values is meant to be treated as a number. If we use numeric coding for a categorical variable, R will try to treat the offending variable as a number, which can lead to confusing errors.
+</p>
+<p>
+The take home message: <strong>Always use words (e.g., ‘female’ vs. ‘male’), not numbers, to describe categories in R</strong>.
 </p>
 </div>
-</div>
-<div id="interval-scale-numeric-variables" class="section level3">
-<h3><span class="header-section-number">5.2.3</span> Interval scale (numeric) variables</h3>
-<p>Interval scale variables take values on a consistent numeric scale, but where that scale starts at an arbitrary point. Temperature on the Celsius scale is a good example of interval data. We can say that 60<span class="math inline">\(^{\circ}\)</span>C is hotter than 50<span class="math inline">\(^{\circ}\)</span>C, and we can say that the difference in temperature between 60<span class="math inline">\(^{\circ}\)</span>C and 70<span class="math inline">\(^{\circ}\)</span>C is the same as that between -20<span class="math inline">\(^{\circ}\)</span>C and -10<span class="math inline">\(^{\circ}\)</span>C. We cannot say that 60<span class="math inline">\(^{\circ}\)</span>C is twice as hot as 30<span class="math inline">\(^{\circ}\)</span>C. This is because temperature on the Celsius scale has an artificial zero value—the freezing point of water. The idea becomes obvious when we consider that temperature can equally well be measured on the Fahrenheit scale (where the freezing point of water is 32<span class="math inline">\(^{\circ}\)</span>F).</p>
 </div>
 <div id="ratio-scale-numeric-variables" class="section level3">
-<h3><span class="header-section-number">5.2.4</span> Ratio scale (numeric) variables</h3>
-<p>Ratio scale variables have a true zero and a known and consistent mathematical relationship between any points on the measurement scale. For example, there is a temperature scale that has a true zero: the Kelvin scale. Zero K is absolute zero, where matter actually has no thermal energy whatsoever. Temperature measurements in degrees K are on a ratio scale, i.e. it does make sense to say that 60 K is twice as hot as 30 K. Interval scale numeric variables are quite familiar, because the physical quantities that crop up in science are usually measured on a ratio scale: length, weight, and numbers of organisms are good examples.</p>
+<h3><span class="header-section-number">5.2.3</span> Ratio scale (numeric) variables</h3>
+<p>Ratio scale numeric variables have a true zero and a known and consistent mathematical relationship between any points on the measurement scale. For example, there is a temperature scale that has a true zero: the Kelvin scale. Zero K is absolute zero, where matter actually has no thermal energy whatsoever. Temperature measurements in degrees K are on a ratio scale, i.e. it does make sense to say that 60 K is twice as hot as 30 K. Interval scale numeric variables are quite familiar, because the physical quantities that crop up in science are usually measured on a ratio scale: length, weight, and numbers of objects are good examples.</p>
+</div>
+<div id="interval-scale-numeric-variables" class="section level3">
+<h3><span class="header-section-number">5.2.4</span> Interval scale (numeric) variables</h3>
+<p>Interval scale variables take values on a consistent numeric scale, but where that scale starts at an arbitrary point. Differences between values on an interval scale are meaningful; ratios are not. Temperature on the Celsius scale is a good example of interval data. We can say that 60<span class="math inline">\(^{\circ}\)</span>C is hotter than 50<span class="math inline">\(^{\circ}\)</span>C, and we can say that the difference in temperature between 60<span class="math inline">\(^{\circ}\)</span>C and 70<span class="math inline">\(^{\circ}\)</span>C is the same as that between -20<span class="math inline">\(^{\circ}\)</span>C and -10<span class="math inline">\(^{\circ}\)</span>C. We cannot say that 60<span class="math inline">\(^{\circ}\)</span>C is twice as hot as 30<span class="math inline">\(^{\circ}\)</span>C. This is because temperature on the Celsius scale has an artificial zero value—the freezing point of water. The idea becomes obvious when we consider that temperature can equally well be measured on the Fahrenheit scale (where the freezing point of water is 32<span class="math inline">\(^{\circ}\)</span>F).</p>
 <div class="advanced-box">
 <p>
-<strong>Continuous or discontinuous?</strong> A common confusion with numeric data concerns whether the data are on continuous or discontinuous scales. Ratio data can be either. Many biological ratio data are discrete (i.e. only certain discrete values are possible in the original data), and therefore discontinuous. Count data are an obvious example, e.g. the number of eggs found in a nest, the number of plants recorded in a quadrat, or number of heartbeats counted in a minute. These can only comprise whole numbers, ‘in between’ values are not possible. However, the distinction between continuous and discontinuous data is often not clear cut – even ‘continuous’ variables such as weight are made discontinuous in reality by the fact that our measuring apparatus is of limited resolution (i.e. a balance may weigh to the nearest 0.01 g).
+<strong>Continuous or discrete?</strong> A common confusion with numeric data concerns whether the data are on continuous or discrete scales. Many biological ratio data are discrete (i.e. only certain discrete values are possible in the original data). Count data are an obvious example, e.g. the number of eggs found in a nest, the number of mutations in a cancer cell, or number of heartbeats counted in a minute. These can only comprise whole numbers, ‘in between’ values are not possible.
 </p>
 <p>
-So… just keep in mind that the fact that data look (or really are) discontinuous does not mean they are necessarily ordinal data.
+However, the distinction between continuous and discrete data is often not clear cut – even ‘continuous’ variables such as weight are made discrete in reality by the fact that our measuring apparatus is of limited resolution (i.e. a balance may weigh to the nearest 0.01 g). So… keep in mind that the fact that data look (or really are) discrete does not mean they are necessarily ordinal data.
 </p>
 </div>
 </div>
 <div id="why-does-the-distinction-matter" class="section level3">
 <h3><span class="header-section-number">5.2.5</span> Why does the distinction matter?</h3>
-<p>The measurement scale affects what we can do (mathematically) to a numeric variable. We can add and subtract interval scale variables, but we can not divide or multiply them and arrive a meaningful result. In contrast, we can add, subtract, multiply or divide ratio scale variables. Put another way, differences and distances are meaningful for both interval and ratio scales, but ratios are only meaningful for ratio variables (the clue is in the name).</p>
+<p>The measurement scale affects what we can do mathematically to a numeric variable. We can add and subtract interval scale variables, but we can not divide or multiply them and arrive a meaningful result. In contrast, we can add, subtract, multiply or divide ratio scale variables. Put another way, differences and distances are meaningful for both interval and ratio scales, but ratios are only meaningful for ratio variables (yes, the clue is in the name).</p>
 </div>
 <div id="which-is-best" class="section level3">
 <h3><span class="header-section-number">5.2.6</span> Which is best?</h3>

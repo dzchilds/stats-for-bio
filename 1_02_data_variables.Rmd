@@ -1,4 +1,4 @@
-# Data and variables
+# Data and variables {#data-variables}
 
 > *The truth is the science of nature has been already too long made
 > only a work of the Brain and the Fancy. It is now high time that it
@@ -13,21 +13,39 @@
 
 ## “Observations on material and obvious things”
 
-As Hooke’s observation suggests, science cannot proceed on theory alone. The information we gather about a system stimulates questions and ideas about it and, in turn, can also allow us to test these ideas. In fact the idea of measuring and counting things is so familiar that it is easy to start a project without giving much thought to something as apparently mundane as the nature, quantity and resolution of the data we intend to collect. Nonetheless, the features of the data we collect determine both the types of analyses that can be carried out, and the confidence we can have in the conclusions drawn. We will spend a lot of time considering the statistical tools that can help us extract information from data, but no level of statistical sophistication will enable us to extract information that isn’t there to begin with.
+As Hooke’s observation suggests, science cannot proceed on theory alone. The information we gather about a system stimulates questions and ideas about it and, in turn, can also allow us to test these ideas. In fact the idea of measuring and counting things is so familiar that it is easy to start a project without giving much thought to something as apparently mundane as the nature, quantity and resolution of the data we intend to collect. Nonetheless, the features of the data we collect determine both the types of analyses that can be carried out, and the confidence we can have in the conclusions drawn. In the end, no level of analytical sophistication will enable us to extract information that is not there to begin with.
 
-So what is there to say about data? The first point to note is that, properly, the word data is the plural of datum (a single piece of information), so we should say “the data are...” not “the data is...”. That said, the use of the word in the singular is becoming more widespread, despite the objections of [Grammar Nazis](http://www.urbandictionary.com/define.php?term=Grammar%20Nazi). The second, and much more important, point is that there are many different sorts of data. Examples include spatial maps of species' occurrence and/or environmental factors, the DNA sequences of individuals, and networks of feeding relationships among species (i.e. food webs).
+So what is there to say about data? The first point to note is that there are many different sorts of data. We focus on simple kinds of data in this book, such as quantities ('how much') or classifications ('what kind'), but not everything can be thought of in simple terms. Examples of more complex data types include spatial maps of species' occurrence, the DNA sequences of individuals, and networks of feeding relationships among species (i.e. food webs) or gene activation (gene regulatory networks).
 
-The data we collect in a study can be organised one or more statistical **variables**. In its loosest sense, statisticians use the word 'variable' to mean any characteristic that can be measured or experimentally controlled on different items or objects. People tend to think of variables as numeric quantities, such as height, but there is nothing to stop us working with non-numeric variables, such as colour. Collectively, a set of related variables are referred to as a **data set** (or just 'the data'). Confused? Consider a concrete example: the spatial map example above. A minimal data set might comprise two variables containing the x and y position of sample locations, a third variable denoting the presence / absence of a species, and one or more additional variables containing information about the environmental factors we measured.
+The data we collect in a study can be organised one or more statistical **variables**. In its loosest sense, statisticians use the word 'variable' to mean any characteristic that can be measured or experimentally controlled on different items or objects. People tend to think of variables as numeric quantities, such as cell size, but there is nothing to stop us working with non-numeric variables, such as developmental stage.
+
+Collectively, a set of related variables are referred to as a **data set** (or just 'the data'). Confused? Consider a concrete example: the spatial map example above. A minimal data set might comprise two variables containing the x and y position of sample locations, a third variable denoting the presence / absence of a species, and one or more additional variables containing information about the environmental factors we measured.
 
 ```{block, type='advanced-box'}
 **Data and variables in R**
 
-When using R, we often store a data set in a **data frame**. Each column in the data frame is one of R's **vectors** --- numeric, character, etc. The data are said to be **tidy** if the columns of the data frame  correspond to the statistical variables in our data, and each row corresponds to a single observation. This simple connection between abstract statistical concepts and the concrete objects in R is not coincidence. R was designed first and foremost to analyse data.
+Data sets are often stored in data frames when working with R. A data frame can be thought of as having rows and columns. Each column in a data frame has to be one of R's many types of 'vector'. Typically, these are simple things, like numeric or character vectors, but other kinds of vector can be used (e.g. dates and intervals of times). The data it contains are said to be [tidy](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) when each column of a data frame corresponds to statistical variable, and each row corresponds to a single observation (a cell, a tissue sample, an animal, etc).
+
+This simple connection between abstract statistical concepts and concrete objects in R is not coincidence. Its structures and abstractions reflect the fact that R was designed first and foremost to analyse data.
+```
+
+```{block, type='advanced-box'}
+**The data are or the data is?**
+
+Strictly speaking, the word data is the plural of datum (a single piece of information), so we should say "the data are..." not "the data is...". That said, the use of the word in the singular is becoming more widespread, despite the objections of [Grammar Nazis](http://www.urbandictionary.com/define.php?term=Grammar%20Nazi), and to be perfectly honest either usage is fine these days. We lean towards plural data but we do use both forms in this book...
 ```
 
 ## Revision: Types of variable {#var-types}
 
-When it comes to designing an experimental study or carrying out data analysis, it is very important to understand what sort of data we need, or have, as this affects what we can do with it. The variables in a data set can often be classified as being either __numeric__ or __categorical__: numeric variables have values that describe a measurable quantity as a number, like 'how many' or 'how much'; categorical variables have values that describe a characteristic of an observation, like 'what type' or 'which category'. Numeric variables can be further characterised according to the type of scale they are measured on (__interval__ vs. __ratio__ scales). Categorical variables can be further characterised according to whether or not they have a natural order (__nominal__ vs. __ordinal__ variables).
+When it comes to designing an experiment or carrying out some data analysis, it is very important to understand what sort of data we need, or have, as this affects what we can do with it. The variables in a data set are often classified as being either __numeric__ or __categorical__: 
+
+-  numeric variables have values that describe a measurable quantity as a number, like 'how many' or 'how much'; 
+
+-  categorical variables have values that describe a characteristic of an observation, like 'what type' or 'which category'. 
+
+Numeric variables can be further characterised according to the type of scale they are measured on (__interval__ vs. __ratio__ scales). Categorical variables can be further characterised according to whether or not they have a natural order (__nominal__ vs. __ordinal__ variables). 
+
+This is probably the minimal classification scheme we need to learn if we want to analyse our data well. Let's take a closer look at this scheme...
 
 ### Nominal (categorical) variables
 
@@ -57,38 +75,40 @@ Ordinal variables occur where observations can be assigned some meaningful order
 
 Rank orderings are a type of ordinal data. For example, the order in which runners finish a race (1st, 2nd, 3rd, etc.) is a rank ordering. It doesn’t tell us whether it was a close finish or not, but still conveys important information about the result.
 
-In both situations we can say something about the relationships between categories: in the first example, the larger the score the more aggressive the response; in the second example the greater the rank the slower the runner. However, we can’t say that the gap between the first runner and the second was the same as between the second and third and we can’t say that a score of 2 is twice as aggressive as a score of 1 (though people sometimes make this kind of mistake).
+In both situations we can say something about the relationships between categories: in the first example, the larger the score the more aggressive the response; in the second example the greater the rank the slower the runner. However, we can’t say that the gap between the first runner and the second was the same as between the second and third and we can’t say that a score of 2 is twice as aggressive as a score of 1.
 
 ```{block, type='warning-box'}
 **How should you encode different categories in R?**
 
-We have to define some kind of coding scheme to represent the different categories of a nominal/ordinal variables in computerised form. It was once common to assign numbers to different categories (e.g. Female=1, Male=2). This method was sensible in the early days of computer-based data analysis because it allowed data to be stored efficiently. This efficiency argument is not really relevant on a modern computer. What's more, there are good reasons to avoid coding categorical variables as numbers:
+We have to define some kind of coding scheme to represent the categories of nominal/ordinal variables in computerised form. It was once common to assign numbers to different categories (e.g. Female=1, Male=2). This method was sensible in the early days of computer-based analysis because it allowed data to be stored efficiently. This efficiency argument is no longer relevant. What's more, there are good *practical* reasons to avoid coding categorical variables as numbers:
 
--   Numeric coding makes it harder to understand the raw data and to interpret the output of a statistical analysis of those data. This is because we have to remember which number is associated with each category. This is particularly problematic when a variable has many categories.
+-   Numeric coding makes it harder to understand our raw data and interpret the output of a statistical analysis of those data. This is because we have to remember which number is associated with each category.
 
--   Numeric codes are arbitrary and should not be used as numbers in mathematical operations. In the above example, it is meaningless to say 2 ["male"] is twice the size of 1 ["female"]. 
+-   Numeric codes are arbitrary and should not be used as numbers in mathematical operations. In the above example, it is meaningless to say 2 ["male"] is twice the size of 1 ["female"]. 
 
-R usually assumes that a variable containing numeric values is meant to be treated as a number. If we use numeric coding for a categorical variable, R will try to treat the offending variable as a number, which can lead to confusing errors. The take home message: **Always** use words (e.g., 'female' vs. 'male'), not numbers, to describe categories in R. 
+R usually assumes that a variable containing numeric values is meant to be treated as a number. If we use numeric coding for a categorical variable, R will try to treat the offending variable as a number, which can lead to confusing errors. 
+
+The take home message: **Always use words (e.g., 'female' vs. 'male'), not numbers, to describe categories in R**. 
 ```
-
-### Interval scale (numeric) variables
-
-Interval scale variables take values on a consistent numeric scale, but where that scale starts at an arbitrary point. Temperature on the Celsius scale is a good example of interval data. We can say that 60$^{\circ}$C is hotter than 50$^{\circ}$C, and we can say that the difference in temperature between 60$^{\circ}$C and 70$^{\circ}$C is the same as that between -20$^{\circ}$C and -10$^{\circ}$C. We cannot say that 60$^{\circ}$C is twice as hot as 30$^{\circ}$C. This is because temperature on the Celsius scale has an artificial zero value---the freezing point of water. The idea becomes obvious when we consider that temperature can equally well be measured on the Fahrenheit scale (where the freezing point of water is 32$^{\circ}$F).
 
 ### Ratio scale (numeric) variables
 
-Ratio scale variables have a true zero and a known and consistent mathematical relationship between any points on the measurement scale. For example, there is a temperature scale that has a true zero: the Kelvin scale. Zero K is absolute zero, where matter actually has no thermal energy whatsoever. Temperature measurements in degrees K are on a ratio scale, i.e. it does make sense to say that 60 K is twice as hot as 30 K. Interval scale numeric variables are quite familiar, because the physical quantities that crop up in science are usually measured on a ratio scale: length, weight, and numbers of organisms are good examples. 
+Ratio scale numeric variables have a true zero and a known and consistent mathematical relationship between any points on the measurement scale. For example, there is a temperature scale that has a true zero: the Kelvin scale. Zero K is absolute zero, where matter actually has no thermal energy whatsoever. Temperature measurements in degrees K are on a ratio scale, i.e. it does make sense to say that 60 K is twice as hot as 30 K. Interval scale numeric variables are quite familiar, because the physical quantities that crop up in science are usually measured on a ratio scale: length, weight, and numbers of objects are good examples. 
+
+### Interval scale (numeric) variables
+
+Interval scale variables take values on a consistent numeric scale, but where that scale starts at an arbitrary point. Differences between values on an interval scale are meaningful; ratios are not. Temperature on the Celsius scale is a good example of interval data. We can say that 60$^{\circ}$C is hotter than 50$^{\circ}$C, and we can say that the difference in temperature between 60$^{\circ}$C and 70$^{\circ}$C is the same as that between -20$^{\circ}$C and -10$^{\circ}$C. We cannot say that 60$^{\circ}$C is twice as hot as 30$^{\circ}$C. This is because temperature on the Celsius scale has an artificial zero value---the freezing point of water. The idea becomes obvious when we consider that temperature can equally well be measured on the Fahrenheit scale (where the freezing point of water is 32$^{\circ}$F).
 
 ```{block, type='advanced-box'}
-**Continuous or discontinuous?**
-A common confusion with numeric data concerns whether the data are on continuous or discontinuous scales. Ratio data can be either. Many biological ratio data are discrete (i.e. only certain discrete values are possible in the original data), and therefore discontinuous. Count data are an obvious example, e.g. the number of eggs found in a nest, the number of plants recorded in a quadrat, or number of heartbeats counted in a minute. These can only comprise whole numbers, 'in between' values are not possible. However, the distinction between continuous and discontinuous data is often not clear cut -- even 'continuous' variables such as weight are made discontinuous in reality by the fact that our measuring apparatus is of limited resolution (i.e. a balance may weigh to the nearest 0.01 g). 
+**Continuous or discrete?**
+A common confusion with numeric data concerns whether the data are on continuous or discrete scales. Many biological ratio data are discrete (i.e. only certain discrete values are possible in the original data). Count data are an obvious example, e.g. the number of eggs found in a nest, the number of mutations in a cancer cell, or number of heartbeats counted in a minute. These can only comprise whole numbers, 'in between' values are not possible. 
 
-So... just keep in mind that the fact that data look (or really are) discontinuous does not mean they are necessarily ordinal data.
+However, the distinction between continuous and discrete data is often not clear cut -- even 'continuous' variables such as weight are made discrete in reality by the fact that our measuring apparatus is of limited resolution (i.e. a balance may weigh to the nearest 0.01 g). So... keep in mind that the fact that data look (or really are) discrete does not mean they are necessarily ordinal data.
 ```
 
 ### Why does the distinction matter?
 
-The measurement scale affects what we can do (mathematically) to a numeric variable. We can add and subtract interval scale variables, but we can not divide or multiply them and arrive a meaningful result. In contrast, we can add, subtract, multiply or divide ratio scale variables. Put another way, differences and distances are meaningful for both interval and ratio scales, but ratios are only meaningful for ratio variables (the clue is in the name).
+The measurement scale affects what we can do mathematically to a numeric variable. We can add and subtract interval scale variables, but we can not divide or multiply them and arrive a meaningful result. In contrast, we can add, subtract, multiply or divide ratio scale variables. Put another way, differences and distances are meaningful for both interval and ratio scales, but ratios are only meaningful for ratio variables (yes, the clue is in the name).
 
 ### Which is best?
 
@@ -142,6 +162,6 @@ Avoiding bias in the collection of data is one of the most important skills in d
 
 -   *Investigator bias*. Measurements can be strongly influenced by conscious or unconscious prejudice on the part of the investigator. We rarely undertake studies without some initial idea of what we are expecting, or we form ideas about the patterns we think we are seeing as the study progresses. For example, rounding up ‘in between’ values in the samples you are expecting to have large values and rounding down where a smaller value is expected, or having another ‘random’ throw of a quadrat when it doesn’t land in a ‘typical’ bit of habitat.
 
-The ways in which biases, conscious and unconscious, can affect our investigations are many, often subtle, and sometimes serious. Sutherland (1994) gives an illuminating and sometimes frightening catalogue of the ways in which biases affect our perception of the world and the judgements we make about it. The message is that the results we get from an investigation must always be judged and interpreted with respect to the nature of the data used to derive them---if the data are suspect, the results will be suspect too.
+The ways in which biases, conscious and unconscious, can affect our investigations are many, often subtle, and sometimes serious. Sutherland (1994) gives an illuminating catalogue of the ways in which biases affect our perception of the world and the judgements we make about it. The message is that the results we get from an investigation must always be judged and interpreted with respect to the nature of the data used to derive them---if the data are suspect, the results will be suspect too.
 
 

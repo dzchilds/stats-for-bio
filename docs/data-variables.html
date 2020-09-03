@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 13 Two-sample t-test | APS 240: Data Analysis and Statistics with R</title>
+  <title>Chapter 5 Data and variables | APS 240: Data Analysis and Statistics with R</title>
   <meta name="description" content="Course book for Data Analysis and Statistics with R (APS 240) in the Department of Animal and Plant Sciences, University of Sheffield" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 13 Two-sample t-test | APS 240: Data Analysis and Statistics with R" />
+  <meta property="og:title" content="Chapter 5 Data and variables | APS 240: Data Analysis and Statistics with R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="dzchilds/stats-for-bio" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 13 Two-sample t-test | APS 240: Data Analysis and Statistics with R" />
+  <meta name="twitter:title" content="Chapter 5 Data and variables | APS 240: Data Analysis and Statistics with R" />
   
   <meta name="twitter:description" content="Course book for Data Analysis and Statistics with R (APS 240) in the Department of Animal and Plant Sciences, University of Sheffield" />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="one-sample-t-tests.html"/>
-<link rel="next" href="correlation.html"/>
+<link rel="prev" href="scientific-process.html"/>
+<link rel="next" href="learning-from-data.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -600,162 +600,206 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="two-sample-t-test" class="section level1">
-<h1><span class="header-section-number">Chapter 13</span> Two-sample <em>t</em>-test</h1>
-<div id="when-do-we-use-a-two-sample-t-test" class="section level2">
-<h2><span class="header-section-number">13.1</span> When do we use a two-sample <em>t</em>-test?</h2>
-<p>The two-sample <em>t</em>-test is a parametric version of the permutation procedure we studied in the [Comparing populations] chapter. The test is used to compare the means of a numeric variable sampled from two independent populations. The aim of a two-sample <em>t</em>-test is to evaluate whether or not this mean is different in the two populations. Here are two examples:</p>
-<ul>
-<li><p>We’re studying how the dietary habits of Scandinavian eagle-owls vary among seasons. We suspect that the dietary value of a prey item is different in the winter and summer. To evaluate this prediction, we measure the size of Norway rat skulls in the pellets of eagle-owls in summer and winter, and then compare the mean size of rat skulls in each season using a two-sample <em>t</em>-test.</p></li>
-<li><p>We’re interested in the costs of anti-predator behaviour in <em>Daphnia</em> spp. We conducted an experiment where we added predator kairomones—chemicals that signal the presence of a predator—to jars containing individual Daphnia. There is a second control group where no kairomone was added. The change in body size of individuals was measured after one week. We could use a two-sample <em>t</em>-test to compare the mean growth rate in the control and treatment groups.</p></li>
-</ul>
-</div>
-<div id="how-does-the-two-sample-t-test-work" class="section level2">
-<h2><span class="header-section-number">13.2</span> How does the two-sample <em>t</em>-test work?</h2>
-<p>Imagine that we have taken a sample of a variable (called ‘X’) from two populations, labelled ‘A’ and ‘B’. Here’s an example of how these data might look if we took a sample of 50 items from each population:</p>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<div class="figure" style="text-align: center"><span id="fig:two-t-eg-samps"></span>
-<img src="stats-for-bio_files/figure-html/two-t-eg-samps-1.png" alt="Example of data used in a two-sample t-test" width="80%" />
-<p class="caption">
-Figure 13.1: Example of data used in a two-sample t-test
-</p>
-</div>
-<p>The two distributions overlap quite a lot. However, this particular observation isn’t all that relevant here. We’re not interested in the raw values of ‘X’ in the two samples. It’s the difference between the means that matters. The red lines are the mean of each sample—sample B obviously has a larger mean than sample A. The question is, how do we decide whether this difference is ‘real’, or purely a result of sampling variation?</p>
-<p>Using a frequentist approach, we tackle this question by first setting up the appropriate null hypothesis. The null hypothesis here is that there is no difference between the population means. We then have to work out what the ‘null distribution’ looks like. Here, this is sampling distribution of the differences between sample means under the null hypothesis. Once we have the null distribution worked out we can calculate a <em>p</em>-value.</p>
-<p>How is this different from the permutation test? The logic is virtually identical. The one important difference is that we have to make an extra assumption to use the two-sample <em>t</em>-test. We have to assume the variable is normally distributed in each population. If this assumption is valid, then the null distribution will have a known form, which is closely related to the <em>t</em>-distribution.</p>
-<p>We only need to use a few pieces of information to carry out a two-sample <em>t</em>-test. These are basically the same quantities needed to construct the one-sample <em>t</em>-test, except now there are two samples involved. We need the sample sizes of A and B, the sample variances of A and B, and the estimated difference between the sample means. That’s it. No permutations of labels is needed.</p>
-<p>How does it actually work? The two-sample <em>t</em>-test is carried out as follows:</p>
-<p><strong>Step 1.</strong> Calculate the two sample means, then calculate the difference between these estimates. This estimate is our ‘best guess’ of the true difference between means. As with the one-sample test, its role in the two-sample <em>t</em>-test is to allow us to construct a test statistic.</p>
-<p><strong>Step 2.</strong> Estimate the standard error of <em>the difference between the sample means</em> under the null hypothesis of no difference. This gives us an idea of how much sampling variation we expect to observe in the estimated difference, if there were actually no difference between the means.</p>
-<p>There are a number of different options for estimating this standard error. Each one makes a different assumption about the variability of the two populations. Which ever choice we make, the calculation always boils down to a simple formula involving the sample sizes and sample variances. The standard error gets smaller when the sample sizes grow, or when the sample variances shrink. That’s the important point really.</p>
-<p><strong>Step 3.</strong> Once we have estimated the difference between sample means and its standard error, we can calculate the test statistic. This is a type of <em>t</em>-statistic, which we calculate by dividing the difference between sample means (from step 1) by the estimated standard error of the difference (from step 2):</p>
-<p><span class="math display">\[\text{t} = \frac{\text{Difference Between Sample Means}}{\text{Standard Error of the Difference}}\]</span></p>
-<p>This <em>t</em>-statistic is guaranteed to follow a <em>t</em>-distribution if the normality assumption is met. This knowledge leads to the final step…</p>
-<p><strong>Step 4.</strong> Compare the test statistic to the theoretical predictions of the <em>t</em>-distribution to assess the statistical significance of the observed difference. That is, we calculate the probability that we would have observed a difference between means with a magnitude as large as, or larger than, the observed difference, if the null hypothesis were true. That’s the <em>p</em>-value for the test.</p>
-<p>We could step through the various calculations involved in these steps, but there isn’t much to be gained by doing this. The formula for the standard two-sample <em>t</em>-test and its variants are summarised on the <em>t</em>-test <a href="https://en.wikipedia.org/wiki/Student%27s_t-test#Independent_two-sample_t-test">Wikipedi page</a>. There’s no need to learn these—we’re going to let R to handle the heavy lifting again.</p>
-<p>Let’s review the assumptions of the two-sample <em>t</em>-test first…</p>
-<div id="assumptions-of-the-two-sample-t-test" class="section level3">
-<h3><span class="header-section-number">13.2.1</span> Assumptions of the two-sample <em>t</em>-test</h3>
-<p>There are several assumptions that need to be met for a two-sample <em>t</em>-test to be valid. These are basically the same assumptions that matter for the one-sample version. We start with the most important and work down the list in decreasing order of importance:</p>
-<ol style="list-style-type: decimal">
-<li><p><strong>Independence.</strong> Remember what we said in our discussion of the one-sample <em>t</em>-test. If the data are not independent, the <em>p</em>-values generated by the test will be too small, and even mild non-independence can be a serious problem. The same is true of the two-sample <em>t</em>-test.</p></li>
-<li><p><strong>Measurement scale.</strong> The variable that we are working with should be measured on an interval or ratio scale. It makes little sense to apply a two-sample <em>t</em>-test to a variable that isn’t measured on one of these scales.</p></li>
-<li><p><strong>Normality.</strong> The two-sample <em>t</em>-test will produce exact <em>p</em>-values if the variable is normally distributed in both populations. Just as with the one-sample version, the two-sample <em>t</em>-test is fairly robust to mild departures from normality when the sample sizes are small, and this assumption matters even less when the sample sizes are large.</p></li>
-</ol>
-<p>How do we evaluate the first two assumptions? As with the one-sample test, these are aspects of experimental design—we can only evaluate them by thinking about the data. The normality assumption may be checked by plotting the distribution of each sample. The simplest way to do this is with histograms or dot plots. Note that we have to examine the distribution of <em>each sample</em>, not the combined distribution of both samples. If both samples looks approximately normal then it’s fine to proceed with the two-sample <em>t</em>-test, and if we have a large sample we don’t need to worry too much about moderate departures from normality.</p>
-</div>
-<div id="what-about-the-equal-variance-assumption" class="section level3">
-<h3><span class="header-section-number">13.2.2</span> What about the <em>equal variance</em> assumption?</h3>
-<p>It is sometimes said that when applying a two-sample <em>t</em>-test the variance (i.e. the dispersion) of each sample must be the same, or at least quite similar. This would be true if we’re using original version of Student’s two-sample <em>t</em>-test. However, R doesn’t use this version of the test by default. R uses the “Welch” version of the two-sample <em>t</em>-test. The Welch two-sample <em>t</em>-test does not rely on the equal variance assumption. As long as we stick with this version of the <em>t</em>-test, the equal variance assumption isn’t one we need to worry about.</p>
-<p>Is there ever any reason not to use the Welch two-sample <em>t</em>-test? The alternative is to use the original Student’s <em>t</em>-test. This version of the test is a little more powerful than Welch’s version, in the sense that it is more likely to detect a difference in means. However, the increase in statistical power is really quite small when the sample sizes of each group are similar, and the original test is only correct when the population variances are identical. Since we can never prove the ‘equal variance’ assumption—we can only ever reject it—it is generally safer to just use the Welch two-sample <em>t</em>-test.</p>
-<p>One last warning. Student’s two-sample <em>t</em>-test assumes the variances of <em>the populations</em> are identical. It is the population variances, not the sample variances, that matter. There are methods for comparing variances, and people sometimes suggest using these to select ‘the right’ <em>t</em>-test. This is bad advice. For reasons just outlined, there’s little advantage to using Student’s version of the test if the variandes really are the same. What’s more, the process of picking the test based on the results of another statistical test affects the reliability of the resulting <em>p</em>-values.</p>
-</div>
-</div>
-<div id="carrying-out-a-two-sample-t-test-in-r" class="section level2">
-<h2><span class="header-section-number">13.3</span> Carrying out a two-sample <em>t</em>-test in R</h2>
-<div class="do-something">
-<p>
-You should work through the example in this section.
-</p>
-</div>
-<p>We’ll work with the plant morph example one last time to learn how to carry out a two-sample <em>t</em>-test in R. We’ll use the test to evaluate whether or not the mean dry weight of purple plants is different from that of green plants.</p>
-<p>Read the data in MORPH_DATA.CSV into an R data frame, giving it the name <code>morph.data</code>:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="two-sample-t-test.html#cb48-1"></a>morph.data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;MORPH_DATA.CSV&quot;</span>)</span></code></pre></div>
-<p>Now, let’s work through the analysis…</p>
-<div id="visualising-the-data-and-checking-the-assumptions" class="section level3">
-<h3><span class="header-section-number">13.3.1</span> Visualising the data and checking the assumptions</h3>
-<p>We start by calculating a few summary statistics and visualising the sample distributions of the green and purple morph dry weights. We did this in the [Comparing populations] chapter, but here’s the <strong>dplyr</strong> code for the descriptive statistics again:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="two-sample-t-test.html#cb49-1"></a>morph.data <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb49-2"><a href="two-sample-t-test.html#cb49-2"></a><span class="st">  </span><span class="co"># group the data by plant mnorph</span></span>
-<span id="cb49-3"><a href="two-sample-t-test.html#cb49-3"></a><span class="st">  </span><span class="kw">group_by</span>(Colour) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb49-4"><a href="two-sample-t-test.html#cb49-4"></a><span class="st">  </span><span class="co"># calculate the mean, standard deviation and sample size</span></span>
-<span id="cb49-5"><a href="two-sample-t-test.html#cb49-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(Weight), </span>
-<span id="cb49-6"><a href="two-sample-t-test.html#cb49-6"></a>            <span class="dt">sd =</span> <span class="kw">sd</span>(Weight),</span>
-<span id="cb49-7"><a href="two-sample-t-test.html#cb49-7"></a>            <span class="dt">samp_size =</span> <span class="kw">n</span>())</span></code></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre><code>## # A tibble: 2 x 4
-##   Colour  mean    sd samp_size
-##   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;int&gt;
-## 1 Green   708.  150.       173
-## 2 Purple  767.  156.        77</code></pre>
-<p>The sample sizes 173 (green plants) and 77 (purple plants). These are good sized samples, so hopefully the normality assumption isn’t a big deal here. Nonetheless, we still need to check the distributional assumptions:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="two-sample-t-test.html#cb52-1"></a><span class="kw">ggplot</span>(morph.data, <span class="kw">aes</span>(<span class="dt">x =</span> Weight)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb52-2"><a href="two-sample-t-test.html#cb52-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb52-3"><a href="two-sample-t-test.html#cb52-3"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Colour, <span class="dt">ncol =</span> <span class="dv">1</span>)</span></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:two-morph-dist-again"></span>
-<img src="stats-for-bio_files/figure-html/two-morph-dist-again-1.png" alt="Size distributions of purple and green morph samples" width="60%" />
-<p class="caption">
-Figure 13.2: Size distributions of purple and green morph samples
-</p>
-</div>
-<p>There is nothing too ‘non-normal’ about the two samples so it’s reasonable to assume they both came from normally distributed populations.</p>
-</div>
-<div id="carrying-out-the-test" class="section level3">
-<h3><span class="header-section-number">13.3.2</span> Carrying out the test</h3>
-<p>The function we need to carry out a two-sample <em>t</em>-test in R is the <code>t.test</code> function, i.e. the same one used for the one-sample test.</p>
-<p>Remember, <code>morph.data</code> has two columns: <code>Weight</code> contains the dry weight biomass of each plant, and <code>Colour</code> is an index variable that indicates which sample (plant morph) an observation belongs to. Here’s the code to carry out the two-sample <em>t</em>-test</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="two-sample-t-test.html#cb53-1"></a><span class="kw">t.test</span>(Weight <span class="op">~</span><span class="st"> </span>Colour,  morph.data)</span></code></pre></div>
-<p>We have suppressed the output for now so that we can focus on how to use the function. We have to assign two arguments:</p>
-<ol style="list-style-type: decimal">
-<li><p>The first argument is a <strong>formula</strong>. We know this because it includes a ‘tilde’ symbol: <code>~</code>. The variable name on the left of the <code>~</code> must be the variable whose mean we want to compare (<code>Weight</code>). The variable on the right must be the indicator variable that says which group each observation belongs to (<code>Colour</code>).</p></li>
-<li><p>The second argument is the name of the data frame that contains the variables listed in the formula.</p></li>
-</ol>
-<p>Let’s take a look at the output:</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="two-sample-t-test.html#cb54-1"></a><span class="kw">t.test</span>(Weight <span class="op">~</span><span class="st"> </span>Colour,  morph.data)</span></code></pre></div>
-<pre><code>## 
-## 	Welch Two Sample t-test
-## 
-## data:  Weight by Colour
-## t = -2.7808, df = 140.69, p-value = 0.006165
-## alternative hypothesis: true difference in means is not equal to 0
-## 95 percent confidence interval:
-##  -100.46812  -16.97476
-## sample estimates:
-##  mean in group Green mean in group Purple 
-##             707.8424             766.5638</code></pre>
-<p>The first part of the output reminds us what we did. The first line reminds us what kind of <em>t</em>-test we used. This says: <code>Welch two-sample t-test</code>, so we know that we used the Welch version of the test that accounts for the possibility of unequal variance. The next line reminds us about the data. This says: <code>data: Weight by Colour</code>, which is R-speak for ‘we compared the means of the <code>Weight</code> variable, where the sample membership is defined by the values of the <code>Colour</code> variable’.</p>
-<p>The third line of text is the most important. This says: <code>t = -2.7808, d.f. = 140.69, p-value = 0.006165</code>. The first part, <code>t = -2.7808</code>, is the test statistic (i.e. the value of the <em>t</em>-statistic). The second part, <code>df = 140.69</code>, summarise the ‘degrees of freedom’ (see the box below). The third part, <code>p-value = 0.006165</code>, is the all-important p-value. This says there is a statistically significant difference in the mean dry weight biomass of the two colour morphs, because <em>p</em>&lt;0.05. Because the <em>p</em>-value is less than 0.01 but greater than 0.001, we would report this as ‘<em>p</em> &lt; 0.01’.</p>
-<p>The fourth line of text (<code>alternative hypothesis: true difference in means is not equal to 0</code>) simply reminds us of the alternative to the null hypothesis (H<sub>1</sub>). We can ignore this.</p>
-<p>The next two lines show us the ‘95% confidence interval’ for the difference between the means. Just as with the one sample <em>t</em>-test we can think of this interval as a rough summary of the likely values of the true difference (again, a confidence interval is more complicated than that in reality).</p>
-<p>The last few lines summarise the sample means of each group. This could be useful if we had not bothered to calculate these already.</p>
+<div id="data-variables" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Data and variables</h1>
+<blockquote>
+<p><em>The truth is the science of nature has been already too long made
+only a work of the Brain and the Fancy. It is now high time that it
+should return to the plainness and soundness of Observations on
+material and obvious things.</em></p>
+<p>Robert Hooke (1665)</p>
+<p><em>The plural of anecdote is not data.</em></p>
+<p>Roger Brinner</p>
+</blockquote>
+<div id="observations-on-material-and-obvious-things" class="section level2">
+<h2><span class="header-section-number">5.1</span> “Observations on material and obvious things”</h2>
+<p>As Hooke’s observation suggests, science cannot proceed on theory alone. The information we gather about a system stimulates questions and ideas about it and, in turn, can also allow us to test these ideas. In fact the idea of measuring and counting things is so familiar that it is easy to start a project without giving much thought to something as apparently mundane as the nature, quantity and resolution of the data we intend to collect. Nonetheless, the features of the data we collect determine both the types of analyses that can be carried out, and the confidence we can have in the conclusions drawn. In the end, no level of analytical sophistication will enable us to extract information that is not there to begin with.</p>
+<p>So what is there to say about data? The first point to note is that there are many different sorts of data. We focus on simple kinds of data in this book, such as quantities (‘how much’) or classifications (‘what kind’), but not everything can be thought of in simple terms. Examples of more complex data types include spatial maps of species’ occurrence, the DNA sequences of individuals, and networks of feeding relationships among species (i.e. food webs) or gene activation (gene regulatory networks).</p>
+<p>The data we collect in a study can be organised one or more statistical <strong>variables</strong>. In its loosest sense, statisticians use the word ‘variable’ to mean any characteristic that can be measured or experimentally controlled on different items or objects. People tend to think of variables as numeric quantities, such as cell size, but there is nothing to stop us working with non-numeric variables, such as developmental stage.</p>
+<p>Collectively, a set of related variables are referred to as a <strong>data set</strong> (or just ‘the data’). Confused? Consider a concrete example: the spatial map example above. A minimal data set might comprise two variables containing the x and y position of sample locations, a third variable denoting the presence / absence of a species, and one or more additional variables containing information about the environmental factors we measured.</p>
 <div class="advanced-box">
 <p>
-<strong>A bit more about degrees of freedom</strong>
+<strong>Data and variables in R</strong>
 </p>
 <p>
-In the original version of the two-sample <em>t</em>-test (the one that assumes equal variances) the degrees of freedom of the test are give by (n<sub>A</sub>-1) + (n<sub>B</sub>-1), where n<sub>A</sub> is the number of observations in sample A, and n<sub>B</sub> the number of observations in sample B. The plant morph data included 77 purple plants and 173 green plants, so if we had used the original version of the test we would have (77-1) + (173-1) = 248 d.f.
+Data sets are often stored in data frames when working with R. A data frame can be thought of as having rows and columns. Each column in a data frame has to be one of R’s many types of ‘vector’. Typically, these are simple things, like numeric or character vectors, but other kinds of vector can be used (e.g. dates and intervals of times). The data it contains are said to be <a href="https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html">tidy</a> when each column of a data frame corresponds to statistical variable, and each row corresponds to a single observation (a cell, a tissue sample, an animal, etc).
 </p>
 <p>
-The Welch version of the <em>t</em>-test reduces the numbers of degrees of freedom by using a formula that takes into account the difference in variance in the two samples. The greater the difference in the two sample sizes the smaller the number of degrees of freedom becomes:
+This simple connection between abstract statistical concepts and concrete objects in R is not coincidence. Its structures and abstractions reflect the fact that R was designed first and foremost to analyse data.
+</p>
+</div>
+<div class="advanced-box">
+<p>
+<strong>The data are or the data is?</strong>
+</p>
+<p>
+Strictly speaking, the word data is the plural of datum (a single piece of information), so we should say “the data are…” not “the data is…”. That said, the use of the word in the singular is becoming more widespread, despite the objections of <a href="http://www.urbandictionary.com/define.php?term=Grammar%20Nazi">Grammar Nazis</a>, and to be perfectly honest either usage is fine these days. We lean towards plural data but we do use both forms in this book…
+</p>
+</div>
+</div>
+<div id="var-types" class="section level2">
+<h2><span class="header-section-number">5.2</span> Revision: Types of variable</h2>
+<p>When it comes to designing an experiment or carrying out some data analysis, it is very important to understand what sort of data we need, or have, as this affects what we can do with it. The variables in a data set are often classified as being either <strong>numeric</strong> or <strong>categorical</strong>:</p>
+<ul>
+<li><p>numeric variables have values that describe a measurable quantity as a number, like ‘how many’ or ‘how much’;</p></li>
+<li><p>categorical variables have values that describe a characteristic of an observation, like ‘what type’ or ‘which category’.</p></li>
+</ul>
+<p>Numeric variables can be further characterised according to the type of scale they are measured on (<strong>interval</strong> vs. <strong>ratio</strong> scales). Categorical variables can be further characterised according to whether or not they have a natural order (<strong>nominal</strong> vs. <strong>ordinal</strong> variables).</p>
+<p>This is probably the minimal classification scheme we need to learn if we want to analyse our data well. Let’s take a closer look at this scheme…</p>
+<div id="nominal-categorical-variables" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> Nominal (categorical) variables</h3>
+<p>Nominal variables arise when observations are recorded as categories that have no natural ordering relative to one other. For example:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Marital status</strong></td>
+<td align="center"><strong>Sex</strong></td>
+<td align="center"><strong>Colour morph</strong></td>
+</tr>
+<tr class="even">
+<td align="center">Single</td>
+<td align="center">Male</td>
+<td align="center">Red</td>
+</tr>
+<tr class="odd">
+<td align="center">Married</td>
+<td align="center">Female</td>
+<td align="center">Yellow</td>
+</tr>
+<tr class="even">
+<td align="center">Widowed</td>
+<td align="center"></td>
+<td align="center">Black</td>
+</tr>
+<tr class="odd">
+<td align="center">Divorced</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>Variables of this type are common in surveys where, for example, a record is made of the ‘type of thing’ (e.g. the species) observed.</p>
+</div>
+<div id="ordinal-categorical-data" class="section level3">
+<h3><span class="header-section-number">5.2.2</span> Ordinal (categorical) data</h3>
+<p>Ordinal variables occur where observations can be assigned some meaningful order, but where the exact ‘distance’ between items is not fixed, or even known. For example, if we are studying the behaviour of an animal when it meets another individual, it may not be possible to obtain quantitative data about the interaction, but we might be able to score the behaviours in order of aggressiveness:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>Behaviour</strong></td>
+<td align="center"><strong>Score</strong></td>
+</tr>
+<tr class="even">
+<td align="left">initiates attack</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td align="left">aggressive display</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="left">ignores</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="left">retreats</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<p>Rank orderings are a type of ordinal data. For example, the order in which runners finish a race (1st, 2nd, 3rd, etc.) is a rank ordering. It doesn’t tell us whether it was a close finish or not, but still conveys important information about the result.</p>
+<p>In both situations we can say something about the relationships between categories: in the first example, the larger the score the more aggressive the response; in the second example the greater the rank the slower the runner. However, we can’t say that the gap between the first runner and the second was the same as between the second and third and we can’t say that a score of 2 is twice as aggressive as a score of 1.</p>
+<div class="warning-box">
+<p>
+<strong>How should you encode different categories in R?</strong>
+</p>
+<p>
+We have to define some kind of coding scheme to represent the categories of nominal/ordinal variables in computerised form. It was once common to assign numbers to different categories (e.g. Female=1, Male=2). This method was sensible in the early days of computer-based analysis because it allowed data to be stored efficiently. This efficiency argument is no longer relevant. What’s more, there are good <em>practical</em> reasons to avoid coding categorical variables as numbers:
 </p>
 <ul>
 <li>
 <p>
-When the sample sizes are similar, the adjusted d.f. will be close to that in the original version of the two-sample <em>t</em>-test.
+Numeric coding makes it harder to understand our raw data and interpret the output of a statistical analysis of those data. This is because we have to remember which number is associated with each category.
 </p>
 </li>
 <li>
 <p>
-When the sample sizes are very different, the adjusted d.f. will be close to the sample size of the smallest sample.
+Numeric codes are arbitrary and should not be used as numbers in mathematical operations. In the above example, it is meaningless to say 2 [“male”] is twice the size of 1 [“female”].
 </p>
 </li>
 </ul>
 <p>
-Note that the ‘unequal sample size accounting’ results in degrees of freedom that are not whole numbers. It’s not critical that you remember all this. Here’s the important point: whatever flavour of <em>t</em>-test we’re using, a test with high degrees of freedom is more powerful than one with low degrees of freedom, i.e. the higher the degrees of freedom, the more likely we are to detect an effect if it is present. This is why degrees of freedom matter.
+R usually assumes that a variable containing numeric values is meant to be treated as a number. If we use numeric coding for a categorical variable, R will try to treat the offending variable as a number, which can lead to confusing errors.
+</p>
+<p>
+The take home message: <strong>Always use words (e.g., ‘female’ vs. ‘male’), not numbers, to describe categories in R</strong>.
 </p>
 </div>
 </div>
-<div id="summarising-the-result" class="section level3">
-<h3><span class="header-section-number">13.3.3</span> Summarising the result</h3>
-<p>Having obtained the result we need to report it. We should go back to the original question to do this. In our example the appropriate summary is:</p>
-<blockquote>
-<p>Mean dry weight biomass of purple and green plants differs significantly (Welch’s t = 2.78, d.f. = 140.7, <em>p</em> &lt; 0.01), with purple plants being the larger.</p>
-</blockquote>
-<p>This is a concise and unambiguous statement in response to our initial question. The statement indicates not just the result of the statistical test, but also which of the mean values is the larger. Always indicate which mean is the largest. It is sometimes appropriate to also give the values of the means:</p>
-<blockquote>
-<p>The mean dry weight biomass of purple plants (767 grams) is significantly greater than that of green plants (708 grams) (Welch’s <em>t</em> = 2.78, d.f. = 140.7, <em>p</em> &lt; 0.01)</p>
-</blockquote>
-<p>When we are writing scientific reports, the end result of any statistical test should be a statement like the one above—simply writing t = 2.78 or p &lt; 0.01 is not an adequate conclusion!</p>
+<div id="ratio-scale-numeric-variables" class="section level3">
+<h3><span class="header-section-number">5.2.3</span> Ratio scale (numeric) variables</h3>
+<p>Ratio scale numeric variables have a true zero and a known and consistent mathematical relationship between any points on the measurement scale. For example, there is a temperature scale that has a true zero: the Kelvin scale. Zero K is absolute zero, where matter actually has no thermal energy whatsoever. Temperature measurements in degrees K are on a ratio scale, i.e. it does make sense to say that 60 K is twice as hot as 30 K. Interval scale numeric variables are quite familiar, because the physical quantities that crop up in science are usually measured on a ratio scale: length, weight, and numbers of objects are good examples.</p>
+</div>
+<div id="interval-scale-numeric-variables" class="section level3">
+<h3><span class="header-section-number">5.2.4</span> Interval scale (numeric) variables</h3>
+<p>Interval scale variables take values on a consistent numeric scale, but where that scale starts at an arbitrary point. Differences between values on an interval scale are meaningful; ratios are not. Temperature on the Celsius scale is a good example of interval data. We can say that 60<span class="math inline">\(^{\circ}\)</span>C is hotter than 50<span class="math inline">\(^{\circ}\)</span>C, and we can say that the difference in temperature between 60<span class="math inline">\(^{\circ}\)</span>C and 70<span class="math inline">\(^{\circ}\)</span>C is the same as that between -20<span class="math inline">\(^{\circ}\)</span>C and -10<span class="math inline">\(^{\circ}\)</span>C. We cannot say that 60<span class="math inline">\(^{\circ}\)</span>C is twice as hot as 30<span class="math inline">\(^{\circ}\)</span>C. This is because temperature on the Celsius scale has an artificial zero value—the freezing point of water. The idea becomes obvious when we consider that temperature can equally well be measured on the Fahrenheit scale (where the freezing point of water is 32<span class="math inline">\(^{\circ}\)</span>F).</p>
+<div class="advanced-box">
+<p>
+<strong>Continuous or discrete?</strong> A common confusion with numeric data concerns whether the data are on continuous or discrete scales. Many biological ratio data are discrete (i.e. only certain discrete values are possible in the original data). Count data are an obvious example, e.g. the number of eggs found in a nest, the number of mutations in a cancer cell, or number of heartbeats counted in a minute. These can only comprise whole numbers, ‘in between’ values are not possible.
+</p>
+<p>
+However, the distinction between continuous and discrete data is often not clear cut – even ‘continuous’ variables such as weight are made discrete in reality by the fact that our measuring apparatus is of limited resolution (i.e. a balance may weigh to the nearest 0.01 g). So… keep in mind that the fact that data look (or really are) discrete does not mean they are necessarily ordinal data.
+</p>
+</div>
+</div>
+<div id="why-does-the-distinction-matter" class="section level3">
+<h3><span class="header-section-number">5.2.5</span> Why does the distinction matter?</h3>
+<p>The measurement scale affects what we can do mathematically to a numeric variable. We can add and subtract interval scale variables, but we can not divide or multiply them and arrive a meaningful result. In contrast, we can add, subtract, multiply or divide ratio scale variables. Put another way, differences and distances are meaningful for both interval and ratio scales, but ratios are only meaningful for ratio variables (yes, the clue is in the name).</p>
+</div>
+<div id="which-is-best" class="section level3">
+<h3><span class="header-section-number">5.2.6</span> Which is best?</h3>
+<p>All types of data can be useful, but it is important to be aware that not all types of data can be used with all statistical models. This is one very good reason for why it is worth having a clear idea of the statistical tools we intend to use when designing a study.</p>
+<p>In general, ratio variables are best suited to statistical analysis. However, biological systems often cannot be readily represented as ratio data, or the work involved in collecting good ratio data may be vastly greater than the resources allow, or the question we are interested in may not demand ratio data to achieve a perfectly satisfactory answer. It is this last question that should come first when thinking about a study. What sort of data do we need to answer the question we are interested in? If it is clear at the outset that data on a rank scale will not be sufficiently detailed to enable us to answer the question, then we must either develop a better way of collecting the data, or abandon that approach altogether. If we know the data we’re able to collect cannot address the question, then we should do something else.</p>
+<p>An obvious, but important point: we can always convert measurements taken on a ratio scale to an interval scale, but we cannot do the reverse. Similarly, we can convert interval scale data to ordinal data, but we cannot do the reverse. That said, it’s good practise to avoid such conversions as they inevitably result in a loss of information.</p>
+</div>
+</div>
+<div id="accuracy-precision" class="section level2">
+<h2><span class="header-section-number">5.3</span> Accuracy and precision</h2>
+<div id="what-do-they-mean" class="section level3">
+<h3><span class="header-section-number">5.3.1</span> What do they mean?</h3>
+<p>The two terms accuracy and precision are used more or less synonymously in everyday speech, but in scientific investigation they have quite distinct meanings.</p>
+<p><strong>Accuracy</strong> – how close a measurement is to the true value of whatever it is you are trying to measure.</p>
+<p><strong>Precision</strong> – how repeatable a measure is, irrespective of whether it is close to the actual value.</p>
+<p>If we are measuring an insect’s weight on an old and poorly maintained balance, which measures to the nearest 0.1 g, we might weigh the same insect several times and each time get a different weight — the balance is not very precise, though some of the measurements might happen be quite close to the real weight. By contrast you could be using a new electronic balance, weighing to the nearest 0.01g, but which has been incorrectly zeroed so that it is 0.2 g out from the true weight. Repeated weighing here might yield results that are identical, but all incorrect (i.e. not the true value) — the balance is precise, but the results are inaccurate. The analogy often used is with shooting at a target:</p>
+<div class="figure" style="text-align: center"><span id="fig:targets"></span>
+<img src="images/targets.gif" alt="Accuracy and precision" width="60%" />
+<p class="caption">
+Figure 5.1: Accuracy and precision
+</p>
+</div>
+<p>It’s obviously important to know how accurate and how precise our data are. The ideal is the situation in the top left target in the diagram, but in many circumstances high precision is not possible and it is usually preferable to make measurements of whose accuracy we can be reasonably confident (bottom left), than more precise measurements, whose accuracy may be suspect (top right). Taking an average of the values for the bottom left target would produce a value pretty close to the centre; taking an average for the top right target wouldn’t help the accuracy at all.</p>
+</div>
+<div id="implied-precision-significant-figures" class="section level3">
+<h3><span class="header-section-number">5.3.2</span> Implied precision – significant figures</h3>
+<p>It’s worth being aware that when we state results, we’re making implicit statements about the precision of the measurement. The number of significant figures we use suggests something about the precision of the result. A result quoted as 12.375 mm implies the measurement is more precise than one quoted as 12.4 mm. A value of 12.4 actually measured with the same precision as 12.735 should properly be written 12.400. When quoting results, look at the original data to decide how many significant figures to use—generally the same number of significant figures will be appropriate.</p>
+<p>These considerations do not apply in quite the same way when working with discrete data, e.g. precision of measurement is not an issue in recording the number of eggs in a nest. We use 4 not 4.0, but since 4 eggs implies 4.0 eggs it’s fine to quote average clutch size from several nests as 4.3 eggs. However, even with discrete data, if numbers are large then obviously precision is an issue again … a figure of 300 000 ants in a nest is likely to imply a precision of plus or minus 50 000. A figure of 320987 ants implies a rather improbably precise measurement.</p>
+</div>
+<div id="how-precise-should-measurements-be" class="section level3">
+<h3><span class="header-section-number">5.3.3</span> How precise should measurements be?</h3>
+<p>The appropriate precision to use when making measurements is largely common sense. It will depend on practicality and the use to which we wish to put the data. It may not be possible to weigh an elephant to the nearest 0.001g, but if we want to know whether the elephant will cause a 10 tonne bridge to collapse, then the nearest tonne will be good enough. On the other hand, if we want to compare the mean sizes of male and female elephants then the nearest 100 kg may be sufficient, but if we plan to monitor the progress of a pregnant female elephant then the nearest 10 kg or less might be desirable.</p>
+<p>As a rough guide aim, where possible, for a scale where the number of measurement steps is between 30 and 300 over the expected range of the data. So for example, in a study of the variation in shell thickness of dogwhelks on a 300 m transect up a shore, it would be adequate to measure the position of each sampling point on the transect to the nearest metre, but shell thickness will almost certainly need to be measured to the nearest 0.1 mm.</p>
+</div>
+<div id="error-bias-and-prejudice" class="section level3">
+<h3><span class="header-section-number">5.3.4</span> Error, bias and prejudice</h3>
+<p>Error is present in almost all biological data, but not all error is equally problematic. Usually the worst form of error is bias. Bias is a systematic lack of accuracy, i.e. the data are not just inaccurate, but all tend to deviate from the true measurements in the same direction (situations B and D in the ‘target’ analogy above). Thus there is an important distinction in statistics between the situation where the measurements differ from the true value at random and those where they differ systematically. Measurements lacking some precision, such as the situation illustrated in C, may still yield a reasonable estimate of the true value if the mean of a number of values is taken.</p>
+<p>Avoiding bias in the collection of data is one of the most important skills in designing scientific investigations. Some forms of bias are obvious, others more subtle and hard to spot:</p>
+<ul>
+<li><p><em>Non-random sampling</em>. Many sampling techniques are selective, and may result in biased information. For example, pitfall trapping of arthropods will favour collection of the very active species that encounter traps most frequently. Studying escape responses of an organism in the lab may be biased if the process of catching organisms to use in the study selected for those whose escape response is poorest.</p></li>
+<li><p><em>Conditioning of biological material</em>. Organisms kept under particular conditions for long periods of time may become acclimatised to those conditions. Similarly, if stocks are kept in a laboratory for many generations their characteristics may change through natural selection. Such organisms may give a biased impression of the behaviour of the organism in natural conditions.</p></li>
+<li><p><em>Interference by the process of investigation</em>. Often the process of making a measurement itself distorts the characteristic being measured. For example, it may be hard to measure the level of adrenalin in the blood of a small mammal without affecting the adrenalin level in the process. Pitfall traps are often filled with a preservative, such as ethanol, but the ethanol attracts species of insect that normally feed on decaying fruit and use the fermentation products as a cue to find resources.</p></li>
+<li><p><em>Investigator bias</em>. Measurements can be strongly influenced by conscious or unconscious prejudice on the part of the investigator. We rarely undertake studies without some initial idea of what we are expecting, or we form ideas about the patterns we think we are seeing as the study progresses. For example, rounding up ‘in between’ values in the samples you are expecting to have large values and rounding down where a smaller value is expected, or having another ‘random’ throw of a quadrat when it doesn’t land in a ‘typical’ bit of habitat.</p></li>
+</ul>
+<p>The ways in which biases, conscious and unconscious, can affect our investigations are many, often subtle, and sometimes serious. Sutherland (1994) gives an illuminating catalogue of the ways in which biases affect our perception of the world and the judgements we make about it. The message is that the results we get from an investigation must always be judged and interpreted with respect to the nature of the data used to derive them—if the data are suspect, the results will be suspect too.</p>
 
 </div>
 </div>
@@ -765,8 +809,8 @@ Note that the ‘unequal sample size accounting’ results in degrees of freedom
           </div>
         </div>
       </div>
-<a href="one-sample-t-tests.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="correlation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="scientific-process.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="learning-from-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -797,7 +841,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/dzchilds/stats-for-bio/edit/master/3_03_t-tests_two_sample.Rmd",
+"link": "https://github.com/dzchilds/stats-for-bio/edit/master/1_02_data_variables.Rmd",
 "text": "Edit"
 },
 "history": {
