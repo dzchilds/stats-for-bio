@@ -1,4 +1,4 @@
-# Two-sample *t*-test
+# Two-sample *t*-test {#two-sample-t-test}
 
 ## When do we use a two-sample *t*-test?
 

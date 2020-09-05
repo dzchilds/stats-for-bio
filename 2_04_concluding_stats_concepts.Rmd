@@ -1,6 +1,6 @@
 # Hypotheses and *p*-values
 
-```{r jelly_beans, echo = FALSE, out.width='60%', fig.align='center'}
+```{r jelly_beans, echo = FALSE, out.width='50%', fig.align='center'}
 knitr::include_graphics(rep("./images/significant_xkcd.png"))
 ```
 
@@ -19,6 +19,8 @@ It is important to be aware of what a null hypothesis is, and what it is used fo
 Having got all the types of hypothesis sorted out, we can then use a particular frequentist technique to evaluate the observed result against that expected if the null hypothesis was true. The test gives us a probability (*p*-value) telling us how likely it is that we would have got the result we observe, or a more extreme result, if the null hypothesis was really true. If the value is sufficiently small we judge it unlikely that we would have seen this result if the null hypothesis was true. Consequently, we say we *reject the null hypothesis* (i.e. reject the notion that there is no difference). This is not the same as 'proving' the alternative hypothesis is true. We can't prove anything by collecting data or carrying out an experiment.
 
 If the *p*-value is large, then it is quite likely that we could have got the observed result if the null hypothesis was true, i.e. it is due to sampling variation. In this case we cannot reject the null hypothesis. Note that in this situation we say that we "*do not reject the null hypothesis*". This is not the same as accepting that the null hypothesis is true, paradoxical though this may seem. One obvious reason for this is that if we only have a small sample then there may be an effect of the factor we are looking at, but we simply can’t detect it because we don’t have enough data.
+
+Finally, it's important to realise that people **do not report null hypotheses when communicating science**. There's absolutely no need to state the null hypothesis of each and every test we use in a report or when giving a talk. This is because the null hypothesis is nothing more a device for setting up a statistical test. It's not interesting in its own right.
 
 ## Interpreting and reporting *p*-values
 

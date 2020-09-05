@@ -1,4 +1,4 @@
-# Learning from data
+# Learning from data {#learning-from-data}
 
 > Statistics is the science of learning from data, and of measuring, controlling, 
 > and communicating uncertainty; and it thereby provides the navigation essential 

@@ -6,7 +6,7 @@ This chapter gives a quick overview of the prerequisite R skills needed to use t
 
 *This section is being revised for the 2020-2021 session*
 
-## Starting a new R script in RStudio
+## Starting a new R script in RStudio {#new-project-setup}
 
 You will need to prepare and run your own R scripts to make best use of the book. The process of setting things up to do this varies slightly depending on whether you are starting a brand new script 'from scratch' or using one of the provided template scripts.
 

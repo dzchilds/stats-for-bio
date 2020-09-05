@@ -1,4 +1,4 @@
-# One-tailed vs. two-tailed tests
+# One-tailed vs. two-tailed tests {#one-two-tailed-tests}
 
 ## Introduction
 
