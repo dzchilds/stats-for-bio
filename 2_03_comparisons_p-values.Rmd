@@ -2,7 +2,7 @@
 
 ## Making comparisons
 
-Scientific inquiry requires that we evaluate our predictions about natural or experimentally-induced differences between populations. The simplest case involves just two populations, e.g.
+Scientific inquiry often requires us to evaluate predictions about differences between populations. The simplest such case involves just two populations, e.g.
 
 ‘Does enzyme activity differ among control and drug-treated cell lines?’
 
@@ -10,11 +10,15 @@ Scientific inquiry requires that we evaluate our predictions about natural or ex
 
 'Do purple and green plants differ in their biomass?'
 
-In this setting we're evaluating whether or not two *populations* are different in some way. To do this, we have to step through the same kind of process discussed in the last few chapters. This chapter demonstrates how to compare two populations by employing ideas like null hypotheses and *p*-values. The goal is not really to learn how to compare populations. Instead, we want to continue learning how these ideas are used to construct significance tests and evaluate predictions. On the way we're going to introduce something called a 'test statistic'.
+In this setting we're evaluating whether or not two *statistical populations* are different in some way. To do this, we have to step through exactly the same kind of process discussed in the last few chapters. 
+
+This chapter demonstrates how to compare two populations by employing ideas like null hypotheses and *p*-values. The goal is not really to learn how to compare populations---instead, we want to continue developing our understanding of significance tests and evaluate predictions. 
+
+As we do this we're going to introduce a new component of the frequentist machine called a 'test statistic'. This is an important idea---it will crop up every time we introduce a new type of statistical test.
 
 ### A new example {#morph-weights-eg}
 
-We'll continue with the now-familiar purple and green plants. However, instead of working with morph frequencies, this time we'll consider plant size. We'll introduce this new example by stepping through the process introduced in the [learning from data](#learning-from-data) chapter.
+Let's continue with the familiar purple and green plants example. This time, instead of working with morph frequencies, we'll consider plant size. We introduce this by stepping through the process introduced in the [learning from data](#learning-from-data) chapter:
 
 ```{r, include=FALSE}
 morph_data <- read.csv(file = "./data_csv/MORPH_DATA.CSV")
@@ -25,27 +29,27 @@ sum_stat <-
   summarise(mean = mean(Weight), sd = sd(Weight), n = n())
 ```
 
-**Question, hypothesis and prediction:** We think there purple and green morph might be different in some way. Specifically, we want to address the question: Why have the purple morphs seemingly increased in frequency in the new study population? Based on the various observations already discussed, our working hypotheses is that purple plants are fitter than green plants. Since fitness is closely related to seed production, and seed production is typically positively correlated with plant size, we predict that purple morphs will be larger in the new population.
+**Question, hypothesis and prediction:** We think the purple and green morph plants might be different in some way. Specifically, we want to address the question: Why have the purple morphs increased in frequency in the new population? Our working hypotheses is that purple plants are fitter than green plants. Since fitness is closely related to seed production, and seed production is typically positively correlated with plant size, we predict that purple morphs should be larger in the new population.
 
-**Statistical populations:** What are the statistical populations we are interested in? This time we will conceive of each morph as its own population---i.e. there are now two statistical populations in play. This change of focus from our earlier analysis of this system is perfectly valid. Remember, statistical populations are not really fixed things. They are defined by the problem we're working on.
+**Statistical populations:** What statistical populations are we interested in? This time, we will conceive of each morph as its own statistical population. That measn there are now two distinct statistical populations in play: a purple plant population and a green plant population. This change of focus from our earlier analysis where we considered all the plants as one population is perfectly valid. Statistical populations are not really fixed things---they are defined by the problem we're working on.
 
-**Variables:** Which variable should we study? An obvious way to address the prediction of size differences would be to measure the weight of individuals of each morph in our samples. In fact, 'dry weight biomass' is a very standard and reliable measure of how 'big' a plant is. Dry weight is a numeric variable, measured on a ratio scale (zero really does mean 'nothing').
+**Variables:** Which variable should we study? An obvious way to address a prediction of size differences of plants is to measure the weight of individuals of each morph in our samples. To be more precise, 'dry weight biomass' is the standard, reliable measure of how 'big' a plant is. Dry weight mass is a numeric variable measured on a ratio scale (zero really does mean 'nothing').
 
-**Population porameters:** Our prediction is that purple morphs will be larger than green morphs. What do we really mean by that? We probably don't mean that every purple plant is bigger than every green plant. Instead, we want to know if purple plants are *generally* bigger than green ones. This can be thought of as a statement about 'central tendency'---we want to evaluate whether purple plants are larger than green plants, *on average*. The population parameters of interest are therefore the *mean* dry weights of each morph.
+**Population parameters:** Our prediction is that purple morphs are larger than green morphs. What do we actually mean by that? We probably don't mean that every purple plant is bigger than every green plant. Instead, we need to know if purple plants are *generally* bigger than green ones. This is a statement about 'central tendency'---we want to evaluate whether purple plants are larger than green plants, *on average*. The population parameters of interest are therefore the *mean* dry weights of each morph.
 
-**Gather samples:** The next step is to gather appropriate samples. Since this is a made-up example we'll cut to the chase. We've already seen the samples we're going to use. When we read in the 'MORPH_DATA.CSV' in the previous chapter we found it contained a numeric variable called `Weight`. This contains our dry weight biomass information. The categorical `Colour` variable analysed in the previous chapter tells us which kind of colour morph each observation corresponds to.
+**Gather samples:** The next step is to gather appropriate samples. Since this is a made-up example we'll cut to the chase. We have already seen the samples we're going to use. When we read in the 'MORPH_DATA.CSV' in the previous chapter we found a numeric variable called `Weight`. This contains our dry weight biomass information. The categorical `Colour` variable analysed in the previous chapter tells us which kind of colour morph each observation corresponds to.
 
-We're now ready to tackle the remaining steps in the 'learning from data' process: estimating the population parameter(s), estimate uncertainty and answer the question. We'll work through these remaining steps in detail next.
+OK, now we're ready to tackle the remaining steps in the 'learning from data' process: estimating the population parameter(s), estimate uncertainty and answer the question. We work through each of these steps in detail next. 
 
 ```{block, type='do-something'}
-Once again, best way to understand what follows is to actually work through the example. And again, you are encouraged to do this...
+Once again, best way to understand what follows is to actually work through the example. And once again, you are strongly encouraged to do this...
+
+You can carry on developing the script you began in the last chapter or set up a completely [new project](#new-project-setup). Either way, for the code below to work you will need to have downloaded the 'MORPH_DATA.CSV' data file and read this into R, assigning it the name `morph_data`. Remember to check the data set again with `str` or `glimpse`.
 ```
 
 ### Examine the data
 
-You can carry on using the script you developed in the last chapter or set up a [new project](#new-project-setup). Either way, for the code below to work you will need to have downloaded the 'MORPH_DATA.CSV' data file and read this into R, assigning it the name `morph_data`. Remember to check the data set again with `str` or `glimpse`.
-
-The first step is to calculate point estimates of the mean dry weight of each morph. These are our 'best guess' of the population means. It's also useful to know something about the sample size and variability of dry weight in each sample. We can summarise variability using the standard deviation (`sd`) of each sample. Here is how to do this with **dplyr**:
+The first step is to calculate point estimates of the mean dry weight of each morph. These are our 'best guess' of the population means. It can also be useful to know something about the sample size and variability of dry weight in each sample. We can summarise variability using the standard deviation (`sd`) of each sample. Here is how to do this with **dplyr**:
 
 ```{r, message=FALSE}
 # using morph data...
@@ -58,11 +62,11 @@ morph_data %>%
             samp_size = n())
 ```
 
-This shows that the mean dry weight of the purple morph is indeed greater than that of green morph. Maybe our hypothesis is true. The standard deviation estimates indicate that the dry weight of purple morphs is also a bit more variable than the green morphs.
+This shows the mean dry weight of the purple morph is indeed greater than that of green morph. Maybe our hypothesis is true. The standard deviation estimates indicate that the dry weight of purple morphs is also a bit more variable than the green morphs.
 
-Remember, these numbers are point estimates from limited samples. If we sampled the populations again sampling variation would lead to different estimates. We're not yet in a position to conclude that purple morphs are bigger than green morphs because we don't know if the difference is just down to 'luck'. 
+These numbers are point estimates taken from limited samples. If we sampled the populations again sampling variation would lead to different estimates. We're not yet in a position to conclude that purple morphs are bigger than green morphs because we don't know if the difference is just down to 'luck'. 
 
-We should also visualise the the sample distributions of colour morph weights. We could do this in a variety of ways but since we only have two samples we may as well use a fairly detailed summary. Histograms are a good choice when we have a reasonable amount of data:
+We should also visualise the sample distributions of colour morph weights. We could do this in a variety of ways but since we only have two samples we may as well use a fairly information-rich summary. Histograms are a good choice when we have a reasonable amount of data:
 
 ```{r two-morph-dist, echo = TRUE, out.width='75%', fig.asp=1, fig.align='center', fig.cap='Size distributions of purple and green morph samples'}
 ggplot(morph_data, aes(x = Weight)) + 
@@ -70,9 +74,9 @@ ggplot(morph_data, aes(x = Weight)) +
   facet_wrap(~Colour, ncol = 1) # <- separate histogram for each colour morph!
 ```
 
-What does this plot tell us? We're interested in the degree of similarity of the two samples. It looks like purple morph individuals tend to have higher dry weights than green morphs. We already knew this but the plot confirms that the difference is probably not due to a few extreme cases ('outliers').
+What does this plot tell us? We're interested in the degree of similarity of the two samples. It looks like purple morph individuals tend to have higher dry weights than green morphs. We already knew this of course. What the plot confirms is that the difference is probably not due to a few extreme cases ('outliers').
 
-So... the histograms confirm that there might be a general difference in the size of the two morphs. However, there is also a lot of overlap between the two dry weight distributions. Maybe the difference between the sample means is just a result of sampling variation? We need to use a statistical test to tackle this question.
+So... the histograms confirm there might be a general difference in the size of the two morphs. However, there is also a lot of overlap between the two dry weight distributions. Maybe the difference between the sample means is simply a consequence of sampling variation? We need to construct a statistical test to address this question.
 
 ## Constructing a test
 
@@ -96,19 +100,19 @@ for (i in 1:nperm) {
 names(perm.eg) <- paste("Sample", 1:3)
 ```
 
-We're going to apply frequentist ideas to evaluate whether the two population means are likely to be different. We have to work through a four-step process to do this:
+We're going to develop a frequentist test to evaluate whether the two population means are likely to be different. Regardless of the precise details, this kind of problem involves a four-step process:
 
-1. First, we *assume* there is really no difference between the population means. That is, we hypothesize that all the data are sampled from a pair of populations that have the same population mean. To put it another way, we pretend there is really only one population. We know about this trick. It's a statement of the **null hypothesis**.
+1. First, we *assume* there is no difference between the population means. That is, we hypothesize that all the data are sampled from a pair of populations that have the same population mean. To put it another way, we pretend there is really only one population. We know about this trick. It's a statement of the **null hypothesis**.
 
-2. Next, we use information in the samples to work out what would happen if we were to repeatedly take samples in this hypothetical situation of 'no difference between samples'. We summarise this by calculating the null distribution of some kind of **test statistic**
+2. Next, we use information in the real samples to work out what would happen if we were to repeatedly take many new samples in this hypothetical situation of 'no difference'. We summarise this by calculating the null distribution of some kind of **test statistic** (<-- something new).
 
 3. We then ask, "if there were no difference between the two groups, what is the probability that we would observe a difference that is the same as, or more extreme than, the one we observed in the true sample?" We know about this number too. It's a __*p*-value__.
 
 4. If the observed difference is sufficiently improbable, then we conclude that we have found a **statistically significant** result. A statistically significant result is one that is inconsistent with the hypothesis of no difference. 
 
-Notice this logic is very similar to that used to construct the statistical test in the previous chapter. The only new elaboration here is the introduction of a test statistic. When dealing with comparisons involving more than one parameter we need to work with a single numeric summary of the effect of interest. The job of this quantity is to summarise the effect as a single number so that we can construct a test. That's why it is called the 'test statistic'.
+This chain of logic is very similar to that used to construct the statistical test in the previous chapter. The main elaboration here is the introduction of the test statistic. When dealing with comparisons involving more than one parameter we need to work with a single numeric summary of 'the effect of interest', however defined. Its purpose is to summarise the effect as a single number so that we can construct a simple test. That's why it is called the 'test statistic'.
 
-There are many different ways to go about realising this process above. We're going to use something called a **permutation test** here. We're not using this because we want you to learn how to apply it yourself. Instead, just as with the bootstrap, permutation tests offers a simple way to see how frequentist tests work without getting lost in mathematical detail.
+There are many different kinds of test statistic and many different ways to go about realising this process above. We're going to use something called a **permutation test** here. We're not using this because we want you to learn how to apply it. Instead, just as with the bootstrap, the permutation tests offers a simple way to see how frequentist tests work without getting lost in mathematical detail.
 
 ### Permutation tests
 

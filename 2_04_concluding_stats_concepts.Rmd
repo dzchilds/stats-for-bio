@@ -20,7 +20,9 @@ Having got all the types of hypothesis sorted out, we can then use a particular 
 
 If the *p*-value is large, then it is quite likely that we could have got the observed result if the null hypothesis was true, i.e. it is due to sampling variation. In this case we cannot reject the null hypothesis. Note that in this situation we say that we "*do not reject the null hypothesis*". This is not the same as accepting that the null hypothesis is true, paradoxical though this may seem. One obvious reason for this is that if we only have a small sample then there may be an effect of the factor we are looking at, but we simply can’t detect it because we don’t have enough data.
 
-Finally, it's important to realise that people **do not report null hypotheses when communicating science**. There's absolutely no need to state the null hypothesis of each and every test we use in a report or when giving a talk. This is because the null hypothesis is nothing more a device for setting up a statistical test. It's not interesting in its own right.
+### Report the null hypothesis?
+
+It's important to realise that we **do not report null hypotheses when communicating science**. The null hypothesis is nothing more a device for setting up a frequentist statistical test. It is not an interesting or useful hypothesis in its own right. Again, for the avoidance of doubt... there's absolutely no need to state the null hypothesis of each and every test we use in a report or a presentation. Focus on substantive biological hypotheses instead.
 
 ## Interpreting and reporting *p*-values
 
