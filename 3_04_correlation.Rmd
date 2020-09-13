@@ -1,10 +1,8 @@
-# Correlation
+# A correlation test
 
-## Introduction
+<!-- The *t*-tests we encountered in the previous two chapters were concerned with how to compare means of numeric variables. One way to think about that two-sample *t*-test is that it evaluates whether or not the variable changes among two groups or experimental conditions. Membership of the different groups/conditions can be encoded by a categorical variable. We saw that R uses a 'formula' involving numeric (e.g. `num_var`) and categorical (e.g. `cat_var`) variables to set up the test (e.g. `num_var ~ cat_var`). The formula reflects the fact that we can conceptualise the *t*-tests as considering a *relationship* between a numeric and categorical variable. -->
 
-The *t*-tests we encountered in the last two chapters were concerned with how to compare mean(s) of numeric variables. We learned how to: (1) compare one mean to any particular value via the one-sample *t*-test, (2) compare means among two groups or conditions via the two-sample *t*-test. One way to think about the two-sample *t*-tests is that they evaluate whether or not the variable changes among two groups or experimental conditions. Membership of the different groups/conditions can be encoded by a categorical variable. In R, we use a formula involving the numeric (`num_var`) and categorical (`cat_var`) variables to set up the test (e.g. `num_var ~ cat_var`). The formula reflects the fact that we can conceptualise the *t*-tests as considering a *relationship* between a numeric and categorical variable^[It is perfectly possible to evaluate differences among means in more than two categories, but we don't use *t*-tests to do this. Instead, we us a more sophisticated tool called Analysis of Variance (ANOVA). We'll learn about ANOVA in later chapters.].
-
-In this chapter we'll move on to discuss correlations, which are statistical measures that quantify an **association** between two numeric variables. An association is any relationship between the variables that makes them dependent in some way: knowing the value of one variable gives you information about the possible values of the second variable. The terms association and correlation are often used interchangeably, but strictly speaking correlation has a narrower definition. A correlation quantifies, via a **correlation coefficient**, the degree to which an association tends to a certain pattern.
+We're going to move on to consider 'correlation' in this chapter. A correlation is a statistical measure of an **association** between two variables. An association is any relationship between the variables that makes them dependent in some way: knowing the value of one variable gives you information about the possible values of the other. The terms 'association' and 'correlation' are often used interchangeably but strictly speaking correlation has a narrower definition. A correlation quantifies, via a measure called a **correlation coefficient**, the degree to which an association tends to a certain pattern. For example, the correlation coefficient studied below---Pearson’s correlation coefficient---measures the degree to which two variables tend toward a straight line relationship.
 
 ```{r, echo=FALSE}
 set.seed(25081978)
@@ -25,79 +23,131 @@ cor_eg <- mutate(cor_eg,
                  labs = factor(labs, levels = rev(unique(cor_eg$labs))))
 ```
 
-There are a variety of methods for quantifying correlation, but these all share common properties:
+There are different methods for quantifying correlation but these all share a number of properties:
 
-1.  If there is no relationship between the variables then the correlation coefficient will be zero. The closer to 0 the value, the weaker the relationship. A perfect correlation will be either -1 or +1, depending on the direction. This is illustrated below...
+1.  If there is no relationship between the variables the correlation coefficient will be zero. The closer to 0 the value, the weaker the relationship. A perfect correlation will be either -1 or +1, depending on the direction. This is illustrated in the figure below.
 
-```{r cor-strength-eg, echo=FALSE, out.width='100%', fig.asp=0.3, fig.align='center', warning=FALSE}
+```{r cor-strength-eg, echo=FALSE, out.width='80%', fig.asp=0.3, fig.align='center', warning=FALSE}
 ggplot(cor_eg, aes(x = x, y = y)) + 
   geom_point() + facet_wrap(~labs, ncol = 5) + 
   scale_x_continuous(limits = c(-1,1) * 3.1) + 
   scale_y_continuous(limits = c(-1,1) * 1.8)
 ```
 
-2.  The value of a correlation coefficient indicates the direction and strength of the association, but says nothing about the steepness of the relationship. A correlation coefficient is just a number, so it can not tell us exactly how one variable depends on the other. 
+2.  The value of a correlation coefficient indicates the direction and strength of the association but says nothing about the steepness of the relationship. A correlation coefficient is just a number, so it can't tell us exactly how one variable depends on the other. 
 
-3.  A correlation coefficient doesn't tell us whether an apparent association is likely to be real or not. It is possible to construct a statistical test to evaluate whether a correlation is different from zero. Like any statistical test, this requires certain assumptions about the variables to be met.
+3.  Correlation coefficients do not describe 'directional' or 'casual' relationships---i.e. we can't use correlations to make predictions about one variable based on knowledge of another or make statements about the effect of one variable on the other.
 
-There are several different measures of correlation between two variables. Here, we will consider probably the most commonly used method, **Pearson’s product-moment correlation** ($r$), often called Pearson's correlation for convenience^[People sometimes just refer to 'the correlation coefficient' without stating which measure they are using. When this happens, they probably used the most common method: Pearson’s product-moment correlation.]: 
+4.  A correlation coefficient doesn't tell us whether an association is likely to be 'real' or not. We have to construct a statistical test to evaluate whether a correlation is really different from zero. Like any statistical test, this requires certain assumptions about the variables to be met.
 
-## Pearson’s product-moment correlation coefficient
+We're going to try to make sense of all this by studying one particular correlation coefficient in this chapter: **Pearson’s product-moment correlation coefficient** ($r$). Various different measures of association exist. Why focus on this one? Well... once you know how to work with one it isn't hard to use another. Pearson’s product-moment correlation coefficient is the most well-known so it's as good a place as any to start learning about correlation analysis.
 
-Pearson’s correlation, being a parametric technique, makes some reasonably strong assumptions:
 
--   The data are on an interval or ratio scale.
+## Pearson’s product-moment correlation
+
+What do we need to know about Pearson’s product-moment correlation? Let's start with the naming conventions. People often use "Pearson’s correlation coefficient" or "Pearson’s correlation" as a convenient shorthand because writing "Pearson’s product-moment correlation coefficient" all the time soon becomes tedious. If we want to be really concise we use the standard mathematical symbol to denote Pearson’s correlation coefficient---lower case '$r$'.
+
+The one thing we absolutely have to know about Pearson’s correlation coefficient is that it is **a measure of linear association between numeric variables**. This means Pearson’s correlation is appropriate when numeric variables follow a 'straight-line' relationship. That doesn't mean they have to be perfectly related, by the way. It simply means there shouldn't be any 'curviness' to their pattern of association^[If non-linear associations *are* apparent it's generally better to use a different correlation coefficient (we'll consider one alternative later in the book).]. 
+
+Finally, calculating Pearson’s correlation coefficient serves to *estimate* the strength of an association. An estimate can't tell us whether that association is likely to be 'real' or not. We need a statistical test to tackle that question. There is a standard parametric test associated with Pearson’s correlation coefficient. Unfortunately, this does not have its own name. We will call it "Pearson’s correlation test" to distinguish the test from the actual correlation coefficient. Just keep in mind these are not 'official' names.
+
+### Pearson’s correlation test
+
+The logic underpinning Pearson’s correlation test is the same as we've seen in previous tests: define a null hypothesis, calculate an appropriate test statistic, work out the null distribution of that statistic, and then use this to calculate a *p*-value from the observed coefficient. We won't work through the details other than to note a few important aspects:
+
+-   When working with Pearson’s correlation coefficient the 'no effect' null hypothesis corresponds to one of zero (linear) association between the two variables ($r=0$).
+
+-   The test statistic associated with $r$ turns out to be a *t*-statistic. This has nothing to do with comparing means---*t*-statistics pop up all the time in frequentist statistics.
+
+Like any parametric technique, Pearson’s correlation test makes a number of assumptions. These need to be met in order for the statistical test to be reliable. The assumptions are:
+
+-   Both variables are measured on an interval or ratio scale.
+
+-   The two variables are normally distributed (in the population).
 
 -   The relationship between the variables is linear.
 
--   Both variables are normally distributed in the population.
+The first two requirements should not need any further explanation at this point---we've seen them before in the context of the one- and two-sample *t*-tests. The third one obviously stems from Pearson’s correlation coefficient being a measure of linear association.
 
-The requirements are fairly simple and shouldn’t need any further explanation. It is worth making one comment though. Strictly speaking, only the linearity assumption needs to be met for Pearson’s correlation coefficient ($r$) to be a valid measure of association. As long as the relationship between two variables is linear, $r$ produces a sensible measure. However, if the first two assumptions are not met, it is not possible to construct a valid significance test via the standard 'parametric' approach. In this course we will only consider the Pearson’s correlation coefficient in situations where it is appropriate to rely on this approach to calculate *p*-values. This means the first two assumptions need to be met.
+Only the linearity assumption needs to be met for Pearson’s correlation coefficient ($r$) to be a valid measure of association. As long as the relationship between two variables is linear, $r$ produces a sensible measure of association. However, the first two assumptions need to be met for the associated statistical test to be appropriate.
 
-```{r, echo=FALSE}
-bracken <- read.csv("./data_csv/BRACKEN.CSV")
+That's enough background and abstract concepts. Let's see how to perform correlation analysis in R using Pearson’s correlation coefficient. 
+
+## Pearson’s product-moment correlation coefficient in R
+
+```{block, type='do-something'}
+Work through the example in this section. We'll be using a new data set ('BRACKEN.CSV') here so you will probably want to set up a [new project](#new-project-setup). Everything below assumes the data in 'BRACKEN.CSV' has been read into an R data frame with the name `bracken`. 
 ```
 
-We'll work through an example to learn about Pearson’s correlation. 
+```{r, include=FALSE}
+bracken <- readr::read_csv("./data_csv/BRACKEN.CSV")
+```
 
-### Pearson’s product-moment correlation coefficient in R
+The plant morph example is not suitable for correlation analysis. We need a new example to motivate a work flow for correlation tests in R. The example we're going use is about the association between ferns and heather...
 
-Bracken fern (*Pteridium aquilinum*) is a common plant in many upland areas. One concern is whether there is any association between bracken and heather (*Calluna vulgaris*) in these areas. To determine whether the two species are associated, an investigator sampled 22 plots at random and estimated the density of bracken and heather in each plot. The data are the mean *Calluna* standing crop (g m^-2^) and the number of bracken fronds per m^2^. 
+Bracken fern (*Pteridium aquilinum*) is a common plant in many upland areas. A land manager need to know whether there is any association between bracken and heather (*Calluna vulgaris*) in these areas. To determine whether the two species are associated, she sampled 22 plots at random and estimated the density of bracken and heather in each plot. The data are the mean *Calluna* standing crop (g m^-2^) and the number of bracken fronds per m^2^.
+
+### Visualising the data and checking the assumptions
 
 The data are in the file BRACKEN.CSV. Read these data into a data frame, calling it `bracken`:
+
 ```{r, eval=FALSE}
-bracken <- read.csv("BRACKEN.CSV")
+bracken <- read_csv("BRACKEN.CSV")
 ```
+
 ```{r}
 glimpse(bracken)
 ```
-There are only two variables in this data set: `Calluna` and `Bracken`. The first thing we should do is summarise the distribution of each variable:
 
-```{r bracken-calluna-dist, fig.show = 'hold', fig.width=4, fig.asp=1, out.width='40%'}
-ggplot(bracken, aes(x = Calluna)) + geom_dotplot(binwidth = 100)
-ggplot(bracken, aes(x = Bracken)) + geom_dotplot(binwidth = 2)
-```
+There are 22 observations (rows) and two variables (columns) in this data set. The two variables, `Calluna` and `Bracken`, contain the estimates of heather and bracken abundance in each plot, respectively. 
 
-It looks like we're dealing with numeric variables (ratio scale), each of which could be normally distributed. What we really want to assess is the association. A scatter plot is obviously the best way to visualise this:
+We should always explore the data thoroughly before carrying out any kind of statistical analysis. To begin, we can visualise the form of the association with a scatter plot:
 
 ```{r bracken-calluna-scatter, fig.width=3.5, fig.asp=1, fig.align='center'}
 ggplot(bracken, aes(x = Calluna, y = Bracken)) +
   geom_point()
 ```
 
-It seems clear that the two plants are negatively associated, but we should confirm this with a statistical test. We'll base this on Pearson's correlation.
+There appears to be a strong negative association between the species' abundances, and the relationship seems to follow a 'straight line' pattern. It looks like Pearson's correlation is a reasonable measure of association for these data. 
 
-**Are the assumptions met?** The scatter plot indicates that the relationship between the variables is linear, so Pearson's correlation is a valid measure of association. Is it appropriate to carry out a significance test though? The data are of the right type---both variables are measured on a ratio scale---and the two dot plots above suggest the normality assumption is reasonable.
+We will confirm this with a significance test. Is it appropriate to carry out the test? We're dealing with numeric variables measured in ratio scale (assumption 1). What about their distributions (assumptions 2)? Here's a quick visual summary:
+
+```{r bracken-calluna-dist, fig.show = 'hold', fig.width=4, fig.asp=1, out.width='40%'}
+ggplot(bracken, aes(x = Calluna)) + geom_dotplot(binwidth = 100)
+ggplot(bracken, aes(x = Bracken)) + geom_dotplot(binwidth = 2)
+```
+
+These dot plots suggest the normality assumption is met, i.e. both distributions are roughly 'bell-shaped'.
+
+That's all three assumptions met---the variables are on a ratio scale, dot the normality assumption is met, and the abundance relationship is linear. It looks like the statistical test will give reliable results.
+
+### Doing the test
 
 Let's proceed with the analysis... Carrying out a correlation analysis in R is straightforward. We use the `cor.test` function to do this:
-```{r}
+
+```{r, eval=FALSE}
 cor.test(~ Calluna + Bracken, method = "pearson", data = bracken)
 ```
-We use `method = "pearson"` to control which kind of correlation coefficient was calculated. There are three options, and although the default method is Pearson's correlation, it is a good idea to be explicit. We use R's formula system to determine which pair of variables are analysed. However, instead of placing a variable on the left hand side and a variable on the right hand side (e.g. `Calluna ~ Bracken`), both two variables appear to the right of the `~` separated by a `+` symbol. This convention makes good sense if you think about where we use correlation: a correlation analysis examines association, but it does not imply the existence of predictor and response variables. To emphasise the fact that neither variable has a special status, the `cor.test` function expects both variables to appear to the right of the `~`, with nothing on the left. 
 
-The output from the `cor.test` is very similar to that produced by the `t.test` function. We won't step through most of this output, as its meaning should be clear. The `t = -5.2706, df = 20, p-value = 3.701e-05` line is the one we care about. Here are the key points:
+We have suppressed the output for now to focus on how the function works: 
 
--   The first part says that the test statistic associated with a Pearson's correlation coefficient is a type of *t*-statistic. We're not going to spend time worrying about where this came from, other than to note that it is interpreted in exactly the same way as any other *t*-statistic. 
+-   We use the R formula syntax to determine which pair of variables are analysed. The `cor.test` function expects the two variable names to appear to the right of the `~`, separated by a `+` symbol, with nothing on the left.
+
+-   We use `method = "pearson"` to control which type of correlation coefficient was calculated. The default method is Pearson's correlation but it never hurts to be explicit which is why we wrote `method = "pearson"` anyway.
+
+-   When we use the formula syntax, as we are doing here, we have to tell the function where to find the variables. That's the `data = bracken` part.
+
+Notice `cor.test` uses a different convention from the `t.test` function for the formula argument of. `t.test` places one variable on the left and the other variable on the right hand side of the `~` (e.g. `Calluna ~ Bracken`), whereas `cor.test` requires both two variables appear to the right of the `~`, separated by a `+` symbol. This convention exists to emphasise the absence of 'directionality' in correlations, i.e. neither variable has a special status. This will probably make more sense after we talk about 'regression' in the next couple of chapters.
+
+The output from the `cor.test` is, however, very similar to that produced by the `t.test` function. Here it is:
+
+```{r, echo=FALSE}
+cor.test(~ Calluna + Bracken, method = "pearson", data = bracken)
+```
+
+We won't step through most of this as its meaning should be clear. The `t = -5.2706, df = 20, p-value = 3.701e-05` line is the one we really care about:
+
+-   The first part says that the test statistic associated with the test is a *t*-statistic, where `t = -5.27`. Remember, this has nothing to do with 'comparing means'.
 
 -   Next we see the degrees of freedom for the test. Can you see where this comes from? It is $n-2$, where $n$ is the sample size. Together, the degrees of freedom and the *t*-statistic determine the *p*-value...
 
@@ -111,4 +161,10 @@ When using Pearson's method we report the value of the correlation coefficient, 
 
 > There is a negative correlation between bracken and heather among the study plots (r=-0.76, n=22, p < 0.001).
 
-Notice that we did not say that bracken is having a negative *effect* on the heather, or _vice versa_.
+## Next steps
+
+Notice that when we summarised the result we did not say that bracken is having a negative *effect* on the heather, or _vice versa_. It might well be true that bracken has a negative effect on heather. However, our correlation analysis only characterises the association between bracken and heather^[There is a second subtler limitation to this analysis: it was conducted using data from an observational study. If we want to say something about how bracken *affects* heather then we have to conduct an experimental manipulation (e.g. removing bracken from some plots).]. If we want to make statements about one species is related to the other we need use a different kind of analysis. That's the focus of our next topic: regression.
+
+
+
+

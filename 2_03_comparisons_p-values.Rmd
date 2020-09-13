@@ -1,4 +1,4 @@
-# Statistical comparisons
+# Statistical comparisons {#statistical-comparisons}
 
 ## Making comparisons
 
@@ -21,7 +21,7 @@ As we do this we're going to introduce a new component of the frequentist machin
 Let's continue with the familiar purple and green plants example. This time, instead of working with morph frequencies, we'll consider plant size. We introduce this by stepping through the process introduced in the [learning from data](#learning-from-data) chapter:
 
 ```{r, include=FALSE}
-morph_data <- read.csv(file = "./data_csv/MORPH_DATA.CSV")
+morph_data <- readr::read_csv(file = "./data_csv/MORPH_DATA.CSV")
 
 sum_stat <- 
   morph_data %>% 
