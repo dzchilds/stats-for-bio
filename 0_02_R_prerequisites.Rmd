@@ -4,56 +4,64 @@ This chapter gives a quick overview of the prerequisite R skills needed to use t
 
 ## Starting a **learnr** tutorial
 
-*This section is being revised for the 2020-2021 session*
+You will be using learnr **learnr** tutorials to gain practical experience of what you are learning about learn each week. These interactive tutorials contain three main components:
 
-## Starting a new R script in RStudio {#new-project-setup}
+1 - **Static Text**: This provides background information for revision purposes or instructions to do something.
 
-You will need to prepare and run your own R scripts to make best use of the book. The process of setting things up to do this varies slightly depending on whether you are starting a brand new script 'from scratch' or using one of the provided template scripts.
+2 - **Code boxes**: These are interactive boxes that allow you to execute R code and see the results.
 
-The first three set up steps are the same regardless of whether you're creating a new script or using one of the provided templates:
+3 - **Quizzes**: These are multiple-choice/multiple-answer questions designed to check your understanding.
 
-**Step 1.** Decide which folder you will use to store your project files such as R scripts and CSV data files. Be sure to choose a location that is in your personal user space and not some random system location. Of course, you can create the folder you want to use if it doesn't already exist! 
+You will be given a visual 'walk-through' of how to run a **learnr** tutorial in week one of the course. The first tutorial aims to be self-describing---it provides a stand-alone introduction to how to use the tutorials.
 
-**Step 2.** Open up RStudio. Remember, RStudio and R are not the same---don't open the stand-alone version of R. RStudio provides a lot of convenient functionality that makes it easier to work with R. Basically, R runs inside RStudio, which means you don't need to launch R separately because RStudio 'talks' to it for you.
+<!-- ## Starting a new R script in RStudio {#new-project-setup} -->
 
-**Step 3.** Use RStudio to set your working directory. Do this via the RStudio menu system: **Session ▶ Set Working Directory ▶ Choose Working Directory...**. Be sure to choose a sensible location. The working directory is where R will look for data files and R scripts. 
+<!-- You will need to prepare and run your own R scripts to make best use of the book. The process of setting things up to do this varies slightly depending on whether you are starting a brand new script 'from scratch' or using one of the provided template scripts. -->
 
-Remember: 'directory' is just another name for 'folder'. You pick your working directory by selecting a folder rather than a file in the file-choose dialogue box. 
+<!-- The first three set up steps are the same regardless of whether you're creating a new script or using one of the provided templates: -->
 
-```{block, type='do-something'}
-**Using your system file explorer vs. RStudio**
+<!-- **Step 1.** Decide which folder you will use to store your project files such as R scripts and CSV data files. Be sure to choose a location that is in your personal user space and not some random system location. Of course, you can create the folder you want to use if it doesn't already exist!  -->
 
-When we say 'system file explorer' we mean the 'Windows File Explorer' on Windows or the 'Finder' on a Mac. You will need to use your system file explorer alongside RStudio to get set up. We assume you're comfortable enough with the system file explorer that you can to use it move files around and create new folders. We won't provide detailed guidance about how to do this kind of thing. In contrast, when we describe an action that takes place in RStudio we will tell you exactly which menu sequence to use.
-```
+<!-- **Step 2.** Open up RStudio. Remember, RStudio and R are not the same---don't open the stand-alone version of R. RStudio provides a lot of convenient functionality that makes it easier to work with R. Basically, R runs inside RStudio, which means you don't need to launch R separately because RStudio 'talks' to it for you. -->
 
-What you do next will depend on whether you need to work with a new script or one of the templates.
+<!-- **Step 3.** Use RStudio to set your working directory. Do this via the RStudio menu system: **Session ▶ Set Working Directory ▶ Choose Working Directory...**. Be sure to choose a sensible location. The working directory is where R will look for data files and R scripts.  -->
 
-##### Starting a brand new, empty R script {-}
+<!-- Remember: 'directory' is just another name for 'folder'. You pick your working directory by selecting a folder rather than a file in the file-choose dialogue box.  -->
 
-**Step 4.** Open up a new R script using the RStudio menu system: **File ▶ New File ▶ R Script**. This will create an empty, unnamed R script. Don't create any other kind of file. This will not have been save at this point!
+<!-- ```{block, type='do-something'} -->
+<!-- **Using your system file explorer vs. RStudio** -->
 
-**Step 5.** Add any important 'set up' chunks of code (and comments!) before doing anything else. There are a few of things that regularly appear at the start of a script, e.g. we often start by loading packages with `library`:
+<!-- When we say 'system file explorer' we mean the 'Windows File Explorer' on Windows or the 'Finder' on a Mac. You will need to use your system file explorer alongside RStudio to get set up. We assume you're comfortable enough with the system file explorer that you can to use it move files around and create new folders. We won't provide detailed guidance about how to do this kind of thing. In contrast, when we describe an action that takes place in RStudio we will tell you exactly which menu sequence to use. -->
+<!-- ``` -->
 
-```{r, eval=FALSE}
-# load and attach the packages we want to use ----
+<!-- What you do next will depend on whether you need to work with a new script or one of the templates. -->
 
-# 1. 'dplyr' for data manipulation
-library(dplyr)
-# 2. 'ggplot2' for plotting
-library(ggplot2)
-```
+<!-- ##### Starting a brand new, empty R script {-} -->
 
-**Step 6.** Now run the preamble section of the script, i.e. highlight everything and hit **Ctrl+Enter**. If the `library` commands produced errors the relevant package probably aren't installed yet. Install the package (see below) and try rerunning the script.
+<!-- **Step 4.** Open up a new R script using the RStudio menu system: **File ▶ New File ▶ R Script**. This will create an empty, unnamed R script. Don't create any other kind of file. This will not have been save at this point! -->
 
-**Step 7.** Look at the label of the tab the script lives in. This will be called something like *Untitled1* and the label text will be red. This is RStudio signalling that the file has not yet been saved. So... after the preamble part of the script is working, save the script inside the folder of your working directory.
+<!-- **Step 5.** Add any important 'set up' chunks of code (and comments!) before doing anything else. There are a few of things that regularly appear at the start of a script, e.g. we often start by loading packages with `library`: -->
 
-That's it. Now you're ready to start developing the new script.
+<!-- ```{r, eval=FALSE} -->
+<!-- # load and attach the packages we want to use ---- -->
 
-##### Using a template script {-}
+<!-- # 1. 'dplyr' for data manipulation -->
+<!-- library(dplyr) -->
+<!-- # 2. 'ggplot2' for plotting -->
+<!-- library(ggplot2) -->
+<!-- ``` -->
 
-**Step 4.**  Use your the system file explorer to copy the template script to from wherever it is stored to the folder you've set as the working directory. Alternatively, you could put it inside a sub folder of the working directory. It doesn't matter as long as you keep it somewhere inside the working directory as that is where you project 'lives'.
+<!-- **Step 6.** Now run the preamble section of the script, i.e. highlight everything and hit **Ctrl+Enter**. If the `library` commands produced errors the relevant package probably aren't installed yet. Install the package (see below) and try rerunning the script. -->
 
-**Step 5.** The template scripts all contain, at a minimum, at least some set up R code at the top. Typically this will load packages using one or more  `library` statements. Run this section of the script, i.e. highlight everything and hit **Ctrl+Enter**. If the `library` commands produced errors the relevant package probably aren't installed yet. Install the package (see below) and try rerunning the script.
+<!-- **Step 7.** Look at the label of the tab the script lives in. This will be called something like *Untitled1* and the label text will be red. This is RStudio signalling that the file has not yet been saved. So... after the preamble part of the script is working, save the script inside the folder of your working directory. -->
+
+<!-- That's it. Now you're ready to start developing the new script. -->
+
+<!-- ##### Using a template script {-} -->
+
+<!-- **Step 4.**  Use your the system file explorer to copy the template script to from wherever it is stored to the folder you've set as the working directory. Alternatively, you could put it inside a sub folder of the working directory. It doesn't matter as long as you keep it somewhere inside the working directory as that is where you project 'lives'. -->
+
+<!-- **Step 5.** The template scripts all contain, at a minimum, at least some set up R code at the top. Typically this will load packages using one or more  `library` statements. Run this section of the script, i.e. highlight everything and hit **Ctrl+Enter**. If the `library` commands produced errors the relevant package probably aren't installed yet. Install the package (see below) and try rerunning the script. -->
 
 ## Using packages
 

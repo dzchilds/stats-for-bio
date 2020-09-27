@@ -2,7 +2,9 @@
 
 <!-- The *t*-tests we encountered in the previous two chapters were concerned with how to compare means of numeric variables. One way to think about that two-sample *t*-test is that it evaluates whether or not the variable changes among two groups or experimental conditions. Membership of the different groups/conditions can be encoded by a categorical variable. We saw that R uses a 'formula' involving numeric (e.g. `num_var`) and categorical (e.g. `cat_var`) variables to set up the test (e.g. `num_var ~ cat_var`). The formula reflects the fact that we can conceptualise the *t*-tests as considering a *relationship* between a numeric and categorical variable. -->
 
-We're going to move on to consider 'correlation' in this chapter. A correlation is a statistical measure of an **association** between two variables. An association is any relationship between the variables that makes them dependent in some way: knowing the value of one variable gives you information about the possible values of the other. The terms 'association' and 'correlation' are often used interchangeably but strictly speaking correlation has a narrower definition. A correlation quantifies, via a measure called a **correlation coefficient**, the degree to which an association tends to a certain pattern. For example, the correlation coefficient studied below---Pearson’s correlation coefficient---measures the degree to which two variables tend toward a straight line relationship.
+We're going to consider 'correlation' in this chapter. A correlation is a statistical measure of an **association** between two variables. An association is any relationship between the variables that makes them dependent in some way: knowing the value of one variable gives you information about the possible values of the other. 
+
+The terms 'association' and 'correlation' are often used interchangeably but strictly speaking correlation has a narrower definition. A correlation quantifies, via a measure called a **correlation coefficient**, the degree to which an association tends to a certain pattern. For example, the correlation coefficient studied below---Pearson’s correlation coefficient---measures the degree to which two variables tend toward a straight line relationship.
 
 ```{r, echo=FALSE}
 set.seed(25081978)
@@ -25,7 +27,7 @@ cor_eg <- mutate(cor_eg,
 
 There are different methods for quantifying correlation but these all share a number of properties:
 
-1.  If there is no relationship between the variables the correlation coefficient will be zero. The closer to 0 the value, the weaker the relationship. A perfect correlation will be either -1 or +1, depending on the direction. This is illustrated in the figure below.
+1.  If there is no relationship between the variables the correlation coefficient will be zero. The closer to 0 the value, the weaker the relationship. A perfect correlation will be either -1 or +1, depending on the direction. This is illustrated in the figure below:
 
 ```{r cor-strength-eg, echo=FALSE, out.width='80%', fig.asp=0.3, fig.align='center', warning=FALSE}
 ggplot(cor_eg, aes(x = x, y = y)) + 
@@ -38,10 +40,9 @@ ggplot(cor_eg, aes(x = x, y = y)) +
 
 3.  Correlation coefficients do not describe 'directional' or 'casual' relationships---i.e. we can't use correlations to make predictions about one variable based on knowledge of another or make statements about the effect of one variable on the other.
 
-4.  A correlation coefficient doesn't tell us whether an association is likely to be 'real' or not. We have to construct a statistical test to evaluate whether a correlation is really different from zero. Like any statistical test, this requires certain assumptions about the variables to be met.
+4.  A correlation coefficient doesn't tell us whether an association is likely to be 'real' or not. We have to use a statistical significance test to evaluate whether a correlation may be different from zero. Like any statistical test, this requires certain assumptions about the variables to be met.
 
-We're going to try to make sense of all this by studying one particular correlation coefficient in this chapter: **Pearson’s product-moment correlation coefficient** ($r$). Various different measures of association exist. Why focus on this one? Well... once you know how to work with one it isn't hard to use another. Pearson’s product-moment correlation coefficient is the most well-known so it's as good a place as any to start learning about correlation analysis.
-
+We're going to make sense of all this by studying one particular correlation coefficient in this chapter: **Pearson’s product-moment correlation coefficient** ($r$). Various different measures of association exist so why focus on this one? Well... once you know how to work with one type of correlation in R it isn't hard to use another. Pearson’s product-moment correlation coefficient is the most well-known, which means it is as good a place as any to start learning about correlation analysis.
 
 ## Pearson’s product-moment correlation
 
@@ -76,7 +77,7 @@ That's enough background and abstract concepts. Let's see how to perform correla
 ## Pearson’s product-moment correlation coefficient in R
 
 ```{block, type='do-something'}
-Work through the example in this section. We'll be using a new data set ('BRACKEN.CSV') here so you will probably want to set up a [new project](#new-project-setup). Everything below assumes the data in 'BRACKEN.CSV' has been read into an R data frame with the name `bracken`. 
+Work through the example in this section. We'll be using a new data set 'BRACKEN.CSV' here so you shuold start a new script. Everything below assumes the data in 'BRACKEN.CSV' has been read into an R data frame with the name `bracken`. 
 ```
 
 ```{r, include=FALSE}

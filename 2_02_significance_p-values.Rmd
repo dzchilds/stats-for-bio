@@ -67,7 +67,7 @@ The best way to understand what follows is to actually work through the example.
 
 #### Set up and read the data {-}
 
-Assume we had sampled 250 individuals from the new plant population. A data set representing this situation is stored in the Comma Separated Value (CSV) file called 'MORPH_DATA.CSV'. Set up a [new project](#new-project-setup) and download the data file, remembering to place it in the working directory. Then run through the following steps in your script:
+Assume we had sampled 250 individuals from the new plant population. A data set representing this situation is stored in the Comma Separated Value (CSV) file called 'MORPH_DATA.CSV'. Using the template project for the book examples, run through the following steps in your script:
 
 -   Read the data into an R data frame, assigning it the name `morph_data`.
 

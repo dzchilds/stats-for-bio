@@ -91,7 +91,7 @@ purple_morphs <-
 ```
 
 ```{block, type='do-something'}
-You should work through the example in this section if you have time. Carry on developing the script you began in the last chapter, or if you prefer, set up a [new project](#new-project-setup). Either way, make sure you're read the data in MORPH_DATA.CSV into an R data frame called `morph_data`.
+You should work through the example in this section if you have time. Carry on developing the script you began in the last chapter, or if you prefer, set up a script. Everything below assumes you have read the data in MORPH_DATA.CSV into an R data frame called `morph_data`.
 ```
 
 We'll use the plant morph example again to learn how to carry out a one-sample *t*-test in R. Remember, the data were 'collected' to 1) compare the frequency of purple morphs to a prediction and 2) compare the mean dry weight of purple and green morphs. Neither of these questions can be tackled with a one-sample *t*-test. 

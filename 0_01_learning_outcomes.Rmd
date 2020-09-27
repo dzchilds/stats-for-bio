@@ -28,7 +28,6 @@
 
 _You are not expected to be able to explain or use the the bootstrap or permutation test---this were introduced to help you learn the principles listed above._
 
-
 ## Simple parametric statistics 
 
 -   Understand that a one-sample *t*-test is used to assess whether a population mean is different from a particular reference value (often 0).

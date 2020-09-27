@@ -42,9 +42,7 @@ sum_stat <-
 OK, now we're ready to tackle the remaining steps in the 'learning from data' process: estimating the population parameter(s), estimate uncertainty and answer the question. We work through each of these steps in detail next. 
 
 ```{block, type='do-something'}
-Once again, best way to understand what follows is to actually work through the example. And once again, you are strongly encouraged to do this...
-
-You can carry on developing the script you began in the last chapter or set up a completely [new project](#new-project-setup). Either way, for the code below to work you will need to have downloaded the 'MORPH_DATA.CSV' data file and read this into R, assigning it the name `morph_data`. Remember to check the data set again with `str` or `glimpse`.
+Once again, best way to understand what follows is to actually work through the example. And once again, you are strongly encouraged to do this... You can carry on developing the script you began in the last chapter or start a new one in the template project for the book examples. Either way, for the code below to work you will need to have downloaded the 'MORPH_DATA.CSV' data file and read this into R, assigning it the name `morph_data`.
 ```
 
 ### Examine the data
