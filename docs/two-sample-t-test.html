@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-09-05" />
+<meta name="date" content="2020-09-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="one-sample-t-tests.html"/>
-<link rel="next" href="correlation.html"/>
+<link rel="next" href="a-correlation-test.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -167,7 +167,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.2.4" data-path="index.html"><a href="index.html#methods"><i class="fa fa-check"></i><b>1.2.4</b> Methods</a></li>
 <li class="chapter" data-level="1.2.5" data-path="index.html"><a href="index.html#what-do-you-need-to-learn"><i class="fa fa-check"></i><b>1.2.5</b> What do you need to learn?</a></li>
 <li class="chapter" data-level="1.2.6" data-path="index.html"><a href="index.html#what-is-required-of-you"><i class="fa fa-check"></i><b>1.2.6</b> What is required of you?</a></li>
-<li class="chapter" data-level="1.2.7" data-path="index.html"><a href="index.html#assessment"><i class="fa fa-check"></i><b>1.2.7</b> Assessment</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#how-to-use-the-teaching-material"><i class="fa fa-check"></i><b>1.3</b> How to use the teaching material</a><ul>
 <li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#printed-material"><i class="fa fa-check"></i><b>1.3.1</b> The online course book</a></li>
@@ -190,9 +189,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>3</b> Programming prerequisites</a><ul>
 <li class="chapter" data-level="3.1" data-path="prerequisites.html"><a href="prerequisites.html#starting-a-learnr-tutorial"><i class="fa fa-check"></i><b>3.1</b> Starting a <strong>learnr</strong> tutorial</a></li>
-<li class="chapter" data-level="3.2" data-path="prerequisites.html"><a href="prerequisites.html#new-project-setup"><i class="fa fa-check"></i><b>3.2</b> Starting a new R script in RStudio</a></li>
-<li class="chapter" data-level="3.3" data-path="prerequisites.html"><a href="prerequisites.html#using-packages"><i class="fa fa-check"></i><b>3.3</b> Using packages</a></li>
-<li class="chapter" data-level="3.4" data-path="prerequisites.html"><a href="prerequisites.html#reading-data-into-r"><i class="fa fa-check"></i><b>3.4</b> Reading data into R</a></li>
+<li class="chapter" data-level="3.2" data-path="prerequisites.html"><a href="prerequisites.html#using-packages"><i class="fa fa-check"></i><b>3.2</b> Using packages</a></li>
+<li class="chapter" data-level="3.3" data-path="prerequisites.html"><a href="prerequisites.html#reading-data-into-r"><i class="fa fa-check"></i><b>3.3</b> Reading data into R</a></li>
 </ul></li>
 <li class="part"><span><b>I Collecting and Using Data</b></span></li>
 <li class="chapter" data-level="4" data-path="scientific-process.html"><a href="scientific-process.html"><i class="fa fa-check"></i><b>4</b> The scientific process</a><ul>
@@ -263,6 +261,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html"><i class="fa fa-check"></i><b>10</b> Hypotheses and <em>p</em>-values</a><ul>
 <li class="chapter" data-level="10.1" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#a-few-words-about-the-null-hypothesis"><i class="fa fa-check"></i><b>10.1</b> A few words about the null hypothesis</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#hypotheses-and-null-hypotheses"><i class="fa fa-check"></i><b>10.1.1</b> Hypotheses and null hypotheses</a></li>
+<li class="chapter" data-level="10.1.2" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#report-the-null-hypothesis"><i class="fa fa-check"></i><b>10.1.2</b> Report the null hypothesis?</a></li>
 </ul></li>
 <li class="chapter" data-level="10.2" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#interpreting-and-reporting-p-values"><i class="fa fa-check"></i><b>10.2</b> Interpreting and reporting <em>p</em>-values</a><ul>
 <li class="chapter" data-level="10.2.1" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#careful-with-those-p-values"><i class="fa fa-check"></i><b>10.2.1</b> Careful with those <em>p</em>-values</a></li>
@@ -283,6 +282,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.1" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#when-do-we-use-one-sample-t-test"><i class="fa fa-check"></i><b>12.1</b> When do we use one-sample <em>t</em>-test?</a></li>
 <li class="chapter" data-level="12.2" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#how-does-the-one-sample-t-test-work"><i class="fa fa-check"></i><b>12.2</b> How does the one-sample <em>t</em>-test work?</a><ul>
 <li class="chapter" data-level="12.2.1" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#assumptions-of-the-one-sample-t-test"><i class="fa fa-check"></i><b>12.2.1</b> Assumptions of the one-sample <em>t</em>-test</a></li>
+<li class="chapter" data-level="12.2.2" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#evaluating-the-assumptions"><i class="fa fa-check"></i><b>12.2.2</b> Evaluating the assumptions</a></li>
 </ul></li>
 <li class="chapter" data-level="12.3" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#carrying-out-a-one-sample-t-test-in-r"><i class="fa fa-check"></i><b>12.3</b> Carrying out a one-sample <em>t</em>-test in R</a><ul>
 <li class="chapter" data-level="12.3.1" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#visualising-the-data-and-checking-the-assumptions"><i class="fa fa-check"></i><b>12.3.1</b> Visualising the data and checking the assumptions</a></li>
@@ -294,7 +294,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.1" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#when-do-we-use-a-two-sample-t-test"><i class="fa fa-check"></i><b>13.1</b> When do we use a two-sample <em>t</em>-test?</a></li>
 <li class="chapter" data-level="13.2" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#how-does-the-two-sample-t-test-work"><i class="fa fa-check"></i><b>13.2</b> How does the two-sample <em>t</em>-test work?</a><ul>
 <li class="chapter" data-level="13.2.1" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#assumptions-of-the-two-sample-t-test"><i class="fa fa-check"></i><b>13.2.1</b> Assumptions of the two-sample <em>t</em>-test</a></li>
-<li class="chapter" data-level="13.2.2" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#what-about-the-equal-variance-assumption"><i class="fa fa-check"></i><b>13.2.2</b> What about the <em>equal variance</em> assumption?</a></li>
+<li class="chapter" data-level="13.2.2" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#evaluating-the-assumptions"><i class="fa fa-check"></i><b>13.2.2</b> Evaluating the assumptions</a></li>
+<li class="chapter" data-level="13.2.3" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#what-about-the-equal-variance-assumption"><i class="fa fa-check"></i><b>13.2.3</b> What about the <em>equal variance</em> assumption?</a></li>
 </ul></li>
 <li class="chapter" data-level="13.3" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#carrying-out-a-two-sample-t-test-in-r"><i class="fa fa-check"></i><b>13.3</b> Carrying out a two-sample <em>t</em>-test in R</a><ul>
 <li class="chapter" data-level="13.3.1" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#visualising-the-data-and-checking-the-assumptions"><i class="fa fa-check"></i><b>13.3.1</b> Visualising the data and checking the assumptions</a></li>
@@ -302,12 +303,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.3.3" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#summarising-the-result"><i class="fa fa-check"></i><b>13.3.3</b> Summarising the result</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>14</b> Correlation</a><ul>
-<li class="chapter" data-level="14.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>14.1</b> Introduction</a></li>
-<li class="chapter" data-level="14.2" data-path="correlation.html"><a href="correlation.html#pearsons-product-moment-correlation-coefficient"><i class="fa fa-check"></i><b>14.2</b> Pearson’s product-moment correlation coefficient</a><ul>
-<li class="chapter" data-level="14.2.1" data-path="correlation.html"><a href="correlation.html#pearsons-product-moment-correlation-coefficient-in-r"><i class="fa fa-check"></i><b>14.2.1</b> Pearson’s product-moment correlation coefficient in R</a></li>
-<li class="chapter" data-level="14.2.2" data-path="correlation.html"><a href="correlation.html#reporting-the-result"><i class="fa fa-check"></i><b>14.2.2</b> Reporting the result</a></li>
+<li class="chapter" data-level="14" data-path="a-correlation-test.html"><a href="a-correlation-test.html"><i class="fa fa-check"></i><b>14</b> A correlation test</a><ul>
+<li class="chapter" data-level="14.1" data-path="a-correlation-test.html"><a href="a-correlation-test.html#pearsons-product-moment-correlation"><i class="fa fa-check"></i><b>14.1</b> Pearson’s product-moment correlation</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="a-correlation-test.html"><a href="a-correlation-test.html#pearsons-correlation-test"><i class="fa fa-check"></i><b>14.1.1</b> Pearson’s correlation test</a></li>
 </ul></li>
+<li class="chapter" data-level="14.2" data-path="a-correlation-test.html"><a href="a-correlation-test.html#pearsons-product-moment-correlation-coefficient-in-r"><i class="fa fa-check"></i><b>14.2</b> Pearson’s product-moment correlation coefficient in R</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#visualising-the-data-and-checking-the-assumptions"><i class="fa fa-check"></i><b>14.2.1</b> Visualising the data and checking the assumptions</a></li>
+<li class="chapter" data-level="14.2.2" data-path="a-correlation-test.html"><a href="a-correlation-test.html#doing-the-test"><i class="fa fa-check"></i><b>14.2.2</b> Doing the test</a></li>
+<li class="chapter" data-level="14.2.3" data-path="a-correlation-test.html"><a href="a-correlation-test.html#reporting-the-result"><i class="fa fa-check"></i><b>14.2.3</b> Reporting the result</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="a-correlation-test.html"><a href="a-correlation-test.html#next-steps"><i class="fa fa-check"></i><b>14.3</b> Next steps</a></li>
 </ul></li>
 <li class="part"><span><b>IV Regression and ANOVA</b></span></li>
 <li class="chapter" data-level="15" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html"><i class="fa fa-check"></i><b>15</b> Relationships and regression</a><ul>
@@ -406,25 +411,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="22.6" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#significant-anova-but-no-differences-in-a-tukey-test"><i class="fa fa-check"></i><b>22.6</b> Significant ANOVA but no differences in a Tukey test?</a></li>
 </ul></li>
 <li class="part"><span><b>VI Experimental Design</b></span></li>
-<li class="chapter" data-level="23" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html"><i class="fa fa-check"></i><b>23</b> Principles of experimental design</a><ul>
+<li class="chapter" data-level="23" data-path="expected-learning.html"><a href="expected-learning.html#experimental-design"><i class="fa fa-check"></i><b>23</b> Principles of experimental design</a><ul>
 <li class="chapter" data-level="23.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>23.1</b> Introduction</a></li>
-<li class="chapter" data-level="23.2" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#jargon-busting"><i class="fa fa-check"></i><b>23.2</b> Jargon busting</a></li>
-<li class="chapter" data-level="23.3" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#replication"><i class="fa fa-check"></i><b>23.3</b> Replication</a><ul>
-<li class="chapter" data-level="23.3.1" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#independence"><i class="fa fa-check"></i><b>23.3.1</b> Independence and pseudoreplication</a></li>
+<li class="chapter" data-level="23.2" data-path="experimental-design.html"><a href="experimental-design.html"><i class="fa fa-check"></i><b>23.2</b> Jargon busting</a></li>
+<li class="chapter" data-level="23.3" data-path="experimental-design.html"><a href="experimental-design.html#replication"><i class="fa fa-check"></i><b>23.3</b> Replication</a><ul>
+<li class="chapter" data-level="23.3.1" data-path="experimental-design.html"><a href="experimental-design.html#independence"><i class="fa fa-check"></i><b>23.3.1</b> Independence and pseudoreplication</a></li>
 </ul></li>
-<li class="chapter" data-level="23.4" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#controls"><i class="fa fa-check"></i><b>23.4</b> Controls</a></li>
-<li class="chapter" data-level="23.5" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#confounded-and-noisy-experiments"><i class="fa fa-check"></i><b>23.5</b> Confounded and noisy experiments</a><ul>
-<li class="chapter" data-level="23.5.1" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#confounding"><i class="fa fa-check"></i><b>23.5.1</b> Confounding</a></li>
-<li class="chapter" data-level="23.5.2" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#noise"><i class="fa fa-check"></i><b>23.5.2</b> Noise</a></li>
+<li class="chapter" data-level="23.4" data-path="experimental-design.html"><a href="experimental-design.html#controls"><i class="fa fa-check"></i><b>23.4</b> Controls</a></li>
+<li class="chapter" data-level="23.5" data-path="experimental-design.html"><a href="experimental-design.html#confounded-and-noisy-experiments"><i class="fa fa-check"></i><b>23.5</b> Confounded and noisy experiments</a><ul>
+<li class="chapter" data-level="23.5.1" data-path="experimental-design.html"><a href="experimental-design.html#confounding"><i class="fa fa-check"></i><b>23.5.1</b> Confounding</a></li>
+<li class="chapter" data-level="23.5.2" data-path="experimental-design.html"><a href="experimental-design.html#noise"><i class="fa fa-check"></i><b>23.5.2</b> Noise</a></li>
 </ul></li>
-<li class="chapter" data-level="23.6" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#dealing-with-confounding-effects-and-noise"><i class="fa fa-check"></i><b>23.6</b> Dealing with confounding effects and noise</a><ul>
-<li class="chapter" data-level="23.6.1" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#randomisation"><i class="fa fa-check"></i><b>23.6.1</b> Randomisation</a></li>
-<li class="chapter" data-level="23.6.2" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#blocking"><i class="fa fa-check"></i><b>23.6.2</b> Blocking</a></li>
-<li class="chapter" data-level="23.6.3" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#experimental-control"><i class="fa fa-check"></i><b>23.6.3</b> Experimental control</a></li>
-<li class="chapter" data-level="23.6.4" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#additional-treatments-designing-in-unwanted-variation"><i class="fa fa-check"></i><b>23.6.4</b> Additional treatments: ‘designing in’ unwanted variation</a></li>
+<li class="chapter" data-level="23.6" data-path="experimental-design.html"><a href="experimental-design.html#dealing-with-confounding-effects-and-noise"><i class="fa fa-check"></i><b>23.6</b> Dealing with confounding effects and noise</a><ul>
+<li class="chapter" data-level="23.6.1" data-path="experimental-design.html"><a href="experimental-design.html#randomisation"><i class="fa fa-check"></i><b>23.6.1</b> Randomisation</a></li>
+<li class="chapter" data-level="23.6.2" data-path="experimental-design.html"><a href="experimental-design.html#blocking"><i class="fa fa-check"></i><b>23.6.2</b> Blocking</a></li>
+<li class="chapter" data-level="23.6.3" data-path="experimental-design.html"><a href="experimental-design.html#experimental-control"><i class="fa fa-check"></i><b>23.6.3</b> Experimental control</a></li>
+<li class="chapter" data-level="23.6.4" data-path="experimental-design.html"><a href="experimental-design.html#additional-treatments-designing-in-unwanted-variation"><i class="fa fa-check"></i><b>23.6.4</b> Additional treatments: ‘designing in’ unwanted variation</a></li>
 </ul></li>
-<li class="chapter" data-level="23.7" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#ethics-and-practicality"><i class="fa fa-check"></i><b>23.7</b> Ethics and practicality</a></li>
-<li class="chapter" data-level="23.8" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#further-reading"><i class="fa fa-check"></i><b>23.8</b> Further reading</a></li>
+<li class="chapter" data-level="23.7" data-path="experimental-design.html"><a href="experimental-design.html#ethics-and-practicality"><i class="fa fa-check"></i><b>23.7</b> Ethics and practicality</a></li>
+<li class="chapter" data-level="23.8" data-path="experimental-design.html"><a href="experimental-design.html#further-reading"><i class="fa fa-check"></i><b>23.8</b> Further reading</a></li>
 </ul></li>
 <li class="chapter" data-level="24" data-path="paired-sample-t-test.html"><a href="paired-sample-t-test.html"><i class="fa fa-check"></i><b>24</b> Paired-sample t-test</a><ul>
 <li class="chapter" data-level="24.1" data-path="paired-sample-t-test.html"><a href="paired-sample-t-test.html#when-do-we-use-a-paired-sample-t-test"><i class="fa fa-check"></i><b>24.1</b> When do we use a paired-sample <em>t</em>-test?</a></li>
@@ -578,7 +583,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="B.3" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#presenting-species-names"><i class="fa fa-check"></i><b>B.3</b> Presenting species names</a><ul>
 <li class="chapter" data-level="B.3.1" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#a-last-piece-of-advice"><i class="fa fa-check"></i><b>B.3.1</b> A last piece of advice…</a></li>
 </ul></li>
-<li class="chapter" data-level="B.4" data-path="principles-of-experimental-design.html"><a href="principles-of-experimental-design.html#further-reading"><i class="fa fa-check"></i><b>B.4</b> Further reading</a></li>
+<li class="chapter" data-level="B.4" data-path="experimental-design.html"><a href="experimental-design.html#further-reading"><i class="fa fa-check"></i><b>B.4</b> Further reading</a></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="one-two-tailed-tests.html"><a href="one-two-tailed-tests.html"><i class="fa fa-check"></i><b>C</b> One-tailed vs. two-tailed tests</a><ul>
 <li class="chapter" data-level="C.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>C.1</b> Introduction</a></li>
@@ -612,104 +617,119 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 13</span> Two-sample <em>t</em>-test</h1>
 <div id="when-do-we-use-a-two-sample-t-test" class="section level2">
 <h2><span class="header-section-number">13.1</span> When do we use a two-sample <em>t</em>-test?</h2>
-<p>The two-sample <em>t</em>-test is a parametric version of the permutation procedure we studied in the [Comparing populations] chapter. The test is used to compare the means of a numeric variable sampled from two independent populations. The aim of a two-sample <em>t</em>-test is to evaluate whether or not this mean is different in the two populations. Here are two examples:</p>
+<p>The two-sample <em>t</em>-test is a parametric version of the permutation procedure we studied in the <a href="statistical-comparisons.html#statistical-comparisons">statistical comparisons</a> chapter. The test can be used to compare the means of a numeric variable sampled from two independent populations. The aim of a two-sample <em>t</em>-test is to evaluate whether or not the mean is different in the two populations. Here are two examples:</p>
 <ul>
 <li><p>We’re studying how the dietary habits of Scandinavian eagle-owls vary among seasons. We suspect that the dietary value of a prey item is different in the winter and summer. To evaluate this prediction, we measure the size of Norway rat skulls in the pellets of eagle-owls in summer and winter, and then compare the mean size of rat skulls in each season using a two-sample <em>t</em>-test.</p></li>
-<li><p>We’re interested in the costs of anti-predator behaviour in <em>Daphnia</em> spp. We conducted an experiment where we added predator kairomones—chemicals that signal the presence of a predator—to jars containing individual Daphnia. There is a second control group where no kairomone was added. The change in body size of individuals was measured after one week. We could use a two-sample <em>t</em>-test to compare the mean growth rate in the control and treatment groups.</p></li>
+<li><p>We’re interested in the costs of anti-predator behaviour in <em>Daphnia</em> spp. We conducted an experiment where we added predator kairomones—chemicals that signal the presence of a predator—to jars containing individual <em>Daphnia</em>. There is a second control group where no kairomone was added. The change in body size of individuals was measured after one week. We could use a two-sample <em>t</em>-test to compare the mean growth rate in the control and treatment groups.</p></li>
 </ul>
 </div>
 <div id="how-does-the-two-sample-t-test-work" class="section level2">
 <h2><span class="header-section-number">13.2</span> How does the two-sample <em>t</em>-test work?</h2>
-<p>Imagine that we have taken a sample of a variable (called ‘X’) from two populations, labelled ‘A’ and ‘B’. Here’s an example of how these data might look if we took a sample of 50 items from each population:</p>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<p>Imagine we have taken a sample of a variable from two populations, labelled ‘A’ and ‘B’. We’ll call the variable ‘X’ again. Here’s an example of how these kinds of data might look if we had a sample of 50 items from each population:</p>
 <div class="figure" style="text-align: center"><span id="fig:two-t-eg-samps"></span>
 <img src="stats-for-bio_files/figure-html/two-t-eg-samps-1.png" alt="Example of data used in a two-sample t-test" width="80%" />
 <p class="caption">
 Figure 13.1: Example of data used in a two-sample t-test
 </p>
 </div>
-<p>The two distributions overlap quite a lot. However, this particular observation isn’t all that relevant here. We’re not interested in the raw values of ‘X’ in the two samples. It’s the difference between the means that matters. The red lines are the mean of each sample—sample B obviously has a larger mean than sample A. The question is, how do we decide whether this difference is ‘real’, or purely a result of sampling variation?</p>
-<p>Using a frequentist approach, we tackle this question by first setting up the appropriate null hypothesis. The null hypothesis here is that there is no difference between the population means. We then have to work out what the ‘null distribution’ looks like. Here, this is sampling distribution of the differences between sample means under the null hypothesis. Once we have the null distribution worked out we can calculate a <em>p</em>-value.</p>
-<p>How is this different from the permutation test? The logic is virtually identical. The one important difference is that we have to make an extra assumption to use the two-sample <em>t</em>-test. We have to assume the variable is normally distributed in each population. If this assumption is valid, then the null distribution will have a known form, which is closely related to the <em>t</em>-distribution.</p>
-<p>We only need to use a few pieces of information to carry out a two-sample <em>t</em>-test. These are basically the same quantities needed to construct the one-sample <em>t</em>-test, except now there are two samples involved. We need the sample sizes of A and B, the sample variances of A and B, and the estimated difference between the sample means. That’s it. No permutations of labels is needed.</p>
-<p>How does it actually work? The two-sample <em>t</em>-test is carried out as follows:</p>
-<p><strong>Step 1.</strong> Calculate the two sample means, then calculate the difference between these estimates. This estimate is our ‘best guess’ of the true difference between means. As with the one-sample test, its role in the two-sample <em>t</em>-test is to allow us to construct a test statistic.</p>
+<p>The first thing to notice is the two distributions overlap quite a lot. However, this observation isn’t necessarily all that significant. Why? Because we’re not interested in the raw values of ‘X’ in the two samples. It’s the <em>difference between the means</em> that our test is going to focus on.</p>
+<p>The red lines show the mean of each sample. Sample B obviously has a larger mean than sample A. The question is, how do we decide whether this difference is ‘real’, or purely a result of sampling variation?</p>
+<p>Using a frequentist approach, we tackle this question by first setting up the appropriate null hypothesis. The null hypothesis here is one of no difference between the population means (they are equal). We then have to work out what the null distribution looks like. This is sampling distribution of the difference between sample means under the null hypothesis. Once we have the null distribution worked out we can calculate a <em>p</em>-value.</p>
+<p>How is this different from the permutation test? The logic is virtually identical. The one important difference is that we have to make an extra assumption to use the two-sample <em>t</em>-test. We assume the variable is normally distributed in each population. If this assumption is valid, then the null distribution will have a known form—a <em>t</em>-distribution.</p>
+<p>We only need a few pieces of information to carry out a two-sample <em>t</em>-test. These are basically the same quantities needed to construct the one-sample <em>t</em>-test, except now there are two samples involved. We need the sample sizes of groups A and B, the sample variances and the estimated difference between the sample means of X in A and B.</p>
+<p>How does two-sample <em>t</em>-test actually work? It is carried out as follows:</p>
+<p><strong>Step 1.</strong> Calculate the two sample means then calculate the difference between these estimates. This estimate is our ‘best guess’ of the true difference between means. As with the one-sample test, its role in the two-sample <em>t</em>-test is to allow us to construct a test statistic.</p>
 <p><strong>Step 2.</strong> Estimate the standard error of <em>the difference between the sample means</em> under the null hypothesis of no difference. This gives us an idea of how much sampling variation we expect to observe in the estimated difference, if there were actually no difference between the means.</p>
-<p>There are a number of different options for estimating this standard error. Each one makes a different assumption about the variability of the two populations. Which ever choice we make, the calculation always boils down to a simple formula involving the sample sizes and sample variances. The standard error gets smaller when the sample sizes grow, or when the sample variances shrink. That’s the important point really.</p>
+<p>There are a number of different options for estimating this standard error. Each one makes a different assumption about the variability of the two populations. Which ever choice we make the calculation always boils down to a simple formula involving the sample sizes and sample variances. The standard error gets smaller when the sample sizes grow, or when the sample variances shrink. That’s the only important point, really.</p>
 <p><strong>Step 3.</strong> Once we have estimated the difference between sample means and its standard error, we can calculate the test statistic. This is a type of <em>t</em>-statistic, which we calculate by dividing the difference between sample means (from step 1) by the estimated standard error of the difference (from step 2):</p>
 <p><span class="math display">\[\text{t} = \frac{\text{Difference Between Sample Means}}{\text{Standard Error of the Difference}}\]</span></p>
 <p>This <em>t</em>-statistic is guaranteed to follow a <em>t</em>-distribution if the normality assumption is met. This knowledge leads to the final step…</p>
 <p><strong>Step 4.</strong> Compare the test statistic to the theoretical predictions of the <em>t</em>-distribution to assess the statistical significance of the observed difference. That is, we calculate the probability that we would have observed a difference between means with a magnitude as large as, or larger than, the observed difference, if the null hypothesis were true. That’s the <em>p</em>-value for the test.</p>
-<p>We could step through the various calculations involved in these steps, but there isn’t much to be gained by doing this. The formula for the standard two-sample <em>t</em>-test and its variants are summarised on the <em>t</em>-test <a href="https://en.wikipedia.org/wiki/Student%27s_t-test#Independent_two-sample_t-test">Wikipedi page</a>. There’s no need to learn these—we’re going to let R to handle the heavy lifting again.</p>
+<p>We willnot step through the various calculations involved in these steps. The formula for the standard two-sample <em>t</em>-test and its variants are summarised on the <a href="https://en.wikipedia.org/wiki/Student%27s_t-test#Independent_two-sample_t-test"><em>t</em>-test Wikipedia page</a>. There’s absolutely no need to learn these because we’re going to let R to handle the calculations for us.</p>
 <p>Let’s review the assumptions of the two-sample <em>t</em>-test first…</p>
 <div id="assumptions-of-the-two-sample-t-test" class="section level3">
 <h3><span class="header-section-number">13.2.1</span> Assumptions of the two-sample <em>t</em>-test</h3>
-<p>There are several assumptions that need to be met for a two-sample <em>t</em>-test to be valid. These are basically the same assumptions that matter for the one-sample version. We start with the most important and work down the list in decreasing order of importance:</p>
+<p>Several assumptions need to be met for a two-sample <em>t</em>-test to be valid. These are basically the same as those for the one-sample version. Starting with the most important and working down in decreasing order of importance, these are:</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>Independence.</strong> Remember what we said in our discussion of the one-sample <em>t</em>-test. If the data are not independent, the <em>p</em>-values generated by the test will be too small, and even mild non-independence can be a serious problem. The same is true of the two-sample <em>t</em>-test.</p></li>
-<li><p><strong>Measurement scale.</strong> The variable that we are working with should be measured on an interval or ratio scale. It makes little sense to apply a two-sample <em>t</em>-test to a variable that isn’t measured on one of these scales.</p></li>
-<li><p><strong>Normality.</strong> The two-sample <em>t</em>-test will produce exact <em>p</em>-values if the variable is normally distributed in both populations. Just as with the one-sample version, the two-sample <em>t</em>-test is fairly robust to mild departures from normality when the sample sizes are small, and this assumption matters even less when the sample sizes are large.</p></li>
+<li><p><strong>Independence.</strong> Remember what we said in our discussion of the one-sample <em>t</em>-test? If the data are not independent, the <em>p</em>-values generated by the test will be too small, and even mild non-independence can be a serious problem. The same is true of the two-sample <em>t</em>-test.</p></li>
+<li><p><strong>Measurement scale.</strong> The variable we are working with should be measured on an interval or ratio scale, which means it will be numeric. It makes little sense to apply a two-sample <em>t</em>-test to a categorical variable of some kind.</p></li>
+<li><p><strong>Normality.</strong> The two-sample <em>t</em>-test will produce reliable <em>p</em>-values if the variable is normally distributed in each population. However, the two-sample <em>t</em>-test is fairly robust to mild departures from normality and this assumption matters little when the sample sizes are large.</p></li>
 </ol>
-<p>How do we evaluate the first two assumptions? As with the one-sample test, these are aspects of experimental design—we can only evaluate them by thinking about the data. The normality assumption may be checked by plotting the distribution of each sample. The simplest way to do this is with histograms or dot plots. Note that we have to examine the distribution of <em>each sample</em>, not the combined distribution of both samples. If both samples looks approximately normal then it’s fine to proceed with the two-sample <em>t</em>-test, and if we have a large sample we don’t need to worry too much about moderate departures from normality.</p>
+</div>
+<div id="evaluating-the-assumptions" class="section level3">
+<h3><span class="header-section-number">13.2.2</span> Evaluating the assumptions</h3>
+<p>How do we evaluate the first two assumptions? As with the one-sample test, these are aspects of experimental design—we can only evaluate them by thinking about the data we’ve collected.</p>
+<p>The normality assumption can be evaluated by plotting the the sample distribution <em>of each group</em> using, for example, a pair of histograms or dot plots. We must examine the distribution in each group, not the distribution of the combined sample. If both samples looks approximately normal then we can proceed with the test. If we think we can see a departure from normality then we should consider our sample sizes before deciding to proceed, remembering that the test is robust to mild departures when sample sizes are large (e.g. &gt;100 observations in each group).</p>
 </div>
 <div id="what-about-the-equal-variance-assumption" class="section level3">
-<h3><span class="header-section-number">13.2.2</span> What about the <em>equal variance</em> assumption?</h3>
-<p>It is sometimes said that when applying a two-sample <em>t</em>-test the variance (i.e. the dispersion) of each sample must be the same, or at least quite similar. This would be true if we’re using original version of Student’s two-sample <em>t</em>-test. However, R doesn’t use this version of the test by default. R uses the “Welch” version of the two-sample <em>t</em>-test. The Welch two-sample <em>t</em>-test does not rely on the equal variance assumption. As long as we stick with this version of the <em>t</em>-test, the equal variance assumption isn’t one we need to worry about.</p>
-<p>Is there ever any reason not to use the Welch two-sample <em>t</em>-test? The alternative is to use the original Student’s <em>t</em>-test. This version of the test is a little more powerful than Welch’s version, in the sense that it is more likely to detect a difference in means. However, the increase in statistical power is really quite small when the sample sizes of each group are similar, and the original test is only correct when the population variances are identical. Since we can never prove the ‘equal variance’ assumption—we can only ever reject it—it is generally safer to just use the Welch two-sample <em>t</em>-test.</p>
-<p>One last warning. Student’s two-sample <em>t</em>-test assumes the variances of <em>the populations</em> are identical. It is the population variances, not the sample variances, that matter. There are methods for comparing variances, and people sometimes suggest using these to select ‘the right’ <em>t</em>-test. This is bad advice. For reasons just outlined, there’s little advantage to using Student’s version of the test if the variandes really are the same. What’s more, the process of picking the test based on the results of another statistical test affects the reliability of the resulting <em>p</em>-values.</p>
+<h3><span class="header-section-number">13.2.3</span> What about the <em>equal variance</em> assumption?</h3>
+<p>It is sometimes said that a two-sample <em>t</em>-test requires the variability (‘variance’) of each sample to be the same, or at least quite similar. This would be true if we used the original version of Student’s two-sample <em>t</em>-test. However, R doesn’t use this version of the test by default. R uses the “Welch” two-sample <em>t</em>-test. This version of the test does not rely on the equal variance assumption. As long as we stick with this version of the <em>t</em>-test, the equal variance assumption isn’t something we need to worry about.</p>
+<div class="advanced-box">
+<p>
+<strong>Should we use Student’s original two-sample <em>t</em>-test?</strong>
+</p>
+<p>
+The original ‘equal-variance’ two-sample <em>t</em>-test is a little more powerful than the Welch version; that is, it is more likely to detect a difference in means (if present). However, the increase in statistical power is really quite small if the sample sizes of each group are similar and the original test is only correct when the population variances are identical. Since we can never prove the ‘equal variance’ assumption—we can only ever reject it—it is generally safer to just use the Welch two-sample <em>t</em>-test.
+</p>
+<p>
+One last warning. Student’s two-sample <em>t</em>-test assumes the variances of <em>the populations</em> are identical. It is the population variances, not the sample variances, that matter. There are methods for comparing variances, and people sometimes suggest using these to select ‘the right’ <em>t</em>-test. This is bad advice. For reasons just outlined, there’s little advantage to using Student’s version of the test if the variances really are the same. What’s more, the process of picking the test based on the results of another statistical test affects the reliability of the resulting <em>p</em>-values.
+</p>
+</div>
 </div>
 </div>
 <div id="carrying-out-a-two-sample-t-test-in-r" class="section level2">
 <h2><span class="header-section-number">13.3</span> Carrying out a two-sample <em>t</em>-test in R</h2>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Colour = col_character(),
+##   Weight = col_double()
+## )</code></pre>
 <div class="do-something">
 <p>
-You should work through the example in this section.
+Work through the example in this section. We’re going to use the plant morph example one last time. Everything below assumes ‘MORPH_DATA.CSV’ has been read into an R data frame called <code>morph_data</code>.
 </p>
 </div>
-<p>We’ll work with the plant morph example one last time to learn how to carry out a two-sample <em>t</em>-test in R. We’ll use the test to evaluate whether or not the mean dry weight of purple plants is different from that of green plants.</p>
-<p>Read the data in MORPH_DATA.CSV into an R data frame, giving it the name <code>morph.data</code>:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="two-sample-t-test.html#cb46-1"></a>morph.data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;MORPH_DATA.CSV&quot;</span>)</span></code></pre></div>
-<p>Now, let’s work through the analysis…</p>
+<p>We’ll use with the plant morph size example again to learn the work flow for two-sample <em>t</em>-tests in R. We’ll use the test to evaluate whether or not the mean dry weight of purple plants is different from that of green plants. The background to <em>why</em> this comparison is worth doing was covered in the <a href="statistical-comparisons.html#statistical-comparisons">statistical comparisons</a> chapter. We considered this comparison using a permutation test in that chapter. It’s actually much simpler to use a two-sample <em>t</em>-test, as we are about to find out…</p>
 <div id="visualising-the-data-and-checking-the-assumptions" class="section level3">
 <h3><span class="header-section-number">13.3.1</span> Visualising the data and checking the assumptions</h3>
-<p>We start by calculating a few summary statistics and visualising the sample distributions of the green and purple morph dry weights. We did this in the [Comparing populations] chapter, but here’s the <strong>dplyr</strong> code for the descriptive statistics again:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="two-sample-t-test.html#cb47-1"></a>morph.data <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb47-2"><a href="two-sample-t-test.html#cb47-2"></a><span class="st">  </span><span class="co"># group the data by plant mnorph</span></span>
-<span id="cb47-3"><a href="two-sample-t-test.html#cb47-3"></a><span class="st">  </span><span class="kw">group_by</span>(Colour) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb47-4"><a href="two-sample-t-test.html#cb47-4"></a><span class="st">  </span><span class="co"># calculate the mean, standard deviation and sample size</span></span>
-<span id="cb47-5"><a href="two-sample-t-test.html#cb47-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(Weight), </span>
-<span id="cb47-6"><a href="two-sample-t-test.html#cb47-6"></a>            <span class="dt">sd =</span> <span class="kw">sd</span>(Weight),</span>
-<span id="cb47-7"><a href="two-sample-t-test.html#cb47-7"></a>            <span class="dt">samp_size =</span> <span class="kw">n</span>())</span></code></pre></div>
+<p>We start by calculating a few descriptive statistics and visualising the sample distributions of the green and purple morph dry weights. We already did this in the <a href="statistical-comparisons.html#statistical-comparisons">statistical comparisons</a> chapter but here’s the <strong>dplyr</strong> code for the descriptive statistics again:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="two-sample-t-test.html#cb46-1"></a>morph_data <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb46-2"><a href="two-sample-t-test.html#cb46-2"></a><span class="st">  </span><span class="co"># group the data by plant morph</span></span>
+<span id="cb46-3"><a href="two-sample-t-test.html#cb46-3"></a><span class="st">  </span><span class="kw">group_by</span>(Colour) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb46-4"><a href="two-sample-t-test.html#cb46-4"></a><span class="st">  </span><span class="co"># calculate the mean, standard deviation and sample size</span></span>
+<span id="cb46-5"><a href="two-sample-t-test.html#cb46-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(Weight), </span>
+<span id="cb46-6"><a href="two-sample-t-test.html#cb46-6"></a>            <span class="dt">sd =</span> <span class="kw">sd</span>(Weight),</span>
+<span id="cb46-7"><a href="two-sample-t-test.html#cb46-7"></a>            <span class="dt">samp_size =</span> <span class="kw">n</span>())</span></code></pre></div>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <pre><code>## # A tibble: 2 x 4
 ##   Colour  mean    sd samp_size
 ##   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;int&gt;
 ## 1 Green   708.  150.       173
 ## 2 Purple  767.  156.        77</code></pre>
-<p>The sample sizes 173 (green plants) and 77 (purple plants). These are good sized samples, so hopefully the normality assumption isn’t a big deal here. Nonetheless, we still need to check the distributional assumptions:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="two-sample-t-test.html#cb50-1"></a><span class="kw">ggplot</span>(morph.data, <span class="kw">aes</span>(<span class="dt">x =</span> Weight)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb50-2"><a href="two-sample-t-test.html#cb50-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb50-3"><a href="two-sample-t-test.html#cb50-3"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Colour, <span class="dt">ncol =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>As we already know the purple plants tend to be a bigger than green plants. The sample sizes are 173 (green plants) and 77 (purple plants). These are good-sized samples, which means we probably don’t need to be too obsessed about the normality assumption. However, we still need to visualise the sample distributions to be sure they aren’t too odd or contain obvious outliers:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="two-sample-t-test.html#cb49-1"></a><span class="kw">ggplot</span>(morph_data, <span class="kw">aes</span>(<span class="dt">x =</span> Weight)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb49-2"><a href="two-sample-t-test.html#cb49-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb49-3"><a href="two-sample-t-test.html#cb49-3"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Colour, <span class="dt">ncol =</span> <span class="dv">1</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:two-morph-dist-again"></span>
 <img src="stats-for-bio_files/figure-html/two-morph-dist-again-1.png" alt="Size distributions of purple and green morph samples" width="60%" />
 <p class="caption">
 Figure 13.2: Size distributions of purple and green morph samples
 </p>
 </div>
-<p>There is nothing too ‘non-normal’ about the two samples so it’s reasonable to assume they both came from normally distributed populations.</p>
+<p>There is nothing too ‘non-normal’ about the two samples in this example so it’s reasonable to assume they both came from normally distributed populations.</p>
 </div>
 <div id="carrying-out-the-test" class="section level3">
 <h3><span class="header-section-number">13.3.2</span> Carrying out the test</h3>
-<p>The function we need to carry out a two-sample <em>t</em>-test in R is the <code>t.test</code> function, i.e. the same one used for the one-sample test.</p>
-<p>Remember, <code>morph.data</code> has two columns: <code>Weight</code> contains the dry weight biomass of each plant, and <code>Colour</code> is an index variable that indicates which sample (plant morph) an observation belongs to. Here’s the code to carry out the two-sample <em>t</em>-test</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="two-sample-t-test.html#cb51-1"></a><span class="kw">t.test</span>(Weight <span class="op">~</span><span class="st"> </span>Colour,  morph.data)</span></code></pre></div>
-<p>We have suppressed the output for now so that we can focus on how to use the function. We have to assign two arguments:</p>
+<p>The function we need to carry out a two-sample <em>t</em>-test in R is the <code>t.test</code> function, i.e. exactly the same functions used for the one-sample test.</p>
+<p>Remember, <code>morph_data</code> has two columns: <code>Weight</code> contains the dry weight biomass of each plant, and <code>Colour</code> is an index variable that indicates which sample (plant morph) an observation belongs to. Here’s the code to carry out the two-sample <em>t</em>-test:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="two-sample-t-test.html#cb50-1"></a><span class="kw">t.test</span>(Weight <span class="op">~</span><span class="st"> </span>Colour,  morph_data)</span></code></pre></div>
+<p>We suppressed the output for now to focus on how to use the function. We have to assign two arguments:</p>
 <ol style="list-style-type: decimal">
-<li><p>The first argument is a <strong>formula</strong>. We know this because it includes a ‘tilde’ symbol: <code>~</code>. The variable name on the left of the <code>~</code> must be the variable whose mean we want to compare (<code>Weight</code>). The variable on the right must be the indicator variable that says which group each observation belongs to (<code>Colour</code>).</p></li>
+<li><p>The first argument is something called a <strong>formula</strong>. We know this because it includes a ‘tilde’ symbol: <code>~</code>. The variable name on the left of the <code>~</code> must be the variable whose mean we want to compare (<code>Weight</code>). The variable on the right must be the indicator variable that says which group each observation belongs to (<code>Colour</code>).</p></li>
 <li><p>The second argument is the name of the data frame that contains the variables listed in the formula.</p></li>
 </ol>
 <p>Let’s take a look at the output:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="two-sample-t-test.html#cb52-1"></a><span class="kw">t.test</span>(Weight <span class="op">~</span><span class="st"> </span>Colour,  morph.data)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="two-sample-t-test.html#cb51-1"></a><span class="kw">t.test</span>(Weight <span class="op">~</span><span class="st"> </span>Colour,  morph_data)</span></code></pre></div>
 <pre><code>## 
 ## 	Welch Two Sample t-test
 ## 
@@ -721,9 +741,9 @@ Figure 13.2: Size distributions of purple and green morph samples
 ## sample estimates:
 ##  mean in group Green mean in group Purple 
 ##             707.8424             766.5638</code></pre>
-<p>The first part of the output reminds us what we did. The first line reminds us what kind of <em>t</em>-test we used. This says: <code>Welch two-sample t-test</code>, so we know that we used the Welch version of the test that accounts for the possibility of unequal variance. The next line reminds us about the data. This says: <code>data: Weight by Colour</code>, which is R-speak for ‘we compared the means of the <code>Weight</code> variable, where the sample membership is defined by the values of the <code>Colour</code> variable’.</p>
+<p>The first line reminds us what kind of <em>t</em>-test we used. This says: <code>Welch two-sample t-test</code>, so we know that we used the Welch version of the test that accounts for the possibility of unequal variance. The next line reminds us about the data. This says: <code>data: Weight by Colour</code>, which is R-speak for ‘we compared the means of the <code>Weight</code> variable, where the group membership is defined by the values of the <code>Colour</code> variable’.</p>
 <p>The third line of text is the most important. This says: <code>t = -2.7808, d.f. = 140.69, p-value = 0.006165</code>. The first part, <code>t = -2.7808</code>, is the test statistic (i.e. the value of the <em>t</em>-statistic). The second part, <code>df = 140.69</code>, summarise the ‘degrees of freedom’ (see the box below). The third part, <code>p-value = 0.006165</code>, is the all-important p-value. This says there is a statistically significant difference in the mean dry weight biomass of the two colour morphs, because <em>p</em>&lt;0.05. Because the <em>p</em>-value is less than 0.01 but greater than 0.001, we would report this as ‘<em>p</em> &lt; 0.01’.</p>
-<p>The fourth line of text (<code>alternative hypothesis: true difference in means is not equal to 0</code>) simply reminds us of the alternative to the null hypothesis (H<sub>1</sub>). We can ignore this.</p>
+<p>The fourth line of text (<code>alternative hypothesis: true difference in means is not equal to 0</code>) simply reminds us of the alternative to the null hypothesis (H<sub>1</sub>). This isn’t hugely important or interesting.</p>
 <p>The next two lines show us the ‘95% confidence interval’ for the difference between the means. Just as with the one sample <em>t</em>-test we can think of this interval as a rough summary of the likely values of the true difference (again, a confidence interval is more complicated than that in reality).</p>
 <p>The last few lines summarise the sample means of each group. This could be useful if we had not bothered to calculate these already.</p>
 <div class="advanced-box">
@@ -774,7 +794,7 @@ Note that the ‘unequal sample size accounting’ results in degrees of freedom
         </div>
       </div>
 <a href="one-sample-t-tests.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="correlation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="a-correlation-test.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 20 Using regression diagnostics | APS 240: Data Analysis and Statistics with R</title>
+  <title>Chapter 14 A correlation test | APS 240: Data Analysis and Statistics with R</title>
   <meta name="description" content="Course book for Data Analysis and Statistics with R (APS 240) in the Department of Animal and Plant Sciences, University of Sheffield" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 20 Using regression diagnostics | APS 240: Data Analysis and Statistics with R" />
+  <meta property="og:title" content="Chapter 14 A correlation test | APS 240: Data Analysis and Statistics with R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="dzchilds/stats-for-bio" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 20 Using regression diagnostics | APS 240: Data Analysis and Statistics with R" />
+  <meta name="twitter:title" content="Chapter 14 A correlation test | APS 240: Data Analysis and Statistics with R" />
   
   <meta name="twitter:description" content="Course book for Data Analysis and Statistics with R (APS 240) in the Department of Animal and Plant Sciences, University of Sheffield" />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="assumptions-and-diagnostics.html"/>
-<link rel="next" href="data-transformations.html"/>
+<link rel="prev" href="two-sample-t-test.html"/>
+<link rel="next" href="relationships-and-regression.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -613,98 +613,140 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="using-regression-diagnostics" class="section level1">
-<h1><span class="header-section-number">Chapter 20</span> Using regression diagnostics</h1>
-<div id="introduction" class="section level2">
-<h2><span class="header-section-number">20.1</span> Introduction</h2>
-<p>In the last chapter we learnt how to carry out regression diagnostics. Fortunately we don’t have to do all of that work each time we fit a model. R has a built in facility to make these plots for us. In this chapter we’ll walk through how to use this with regression and one-way ANOVA models.</p>
+<div id="a-correlation-test" class="section level1">
+<h1><span class="header-section-number">Chapter 14</span> A correlation test</h1>
+<!-- The *t*-tests we encountered in the previous two chapters were concerned with how to compare means of numeric variables. One way to think about that two-sample *t*-test is that it evaluates whether or not the variable changes among two groups or experimental conditions. Membership of the different groups/conditions can be encoded by a categorical variable. We saw that R uses a 'formula' involving numeric (e.g. `num_var`) and categorical (e.g. `cat_var`) variables to set up the test (e.g. `num_var ~ cat_var`). The formula reflects the fact that we can conceptualise the *t*-tests as considering a *relationship* between a numeric and categorical variable. -->
+<p>We’re going to consider ‘correlation’ in this chapter. A correlation is a statistical measure of an <strong>association</strong> between two variables. An association is any relationship between the variables that makes them dependent in some way: knowing the value of one variable gives you information about the possible values of the other.</p>
+<p>The terms ‘association’ and ‘correlation’ are often used interchangeably but strictly speaking correlation has a narrower definition. A correlation quantifies, via a measure called a <strong>correlation coefficient</strong>, the degree to which an association tends to a certain pattern. For example, the correlation coefficient studied below—Pearson’s correlation coefficient—measures the degree to which two variables tend toward a straight line relationship.</p>
+<p>There are different methods for quantifying correlation but these all share a number of properties:</p>
+<ol style="list-style-type: decimal">
+<li>If there is no relationship between the variables the correlation coefficient will be zero. The closer to 0 the value, the weaker the relationship. A perfect correlation will be either -1 or +1, depending on the direction. This is illustrated in the figure below:</li>
+</ol>
+<p><img src="stats-for-bio_files/figure-html/cor-strength-eg-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>The value of a correlation coefficient indicates the direction and strength of the association but says nothing about the steepness of the relationship. A correlation coefficient is just a number, so it can’t tell us exactly how one variable depends on the other.</p></li>
+<li><p>Correlation coefficients do not describe ‘directional’ or ‘casual’ relationships—i.e. we can’t use correlations to make predictions about one variable based on knowledge of another or make statements about the effect of one variable on the other.</p></li>
+<li><p>A correlation coefficient doesn’t tell us whether an association is likely to be ‘real’ or not. We have to use a statistical significance test to evaluate whether a correlation may be different from zero. Like any statistical test, this requires certain assumptions about the variables to be met.</p></li>
+</ol>
+<p>We’re going to make sense of all this by studying one particular correlation coefficient in this chapter: <strong>Pearson’s product-moment correlation coefficient</strong> (<span class="math inline">\(r\)</span>). Various different measures of association exist so why focus on this one? Well… once you know how to work with one type of correlation in R it isn’t hard to use another. Pearson’s product-moment correlation coefficient is the most well-known, which means it is as good a place as any to start learning about correlation analysis.</p>
+<div id="pearsons-product-moment-correlation" class="section level2">
+<h2><span class="header-section-number">14.1</span> Pearson’s product-moment correlation</h2>
+<p>What do we need to know about Pearson’s product-moment correlation? Let’s start with the naming conventions. People often use “Pearson’s correlation coefficient” or “Pearson’s correlation” as a convenient shorthand because writing “Pearson’s product-moment correlation coefficient” all the time soon becomes tedious. If we want to be really concise we use the standard mathematical symbol to denote Pearson’s correlation coefficient—lower case ‘<span class="math inline">\(r\)</span>’.</p>
+<p>The one thing we absolutely have to know about Pearson’s correlation coefficient is that it is <strong>a measure of linear association between numeric variables</strong>. This means Pearson’s correlation is appropriate when numeric variables follow a ‘straight-line’ relationship. That doesn’t mean they have to be perfectly related, by the way. It simply means there shouldn’t be any ‘curviness’ to their pattern of association<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>.</p>
+<p>Finally, calculating Pearson’s correlation coefficient serves to <em>estimate</em> the strength of an association. An estimate can’t tell us whether that association is likely to be ‘real’ or not. We need a statistical test to tackle that question. There is a standard parametric test associated with Pearson’s correlation coefficient. Unfortunately, this does not have its own name. We will call it “Pearson’s correlation test” to distinguish the test from the actual correlation coefficient. Just keep in mind these are not ‘official’ names.</p>
+<div id="pearsons-correlation-test" class="section level3">
+<h3><span class="header-section-number">14.1.1</span> Pearson’s correlation test</h3>
+<p>The logic underpinning Pearson’s correlation test is the same as we’ve seen in previous tests: define a null hypothesis, calculate an appropriate test statistic, work out the null distribution of that statistic, and then use this to calculate a <em>p</em>-value from the observed coefficient. We won’t work through the details other than to note a few important aspects:</p>
+<ul>
+<li><p>When working with Pearson’s correlation coefficient the ‘no effect’ null hypothesis corresponds to one of zero (linear) association between the two variables (<span class="math inline">\(r=0\)</span>).</p></li>
+<li><p>The test statistic associated with <span class="math inline">\(r\)</span> turns out to be a <em>t</em>-statistic. This has nothing to do with comparing means—<em>t</em>-statistics pop up all the time in frequentist statistics.</p></li>
+</ul>
+<p>Like any parametric technique, Pearson’s correlation test makes a number of assumptions. These need to be met in order for the statistical test to be reliable. The assumptions are:</p>
+<ul>
+<li><p>Both variables are measured on an interval or ratio scale.</p></li>
+<li><p>The two variables are normally distributed (in the population).</p></li>
+<li><p>The relationship between the variables is linear.</p></li>
+</ul>
+<p>The first two requirements should not need any further explanation at this point—we’ve seen them before in the context of the one- and two-sample <em>t</em>-tests. The third one obviously stems from Pearson’s correlation coefficient being a measure of linear association.</p>
+<p>Only the linearity assumption needs to be met for Pearson’s correlation coefficient (<span class="math inline">\(r\)</span>) to be a valid measure of association. As long as the relationship between two variables is linear, <span class="math inline">\(r\)</span> produces a sensible measure of association. However, the first two assumptions need to be met for the associated statistical test to be appropriate.</p>
+<p>That’s enough background and abstract concepts. Let’s see how to perform correlation analysis in R using Pearson’s correlation coefficient.</p>
 </div>
-<div id="diagnostics-for-regression" class="section level2">
-<h2><span class="header-section-number">20.2</span> Diagnostics for regression</h2>
-<p>We’ll use the glucose release example from the [Simple regression in R] chapter to step through the easy way to make diagnostic plots.</p>
+</div>
+<div id="pearsons-product-moment-correlation-coefficient-in-r" class="section level2">
+<h2><span class="header-section-number">14.2</span> Pearson’s product-moment correlation coefficient in R</h2>
 <div class="do-something">
 <p>
-<strong>Walk through example</strong>
-</p>
-<p>
-You should work through the example in the next few sections.
+Work through the example in this section. We’ll be using a new data set ‘BRACKEN.CSV’ here so you shuold start a new script. Everything below assumes the data in ‘BRACKEN.CSV’ has been read into an R data frame with the name <code>bracken</code>.
 </p>
 </div>
-<p>You’ll need to read in the GLUCOSE.CSV file again and fit the regression using the <code>lm</code> function as before.</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="using-regression-diagnostics.html#cb120-1"></a>vicia_germ &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;GLUCOSE.CSV&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="using-regression-diagnostics.html#cb121-1"></a>vicia_model &lt;-<span class="st"> </span><span class="kw">lm</span>(Glucose <span class="op">~</span><span class="st"> </span>Temperature, <span class="dt">data =</span> vicia_germ)</span></code></pre></div>
-<p>The built in facility for diagnostic plots in R works via a function called <code>plot</code>. For example, to produce a residuals vs fitted values plot, we use:</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="using-regression-diagnostics.html#cb122-1"></a><span class="kw">plot</span>(vicia_model, <span class="dt">which =</span> <span class="dv">1</span>, <span class="dt">add.smooth =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
-<p><img src="stats-for-bio_files/figure-html/unnamed-chunk-183-1.png" width="384" style="display: block; margin: auto;" /></p>
-<p>The first argument is the name of fitted model object. The second argument controls the output of the <code>plot</code> function: <code>which = 1</code> argument tells it to produce a residuals vs. fitted values plot. The <code>add.smooth = FALSE</code> is telling the function not to add a line called a ‘loess smooth’. This line is supposed to help us pick out patterns, but it tends to over fit the relationship and leads people to see problems that aren’t there. If we can’t see a clear pattern without the line, it probably isn’t there, so it’s better not to include it at all.</p>
-<p>Remember that this plot allows us to evaluate the linearity assumption. Here, we’re looking for any evidence of a systematic trend (e.g. a hump or U-shaped curve) here. As there’s no obvious pattern we can accept the linearity assumption and move on to the normality assumption.</p>
-<p>We use the <code>plot</code> function to plot a normal probability diagnostic by setting <code>which = 2</code>:</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="using-regression-diagnostics.html#cb123-1"></a><span class="kw">plot</span>(vicia_model, <span class="dt">which =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="stats-for-bio_files/figure-html/unnamed-chunk-184-1.png" width="384" style="display: block; margin: auto;" /></p>
-<p>This produces essentially the same kind of normal probability plot we made in the previous chapter, with one small difference. Rather than drawing a 1:1 line, the ‘plot’ function shows us a line of best fit. This just allows us to pick out the curvature a little more easily. There’s nothing here to make us worry about this assumption - the points are close to the line with no systematic trend away from it.</p>
-<p>Finally, we can produce a scale-location diagnostic plot using the <code>plot</code> function to assess the constant variance assumption. Here we use <code>which = 3</code> and again we suppress the line (using <code>add.smooth = FALSE</code>) to avoid finding spurious patterns:</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="using-regression-diagnostics.html#cb124-1"></a><span class="kw">plot</span>(vicia_model, <span class="dt">add.smooth =</span> <span class="ot">FALSE</span>, <span class="dt">which =</span> <span class="dv">3</span>)</span></code></pre></div>
-<p><img src="stats-for-bio_files/figure-html/unnamed-chunk-185-1.png" width="384" style="display: block; margin: auto;" /></p>
-<p>Remember in this plot we’re looking for any sign of the size of the transformed residuals either increasing or decreasing as the fitted values get larger. This plot looks good - as the relationship here looks pretty flat we can conclude that the variability in the residuals is constant.</p>
-<div class="advanced-box">
-<p>
-<strong>Don’t panic if your diagnostics aren’t perfect!</strong>
-</p>
-<p>
-The good news about regression is that it is quite a robust technique. It will often give us reasonable answers even when the assumptions are not perfectly fulfilled. We should be aware of the assumptions but should not become too obsessed by them. If the violations are modest, it is often fine to proceed. We just need to interpret results with care. Of course, we have to know what constitutes a ‘modest’ violation. There are no hard and fast rules. The ability to make that judgement is something that comes with experience.
-</p>
+<p>The plant morph example is not suitable for correlation analysis. We need a new example to motivate a work flow for correlation tests in R. The example we’re going use is about the association between ferns and heather…</p>
+<p>Bracken fern (<em>Pteridium aquilinum</em>) is a common plant in many upland areas. A land manager need to know whether there is any association between bracken and heather (<em>Calluna vulgaris</em>) in these areas. To determine whether the two species are associated, she sampled 22 plots at random and estimated the density of bracken and heather in each plot. The data are the mean <em>Calluna</em> standing crop (g m<sup>-2</sup>) and the number of bracken fronds per m<sup>2</sup>.</p>
+<div id="visualising-the-data-and-checking-the-assumptions" class="section level3">
+<h3><span class="header-section-number">14.2.1</span> Visualising the data and checking the assumptions</h3>
+<p>The data are in the file BRACKEN.CSV. Read these data into a data frame, calling it <code>bracken</code>:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="a-correlation-test.html#cb53-1"></a>bracken &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;BRACKEN.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="a-correlation-test.html#cb54-1"></a><span class="kw">glimpse</span>(bracken)</span></code></pre></div>
+<pre><code>## Rows: 22
+## Columns: 2
+## $ Calluna &lt;dbl&gt; 980, 760, 613, 489, 498, 416, 589, 510, 459, 680, 471, 145, 2…
+## $ Bracken &lt;dbl&gt; 2.3, 1.4, 4.0, 3.6, 4.3, 4.0, 6.3, 6.5, 8.3, 8.2, 8.1, 9.1, 8…</code></pre>
+<p>There are 22 observations (rows) and two variables (columns) in this data set. The two variables, <code>Calluna</code> and <code>Bracken</code>, contain the estimates of heather and bracken abundance in each plot, respectively.</p>
+<p>We should always explore the data thoroughly before carrying out any kind of statistical analysis. To begin, we can visualise the form of the association with a scatter plot:</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="a-correlation-test.html#cb56-1"></a><span class="kw">ggplot</span>(bracken, <span class="kw">aes</span>(<span class="dt">x =</span> Calluna, <span class="dt">y =</span> Bracken)) <span class="op">+</span></span>
+<span id="cb56-2"><a href="a-correlation-test.html#cb56-2"></a><span class="st">  </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<p><img src="stats-for-bio_files/figure-html/bracken-calluna-scatter-1.png" width="336" style="display: block; margin: auto;" /></p>
+<p>There appears to be a strong negative association between the species’ abundances, and the relationship seems to follow a ‘straight line’ pattern. It looks like Pearson’s correlation is a reasonable measure of association for these data.</p>
+<p>We will confirm this with a significance test. Is it appropriate to carry out the test? We’re dealing with numeric variables measured in ratio scale (assumption 1). What about their distributions (assumptions 2)? Here’s a quick visual summary:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="a-correlation-test.html#cb57-1"></a><span class="kw">ggplot</span>(bracken, <span class="kw">aes</span>(<span class="dt">x =</span> Calluna)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="dv">100</span>)</span>
+<span id="cb57-2"><a href="a-correlation-test.html#cb57-2"></a><span class="kw">ggplot</span>(bracken, <span class="kw">aes</span>(<span class="dt">x =</span> Bracken)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="stats-for-bio_files/figure-html/bracken-calluna-dist-1.png" width="40%" /><img src="stats-for-bio_files/figure-html/bracken-calluna-dist-2.png" width="40%" /></p>
+<p>These dot plots suggest the normality assumption is met, i.e. both distributions are roughly ‘bell-shaped’.</p>
+<p>That’s all three assumptions met—the variables are on a ratio scale, dot the normality assumption is met, and the abundance relationship is linear. It looks like the statistical test will give reliable results.</p>
 </div>
-</div>
-<div id="diagnostics-for-one-way-anova" class="section level2">
-<h2><span class="header-section-number">20.3</span> Diagnostics for one-way ANOVA</h2>
-<p>The term ‘regression diagnostic’ is a bit of a misnomer. A more accurate term might be ‘linear model diagnostic’ but no one really uses this. Regression diagnostics can be used with many different kinds of models. In fact, the diagnostic plots we have introduced above can be applied to any model fitted by the <code>lm</code> function, including ANOVA models.</p>
-<div class="do-something">
-<p>
-<strong>Walk through example</strong>
-</p>
-<p>
-You should work through the example in the next few sections.
-</p>
-</div>
-<p>Let’s step through the diagnostics for a one way ANOVA now, using the corncrake hatchlings example from the [One-way ANOVA in R] chapter. Read the data into R again and fit the model as before.</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="using-regression-diagnostics.html#cb125-1"></a>corn_crake &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;CORN_CRAKE.CSV&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="using-regression-diagnostics.html#cb126-1"></a>corncrake_model &lt;-<span class="st"> </span><span class="kw">lm</span>(WeightGain <span class="op">~</span><span class="st"> </span>Supplement, <span class="dt">data =</span> corn_crake)</span></code></pre></div>
-<p>The first diagnostic plot we produced for the regression model above is the residuals vs. fitted values plot. In a regression this is used to evaluate the linearity assumption. What does it do in a one-way ANOVA? Not much of use to be honest. There isn’t much point making a residuals vs. fitted values plot for a one-way ANOVA. Why? Because the residuals will never show a trend with respect to the ‘fitted values’, which are just the group-specific means. That’s one thing less to worry about.</p>
-<p>The normal probability plot is used to identify departures from normality. This plot allows us to check whether the deviations from the group means (the residuals) are likely to have been drawn from a normal distribution. Here’s the normal probability plot for our example:</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="using-regression-diagnostics.html#cb127-1"></a><span class="kw">plot</span>(corncrake_model, <span class="dt">which =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="stats-for-bio_files/figure-html/diet-diag-2-1.png" width="384" style="display: block; margin: auto;" />
-This looks very good. The points don’t deviate from the line in a systematic way (except for a couple at the lower end—this is nothing to worry about) so it looks like the normality assumption is satisfied.</p>
-<p>The scale-location plot allows us to evaluate the constant variance assumption. This allows us to see whether or not the variability of the residuals is roughly constant within each group. Here’s the scale-location plot for the corn crake example:</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="using-regression-diagnostics.html#cb128-1"></a><span class="kw">plot</span>(corncrake_model, <span class="dt">which =</span> <span class="dv">3</span>, <span class="dt">add.smooth =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
-<p><img src="stats-for-bio_files/figure-html/diet-diag-3-1.png" width="384" style="display: block; margin: auto;" /></p>
-<p>The warning sign we’re looking for here is a systematic pattern. We want to see if the magnitude of the residuals tends to increase or decrease with the fitted values. If such a pattern is apparent then it suggests that variance changes with the mean. There is no such pattern in the above plot so it looks like the constant variance assumption is satisfied.</p>
-<div id="aside-formal-test-of-equality-of-variance" class="section level3">
-<h3><span class="header-section-number">20.3.1</span> Aside: formal test of equality of variance</h3>
-<div class="do-something">
-<p>
-It is not critical that you learn the material in this short section. It is provided so that you know how to test for equality of variance. You won’t be asked to do this in an assessment.
-</p>
-</div>
-<p>Looking back over the scale-location plot, it seems like three of the treatment groups exhibit similar variability, while the remaining two are more variable. They aren’t wildly different, so it is reasonable to assume the differences are due to sampling variation. People are sometimes uncomfortable using this sort of visual assessment. They want to see a <em>p</em>-value… A number of statistical tests have been designed to evaluate the equality of variance assumption. The most widely used is the Bartlett test (the <code>bartlett.test</code> function in R). Here is how to use it:</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="using-regression-diagnostics.html#cb129-1"></a><span class="kw">bartlett.test</span>(WeightGain <span class="op">~</span><span class="st"> </span>Supplement, <span class="dt">data =</span> corn_crake)</span></code></pre></div>
+<div id="doing-the-test" class="section level3">
+<h3><span class="header-section-number">14.2.2</span> Doing the test</h3>
+<p>Let’s proceed with the analysis… Carrying out a correlation analysis in R is straightforward. We use the <code>cor.test</code> function to do this:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="a-correlation-test.html#cb58-1"></a><span class="kw">cor.test</span>(<span class="op">~</span><span class="st"> </span>Calluna <span class="op">+</span><span class="st"> </span>Bracken, <span class="dt">method =</span> <span class="st">&quot;pearson&quot;</span>, <span class="dt">data =</span> bracken)</span></code></pre></div>
+<p>We have suppressed the output for now to focus on how the function works:</p>
+<ul>
+<li><p>We use the R formula syntax to determine which pair of variables are analysed. The <code>cor.test</code> function expects the two variable names to appear to the right of the <code>~</code>, separated by a <code>+</code> symbol, with nothing on the left.</p></li>
+<li><p>We use <code>method = "pearson"</code> to control which type of correlation coefficient was calculated. The default method is Pearson’s correlation but it never hurts to be explicit which is why we wrote <code>method = "pearson"</code> anyway.</p></li>
+<li><p>When we use the formula syntax, as we are doing here, we have to tell the function where to find the variables. That’s the <code>data = bracken</code> part.</p></li>
+</ul>
+<p>Notice <code>cor.test</code> uses a different convention from the <code>t.test</code> function for the formula argument of. <code>t.test</code> places one variable on the left and the other variable on the right hand side of the <code>~</code> (e.g. <code>Calluna ~ Bracken</code>), whereas <code>cor.test</code> requires both two variables appear to the right of the <code>~</code>, separated by a <code>+</code> symbol. This convention exists to emphasise the absence of ‘directionality’ in correlations, i.e. neither variable has a special status. This will probably make more sense after we talk about ‘regression’ in the next couple of chapters.</p>
+<p>The output from the <code>cor.test</code> is, however, very similar to that produced by the <code>t.test</code> function. Here it is:</p>
 <pre><code>## 
-## 	Bartlett test of homogeneity of variances
+## 	Pearson&#39;s product-moment correlation
 ## 
-## data:  WeightGain by Supplement
-## Bartlett&#39;s K-squared = 3.6444, df = 4, p-value = 0.4563</code></pre>
-<p>This looks just like the <em>t</em>-test specification. We use a ‘formula’ (<code>WeightGain ~ Supplement</code>) to specify the response variable (<code>WeightGain</code>) and the grouping variable (<code>Supplement</code>), and use the <code>data</code> argument to tell the <code>bartlett.test</code> function where to look for these variables. The null hypothesis of a Bartlett test is that the <em>variances are equal</em>, so a non-significant <em>p</em>-value (&gt;0.05) indicates that the data are consistent with the equal variance assumption. That’s what we find here.</p>
-<p>Generally speaking, we don’t recommend that you carry out a statistical test to evaluate the equality of variance assumption. We have shown it because some people seem to think they are needed. Here is why we think they are wrong: formal tests of equality of variance are not very powerful (in the statistical sense). This means that in order to detect a difference, we either need a lot of data, or the differences need to be so large that they would be easy to spot using a graphical approach.</p>
+## data:  Calluna and Bracken
+## t = -5.2706, df = 20, p-value = 3.701e-05
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.8960509 -0.5024069
+## sample estimates:
+##        cor 
+## -0.7625028</code></pre>
+<p>We won’t step through most of this as its meaning should be clear. The <code>t = -5.2706, df = 20, p-value = 3.701e-05</code> line is the one we really care about:</p>
+<ul>
+<li><p>The first part says that the test statistic associated with the test is a <em>t</em>-statistic, where <code>t = -5.27</code>. Remember, this has nothing to do with ‘comparing means’.</p></li>
+<li><p>Next we see the degrees of freedom for the test. Can you see where this comes from? It is <span class="math inline">\(n-2\)</span>, where <span class="math inline">\(n\)</span> is the sample size. Together, the degrees of freedom and the <em>t</em>-statistic determine the <em>p</em>-value…</p></li>
+<li><p>The <em>t</em>-statistic and associated <em>p</em>-value are generated under the null hypothesis of zero correlation (<span class="math inline">\(r = 0\)</span>). Since <em>p</em> &lt; 0.05, we conclude that there is a statistically significant correlation between bracken and heather.</p></li>
+</ul>
+<p>What is the actual correlation between bracken and heather densities? That’s given at the bottom of the test output: <span class="math inline">\(-0.76\)</span>. As expected from the scatter plot, there is quite a strong negative association between bracken and heather densities.</p>
+</div>
+<div id="reporting-the-result" class="section level3">
+<h3><span class="header-section-number">14.2.3</span> Reporting the result</h3>
+<p>When using Pearson’s method we report the value of the correlation coefficient, the sample size, and the <em>p</em>-value<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>. Here’s how to report the results of this analysis:</p>
+<blockquote>
+<p>There is a negative correlation between bracken and heather among the study plots (r=-0.76, n=22, p &lt; 0.001).</p>
+</blockquote>
+</div>
+</div>
+<div id="next-steps" class="section level2">
+<h2><span class="header-section-number">14.3</span> Next steps</h2>
+<p>Notice that when we summarised the result we did not say that bracken is having a negative <em>effect</em> on the heather, or <em>vice versa</em>. It might well be true that bracken has a negative effect on heather. However, our correlation analysis only characterises the association between bracken and heather<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>. If we want to make statements about one species is related to the other we need use a different kind of analysis. That’s the focus of our next topic: regression.</p>
 
 </div>
 </div>
+
+
+
+</div>
+<div class="footnotes">
+<hr />
+<ol start="5">
+<li id="fn5"><p>If non-linear associations <em>are</em> apparent it’s generally better to use a different correlation coefficient (we’ll consider one alternative later in the book).<a href="a-correlation-test.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>People occasionally report the value of the correlation coefficient, the <em>t</em>-statistic, the degrees of freedom, and the <em>p</em>-value. We won’t do this.<a href="a-correlation-test.html#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p>There is a second subtler limitation to this analysis: it was conducted using data from an observational study. If we want to say something about how bracken <em>affects</em> heather then we have to conduct an experimental manipulation (e.g. removing bracken from some plots).<a href="a-correlation-test.html#fnref7" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="assumptions-and-diagnostics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="data-transformations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="two-sample-t-test.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="relationships-and-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -735,7 +777,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/dzchilds/stats-for-bio/edit/master/5_02_diagnostics.Rmd",
+"link": "https://github.com/dzchilds/stats-for-bio/edit/master/3_04_correlation.Rmd",
 "text": "Edit"
 },
 "history": {
