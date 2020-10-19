@@ -1,4 +1,4 @@
-# Using regression diagnostics
+# Using regression diagnostics {#regression-diagnostics}
 
 ## Introduction 
 

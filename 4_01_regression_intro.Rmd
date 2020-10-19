@@ -10,34 +10,34 @@ Much of biology is concerned with relationships between numeric variables. For e
 
 -   We manipulate temperature and measure fitness in insects because we want to characterise their thermal tolerance.
 
-In the previous chapter we learnt about one technique for analysing associations between numeric variables (correlation). A correlation coefficient only quantifies the strength and direction of an association between two variables. It will be close to zero if there is no association between the variables; a strong association is implied if the coefficient is near -1 or +1. A correlation coefficient tells us nothing about the form of a relationship. Nor does it allow us to make predictions about the value of one variable from the value of a second variable. Regression, which is the focus of this chapter, does allow this because it involves fitting a line through the data. 
+In the previous chapter we learnt about one technique for analysing associations between numeric variables (correlation). A correlation coefficient quantifies the strength and direction of an association between two variables. It will be close to zero if there is no association between the variables; a strong association is implied if the coefficient is near -1 or +1. A correlation coefficient tells us nothing about the form of a relationship. Nor does it allow us to make predictions about the value of one variable from the value of a second variable.
 
 ```{r, echo = FALSE}
 x <- data.frame(x = seq(-2, 2, length.out = 50))
 set.seed(27081975)
 ```
 
-In the relationships mentioned above the goal is to understand how one numeric variable depends on the values of another. Graphically, we evaluate such dependencies using a scatter plot. We may be interested in knowing:
+In contrast to correlation, a regression analysis does allow us to make precise statements about how one numeric variable depends on the values of another. Graphically, we can evaluate such dependencies using a scatter plot. We may be interested in knowing:
 
-1.    Are the variables related or not? There's not much point studying a relationship that isn't there:
+1.  Are the variables related or not? There's not much point studying a relationship that isn't there:
 
-```{r reg-eg-related, echo = FALSE, out.width='70%', fig.asp=0.5, fig.align='center'}
+```{r reg-eg-related, echo = FALSE, out.width='60%', fig.asp=0.5, fig.align='center'}
 bind_rows(mutate(x, y = 3 + x + rnorm(n(), sd = 0.5), labs = "Related"),
           mutate(x, y = 3 +     rnorm(n(), sd = 1.0), labs = "Unrelated")) %>% 
   ggplot(aes(x = x, y = y)) + geom_point() + facet_wrap(~labs, nrow = 1)
 ```
 
-2.    Is the relationship positive or negative? Sometimes we can answer a scientific question just by knowing the direction of a relationship:
+2.  Is the relationship positive or negative? Sometimes we can answer a scientific question just by knowing the direction of a relationship:
 
-```{r reg-eg-posneg, echo = FALSE, out.width='70%', fig.asp=0.5, fig.align='center'}
+```{r reg-eg-posneg, echo = FALSE, out.width='60%', fig.asp=0.5, fig.align='center'}
 bind_rows(mutate(x, y = 3 + x + rnorm(n(), sd = 0.5), labs = "Positive"),
           mutate(x, y = 3 - x + rnorm(n(), sd = 0.5), labs = "Negative")) %>% 
   ggplot(aes(x = x, y = y)) + geom_point() + facet_wrap(~labs, nrow = 1)
 ```
 
-3.    Is the relationship a straight line or a curve? It is important to know the form of a relationship if we want to make predictions:
+3.  Is the relationship a straight line or a curve? It is important to know the form of a relationship if we want to make predictions:
 
-```{r reg-eg-linornot, echo = FALSE, out.width='70%', fig.asp=0.5, fig.align='center'}
+```{r reg-eg-linornot, echo = FALSE, out.width='60%', fig.asp=0.5, fig.align='center'}
 bind_rows(mutate(x, y = 3 + x + rnorm(n(), sd = 0.5), labs = "Straight"),
           mutate(x, y = 4.5 + .8*x - .6*x^2 + rnorm(n(), sd = 0.45), labs = "Curved")) %>% 
   ggplot(aes(x = x, y = y)) + geom_point() + facet_wrap(~labs, nrow = 1)
@@ -52,31 +52,13 @@ bind_rows(mutate(x, y = 3 + 0.3 * x + rnorm(n(), sd = 0.5), labs = "Sample A"),
   ggplot(aes(x = x, y = y)) + geom_point() + facet_wrap(~labs, nrow = 1)
 ```
 
-We might not be very confident in judging which, if either, of these plots provides evidence of a positive relationship between the two variables. Maybe the pattern that we perceive can just be explained by sampling variation, or maybe it can't. Clearly it would be useful to have a measure of how likely it is that the relationship could have arisen as a result of sampling variation. In addition to judging the statistical significance of a relationship, we may also be interested in describing the relationship mathematically – i.e. finding the equation of the best fitting line through the data. 
+We might not be very confident in judging which, if either, of these plots provides evidence of a positive relationship between the two variables. Maybe the pattern that we perceive can just be explained by sampling variation, or maybe it can't. We need a procedure---a statistical test---to evaluate how likely it is that the relationship could have arisen as a result of sampling variation. In addition to judging the statistical significance of a relationship, we may also be interested in describing the relationship mathematically -- i.e. finding the equation of the best fitting line through the data.
 
-A linear regression analysis allows us to do all this. 
-
-## Correlation or regression?
-
-Whilst regression and correlation are both concerned with associations between numeric variables they are different techniques and each is appropriate under different circumstances. This is a frequent source of confusion. Which technique is required for a particular analysis depends on the way the data were collected and the purpose of the analysis. There are two broad questions to consider:
-
-#### Where do the data come from? {-}
-
-Think about how the data have been collected. If the data are from an experimental study where one of the variables has been manipulated, then choosing the best analysis is easy. We should use a regression analysis, in which the predictor variable is the experimentally manipulated  variable and the response variable is the measured outcome. The fitted line from a regression analysis describes how the outcome variable *depends on* the manipulated variable---it describes the causal relationship between them. 
-
-It is generally inappropriate to use correlation to analyse data from an experimental setting. A correlation analysis examines association but does not imply the dependence of one variable on another. Since there is no distinction of response or predictor variables, it doesn’t matter which way round we do a correlation. (The phrase 'which way round' doesn't even make sense in the context of a correlation.)
-
-If the data are from an observational study, either method may be appropriate. Time to ask another question...
-
-#### What is the goal of the analysis? {-}
-
-Think about what question is being addressed. A correlation coefficient only quantifies the strength and direction of an association between two variables, it tells us nothing about the form of a relationship. Nor does it allow us to make predictions about the value of one variable from the value of a second variable. A regression does allow this because it involves fitting a line through the data---i.e. there's a model for the relationship. 
-
-This means that if the goal of an analysis is to understand the form of a relationship between two variables, or to use a fitted model to make predictions, we have to use regression. If we just want to know whether two variables are associated or not, the direction of the association, and whether the association is strong or weak, then a correlation analysis is sufficient. It is better to use a correlation analysis when the extra information produced by a regression is not needed, because the former will be simpler and potentially more robust.
+A linear regression analysis allows us to do all this.
 
 ## What does linear regression do?
 
-**Simple linear regression** allows us to *predict* how one variable (the **response variable**) *responds* to another (the **predictor variable**), using a straight-line relationship.
+**Simple linear regression** allows us to *predict* how one variable (called the **response variable**) *responds* or *depends* on to another (called the **predictor variable**), assuming a straight-line relationship.
 
 -   What does the word 'simple' mean here? A simple linear regression is a regression model which only accounts for one predictor variable. If more than one predictor variable is considered, the correct term to describe the resulting model is 'multiple regression'. Multiple regression is a very useful tool but we're only going to study simple regression in this book.
 
@@ -87,12 +69,16 @@ Writing 'simple linear regression' all the time becomes tedious, so we'll often 
 ```{block, type='advanced-box'}
 **'response vs. predictor' or 'dependent vs. independent'?**
 
-Another way to describe linear regression is that it finds the straight-line relationship which best describes the dependence of one variable (the **dependent variable**) on the other (the **independent variable**). The dependent vs. independent  and response vs. predictor conventions for variables in a regression are essentially equivalent. They only differ in the nomenclature they use to describe the variables involved. To avoid confusion, we will stick with response vs. predictor naming convention in this course.
+Another way to describe linear regression is that it finds the straight-line relationship which best describes the dependence of one variable (the **dependent variable**) on the other (the **independent variable**). The dependent vs. independent  and response vs. predictor conventions for variables in a regression are essentially equivalent. They only differ in the nomenclature they use to describe the variables involved. 
+
+To avoid confusion, we will stick with response vs. predictor naming convention in this course.
 ```
 
-How do we decide how to select which is to be used as the response variable and which as the predictor variable? The decision is fairly straightforward in an experimental setting: the manipulated variable is the predictor variable, and the measured outcome is the response variable. Consider the thermal tolerance example from earlier. Temperature was manipulated in this experiment, so it must be designated the predictor variable. Moreover, *a priori* (before conducting the experiment), we can reasonably suppose that changes in temperature may cause changes in enzyme activity, but the reverse seems pretty unlikely. 
+How do we decide how to select which is to be used as the response variable and which as the predictor variable? The decision is fairly straightforward in an experimental setting: the manipulated variable is the predictor variable, and the measured outcome is the response variable. Consider the thermal tolerance example from earlier. Temperature was manipulated in that experiment, so it must be designated the predictor variable. Moreover, *a priori* (before conducting the experiment), we can reasonably suppose that changes in temperature may cause changes in enzyme activity, but the reverse seems pretty unlikely.
 
-Things may not be so clear cut when we are working with data from an observational study as it may not be obvious that one variable depends upon the other (in a causal sense). In regression it matters which way round we designate the response and predictor variables. If you have two variables A and B, the relationship you find from a regression will not be the same for A against B as for B against A.
+Things are not so clear cut when working with data from an observational study. Indeed, the 'response vs. predictor' naming convention can lead to confusion because the phrase 'response variable' tends to make people think in terms of causal relationships, i.e. that variation in the the predictor somehow *causes* changes in the response variable. Sometimes that is actually true, such as in the experimental setting described above. However, deciding to call one variable a response and the other a predictor should not be taken to automatically imply a casual relationship between them. We discuss this later in the section on [causation and regression](#regression-causation).
+
+Finally, it matters which way round we designate the response and predictor variable in a regression analysis. If we have two variables A and B, the relationship we find from a regression will not be the same for A against B as for B against A. Choosing which variable to designate as the response boils down to working out which of the variables needs to be explained (response) in terms of the other (predictor).
 
 ## How does simple linear regression work?
 
@@ -156,7 +142,7 @@ ggplot(exp.data.C, aes(x = x, y = y)) +
   geom_point(data = exp.data, colour = "blue")
 ```
 
-In this plot the blue points are the data and the vertical lines represent the residuals. The residuals represent the variation that is ‘left over’ after the line has been fitted through the data. They give an indication of how well the line fits the data. If all the points lay close to the line the variability of the residuals would be low relative to the variation in the response variable, $y$. When the observations are more scattered around the line the variability of the residuals would be large relative to the variation in the response variable, $y$.
+In this plot the blue points are the data and the vertical lines represent the residuals. The residuals represent the variation that is 'left over' after the line has been fitted through the data. They give an indication of how well the line fits the data. If all the points lay close to the line the variability of the residuals would be low relative to the variation in the response variable, $y$. When the observations are more scattered around the line the variability of the residuals would be large relative to the variation in the response variable, $y$.
 
 Regression works by finding the line which minimises the size of the residuals in some sense. We'll explain exactly how in a moment. The following illustration indicates the principle of this process:
 
@@ -185,18 +171,22 @@ ggplot(all.exp.data, aes(x = x, y = y)) +
   facet_wrap(~labs, nrow = 2)
 ```
 
-We said that regression works by finding the intercept and slope that minimises the vertical distances between the line and each observation in some way^[Notice that it is the vertical distance that matters, not the perpendicular distance from the line.]. In fact, it minimises something called the 'sum of squares' of these distances: we calculate a sum of squares for a particular set of observations and a fitted line by squaring the residual distances and adding all of these up. This quantity is called the **residual sum of squares**. The line with the *lowest* residual sum of squares is the best line because it ‘explains’ the most variation in the response variable.
+We said that regression works by finding the intercept and slope that minimises the vertical distances between the line and each observation in some way[^regression_intro-1]. In fact, it minimises something called the 'sum of squares' of these distances: we calculate a sum of squares for a particular set of observations and a fitted line by squaring the residual distances and adding all of these up. This quantity is called the **residual sum of squares**. The line with the *lowest* residual sum of squares is the best line because it 'explains' the most variation in the response variable.
+
+[^regression_intro-1]: Notice that it is the vertical distance that matters, not the perpendicular distance from the line.
 
 You should be able to see that, for the horizontal line ('A'), the residual sum of squares is larger than any of the other three plots with the sloping lines. This suggests that the sloping lines fit the data better. Which one is best among the three we've plotted? To get at this we need to calculate the residual sum of squares for each line. These are...
-```{r, echo = FALSE}
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
 all.exp.data %>% 
   rename(Line = labs) %>% group_by(Line) %>% 
   summarise('   Residual Sum of Squares' = sum((y-yend)^2)) %>% as.data.frame
 ```
+
 So it looks like the line in panel C is the best fitting line among the candidates. In fact, it is the best fit line among all possible candidates. Did you manage to guess this by looking at the lines and the raw data? If not, think about why you got the answer wrong. Did you consider the vertical distances or the perpendicular distances?
 
 ```{block, type='do-something'}
-It is very important that you understand what a residual from a regression represents. Residuals pop up all the time when evaluating statistical models (not just regression). If you're confused about what they represent be sure to ask a TA to explain them to you.
+It is very important that you understand what a residual from a regression represents. Residuals pop up all the time when evaluating statistical models (not just regression).
 ```
 
 ## What do you get out of a regression?
@@ -205,15 +195,23 @@ A regression analysis involves two activities:
 
 -   **Interpretation.** When we 'fit' a regression model to data we are estimating the coefficients of a best-fit straight line through the data. This is the equation that best describes how the $y$ (response) variable *responds to* the $x$ (predictor) variable. To put it in slightly more technical terms, it describes the $y$ variable as a function of the $x$ variable. This model may be used to understand how the variables are related or make predictions.
 
--   **Inference.** It is not enough to just estimate the regression equation. Before we can use it we need to determine whether there is a statistically significant relationship between the $x$ and $y$ variables. That is, the analysis will tell us whether an apparent association is likely to be real, or just a chance outcome resulting from sampling variation. 
+-   **Inference.** It is not enough to just estimate the regression equation. Before we can use it we need to determine whether there is a statistically significant relationship between the $x$ and $y$ variables. That is, the analysis will tell us whether an apparent association is likely to be real, or just a chance outcome resulting from sampling variation.
 
 Let's consider each of these two activities...
 
 ### Interpreting a regression
 
-What is the form of the relationship? The equation for a straight line relationship is $y = a + b \times x$, where $y$ is the response variable, $x$ is the predictor variable, $a$ is the intercept (i.e. the value at which the line crosses the $y$ axis), and $b$ is the slope of the line. The $a$ and the $b$ are referred to as the *coefficients* (or *parameters*) of the line.
+What is the form of the relationship? The equation for a straight line relationship is $y = a + b \times x$, where 
 
-The slope of the line is often the coefficient we care about most. It tells us the amount by which $y$ changes for a change of one unit in $x$. If the value of $b$ is positive (i.e. a plus sign in the above equation) this means the line slopes upwards to the right. A negative slope ($y = a - bx$) means the line slopes downwards to the right. The diagram below shows the derivation of an equation for a straight line.
+- $y$ is the response variable, 
+
+- $x$ is the predictor variable, 
+
+- $a$ is the intercept (i.e. where the line crosses the $y$ axis), and 
+
+- $b$ is the slope of the line. 
+
+The $a$ and the $b$ are referred to as the *coefficients* (or *parameters*) of the line. The slope of the line is often the coefficient we care about most. It tells us the amount by which $y$ changes for a change of one unit in $x$. If the value of $b$ is positive (i.e. a plus sign in the above equation) this means the line slopes upwards to the right. A negative slope ($y = a - bx$) means the line slopes downwards to the right. The diagram below shows the derivation of an equation for a straight line.
 
 ```{r reg-line-explain, echo = FALSE, fig.width=4, fig.asp=1, fig.align='center'}
 I <- 1
@@ -251,18 +249,18 @@ In the above diagram, the regression equation is: $y = 1 + 0.66 x$. So to find t
 ```{block, type='advanced-box'}
 **Regression involves a statistical model**
 
-A simple linear regression is underpinned by a statistical model. If you skim back through the [Parametric statistics] chapter you will see that the equation $y = a + b \times x$ represents the 'systematic component' of the regression model. This bit describes the component of variation in $y$ that is explained by the model for the dependence of $y$ on $x$. The residuals correspond to the 'random component' of the model. These represent the component of variation in the $y$ variable that our regression model fails to describe.
+A simple linear regression is underpinned by a statistical model. If you skim back through the [parametric statistics](#parametric-statistics) chapter you will see that the equation $y = a + b \times x$ represents the 'systematic component' of the regression model. This bit describes the component of variation in $y$ that is explained by the model for the dependence of $y$ on $x$. The residuals correspond to the 'random component' of the model. These represent the component of variation in the $y$ variable that our regression model fails to describe.
 ```
 
 ### Evaluating hypotheses ('inference')
 
 There is more than one kind of significance test that can be carried out with a simple linear regression. We're going to focus on the most useful test: the *F* test of whether the slope coefficient is significantly different from 0. How do we do this? We play exactly the same kind of 'gambit' we used to develop the earlier tests:
 
-1. We start with a null hypothesis of 'no effect'. This corresponds to the hypothesis that the slope of the regression is zero.
+1.  We start with a null hypothesis of 'no effect'. This corresponds to the hypothesis that the slope of the regression is zero.
 
-2. We then work out what the distribution of some kind of test statistic should look like under the null hypothesis. The test statistic in this case is called the *F*-ratio.
+2.  We then work out what the distribution of some kind of test statistic should look like under the null hypothesis. The test statistic in this case is called the *F*-ratio.
 
-3. We then calculate a *p*-value by asking how likely it is that we would see the observed test statistic, or a more extreme value, if the null hypothesis were really true.
+3.  We then calculate a *p*-value by asking how likely it is that we would see the observed test statistic, or a more extreme value, if the null hypothesis were really true.
 
 ```{block, type='do-something'}
 It's really not critical that you understand the mechanics of an *F*-test. However, there are several terms involved that are good to know about because having some sense of what they mean may help to demystify the output produced by R.
@@ -270,7 +268,7 @@ It's really not critical that you understand the mechanics of an *F*-test. Howev
 
 Let's step through the calculations involved in the *F* test. We'll use the example data shown in the four-panel plot from earlier to do this...
 
-#### Total variation {-}
+#### Total variation {.unnumbered}
 
 First we need to calculate something called the **total sum of squares**. The figure below shows the raw data (blue points) and the grand mean (i.e. the sample mean).
 
@@ -287,9 +285,9 @@ total.devs <- exp.data$y-mean(exp.data$y)
 SS.Tot <- sum(total.devs^2)
 ```
 
-The vertical lines show the distance between each observation and the grand mean. These vertical lines are just the residuals from a model where the slope of the line is set to zero. What we need to do is quantify the variability of these residuals. We can't just add them up, because by definition, they have to sum to zero, i.e. they are calculated relative to the grand mean. Instead we calculate the total sum of squares by taking each residual in turn, squaring it, and then adding up all the squared values. We call this the total sum of squares because it is a measure of the total variability in the response variable, $y$. This number is `r round(SS.Tot, 2)` for the data in the figure above. 
+The vertical lines show the distance between each observation and the grand mean. These vertical lines are just the residuals from a model where the slope of the line is set to zero. What we need to do is quantify the variability of these residuals. We can't just add them up, because by definition, they have to sum to zero, i.e. they are calculated relative to the grand mean. Instead we calculate the total sum of squares by taking each residual in turn, squaring it, and then adding up all the squared values. We call this the total sum of squares because it is a measure of the total variability in the response variable, $y$. This number is `r round(SS.Tot, 2)` for the data in the figure above.
 
-#### Residual variation {-}
+#### Residual variation {.unnumbered}
 
 Next we need to calculate the **residual sum of squares**. We have already seen how this calculation works because it is used in the calculation of the best fit line---the best fit line is the one that minimises the residual sum of squares. Let's plot this line along with the associated residuals of this line again:
 
@@ -307,36 +305,57 @@ SS.Wth <- sum(within.devs^2)
 
 The vertical lines show the distance between each observation and the best fit line. We need to quantify the variability of these residuals. Again, we can't just add up the deviations because they have to sum to zero as a result of how the best fit line is found. Instead we calculate the residual sum of squares by taking each residual in turn, squaring it, and then adding up all the squared values. This number is `r round(SS.Wth, 2)` for the figure above. We call this the residual, or error, sum of squares because it is a measure of the variation in $y$ that is 'left over' after accounting for the influence of the predictor variable $x$.
 
-#### Explained variation {-}
+#### Explained variation {.unnumbered}
 
-Once the total sum of squares and the residual sum of squares are known, we can calculate the quantity we really want: the **explained sum of squares**. This is a measure of the variation in $y$ that is explained by the influence of the predictor variable $x$. We calculate this by subtracting the residual sum of squares from the total sum of squares. This makes intuitive sense: if we subtract the variation in $y$ we can't explain (residual) from all the variation in $y$ (total), we end up with the amount 'explained' by the regression. This number is `r round(SS.Tot-SS.Wth, 2)` for the example. 
+Once the total sum of squares and the residual sum of squares are known, we can calculate the quantity we really want: the **explained sum of squares**. This is a measure of the variation in $y$ that is explained by the influence of the predictor variable $x$. We calculate this by subtracting the residual sum of squares from the total sum of squares. This makes intuitive sense: if we subtract the variation in $y$ we can't explain (residual) from all the variation in $y$ (total), we end up with the amount 'explained' by the regression. This number is `r round(SS.Tot-SS.Wth, 2)` for the example.
 
-#### Degrees of freedom, mean squares and *F* tests {-}
+#### Degrees of freedom, mean squares and *F* tests {.unnumbered}
 
-The problem with sums of squares is that they are a function of sample size. The more data we have, the larger our sum of squares will get. The solution to this problem is to convert them into a measure of variability that doesn't scale with sample size. We need to calculate **degrees of freedom** (written as df, or d.f.) to do this.  We came across the concept of degrees of freedom when we studied the *t*-test. The idea is closely related to sample size. It is difficult to give a precise definition, but roughly speaking the degrees of freedom of a statistic is a measure of how much 'information' it contains.
+The problem with sums of squares is that they are a function of sample size. The more data we have, the larger our sum of squares will get. The solution to this problem is to convert them into a measure of variability that doesn't scale with sample size. We need to calculate **degrees of freedom** (written as df, or d.f.) to do this. We came across the concept of degrees of freedom when we studied the *t*-test. The idea is closely related to sample size. It is difficult to give a precise definition, but roughly speaking the degrees of freedom of a statistic is a measure of how much 'information' it contains.
 
 Each of the measures of variability we just calculated for the simple linear regression has a degrees of freedom associated with it. We need the explained and error degrees of freedom:
 
-*   Explained d.f. = 1
+-   Explained d.f. = 1
 
-*   Error d.f. = (Number of observations - 2)
+-   Error d.f. = (Number of observations - 2)
 
-Don't worry if those seem a little cryptic. We don't need to carry out degrees of freedom calculations by hand because R will do them for us. We'll think about degrees of freedom a bit more when we start to learn about ANOVA models. 
+Don't worry if those seem a little cryptic. We don't need to carry out degrees of freedom calculations by hand because R will do them for us. We'll think about degrees of freedom a bit more when we start to learn about ANOVA models.
 
-The reason degrees of freedom matter is because we can use them to standardise the sum of squares to account for sample size. The calculations are very simple. We take each sum of squares and divide it by its associated degrees of freedom. The resulting quantity is called a **mean square** (it's the mean of squared deviations):
-$$
+The reason degrees of freedom matter is because we can use them to standardise the sum of squares to account for sample size. The calculations are very simple. We take each sum of squares and divide it by its associated degrees of freedom. The resulting quantity is called a **mean square** (it's the mean of squared deviations): $$
 \text{Mean Square} = \frac{\text{Sum of Squares}}{\text{Degrees of Freedom}}
-$$
-A mean square is actually an estimate of variance. Remember the variance? It is one of the standard measures of a distribution's dispersion, or spread. 
+$$ A mean square is actually an estimate of variance. Remember the variance? It is one of the standard measures of a distribution's dispersion, or spread.
 
 Now for the important bit. The two mean squares can be compared by calculating the ratio between them, which is designated by the letter *F*:
 
 $$F = \mbox{Variance Ratio} = \frac{\mbox{Explained Mean Square}}{\mbox{Residual Mean Square}}$$
 
-This is called the *F* ratio, or sometimes, the variance ratio. If the explained variation is large compared to the residual variation then the *F* ratio will be large. Conversely, if the explained variation is relatively small then *F* will be small. We can see where this is heading... 
+This is called the *F* ratio, or sometimes, the variance ratio. If the explained variation is large compared to the residual variation then the *F* ratio will be large. Conversely, if the explained variation is relatively small then *F* will be small. We can see where this is heading...
 
-The *F* ratio is a type of test statistic---if the value of *F* is sufficiently large then we judge it to be statistically significant. In order for this judgement to be valid we have to make one key assumption about the population from which the data has been sampled: we assume the residuals are drawn from a normal distribution. If this assumption is correct, it can be shown that the distribution of the *F* ratio under the null hypothesis (the 'null distribution') has a particular form: it follows a theoretical distribution called an *F*-distribution. And yes, that's why the variance ratio is called '*F*'. 
+The *F* ratio is a type of test statistic---if the value of *F* is sufficiently large then we judge it to be statistically significant. In order for this judgement to be valid we have to make one key assumption about the population from which the data has been sampled: we assume the residuals are drawn from a normal distribution. If this assumption is correct, it can be shown that the distribution of the *F* ratio under the null hypothesis (the 'null distribution') has a particular form: it follows a theoretical distribution called an *F*-distribution. And yes, that's why the variance ratio is called '*F*'.
 
 All this means we can assess statistical significance of the slope coefficient by comparing the *F* ratio calculated from a sample to this theoretical distribution. This procedure is called an *F* test. The *F* ratio is 7.34 in our example. This is quite high which indicates that the slope is likely to be significantly different from 0. However, in order to actually calculate the *p*-value we also need to consider the degrees of freedom of the test, and because the test involves an *F* ratio, there are two different degrees of freedom to consider: the explained and residual df's. Remember that!
 
 We could go one to actually calculate the *p*-value, but it is much better to let R do this for us when we work directly with a regression model. We'll leave significance tests alone for now...
+
+## Correlation or regression?
+
+Before we finish up it is worth pausing to consider the difference between regression and correlation analyses. Whilst regression and correlation are both concerned with associations between numeric variables, they are different techniques and each is appropriate under distinct circumstances. This is a frequent source of confusion. Which technique is required for a particular analysis depends on
+
+-   the way the data were collected and
+-   the purpose of the analysis.
+
+There are two broad questions to consider---
+
+#### Where do the data come from? {.unnumbered}
+
+Think about how the data have been collected. If they are from a study where one of the variables has been experimentally manipulated, then choosing the best analysis is easy. We should use a regression analysis, in which the predictor variable is the experimentally manipulated variable and the response variable is the measured outcome. The fitted line from a regression analysis describes how the outcome variable *depends on* the manipulated variable---it describes the causal relationship between them.
+
+It is generally inappropriate to use correlation to analyse data from an experimental setting. A correlation analysis examines association but does not imply the dependence of one variable on another. Since there is no distinction of response or predictor variables, it doesn't matter which way round we do a correlation. In fact, the phrase 'which way round' doesn't even make sense in the context of a correlation.
+
+If the data are from a so-called 'observational study' where someone took measurements but nothing was actually manipulated experimentally, then either method may be appropriate. Time to ask another question...
+
+#### What is the goal of the analysis? {.unnumbered}
+
+Think about what question is being asked. A correlation coefficient only quantifies the strength and direction of an association between variables---it tells us nothing about the form of a relationship. Nor does it allow us to make predictions about the value of one variable from the values of a second. A regression does allow this because it involves fitting a line through the data---i.e. regression involves **a model** for the relationship.
+
+This means that if the goal is to understand the form of a relationship between two variables, or to use a fitted model to make predictions, we have to use regression. If we just want to know whether two variables are associated or not, the direction of the association, and whether the association is strong or weak, then a correlation analysis is sufficient. It is better to use a correlation analysis when the extra information produced by a regression is not needed, because the former will be simpler and potentially more robust.

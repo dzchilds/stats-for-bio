@@ -6,7 +6,7 @@
 
 ## Randomized Complete Block Designs
 
-We have only considered one type of experimental ANOVA design up until now: the **Completely Randomised Design** (CRD). The defining feature of a CRD is that treatments are assigned completely at random to experimental units. This is the simplest type of experimental design. The randomisation is a good thing because it prevents systematic biases creeping in. A CRD approach is often 'good enough' in many situations. However, it isn't necessarily the most powerful design---if at all possible, we should use **blocking** to account for **nuisance factors**. A nuisance factor is one that has an effect on the response---it creates variation---but is of no interest to the experimenter. To end up with the most powerful experiment possible, the variability induced by nuisance factors should be accounted for at the design stage of an experiment. Let's consider a hypothetical experiment to remind ourselves how blocking works...
+We have only considered one type of experimental ANOVA design up until now: the **Completely Randomised Design** (CRD). The defining feature of a CRD is that treatments are assigned completely at random to experimental units. This is the simplest type of experimental design. Randomisation is a good thing because it prevents systematic biases creeping in. A CRD approach is often 'good enough' in many situations. However, it isn't necessarily the most powerful design---if at all possible, we should use **blocking** to account for **nuisance factors**. A nuisance factor is one that has an effect on the response---it creates variation---but is of no interest to the experimenter. To end up with the most powerful experiment possible, the variability induced by nuisance factors should be accounted for at the design stage of an experiment. Let's consider a hypothetical experiment to remind ourselves how blocking works...
 
 Imagine we're evaluating the effect of three different fertilizer application rates on wheat yields (t/ha). We suspect that the soil type and management histories of our experimental fields are quite different, leading to significant 'field effects' on yield. We don't care about these field effects---they are a nuisance---but we'd like to account for them. There are two factors in play in this setting: the first is the set of treatments that are the subject of the experiment (fertilizer application rate); the second is the source of nuisance variation (field). Fertilizer application rate is the 'treatment factor' and field is the 'blocking factor'.
 
@@ -34,7 +34,7 @@ There are many different ways to introduce blocking into an experiment. The most
 
 ## Designs without replication
 
-So far we've only used the one-way ANOVA. As we'll find out in the [Introduction to two-way ANOVA] chapter we can have more than one treatment in an ANOVA. Usually when we're interested in the effect of two variables on our response variable we'll have the following design: two factors, each having two or more levels, *with replicate measurements* within each combination of levels:
+So far we've only used the one-way ANOVA. As we'll find out in the [Introduction to two-way ANOVA](#two-way-anova-intro) chapter we can have more than one treatment in an ANOVA. Usually when we're interested in the effect of two variables on our response variable we'll have the following design: two factors, each having two or more levels, *with replicate measurements* within each combination of levels:
 
 |              | **Factor A** | Level 1 | Level 2 | Level 3 |
 |-------------:|:-------------|:--------|:--------|:--------|
@@ -52,21 +52,11 @@ As we have just seen however, it is possible to have a two-way design with only 
 |              | Level 3       |  4      | ...     | ...     |
 |              | Level 4       |  2      | ...     | ...     |
 
-What's this... no replication? Isn't that a problem? In fact there is replication of a sort for each level of the factors. For example there are 3 values for each level of Factor B, it’s just that each value is at a different level of Factor A. This means we can still compare the means for the different levels of each treatment using an ANOVA (that is, we can analyse the main effects). What we can't do is determine whether the effect of Factor B varies depending on the value of Factor A. This is called the interaction. We'll come back to this idea in the [Introduction to two-way ANOVA] chapter so don't worry if it seems confusing now. The interaction is derived from differences between the means and variances of the cases *in each individual cell in the table* (= each combination of the two factor levels). If there is only one value in a cell then clearly means and variances cannot be calculated.
+What's this... no replication? Isn't that a problem? In fact there is replication of a sort for each level of the factors. For example there are 3 values for each level of Factor B, it’s just that each value is at a different level of Factor A. This means we can still compare the means for the different levels of each treatment using an ANOVA (that is, we can analyse the main effects). What we can't do is determine whether the effect of Factor B varies depending on the value of Factor A. This is called the interaction. We'll come back to this idea in the [Introduction to two-way ANOVA](#two-way-anova-intro) chapter so don't worry if it seems confusing now.
 
-So... it is possible to carry out a two-way ANOVA without replication, though we can't learn anything about the interaction with this sort of design. Is this ever useful? There are two situations where this sort of unreplicated two-way arrangement is used:
+So... it is possible to carry out a two-way ANOVA without replication, even though we can't learn anything about that mysterious interaction with this sort of design. Is this useful? Yes---it is useful when one one of the factors is a blocking factor. If our experimental design has a single blocking factor and one treatment factor, and we adopt an RCBD, this leads to an unreplicated two-way arrangement. The fact that we can't estimate an interaction is not a problem. In fact, "it's a feature, not a bug." We only need to know about the average effect of each treatment (across blocks) to be able to generalise our results, and we can definitely estimate that.
 
-1. **One of the factors is a blocking factor**. We could have guessed this one, given what this chapter is about. If we have a single blocking factor and one treatment factor, and we adopt an RCBD, then this leads to an unreplicated two-way arrangement. The fact that we can't estimate the interaction is not a problem. In fact, "it's a feature, not a bug." We only care about the treatment factor. There might well be an interaction between the blocks and the experimental treatments, but we only need the average effect of treatments across blocks to be able to generalise our results.
-
-2. **We are considering two treatment factors (no blocks), but we are only interested in the main effects**. We have three choices in this situation: 1) conduct two separate one-way experiments, 2) construct a single two-way experiment without replication, or 3) construct a single two-way experiment with replication. The third option would be best, but sometimes we just don't have the resources to do it^[Having replication at each combination of factors will maximise statistical power, but it also makes for a more robust experiment---if we have only one replicate for a combination and we lose it then we have no information at all from that combination! If we lose just one of a number of replicates in a particular combination it may be a nuisance, but unlikely to ruin everything.]. What is the next best choice: option 1 or option 2? The two-way experiment without replication is the better option because a two-way design---with or without replication---is always more powerful than a pair of one-way experiments that include an equivalent number of replicates between them.
-
-So there is nothing "dodgy" about a two-way design without replication. Indeed, it is the best design to use in some situations. Let's see how to the analyse a Randomized Complete Block Design experiment. 
-
-```{block, type='advanced-box'}
-**Interactions are not a feature of the experimental design** 
-
-It's important to realise that just because we can't test for the interaction, it does not mean there is no interaction effect between two factors. We simply can’t detect it even if it is there. However, as long as we have a balanced, orthogonal design, a significance test of main effects is still meaningful. If the balanced and orthogonal criteria are not met, then we do have to be very careful about how we interpret a significant main effect in the absence of replication, because the presence of an interaction may generate a spuriously significant main effect.
-```
+So there is nothing "dodgy" about a two-way design without replication. Indeed, it is the best design to use in some situations, such as an RCBD experiment. Let's see how to the analyse a Randomized Complete Block Design experiment. 
 
 ## Analysing an RCBD experiment
 
@@ -102,25 +92,21 @@ glimpse(damsels)
 The density of midge larvae in each enclosure, after running the experiment for 3 weeks, are in the `Midge` variable (number m$^{-2}$); codes for species in the `Species` variable  (levels: *Enallagma*, *Lestes* and *Pyrrhosoma*), and the block identities (A, B, C, D) in the third column.
 
 The process of analysing an RCBD is essentially the same as any other type of ANOVA. First we fit the model using the `lm` function and then we use `anova` to calculate *F*-statistics, degrees of freedom, and *p*-values:
+
 ```{r, results = "hide"}
 damsels.model <- lm(Midge ~ Species + Block, data = damsels)
 anova(damsels.model)
 ```
 
-We suppressed the output for now. Notice that we have put two factors on the right hand side of the `~` symbol. This tells R that we want to fit a model that accounts for the main effects of `Species` and `Block`. We put a `+` between terms to delineate them. 
+We suppressed the output for now. Notice that we have put two factors on the right hand side of the `~` symbol. This tells R that we want to fit a model that accounts for the main effects of `Species` and `Block`. We put a `+` between terms to delineate them.
 
-Notice that we only specified the two main effects (species and blocks)---we cannot test for the interaction. In general an interaction can be included using a colon (the `:` symbol) with the two interacting variables either side of it as follows: 
+```{block, type='warning-box'}
+**Careful with your `+` and `*`** 
 
-```{r, eval = FALSE}
-Midge ~ Species + Block + Species:Block
+Notice that we set up the blocking factor in the model using the 'plus' symbol: `Species + Block`. R also allows us to use the 'times' symbol `*` inside a model formula, e.g. `Species * Block`. You will see this used later when we get to two-way designs. However, you should use `+` to include a blocking factor like `Block` in a model as a so-called 'main effect' term. We'll talk about what that means later. For now, just note that blocking factors are included via `+`. 
+
+And by the way... the `+` has nothing to do with addition when working with model specifications in R.
 ```
-
-If we put an interaction term in this model however, `lm` will fit it but the results from `anova` will be useless:
-```{r, echo = FALSE}
-wrong.model <- lm(Midge ~ Species + Block + Species:Block, data = damsels)
-anova(wrong.model)
-```
-Look at the residual degrees of freedom (the error degrees of freedom). The model we just fitted is called a saturated model---there are zero degrees of freedom left over after fitting the three terms. We can't calculate an error sum of squares, which means we can't calculate mean squares or *F*-ratios. This demonstrates that there really is no way to estimate an interaction in ANOVA when there is no replication at the level of each combination of factor levels.
 
 ```{r, echo = FALSE}
 damsels.out <- capture.output(anova(damsels.model))
@@ -132,13 +118,17 @@ anova(damsels.model)
 ```
 
 What does all this mean? We interpret each line of the ANOVA table in exactly the same way as we do for a one-way ANOVA. The first part tells us what kind of output we are looking at:
+
 ```{r, echo=FALSE}
 invisible(sapply(damsels.out[1:3], function(line) cat(line, "\n")))
 ```
+
 This reminds us that we are looking at an ANOVA table where our response variable was called `Midge`. The table contains the key information:
+
 ```{r, echo=FALSE}
 invisible(sapply(damsels.out[4:7], function(line) cat(line, "\n")))
 ```
+
 This ANOVA table is similar to the ones we have already seen, except that now we have to consider two lines---one for each term in the model. The first is for the main effect of Species and the second for the main effect of Block. 
 
 The *F*-ratio is the test statistic for each term. These provides a measure of how large and consistent the effects associated with each term are. Each *F*-ratio has a pair of degrees of freedom associated with it: one belonging to the term itself, the other due to the error (residual). Together, the *F*-ratio and its degrees of freedom determines the *p*-value. 
@@ -146,10 +136,12 @@ The *F*-ratio is the test statistic for each term. These provides a measure of h
 The *p*-value gives the probability that the differences between the set of means for each term in the model, or a more extreme difference, could have arisen through sampling variation under the null hypothesis of no difference. We take *p* < 0.05 as evidence that at least one of the treatments is having an effect. Here, there is a significant effect of block (*p* < 0.001), which says that the density of midge larvae varies across the lake. It looks like blocking was a good idea---there is a lot of spatial (nuisance) variation in midge larvae density. Of course what we actually care about is the damselfly species effect. This main effect term is not significant (*p* > 0.05), so we conclude that there is no difference in the impact of the predatory larvae of three damselfly species. 
 
 It is worth looking at what happens if we analyse the damselfly data as though they are from a one-way design. We do this by including only the experimental treatment term (Species) in the model:
+
 ```{r}
 damsels.oneway <- lm(Midge ~ Species, data = damsels)
 anova(damsels.oneway)
 ```
+
 Look at the degrees of freedom and the sums of squares of the residual (error). How do these compare to the previous model that accounted for the block effect? The degrees of freedom is higher. In principle this is a good thing because it means we have more power to detect a significant difference among the treatment means. However, the error sum of squares is also much higher when we ignore the block effect. We have accounted for much less noise by ignoring the block effect. As a result, the error mean square is much lower, and so the *F*-statistic associated with the treatment effect is also much lower. The take home message is that designing a blocked experiment, and properly accounting for the blocked structure, will (usually) result in a more powerful analysis.
 
 ### Multiple comparisons anyone?
@@ -167,10 +159,6 @@ The short answer is no, not really. There are instances when a randomised block 
 The advice contained in the quote at the beginning of this chapter is probably the best experimental design advice ever dished out: "Block what you can; randomize what you cannot."
 
 ## Multiple blocking factors
-
-```{block, type='do-something'}
-You will not be assessed on the material in this section. It is here to demonstrate that there are options beyond the Randomised Complete Block Design, but that they aren't easy to employ.
-```
 
 It is common to find ourselves in a situation whereby we need to account for more than one blocking factor. The simplest option is to combine the nuisance factors into a single factor. However, this isn't always possible, or even desirable. Consider an instance where there is a single factor of primary interest (the treatment factor) and two nuisance factors. For example, imagine that we want to test three drugs A, B, C for their effect in alleviating the symptoms of a disease. Three patients are available for a trial, and each will be available for three weeks. Testing a single drug requires a week, meaning an experimental unit is a ‘patient-week’. The obvious question is, how should we randomise treatments across ‘patient-weeks’?
 

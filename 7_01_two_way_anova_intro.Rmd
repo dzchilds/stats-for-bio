@@ -1,4 +1,4 @@
-# Introduction to two-way ANOVA
+# Introduction to two-way ANOVA {#two-way-anova-intro}
 
 > The experimenter who believes that only one factor at a time should be varied
 > is amply provided for by using a factorial experiment.

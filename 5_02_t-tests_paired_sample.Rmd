@@ -1,12 +1,12 @@
 # Paired-sample t-test
 
-In the previous chapter we learnt about how blocking is a useful technique for dealing with confounding effects. However, we didn't think about how we would analyse such data. If we've used a block design we can't just throw our data into the kinds of statistical tests that we've already covered (e.g. t-tests and one-way ANOVAs). Remember that one of the assumptions of these tests is independence. If we've used a block design that assumption will be violated. In this chapter and the next we'll consider the blocked design equivalents of a t-test and then an ANOVA.
+In the previous chapter we learnt about how blocking is a useful technique for dealing with confounding effects. However, we didn't think about how we would analyse such data. If we've used a block design we can't just throw our data into something like a *t*-test or ANOVA. Remember, one of the assumptions of these tests is independence of the experimental units, and yet, using a blocked design creates a situation where some units are not independent. In this chapter and the next we'll consider versions of the *t*-test and ANOVA that can be used to analyse such non-independent data.
 
 ## When do we use a paired-sample *t*-test?
 
-We learned before how to use a two-sample *t*-test to compare means among two populations. However, there are situations in which data may naturally form pairs of non-independent observations: the first value in a sample A is linked in some way to the first value in sample B, the second value in sample A is linked with the second value in sample B, and so on. This is known, unsurprisingly, as a *paired-sample* design. A common example of a paired-sample design is the situation where we have a set of organisms, and we record some measurement from each organism before and after an experimental treatment. For example, if we were studying heart rate in relation to position (sitting vs. standing) we might measure the heart rate of a number of people in both positions. In this case the heart rate of a particular person when sitting is paired with the heart rate of the same person when standing.
+There are situations in which data may naturally form pairs of non-independent observations: the first value in a sample A is linked to the first value in sample B, the second value in sample A is linked with the second value in sample B, and so on. This is known as a *paired-sample* data. A common example of paired-sample data is the situation where we have a group of organisms, and we record some measurement from each organism before and after an experimental treatment. For example, if we were studying heart rate in relation to position (sitting vs. standing) we might measure the heart rate of a number of people in both positions. In this case the heart rate of a particular person when sitting is paired with the heart rate of the same person when standing. 
 
-In biology, we often have the problem that there is a great deal of variation between the items we're studying (individual organisms, forest sites, etc). There may be so much among-item variation that the effect of any difference among the situations we're really interested in is obscured. A paired-sample design gives us a way to control for this variation. However, we should not use a two-sample *t*-test when our data have this kind of structure. Let's find out why.
+An experimental design that sets out to produce paired-data is known as a *paired-sample design*. More often than not paired-sample data arise as consequence of such deliberate decisions. Why? In biology, we often have the problem that there is a great deal of variation between the units we're studying (individual organisms, tissue samples, etc). There may be so much among-unit variation that the effect of any difference among the situations we're really interested in is obscured. Using a paired-sample design gives us a way to control for the among-unit variation and increase the power of our statistical tests. However, we should not use a two-sample *t*-test when our data have this kind of structure. Let's find out why.
 
 ## Why do we use a paired-sample design?
 
@@ -41,7 +41,7 @@ slice(drug_data, c(2,3,4,8,9,13,14,15)) %>%
 
 The patients and their glycolipid levels are identical to those in the previous diagram, but only patients 2, 3, 4 and 8 (selected at random) were given Drug A, while only patients 1, 5, 6, and 7 were given Drug B. The means of the two groups are different, with Drug B performing better, but the associated standard error would also be large relative to this difference. A two-sample *t*-test would certainly fail to identify a significant difference between the two drugs.
 
-So, it would be quite possible to end up with two groups where there was no clear difference in the mean glycolipid levels between the two drug treatments even though Drug B seems to be more effective in the majority of patients. What the pairing is doing is allowing us to factor out (i.e. remove) the variation among individuals, and concentrate on the differences between the two treatments. The result is a much more sensitive evaluation of the effect we're interested in.
+So, it would be quite possible to end up with two groups where there was no clear difference in the mean glycolipid levels between the two drug treatments even though Drug B seems to be more effective in the majority of patients. What the pairing is doing is allowing us to factor out (i.e. remove) the variation among individuals, and concentrate on the differences between the two treatments. This works by focussing on the differences occurring *within* individuals. The result is a much more sensitive evaluation of the effect we're interested in.
 
 The next question is, how do we go about analysing paired data in a way that properly accounts for the structure in the data?
 
@@ -49,17 +49,16 @@ The next question is, how do we go about analysing paired data in a way that pro
 
 It should be clear why a paired-sample design might be useful, but how do we actually construct the right test? The 'trick' is to work directly with the differences between pairs of values. In the case of the glycolipid levels illustrated in the first diagram, we noted that there was a greater decrease of glycolipids in 75% of patients using Drug B compared with Drug A.
 
-If we calculate the actual differences (i.e. subtracted the value for Drug A from the value for Drug B) for each patient we might see something like...
 
-```{r, echo = FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 set.seed(27081975)
-out <- drug_data %>% 
+out <- 
+  drug_data %>% 
   group_by(Patient) %>% summarise(D = diff(Glycolipid))
 out <- out$D + sample(c(-1,+1)/10, nrow(out), replace = TRUE)
-cat(out)
 ```
 
-Notice that there are only two positive values in this sample of differences, one of which is fairly close to 0. The mean difference is `r round(mean(out), 1)`, i.e. on average, glycolipid levels are lower with Drug B. Another way of stating this observation is that *within subjects* (patients), the mean difference between drug B and drug A is negative. A paired-sample design focusses on the within-subject (or more generally, within-item) change.
+If we calculate the actual differences (i.e. subtracted the value for Drug A from the value for Drug B) for each patient we might see something like: `r out`. Notice that there are only two positive values in this sample of differences, one of which is fairly close to 0. The mean difference is `r round(mean(out), 1)`, i.e. on average, glycolipid levels are lower with Drug B. Another way of stating this observation is that *within subjects* (patients), the mean difference between drug B and drug A is negative. A paired-sample design focusses on the within-subject (or more generally, within-item) change.
 
 If, on the other hand, the two drugs had had similar effects then what would we expect to see? We would expect no consistent difference in glycolipid levels between the Drug A and Drug B treatments. Glycolipid levels are unlikely to remain exactly the same over time, but there shouldn’t be any pattern to these changes with respect to the drug treatment: some patients will show increases, some decreases, and some no change at all. The mean of the differences in this case should be somewhere around zero (though sampling variation will ensure it isn't exactly equal to zero).
 
@@ -92,12 +91,14 @@ glimpse(glycolipid)
 There are four variables in this data set: `Patient` indexes the patient identity, `Sex` is the sex of the patient (we don't need this), `Drug` denotes the drug treatment, and `Glycolipid` is the glycolipid level. 
 
 Next, we need to calculate the differences between each pair. We can do this with the `dplyr` functions `group_by` and `summarise`:
-```{r}
+
+```{r, message=FALSE, warning=FALSE}
 glycolipid_diffs <- 
   glycolipid %>%
   group_by(Patient) %>%
   summarise(Difference = diff(Glycolipid))
 ```
+
 What we did was group the data by the values of `Patient`, and then used a function called `diff` to calculate the difference between the two Glycolipid concentrations *within each patient*. We stored the result of this calculation in a new data frame called `glycolipid_diffs`. This is the data we'll use to carry out the paired-sample *t*-test:
 ```{r}
 glycolipid_diffs
@@ -110,10 +111,12 @@ ggplot(glycolipid_diffs, aes(x = Difference)) +
   geom_dotplot() + theme_grey(base_size = 22)
 ```
 
-The data seems roughly normal, so let's carry out a one-sample *t*-test on the calculated differences. This is test is easy to do in R:
+OK, there really isn't a lot of data to work with here but there's nothing in that plot that screams 'non-normal', which means the assumptions have been met as best they can be. Let's proceed to carry out a one-sample *t*-test on the calculated differences. This is easy to do in R:
+
 ```{r}
 t.test(glycolipid_diffs$Difference)
 ```
+
 We don't have to set the `data` argument to carry out a one-sample *t*-test on the differences. We just passed along the numeric vector of differences extracted from `glycolipid_diffs` (using the `$` operator). What happened to the `mu` argument used to set up the null hypothesis? Remember, the null hypothesis is that the population mean is zero. R assumes that this is 0 if we don't supply it, so no need to set it here.
 
 The output is quite familiar... The first line reminds us what kind of test we did, and the second line reminds us what data we used to carry out the test. The third line is the important one: `t = -2.6209, df = 7, *p*-value = 0.03436`. This gives the *t*-statistic, the degrees of freedom, and the all-important *p*-value associated with the test. The *p*-value tells us that the mean within-individual difference is significant at the *p* < 0.05 level.

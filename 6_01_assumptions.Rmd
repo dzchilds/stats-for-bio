@@ -1,4 +1,4 @@
-# Assumptions and diagnostics
+# Assumptions and diagnostics {#assumptions-diagnostics}
 
 We usually have an analysis in mind when we design an experiment or observational data collection protocol. It may be tempting to jump straight into this analysis without carefully examining the data first. This is never a good idea. In the past few chapters we have repeatedly emphasised that careful data analysis always begins with inspection of the data. Visualising a dataset helps us to understand the data and evaluate whether or not the assumptions of a statistical tool are likely to be violated.
 
