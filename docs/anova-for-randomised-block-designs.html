@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="paired-sample-t-test.html"/>
 <link rel="next" href="assumptions-diagnostics.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -717,7 +718,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="randomized-complete-block-designs" class="section level2" number="21.1">
 <h2><span class="header-section-number">21.1</span> Randomized Complete Block Designs</h2>
 <p>We have only considered one type of experimental ANOVA design up until now: the <strong>Completely Randomised Design</strong> (CRD). The defining feature of a CRD is that treatments are assigned completely at random to experimental units. This is the simplest type of experimental design. Randomisation is a good thing because it prevents systematic biases creeping in. A CRD approach is often ‘good enough’ in many situations. However, it isn’t necessarily the most powerful design—if at all possible, we should use <strong>blocking</strong> to account for <strong>nuisance factors</strong>. A nuisance factor is one that has an effect on the response—it creates variation—but is of no interest to the experimenter. To end up with the most powerful experiment possible, the variability induced by nuisance factors should be accounted for at the design stage of an experiment. Let’s consider a hypothetical experiment to remind ourselves how blocking works…</p>
-<p>Imagine we’re evaluating the effect of three different fertilizer application rates on wheat yields (t/ha). We suspect that the soil type and management histories of our experimental fields are quite different, leading to significant ‘field effects’ on yield. We don’t care about these field effects—they are a nuisance—but we’d like to account for them. There are two factors in play in this setting: the first is the set of treatments that are the subject of the experiment (fertilizer application rate); the second is the source of nuisance variation (field). Fertilizer application rate is the ‘treatment factor’ and field is the ‘blocking factor’.</p>
+<p>Imagine we’re evaluating the effect of three different fertilizer application rates on wheat yields (t/ha). We suspect that the soil type and management histories of our experimental fields are quite different, leading to significant ‘field effects’ on yield. We don’t care about these field effects—they are a nuisance—but we’d like to account for them. There are two factors in play in this setting: the first is the set of treatments that are the subject of the experiment (fertilizer application rate); the second is the source of nuisance variation (field). Fertilizer application rate is the ‘treatment factor’ and field is the ‘blocking factor.’</p>
 <p>Here is one way to block the experiment. The essence of the design is that a set of fields are chosen, which may differ in various unknown conditions (soil water, aspect, disturbance, etc.) and within each field, three plots are set up. Each plot receives one of the three fertilizer rate treatments at random. If we chose to work with eight fields the resulting data might look like this:</p>
 <table>
 <thead>
@@ -788,7 +789,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<p>Each treatment level is represented in each field (block), but only once. The experiment is ‘blocked by field’. Now consider these two questions:</p>
+<p>Each treatment level is represented in each field (block), but only once. The experiment is ‘blocked by field.’ Now consider these two questions:</p>
 <ul>
 <li><p>Why is this design useful? Blocking allows us to partition out the environmental variation due to different field conditions. For example, the three treatments in field 5 produced a high yield relative to the yields within each treatment, while the yields in field 7 are consistently below average within each treatment. This among field variation is real, and if we hadn’t blocked the experiment and used a CRD it would manifest itself in the ‘noise’ component of our analysis. But since we blocked the experiment, and every treatment is present in every block, we can ‘remove’ the block variation from the noise. Less noise means more statistical power.</p></li>
 <li><p>Why is each treatment level is represented only once within blocks? This gives us the best chance of generalising our results. If we are interested in the overall effect of fertilizer, we should prefer to put our effort into including a range of possible environmental conditions. If we only did the experiment in one field the results might turn out to be rather unusual. We are not interested in the environmental variation as such, we just want to know for a range of conditions, whatever they might be, whether there are consistent differences between fertilizer application rates.</p></li>
@@ -890,7 +891,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Let’s consider a new example to really drive home how an RCBD works. We want to assess whether there is a difference in the impact that the predatory larvae of three damselfly species (<em>Enallagma</em>, <em>Lestes</em> and <em>Pyrrhosoma</em>) have on the abundance of midge larvae in a pond. We plan to conduct an experiment in which small (1 m<sup>2</sup>) nylon mesh cages are set up in the pond. All damselfly larvae will be removed from the cages and each cage will then be stocked with 20 individuals of one of the species. After 3 weeks we will sample the cages and count the density of midge larvae in each. We have 12 cages altogether, so four replicates of each of the three species can be established.</p>
 <p>On the face of it this looks like a straightforward one-way design, with each species as a treatment. The only problem to resolve is how to distribute the enclosures in the pond. Obviously the pond is unlikely to be uniform in depth, substrate, temperature, shade, etc… Some of the variation will be obvious, some will not. We have two options: 1) use a CRD and distribute the cages at random, or 2) adopt an RCBD by grouping the cages into clusters of three, placing each cluster at a randomly chosen location, and assigning the three treatments to cages at random within each cluster. These are illustrated below (left = CRD, right = RCBD):</p>
 <p><img src="images/damselfly-expt-layouts.png" width="75%" style="display: block; margin: auto;" /></p>
-<p>What are the consequences of the two alternatives? If the cages are distributed at random (CRD) then they will cover a wide range of variation in these various factors. These sources of variation will almost certainly cause the density of midge larvae to vary around the pond in an unpredictable way, increasing the noise in the data. If we group sets of treatments into clusters we are creating ‘spatial blocks’. There may be considerable differences between blocks, but these won’t obscure differences between the treatments because all three treatments are present in every block.</p>
+<p>What are the consequences of the two alternatives? If the cages are distributed at random (CRD) then they will cover a wide range of variation in these various factors. These sources of variation will almost certainly cause the density of midge larvae to vary around the pond in an unpredictable way, increasing the noise in the data. If we group sets of treatments into clusters we are creating ‘spatial blocks.’ There may be considerable differences between blocks, but these won’t obscure differences between the treatments because all three treatments are present in every block.</p>
 </div>
 <div id="carrying-out-the-analysis-with-r" class="section level2" number="21.4">
 <h2><span class="header-section-number">21.4</span> Carrying out the analysis with R</h2>
@@ -903,8 +904,8 @@ You should work through the example from here.
 </p>
 </div>
 <p>The data from the damselfly experiment are in a file called DAMSELS.CSV.</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="anova-for-randomised-block-designs.html#cb116-1"></a>damsels &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;./DAMSELS.CSV&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="anova-for-randomised-block-designs.html#cb117-1"></a><span class="kw">glimpse</span>(damsels)</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="anova-for-randomised-block-designs.html#cb116-1" aria-hidden="true" tabindex="-1"></a>damsels <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;./DAMSELS.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="anova-for-randomised-block-designs.html#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(damsels)</span></code></pre></div>
 <pre><code>## Rows: 12
 ## Columns: 3
 ## $ Midge   &lt;int&gt; 304, 464, 320, 578, 509, 458, 680, 740, 630, 356, 390, 350
@@ -912,8 +913,8 @@ You should work through the example from here.
 ## $ Block   &lt;chr&gt; &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;D&quot;, &quot;D&quot;, &quot;D&quot;</code></pre>
 <p>The density of midge larvae in each enclosure, after running the experiment for 3 weeks, are in the <code>Midge</code> variable (number m<span class="math inline">\(^{-2}\)</span>); codes for species in the <code>Species</code> variable (levels: <em>Enallagma</em>, <em>Lestes</em> and <em>Pyrrhosoma</em>), and the block identities (A, B, C, D) in the third column.</p>
 <p>The process of analysing an RCBD is essentially the same as any other type of ANOVA. First we fit the model using the <code>lm</code> function and then we use <code>anova</code> to calculate <em>F</em>-statistics, degrees of freedom, and <em>p</em>-values:</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="anova-for-randomised-block-designs.html#cb119-1"></a>damsels.model &lt;-<span class="st"> </span><span class="kw">lm</span>(Midge <span class="op">~</span><span class="st"> </span>Species <span class="op">+</span><span class="st"> </span>Block, <span class="dt">data =</span> damsels)</span>
-<span id="cb119-2"><a href="anova-for-randomised-block-designs.html#cb119-2"></a><span class="kw">anova</span>(damsels.model)</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="anova-for-randomised-block-designs.html#cb119-1" aria-hidden="true" tabindex="-1"></a>damsels.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Midge <span class="sc">~</span> Species <span class="sc">+</span> Block, <span class="at">data =</span> damsels)</span>
+<span id="cb119-2"><a href="anova-for-randomised-block-designs.html#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(damsels.model)</span></code></pre></div>
 <p>We suppressed the output for now. Notice that we have put two factors on the right hand side of the <code>~</code> symbol. This tells R that we want to fit a model that accounts for the main effects of <code>Species</code> and <code>Block</code>. We put a <code>+</code> between terms to delineate them.</p>
 <div class="warning-box">
 <p>
@@ -927,7 +928,7 @@ And by the way… the <code>+</code> has nothing to do with addition when workin
 </p>
 </div>
 <p>Here are the results of the global significance tests using the correct ANOVA model for our randomised block experiment:</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="anova-for-randomised-block-designs.html#cb120-1"></a><span class="kw">anova</span>(damsels.model)</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="anova-for-randomised-block-designs.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(damsels.model)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: Midge
@@ -950,8 +951,8 @@ And by the way… the <code>+</code> has nothing to do with addition when workin
 <p>The <em>F</em>-ratio is the test statistic for each term. These provides a measure of how large and consistent the effects associated with each term are. Each <em>F</em>-ratio has a pair of degrees of freedom associated with it: one belonging to the term itself, the other due to the error (residual). Together, the <em>F</em>-ratio and its degrees of freedom determines the <em>p</em>-value.</p>
 <p>The <em>p</em>-value gives the probability that the differences between the set of means for each term in the model, or a more extreme difference, could have arisen through sampling variation under the null hypothesis of no difference. We take <em>p</em> &lt; 0.05 as evidence that at least one of the treatments is having an effect. Here, there is a significant effect of block (<em>p</em> &lt; 0.001), which says that the density of midge larvae varies across the lake. It looks like blocking was a good idea—there is a lot of spatial (nuisance) variation in midge larvae density. Of course what we actually care about is the damselfly species effect. This main effect term is not significant (<em>p</em> &gt; 0.05), so we conclude that there is no difference in the impact of the predatory larvae of three damselfly species.</p>
 <p>It is worth looking at what happens if we analyse the damselfly data as though they are from a one-way design. We do this by including only the experimental treatment term (Species) in the model:</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="anova-for-randomised-block-designs.html#cb124-1"></a>damsels.oneway &lt;-<span class="st"> </span><span class="kw">lm</span>(Midge <span class="op">~</span><span class="st"> </span>Species, <span class="dt">data =</span> damsels)</span>
-<span id="cb124-2"><a href="anova-for-randomised-block-designs.html#cb124-2"></a><span class="kw">anova</span>(damsels.oneway)</span></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="anova-for-randomised-block-designs.html#cb124-1" aria-hidden="true" tabindex="-1"></a>damsels.oneway <span class="ot">&lt;-</span> <span class="fu">lm</span>(Midge <span class="sc">~</span> Species, <span class="at">data =</span> damsels)</span>
+<span id="cb124-2"><a href="anova-for-randomised-block-designs.html#cb124-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(damsels.oneway)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: Midge
@@ -968,14 +969,14 @@ And by the way… the <code>+</code> has nothing to do with addition when workin
 <h2><span class="header-section-number">21.5</span> Are there disadvantages to randomised block designs?</h2>
 <p>The short answer is no, not really. There are instances when a randomised block design might appear to be disadvantageous at first glance, but these don’t really stand up to criticism:</p>
 <ol style="list-style-type: decimal">
-<li><p>What if we were interested in knowing whether there is an interaction between the levels of the block and the treatments? For example, in the damselfly experiment we might be interested to know whether, if the damselfly species have differing effects on the midge densities, these effects are consistent in all habitat areas (e.g. some species may forage more effectively in muddy areas, others where there are more leaves). If this is the question we are trying to answer, then we should really have designed a different experiment. For example, a two-way design (which might also include blocking) in which we consider treatment combinations of different midge species and habitat characteristics might be appropriate. Fundamentally, the goal of blocking is to account for <em>uncontrolled</em> variation. Designing a blocked experiment and then lamenting the fact that we can’t fully evaluate differences among blocks is a good example of trying to “have our cake and eat it too”.</p></li>
-<li><p>If the blocking term is having no effect in accounting for some of the variation, then the analysis may be slightly less powerful than just using a one-way ANOVA. This is because there are fewer error degrees of freedom associated with the blocked analysis (we lose a few to the block effects). This argument only works if the block effect accounts for very little variation. We can never know before we start an experiment whether or not blocking is needed, but we do know that biological systems are inherently noisy, with many sources of uncontrolled variation coming into play. In the majority of experimental settings (in biology at least) we can be fairly sure that blocking will ‘work’. If we choose not to block an experiment there is no way to account for uncontrolled variation and we will almost certainly end up losing statistical power as a result.</p></li>
+<li><p>What if we were interested in knowing whether there is an interaction between the levels of the block and the treatments? For example, in the damselfly experiment we might be interested to know whether, if the damselfly species have differing effects on the midge densities, these effects are consistent in all habitat areas (e.g. some species may forage more effectively in muddy areas, others where there are more leaves). If this is the question we are trying to answer, then we should really have designed a different experiment. For example, a two-way design (which might also include blocking) in which we consider treatment combinations of different midge species and habitat characteristics might be appropriate. Fundamentally, the goal of blocking is to account for <em>uncontrolled</em> variation. Designing a blocked experiment and then lamenting the fact that we can’t fully evaluate differences among blocks is a good example of trying to “have our cake and eat it too.”</p></li>
+<li><p>If the blocking term is having no effect in accounting for some of the variation, then the analysis may be slightly less powerful than just using a one-way ANOVA. This is because there are fewer error degrees of freedom associated with the blocked analysis (we lose a few to the block effects). This argument only works if the block effect accounts for very little variation. We can never know before we start an experiment whether or not blocking is needed, but we do know that biological systems are inherently noisy, with many sources of uncontrolled variation coming into play. In the majority of experimental settings (in biology at least) we can be fairly sure that blocking will ‘work.’ If we choose not to block an experiment there is no way to account for uncontrolled variation and we will almost certainly end up losing statistical power as a result.</p></li>
 </ol>
 <p>The advice contained in the quote at the beginning of this chapter is probably the best experimental design advice ever dished out: “Block what you can; randomize what you cannot.”</p>
 </div>
 <div id="multiple-blocking-factors" class="section level2" number="21.6">
 <h2><span class="header-section-number">21.6</span> Multiple blocking factors</h2>
-<p>It is common to find ourselves in a situation whereby we need to account for more than one blocking factor. The simplest option is to combine the nuisance factors into a single factor. However, this isn’t always possible, or even desirable. Consider an instance where there is a single factor of primary interest (the treatment factor) and two nuisance factors. For example, imagine that we want to test three drugs A, B, C for their effect in alleviating the symptoms of a disease. Three patients are available for a trial, and each will be available for three weeks. Testing a single drug requires a week, meaning an experimental unit is a ‘patient-week’. The obvious question is, how should we randomise treatments across ‘patient-weeks’?</p>
+<p>It is common to find ourselves in a situation whereby we need to account for more than one blocking factor. The simplest option is to combine the nuisance factors into a single factor. However, this isn’t always possible, or even desirable. Consider an instance where there is a single factor of primary interest (the treatment factor) and two nuisance factors. For example, imagine that we want to test three drugs A, B, C for their effect in alleviating the symptoms of a disease. Three patients are available for a trial, and each will be available for three weeks. Testing a single drug requires a week, meaning an experimental unit is a ‘patient-week.’ The obvious question is, how should we randomise treatments across ‘patient-weeks?’</p>
 <p>We have to design an experiment like this with great care, or there is a risk that we will not be able to statistically separate the effects of the treatment (drug) and block effects (week &amp; patient). The most appropriate design for this kind of experiment has the following structure:</p>
 <table>
 <thead>

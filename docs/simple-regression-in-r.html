@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="relationships-and-regression.html"/>
 <link rel="next" href="introduction-to-one-way-anova.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -757,9 +758,9 @@ You should work through the example in the next few sections.
 <div id="first-steps" class="section level2" number="16.2">
 <h2><span class="header-section-number">16.2</span> First steps</h2>
 <p>The data are in a CSV file called GLUCOSE.CSV. Downloaded the data and read it into an R data frame, giving it the name <code>vicia_germ</code>:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="simple-regression-in-r.html#cb61-1"></a>vicia_germ &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;GLUCOSE.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="simple-regression-in-r.html#cb61-1" aria-hidden="true" tabindex="-1"></a>vicia_germ <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">&quot;GLUCOSE.CSV&quot;</span>)</span></code></pre></div>
 <p>Be sure to use functions like <code>View</code> and <code>glimpse</code> to examine the data before you proceed. Run through all the usual questions… How many variables (columns) are in the data? How many observations (rows) are there? What kind of variables are we working with?</p>
-<p>This is a fairly simple data set. It contains two numeric variables. The first column (<code>Temperature</code>) contains the information about the experimental temperature treatments, and the second column (<code>Glucose</code>) contain the glucose measurements. Notice that we refer to the different temperatures as ‘experimental treatments’. This is because these data are from an experiment where temperature was controlled by the investigator. We’ll discuss this terminology in more detail in the <a href="principles-experimental-design.html#principles-experimental-design">Principles of Experimental Design</a> section.</p>
+<p>This is a fairly simple data set. It contains two numeric variables. The first column (<code>Temperature</code>) contains the information about the experimental temperature treatments, and the second column (<code>Glucose</code>) contain the glucose measurements. Notice that we refer to the different temperatures as ‘experimental treatments.’ This is because these data are from an experiment where temperature was controlled by the investigator. We’ll discuss this terminology in more detail in the <a href="principles-experimental-design.html#principles-experimental-design">Principles of Experimental Design</a> section.</p>
 <div id="visualising-the-data" class="section level3" number="16.2.1">
 <h3><span class="header-section-number">16.2.1</span> Visualising the data</h3>
 <p>We should visualise the data next so that we understand it more. We just need to produce a simple scatter plot with <strong>ggplot2</strong>:</p>
@@ -788,8 +789,8 @@ A linear relationship between the predictor and response variables is not the on
 <h2><span class="header-section-number">16.3</span> Model fitting and significance tests</h2>
 <p>Carrying out a regression analysis in R is a two step process.</p>
 <p>The first step involves a process known as <em>fitting the model</em> (or just <em>model fitting</em>). In effect, this is the step where R calculates the best fit line, along with a large amount of additional information needed to generate the results in step two. We call this step model fitting because, well, we end up fitting the straight line model to the data.</p>
-<p>How do we fit a linear regression model in R? We will do it using the <code>lm</code> function. The letters ‘lm’ in this function name stand for ‘linear model’. We won’t say much more at this point other than point out that a linear regression is a special case of a general linear model. R doesn’t have a special regression function. Here is how we fit a linear regression in R using the enzyme data:</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="simple-regression-in-r.html#cb62-1"></a>vicia_model &lt;-<span class="st"> </span><span class="kw">lm</span>(Glucose <span class="op">~</span><span class="st"> </span>Temperature, <span class="dt">data =</span> vicia_germ)</span></code></pre></div>
+<p>How do we fit a linear regression model in R? We will do it using the <code>lm</code> function. The letters ‘lm’ in this function name stand for ‘linear model.’ We won’t say much more at this point other than point out that a linear regression is a special case of a general linear model. R doesn’t have a special regression function. Here is how we fit a linear regression in R using the enzyme data:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="simple-regression-in-r.html#cb62-1" aria-hidden="true" tabindex="-1"></a>vicia_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Glucose <span class="sc">~</span> Temperature, <span class="at">data =</span> vicia_germ)</span></code></pre></div>
 <p>This should look quite familiar. We have to assign two arguments:</p>
 <ol style="list-style-type: decimal">
 <li><p>The first argument is a <strong>formula</strong>. We know this because it includes a ‘tilde’ symbol: <code>~</code>. The variable name on the left of the <code>~</code> should be the response variable. The variable name on the right should be the predictor variable. These are <code>Glucose</code> and <code>Temperature</code>, respectively. Make sure you get these the right way round when carrying out regression.</p></li>
@@ -807,7 +808,7 @@ The key message is that you have to keep a close eye on the type of variables yo
 </p>
 </div>
 <p>Notice that we did not print the results to the console. Instead, we assigned the result a name (<code>vicia_model</code>). This now refers to a fitted <strong>model object</strong>. What happens if we print a regression model object to the console?</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="simple-regression-in-r.html#cb63-1"></a><span class="kw">print</span>(vicia_model)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="simple-regression-in-r.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(vicia_model)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Glucose ~ Temperature, data = vicia_germ)
@@ -817,7 +818,7 @@ The key message is that you have to keep a close eye on the type of variables yo
 ##      0.5200       0.2018</code></pre>
 <p>This prints a quick summary of the model we fitted and some information about the ‘coefficients’ of the model. The coefficients are the intercept and slope of the fitted line: the intercept is always labelled <code>(Intercept)</code> and the slope is labelled with the name of the predictor variable (<code>Temperature</code> in this case). We’ll come back to these coefficients once we have looked at how to compute <em>p</em>-values.</p>
 <p>The second step of a regression analysis involves using the fitted model to assess statistical significance. We usually want to determine whether the slope is significantly different from zero. That is, we want to know if the relationship between the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> variables is likely to be real or just the result of sampling variation. Carrying out the required <em>F</em> test is actually very easy. The test relies on a function called <code>anova</code>. To use this function, all we have to do is pass it one argument: the name of the fitted regression model object…</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="simple-regression-in-r.html#cb65-1"></a><span class="kw">anova</span>(vicia_model)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="simple-regression-in-r.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(vicia_model)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: Glucose
@@ -837,7 +838,7 @@ The key message is that you have to keep a close eye on the type of variables yo
 <div id="extracting-a-little-more-information" class="section level3" number="16.3.1">
 <h3><span class="header-section-number">16.3.1</span> Extracting a little more information</h3>
 <p>There is a second function, called <code>summary</code>, that can be used to extract a little more information from the fitted regression model:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="simple-regression-in-r.html#cb68-1"></a><span class="kw">summary</span>(vicia_model)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="simple-regression-in-r.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(vicia_model)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Glucose ~ Temperature, data = vicia_germ)
@@ -891,10 +892,10 @@ Do not worry if this next section on predictions is confusing. You may have to c
 </p>
 </div>
 <p>In order to use <code>predict</code> we have to let R know the values of the predictor variable for which we want predictions. In the bean example the temperature was varied from 2-20 °C, so it makes sense to predict glucose concentrations over this range. Therefore the first step in making predictions is to generate a sequence of values from 2 to 20, placing these inside a data frame:</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="simple-regression-in-r.html#cb73-1"></a>pred_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Temperature =</span> <span class="kw">seq</span>(<span class="dv">2</span>, <span class="dv">20</span>, <span class="dt">length.out =</span> <span class="dv">25</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="simple-regression-in-r.html#cb73-1" aria-hidden="true" tabindex="-1"></a>pred_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Temperature =</span> <span class="fu">seq</span>(<span class="dv">2</span>, <span class="dv">20</span>, <span class="at">length.out =</span> <span class="dv">25</span>))</span></code></pre></div>
 <p>We learned about the <code>seq</code> function last year. Here, we used it to make a sequence of 25 evenly spaced numbers from 2 to 20. If you can’t remember what it does, ask a demonstrator to explain it to you (and use <code>View</code> to look at <code>pred_data</code>). Notice that we gave the sequence the exact same name as the predictor variable in the regression (<code>Temperature</code>). <strong>This is important</strong>: the name of the numeric sequence we plan to make predictions from has to match the name of the predictor variable in the fitted model object.</p>
 <p>Once we have set up a data frame to predict from (<code>pred_data</code>) we are ready to use the <code>predict</code> function:</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="simple-regression-in-r.html#cb74-1"></a><span class="kw">predict</span>(vicia_model, pred_data)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="simple-regression-in-r.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(vicia_model, pred_data)</span></code></pre></div>
 <pre><code>##         1         2         3         4         5         6         7         8 
 ## 0.9236364 1.0750000 1.2263637 1.3777273 1.5290909 1.6804546 1.8318182 1.9831818 
 ##         9        10        11        12        13        14        15        16 
@@ -905,9 +906,9 @@ Do not worry if this next section on predictions is confusing. You may have to c
 ## 4.5563636</code></pre>
 <p>This take two arguments: the first is the name of the model object (<code>vicia_model</code>); the second is the data frame (<code>pred_data</code>) containing the values of the predictorc variable at which we want to make predictions. The predict function generated the predicted values in a numeric vector and printed these to the console.</p>
 <p>To be useful, we need to capture these somehow, and because we want to use <strong>ggplot2</strong>, these need to be kept inside a data frame. We can use mutate to do this:</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="simple-regression-in-r.html#cb76-1"></a>pred_data &lt;-<span class="st"> </span><span class="kw">mutate</span>(pred_data, <span class="dt">Glucose =</span> <span class="kw">predict</span>(vicia_model, pred_data))</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="simple-regression-in-r.html#cb76-1" aria-hidden="true" tabindex="-1"></a>pred_data <span class="ot">&lt;-</span> <span class="fu">mutate</span>(pred_data, <span class="at">Glucose =</span> <span class="fu">predict</span>(vicia_model, pred_data))</span></code></pre></div>
 <p>Look at the first 10 rows of the resulting data frame:</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="simple-regression-in-r.html#cb77-1"></a><span class="kw">head</span>(pred_data, <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="simple-regression-in-r.html#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pred_data, <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##    Temperature   Glucose
 ## 1         2.00 0.9236364
 ## 2         2.75 1.0750000
@@ -920,10 +921,10 @@ Do not worry if this next section on predictions is confusing. You may have to c
 ## 9         8.00 2.1345455
 ## 10        8.75 2.2859091</code></pre>
 <p>The <code>pred_data</code> is set out much like the data frame containing the experimental data. It has two columns, called <code>Glucose</code> and <code>Temperature</code>, but instead of data, it contains predictions from the model. Plotting these predictions along with the data is now easy:</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="simple-regression-in-r.html#cb79-1"></a><span class="kw">ggplot</span>(pred_data, <span class="kw">aes</span>(<span class="dt">x =</span> Temperature, <span class="dt">y =</span> Glucose)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb79-2"><a href="simple-regression-in-r.html#cb79-2"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">data =</span> vicia_germ) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb79-3"><a href="simple-regression-in-r.html#cb79-3"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Temperature (°C)&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Glucose concentration&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb79-4"><a href="simple-regression-in-r.html#cb79-4"></a><span class="st">  </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">22</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="simple-regression-in-r.html#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pred_data, <span class="fu">aes</span>(<span class="at">x =</span> Temperature, <span class="at">y =</span> Glucose)) <span class="sc">+</span> </span>
+<span id="cb79-2"><a href="simple-regression-in-r.html#cb79-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">data =</span> vicia_germ) <span class="sc">+</span> </span>
+<span id="cb79-3"><a href="simple-regression-in-r.html#cb79-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Temperature (°C)&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Glucose concentration&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb79-4"><a href="simple-regression-in-r.html#cb79-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">22</span>)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/reg-worked-publication-1.png" width="60%" style="display: block; margin: auto;" /></p>
 <p>Notice that we have to make <strong>ggplot2</strong> use the <code>vicia_germ</code> data (i.e. the raw data) when adding the points. We also threw in a little theming to make the plot look nicer.</p>
 <p>Let’s summarise what we did: 1) using <code>seq</code> and <code>data.frame</code>, we made a data frame with one column containing the values of the predictor variable we want predictions at; 2) we then used the <code>predict</code> function to generate these predictions, adding them to the prediction data with <code>mutate</code>; 3) finally, we used <strong>ggplot2</strong> to plot the predicted values of the response variable against the predictor variable, remembering to include the data.</p>

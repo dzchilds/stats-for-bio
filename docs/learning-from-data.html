@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="data-variables.html"/>
 <link rel="next" href="sampling-error.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -740,11 +741,11 @@ for controlling the course of scientific and societal advances</p>
 <div id="learning-about-populations" class="section level2" number="6.2">
 <h2><span class="header-section-number">6.2</span> Learning about populations</h2>
 <p>The examples discussed above involve very different kinds of populations, questions and data. Nonetheless, there are fundamental commonalities in how those questions could be addressed. The process can be broken down into a number of distinct steps:</p>
-<div id="step-1-refine-your-questions-hypotheses-and-predictions" class="section level4 unnumbered" number="">
+<div id="step-1-refine-your-questions-hypotheses-and-predictions" class="section level4 unnumbered">
 <h4>Step 1: Refine your questions, hypotheses and predictions</h4>
 <p>This step was discussed in <a href="scientific-process.html#scientific-process">scientific process</a> chapter. The key point is that we should never begin collecting data until we’ve set out the relevant questions, hypotheses and predictions. This might seem obvious, but it is surprising how often people don’t get these things straight before diving into data collection. Collecting data without a clear scientific objective and rationale is guaranteed to waste a lot of time and energy.</p>
 </div>
-<div id="step-2-decide-which-populations-is-are-important" class="section level4 unnumbered" number="">
+<div id="step-2-decide-which-populations-is-are-important" class="section level4 unnumbered">
 <h4>Step 2: Decide which population(s) is (are) important</h4>
 <p>The second step is to decide which population(s) we should study. What constitutes ‘the population’ will be fairly obvious in some kinds of study. In the three cases considered above, the corresponding populations we choose to study could be undergraduate students at a university, peatland habitats from across the UK, and beavers in Scotland. In all three examples it was fairly easy to define what we mean by ‘a population’ (though that doesn’t mean the populations are easy to study—we’ll return to this idea later).</p>
 <p>The problem of deciding which population(s) to study can be more subtle than it first appears. What happens if we’re planning an experiment? Imagine that we want to test a prediction that nutrient addition reduces biodiversity in chalk grasslands. We might set up an experiment with two kinds of plots:</p>
@@ -754,24 +755,24 @@ for controlling the course of scientific and societal advances</p>
 </ol>
 <p>Comparing these in some way would allow us to assess the impact of adding nutrients. That’s easy enough to understand.</p>
 <p>What can we say about the statistical populations in this example? First, there are two of them, control and manipulated communities, and these two populations are completely defined by the experimental design. The nutrient addition plots don’t ‘exist’ until we do the experiment. That’s not hugely intuitive. What’s more, the weird mental contortion that a frequentist does is to imagine that the experimental plots are part of some larger, unobserved population of nutrient addition plots.</p>
-<p>The important point is that statistical populations are something the investigator defines. They might be ‘real’, undergraduates at university, or they might be something that doesn’t really exist in a meaningful way, like a population of not-yet-realised experimentally manipulated plots. In either case, we can use the same statistical techniques to learn something general about ‘the population(s)’.</p>
+<p>The important point is that statistical populations are something the investigator defines. They might be ‘real,’ undergraduates at university, or they might be something that doesn’t really exist in a meaningful way, like a population of not-yet-realised experimentally manipulated plots. In either case, we can use the same statistical techniques to learn something general about ‘the population(s).’</p>
 </div>
-<div id="step-3-decide-which-variables-to-study" class="section level4 unnumbered" number="">
+<div id="step-3-decide-which-variables-to-study" class="section level4 unnumbered">
 <h4>Step 3: Decide which variables to study</h4>
 <p>The next step is to decide which attributes of the items that comprise our population(s) need to be measured. This comes down to deciding which variable(s) to measure. We discussed some of the considerations in the <a href="data-variables.html#data-variables">data and variables</a> chapter. In the examples above, the appropriate variables would be things like a standardised measure of political attitude, the mass of stored carbon per unit area, or the body mass of individuals.</p>
 <p>This step is often straightforward, though some effort may be required to pick among different options. There isn’t a whole lot of ambiguity associated with a physical variable like body mass, but something like ‘political attitude’ needs careful thought. Can we quantify this by studying just one thing, like voting patterns? Probably not. Maybe we need to measure several things and aggregate those in some way.</p>
 </div>
-<div id="step-4-decide-which-population-parameters-are-relevant" class="section level4 unnumbered" number="">
+<div id="step-4-decide-which-population-parameters-are-relevant" class="section level4 unnumbered">
 <h4>Step 4: Decide which population parameters are relevant</h4>
 <p>Once we have decided which variables to study, we have to decide which <strong>population parameters</strong> are relevant. A population parameter is simple a numeric quantity that describes the variable(s) we want to learn about. A population parameter describes a property of that variable in the population. It’s not a property of our actual data.</p>
-<p>A simple population parameter familiar to many people is the population mean. We often study means because they allows us to answer questions like, “how much, on average, of something is present?”. Quite a number of the statistical tests in this book biol down to asking questions of population means. That doesn’t mean we can’t ask questions about other kinds of population parameters:</p>
+<p>A simple population parameter familiar to many people is the population mean. We often study means because they allows us to answer questions like, “how much, on average, of something is present?” Quite a number of the statistical tests in this book biol down to asking questions of population means. That doesn’t mean we can’t ask questions about other kinds of population parameters:</p>
 <ul>
 <li><p>Statistical genetics aims to partition <em>variability</em> among individuals—we want to know how much phenotypic variation is due to genetic vs. non-genetic sources. In this case it is population <em>variances</em> we want to learn about.</p></li>
 <li><p>Sometimes we want to understand how two or more aspects of the population are <em>associated</em> with one another. In this situation a <em>correlation coefficient</em> might be the right population parameter to focus on.</p></li>
 </ul>
 <p>Once we have identified the population parameter we care about we need a way to learn something about it. That takes us to the next step.</p>
 </div>
-<div id="step-5-gather-a-representative-sample" class="section level4 unnumbered" number="">
+<div id="step-5-gather-a-representative-sample" class="section level4 unnumbered">
 <h4>Step 5: Gather a representative sample</h4>
 <p>We wouldn’t need statistics if we could measure every member of a population because we could simply calculate the parameter of interest from an exhaustive sample. However, in the real world we have limited time and money to invest in any problem, no matter how important. This means we have to work with an more limited <strong>sample</strong> of the population.</p>
 <p>A sample is a subset of a population that has been selected to be representative. That word ‘representative’ is really important in this context. A representative sample one that reflects the characteristics of the entire population. It is really important to use sampling methods that lead to representative samples.</p>
@@ -779,28 +780,28 @@ for controlling the course of scientific and societal advances</p>
 <p>Collecting larger samples does not solve this kind of problem. For example, a sample that contains every single old-age individual but few younger individuals still doesn’t tell us much about the younger age group. People often assume that ‘more data = better data’ but that isn’t be true if those data are not representative of the population they actually care about. Try to remember that in your own work.</p>
 <p>The study of how to gather useful samples from populations and use these calculate meaningful estimates is an important part of statistics. It falls under the banners of experimental design and sampling theory. These are large, technical topics that are well beyond the scope of this book. However, we will touch on a few of the more important practical aspects in later chapters.</p>
 </div>
-<div id="step-6-estimate-the-population-parameter" class="section level4 unnumbered" number="">
+<div id="step-6-estimate-the-population-parameter" class="section level4 unnumbered">
 <h4>Step 6: Estimate the population parameter</h4>
 <p>After we have acquired a representative sample from a population we can calculate something called a <strong>point estimate</strong> of the population parameter. Remember, that parameter is ultimately unknown. A point estimate is a number that represents our ‘best guess’ at its true, unknown value. For example, if we are interested in the population mean, the obvious point estimate to use is the ‘the average’ we learn about at school.</p>
-<p>There are many different kinds of point estimates we can calculate. What we choose to estimate depends of the question we’re answering. If we care about variability we might calculate one or more sample ‘variances’. Sometimes we have to calculate some kind of aggregate measure of an effect, like the difference between two sample means.</p>
-<p>(By the way, people often say ‘estimate’ instead of ‘point estimate’, for the simple reason that saying or writing ‘point estimate’ all the time soon becomes tedious. We use both terms in this book.)</p>
+<p>There are many different kinds of point estimates we can calculate. What we choose to estimate depends of the question we’re answering. If we care about variability we might calculate one or more sample ‘variances.’ Sometimes we have to calculate some kind of aggregate measure of an effect, like the difference between two sample means.</p>
+<p>(By the way, people often say ‘estimate’ instead of ‘point estimate,’ for the simple reason that saying or writing ‘point estimate’ all the time soon becomes tedious. We use both terms in this book.)</p>
 </div>
-<div id="step-7-estimate-uncertainty" class="section level4 unnumbered" number="">
+<div id="step-7-estimate-uncertainty" class="section level4 unnumbered">
 <h4>Step 7: Estimate uncertainty</h4>
 <p>A point estimate is fairly useless on its own. Why? Because it is derived from a limited sample of the population. Even if we collect a really large representative sample, its composition won’t exactly match that of the population. This means any point estimate we derive from the sample will be imperfect, in that it won’t exactly match the true population value.</p>
 <p>There is always some uncertainty associated with estimates population parameters. Our job as scientists is to to find a way to <em>quantify that uncertainty</em>. This part of the frequentist method is probably the hardest to understand so we’ll spend a fair bit of time thinking about it later in the <a href="sampling-error.html#sampling-error">sampling error</a> chapter.</p>
 </div>
-<div id="step-8-answer-the-question" class="section level4 unnumbered" number="">
+<div id="step-8-answer-the-question" class="section level4 unnumbered">
 <h4>Step 8: Answer the question!</h4>
 <p>Once we have our point estimates and measures of uncertainty we’re finally in the position to start answering questions.</p>
 <p>Imagine that we want to answer a seemingly simple question, e.g. “Are there more than 200 tonnes of carbon per hectare stored in the peatland of the Peak District?” We might sample a number of sites, measure the stored carbon at each of these, and then calculate the mean of these measurements. What should we conclude if the sample mean is 210 t h<sup>-1</sup>? We can’t say much until we have a sense of how reliable that mean is likely to be. To answer our question, we have to know how to assess whether or not the difference we observe (210 - 200 = 10) was just a fluke.</p>
-<p>The tools we’ll learn about in this book are designed to answer a range of different kinds of scientific question. Nonetheless, they all boil down to the same basic question: Is the pattern I see ‘real’, or is it instead likely to be a result of chance variation? To tackle this, we combine point estimates and measures of uncertainty in various ways. Statistical software like R will do the hard work for us, but we still just have to learn how to interpret the results it gives us.</p>
+<p>The tools we’ll learn about in this book are designed to answer a range of different kinds of scientific question. Nonetheless, they all boil down to the same basic question: Is the pattern I see ‘real,’ or is it instead likely to be a result of chance variation? To tackle this, we combine point estimates and measures of uncertainty in various ways. Statistical software like R will do the hard work for us, but we still just have to learn how to interpret the results it gives us.</p>
 </div>
 </div>
 <div id="morph-example" class="section level2" number="6.3">
 <h2><span class="header-section-number">6.3</span> A simple example</h2>
 <p>The best way to get a sense of how all this fits together is by working through an example. We’ll finish this chapter by introducing a very simple example. It is worth paying attention to this as we’ll use again in later chapters. We’re going to work through steps 1-6 here. The final two steps are sufficiently challenging that they need their own chapters.</p>
-<p>Imagine we’re interested in a plant species that is phenotypically polymorphic. There are two different ‘morphs’, a purple morph and a green morph. We can depict this situation visually with a map showing where purple and green plants are located on a hypothetical landscape:</p>
+<p>Imagine we’re interested in a plant species that is phenotypically polymorphic. There are two different ‘morphs,’ a purple morph and a green morph. We can depict this situation visually with a map showing where purple and green plants are located on a hypothetical landscape:</p>
 <div class="figure" style="text-align: center"><span id="fig:plants-all"></span>
 <img src="stats-for-bio_files/figure-html/plants-all-1.png" alt="Stylised landscape showing a population of purple and green plants" width="50%" />
 <p class="caption">
@@ -808,7 +809,7 @@ Figure 6.1: Stylised landscape showing a population of purple and green plants
 </p>
 </div>
 <p>These are idealised data generated using a simulation in R. Let’s proceed as though these are real data…</p>
-<div id="step-1-refine-your-questions-hypotheses-and-predictions-1" class="section level4 unnumbered" number="">
+<div id="step-1-refine-your-questions-hypotheses-and-predictions-1" class="section level4 unnumbered">
 <h4>Step 1: Refine your questions, hypotheses and predictions</h4>
 <p>Imagine we had also previously studied a different population of this species that exhibits the same polymorphism. We’re fairly sure both populations were once connected. However, habitat loss over has significantly reduced the connectance between them.</p>
 <p>Our previous studies with the old neighbouring population have shown:</p>
@@ -819,21 +820,21 @@ Figure 6.1: Stylised landscape showing a population of purple and green plants
 <p>Things are different in the new study population. The purple morph seems to be about as common as the green morph, and preliminary research indicates purple plants seem to produce more seeds than green plants. Our <strong>hypothesis</strong> is, therefore, that purple plants have a fitness advantage in the new study population. A <strong>prediction</strong> that follows from this is that the frequency of the purple morph will be greater than 25% in the new study population, as selection is driving the ‘P’ allele to fixation.</p>
 <p>(This isn’t the strongest test of our hypothesis, by the way. Really, we need to study allele and genotype frequencies, not just phenotypes. It is good enough for illustrative purposes.)</p>
 </div>
-<div id="step-2-decide-which-population-is-important" class="section level4 unnumbered" number="">
+<div id="step-2-decide-which-population-is-important" class="section level4 unnumbered">
 <h4>Step 2: Decide which population is important</h4>
 <p>This situation is entirely made up, so consideration of the statistical population is a little artificial. In the real world, we would consider various factors, such as whether or not we can study the whole population or must restrict ourselves to one sub-population. Working at a large scale should produce a more general result, but it could also present a significant logistical challenge.</p>
 </div>
-<div id="step-3-decide-which-variables-to-study-1" class="section level4 unnumbered" number="">
+<div id="step-3-decide-which-variables-to-study-1" class="section level4 unnumbered">
 <h4>Step 3: Decide which variables to study</h4>
-<p>This step is easy. We could measure all kinds of different attributes of the plants—biomass, height, seed production, etc—but to study the polymorphism we only need to collect information about the colour of different individuals. This means we are going to be working with a nominal variable that takes two values: ‘purple’ or ‘green’.</p>
+<p>This step is easy. We could measure all kinds of different attributes of the plants—biomass, height, seed production, etc—but to study the polymorphism we only need to collect information about the colour of different individuals. This means we are going to be working with a nominal variable that takes two values: ‘purple’ or ‘green.’</p>
 </div>
-<div id="step-4-decide-which-population-parameters-are-relevant-1" class="section level4 unnumbered" number="">
+<div id="step-4-decide-which-population-parameters-are-relevant-1" class="section level4 unnumbered">
 <h4>Step 4: Decide which population parameters are relevant</h4>
 <p>The prediction we want to test is about the purple morph frequency, or equivalently, the percentage, or proportion, of purple plants. Therefore, the relevant population parameter is the frequency of purple morphs in the wider population. We need to collect data that would allow us learn about this unknown quantity.</p>
 </div>
-<div id="step-5-gather-a-representative-sample-1" class="section level4 unnumbered" number="">
+<div id="step-5-gather-a-representative-sample-1" class="section level4 unnumbered">
 <h4>Step 5: Gather a representative sample</h4>
-<p>A representative sample in tis situation is one in which every individual on the landscape has the same probability of being sampled. This is what people actually mean when they refer to a ‘random sample’. Gathering a random sample of organisms from across a landscape is surprisingly hard to do. Fortunately, it is very easy to do in a simulation. Let’s seen what happens if we sample 20 plants at random…</p>
+<p>A representative sample in tis situation is one in which every individual on the landscape has the same probability of being sampled. This is what people actually mean when they refer to a ‘random sample.’ Gathering a random sample of organisms from across a landscape is surprisingly hard to do. Fortunately, it is very easy to do in a simulation. Let’s seen what happens if we sample 20 plants at random…</p>
 <div class="figure" style="text-align: center"><span id="fig:plants-samp1"></span>
 <img src="stats-for-bio_files/figure-html/plants-samp1-1.png" alt="Sampling plants. Sampled plants are circled in red" width="50%" />
 <p class="caption">
@@ -842,7 +843,7 @@ Figure 6.2: Sampling plants. Sampled plants are circled in red
 </div>
 <p>The new plot shows the original population of plants, only this time we’ve circled the sampled individuals in red.</p>
 </div>
-<div id="step-6-estimate-the-population-parameter-1" class="section level4 unnumbered" number="">
+<div id="step-6-estimate-the-population-parameter-1" class="section level4 unnumbered">
 <h4>Step 6: Estimate the population parameter</h4>
 <p>Estimating a frequency from a sample is simple enough though we can express frequencies in different ways. We’ll use a percentage. We found 12 green plants and 8 purple plants in our sample, which means our point estimate of the purple morph frequency is 40%. This is certainly greater than 25%—the value of observed in the original population—but it isn’t that far off if you consider that this is from quiet a small sample.</p>
 </div>

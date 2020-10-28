@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="hypotheses-and-p-values.html"/>
 <link rel="next" href="one-sample-t-tests.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -712,9 +713,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 11</span> Parametric statistics</h1>
 <div id="introduction" class="section level2" number="11.1">
 <h2><span class="header-section-number">11.1</span> Introduction</h2>
-<p>The majority of statistical tools used in this book share one important feature—they are underpinned by a mathematical model of some kind. Precisely because a mathematical model is lurking in the background, this particular flavour of statistics called <strong>parametric statistics</strong>. The word ‘parametric’ in this context refers to the fact that a mathematical model’s behaviour depends on one or more quantities known as ‘parameters’.</p>
+<p>The majority of statistical tools used in this book share one important feature—they are underpinned by a mathematical model of some kind. Precisely because a mathematical model is lurking in the background, this particular flavour of statistics called <strong>parametric statistics</strong>. The word ‘parametric’ in this context refers to the fact that a mathematical model’s behaviour depends on one or more quantities known as ‘parameters.’</p>
 <p>We are <strong>not</strong> going to study the mathematical details of these models. However, it is important to understand the <strong>assumptions</strong> underlying a statistical model. Assumptions are the aspects of a system that we accept as true, or at least nearly true. If our assumptions are not reasonable we can’t be sure that the results of our analysis (e.g. a statistical test) will be reliable. We always need to evaluate the assumptions of an analysis to determine whether or not we trust it.</p>
-<p>Ultimately, we want to understand, in approximate terms, how a model and its assumptions lead to a particular statistical test. We have already explored aspects of this process in the last few chapters, such as sampling variation, null distributions, and <em>p</em>-values. By thinking about models and their assumptions we can begin to connect these abstract ideas to the practical side of ‘doing statistics’. Our goal in this chapter is to introduce a few more concepts required to make these connections.</p>
+<p>Ultimately, we want to understand, in approximate terms, how a model and its assumptions lead to a particular statistical test. We have already explored aspects of this process in the last few chapters, such as sampling variation, null distributions, and <em>p</em>-values. By thinking about models and their assumptions we can begin to connect these abstract ideas to the practical side of ‘doing statistics.’ Our goal in this chapter is to introduce a few more concepts required to make these connections.</p>
 </div>
 <div id="math-models" class="section level2" number="11.2">
 <h2><span class="header-section-number">11.2</span> Mathematical models</h2>
@@ -723,7 +724,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math display">\[\text{Observed Data} = \text{Systematic Component} + \text{Random Component}\]</span>
 What are these two components?</p>
 <ul>
-<li><p>The systematic component of a model describes the structure, or the relationships, in the data. When people refer to ‘the model’, this is the bit they usually care about.</p></li>
+<li><p>The systematic component of a model describes the structure, or the relationships, in the data. When people refer to ‘the model,’ this is the bit they usually care about.</p></li>
 <li><pre><code>The random component captures the left over &quot;noise&quot; in the data. This is essentially the part of the data that the systematic component of the model fails to describe. </code></pre></li>
 </ul>
 <p>This is best understood by example. In what follows we’re going to label the individual values in the sample <span class="math inline">\(y_i\)</span>. The <span class="math inline">\(i\)</span> in this label indexes the individual values; it takes values 1, 2, 3, 4, … and so on. We can think of the collection of the <span class="math inline">\(y_i\)</span>’s as the variable we’re interested in.</p>
@@ -749,7 +750,7 @@ What are these two components?</p>
 Figure 11.1: Distribution of a large sample of normally distributed variable
 </p>
 </div>
-<p>Does that look familiar? The normal distribution is sometimes called the ‘Gaussian distribution’, or more colloquially, the ‘bell-shaped curve’. We don’t have time in this book to study this distribution in any detail. Instead, we’ll simply list some key facts about the normal distribution that relate to the statistical models we’ll be using later on:</p>
+<p>Does that look familiar? The normal distribution is sometimes called the ‘Gaussian distribution,’ or more colloquially, the ‘bell-shaped curve.’ We don’t have time in this book to study this distribution in any detail. Instead, we’ll simply list some key facts about the normal distribution that relate to the statistical models we’ll be using later on:</p>
 <ol style="list-style-type: decimal">
 <li><p>The normal distribution is appropriate for numeric variables measured on an interval or ratio scale. Strictly speaking, the variable should also be continuous, though a normal distribution can provide a decent approximation for some kinds of discrete numeric data.</p></li>
 <li><p>The normal distribution is completely described by its mean (a measure of ‘central tendency’) and its standard deviation (a measure of ‘dispersion’). If we know these two quantities for a particular normal distribution, we know everything there is to know about that distribution.</p></li>
@@ -769,7 +770,7 @@ Figure 11.1: Distribution of a large sample of normally distributed variable
 <h3><span class="header-section-number">11.3.2</span> The <em>t</em> distribution</h3>
 <p>The normal distribution is usually the first distribution people learn about in a statics course. The reasons for this are:</p>
 <ul>
-<li><p>it crops up a lot as a consequence of something called ‘the central limit theorem’, and</p></li>
+<li><p>it crops up a lot as a consequence of something called ‘the central limit theorem,’ and</p></li>
 <li><p>many other important distributions are related to the normal distribution in some way.</p></li>
 </ul>
 <p>We’re not going to worry about the central limit theorem here. However, we do need to consider one more distribution. One of the most important of those ‘other distributions’ is Student’s <em>t</em>-distribution<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
@@ -781,7 +782,7 @@ Figure 11.1: Distribution of a large sample of normally distributed variable
 </ul>
 <p>The sampling distribution of this new quantity has a particular form. It follows a Student’s <em>t</em>-distribution.</p>
 <p>Student’s <em>t</em>-distribution arises all the time in relation to means. For example, what happens if we take samples from a pair of normal distributions, calculate the difference between their estimated means, and then divide this difference by its standard error? The sampling distribution of the scaled difference between means also follows a Student’s <em>t</em>-distribution.</p>
-<p>Because it involves rescaling a mean by its standard error, the form of a <em>t</em>-distribution only depends on one thing: the sample size. This may not sound like an important result, but it really is, because it allows us to construct simple statistical tests to evaluate differences between means. We’ll be relying on this result in the next two chapters as we learn about so-called ‘<em>t</em>-tests’.</p>
+<p>Because it involves rescaling a mean by its standard error, the form of a <em>t</em>-distribution only depends on one thing: the sample size. This may not sound like an important result, but it really is, because it allows us to construct simple statistical tests to evaluate differences between means. We’ll be relying on this result in the next two chapters as we learn about so-called ‘<em>t</em>-tests.’</p>
 
 </div>
 </div>
@@ -790,7 +791,7 @@ Figure 11.1: Distribution of a large sample of normally distributed variable
 <hr />
 <ol start="1">
 <li id="fn1"><p>In fact, the equation for the standard error of a mean applies when we have a big sample, even if that sample did not come from a normally distributed variable. This result is a consequence of that ‘the central limit theorem’ mentioned in this chapter.<a href="parametric-statistics.html#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p>Why is it called Student’s <em>t</em>? The <em>t</em>-distribution was discovered by W.G. Gosset, a statistician employed by the Guinness Brewery. He published his statistical work under the pseudonym of ‘Student’, because Guinness would have claimed ownership of his work if he had used his real name.<a href="parametric-statistics.html#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Why is it called Student’s <em>t</em>? The <em>t</em>-distribution was discovered by W.G. Gosset, a statistician employed by the Guinness Brewery. He published his statistical work under the pseudonym of ‘Student,’ because Guinness would have claimed ownership of his work if he had used his real name.<a href="parametric-statistics.html#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

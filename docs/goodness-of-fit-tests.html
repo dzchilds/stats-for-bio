@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="working-with-frequencies.html"/>
 <link rel="next" href="contingency-tables.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -725,7 +726,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="how-does-the-chi-square-goodness-of-fit-test-work" class="section level2" number="31.2">
 <h2><span class="header-section-number">31.2</span> How does the chi-square goodness of fit test work?</h2>
-<p>The <span class="math inline">\(\chi^{2}\)</span> goodness of fit test uses raw counts to address questions about expected proportions, or probabilities of events<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a>. As always, we start by setting up the appropriate null hypothesis. This will be question specific, but it must always be framed in terms of ‘no effect’ or ‘no difference’. We then work out what a sampling distribution of some kind looks like under this null hypothesis, and use this to assess how likely the observed result is (i.e. calculate a <em>p</em>-value).</p>
+<p>The <span class="math inline">\(\chi^{2}\)</span> goodness of fit test uses raw counts to address questions about expected proportions, or probabilities of events<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a>. As always, we start by setting up the appropriate null hypothesis. This will be question specific, but it must always be framed in terms of ‘no effect’ or ‘no difference.’ We then work out what a sampling distribution of some kind looks like under this null hypothesis, and use this to assess how likely the observed result is (i.e. calculate a <em>p</em>-value).</p>
 <p>We don’t need to work directly with the sampling distributions of counts in each category. Instead, we calculate an appropriate <span class="math inline">\(\chi^{2}\)</span> test statistic. The way to think about this is that the <span class="math inline">\(\chi^{2}\)</span> statistic reduces the information in the separate category counts down to a single number.</p>
 <p>Let’s see how the <span class="math inline">\(\chi^{2}\)</span> goodness of fit test works using the <em>Silene</em> example discussed above. Imagine that we collected data on the frequency of plants bearing male and female flowers in a population of <em>Silene dioica</em>:</p>
 <table>
@@ -767,19 +768,19 @@ Work through the example in this section.
 </div>
 <p>Let’s see how to use R to carry out a <span class="math inline">\(\chi^{2}\)</span> goodness of fit test with the <em>Silene</em> sex data. There is no need to download any data for this example. The data used in a <span class="math inline">\(\chi^{2}\)</span> goodness of fit test are so simple that we often just place it into an R script, though there is nothing stopping us from putting the data into a CSV file and reading it into R<a href="#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a>.</p>
 <p>The first step is to construct a numeric vector containing the <em>observed frequencies</em> for each category. We’ll call this <code>observed_freqs</code>:</p>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="goodness-of-fit-tests.html#cb236-1"></a>observed_freqs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">105</span>, <span class="dv">87</span>)</span>
-<span id="cb236-2"><a href="goodness-of-fit-tests.html#cb236-2"></a>observed_freqs</span></code></pre></div>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="goodness-of-fit-tests.html#cb236-1" aria-hidden="true" tabindex="-1"></a>observed_freqs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">105</span>, <span class="dv">87</span>)</span>
+<span id="cb236-2"><a href="goodness-of-fit-tests.html#cb236-2" aria-hidden="true" tabindex="-1"></a>observed_freqs</span></code></pre></div>
 <pre><code>## [1] 105  87</code></pre>
 <p>Note that <code>observed_freqs</code> is a numeric vector, not a data frame. It doesn’t matter what order the two category counts are supplied in.</p>
 <p>Next, we need to calculate the <em>expected frequencies</em> of each category. Rather than expressing these as counts, R expects these to be proportions. We need to construct a second numeric vector containing this information. We’ll call this <code>expected_probs</code>:</p>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="goodness-of-fit-tests.html#cb238-1"></a><span class="co"># calculate the number of categories</span></span>
-<span id="cb238-2"><a href="goodness-of-fit-tests.html#cb238-2"></a>n_cat &lt;-<span class="st"> </span><span class="kw">length</span>(observed_freqs)</span>
-<span id="cb238-3"><a href="goodness-of-fit-tests.html#cb238-3"></a><span class="co"># calculate the number in each category (equal frequencies in this e.g.)</span></span>
-<span id="cb238-4"><a href="goodness-of-fit-tests.html#cb238-4"></a>expected_probs &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, n_cat) <span class="op">/</span><span class="st"> </span>n_cat</span>
-<span id="cb238-5"><a href="goodness-of-fit-tests.html#cb238-5"></a>expected_probs</span></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="goodness-of-fit-tests.html#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the number of categories</span></span>
+<span id="cb238-2"><a href="goodness-of-fit-tests.html#cb238-2" aria-hidden="true" tabindex="-1"></a>n_cat <span class="ot">&lt;-</span> <span class="fu">length</span>(observed_freqs)</span>
+<span id="cb238-3"><a href="goodness-of-fit-tests.html#cb238-3" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the number in each category (equal frequencies in this e.g.)</span></span>
+<span id="cb238-4"><a href="goodness-of-fit-tests.html#cb238-4" aria-hidden="true" tabindex="-1"></a>expected_probs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, n_cat) <span class="sc">/</span> n_cat</span>
+<span id="cb238-5"><a href="goodness-of-fit-tests.html#cb238-5" aria-hidden="true" tabindex="-1"></a>expected_probs</span></code></pre></div>
 <pre><code>## [1] 0.5 0.5</code></pre>
 <p>Finally, use the <code>chisq.test</code> function to calculate the <span class="math inline">\(\chi^{2}\)</span> value, degrees of freedom and <em>p</em>-value for the test. The first argument is the numeric vector of observed counts (the data) and the second is the expected proportions in each category:</p>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="goodness-of-fit-tests.html#cb240-1"></a><span class="kw">chisq.test</span>(observed_freqs, <span class="dt">p =</span> expected_probs)</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="goodness-of-fit-tests.html#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(observed_freqs, <span class="at">p =</span> expected_probs)</span></code></pre></div>
 <pre><code>## 
 ## 	Chi-squared test for given probabilities
 ## 
@@ -805,7 +806,7 @@ We need to calculate the degrees of freedom associated with the test: in a <span
 <div id="a-bit-more-about-goodness-of-fit-tests-in-r" class="section level3" number="31.3.2">
 <h3><span class="header-section-number">31.3.2</span> A bit more about goodness of fit tests in R</h3>
 <p>There is a useful short cut that we can employ when we expect equal numbers in every category (as above). In this situation there is no need to calculate the expected proportions because R will assume we meant to use the ‘equal frequencies’ null hypothesis. So the following…</p>
-<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="goodness-of-fit-tests.html#cb242-1"></a><span class="kw">chisq.test</span>(observed_freqs)</span></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="goodness-of-fit-tests.html#cb242-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(observed_freqs)</span></code></pre></div>
 <pre><code>## 
 ## 	Chi-squared test for given probabilities
 ## 
@@ -813,7 +814,7 @@ We need to calculate the degrees of freedom associated with the test: in a <span
 ## X-squared = 1.6875, df = 1, p-value = 0.1939</code></pre>
 <p>…is exactly equivalent to the longer method we used first. We showed you the first method because we do sometimes need to carry out a goodness of fit test assuming unequal expected values.</p>
 <p>R will warn us if it thinks the data are not suitable for a <span class="math inline">\(\chi^{2}\)</span> test. It is often safe to ignore the warnings produced by R. However, this is one situation where it is important to pay attention to the warning. We can see what the important warning looks like by using <code>chisq.test</code> with a fake data set:</p>
-<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="goodness-of-fit-tests.html#cb244-1"></a><span class="kw">chisq.test</span>(<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">5</span>,<span class="dv">5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="goodness-of-fit-tests.html#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">5</span>,<span class="dv">5</span>))</span></code></pre></div>
 <pre><code>## Warning in chisq.test(c(2, 5, 7, 5, 5)): Chi-squared approximation may be
 ## incorrect</code></pre>
 <pre><code>## 
@@ -841,22 +842,22 @@ It’s fine to skip this section if you’re not the kind of person who likes to
 <ol style="list-style-type: decimal">
 <li>Calculate observed and expected frequencies**</li>
 </ol>
-<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="goodness-of-fit-tests.html#cb247-1"></a>O_freqs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">105</span>, <span class="dv">87</span>)</span>
-<span id="cb247-2"><a href="goodness-of-fit-tests.html#cb247-2"></a>E_freqs &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">sum</span>(O_freqs)<span class="op">/</span><span class="dv">2</span>, <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="goodness-of-fit-tests.html#cb247-1" aria-hidden="true" tabindex="-1"></a>O_freqs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">105</span>, <span class="dv">87</span>)</span>
+<span id="cb247-2"><a href="goodness-of-fit-tests.html#cb247-2" aria-hidden="true" tabindex="-1"></a>E_freqs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">sum</span>(O_freqs)<span class="sc">/</span><span class="dv">2</span>, <span class="dv">2</span>)</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Calculate <span class="math inline">\(\chi^{2}\)</span> test statistic</li>
 </ol>
-<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="goodness-of-fit-tests.html#cb248-1"></a>Chi_test_stat &lt;-<span class="st"> </span><span class="kw">sum</span>((O_freqs<span class="op">-</span>E_freqs)<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>E_freqs)</span>
-<span id="cb248-2"><a href="goodness-of-fit-tests.html#cb248-2"></a>Chi_test_stat</span></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="goodness-of-fit-tests.html#cb248-1" aria-hidden="true" tabindex="-1"></a>Chi_test_stat <span class="ot">&lt;-</span> <span class="fu">sum</span>((O_freqs<span class="sc">-</span>E_freqs)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> E_freqs)</span>
+<span id="cb248-2"><a href="goodness-of-fit-tests.html#cb248-2" aria-hidden="true" tabindex="-1"></a>Chi_test_stat</span></code></pre></div>
 <pre><code>## [1] 1.6875</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>Calculate degrees of freedom</li>
 </ol>
-<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="goodness-of-fit-tests.html#cb250-1"></a>Chi_df &lt;-<span class="st"> </span><span class="kw">length</span>(O_freqs) <span class="op">-</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb250-2"><a href="goodness-of-fit-tests.html#cb250-2"></a>Chi_df</span></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="goodness-of-fit-tests.html#cb250-1" aria-hidden="true" tabindex="-1"></a>Chi_df <span class="ot">&lt;-</span> <span class="fu">length</span>(O_freqs) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb250-2"><a href="goodness-of-fit-tests.html#cb250-2" aria-hidden="true" tabindex="-1"></a>Chi_df</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <p>Once we have obtained the <span class="math inline">\(\chi^{2}\)</span> value and the degrees of freedom we need to calculate the <em>p</em>-value associated with these values. Once upon a time we would have looked this up in a table of some kind. It is much easier to let R handle the calculations for us, using a function called <code>pchisq</code>. This does the ‘probability we would see the observed frequencies, or more extreme values’ calculation mentioned above. <code>pchisq</code> takes three arguments: the first is the <span class="math inline">\(\chi^{2}\)</span> value, the second is the degrees of freedom, and the third says which tail of the distribution it should use. Here’s how to calculate the required <em>p</em>-value from the <span class="math inline">\(\chi^{2}\)</span> and d.f. values we just calculated:</p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="goodness-of-fit-tests.html#cb252-1"></a><span class="kw">pchisq</span>(Chi_test_stat, Chi_df, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="goodness-of-fit-tests.html#cb252-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pchisq</span>(Chi_test_stat, Chi_df, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## [1] 0.1939309</code></pre>
 <p>No surprises there… The <em>p</em>-value is the same as before.</p>
 </div>

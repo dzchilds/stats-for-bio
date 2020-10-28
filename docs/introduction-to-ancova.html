@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="two-way-anova-in-r.html"/>
 <link rel="next" href="two-way-ancova-in-r.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -774,7 +775,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p>Notice that these data resemble a fully factorial, two-way ANOVA design (but without replication), where the predictors are year and location. Two-way ANOVA and ANCOVA are quite similar in many respects.</p>
 <p>We could plot these data by creating two different subsets (e.g. using the <code>dplyr</code> function <code>filter</code>)—one for each location—and plotting each in turn as a separate scatter plot. However, unless the abundances of sea otters are very different, it is better to plot everything on the same figure so the abundances at each location can be compared. We need to ensure the data from each location are clearly delineated. We can do this is a number of ways, for example by giving the points different colours as follows.</p>
-<p><img src="stats-for-bio_files/figure-html/unnamed-chunk-279-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="stats-for-bio_files/figure-html/unnamed-chunk-280-1.png" width="576" style="display: block; margin: auto;" /></p>
 <div class="warning-box">
 <p>
 <strong>Variables and axes</strong>
@@ -784,7 +785,7 @@ Just as with a regression analysis you should be careful here to make sure the t
 </p>
 </div>
 <p>This indicates that sea otter abundances have declined in both locations, and as predicted, the decline seems to be greater where sea otters were exposed to predation from killer whales (the bay location).</p>
-<p>How should we analyse these data? It might be tempting to carry out two separate linear regressions of otter abundance against study year. If we do this when we consider just the data from the lagoon population, we do not find a significant effect of year on otter abundance (<em>p</em>=0.062), but we do find a significant effect of year in the bay population (<em>p</em>&lt;0.01). It is tempting to conclude that because there is a significant effect of year on otter abundance in one location but not the other, the population trends are ‘different’. <em>This reasoning is flawed</em>. In fact, if we we want to establish whether or not the trend is different at each location, we have to have to analyse them together. This is where ANCOVA becomes useful.</p>
+<p>How should we analyse these data? It might be tempting to carry out two separate linear regressions of otter abundance against study year. If we do this when we consider just the data from the lagoon population, we do not find a significant effect of year on otter abundance (<em>p</em>=0.062), but we do find a significant effect of year in the bay population (<em>p</em>&lt;0.01). It is tempting to conclude that because there is a significant effect of year on otter abundance in one location but not the other, the population trends are ‘different.’ <em>This reasoning is flawed</em>. In fact, if we we want to establish whether or not the trend is different at each location, we have to have to analyse them together. This is where ANCOVA becomes useful.</p>
 </div>
 <div id="how-does-ancova-work" class="section level2" number="28.3">
 <h2><span class="header-section-number">28.3</span> How does ANCOVA work?</h2>
@@ -792,22 +793,22 @@ Just as with a regression analysis you should be careful here to make sure the t
 <p>Selecting which variable is to be used as the response and which as the predictor variable is usually straightforward. In our example, the investigators set out to understand how otter densities change with respect to time, and so logically, otter abundance depends on year. It is very hard to imagine a situation whereby it make sense to predict study year from otter abundances.</p>
 <p>An ANCOVA describes, within each group, how the response variable changes with a unit change in the value of the predictor variable. ANCOVA works in essentially the same way as ANOVA or regression. It seeks the set of lines (one for each group) that leaves the smallest total sum of the squared residuals. Remember, residuals are vertical distances between a fitted line and each data point, measured parallel to the <span class="math inline">\(y\)</span>-axis. Just as with regression, the residuals are the ‘bits left over’ after a line has been fitted. The size of the residuals gives an indication of how well the line fits the data. The following illustration shows the best fit model and associated residuals for our example:</p>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="stats-for-bio_files/figure-html/unnamed-chunk-281-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="stats-for-bio_files/figure-html/unnamed-chunk-282-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>A two-way ANCOVA on these data will tell us whether otter abundance is related to (1) study year (i.e. the trend) and (2) study site, and (3) whether the effect of year depends on study site. So just like two-way ANOVA, there are three terms to consider: two main effects and one interaction.</p>
 </div>
 <div id="degrees-of-freedom-mean-squares-and-f-statistics" class="section level2" number="28.4">
 <h2><span class="header-section-number">28.4</span> Degrees of freedom, mean squares and F-statistics</h2>
 <p>The statistical significance of the main effects and the interaction are evaluated by examining changes in sums of squares. The statistical significance of each of these terms is evaluated by calculating how much variability in the response variable is ‘explained’ by each term in the model. In practise, this is done by calculating a sum of squares for each term. We can get a sense of how these calculations work by contrasting the residuals associated with different ‘models’ of the data.</p>
 <p>To understand the location term, we contrast the residuals associated with the overall grand mean (left panel) with those associated with separate means for each location (right panel):
-<img src="stats-for-bio_files/figure-html/unnamed-chunk-282-1.png" width="672" style="display: block; margin: auto;" /></p>
+<img src="stats-for-bio_files/figure-html/unnamed-chunk-283-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <p>It seems clear from this plot that adding a location effect (i.e. allowing for different means) explains a lot of variation, because the residuals (i.e. the lengths of the vertical lines) are much smaller in the right panel.</p>
 <p>What about the effect of year? To understand the year term, we visualise the residuals associated with separate means for each location (left panel) vs. the residuals when we include a separate mean for each location and a common year slope:</p>
-<p><img src="stats-for-bio_files/figure-html/unnamed-chunk-283-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="stats-for-bio_files/figure-html/unnamed-chunk-284-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <p>The phrase ‘common slope’ refers to the fact that we found the best fit model under a constraint, whereby the year slope was forced to be the same in each location. Adding a common year effect explains some variation, though the change in the size of the residuals is clearly smaller than when we added the location effect.</p>
 <p>Finally, to understand the interaction term, we can compare the residuals generated when a separate mean for each location and a common year slope is included (left panel), to the case that includes a location-specific mean and year slope (right panel):</p>
-<p><img src="stats-for-bio_files/figure-html/unnamed-chunk-284-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="stats-for-bio_files/figure-html/unnamed-chunk-285-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <p>Adding the interaction only explains a small amount of variation, i.e. the change in the size of the residuals is even smaller than when we added the year term.</p>
 <p>We could take this analysis further by actually calculating the change in sum of squares that occurs as we add a term. However, at this point, we really just want to get a sense of how ANCOVA works using a visual assessment of the change in the residuals. In terms of the variability they explain, it looks like the order is…</p>

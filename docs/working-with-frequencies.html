@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="two-way-ancova-in-r.html"/>
 <link rel="next" href="goodness-of-fit-tests.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -713,11 +714,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="introduction" class="section level2" number="30.1">
 <h2><span class="header-section-number">30.1</span> Introduction</h2>
 <p>Much of the time in biology we are dealing with whole objects (plants, animals, cells, eggs, islands, etc.) or discrete events (attacks, matings, nesting attempts, etc.). We are often interested in making measurements of numeric variables (length, weight, number, etc.) and then either comparing means from samples (e.g. mean leaf size of plants from two habitat types), or investigating the association between different measurements (e.g. mean leaf size and herbivore damage).</p>
-<p>However, we sometimes find a situation in which the ‘measurement’ we are interested in is not a quantitative measure, but is <em>categorical</em>. Categorical data are things like sex, colour or species. Such variables cannot be treated in the same way as numeric variables. Although we can ‘measure’ each object (e.g. record if an animal is male or female), we can’t calculate numeric quantities such as the ‘mean colour morph’, ‘mean species’ or ‘median sex’ of animals in a sample. Instead, we work with the observed frequencies, in the form of counts, of different categories, or combinations of categories.</p>
+<p>However, we sometimes find a situation in which the ‘measurement’ we are interested in is not a quantitative measure, but is <em>categorical</em>. Categorical data are things like sex, colour or species. Such variables cannot be treated in the same way as numeric variables. Although we can ‘measure’ each object (e.g. record if an animal is male or female), we can’t calculate numeric quantities such as the ‘mean colour morph,’ ‘mean species’ or ‘median sex’ of animals in a sample. Instead, we work with the observed frequencies, in the form of counts, of different categories, or combinations of categories.</p>
 </div>
 <div id="a-new-kind-of-distribution" class="section level2" number="30.2">
 <h2><span class="header-section-number">30.2</span> A new kind of distribution</h2>
-<p>There are quite a few options for dealing with categorical data<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a>. We’re just going to look at one option in this book: <span class="math inline">\(\chi^2\)</span> tests. This is pronounced, and sometimes written, ‘chi-square’. The ‘ch’ is a hard ‘ch’, as in ‘character’. This isn’t necessarily the best approach for every problem, but <span class="math inline">\(\chi^2\)</span> tests are widely used in biology so they are a good place to start.</p>
+<p>There are quite a few options for dealing with categorical data<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a>. We’re just going to look at one option in this book: <span class="math inline">\(\chi^2\)</span> tests. This is pronounced, and sometimes written, ‘chi-square.’ The ‘ch’ is a hard ‘ch,’ as in ‘character.’ This isn’t necessarily the best approach for every problem, but <span class="math inline">\(\chi^2\)</span> tests are widely used in biology so they are a good place to start.</p>
 <div class="do-something">
 <p>
 It is not critical that you understand everything in this section. This material is here to help those who like to have a sense of how statistical tests work. You won’t be assessed on it.
@@ -738,7 +739,7 @@ Figure 30.1: Distribution of a large sample of chi-square distributed variable w
 </div>
 <p>As we just noted, only positive values occur and most of these values lie between about 0 and 10. We can also see that the distribution is asymmetric. It is skewed to the right.</p>
 <p>So why is any of this useful?</p>
-<p>Let’s look at the plant morph example again. Imagine that we are able to take repeated samples from a population when the purple morph frequency is 25% . Let’s take repeated samples of 1000 plants each time. If the true frequency is 25% we expect to sample 250 purple plants each time. We’ll call this number the ‘expected value’. We won’t actually end up with 250 plants in each sample because of sampling error. We’ll call this latter number the ‘observed value’.</p>
+<p>Let’s look at the plant morph example again. Imagine that we are able to take repeated samples from a population when the purple morph frequency is 25% . Let’s take repeated samples of 1000 plants each time. If the true frequency is 25% we expect to sample 250 purple plants each time. We’ll call this number the ‘expected value.’ We won’t actually end up with 250 plants in each sample because of sampling error. We’ll call this latter number the ‘observed value.’</p>
 <p>So far we’re not doing anything we haven’t seen before. We’re just trying to see what happens under repeated sampling from a population. Here’s the new bit… Imagine that every time we sample the 1000 plants, we calculate the following test statistic…</p>
 <p><span class="math display">\[2*\frac{(O-E)^{2}}{E}\]</span></p>
 <p>…where <span class="math inline">\(O\)</span> is the observed value and <span class="math inline">\(E\)</span> is the expected value defined above. What does the distribution of this test statistic look like? We can find out by simulating the scenario in R and plotting the results:</p>
@@ -820,7 +821,7 @@ Figure 30.2: Distribution of the test statistic
 <div class="footnotes">
 <hr />
 <ol start="26">
-<li id="fn26"><p>e.g. the ‘log-linear model’, ‘Fisher’s exact test’, and the ‘G-test’.<a href="working-with-frequencies.html#fnref26" class="footnote-back">↩︎</a></p></li>
+<li id="fn26"><p>e.g. the ‘log-linear model,’ ‘Fisher’s exact test,’ and the ‘G-test.’<a href="working-with-frequencies.html#fnref26" class="footnote-back">↩︎</a></p></li>
 <li id="fn27"><p>Human sex-ratio is actually slightly biased toward males at birth, but since males experience a higher mortality rate in their teens, the sex ratio among 18 year olds is closer to 1:1.<a href="working-with-frequencies.html#fnref27" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>

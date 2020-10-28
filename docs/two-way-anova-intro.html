@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="multiple-comparison-tests.html"/>
 <link rel="next" href="two-way-anova-in-r.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -718,7 +719,7 @@ is amply provided for by using a factorial experiment.</p>
 <div id="introduction" class="section level2" number="26.1">
 <h2><span class="header-section-number">26.1</span> Introduction</h2>
 <p>One-way ANOVA allows us to determine whether there are significant differences between the effects of two or more treatments. The treatments we are interested in comparing are the different levels of a factor. These levels may represent quantitative variations of a general treatment (e.g. the effect of different concentrations of slug poison on slugs), or qualitatively different varieties of a class of treatments (e.g. the effect of different diets on weight loss). Fairly obviously, we are less likely to be interested in questions which involve comparing completely different sorts of treatment. For example, it is hard to see the value of an experiment comparing the movement of slugs where the three different treatments are: (i) half-strength Slugit (ii) moist wood substrate (iii) darkness. None of the treatments are comparable and so it will be very difficult to interpret differences between them.</p>
-<p>Although the above experiment would not be very useful, we might well be interested in whether the moisture level of the substrate has an effect on movement rate, and similarly, whether movement is affected by the slug being in the light or dark. To address these questions we could obviously design two separate experiments—one where the treatments are wooden boards with two or more different moisture levels, and another where the treatments are ‘light’ or ‘dark’.</p>
+<p>Although the above experiment would not be very useful, we might well be interested in whether the moisture level of the substrate has an effect on movement rate, and similarly, whether movement is affected by the slug being in the light or dark. To address these questions we could obviously design two separate experiments—one where the treatments are wooden boards with two or more different moisture levels, and another where the treatments are ‘light’ or ‘dark.’</p>
 <p>Although this is a perfectly valid procedure, it still leaves us lacking some information. With the moisture experiment, we have to decide whether to run it in the light or the dark, and with the light and dark experiment we have to decide how moist the wooden boards we use should be. If we decide to run our moisture level experiment in the dark, then we end up (we hope) knowing something about the effect of moisture on slug movement, but only in dark conditions—we can’t say whether the effect of moisture would have been different had the slugs been in the light (and obviously we can’t say anything about the effect of light and dark more generally since that is the subject of our other experiment).</p>
 <p>One obvious solution might be to run two moisture experiments… one in the dark and one in the light, and similarly three light/dark experiments, one at each different moisture level. This is indeed what we want to do, but instead of running each combination separately, it is more powerful, and experimentally less problematic, to run all the combinations together.</p>
 <p>If we used four slugs in each combination, we would require: 4 replicates <span class="math inline">\(\times\)</span> 3 moisture levels <span class="math inline">\(\times\)</span> 2 light levels <span class="math inline">\(=\)</span> 24 slugs. We would end up with 4 measurements of movement rate in each combination of treatments (figures are cm per min), e.g.</p>

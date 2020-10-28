@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="one-sample-t-tests.html"/>
 <link rel="next" href="a-correlation-test.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -720,7 +721,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="how-does-the-two-sample-t-test-work" class="section level2" number="13.2">
 <h2><span class="header-section-number">13.2</span> How does the two-sample <em>t</em>-test work?</h2>
-<p>Imagine we have taken a sample of a variable from two populations, labelled ‘A’ and ‘B’. We’ll call the variable ‘X’ again. Here’s an example of how these kinds of data might look if we had a sample of 50 items from each population:</p>
+<p>Imagine we have taken a sample of a variable from two populations, labelled ‘A’ and ‘B.’ We’ll call the variable ‘X’ again. Here’s an example of how these kinds of data might look if we had a sample of 50 items from each population:</p>
 <div class="figure" style="text-align: center"><span id="fig:two-t-eg-samps"></span>
 <img src="stats-for-bio_files/figure-html/two-t-eg-samps-1.png" alt="Example of data used in a two-sample t-test" width="80%" />
 <p class="caption">
@@ -728,7 +729,7 @@ Figure 13.1: Example of data used in a two-sample t-test
 </p>
 </div>
 <p>The first thing to notice is the two distributions overlap quite a lot. However, this observation isn’t necessarily all that significant. Why? Because we’re not interested in the raw values of ‘X’ in the two samples. It’s the <em>difference between the means</em> that our test is going to focus on.</p>
-<p>The red lines show the mean of each sample. Sample B obviously has a larger mean than sample A. The question is, how do we decide whether this difference is ‘real’, or purely a result of sampling variation?</p>
+<p>The red lines show the mean of each sample. Sample B obviously has a larger mean than sample A. The question is, how do we decide whether this difference is ‘real,’ or purely a result of sampling variation?</p>
 <p>Using a frequentist approach, we tackle this question by first setting up the appropriate null hypothesis. The null hypothesis here is one of no difference between the population means (they are equal). We then have to work out what the null distribution looks like. This is sampling distribution of the difference between sample means under the null hypothesis. Once we have the null distribution worked out we can calculate a <em>p</em>-value.</p>
 <p>How is this different from the permutation test? The logic is virtually identical. The one important difference is that we have to make an extra assumption to use the two-sample <em>t</em>-test. We assume the variable is normally distributed in each population. If this assumption is valid, then the null distribution will have a known form—a <em>t</em>-distribution.</p>
 <p>We only need a few pieces of information to carry out a two-sample <em>t</em>-test. These are basically the same quantities needed to construct the one-sample <em>t</em>-test, except now there are two samples involved. We need the sample sizes of groups A and B, the sample variances and the estimated difference between the sample means of X in A and B.</p>
@@ -788,13 +789,13 @@ Work through the example in this section. We’re going to use the plant morph e
 <div id="visualising-the-data-and-checking-the-assumptions" class="section level3" number="13.3.1">
 <h3><span class="header-section-number">13.3.1</span> Visualising the data and checking the assumptions</h3>
 <p>We start by calculating a few descriptive statistics and visualising the sample distributions of the green and purple morph dry weights. We already did this in the <a href="statistical-comparisons.html#statistical-comparisons">statistical comparisons</a> chapter but here’s the <strong>dplyr</strong> code for the descriptive statistics again:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="two-sample-t-test.html#cb46-1"></a>morph_data <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb46-2"><a href="two-sample-t-test.html#cb46-2"></a><span class="st">  </span><span class="co"># group the data by plant morph</span></span>
-<span id="cb46-3"><a href="two-sample-t-test.html#cb46-3"></a><span class="st">  </span><span class="kw">group_by</span>(Colour) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb46-4"><a href="two-sample-t-test.html#cb46-4"></a><span class="st">  </span><span class="co"># calculate the mean, standard deviation and sample size</span></span>
-<span id="cb46-5"><a href="two-sample-t-test.html#cb46-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(Weight), </span>
-<span id="cb46-6"><a href="two-sample-t-test.html#cb46-6"></a>            <span class="dt">sd =</span> <span class="kw">sd</span>(Weight),</span>
-<span id="cb46-7"><a href="two-sample-t-test.html#cb46-7"></a>            <span class="dt">samp_size =</span> <span class="kw">n</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="two-sample-t-test.html#cb46-1" aria-hidden="true" tabindex="-1"></a>morph_data <span class="sc">%&gt;%</span> </span>
+<span id="cb46-2"><a href="two-sample-t-test.html#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># group the data by plant morph</span></span>
+<span id="cb46-3"><a href="two-sample-t-test.html#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Colour) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-4"><a href="two-sample-t-test.html#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calculate the mean, standard deviation and sample size</span></span>
+<span id="cb46-5"><a href="two-sample-t-test.html#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(Weight), </span>
+<span id="cb46-6"><a href="two-sample-t-test.html#cb46-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd =</span> <span class="fu">sd</span>(Weight),</span>
+<span id="cb46-7"><a href="two-sample-t-test.html#cb46-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">samp_size =</span> <span class="fu">n</span>())</span></code></pre></div>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <pre><code>## # A tibble: 2 x 4
 ##   Colour  mean    sd samp_size
@@ -802,9 +803,9 @@ Work through the example in this section. We’re going to use the plant morph e
 ## 1 Green   708.  150.       173
 ## 2 Purple  767.  156.        77</code></pre>
 <p>As we already know the purple plants tend to be a bigger than green plants. The sample sizes are 173 (green plants) and 77 (purple plants). These are good-sized samples, which means we probably don’t need to be too obsessed about the normality assumption. However, we still need to visualise the sample distributions to be sure they aren’t too odd or contain obvious outliers:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="two-sample-t-test.html#cb49-1"></a><span class="kw">ggplot</span>(morph_data, <span class="kw">aes</span>(<span class="dt">x =</span> Weight)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb49-2"><a href="two-sample-t-test.html#cb49-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb49-3"><a href="two-sample-t-test.html#cb49-3"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Colour, <span class="dt">ncol =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="two-sample-t-test.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(morph_data, <span class="fu">aes</span>(<span class="at">x =</span> Weight)) <span class="sc">+</span> </span>
+<span id="cb49-2"><a href="two-sample-t-test.html#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">50</span>) <span class="sc">+</span> </span>
+<span id="cb49-3"><a href="two-sample-t-test.html#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Colour, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:two-morph-dist-again"></span>
 <img src="stats-for-bio_files/figure-html/two-morph-dist-again-1.png" alt="Size distributions of purple and green morph samples" width="60%" />
 <p class="caption">
@@ -817,14 +818,14 @@ Figure 13.2: Size distributions of purple and green morph samples
 <h3><span class="header-section-number">13.3.2</span> Carrying out the test</h3>
 <p>The function we need to carry out a two-sample <em>t</em>-test in R is the <code>t.test</code> function, i.e. exactly the same functions used for the one-sample test.</p>
 <p>Remember, <code>morph_data</code> has two columns: <code>Weight</code> contains the dry weight biomass of each plant, and <code>Colour</code> is an index variable that indicates which sample (plant morph) an observation belongs to. Here’s the code to carry out the two-sample <em>t</em>-test:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="two-sample-t-test.html#cb50-1"></a><span class="kw">t.test</span>(Weight <span class="op">~</span><span class="st"> </span>Colour,  morph_data)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="two-sample-t-test.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Weight <span class="sc">~</span> Colour,  morph_data)</span></code></pre></div>
 <p>We suppressed the output for now to focus on how to use the function. We have to assign two arguments:</p>
 <ol style="list-style-type: decimal">
 <li><p>The first argument is something called a <strong>formula</strong>. We know this because it includes a ‘tilde’ symbol: <code>~</code>. The variable name on the left of the <code>~</code> must be the variable whose mean we want to compare (<code>Weight</code>). The variable on the right must be the indicator variable that says which group each observation belongs to (<code>Colour</code>).</p></li>
 <li><p>The second argument is the name of the data frame that contains the variables listed in the formula.</p></li>
 </ol>
 <p>Let’s take a look at the output:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="two-sample-t-test.html#cb51-1"></a><span class="kw">t.test</span>(Weight <span class="op">~</span><span class="st"> </span>Colour,  morph_data)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="two-sample-t-test.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Weight <span class="sc">~</span> Colour,  morph_data)</span></code></pre></div>
 <pre><code>## 
 ## 	Welch Two Sample t-test
 ## 
@@ -836,8 +837,8 @@ Figure 13.2: Size distributions of purple and green morph samples
 ## sample estimates:
 ##  mean in group Green mean in group Purple 
 ##             707.8424             766.5638</code></pre>
-<p>The first line reminds us what kind of <em>t</em>-test we used. This says: <code>Welch two-sample t-test</code>, so we know that we used the Welch version of the test that accounts for the possibility of unequal variance. The next line reminds us about the data. This says: <code>data: Weight by Colour</code>, which is R-speak for ‘we compared the means of the <code>Weight</code> variable, where the group membership is defined by the values of the <code>Colour</code> variable’.</p>
-<p>The third line of text is the most important. This says: <code>t = -2.7808, d.f. = 140.69, p-value = 0.006165</code>. The first part, <code>t = -2.7808</code>, is the test statistic (i.e. the value of the <em>t</em>-statistic). The second part, <code>df = 140.69</code>, summarise the ‘degrees of freedom’ (see the box below). The third part, <code>p-value = 0.006165</code>, is the all-important p-value. This says there is a statistically significant difference in the mean dry weight biomass of the two colour morphs, because <em>p</em>&lt;0.05. Because the <em>p</em>-value is less than 0.01 but greater than 0.001, we would report this as ‘<em>p</em> &lt; 0.01’.</p>
+<p>The first line reminds us what kind of <em>t</em>-test we used. This says: <code>Welch two-sample t-test</code>, so we know that we used the Welch version of the test that accounts for the possibility of unequal variance. The next line reminds us about the data. This says: <code>data: Weight by Colour</code>, which is R-speak for ‘we compared the means of the <code>Weight</code> variable, where the group membership is defined by the values of the <code>Colour</code> variable.’</p>
+<p>The third line of text is the most important. This says: <code>t = -2.7808, d.f. = 140.69, p-value = 0.006165</code>. The first part, <code>t = -2.7808</code>, is the test statistic (i.e. the value of the <em>t</em>-statistic). The second part, <code>df = 140.69</code>, summarise the ‘degrees of freedom’ (see the box below). The third part, <code>p-value = 0.006165</code>, is the all-important p-value. This says there is a statistically significant difference in the mean dry weight biomass of the two colour morphs, because <em>p</em>&lt;0.05. Because the <em>p</em>-value is less than 0.01 but greater than 0.001, we would report this as ‘<em>p</em> &lt; 0.01.’</p>
 <p>The fourth line of text (<code>alternative hypothesis: true difference in means is not equal to 0</code>) simply reminds us of the alternative to the null hypothesis (H<sub>1</sub>). This isn’t hugely important or interesting.</p>
 <p>The next two lines show us the ‘95% confidence interval’ for the difference between the means. Just as with the one sample <em>t</em>-test we can think of this interval as a rough summary of the likely values of the true difference (again, a confidence interval is more complicated than that in reality).</p>
 <p>The last few lines summarise the sample means of each group. This could be useful if we had not bothered to calculate these already.</p>

@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="parametric-statistics.html"/>
 <link rel="next" href="two-sample-t-test.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -732,7 +733,7 @@ Figure 12.1: Example of data used in a one-sample t-test
 <p>We’re calling the variable ‘X’ in this example. It needs a label and ‘X’ is as good as any other. The red line shows the sample mean. This is a bit less than 11. The blue line shows the expected value. This is 10, so this example could correspond to the foraging study mentioned above.</p>
 <p>The observed sample mean is about one unit larger than the expected value. The question is, how do we decide whether the population mean is really different from the expected value? Perhaps the difference between the observed and expected value is due to sampling variation. Here’s how a frequentist tackles this kind of question:</p>
 <ol style="list-style-type: decimal">
-<li><p>Set up an appropriate null hypothesis, i.e. an hypothesis of ‘no effect’ or ‘no difference’. The null hypothesis in this type of question is that <em>the population mean is equal to the expected value</em>.</p></li>
+<li><p>Set up an appropriate null hypothesis, i.e. an hypothesis of ‘no effect’ or ‘no difference.’ The null hypothesis in this type of question is that <em>the population mean is equal to the expected value</em>.</p></li>
 <li><p>Work out what the sampling distribution of a sample mean looks like under the null hypothesis. This is the null distribution. Because we’re now using a parametric approach, we will assume this has a particular form.</p></li>
 <li><p>Finally, we use the null distribution to assess how likely the observed result is under the null hypothesis. This is the <em>p</em>-value calculation that we use to summarise our test.</p></li>
 </ol>
@@ -777,24 +778,24 @@ You should work through the example in this section if you have time. Carry on d
 <p>We’ll use the plant morph example again to learn how to carry out a one-sample <em>t</em>-test in R. Remember, the data were ‘collected’ to 1) compare the frequency of purple morphs to a prediction and 2) compare the mean dry weight of purple and green morphs. Neither of these questions can be tackled with a one-sample <em>t</em>-test.</p>
 <p>Instead, let’s pretend that we unearthed a report from 30 years ago that found the mean size of purple morphs to be 710 grams. We want to evaluate whether the mean size of purple plants in the contemporary population is different from this expectation, because we think they may have adapted to local conditions.</p>
 <p>We only need the purple morph data for this example so we should first <code>filter</code> the data to get hold of only the purple plants:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="one-sample-t-tests.html#cb38-1"></a><span class="co"># get just the purple morphs</span></span>
-<span id="cb38-2"><a href="one-sample-t-tests.html#cb38-2"></a>purple_morphs &lt;-<span class="st"> </span><span class="kw">filter</span>(morph_data, Colour <span class="op">==</span><span class="st"> &quot;Purple&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="one-sample-t-tests.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get just the purple morphs</span></span>
+<span id="cb38-2"><a href="one-sample-t-tests.html#cb38-2" aria-hidden="true" tabindex="-1"></a>purple_morphs <span class="ot">&lt;-</span> <span class="fu">filter</span>(morph_data, Colour <span class="sc">==</span> <span class="st">&quot;Purple&quot;</span>)</span></code></pre></div>
 <p>The <code>purple_morphs</code> data set has two columns: <code>Weight</code> contains the dry weight biomass of purple plants and <code>Colour</code> indicates which sample (plant morph) an observation belongs to. We don’t need the <code>Colour</code> column any more because we’ve just removed all the green plants but there’s no harm in leaving it in.</p>
 <div id="visualising-the-data-and-checking-the-assumptions" class="section level3" number="12.3.1">
 <h3><span class="header-section-number">12.3.1</span> Visualising the data and checking the assumptions</h3>
 <p>We start by calculating a few summary statistics and visualising the sample distribution of purple morph dry weights. That’s right… always check the data before carrying out any kind of statistical analysis! We already looked over these data in the <a href="statistical-comparisons.html#statistical-comparisons">Statistical comparisons</a> chapter. We’ll proceed as though this is the first time we’ve seen them though to demonstrate the complete work flow.</p>
 <p>Here is the <strong>dplyr</strong> code to produce the descriptive statistics:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="one-sample-t-tests.html#cb39-1"></a>purple_morphs <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb39-2"><a href="one-sample-t-tests.html#cb39-2"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(Weight), </span>
-<span id="cb39-3"><a href="one-sample-t-tests.html#cb39-3"></a>            <span class="dt">sd =</span> <span class="kw">sd</span>(Weight),</span>
-<span id="cb39-4"><a href="one-sample-t-tests.html#cb39-4"></a>            <span class="dt">samp_size =</span> <span class="kw">n</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="one-sample-t-tests.html#cb39-1" aria-hidden="true" tabindex="-1"></a>purple_morphs <span class="sc">%&gt;%</span> </span>
+<span id="cb39-2"><a href="one-sample-t-tests.html#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(Weight), </span>
+<span id="cb39-3"><a href="one-sample-t-tests.html#cb39-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd =</span> <span class="fu">sd</span>(Weight),</span>
+<span id="cb39-4"><a href="one-sample-t-tests.html#cb39-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">samp_size =</span> <span class="fu">n</span>())</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 3
 ##    mean    sd samp_size
 ##   &lt;dbl&gt; &lt;dbl&gt;     &lt;int&gt;
 ## 1  767.  156.        77</code></pre>
 <p>We have 77 purple plants in the sample. Not bad but we should keep an eye on the normality assumption. Let’s check this by making a histogram with the sample of purple plant dry weights:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="one-sample-t-tests.html#cb41-1"></a><span class="kw">ggplot</span>(purple_morphs, <span class="kw">aes</span>(<span class="dt">x =</span> Weight)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb41-2"><a href="one-sample-t-tests.html#cb41-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="one-sample-t-tests.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(purple_morphs, <span class="fu">aes</span>(<span class="at">x =</span> Weight)) <span class="sc">+</span> </span>
+<span id="cb41-2"><a href="one-sample-t-tests.html#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">50</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:purple-morph-dist-again"></span>
 <img src="stats-for-bio_files/figure-html/purple-morph-dist-again-1.png" alt="Size distributions of purple morph dry weight sample" width="60%" />
 <p class="caption">
@@ -806,14 +807,14 @@ Figure 12.2: Size distributions of purple morph dry weight sample
 <div id="carrying-out-the-test" class="section level3" number="12.3.2">
 <h3><span class="header-section-number">12.3.2</span> Carrying out the test</h3>
 <p>It’s easy to carry out a one-sample <em>t</em>-test in R. The function we use is called <code>t.test</code> (no surprises there). Remember, <code>Weight</code> contains the dry weight biomass of purple plants. Here’s the R code to carry out a one-sample <em>t</em>-test:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="one-sample-t-tests.html#cb42-1"></a><span class="kw">t.test</span>(purple_morphs<span class="op">$</span>Weight, <span class="dt">mu =</span> <span class="dv">710</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="one-sample-t-tests.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(purple_morphs<span class="sc">$</span>Weight, <span class="at">mu =</span> <span class="dv">710</span>)</span></code></pre></div>
 <p>We have suppressed the output because we want to initially focus on how to use the <code>t.test</code> function. We have to assign two arguments to control what the function does:</p>
 <ol style="list-style-type: decimal">
 <li><p>The first argument (<code>purple_morphs$Weight</code>) is simply a numeric vector containing the sample values. Sadly we can’t give <code>t.test</code> a data frame when doing a one-sample test. Instead, we have to pull out the column we’re interested in using the <code>$</code> operator.</p></li>
 <li><p>The second argument (called <code>mu</code>) sets the expected value we want to compare the sample mean to. So <code>mu = 710</code> tells the function to compare the sample mean to a value of 710. This can be any value we like and the correct value depends on the question we’re asking.</p></li>
 </ol>
 <p>That’s it for setting up the test. Here is the R code for the test again, this time with the output included:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="one-sample-t-tests.html#cb43-1"></a><span class="kw">t.test</span>(purple_morphs<span class="op">$</span>Weight, <span class="dt">mu =</span> <span class="dv">710</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="one-sample-t-tests.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(purple_morphs<span class="sc">$</span>Weight, <span class="at">mu =</span> <span class="dv">710</span>)</span></code></pre></div>
 <pre><code>## 
 ## 	One Sample t-test
 ## 
@@ -826,8 +827,8 @@ Figure 12.2: Size distributions of purple morph dry weight sample
 ## mean of x 
 ##  766.5638</code></pre>
 <p>The first line tells us what kind of <em>t</em>-test we used. This says: <code>One Sample t-test</code>. OK, now we know that we used the one-sample <em>t</em>-test (there are other kinds). The next line reminds us about the data. This says: <code>data:  purple_morphs$Weight</code>, which is R-speak for ’we compared the mean of the <code>Weight</code> variable to an expected value. Which value? This is given later.</p>
-<p>The third line of text is the most important. This says: <code>t = 3.1811, df = 76, p-value = 0.002125</code>. The first part of this, <code>t = 3.1811</code>, is the test statistic, i.e. the value of the <em>t</em>-statistic. The second part, <code>df = 76</code>, summarise the ‘degrees of freedom’. This is required to work out the <em>p</em>-value. It also tells us something about how much ‘power’ our statistical test has (see the box below). The third part, <code>p-value = 0.002125</code>, is the all-important <em>p</em>-value.</p>
-<p>That <em>p</em>-value indicates that there is a statistically significant difference between the mean dry weight biomass and the expected value of 710 g (<em>p</em> is less than 0.05). Because the <em>p</em>-value is less than 0.01 but greater than 0.001, we report this as ‘<em>p</em> &lt; 0.01’. Read through the <a href="hypotheses-and-p-values.html#presenting-p-values">Presenting <em>p</em>-values</a> section again if this logic is confusing.</p>
+<p>The third line of text is the most important. This says: <code>t = 3.1811, df = 76, p-value = 0.002125</code>. The first part of this, <code>t = 3.1811</code>, is the test statistic, i.e. the value of the <em>t</em>-statistic. The second part, <code>df = 76</code>, summarise the ‘degrees of freedom.’ This is required to work out the <em>p</em>-value. It also tells us something about how much ‘power’ our statistical test has (see the box below). The third part, <code>p-value = 0.002125</code>, is the all-important <em>p</em>-value.</p>
+<p>That <em>p</em>-value indicates that there is a statistically significant difference between the mean dry weight biomass and the expected value of 710 g (<em>p</em> is less than 0.05). Because the <em>p</em>-value is less than 0.01 but greater than 0.001, we report this as ‘<em>p</em> &lt; 0.01.’ Read through the <a href="hypotheses-and-p-values.html#presenting-p-values">Presenting <em>p</em>-values</a> section again if this logic is confusing.</p>
 <p>The fourth line of text (<code>alternative hypothesis: true mean is not equal to 710</code>) tells us what the alternative to the null hypothesis is (H<sub>1</sub>). More importantly, this serves to remind us which expected value was used to formulate the null hypothesis (mean = 710).</p>
 <p>The next two lines show us the ‘95% confidence interval’ for the difference between the means. We don’t really need this information now, but we can think of this interval as a rough summary of the likely values of the ‘true’ mean<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>.</p>
 <p>The last few lines summarise the sample mean. This might be useful if we had not already calculated.</p>

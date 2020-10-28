@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="writing-a-scientific-report.html"/>
 
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -719,7 +720,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="an-example-of-a-one-tailed-hypothesis" class="section level2" number="36.2">
 <h2><span class="header-section-number">C.2</span> An example of a one-tailed hypothesis</h2>
 <p>A farmer has been persuaded to try a new pesticide called Toxic Death on his broad bean crop. He sprays 20 fields of beans with Toxic Death and leaves 20 fields untreated. To test the effectiveness of Toxic Death he is only interested in detecting a positive response in his crop. It makes no difference to the farmer if the pesticide has no effect or proves to reduce the crop yield: in either case the product is a waste of money to the farmer and he will not use it again.</p>
-<p>The farmers’ test hypothesis is quite specific, in terms of the direction of the effect that is being tested for: ‘Toxic Death increases the mean yield of broad beans’. This is what is meant by a one-tailed test. In a one-tailed test we are only interested in a positive response, or a negative response. One rapidly descends into a philosophical quagmire when considering what ‘only interested in’ actually means, but let’s work with that definition for now.</p>
+<p>The farmers’ test hypothesis is quite specific, in terms of the direction of the effect that is being tested for: ‘Toxic Death increases the mean yield of broad beans.’ This is what is meant by a one-tailed test. In a one-tailed test we are only interested in a positive response, or a negative response. One rapidly descends into a philosophical quagmire when considering what ‘only interested in’ actually means, but let’s work with that definition for now.</p>
 <div class="advanced-box">
 <p>
 <strong>Where can we use a one-tailed test?</strong>
@@ -750,18 +751,18 @@ You should work through the example in this section.
 </p>
 </div>
 <p>We said one-tailed tests were not a different sort of <em>t</em>-test to those we’ve seen so far—we can do one-tailed tests with any of these <em>t</em>-tests. We’ll show you how to do it using one example, the paired-sample <em>t</em>-test, applied to drug data.</p>
-<p>Let’s go back to the data on glycolipid concentrations in eight patients being treated with Drugs A and B. Imagine now that rather than A and B being two new drugs, Drug A is the existing treatment for the disease, while Drug B is a new type of drug being tested for effectiveness. In this case the drug company is obviously only interested in whether the new drug causes a greater reduction in the glycolipid levels of individual patients than the old one. If it has the same effect, or if it is less effective than the existing treatment it will not be worth spending time and money developing to the production stage. So the company’s test hypothesis is: ‘The new drug (B) is more effective than the existing treatment (A) at reducing glycolipid levels’. Let’s test this.</p>
+<p>Let’s go back to the data on glycolipid concentrations in eight patients being treated with Drugs A and B. Imagine now that rather than A and B being two new drugs, Drug A is the existing treatment for the disease, while Drug B is a new type of drug being tested for effectiveness. In this case the drug company is obviously only interested in whether the new drug causes a greater reduction in the glycolipid levels of individual patients than the old one. If it has the same effect, or if it is less effective than the existing treatment it will not be worth spending time and money developing to the production stage. So the company’s test hypothesis is: ‘The new drug (B) is more effective than the existing treatment (A) at reducing glycolipid levels.’ Let’s test this.</p>
 <p>Download the GLYCOLIPID.CSV file from MOLE again if you don’t have it and place it in your working directory. Read GLYCOLIPID.CSV into an R data frame, giving it the name <code>glycolipid</code>, then remind yourself what the data looks like, e.g.</p>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="one-two-tailed-tests.html#cb312-1"></a><span class="kw">glimpse</span>(glycolipid)</span></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="one-two-tailed-tests.html#cb312-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(glycolipid)</span></code></pre></div>
 <pre><code>## Rows: 16
 ## Columns: 4
 ## $ Patient    &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8
 ## $ Sex        &lt;chr&gt; &quot;Male&quot;, &quot;Female&quot;, &quot;Male&quot;, &quot;Female&quot;, &quot;Female&quot;, &quot;Male&quot;, &quot;Fem…
 ## $ Drug       &lt;chr&gt; &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;…
 ## $ Glycolipid &lt;dbl&gt; 142.9, 140.6, 144.7, 144.0, 142.4, 146.0, 149.1, 150.4, 13…</code></pre>
-<p>We’re going to use a paired-sample <em>t</em>-test again in this example. We just want to rerun the previous analysis using a one-tailed version of the test. In order to do this we have to set one more argument in the <code>t.test</code> function, called <code>alternative</code>. This can take one of three values: <code>"two.sided"</code>, <code>"less"</code>, or <code>"greater"</code>. The first option is the default used by the <code>t.test</code> function. We pick a one-side test with an associated direction of effect by choosing “less” or “greater”. Here is how it works:</p>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="one-two-tailed-tests.html#cb314-1"></a><span class="kw">t.test</span>(Glycolipid <span class="op">~</span><span class="st"> </span>Drug, <span class="dt">data =</span> glycolipid, </span>
-<span id="cb314-2"><a href="one-two-tailed-tests.html#cb314-2"></a>       <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
+<p>We’re going to use a paired-sample <em>t</em>-test again in this example. We just want to rerun the previous analysis using a one-tailed version of the test. In order to do this we have to set one more argument in the <code>t.test</code> function, called <code>alternative</code>. This can take one of three values: <code>"two.sided"</code>, <code>"less"</code>, or <code>"greater"</code>. The first option is the default used by the <code>t.test</code> function. We pick a one-side test with an associated direction of effect by choosing “less” or “greater.” Here is how it works:</p>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="one-two-tailed-tests.html#cb314-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Glycolipid <span class="sc">~</span> Drug, <span class="at">data =</span> glycolipid, </span>
+<span id="cb314-2"><a href="one-two-tailed-tests.html#cb314-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ## 	Paired t-test
 ## 
@@ -773,10 +774,10 @@ You should work through the example in this section.
 ## sample estimates:
 ## mean of the differences 
 ##                  2.8375</code></pre>
-<p>Most of that output should seem quite familiar by now. However, why did we set the alternative to “greater”? We wanted to assess whether drug B really leads to <em>lower</em> glycolipid concentrations. Let’s make sure we understand what is going on…</p>
+<p>Most of that output should seem quite familiar by now. However, why did we set the alternative to “greater?” We wanted to assess whether drug B really leads to <em>lower</em> glycolipid concentrations. Let’s make sure we understand what is going on…</p>
 <p>Look carefully at the <code>mean of the differences</code> in the output. This is a positive number: it looks like R has assumed we want to examine the ‘Drug A - Drug B’ differences between pairs. It does this because the letter ‘A’ comes before the letter ‘B’ in the alphabet. That’s all! It doesn’t actually matter which way round we calculate the differences—the <em>t</em>-statistic will be the same. However, we do have to be very careful to ensure that the direction of the alternative hypothesis we choose is correct. It is very easy to get this wrong if we are not paying attention, which is why R always prints the mean.<a href="#fn44" class="footnote-ref" id="fnref44"><sup>44</sup></a></p>
 <p>Compare this with the output from the two-tailed paired-sample <em>t</em>-test on the glycolipid data (we just drop the <code>alternative = "greater"</code> argument):</p>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="one-two-tailed-tests.html#cb316-1"></a><span class="kw">t.test</span>(Glycolipid <span class="op">~</span><span class="st"> </span>Drug, <span class="dt">data =</span> glycolipid, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="one-two-tailed-tests.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Glycolipid <span class="sc">~</span> Drug, <span class="at">data =</span> glycolipid, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ## 	Paired t-test
 ## 
@@ -814,6 +815,30 @@ You should work through the example in this section.
 </div>
 </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

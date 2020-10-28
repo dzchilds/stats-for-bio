@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="statistical-comparisons.html"/>
 <link rel="next" href="parametric-statistics.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -720,7 +721,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The null hypothesis is simply a statement of what we would expect to see if there is no effect of the factor we are looking at (e.g., plant morphology) on the variable that we measure (e.g., dry weight biomass). So in the second plant morph example our null hypothesis was <em>There is no difference in mean biomass of purple and green plants</em>. All frequentist statistical tests work by specifying a null hypothesis and then evaluating the observed data to see if they deviate from the null hypothesis in a way that is inconsistent with sampling variation. This may seem like a rather odd approach, but this really is how frequentist tests work.</p>
 <p>It is important to be aware of what a null hypothesis is, and what it is used for, so that we can interpret the results of statistical tests. However, in a general discussion of an analysis we normally refer to the effect we are actually interested in. This is called the <em>test hypothesis</em>, or the <em>alternative hypothesis</em> (often denoted H<sub>1</sub> in statistics books). The alternative hypothesis is essentially a statement of the effect we are expecting (or hoping!) to see, e.g., purple and green plants differ in their mean size. It is a statement of whatever is implied if the null hypothesis is not true.</p>
 <p>Having got all the types of hypothesis sorted out, we can then use a particular frequentist technique to evaluate the observed result against that expected if the null hypothesis was true. The test gives us a probability (<em>p</em>-value) telling us how likely it is that we would have got the result we observe, or a more extreme result, if the null hypothesis was really true. If the value is sufficiently small we judge it unlikely that we would have seen this result if the null hypothesis was true. Consequently, we say we <em>reject the null hypothesis</em> (i.e. reject the notion that there is no difference). This is not the same as ‘proving’ the alternative hypothesis is true. We can’t prove anything by collecting data or carrying out an experiment.</p>
-<p>If the <em>p</em>-value is large, then it is quite likely that we could have got the observed result if the null hypothesis was true, i.e. it is due to sampling variation. In this case we cannot reject the null hypothesis. Note that in this situation we say that we “<em>do not reject the null hypothesis</em>”. This is not the same as accepting that the null hypothesis is true, paradoxical though this may seem. One obvious reason for this is that if we only have a small sample then there may be an effect of the factor we are looking at, but we simply can’t detect it because we don’t have enough data.</p>
+<p>If the <em>p</em>-value is large, then it is quite likely that we could have got the observed result if the null hypothesis was true, i.e. it is due to sampling variation. In this case we cannot reject the null hypothesis. Note that in this situation we say that we “<em>do not reject the null hypothesis</em>.” This is not the same as accepting that the null hypothesis is true, paradoxical though this may seem. One obvious reason for this is that if we only have a small sample then there may be an effect of the factor we are looking at, but we simply can’t detect it because we don’t have enough data.</p>
 </div>
 <div id="report-the-null-hypothesis" class="section level3" number="10.1.2">
 <h3><span class="header-section-number">10.1.2</span> Report the null hypothesis?</h3>
@@ -739,12 +740,12 @@ We will always use the <em>p</em> = 0.05 threshold in this book. You need to rem
 </p>
 </div>
 <p>A probability of 0.05 is a chance of 1 in 20. This means that if there really was no effect of the factor we are investigating, we would expect to get a result significant at <em>p</em>=0.05 about 5 times in 100 samples. To envisage it more easily, it is slightly less than the chance of tossing a coin 4 times and getting 4 heads in a row (<em>p</em>=0.0625). It’s not all that rare really. This puts a ‘significant’ result into context. Would we launch a new drug on the market or bring a prosecution for pollution on the evidence of the strength of four heads coming up in a row when a coin is tossed? Well of course such things are unlikely to hinge on a single test, but it is always worth bearing in mind what ‘significance’ actually means.</p>
-<p>In general, the smaller the <em>p</em>-value the more confident one can be that the effect we see is ‘real’. For a given analysis, a probability of <em>p</em>=0.001 provides stronger evidence for an effect being present than <em>p</em>=0.01. For this reason, in some critical applications such as drug testing the significance threshold may be lower than we use in biology. The costs of using a more stringent threshold is that this increases the possibility of false negatives—we are more likely to fail to detect an effect when it is present by adopting a lower significance threshold.</p>
+<p>In general, the smaller the <em>p</em>-value the more confident one can be that the effect we see is ‘real.’ For a given analysis, a probability of <em>p</em>=0.001 provides stronger evidence for an effect being present than <em>p</em>=0.01. For this reason, in some critical applications such as drug testing the significance threshold may be lower than we use in biology. The costs of using a more stringent threshold is that this increases the possibility of false negatives—we are more likely to fail to detect an effect when it is present by adopting a lower significance threshold.</p>
 <div id="careful-with-those-p-values" class="section level3" number="10.2.1">
 <h3><span class="header-section-number">10.2.1</span> Careful with those <em>p</em>-values</h3>
 <p>This is a good time to issue an important warning about <em>p</em>-values. Frequentist <em>p</em>-values are counter-intuitive quantities that are easily (and often) misinterpreted. Whole books have been written about the problems associated with them. We don’t have time to really cover the issues here, but here are a few key observations:</p>
 <ul>
-<li><p>Scientists tend to use <em>p</em>=0.05 to define ‘significance’, but <em>p</em>=0.055 is really no different from <em>p</em>=0.045. It would be irrational to reject an idea completely just on the basis of a result of <em>p</em>=0.055, while at the same time being prepared to invest large amounts of time and money implementing policies based on a result of <em>p</em>=0.045.</p></li>
+<li><p>Scientists tend to use <em>p</em>=0.05 to define ‘significance,’ but <em>p</em>=0.055 is really no different from <em>p</em>=0.045. It would be irrational to reject an idea completely just on the basis of a result of <em>p</em>=0.055, while at the same time being prepared to invest large amounts of time and money implementing policies based on a result of <em>p</em>=0.045.</p></li>
 <li><p>The exact value of <em>p</em> is affected by the size of the true effect being studied, the amount of data being analysed, and how appropriate a statistical model is for those data. It’s very easy to arrive at a tiny <em>p</em>-value, when an effect is weak or even absent, by using a statistical model that is inappropriate for the data in hand.</p></li>
 <li><p>The relationship between the ‘strength of an effect’ and its associated <em>p</em>-value is a complicated one. It is simply not correct to equate the size of a <em>p</em>-value with the weight of evidence for the effect being present, nor is correct to interpret a <em>p</em>-value a statement about how big the effect is.</p></li>
 </ul>
@@ -765,7 +766,7 @@ We will always use the <em>p</em> = 0.05 threshold in this book. You need to rem
 <strong>Significance thresholds vs. <em>p</em>-values</strong>
 </p>
 <p>
-The significance level is used to determine whether or not a result is deemed to be ‘statistically significant’. We will always adopt <em>p</em> &lt; 0.05 in this book, and we will use the above categories to report the results of a test. Don’t confuse the category used to report the <em>p</em>-value with the actual significance level an investigator is using. Just because someone writes ‘<em>p</em> &lt; 0.01’ when they report the results of a test, it does not mean that they were working at the 1% significance level (<em>p</em> &lt; 0.01).
+The significance level is used to determine whether or not a result is deemed to be ‘statistically significant.’ We will always adopt <em>p</em> &lt; 0.05 in this book, and we will use the above categories to report the results of a test. Don’t confuse the category used to report the <em>p</em>-value with the actual significance level an investigator is using. Just because someone writes ‘<em>p</em> &lt; 0.01’ when they report the results of a test, it does not mean that they were working at the 1% significance level (<em>p</em> &lt; 0.01).
 </p>
 </div>
 <p>It’s usually sufficient to use the four categories above when writing about the significance of a statistical test, though occasionally, giving the actual probability can be appropriate. For example, it can be informative to know that a test yielded <em>p</em> = 0.06 rather than simply quoting it just as <em>p</em> &gt; 0.05 or NS. This is because <em>p</em> is so close to the significance threshold. While not wholly convincing, it is still suggestive of the possibility that an effect is present.</p>

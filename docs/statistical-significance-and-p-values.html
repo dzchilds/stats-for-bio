@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="sampling-error.html"/>
 <link rel="next" href="statistical-comparisons.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -729,7 +730,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Now pick another piece of paper (we might get the same one), record its value, put that one back into the hat, and shake everything up again.</p></li>
 <li><p>Repeat this process until we have a recorded new sample of colours that is the same size as the real sample. We have now have generated a ‘new sample’ from the original one.</p></li>
 </ol>
-<p>(This process is called ‘sampling with replacement’. Each artificial sample is called a ‘bootstrapped sample’.)</p>
+<p>(This process is called ‘sampling with replacement.’ Each artificial sample is called a ‘bootstrapped sample.’)</p>
 <ol start="4" style="list-style-type: decimal">
 <li><p>For each bootstrapped sample, calculate whatever quantity is of interest. In our example, this is the proportion of purple plants sampled.</p></li>
 <li><p>Repeat steps 1-4 until we have generated a large number of bootstrapped samples. About 10000 is sufficient for most problems.</p></li>
@@ -745,9 +746,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 The best way to understand what follows is to actually work through the example. You are strongly encouraged to do this!
 </p>
 </div>
-<div id="set-up-and-read-the-data" class="section level4 unnumbered" number="">
+<div id="set-up-and-read-the-data" class="section level4 unnumbered">
 <h4>Set up and read the data</h4>
-<p>Assume we had sampled 250 individuals from the new plant population. A data set representing this situation is stored in the Comma Separated Value (CSV) file called ‘MORPH_DATA.CSV’. Using the template project for the book examples, run through the following steps in your script:</p>
+<p>Assume we had sampled 250 individuals from the new plant population. A data set representing this situation is stored in the Comma Separated Value (CSV) file called ‘MORPH_DATA.CSV.’ Using the template project for the book examples, run through the following steps in your script:</p>
 <ul>
 <li><p>Read the data into an R data frame, assigning it the name <code>morph_data</code>.</p></li>
 <li><p>Use functions like <code>glimpse</code> / <code>str</code> to inspect <code>morph_data</code>.</p></li>
@@ -764,18 +765,18 @@ The best way to understand what follows is to actually work through the example.
 <p>What you should have found is that <code>morph_data</code> contains 250 rows and two columns/variables: <code>Colour</code> and <code>Weight</code>. <code>Colour</code> is a categorical variable and <code>Weight</code> is a numeric variable. The <code>Colour</code> variable contains the colour of each plant in the sample.</p>
 <p>What is that <code>Weight</code> variable all about? Actually… we don’t need this now—we’ll use it in the next chapter.</p>
 </div>
-<div id="running-the-bootstrap" class="section level4 unnumbered" number="">
+<div id="running-the-bootstrap" class="section level4 unnumbered">
 <h4>Running the bootstrap</h4>
-<p>Now that we understand the data we’re ready to implement bootstrapping. We are going to use a few R programming tricks that you may not have come across before. We’ll explain these as we go but there’s really no need to learn them. Focus on the ‘why’—the logic of what we’re doing—rather than the ‘how’.</p>
+<p>Now that we understand the data we’re ready to implement bootstrapping. We are going to use a few R programming tricks that you may not have come across before. We’ll explain these as we go but there’s really no need to learn them. Focus on the ‘why’—the logic of what we’re doing—rather than the ‘how.’</p>
 <p>We want to construct an approximate sampling distribution for the frequency of purple morphs. That means the variable that matters is <code>Colour</code>. Rather than work with this inside the <code>morph_data</code> data frame, we’re going to pull it out using the <code>$</code> operator and assign it a name (<code>plant_morphs</code>):</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="statistical-significance-and-p-values.html#cb9-1"></a><span class="co"># pull out the &#39;Colour&#39; variable</span></span>
-<span id="cb9-2"><a href="statistical-significance-and-p-values.html#cb9-2"></a>plant_morphs &lt;-<span class="st"> </span>morph_data<span class="op">$</span>Colour </span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="statistical-significance-and-p-values.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pull out the &#39;Colour&#39; variable</span></span>
+<span id="cb9-2"><a href="statistical-significance-and-p-values.html#cb9-2" aria-hidden="true" tabindex="-1"></a>plant_morphs <span class="ot">&lt;-</span> morph_data<span class="sc">$</span>Colour </span></code></pre></div>
 <p>Next, we’ll take a quick look at the values of <code>plant_morphs</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="statistical-significance-and-p-values.html#cb10-1"></a><span class="co"># what is the set of values &#39;plant_morphs&#39; can take?</span></span>
-<span id="cb10-2"><a href="statistical-significance-and-p-values.html#cb10-2"></a><span class="kw">unique</span>(plant_morphs)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="statistical-significance-and-p-values.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># what is the set of values &#39;plant_morphs&#39; can take?</span></span>
+<span id="cb10-2"><a href="statistical-significance-and-p-values.html#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(plant_morphs)</span></code></pre></div>
 <pre><code>## [1] &quot;Green&quot;  &quot;Purple&quot;</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="statistical-significance-and-p-values.html#cb12-1"></a><span class="co"># show the first 100 values</span></span>
-<span id="cb12-2"><a href="statistical-significance-and-p-values.html#cb12-2"></a><span class="kw">head</span>(plant_morphs, <span class="dv">50</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="statistical-significance-and-p-values.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># show the first 100 values</span></span>
+<span id="cb12-2"><a href="statistical-significance-and-p-values.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(plant_morphs, <span class="dv">50</span>) </span></code></pre></div>
 <pre><code>##  [1] &quot;Green&quot;  &quot;Green&quot;  &quot;Green&quot;  &quot;Purple&quot; &quot;Green&quot;  &quot;Green&quot;  &quot;Green&quot;  &quot;Green&quot; 
 ##  [9] &quot;Green&quot;  &quot;Green&quot;  &quot;Green&quot;  &quot;Green&quot;  &quot;Green&quot;  &quot;Purple&quot; &quot;Green&quot;  &quot;Green&quot; 
 ## [17] &quot;Purple&quot; &quot;Purple&quot; &quot;Green&quot;  &quot;Green&quot;  &quot;Green&quot;  &quot;Green&quot;  &quot;Green&quot;  &quot;Purple&quot;
@@ -785,23 +786,23 @@ The best way to understand what follows is to actually work through the example.
 ## [49] &quot;Green&quot;  &quot;Green&quot;</code></pre>
 <p>The last line printed out the first 50 values of <code>plant_morphs</code>. This shows that <code>plant_morphs</code> is a simple character vector with two categories describing the plant colour morph information.</p>
 <p>Next, we calculate and store the sample size (<code>samp_size</code>) and the point estimate of purple morph frequency (<code>mean_point_est</code>) from the sample:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="statistical-significance-and-p-values.html#cb14-1"></a><span class="co"># get the sample size form the length of &#39;plant_morphs&#39;</span></span>
-<span id="cb14-2"><a href="statistical-significance-and-p-values.html#cb14-2"></a>samp_size &lt;-<span class="st"> </span><span class="kw">length</span>(plant_morphs)</span>
-<span id="cb14-3"><a href="statistical-significance-and-p-values.html#cb14-3"></a>samp_size</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="statistical-significance-and-p-values.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the sample size form the length of &#39;plant_morphs&#39;</span></span>
+<span id="cb14-2"><a href="statistical-significance-and-p-values.html#cb14-2" aria-hidden="true" tabindex="-1"></a>samp_size <span class="ot">&lt;-</span> <span class="fu">length</span>(plant_morphs)</span>
+<span id="cb14-3"><a href="statistical-significance-and-p-values.html#cb14-3" aria-hidden="true" tabindex="-1"></a>samp_size</span></code></pre></div>
 <pre><code>## [1] 250</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="statistical-significance-and-p-values.html#cb16-1"></a><span class="co"># estimate the frequency of purple plants as a %</span></span>
-<span id="cb16-2"><a href="statistical-significance-and-p-values.html#cb16-2"></a>mean_point_est &lt;-<span class="st"> </span><span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(plant_morphs <span class="op">==</span><span class="st"> &quot;Purple&quot;</span>) <span class="op">/</span><span class="st"> </span>samp_size</span>
-<span id="cb16-3"><a href="statistical-significance-and-p-values.html#cb16-3"></a>mean_point_est</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="statistical-significance-and-p-values.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate the frequency of purple plants as a %</span></span>
+<span id="cb16-2"><a href="statistical-significance-and-p-values.html#cb16-2" aria-hidden="true" tabindex="-1"></a>mean_point_est <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(plant_morphs <span class="sc">==</span> <span class="st">&quot;Purple&quot;</span>) <span class="sc">/</span> samp_size</span>
+<span id="cb16-3"><a href="statistical-significance-and-p-values.html#cb16-3" aria-hidden="true" tabindex="-1"></a>mean_point_est</span></code></pre></div>
 <pre><code>## [1] 30.8</code></pre>
-<p>The code in the point estimate calculation says “add up all the cases where <code>plant_morphs</code> is equal to ‘purple’, divide that total by the sample size to get the proportion of purple plants in the sample, then multiply th eproprtion by 100 to turn it into a percentage.” So… we find that 30.8% of plants were purple among our sample of 250 plants.</p>
+<p>The code in the point estimate calculation says “add up all the cases where <code>plant_morphs</code> is equal to ‘purple,’ divide that total by the sample size to get the proportion of purple plants in the sample, then multiply th eproprtion by 100 to turn it into a percentage.” So… we find that 30.8% of plants were purple among our sample of 250 plants.</p>
 <p>Now we’re ready to start bootstrapping. For convenience, we’ll store the number of bootstrapped samples we want in <code>n_samp</code> (i.e. 10000 in this case):</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="statistical-significance-and-p-values.html#cb18-1"></a><span class="co"># number of bootstrapped samples we want</span></span>
-<span id="cb18-2"><a href="statistical-significance-and-p-values.html#cb18-2"></a>n_samp &lt;-<span class="st"> </span><span class="dv">10000</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="statistical-significance-and-p-values.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># number of bootstrapped samples we want</span></span>
+<span id="cb18-2"><a href="statistical-significance-and-p-values.html#cb18-2" aria-hidden="true" tabindex="-1"></a>n_samp <span class="ot">&lt;-</span> <span class="dv">10000</span></span></code></pre></div>
 <p>Next we need to work out how to resample the values in the <code>plant_morphs</code> vector. The <code>sample</code> function can do this for us:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="statistical-significance-and-p-values.html#cb19-1"></a><span class="co"># resample the plant colours</span></span>
-<span id="cb19-2"><a href="statistical-significance-and-p-values.html#cb19-2"></a>samp &lt;-<span class="st"> </span><span class="kw">sample</span>(plant_morphs, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb19-3"><a href="statistical-significance-and-p-values.html#cb19-3"></a><span class="co"># show the first 50 values of the bootstrapped sample</span></span>
-<span id="cb19-4"><a href="statistical-significance-and-p-values.html#cb19-4"></a><span class="kw">head</span>(samp, <span class="dv">50</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="statistical-significance-and-p-values.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># resample the plant colours</span></span>
+<span id="cb19-2"><a href="statistical-significance-and-p-values.html#cb19-2" aria-hidden="true" tabindex="-1"></a>samp <span class="ot">&lt;-</span> <span class="fu">sample</span>(plant_morphs, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-3"><a href="statistical-significance-and-p-values.html#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># show the first 50 values of the bootstrapped sample</span></span>
+<span id="cb19-4"><a href="statistical-significance-and-p-values.html#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(samp, <span class="dv">50</span>) </span></code></pre></div>
 <pre><code>##  [1] &quot;Green&quot;  &quot;Purple&quot; &quot;Purple&quot; &quot;Green&quot;  &quot;Green&quot;  &quot;Purple&quot; &quot;Green&quot;  &quot;Purple&quot;
 ##  [9] &quot;Green&quot;  &quot;Green&quot;  &quot;Green&quot;  &quot;Green&quot;  &quot;Purple&quot; &quot;Purple&quot; &quot;Green&quot;  &quot;Green&quot; 
 ## [17] &quot;Purple&quot; &quot;Purple&quot; &quot;Green&quot;  &quot;Green&quot;  &quot;Green&quot;  &quot;Green&quot;  &quot;Green&quot;  &quot;Green&quot; 
@@ -811,21 +812,21 @@ The best way to understand what follows is to actually work through the example.
 ## [49] &quot;Purple&quot; &quot;Purple&quot;</code></pre>
 <p>The <code>replace = TRUE</code> ensures that we sample with replacement—this is the ‘putting the bits of paper back in the hat’ part of the process.</p>
 <p>The new <code>samp</code> variable now contains exactly one bootstrapped sample of th 250 plants in the real sample. We only need to extract one number from this—the frequency of purple morphs:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="statistical-significance-and-p-values.html#cb21-1"></a><span class="co"># calculate the purple morph frequencyin the bootstrapped sample</span></span>
-<span id="cb21-2"><a href="statistical-significance-and-p-values.html#cb21-2"></a>first_bs_freq &lt;-<span class="st"> </span><span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(samp <span class="op">==</span><span class="st"> &quot;Purple&quot;</span>) <span class="op">/</span><span class="st"> </span>samp_size</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="statistical-significance-and-p-values.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the purple morph frequencyin the bootstrapped sample</span></span>
+<span id="cb21-2"><a href="statistical-significance-and-p-values.html#cb21-2" aria-hidden="true" tabindex="-1"></a>first_bs_freq <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(samp <span class="sc">==</span> <span class="st">&quot;Purple&quot;</span>) <span class="sc">/</span> samp_size</span></code></pre></div>
 <p>That’s one bootstrapped value of the purple morph frequency. Fine, but we need <span class="math inline">\(10^{4}\)</span> values. We don’t want to have to keep doing this over an over ‘by hand’—making <code>second_bs_freq</code>, <code>third_bs_freq</code>, and so on—because this would be very slow and boring to do.</p>
 <p>As we said earlier, computers are very good at carrying out repetitive tasks. The <code>replicate</code> function can replicate any R code many times and return the set of results. Here is some R code that repeats what we just did <code>n_samp</code> times, storing the resulting bootstrapped values of purple morph frequency in a numeric vector called <code>boot_out</code>:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="statistical-significance-and-p-values.html#cb22-1"></a>boot_out &lt;-<span class="st"> </span><span class="kw">replicate</span>(n_samp, {</span>
-<span id="cb22-2"><a href="statistical-significance-and-p-values.html#cb22-2"></a>  samp &lt;-<span class="st"> </span><span class="kw">sample</span>(plant_morphs, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb22-3"><a href="statistical-significance-and-p-values.html#cb22-3"></a>  <span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(samp <span class="op">==</span><span class="st"> &quot;Purple&quot;</span>) <span class="op">/</span><span class="st"> </span>samp_size</span>
-<span id="cb22-4"><a href="statistical-significance-and-p-values.html#cb22-4"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="statistical-significance-and-p-values.html#cb22-1" aria-hidden="true" tabindex="-1"></a>boot_out <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_samp, {</span>
+<span id="cb22-2"><a href="statistical-significance-and-p-values.html#cb22-2" aria-hidden="true" tabindex="-1"></a>  samp <span class="ot">&lt;-</span> <span class="fu">sample</span>(plant_morphs, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb22-3"><a href="statistical-significance-and-p-values.html#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(samp <span class="sc">==</span> <span class="st">&quot;Purple&quot;</span>) <span class="sc">/</span> samp_size</span>
+<span id="cb22-4"><a href="statistical-significance-and-p-values.html#cb22-4" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
 <p>The <code>boot_out</code> vector now contains a bootstrapped sample of frequency estimates. Here are the first 30 values rounded to 1 decimal place:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="statistical-significance-and-p-values.html#cb23-1"></a><span class="kw">head</span>(boot_out, <span class="dv">30</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="statistical-significance-and-p-values.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(boot_out, <span class="dv">30</span>) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">1</span>)</span></code></pre></div>
 <pre><code>##  [1] 31.6 23.6 27.6 28.4 32.0 28.0 34.0 28.0 32.8 33.2 34.0 25.2 34.0 30.0 28.8
 ## [16] 31.6 30.0 30.0 29.2 28.0 31.2 27.6 29.6 30.4 32.8 29.6 30.4 37.2 34.4 32.0</code></pre>
 <p>(We used the pipe <code>%&gt;%</code> to make a code a bit more readable—remember, this won’t work unless the <strong>dplyr</strong> package is loaded.)</p>
 </div>
-<div id="making-sense-of-the-bootstrapped-sample" class="section level4 unnumbered" number="">
+<div id="making-sense-of-the-bootstrapped-sample" class="section level4 unnumbered">
 <h4>Making sense of the bootstrapped sample</h4>
 <p>What has all this achieved? The numbers in <code>boot_out</code> represent the values of purple morph frequency we can expect to find if we repeated the data collection exercise many times, under the assumption that the purple morph frequency is equal to that of the actual sample. This is a bootstrapped sampling distribution!</p>
 <p>We can use this bootstrapped sampling distribution in a number of ways. Let’s plot it first get a sense of what it looks like. A histogram is OK here because we have a reasonably large number of possible cases:</p>
@@ -836,11 +837,11 @@ Figure 8.1: Bootstrapped sampling distribution of purple morph frequency
 </p>
 </div>
 <p>What the most common values in our bootstrapped sample? The centre of the distribution looks to be round about 30%. We can be a bit more precise by calculating its mean:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="statistical-significance-and-p-values.html#cb25-1"></a><span class="kw">mean</span>(boot_out) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="statistical-significance-and-p-values.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(boot_out) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] 30.8</code></pre>
 <p>This is essentially the same as the point estimate of purple morph frequency from the true sample. In fact, it is guaranteed to be the same if we construct a large enough sample because we’re just resampling the data used to estimate that frequency.</p>
 <p>A more useful quantity is the standard error (SE) of our estimate. This is <em>defined</em> as being the standard deviation of the sampling distribution. We can calculate that by applying the <code>sd</code> function to the bootstrapped sample:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="statistical-significance-and-p-values.html#cb27-1"></a><span class="kw">sd</span>(boot_out) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="statistical-significance-and-p-values.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(boot_out) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] 2.9</code></pre>
 <p>The standard error is a very useful quantity. Remember, it is a measure of the precision of an estimate. For example, a large SE implies that our sample size was too small to reliably estimate the population mean; a small SE means we have a reliable estimate. Once we have the point estimate of a population parameter its standard error we’re able to start asking questions like, “is the true value likely to be different from 25%.”</p>
 <p>It is standard practice include the standard error when we report a point estimate of some quantity. Whenever we report a point estimate, we really should also report its standard error, like this:</p>
@@ -862,18 +863,18 @@ Figure 8.1: Bootstrapped sampling distribution of purple morph frequency
 The ideas in this next section are very abstract and you may not understand them straight away. That’s fine. Don’t worry—these ideas take time to absorb and understand.
 </p>
 </div>
-<div id="carrying-out-the-assessment" class="section level3 unnumbered" number="">
+<div id="carrying-out-the-assessment" class="section level3 unnumbered">
 <h3>Carrying out the assessment</h3>
 <p>We need to make two assumptions to arrive at our probabilistic assessment of whether or not the purple morph frequency greater than 25%:</p>
 <ol style="list-style-type: decimal">
 <li><p>Assume the true value of the purple morph frequency in our new study population is 25%, i.e. we’ll assume the population parameter of interest is the same as that of the original population that motivated this work. In effect, we’re pretending there is really no difference between the populations.</p></li>
 <li><p>Assume that the form of sampling distribution that we just generated would have been the same if the ‘equal population’ hypothesis were true. That is, the expected ‘shape’ of the sampling distribution would not change if the purple morph frequency really was 25%.</p></li>
 </ol>
-<p>That first assumption is an example of a <strong>null hypothesis</strong>. The null hypothesis is an hypothesis of ‘no effect’ or ‘no difference’. We’re going to revisit this idea many times in future chapters.</p>
+<p>That first assumption is an example of a <strong>null hypothesis</strong>. The null hypothesis is an hypothesis of ‘no effect’ or ‘no difference.’ We’re going to revisit this idea many times in future chapters.</p>
 <p>The second assumption is necessary for the reasoning below to work. In fact, this can be shown to be a pretty reasonable assumption in many situations. We don’t want to get lost in the details though so you will have to trust us on this one.</p>
 <p>Now we ask a question: if the purple morph frequency in the population really is 25%, what would its corresponding sampling distribution look like? This is called the <strong>null distribution</strong>—the distribution expected under the null hypothesis.</p>
 <p>If the second assumption is valid, we can actually construct the null distribution from our bootstrapped distribution as follows:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="statistical-significance-and-p-values.html#cb29-1"></a>null_dist &lt;-<span class="st"> </span>boot_out <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(boot_out) <span class="op">+</span><span class="st"> </span><span class="dv">25</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="statistical-significance-and-p-values.html#cb29-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> boot_out <span class="sc">-</span> <span class="fu">mean</span>(boot_out) <span class="sc">+</span> <span class="dv">25</span></span></code></pre></div>
 <p>All we did here was shift the bootstrapped sampling distribution along until the mean is at 25%. Here’s what that null distribution looks like, along with the original observed estimate of the purple morph frequency:</p>
 <div class="figure" style="text-align: center"><span id="fig:boot-samp-dist-25"></span>
 <img src="stats-for-bio_files/figure-html/boot-samp-dist-25-1.png" alt="Sampling distribution of purple morph frequency under the null hypothesis" width="75%" />
@@ -883,14 +884,14 @@ Figure 8.2: Sampling distribution of purple morph frequency under the null hypot
 </div>
 <p>The red line shows where the point estimate from the true sample lies. What does this tells us? It looks like the observed purple morph frequency would be quite unlikely to have arisen through sampling variation if the population frequency really was 25%. We can say this because the observed frequency (red line) lies at the end of one ‘tail’ of the sampling distribution over on the right.</p>
 <p>We need to be able to make a more precise statement than this though. Instead of ‘eyeballing’ the distribution, we can quantify how often the values of the bootstrapped null distribution ended up greater than the observed estimate:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="statistical-significance-and-p-values.html#cb30-1"></a>p_value &lt;-<span class="st"> </span><span class="kw">sum</span>(null_dist <span class="op">&gt;</span><span class="st"> </span>mean_point_est) <span class="op">/</span><span class="st"> </span>n_samp</span>
-<span id="cb30-2"><a href="statistical-significance-and-p-values.html#cb30-2"></a>p_value</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="statistical-significance-and-p-values.html#cb30-1" aria-hidden="true" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="fu">sum</span>(null_dist <span class="sc">&gt;</span> mean_point_est) <span class="sc">/</span> n_samp</span>
+<span id="cb30-2"><a href="statistical-significance-and-p-values.html#cb30-2" aria-hidden="true" tabindex="-1"></a>p_value</span></code></pre></div>
 <pre><code>## [1] 0.0238</code></pre>
 <p>This number (generally denoted ‘<em>p</em>’) is called a <strong><em>p</em>-value</strong>.</p>
 </div>
-<div id="interpreting-the-p-value" class="section level3 unnumbered" number="">
+<div id="interpreting-the-p-value" class="section level3 unnumbered">
 <h3>Interpreting the p-value</h3>
-<p>What are we supposed to do with the finding <em>p</em> = 0.0238? This is the probability of obtaining a result equal to, or ‘more extreme’, than that which was actually observed, <em>assuming that the hypothesis under consideration (the null hypothesis) is true</em>. The null hypothesis is one of no effect (or no difference), and so a low <em>p</em>-value can be interpreted as evidence for an effect being present. It’s worth reading that a few times…</p>
+<p>What are we supposed to do with the finding <em>p</em> = 0.0238? This is the probability of obtaining a result equal to, or ‘more extreme,’ than that which was actually observed, <em>assuming that the hypothesis under consideration (the null hypothesis) is true</em>. The null hypothesis is one of no effect (or no difference), and so a low <em>p</em>-value can be interpreted as evidence for an effect being present. It’s worth reading that a few times…</p>
 <p>In our example, it appears that the purple morph frequency we observed is fairly unlikely to occur if its frequency in the new population really was 25%. In biological terms, we take the low <em>p</em>-value as evidence for a difference in purple morph frequency among the populations, i.e. the data supports the prediction that the purple morph is present at a frequency greater than 25% in the new study population.</p>
 <p>One important question remains: How small does a <em>p</em>-value have to be before we are happy to conclude that the effect we’re interested in is probably present? In practice, we do this by applying a threshold, called a <strong>significance level</strong>. If the <em>p</em>-value is less than the chosen significance level we say the result is said to be <strong>statistically significant</strong>. Most often (in biology at least), we use a significance level of <em>p</em> &lt; 0.05 (5%).</p>
 <p>Why do we use a significance level of <em>p</em> &lt; 0.05? The short answer is that this is just a convention. Nothing more. There is nothing special about the 5% threshold, other than the fact that it’s the one most often used. Statistical significance has nothing to do with biological significance. Unfortunately, many people are very uncritical about the use of this arbitrary threshold, to the extent that it can be very hard to publish a scientific study if it doesn’t contain ‘statistically significant’ results.</p>

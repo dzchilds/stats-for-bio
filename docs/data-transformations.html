@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="regression-diagnostics.html"/>
 <link rel="next" href="multiple-comparison-tests.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -725,7 +726,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">24.2</span> Data transformation: ANOVAs and <em>t</em>-tests</h2>
 <div id="the-data-foraging-in-ants" class="section level3" number="24.2.1">
 <h3><span class="header-section-number">24.2.1</span> The data: foraging in ants</h3>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="data-transformations.html#cb152-1"></a>ants &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;./data_csv/ANTS1.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="data-transformations.html#cb152-1" aria-hidden="true" tabindex="-1"></a>ants <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;./data_csv/ANTS1.CSV&quot;</span>)</span></code></pre></div>
 <p>Red wood ants, <em>Formica rufa</em>, forage for food (mainly insects and ‘honeydew’ produced by aphids) both on the ground and in the canopies of trees. Rowan, oak and sycamore support very different communities of insect herbivores (including aphids) and it would be interesting to know whether the foraging efficiency of ant colonies is affected by the type of trees available to them. As part of an investigation of the foraging of <em>Formica rufa</em> observations were made of the prey being carried by ants down trunks of rowan, oak and sycamore trees. The total biomass of prey being transported was measured over a 30 minute sampling period and the data were expressed as the biomass (dry weight in mg) of prey divided by the total number of ants leaving the tree to give the rate of food collection per ant per half hour. Observations were made on 28 rowan, 26 sycamore, and 27 oak trees.</p>
 <div class="do-something">
 <p>
@@ -736,19 +737,19 @@ Work through the ants example.
 </p>
 </div>
 <p>The data are the file ANTS1.CSV. The <code>Tree</code> variable contains the tree identities and the <code>Food</code> variable contains the food collection rates:</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="data-transformations.html#cb153-1"></a>ants &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;ANTS1.CSV&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="data-transformations.html#cb154-1"></a><span class="kw">glimpse</span>(ants)</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="data-transformations.html#cb153-1" aria-hidden="true" tabindex="-1"></a>ants <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;ANTS1.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="data-transformations.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(ants)</span></code></pre></div>
 <pre><code>## Rows: 81
 ## Columns: 2
 ## $ Food &lt;dbl&gt; 11.9, 33.3, 4.6, 5.5, 6.2, 11.0, 24.3, 20.7, 5.7, 12.6, 10.2, 4.…
 ## $ Tree &lt;chr&gt; &quot;Rowan&quot;, &quot;Rowan&quot;, &quot;Rowan&quot;, &quot;Rowan&quot;, &quot;Rowan&quot;, &quot;Rowan&quot;, &quot;Rowan&quot;, &quot;…</code></pre>
 <p>Let’s examine the data. We could make a dot plot…</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="data-transformations.html#cb156-1"></a><span class="kw">ggplot</span>(ants, <span class="kw">aes</span>(<span class="dt">x =</span> Food)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb156-2"><a href="data-transformations.html#cb156-2"></a><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="dv">6</span>) <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Tree)</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="data-transformations.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ants, <span class="fu">aes</span>(<span class="at">x =</span> Food)) <span class="sc">+</span> </span>
+<span id="cb156-2"><a href="data-transformations.html#cb156-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span> <span class="dv">6</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span> Tree)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/ants-quick-plot1-1.png" width="672" style="display: block; margin: auto;" />
 …or we could construct a box and whiskers plot:</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="data-transformations.html#cb157-1"></a><span class="kw">ggplot</span>(ants, <span class="kw">aes</span>(<span class="dt">x =</span> Tree, <span class="dt">y =</span> Food)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb157-2"><a href="data-transformations.html#cb157-2"></a><span class="st">  </span><span class="kw">geom_boxplot</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="data-transformations.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ants, <span class="fu">aes</span>(<span class="at">x =</span> Tree, <span class="at">y =</span> Food)) <span class="sc">+</span> </span>
+<span id="cb157-2"><a href="data-transformations.html#cb157-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/ants-quick-plot2-1.png" width="384" style="display: block; margin: auto;" />
 It doesn’t matter which plot we use. They tell the same story. The food collection rate is generally highest in Oaks and lowest in Rowans (Sycamores are in between). Notice too that the sample distribution of food collection rate is right-skewed. The test we are most likely to want to use with these data is an ANOVA, i.e. we want to assess whether the mean food collection rates are different among the three tree species. Already we have an indication that an ANOVA with the raw food values may be problematic.</p>
 </div>
@@ -762,13 +763,13 @@ It doesn’t matter which plot we use. They tell the same story. The food collec
 <li><p><strong>Equal variance.</strong> The variance in each level of the grouping factor is the same.</p></li>
 </ol>
 <p>We’ll have to assume the first assumption is satisfied and the food collection rate (second assumption) is obviously measured on a ratio scale. The distributional assumptions (normality and equality of variance) are the ones we can address with a transformation. Let’s fit the ANOVA model and produce regression diagnostics to evaluate these—remember, we make these kinds of plots <em>after</em> we have fitted a statistical model:</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="data-transformations.html#cb158-1"></a>ant_mod &lt;-<span class="st"> </span><span class="kw">lm</span>(Food <span class="op">~</span><span class="st"> </span>Tree, <span class="dt">data =</span> ants)</span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="data-transformations.html#cb158-1" aria-hidden="true" tabindex="-1"></a>ant_mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(Food <span class="sc">~</span> Tree, <span class="at">data =</span> ants)</span></code></pre></div>
 <p>We need to produce a ‘normal probability plot’ to assess the normality assumption:</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="data-transformations.html#cb159-1"></a><span class="kw">plot</span>(ant_mod, <span class="dt">which =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="data-transformations.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ant_mod, <span class="at">which =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/ants-diagnostic1-1.png" width="384" style="display: block; margin: auto;" />
 This plot exhibits the accelerating curvature that is indicative of right-skewed residuals. This probably isn’t just sampling variation because there is a systematic departure from the dashed line everywhere along it. So… it looks like there is a problem. This sort of pattern is quite common in biological data, especially when it involves counts. Clearly we might be a bit worried about using an ANOVA with these data since it assumes the residuals to be at least approximately normally distributed.</p>
 <p>Are the variances significantly different? Look at the box plots above. The data from the three samples seem to have rather different scatter. The sample from the rowan has less variation than that from the sycamore, and the sycamore has less variation than the oak. Does the scale-location plot tell the same story?</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="data-transformations.html#cb160-1"></a><span class="kw">plot</span>(ant_mod, <span class="dt">which =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="data-transformations.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ant_mod, <span class="at">which =</span> <span class="dv">3</span>)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/ants-diagnostic2-1.png" width="384" style="display: block; margin: auto;" />
 This shows that the variance increases with the fitted values—it looks like there is also a problem with the constant variance assumption. Again, this pattern is very common in biological data.</p>
 <p>In the light of these evaluations, we have three options …</p>
@@ -784,7 +785,7 @@ This shows that the variance increases with the fitted values—it looks like th
 <h2><span class="header-section-number">24.3</span> Carrying on anyway</h2>
 <p>Carrying on and performing an analysis anyway doesn’t sound like a very good idea if we’ve already decided that the assumptions are suspect, but don’t dismiss it straight away. Mild departures from the assumptions often do not make a huge difference to the results of ANOVA (i.e. the <em>p</em>-values). At the very least, it can be instructive to carry out an analysis without ‘fixing’ the apparent problems so that we can get a sense of whether they matter or not.</p>
 <p>We already fitted the ANOVA model to allow us to make the diagnostic plots. All we have to do is pass the model object to the <code>anova</code> function to get the <em>F</em>-ratio and <em>p</em>-value for the tree effects:</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="data-transformations.html#cb161-1"></a><span class="kw">anova</span>(ant_mod)</span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="data-transformations.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(ant_mod)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: Food
@@ -813,18 +814,18 @@ The ability to do a <em>t</em>-test which doesn’t require equal variances is e
 <h3><span class="header-section-number">24.4.1</span> The logarithmic transformation</h3>
 <p>Let’s try a simple transformation on the food collection rate variable in the ant data set. Instead of using the original numbers we will convert them to their logarithms. We can use common logs (logs to the base 10, written log<span class="math inline">\(_{10}\)</span>) or natural logs (logs to the base, written log<span class="math inline">\(_{e}\)</span> or ln). It doesn’t matter: they have exactly the same effect on the data in terms of making it meet the assumptions of ANOVA (or not).</p>
 <p>Applying a log transform is quick and easy in R—there are built in functions to take common logs and natural logs, called <code>log10</code> and <code>log</code>, respectively. We’ll use <code>mutate</code> to add a new variable, which is the common log of <code>Food</code>:</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="data-transformations.html#cb163-1"></a>ants &lt;-<span class="st"> </span><span class="kw">mutate</span>(ants, <span class="dt">logFood =</span> <span class="kw">log10</span>(Food))</span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="data-transformations.html#cb163-1" aria-hidden="true" tabindex="-1"></a>ants <span class="ot">&lt;-</span> <span class="fu">mutate</span>(ants, <span class="at">logFood =</span> <span class="fu">log10</span>(Food))</span></code></pre></div>
 <p>We stored the transformed variable in a new column called <code>logFood</code>.</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="data-transformations.html#cb164-1"></a>ant_mod_log &lt;-<span class="st"> </span><span class="kw">lm</span>(logFood <span class="op">~</span><span class="st"> </span>Tree, <span class="dt">data =</span> ants)</span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="data-transformations.html#cb164-1" aria-hidden="true" tabindex="-1"></a>ant_mod_log <span class="ot">&lt;-</span> <span class="fu">lm</span>(logFood <span class="sc">~</span> Tree, <span class="at">data =</span> ants)</span></code></pre></div>
 <p>We need to produce a ‘normal probability plot’ to assess the normality assumption:</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="data-transformations.html#cb165-1"></a><span class="kw">plot</span>(ant_mod_log, <span class="dt">which =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="data-transformations.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ant_mod_log, <span class="at">which =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/ants-log-diag1-1.png" width="384" style="display: block; margin: auto;" />
 The accelerating curvature (indicative of right-skewed residuals) has gone. The new normal probability plot is a bit better than before as now perhaps 60% of the cases are on the dashed line. It’s hardly perfect though—the tails of the distribution are not where we’d like them to be. What about the variances?</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="data-transformations.html#cb166-1"></a><span class="kw">plot</span>(ant_mod_log, <span class="dt">which =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="data-transformations.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ant_mod_log, <span class="at">which =</span> <span class="dv">3</span>)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/ants-log-diag2-1.png" width="384" style="display: block; margin: auto;" />
 The scale location-plot indicates that the constant variance assumption is now OK, i.e. the variance no longer increases with the fitted values. It looks like the log transformation seems to to have improved things quite a lot, but the diagnostics are still not perfect.</p>
 <p>The assumptions are closer to being satisfied. Let’s carry out ANOVA again using the model with the transformed food variable to see how the results change:</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="data-transformations.html#cb167-1"></a><span class="kw">anova</span>(ant_mod_log)</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="data-transformations.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(ant_mod_log)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: logFood
@@ -884,14 +885,14 @@ Although this transformation is usually discussed in the context of percentages 
 </p>
 </div>
 <p>In R the transformation can be achieved by combining the <code>sqrt</code> and <code>asin</code> functions inside <code>mutate</code>. For example, if we need to transform a proportion stored in the <code>x</code> variable use something like…</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="data-transformations.html#cb169-1"></a>mydata &lt;-<span class="st"> </span><span class="kw">mutate</span>(mydata, <span class="dt">assqrt.x =</span> <span class="kw">asin</span>(<span class="kw">sqrt</span>(x)))</span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="data-transformations.html#cb169-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">mutate</span>(mydata, <span class="at">assqrt.x =</span> <span class="fu">asin</span>(<span class="fu">sqrt</span>(x)))</span></code></pre></div>
 <p>…where <code>mydata</code> is the name of hypothetical data frame containing the data. Just remember to apply <code>sqrt</code> and <code>asin</code> in the correct order. We used nested functions here, which are applied from the inside to the outside.</p>
 </div>
 <div id="squaring" class="section level3" number="24.5.4">
 <h3><span class="header-section-number">24.5.4</span> Squaring</h3>
 <p>In addition to the standard transformations above there are a variety of others less commonly used. One problem which the above transformations don’t deal with is when data have a negative skew (i.e. a long tail to the left).</p>
 <p>This problem can sometimes be dealt with, or at least reduced, by squaring the data values. In R the transformation can be achieved by combining the <code>^</code> operator inside <code>mutate</code>. For example, we might use something like…</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="data-transformations.html#cb170-1"></a>mydata &lt;-<span class="st"> </span><span class="kw">mutate</span>(mydata, <span class="dt">sqr.x =</span> x<span class="op">^</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="data-transformations.html#cb170-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">mutate</span>(mydata, <span class="at">sqr.x =</span> x<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
 <p>…where <code>mydata</code> is again the name of hypothetical data frame containing the data.</p>
 </div>
 <div id="situations-which-cannot-be-dealt-with-by-transformations" class="section level3" number="24.5.5">

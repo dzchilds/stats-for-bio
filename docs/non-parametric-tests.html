@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="contingency-tables.html"/>
 <link rel="next" href="choosing-models-and-tests.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -888,33 +889,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">33.4.1</span> Leaf damage, plant defences and feeding by winter moth larvae</h3>
 <p>It has been hypothesised that plants respond to physical damage to their leaves from herbivores such as lepidopteran larvae by increasing production of defensive compounds such as phenolics. In an experiment to test this effect, birch saplings were subjected to artificial leaf damage (hole punching) on half the leaves on selected branches. After 24 h undamaged leaves from both the branches with hole-punched leaves and others distant from the damage site were collected and used in a choice test experiment with winter moth larvae. Twenty trials were carried out with a single caterpillar in each trial, offered one of each type of leaf (i.e. one leaf from close to the damage site and one from an undamaged area). The percentage of each leaf consumed was estimated (to the nearest 5%) after 24h.</p>
 <p>The data are in the file LEAF_DAMAGE.CSV:</p>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="non-parametric-tests.html#cb279-1"></a>leaves &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file=</span><span class="st">&quot;LEAF_DAMAGE.CSV&quot;</span>)</span>
-<span id="cb279-2"><a href="non-parametric-tests.html#cb279-2"></a><span class="kw">glimpse</span>(leaves)</span></code></pre></div>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="non-parametric-tests.html#cb279-1" aria-hidden="true" tabindex="-1"></a>leaves <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="st">&quot;LEAF_DAMAGE.CSV&quot;</span>)</span>
+<span id="cb279-2"><a href="non-parametric-tests.html#cb279-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(leaves)</span></code></pre></div>
 <pre><code>## Rows: 40
 ## Columns: 3
 ## $ ID       &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 1…
 ## $ LeafType &lt;chr&gt; &quot;Notdamaged&quot;, &quot;Notdamaged&quot;, &quot;Notdamaged&quot;, &quot;Notdamaged&quot;, &quot;Not…
 ## $ Damage   &lt;int&gt; 65, 0, 10, 45, 55, 45, 0, 10, 5, 70, 55, 40, 0, 70, 65, 35, …</code></pre>
 <p>There are three variables: <code>ID</code> contains a unique identifier for each pair of leaves in a trial (1-20), <code>Leaf</code> identifies the type of leaf (‘Damaged’ vs. ‘Undamaged’), and <code>Damage</code> contains the percent damage score. As always, it’s a good idea to visualise the data:</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="non-parametric-tests.html#cb281-1"></a>jitter_leaves &lt;-<span class="st"> </span><span class="kw">mutate</span>(leaves, <span class="dt">Damage =</span> <span class="kw">jitter</span>(Damage, <span class="dt">factor =</span> <span class="dv">4</span>))</span>
-<span id="cb281-2"><a href="non-parametric-tests.html#cb281-2"></a><span class="kw">ggplot</span>(jitter_leaves, <span class="kw">aes</span>(<span class="dt">x =</span> LeafType, <span class="dt">y =</span> Damage, <span class="dt">group =</span> ID)) <span class="op">+</span></span>
-<span id="cb281-3"><a href="non-parametric-tests.html#cb281-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() </span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="non-parametric-tests.html#cb281-1" aria-hidden="true" tabindex="-1"></a>jitter_leaves <span class="ot">&lt;-</span> <span class="fu">mutate</span>(leaves, <span class="at">Damage =</span> <span class="fu">jitter</span>(Damage, <span class="at">factor =</span> <span class="dv">4</span>))</span>
+<span id="cb281-2"><a href="non-parametric-tests.html#cb281-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(jitter_leaves, <span class="fu">aes</span>(<span class="at">x =</span> LeafType, <span class="at">y =</span> Damage, <span class="at">group =</span> ID)) <span class="sc">+</span></span>
+<span id="cb281-3"><a href="non-parametric-tests.html#cb281-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>() </span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/winter-moth-damage-1.png" width="288" style="display: block; margin: auto;" /></p>
 <p>It’s not critical to learn it, but we used a new trick here: using <code>mutate</code>, we ‘jittered’ the <code>Damage</code> values (with the <code>jitter</code> function) to deal with the overplotting. This adds a bit of random noise to the values so that those with the same values end up being plotted in different highlights two features of the data: 1) There is plenty of variation (some larvae just eat more than others), 2) there is a tendency for larvae to prefer the undamaged leaves, though the pattern is not overwhelming.</p>
 <p>Obviously we need a statistical test—a paired sample <em>t</em>-test or a Wilcoxon signed-rank test are our two options. We should also visualise this distribution of <em>within larvae</em> differences to determine whether or not we need to use a Wilcoxon signed-rank test:</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="non-parametric-tests.html#cb282-1"></a><span class="co"># step 1 -- calculate the differences</span></span>
-<span id="cb282-2"><a href="non-parametric-tests.html#cb282-2"></a>leaves_diff &lt;-<span class="st"> </span></span>
-<span id="cb282-3"><a href="non-parametric-tests.html#cb282-3"></a><span class="st">  </span>leaves <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb282-4"><a href="non-parametric-tests.html#cb282-4"></a><span class="st">  </span><span class="kw">group_by</span>(ID) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb282-5"><a href="non-parametric-tests.html#cb282-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">DiffDamage =</span> <span class="kw">diff</span>(Damage))</span></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="non-parametric-tests.html#cb282-1" aria-hidden="true" tabindex="-1"></a><span class="co"># step 1 -- calculate the differences</span></span>
+<span id="cb282-2"><a href="non-parametric-tests.html#cb282-2" aria-hidden="true" tabindex="-1"></a>leaves_diff <span class="ot">&lt;-</span> </span>
+<span id="cb282-3"><a href="non-parametric-tests.html#cb282-3" aria-hidden="true" tabindex="-1"></a>  leaves <span class="sc">%&gt;%</span> </span>
+<span id="cb282-4"><a href="non-parametric-tests.html#cb282-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span> </span>
+<span id="cb282-5"><a href="non-parametric-tests.html#cb282-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">DiffDamage =</span> <span class="fu">diff</span>(Damage))</span></code></pre></div>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="non-parametric-tests.html#cb284-1"></a><span class="co"># step 2 -- make the plot</span></span>
-<span id="cb284-2"><a href="non-parametric-tests.html#cb284-2"></a><span class="kw">ggplot</span>(leaves_diff, <span class="kw">aes</span>(<span class="dt">x =</span> DiffDamage)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb284-3"><a href="non-parametric-tests.html#cb284-3"></a><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="non-parametric-tests.html#cb284-1" aria-hidden="true" tabindex="-1"></a><span class="co"># step 2 -- make the plot</span></span>
+<span id="cb284-2"><a href="non-parametric-tests.html#cb284-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(leaves_diff, <span class="fu">aes</span>(<span class="at">x =</span> DiffDamage)) <span class="sc">+</span> </span>
+<span id="cb284-3"><a href="non-parametric-tests.html#cb284-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span> <span class="dv">10</span>)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/winter-moth-damage-diff-1.png" width="288" style="display: block; margin: auto;" />
 There are large differences in both directions and the distribution does not seem to be normal (it is very ‘flat’). The problem here is that caterpillars often spend time feeding on the first leaf they encounter, which is a more or less random choice; some may change leaves in quickly in response to the quality of the leaf, others may feed for sometime before leaving the leaf. We might still expect those on better defended leaves to feed less, as the leaves should be less palatable, but they may not make the behavioural decision to leave the leaf during the short period of the experiment (the experiment cannot go on for longer because the leaves change chemically the longer they are detached from the plant)</p>
 <p>The distribution may not be normal, but it is roughly symmetrical. The symmetry assumption of the Wilcoxon signed-rank test seems to be satisfied, so we can use this test to examine whether there is any difference in caterpillar feeding on leaves from damaged areas and undamaged areas. We carry out the test using the <code>wilcox.test</code> function in R<a href="#fn37" class="footnote-ref" id="fnref37"><sup>37</sup></a>. This is used in exactly the same way as the <code>t.test</code> function for a paired-sample design:</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="non-parametric-tests.html#cb285-1"></a><span class="kw">wilcox.test</span>(Damage <span class="op">~</span><span class="st"> </span>LeafType, <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="dt">data =</span> leaves)</span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="non-parametric-tests.html#cb285-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(Damage <span class="sc">~</span> LeafType, <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> leaves)</span></code></pre></div>
 <pre><code>## Warning in wilcox.test.default(x = c(5L, 25L, 30L, 40L, 15L, 5L, 35L, 45L, :
 ## cannot compute exact p-value with ties</code></pre>
 <pre><code>## Warning in wilcox.test.default(x = c(5L, 25L, 30L, 40L, 15L, 5L, 35L, 45L, :
@@ -953,12 +954,12 @@ There are large differences in both directions and the distribution does not see
 <h3><span class="header-section-number">33.5.1</span> Ant foraging</h3>
 <p>Let’s use the Red wood ants example from the chapter on transformations to see how to carry out the Mann-Whitney <em>U</em>-test. The data are the file ANTS1.CSV (not ANTS2.CSV!). Recall that this study measured the total biomass of prey being transported—the rate of food collection per ant per half hour—on three different tree species (rowan, sycamore and oak). The <code>Tree</code> variable contains the identities and the <code>Food</code> variable contains the food collection rates. Since we the Mann-Whitney <em>U</em>-test only compares two samples, we will focus on the oak and sycamore here to illustrate the test<a href="#fn38" class="footnote-ref" id="fnref38"><sup>38</sup></a>.</p>
 <p>After reading the data into R we need to use the filter function to remove ‘Rowan’ cases:</p>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="non-parametric-tests.html#cb290-1"></a>ants &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;ANTS1.CSV&quot;</span>)</span>
-<span id="cb290-2"><a href="non-parametric-tests.html#cb290-2"></a>ants &lt;-<span class="st"> </span><span class="kw">filter</span>(ants, Tree <span class="op">!=</span><span class="st"> &quot;Rowan&quot;</span>)</span></code></pre></div>
-<p>The <code>Tree != "Rowan"</code> inside the filter function specifies that we want cases where <code>Tree</code> <em>is not equal to</em> (<code>!=</code>) ‘Rowan’.</p>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="non-parametric-tests.html#cb290-1" aria-hidden="true" tabindex="-1"></a>ants <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;ANTS1.CSV&quot;</span>)</span>
+<span id="cb290-2"><a href="non-parametric-tests.html#cb290-2" aria-hidden="true" tabindex="-1"></a>ants <span class="ot">&lt;-</span> <span class="fu">filter</span>(ants, Tree <span class="sc">!=</span> <span class="st">&quot;Rowan&quot;</span>)</span></code></pre></div>
+<p>The <code>Tree != "Rowan"</code> inside the filter function specifies that we want cases where <code>Tree</code> <em>is not equal to</em> (<code>!=</code>) ‘Rowan.’</p>
 <p>Carrying out a Mann-Whitney <em>U</em>-test in R is simple enough, but somewhat confusingly, we have to use the <code>wilcox.test</code> function again. This is because, as we noted above, the Mann-Whitney <em>U</em>-test is also called a <strong>two-sample Wilcoxon test</strong>.</p>
 <p>The <code>wilcox.test</code> function for an independent two-sample design works just like the corresponding analysis with the <code>t.test</code> function. The first argument should be a formula, and the second should be the data frame containing the relevant variables:</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="non-parametric-tests.html#cb291-1"></a><span class="kw">wilcox.test</span>(Food <span class="op">~</span><span class="st"> </span>Tree, <span class="dt">data =</span> ants)</span></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="non-parametric-tests.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(Food <span class="sc">~</span> Tree, <span class="at">data =</span> ants)</span></code></pre></div>
 <pre><code>## Warning in wilcox.test.default(x = c(20.1, 47.4, 85.6, 17.1, 5.7, 7.8, 28.8, :
 ## cannot compute exact p-value with ties</code></pre>
 <pre><code>## 
@@ -975,7 +976,7 @@ There are large differences in both directions and the distribution does not see
 <blockquote>
 <p>The rates of removal of prey biomass were not significantly different between ants foraging in oak and in sycamore (Mann-Whitney <em>U</em>-test: U=453.5, n<sub>1</sub>=26, n<sub>2</sub>=27, <em>p</em>=0.07).</p>
 </blockquote>
-<p>Notice how the statistics were reported. Because we are describing the test as a Mann-Whitney <em>U</em>-test, it is conventional to quote the test statistic as ‘U’, rather than ‘W’. If we had decided to present the test as a two-sample Wilcoxon test the test can be summarised…</p>
+<p>Notice how the statistics were reported. Because we are describing the test as a Mann-Whitney <em>U</em>-test, it is conventional to quote the test statistic as ‘U,’ rather than ‘W.’ If we had decided to present the test as a two-sample Wilcoxon test the test can be summarised…</p>
 <blockquote>
 <p>The rates of removal of prey biomass were not significantly different between ants foraging in oak and in sycamore (two-sample Wilcoxon test: <em>W</em>=453.5, n<sub>1</sub>=26, n<sub>2</sub>=27, <em>p</em>=0.07).</p>
 </blockquote>
@@ -997,19 +998,19 @@ There are large differences in both directions and the distribution does not see
 <p>In a study of the ability of cuttlefish to learn, an experiment was conducted to determine how the length of exposure to a situation influenced the learning process. Cuttlefish feed on prawns. If they are presented with prawns in a glass tube they strike at them but, obviously, fail to capture the prey. Not surprisingly, after a period of this fruitless activity, they give up striking at the prawns.</p>
 <p>In the experiment, 50 cuttlefish were divided at random into 5 groups of 10 and cuttlefish from each group were presented with prawns in glass tubes for different lengths of time: 2 min., 4 min., 8 min., 15 min., and 30 min. for the 5 groups respectively. After 24 hours the same cuttlefish were presented with prawns again and the number of strikes they made (over a fixed period) were recorded.</p>
 <p>The data are in the file CUTTLEFISH.CSV. There are two variables: <code>Strikes</code> contains the number of strikes recorded and <code>Time</code> identifies the groups (period of previous exposure):</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="non-parametric-tests.html#cb295-1"></a>cuttlefish &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file=</span><span class="st">&quot;CUTTLEFISH.CSV&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="non-parametric-tests.html#cb296-1"></a><span class="kw">glimpse</span>(cuttlefish)</span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="non-parametric-tests.html#cb295-1" aria-hidden="true" tabindex="-1"></a>cuttlefish <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="st">&quot;CUTTLEFISH.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="non-parametric-tests.html#cb296-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(cuttlefish)</span></code></pre></div>
 <pre><code>## Rows: 50
 ## Columns: 2
 ## $ Strikes &lt;int&gt; 5, 12, 11, 4, 1, 6, 8, 3, 0, 5, 0, 13, 0, 3, 0, 7, 3, 4, 6, 1…
 ## $ Time    &lt;chr&gt; &quot;t02&quot;, &quot;t02&quot;, &quot;t02&quot;, &quot;t02&quot;, &quot;t02&quot;, &quot;t02&quot;, &quot;t02&quot;, &quot;t02&quot;, &quot;t02&quot;…</code></pre>
 <p>Take need to understand the data. Dot plots for each treatment will work here:</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="non-parametric-tests.html#cb298-1"></a><span class="kw">ggplot</span>(cuttlefish, <span class="kw">aes</span>(<span class="dt">x =</span> Strikes)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb298-2"><a href="non-parametric-tests.html#cb298-2"></a><span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Time)</span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="non-parametric-tests.html#cb298-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cuttlefish, <span class="fu">aes</span>(<span class="at">x =</span> Strikes)) <span class="sc">+</span> </span>
+<span id="cb298-2"><a href="non-parametric-tests.html#cb298-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span> <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span> Time)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/cuttlefish-strikes-1.png" width="672" style="display: block; margin: auto;" />
 The data are clearly very variable. The combination of the apparent skew and the fact that the data are generally small whole numbers with several equal values in each sample, means that we may not be very successful in using a transformation to beat the data into shape. Let’s use the Kruskal-Wallis test instead.</p>
 <p>Predictably, the R function to carry out a Kruskal-Wallis test is called <code>kruskal.test</code>, and it is used in exactly the same way as every other statistical modelling function we have looked at:</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="non-parametric-tests.html#cb299-1"></a><span class="kw">kruskal.test</span>(Strikes <span class="op">~</span><span class="st"> </span>Time, <span class="dt">data =</span> cuttlefish)</span></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="non-parametric-tests.html#cb299-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(Strikes <span class="sc">~</span> Time, <span class="at">data =</span> cuttlefish)</span></code></pre></div>
 <pre><code>## 
 ## 	Kruskal-Wallis rank sum test
 ## 
@@ -1018,9 +1019,9 @@ The data are clearly very variable. The combination of the apparent skew and the
 <p>And… one more time… the elements of the output should be easy to work out. These are a statement of the test used and the data, followed by the results: a test statistic (another type of <span class="math inline">\(\chi^2\)</span> statistic), a degrees of freedom, and the all-important <em>p</em>-value.</p>
 <p>We report all of these when writing up results of a Kruskal-Wallis test. However, there is some disagreement in the literature how to report a Kruskal-Wallis test—some people report the statistic as a <span class="math inline">\(\chi^2\)</span>, while others refer to it as an ‘H’ statistic. We will follow the common convention of reporting it as an ‘H’ value.</p>
 <p>The test (as with ANOVA) tells us that there is at least one difference among the groups, but it doesn’t tell where the difference or differences are. The output does not give the medians so we cannot judge how the samples are ordered. We can use <code>dplyr</code> to calculate the group-specific medians though:</p>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="non-parametric-tests.html#cb301-1"></a>cuttlefish <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb301-2"><a href="non-parametric-tests.html#cb301-2"></a><span class="st">  </span><span class="kw">group_by</span>(Time) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb301-3"><a href="non-parametric-tests.html#cb301-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Median =</span> <span class="kw">median</span>(Strikes))</span></code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="non-parametric-tests.html#cb301-1" aria-hidden="true" tabindex="-1"></a>cuttlefish <span class="sc">%&gt;%</span> </span>
+<span id="cb301-2"><a href="non-parametric-tests.html#cb301-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Time) <span class="sc">%&gt;%</span> </span>
+<span id="cb301-3"><a href="non-parametric-tests.html#cb301-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Median =</span> <span class="fu">median</span>(Strikes))</span></code></pre></div>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <pre><code>## # A tibble: 5 x 2
 ##   Time  Median
@@ -1051,15 +1052,15 @@ The data are clearly very variable. The combination of the apparent skew and the
 <h3><span class="header-section-number">33.7.1</span> Grouse lekking</h3>
 <p>Some bird species, at a particular point in the spring, form ‘leks’—gatherings of birds, with males each defending a small area of ground, displaying, and each mating with such females as he is successful in attracting. In general, in leks, a few birds secure many matings and most birds secure rather few. In a study of lekking in black grouse, a biologist is interested in whether birds that secure many matings in one season also do better the next year. Using a population with many colour-ringed birds he is able to get data for a reasonable number of males from two leks in successive years.</p>
 <p>The data are in the file GROUSE.CSV. Read these data into a data frame, calling it <code>grouse</code>.</p>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="non-parametric-tests.html#cb304-1"></a>grouse &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;GROUSE.CSV&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="non-parametric-tests.html#cb305-1"></a><span class="kw">glimpse</span>(grouse)</span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="non-parametric-tests.html#cb304-1" aria-hidden="true" tabindex="-1"></a>grouse <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;GROUSE.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="non-parametric-tests.html#cb305-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(grouse)</span></code></pre></div>
 <pre><code>## Rows: 20
 ## Columns: 2
 ## $ Year1 &lt;int&gt; 3, 15, 4, 3, 4, 9, 1, 0, 2, 7, 3, 2, 6, 0, 1, 12, 2, 1, 5, 10
 ## $ Year2 &lt;int&gt; 6, 8, 0, 0, 2, 10, 5, 4, 1, 4, 3, 7, 6, 2, 5, 17, 0, 0, 6, 7</code></pre>
 <p>Each row of the data is the number of matings for a male in the two successive leks: <code>Year1</code> (year 1) and <code>Year2</code> (year 2). The first thing we should do is summarise the distribution of each variable:</p>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="non-parametric-tests.html#cb307-1"></a><span class="kw">ggplot</span>(grouse, <span class="kw">aes</span>(<span class="dt">x =</span> Year1)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="dv">2</span>)</span>
-<span id="cb307-2"><a href="non-parametric-tests.html#cb307-2"></a><span class="kw">ggplot</span>(grouse, <span class="kw">aes</span>(<span class="dt">x =</span> Year2)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_dotplot</span>(<span class="dt">binwidth =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="non-parametric-tests.html#cb307-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(grouse, <span class="fu">aes</span>(<span class="at">x =</span> Year1)) <span class="sc">+</span> <span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span> <span class="dv">2</span>)</span>
+<span id="cb307-2"><a href="non-parametric-tests.html#cb307-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(grouse, <span class="fu">aes</span>(<span class="at">x =</span> Year2)) <span class="sc">+</span> <span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/grouse-years-dist-1.png" width="40%" /><img src="stats-for-bio_files/figure-html/grouse-years-dist-2.png" width="40%" /></p>
 <p>Notice that the data are integer-valued (i.e. they are counts). These distributions seems to tie in with the biological observation that the distribution of matings is right-skewed: in both years there are only a few males that have high mating success, with most males securing only a handful of matings. Next we need to visualise the association:</p>
 <p><img src="stats-for-bio_files/figure-html/grouse-years-scatter-1.png" width="336" style="display: block; margin: auto;" /></p>
@@ -1067,7 +1068,7 @@ The data are clearly very variable. The combination of the apparent skew and the
 <p><strong>How do we know to use a correlation analysis with these data?</strong> Although there seems to be an association between the counts, it is not obvious that success in one year ‘causes’ success in another year and neither variable is controlled by the investigator. We’re also not interested in using the success measure in year 1 to predict success in year 2. This indicates that correlation analysis is the appropriate method to evaluate the significance of the association.</p>
 <p><strong>Why are we using Spearman’s correlation?</strong> The relationship appears roughly linear, so in that regard Pearson’s correlation might be appropriate. However, the distribution of each count variable is right-skewed, which means the normality assumption is probably suspect in this instance. We’re left with no choice but to use Spearman’s correlation.</p>
 <p>Carrying out a correlation analysis using Spearman’s rank correlation in R is simple. Again, we use the <code>cor.test</code> function to do this:</p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="non-parametric-tests.html#cb308-1"></a><span class="kw">cor.test</span>(<span class="op">~</span><span class="st"> </span>Year1 <span class="op">+</span><span class="st"> </span>Year2, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>, <span class="dt">data =</span> grouse)</span></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="non-parametric-tests.html#cb308-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(<span class="sc">~</span> Year1 <span class="sc">+</span> Year2, <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>, <span class="at">data =</span> grouse)</span></code></pre></div>
 <pre><code>## Warning in cor.test.default(x = c(3L, 15L, 4L, 3L, 4L, 9L, 1L, 0L, 2L, 7L, :
 ## Cannot compute exact p-value with ties</code></pre>
 <pre><code>## 
@@ -1079,7 +1080,7 @@ The data are clearly very variable. The combination of the apparent skew and the
 ## sample estimates:
 ##       rho 
 ## 0.5547952</code></pre>
-<p>The only other thing we had to change, compared to the Pearson’s correlation example, was to set <code>method = "spearman"</code> to specify the use of Spearman’s rank correlation. Notice the warning message: ‘Cannot compute exact p-value with ties’. This is generally not something we need to worry about for this particular test.</p>
+<p>The only other thing we had to change, compared to the Pearson’s correlation example, was to set <code>method = "spearman"</code> to specify the use of Spearman’s rank correlation. Notice the warning message: ‘Cannot compute exact p-value with ties.’ This is generally not something we need to worry about for this particular test.</p>
 <p>The output is very similar to that produced by <code>cor.test</code> when using Pearson’s correlation. Once again, the <code>S = 592.12, p-value = 0.01112</code> line is the one we care about. The main difference is that instead of a <em>t</em>-statistic, we end up working with a different kind of test statistic (‘<em>S</em>’). We aren’t going to explain where this comes from because it’s quite technical. Next we see the <em>p</em>-value. This is generated under the null hypothesis of zero correlation (<span class="math inline">\(\rho = 0\)</span>). Since <em>p</em> &lt; 0.05, we conclude that there is a statistically significant correlation between mating success in successive years. Wait, where are the degrees of freedom? Simple—there aren’t any for a Spearman’s correlation test.</p>
 <p>What is the correlation between mating success? That’s given at the bottom of the test output again: <span class="math inline">\(+0.55\)</span>. This says that there is a moderate, positive association between mating success in successive years, which is what we expect from the scatter plot.</p>
 <p>When using the Spearman method it is fine to report just the value of the correlation coefficient, the sample size, and the <em>p</em>-value (there is no need to report the test statistic). Here’s how to report the results of this analysis:</p>

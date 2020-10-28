@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="two-way-anova-intro.html"/>
 <link rel="next" href="introduction-to-ancova.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -752,7 +753,7 @@ You should begin working through the <em>Festuca</em> example from this point.
 </p>
 </div>
 <p>The data are in a CSV file called FESTUCA.CSV. We’ll read the data into an R data frame, giving it the name <code>festuca</code>, and then print <em>the whole data frame to the Console</em> (<code>View</code> is another option here):</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="two-way-anova-in-r.html#cb185-1"></a>festuca &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;FESTUCA.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="two-way-anova-in-r.html#cb185-1" aria-hidden="true" tabindex="-1"></a>festuca <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&quot;FESTUCA.CSV&quot;</span>)</span></code></pre></div>
 <pre><code>##    Weight    pH Calluna
 ## 1    2.76 pH3.5 Present
 ## 2    2.39 pH3.5 Present
@@ -777,15 +778,15 @@ You should begin working through the <em>Festuca</em> example from this point.
 <p>Notice that the data for a two-factor experiment can be laid out in a very similar manner to those from a one factor experiment, with the response variable in one column, but now there are two additional columns containing the codes for the treatments, one for pH and one for <em>Calluna</em>. The first column (<code>Weight</code>) contains the <em>Festuca</em> dry weights, the second column (<code>pH</code>) contains the codes for the pH treatment (levels: pH3.5, pH5.5), the third column (<code>Calluna</code>) contains the codes for the presence or absence of <em>Calluna</em> (levels: Present, Absent).</p>
 <p>A couple of points are worth noting at this point:</p>
 <ol style="list-style-type: decimal">
-<li><p>As is always the case in this book, the data are ‘tidy’. Each experimental factor is in one column and each observation is in a single row. Last year we pointed out that data need to be in this format to be used effectively with <code>dplyr</code>. The same applies to the majority of R’s statistical modelling tools—they expect data to be supplied in this format.</p></li>
+<li><p>As is always the case in this book, the data are ‘tidy.’ Each experimental factor is in one column and each observation is in a single row. Last year we pointed out that data need to be in this format to be used effectively with <code>dplyr</code>. The same applies to the majority of R’s statistical modelling tools—they expect data to be supplied in this format.</p></li>
 <li><p>We avoided using numbers to encode the levels of the pH treatment. This is important, as it ensures that the <code>pH</code> variable will be converted into a factor rather than a number when we read the data into R. We have said it before, but it is worth saying one more time: fewer mistakes will occur if we use words to encode the levels of a factor.</p></li>
 </ol>
 </div>
 <div id="visualising-the-data" class="section level2" number="27.3">
 <h2><span class="header-section-number">27.3</span> Visualising the data</h2>
 <p>We should take a look at the data before doing anything with it. We only have five replicates per treatment combination, so any figure we produce is going to provide only limited information. Five replicates is just about sufficient for a box plot:</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="two-way-anova-in-r.html#cb187-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> festuca, <span class="kw">aes</span>(<span class="dt">x =</span> Calluna, <span class="dt">y =</span> Weight, <span class="dt">colour =</span> pH)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb187-2"><a href="two-way-anova-in-r.html#cb187-2"></a><span class="st">  </span><span class="kw">geom_boxplot</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="two-way-anova-in-r.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> festuca, <span class="fu">aes</span>(<span class="at">x =</span> Calluna, <span class="at">y =</span> Weight, <span class="at">colour =</span> pH)) <span class="sc">+</span> </span>
+<span id="cb187-2"><a href="two-way-anova-in-r.html#cb187-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/festuca-boxplot-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>The main purpose of a plot like this is to help us understand what the treatments are doing. We want to quickly assess things like: How big are the main effects? What direction do they work in? Is there likely to be an interaction? It looks like the higher pH conditions tends to increase <em>Festuca</em> growth, and the presence of <em>Calluna</em> tends to reduce it (yes, plants compete!). The more interesting observation is that the effect of <em>Calluna</em> seems to be greater at higher pH. It looks like we might have an interaction.</p>
 <p>The next thing we should do is check whether any of the assumptions have been violated. We can do this using the regression diagnostics that we learnt about in the <a href="two-way-anova-in-r.html#diagnostics">Diagnostics</a> chapter. To do this we need to fit the model first.</p>
@@ -794,15 +795,15 @@ You should begin working through the <em>Festuca</em> example from this point.
 <h2><span class="header-section-number">27.4</span> Fitting the ANOVA model</h2>
 <p>Carrying out a two-way ANOVA in R is really no different from one-way ANOVA. It still involves two steps. First we have to fit the model using the <code>lm</code> function, remembering to store the fitted model object. This is the step where R calculates the relevant means, along with the additional information needed to generate the results in step two. The second step uses the <code>anova</code> function to calculate <em>F</em>-statistics, degrees of freedom, and <em>p</em>-values.</p>
 <p>Here is the R code needed to carry out the model-fitting step with <code>lm</code>:</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="two-way-anova-in-r.html#cb188-1"></a>festuca_model &lt;-<span class="st"> </span><span class="kw">lm</span>(Weight <span class="op">~</span><span class="st"> </span>pH <span class="op">+</span><span class="st"> </span>Calluna <span class="op">+</span><span class="st"> </span>pH <span class="op">:</span><span class="st"> </span>Calluna, <span class="dt">data =</span> festuca)</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="two-way-anova-in-r.html#cb188-1" aria-hidden="true" tabindex="-1"></a>festuca_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Weight <span class="sc">~</span> pH <span class="sc">+</span> Calluna <span class="sc">+</span> pH <span class="sc">:</span> Calluna, <span class="at">data =</span> festuca)</span></code></pre></div>
 <p>This is very similar to the R code used to fit a one-way ANOVA model. The first argument is a formula (notice the ‘tilde’ symbol: <code>~</code>) and the second argument is the name of the data frame that contains all the variables listed in the formula. That’s all we need.</p>
 <p>The specific model fitted by <code>lm</code> is a result of 1) the type of variables referenced in the formula, and 2) the symbols used to define the terms in the formula. To ensure that we have fitted an ANOVA model, the variables which appear to the right of the <code>~</code> must be factors or character vectors—an ANOVA only involves factors. The variable name to the left of the <code>~</code> is the numeric response variable we are analysing. We know that <code>Calluna</code> and <code>pH</code> are factors, so we can be certain that <code>lm</code> has fitted some kind of ANOVA model.</p>
 <p>What kind of ANOVA have we fitted, i.e., what are the terms on the right hand side of the formula doing? Here is the formula we used:</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="two-way-anova-in-r.html#cb189-1"></a>Weight <span class="op">~</span><span class="st"> </span>pH <span class="op">+</span><span class="st"> </span>Calluna <span class="op">+</span><span class="st"> </span>pH<span class="op">:</span>Calluna</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="two-way-anova-in-r.html#cb189-1" aria-hidden="true" tabindex="-1"></a>Weight <span class="sc">~</span> pH <span class="sc">+</span> Calluna <span class="sc">+</span> pH<span class="sc">:</span>Calluna</span></code></pre></div>
 <p>There are three terms, each separated by a <code>+</code> symbol: <code>pH</code>, <code>Calluna</code> and <code>pH:Calluna</code>. This tells R that we want to fit a model that accounts for the main effects of <code>pH</code> and <code>Calluna</code>, and that we also wish to include the interaction between these two factors. The specification of the main effects is fairly self-explanatory—we just include the name of each factor variable in the formula. The interaction term is less obvious. It is specified by a colon (the <code>:</code> symbol) with the two interacting variables either side of it.</p>
 <p>In summary… 1) the <code>~</code> symbol specifies a formula in R, where the name on the left hand side is the response variable we are analysing, and the names on the right denote the terms in the model; 2) we place a <code>+</code> between terms to delineate them (we are not adding anything up when the <code>+</code> is used in a formula); 3) each main effect is specified by the corresponding factor name; and 4) an interaction between factors is specified by the <code>:</code> symbol.</p>
 <p>Notice that we assigned the result a name (<code>festuca_model</code>) which now refers to the model object produced by <code>lm</code>. Just as with a one-way ANOVA, we can’t extract <em>p</em>-values by printing this object to the console, because all this gives us is a limited summary of the fitted model’s coefficients:</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="two-way-anova-in-r.html#cb190-1"></a>festuca_model</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="two-way-anova-in-r.html#cb190-1" aria-hidden="true" tabindex="-1"></a>festuca_model</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Weight ~ pH + Calluna + pH:Calluna, data = festuca)
@@ -817,11 +818,11 @@ You should begin working through the <em>Festuca</em> example from this point.
 <div id="diagnostics" class="section level2" number="27.5">
 <h2><span class="header-section-number">27.5</span> Diagnostics</h2>
 <p>We’re going to produce two diagnostic plots: a normal probability plot to evaluate the normality assumption, and a scale-location plot allows us to evaluate the constant variance assumption. Here’s the normal probability plot:</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="two-way-anova-in-r.html#cb192-1"></a><span class="kw">plot</span>(festuca_model, <span class="dt">which =</span> <span class="dv">2</span>, <span class="dt">add.smooth =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="two-way-anova-in-r.html#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(festuca_model, <span class="at">which =</span> <span class="dv">2</span>, <span class="at">add.smooth =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/festuca-diag-2-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>This plot allows us to check whether the deviations from the group means (the residuals) are likely to have been drawn from a normal distribution. This looks… not so great. The points deviate from the line in a systematic way so it looks like the normality assumption may not be satisfied. The left tail is above the line and the right tail is below it. This tells us that the tails of the residual distribution do not extend out as far as they should—the distribution is ‘squashed’ toward its middle.</p>
 <p>The scale-location plot allows us to see whether or not the variability of the residuals is roughly constant within each group. Here’s the plot:</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="two-way-anova-in-r.html#cb193-1"></a><span class="kw">plot</span>(festuca_model, <span class="dt">which =</span> <span class="dv">3</span>, <span class="dt">add.smooth =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="two-way-anova-in-r.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(festuca_model, <span class="at">which =</span> <span class="dv">3</span>, <span class="at">add.smooth =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/festuca-diag-3-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>We’re on the lookout for a systematic pattern in the size of the residuals and the fitted values—does the variability go up or down with the fitted values? There is no such pattern so it looks like the constant variance assumption is at least satisfied here.</p>
 <p>We’ve identified one potential problem. We’ll ignore it for now and press on. The goal here is to learn the work flow for two-way ANOVA in R. However, keep in mind that if we were serious about the analysis we should find a way to ‘fix’ it, for example using the methods we discussed in the [Data transformations] chapter.</p>
@@ -829,7 +830,7 @@ You should begin working through the <em>Festuca</em> example from this point.
 <div id="interpreting-the-results" class="section level2" number="27.6">
 <h2><span class="header-section-number">27.6</span> Interpreting the results</h2>
 <p>Now we’re ready to calculate the degrees of freedom, sums of squares, mean squares, the <em>F</em>-ratio, and <em>p</em>-values for the main effects and the interaction terms:</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="two-way-anova-in-r.html#cb194-1"></a><span class="kw">anova</span>(festuca_model)</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="two-way-anova-in-r.html#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(festuca_model)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: Weight
@@ -861,13 +862,13 @@ You should begin working through the <em>Festuca</em> example from this point.
 <p><img src="images/interaction-diagrams.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>Diagrams such as these are sometimes called ‘interaction diagrams’ and they are often the best way of looking at the results from this sort of experiment to try and interpret what is happening. You will notice that the lines linking the treatments are parallel when there is no interaction, but become non-parallel when an interaction is present. An interaction may just mildly change the way the main effects work (4th plot) or it might completely reverse the effects (5th plot).</p>
 <p>We can use R to produce an interaction diagram for a two-way design. We’ll use <code>dplyr</code> and <code>ggplot2</code> to construct this for the example. First we have to calculate the mean weight of <em>Festuca</em> in each treatment combination:</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="two-way-anova-in-r.html#cb198-1"></a><span class="co"># step 1. calculate means for each treatment combination</span></span>
-<span id="cb198-2"><a href="two-way-anova-in-r.html#cb198-2"></a>festuca_means &lt;-<span class="st"> </span></span>
-<span id="cb198-3"><a href="two-way-anova-in-r.html#cb198-3"></a><span class="st">  </span>festuca <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb198-4"><a href="two-way-anova-in-r.html#cb198-4"></a><span class="st">  </span><span class="kw">group_by</span>(Calluna, pH) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># &lt;- remember to group by *both* factors</span></span>
-<span id="cb198-5"><a href="two-way-anova-in-r.html#cb198-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Means =</span> <span class="kw">mean</span>(Weight))</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="two-way-anova-in-r.html#cb198-1" aria-hidden="true" tabindex="-1"></a><span class="co"># step 1. calculate means for each treatment combination</span></span>
+<span id="cb198-2"><a href="two-way-anova-in-r.html#cb198-2" aria-hidden="true" tabindex="-1"></a>festuca_means <span class="ot">&lt;-</span> </span>
+<span id="cb198-3"><a href="two-way-anova-in-r.html#cb198-3" aria-hidden="true" tabindex="-1"></a>  festuca <span class="sc">%&gt;%</span> </span>
+<span id="cb198-4"><a href="two-way-anova-in-r.html#cb198-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Calluna, pH) <span class="sc">%&gt;%</span> <span class="co"># &lt;- remember to group by *both* factors</span></span>
+<span id="cb198-5"><a href="two-way-anova-in-r.html#cb198-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Means =</span> <span class="fu">mean</span>(Weight))</span></code></pre></div>
 <pre><code>## `summarise()` regrouping output by &#39;Calluna&#39; (override with `.groups` argument)</code></pre>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="two-way-anova-in-r.html#cb200-1"></a>festuca_means</span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="two-way-anova-in-r.html#cb200-1" aria-hidden="true" tabindex="-1"></a>festuca_means</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 3
 ## # Groups:   Calluna [2]
 ##   Calluna pH    Means
@@ -877,10 +878,10 @@ You should begin working through the <em>Festuca</em> example from this point.
 ## 3 Present pH3.5  2.98
 ## 4 Present pH5.5  3.94</code></pre>
 <p>The key to making the plot is to specify <em>four</em> aesthetic mappings, and then add two layers, one showing points and the other showing lines:</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="two-way-anova-in-r.html#cb202-1"></a><span class="co"># step 2. plot these as an interaction plot</span></span>
-<span id="cb202-2"><a href="two-way-anova-in-r.html#cb202-2"></a><span class="kw">ggplot</span>(festuca_means, </span>
-<span id="cb202-3"><a href="two-way-anova-in-r.html#cb202-3"></a>       <span class="kw">aes</span>(<span class="dt">x =</span> Calluna, <span class="dt">y =</span> Means, <span class="dt">colour =</span> pH, <span class="dt">group =</span> pH)) <span class="op">+</span></span>
-<span id="cb202-4"><a href="two-way-anova-in-r.html#cb202-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="two-way-anova-in-r.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="co"># step 2. plot these as an interaction plot</span></span>
+<span id="cb202-2"><a href="two-way-anova-in-r.html#cb202-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(festuca_means, </span>
+<span id="cb202-3"><a href="two-way-anova-in-r.html#cb202-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Calluna, <span class="at">y =</span> Means, <span class="at">colour =</span> pH, <span class="at">group =</span> pH)) <span class="sc">+</span></span>
+<span id="cb202-4"><a href="two-way-anova-in-r.html#cb202-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span> <span class="fu">geom_line</span>()</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/festuca-interact-diag-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>Notice that we mapped pH to two aesthetics: colour and group. This ‘trick’ makes <code>ggplot2</code> link the levels of <code>pH</code> with lines, each of which gets its own colour.</p>
 <p>This clearly reveals how the different effects are working. Our interaction plot resembles the 4th hypothetical outcome. It is possible to make some interpretation of the main effects—namely that increase in pH, and removal of <em>Calluna</em> increase <em>Festuca</em> yield. However, the magnitude of these effects is dependent on the other (interaction)—the effect of <em>Calluna</em> is increased at higher pH.</p>
@@ -890,9 +891,9 @@ You should begin working through the <em>Festuca</em> example from this point.
 <h2><span class="header-section-number">27.7</span> Multiple comparison tests</h2>
 <p>Obviously, since the main treatments only have two levels there is no need for any multiple comparison tests on the main effects — if there is a difference it must be between the two levels. However, the interaction is significant, so it may be desirable to know which particular treatment combinations differ. Predictably, the work flow is very similar to that applied to a one-way ANOVA model.</p>
 <p>We could use the <code>TukeyHSD</code> function to do this. We start by converting the model object produced by <code>lm</code> into an <code>aov</code> object…</p>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="two-way-anova-in-r.html#cb203-1"></a>festuca_aov &lt;-<span class="st"> </span><span class="kw">aov</span>(festuca_model)</span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="two-way-anova-in-r.html#cb203-1" aria-hidden="true" tabindex="-1"></a>festuca_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(festuca_model)</span></code></pre></div>
 <p>…and then we perform a Tukey HSD test:</p>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="two-way-anova-in-r.html#cb204-1"></a><span class="kw">TukeyHSD</span>(festuca_aov, <span class="dt">which =</span> <span class="st">&#39;pH:Calluna&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="two-way-anova-in-r.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(festuca_aov, <span class="at">which =</span> <span class="st">&#39;pH:Calluna&#39;</span>)</span></code></pre></div>
 <p>We have suppressed the output for now. The only new tweak that we have to learn is the <code>which</code> argument. Assigning this the value <code>'pH:Calluna'</code> makes the <code>TukeyHSD</code> function carry out all pairwise comparisons among the means of each treatment combination, i.e., we are considering the full set of interactions. Here is the output:</p>
 <pre><code>##   Tukey multiple comparisons of means
 ##     95% family-wise confidence level
@@ -910,9 +911,9 @@ You should begin working through the <em>Festuca</em> example from this point.
 <p>You extract information from this table just as you did before. The table present a series of pair-wise comparisons between mean values tested by the Tukey procedure. For example, the first 3 lines show the significance of differences between the mean of the treatment combination pH 3.5 without <em>Calluna</em> and the 3 other mean values. All we need from this table is to note the codes for the treatment means which are being compared (listed in the first column), and the <em>p</em>-value in each case listed in the final column.</p>
 <p>If we list the mean values in sequence from the lowest to the highest we can then use the results presented in these tables of pair-wise comparisons to derive letter codes to indicate which means differ significantly (at <em>p</em>&lt;0.05) in exactly the same way as you did last week. There are three significant differences, all of which involve the treatment combinations pH 5.5 with <em>Calluna</em> absent. This implies that there are two ‘not significantly different’ groups: one defined by pH 5.5 with <em>Calluna</em> absent, and then everything else.</p>
 <p>As you might expect, we don’t have to step through the results of the <code>TukeyHSD</code> function to define the ‘not significantly different’ groups. We used the <code>agricolae</code> package to do this for a one-way ANOVA. We can use this again here. We need to load and attach the package first (it may also need to be installed if you are on a university computer):</p>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="two-way-anova-in-r.html#cb206-1"></a><span class="kw">library</span>(agricolae)</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="two-way-anova-in-r.html#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(agricolae)</span></code></pre></div>
 <p>Once the package is ready for use, we can carry out the Tukey HSD test to find the ‘not significantly different’ groups using the <code>HSD.test</code> function:</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="two-way-anova-in-r.html#cb207-1"></a><span class="kw">HSD.test</span>(festuca_aov, <span class="dt">trt =</span> <span class="kw">c</span>(<span class="st">&quot;pH&quot;</span>, <span class="st">&quot;Calluna&quot;</span>), <span class="dt">console =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="two-way-anova-in-r.html#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="fu">HSD.test</span>(festuca_aov, <span class="at">trt =</span> <span class="fu">c</span>(<span class="st">&quot;pH&quot;</span>, <span class="st">&quot;Calluna&quot;</span>), <span class="at">console =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ## Study: festuca_aov ~ c(&quot;pH&quot;, &quot;Calluna&quot;)
 ## 
@@ -940,7 +941,7 @@ You should begin working through the <em>Festuca</em> example from this point.
 ## pH5.5:Present  3.938      b
 ## pH3.5:Absent   3.368      b
 ## pH3.5:Present  2.978      b</code></pre>
-<p>Setting the <code>trt</code> argument to <code>c("pH", "Calluna")</code> makes the function carry out all pair-wise comparisons among the mean values defined by each treatment combination. The output that matters is the table at the very end, which shows the group identities as letters, the treatment names, and the treatment means. This just reiterates what we already knew—there are two ‘not significantly different’ groups, defined by pH 5.5 with <em>Calluna</em> absent, and ‘everything else’.</p>
+<p>Setting the <code>trt</code> argument to <code>c("pH", "Calluna")</code> makes the function carry out all pair-wise comparisons among the mean values defined by each treatment combination. The output that matters is the table at the very end, which shows the group identities as letters, the treatment names, and the treatment means. This just reiterates what we already knew—there are two ‘not significantly different’ groups, defined by pH 5.5 with <em>Calluna</em> absent, and ‘everything else.’</p>
 <div class="advanced-box">
 <p>
 <strong>Multiple comparison tests for main effects</strong>
@@ -969,13 +970,13 @@ You won’t be assessed on your ability to produce summary plots such as those b
 </p>
 </div>
 <p>We want to plot some sample statistics (means and standard errors) so we first have to calculate these using <code>dplyr</code>:</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="two-way-anova-in-r.html#cb209-1"></a><span class="co"># step 1. calculate means for each treatment combination</span></span>
-<span id="cb209-2"><a href="two-way-anova-in-r.html#cb209-2"></a>festuca_stats &lt;-<span class="st"> </span></span>
-<span id="cb209-3"><a href="two-way-anova-in-r.html#cb209-3"></a><span class="st">  </span>festuca <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb209-4"><a href="two-way-anova-in-r.html#cb209-4"></a><span class="st">  </span><span class="kw">group_by</span>(Calluna, pH) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># &lt;- remember to group by the two factors</span></span>
-<span id="cb209-5"><a href="two-way-anova-in-r.html#cb209-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Means =</span> <span class="kw">mean</span>(Weight), <span class="dt">SEs =</span> <span class="kw">sd</span>(Weight)<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">n</span>()))</span></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="two-way-anova-in-r.html#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="co"># step 1. calculate means for each treatment combination</span></span>
+<span id="cb209-2"><a href="two-way-anova-in-r.html#cb209-2" aria-hidden="true" tabindex="-1"></a>festuca_stats <span class="ot">&lt;-</span> </span>
+<span id="cb209-3"><a href="two-way-anova-in-r.html#cb209-3" aria-hidden="true" tabindex="-1"></a>  festuca <span class="sc">%&gt;%</span> </span>
+<span id="cb209-4"><a href="two-way-anova-in-r.html#cb209-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Calluna, pH) <span class="sc">%&gt;%</span> <span class="co"># &lt;- remember to group by the two factors</span></span>
+<span id="cb209-5"><a href="two-way-anova-in-r.html#cb209-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Means =</span> <span class="fu">mean</span>(Weight), <span class="at">SEs =</span> <span class="fu">sd</span>(Weight)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>()))</span></code></pre></div>
 <pre><code>## `summarise()` regrouping output by &#39;Calluna&#39; (override with `.groups` argument)</code></pre>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="two-way-anova-in-r.html#cb211-1"></a>festuca_stats</span></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="two-way-anova-in-r.html#cb211-1" aria-hidden="true" tabindex="-1"></a>festuca_stats</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 4
 ## # Groups:   Calluna [2]
 ##   Calluna pH    Means   SEs
@@ -985,51 +986,51 @@ You won’t be assessed on your ability to produce summary plots such as those b
 ## 3 Present pH3.5  2.98 0.272
 ## 4 Present pH5.5  3.94 0.388</code></pre>
 <p>Once we’ve constructed a data frame containing the descriptive statistics we can make a plot:</p>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="two-way-anova-in-r.html#cb213-1"></a><span class="co"># step 2. plot these as an interaction plot</span></span>
-<span id="cb213-2"><a href="two-way-anova-in-r.html#cb213-2"></a><span class="kw">ggplot</span>(festuca_stats, </span>
-<span id="cb213-3"><a href="two-way-anova-in-r.html#cb213-3"></a>       <span class="kw">aes</span>(<span class="dt">x =</span> Calluna, <span class="dt">y =</span> Means, <span class="dt">colour =</span> pH,</span>
-<span id="cb213-4"><a href="two-way-anova-in-r.html#cb213-4"></a>           <span class="dt">ymin =</span> Means <span class="op">-</span><span class="st"> </span>SEs, <span class="dt">ymax =</span> Means <span class="op">+</span><span class="st"> </span>SEs)) <span class="op">+</span></span>
-<span id="cb213-5"><a href="two-way-anova-in-r.html#cb213-5"></a><span class="st">  </span><span class="co"># this adds the mean</span></span>
-<span id="cb213-6"><a href="two-way-anova-in-r.html#cb213-6"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></span>
-<span id="cb213-7"><a href="two-way-anova-in-r.html#cb213-7"></a><span class="st">  </span><span class="co"># this adds the error bars</span></span>
-<span id="cb213-8"><a href="two-way-anova-in-r.html#cb213-8"></a><span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="dt">width =</span> <span class="fl">0.1</span>) <span class="op">+</span></span>
-<span id="cb213-9"><a href="two-way-anova-in-r.html#cb213-9"></a><span class="st">  </span><span class="co"># controlling the appearance</span></span>
-<span id="cb213-10"><a href="two-way-anova-in-r.html#cb213-10"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">7</span>)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb213-11"><a href="two-way-anova-in-r.html#cb213-11"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Calluna&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Festuca yield (g dry weight)&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb213-12"><a href="two-way-anova-in-r.html#cb213-12"></a><span class="st">  </span><span class="co"># use a more professional theme</span></span>
-<span id="cb213-13"><a href="two-way-anova-in-r.html#cb213-13"></a><span class="st">  </span><span class="kw">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="two-way-anova-in-r.html#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="co"># step 2. plot these as an interaction plot</span></span>
+<span id="cb213-2"><a href="two-way-anova-in-r.html#cb213-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(festuca_stats, </span>
+<span id="cb213-3"><a href="two-way-anova-in-r.html#cb213-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Calluna, <span class="at">y =</span> Means, <span class="at">colour =</span> pH,</span>
+<span id="cb213-4"><a href="two-way-anova-in-r.html#cb213-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">ymin =</span> Means <span class="sc">-</span> SEs, <span class="at">ymax =</span> Means <span class="sc">+</span> SEs)) <span class="sc">+</span></span>
+<span id="cb213-5"><a href="two-way-anova-in-r.html#cb213-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this adds the mean</span></span>
+<span id="cb213-6"><a href="two-way-anova-in-r.html#cb213-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb213-7"><a href="two-way-anova-in-r.html#cb213-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this adds the error bars</span></span>
+<span id="cb213-8"><a href="two-way-anova-in-r.html#cb213-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb213-9"><a href="two-way-anova-in-r.html#cb213-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># controlling the appearance</span></span>
+<span id="cb213-10"><a href="two-way-anova-in-r.html#cb213-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">7</span>)) <span class="sc">+</span> </span>
+<span id="cb213-11"><a href="two-way-anova-in-r.html#cb213-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Calluna&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Festuca yield (g dry weight)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb213-12"><a href="two-way-anova-in-r.html#cb213-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># use a more professional theme</span></span>
+<span id="cb213-13"><a href="two-way-anova-in-r.html#cb213-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/festuca-summary-points-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>This is very similar to the <code>ggplot2</code> code used to make the summary figure in the one-way ANOVA example. We set the <code>data</code> argument in <code>ggplot</code> to be the data frame containing the statistics (not the original raw data), and this time, we set up <strong>five</strong> aesthetic mappings: <code>x</code>, <code>y</code>, <code>colour</code>, <code>ymin</code> and <code>ymax</code>. We use the colour aesthetic to delineate the levels of <code>pH</code>. We added two layers: one layer is added with <code>geom_point</code> to include the individual points based on the <code>x</code> and <code>y</code> mappings; the second layer is added with <code>geom_errorbar</code> to include the error bars based on the <code>x</code>, <code>ymin</code> and <code>ymax</code> mappings.</p>
 <div id="a-little-more-customisation" class="section level3" number="27.8.1">
 <h3><span class="header-section-number">27.8.1</span> A little more customisation</h3>
 <p>It is not uncommon to find that two or more means are quite close to one another, and as a result, plotted points and/or standard errors overlap. We can tweak a figure to avoid this by moving the plotted points a little to one side. The trick is to use the <code>position_dodge</code> function to define a ‘position adjustment’ object, and then associated this with <code>position</code> arguments in <code>geom_errorbar</code> and <code>geom_point</code>:</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="two-way-anova-in-r.html#cb214-1"></a><span class="co"># define a position adjustment </span></span>
-<span id="cb214-2"><a href="two-way-anova-in-r.html#cb214-2"></a>pos &lt;-<span class="st"> </span><span class="kw">position_dodge</span>(<span class="fl">0.15</span>)</span>
-<span id="cb214-3"><a href="two-way-anova-in-r.html#cb214-3"></a><span class="co"># make the plot</span></span>
-<span id="cb214-4"><a href="two-way-anova-in-r.html#cb214-4"></a><span class="kw">ggplot</span>(festuca_stats, </span>
-<span id="cb214-5"><a href="two-way-anova-in-r.html#cb214-5"></a>       <span class="kw">aes</span>(<span class="dt">x =</span> Calluna, <span class="dt">y =</span> Means, <span class="dt">colour =</span> pH,</span>
-<span id="cb214-6"><a href="two-way-anova-in-r.html#cb214-6"></a>           <span class="dt">ymin =</span> Means <span class="op">-</span><span class="st"> </span>SEs, <span class="dt">ymax =</span> Means <span class="op">+</span><span class="st"> </span>SEs)) <span class="op">+</span></span>
-<span id="cb214-7"><a href="two-way-anova-in-r.html#cb214-7"></a><span class="st">  </span><span class="co"># this adds the mean (shift positions with &#39;position =&#39;)</span></span>
-<span id="cb214-8"><a href="two-way-anova-in-r.html#cb214-8"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">position =</span> pos) <span class="op">+</span></span>
-<span id="cb214-9"><a href="two-way-anova-in-r.html#cb214-9"></a><span class="st">  </span><span class="co"># this adds the error bars (shift positions with &#39;position =&#39;)</span></span>
-<span id="cb214-10"><a href="two-way-anova-in-r.html#cb214-10"></a><span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="dt">width =</span> <span class="fl">0.1</span>, <span class="dt">position =</span> pos) <span class="op">+</span></span>
-<span id="cb214-11"><a href="two-way-anova-in-r.html#cb214-11"></a><span class="st">  </span><span class="co"># controlling the appearance</span></span>
-<span id="cb214-12"><a href="two-way-anova-in-r.html#cb214-12"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">7</span>)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb214-13"><a href="two-way-anova-in-r.html#cb214-13"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Calluna&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Festuca yield (g dry weight)&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb214-14"><a href="two-way-anova-in-r.html#cb214-14"></a><span class="st">  </span><span class="co"># use a more professional theme</span></span>
-<span id="cb214-15"><a href="two-way-anova-in-r.html#cb214-15"></a><span class="st">  </span><span class="kw">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="two-way-anova-in-r.html#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="co"># define a position adjustment </span></span>
+<span id="cb214-2"><a href="two-way-anova-in-r.html#cb214-2" aria-hidden="true" tabindex="-1"></a>pos <span class="ot">&lt;-</span> <span class="fu">position_dodge</span>(<span class="fl">0.15</span>)</span>
+<span id="cb214-3"><a href="two-way-anova-in-r.html#cb214-3" aria-hidden="true" tabindex="-1"></a><span class="co"># make the plot</span></span>
+<span id="cb214-4"><a href="two-way-anova-in-r.html#cb214-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(festuca_stats, </span>
+<span id="cb214-5"><a href="two-way-anova-in-r.html#cb214-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Calluna, <span class="at">y =</span> Means, <span class="at">colour =</span> pH,</span>
+<span id="cb214-6"><a href="two-way-anova-in-r.html#cb214-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">ymin =</span> Means <span class="sc">-</span> SEs, <span class="at">ymax =</span> Means <span class="sc">+</span> SEs)) <span class="sc">+</span></span>
+<span id="cb214-7"><a href="two-way-anova-in-r.html#cb214-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this adds the mean (shift positions with &#39;position =&#39;)</span></span>
+<span id="cb214-8"><a href="two-way-anova-in-r.html#cb214-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">position =</span> pos) <span class="sc">+</span></span>
+<span id="cb214-9"><a href="two-way-anova-in-r.html#cb214-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this adds the error bars (shift positions with &#39;position =&#39;)</span></span>
+<span id="cb214-10"><a href="two-way-anova-in-r.html#cb214-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">position =</span> pos) <span class="sc">+</span></span>
+<span id="cb214-11"><a href="two-way-anova-in-r.html#cb214-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># controlling the appearance</span></span>
+<span id="cb214-12"><a href="two-way-anova-in-r.html#cb214-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">7</span>)) <span class="sc">+</span> </span>
+<span id="cb214-13"><a href="two-way-anova-in-r.html#cb214-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Calluna&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Festuca yield (g dry weight)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb214-14"><a href="two-way-anova-in-r.html#cb214-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># use a more professional theme</span></span>
+<span id="cb214-15"><a href="two-way-anova-in-r.html#cb214-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/festuca-summary-dodge-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>Look at the new positions of the points and error bars at each level of <code>Calluna</code>—they have shifted very slightly to the left and right. We don’t need to do this in the Calluna example of course, because there is no overlap to deal with. If the points/SEs had overlapped, this would now be avoided because the data would be plotted side-by-side.</p>
 <p>We could also use a bar chart with error bars to summarise the data. You only have to change one thing about the last chunk of <code>ggplot2</code> code to make this. You can probably guess how to do this—instead of using a <code>geom_point</code>, we use <code>geom_col</code>…</p>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="two-way-anova-in-r.html#cb215-1"></a><span class="kw">ggplot</span>(festuca_stats, </span>
-<span id="cb215-2"><a href="two-way-anova-in-r.html#cb215-2"></a>       <span class="kw">aes</span>(<span class="dt">x =</span> Calluna, <span class="dt">y =</span> Means, <span class="dt">fill =</span> pH,</span>
-<span id="cb215-3"><a href="two-way-anova-in-r.html#cb215-3"></a>           <span class="dt">ymin =</span> Means <span class="op">-</span><span class="st"> </span>SEs, <span class="dt">ymax =</span> Means <span class="op">+</span><span class="st"> </span>SEs)) <span class="op">+</span></span>
-<span id="cb215-4"><a href="two-way-anova-in-r.html#cb215-4"></a><span class="st">  </span><span class="co"># this adds the mean</span></span>
-<span id="cb215-5"><a href="two-way-anova-in-r.html#cb215-5"></a><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">position =</span> <span class="kw">position_dodge</span>()) <span class="op">+</span></span>
-<span id="cb215-6"><a href="two-way-anova-in-r.html#cb215-6"></a><span class="st">  </span><span class="co"># this adds the error bars</span></span>
-<span id="cb215-7"><a href="two-way-anova-in-r.html#cb215-7"></a><span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="fl">0.9</span>), <span class="dt">width=</span>.<span class="dv">2</span>) <span class="op">+</span></span>
-<span id="cb215-8"><a href="two-way-anova-in-r.html#cb215-8"></a><span class="st">  </span><span class="co"># controlling the appearance</span></span>
-<span id="cb215-9"><a href="two-way-anova-in-r.html#cb215-9"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Calluna&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Festuca yield (g dry weight)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="two-way-anova-in-r.html#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(festuca_stats, </span>
+<span id="cb215-2"><a href="two-way-anova-in-r.html#cb215-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Calluna, <span class="at">y =</span> Means, <span class="at">fill =</span> pH,</span>
+<span id="cb215-3"><a href="two-way-anova-in-r.html#cb215-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">ymin =</span> Means <span class="sc">-</span> SEs, <span class="at">ymax =</span> Means <span class="sc">+</span> SEs)) <span class="sc">+</span></span>
+<span id="cb215-4"><a href="two-way-anova-in-r.html#cb215-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this adds the mean</span></span>
+<span id="cb215-5"><a href="two-way-anova-in-r.html#cb215-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>()) <span class="sc">+</span></span>
+<span id="cb215-6"><a href="two-way-anova-in-r.html#cb215-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this adds the error bars</span></span>
+<span id="cb215-7"><a href="two-way-anova-in-r.html#cb215-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.9</span>), <span class="at">width=</span>.<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb215-8"><a href="two-way-anova-in-r.html#cb215-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># controlling the appearance</span></span>
+<span id="cb215-9"><a href="two-way-anova-in-r.html#cb215-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Calluna&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Festuca yield (g dry weight)&quot;</span>)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/festuca-summary-bar-1.png" width="326.4" style="display: block; margin: auto;" />
 The only other other trick we need to apply is to set the <code>position</code> arguments of <code>geom_errorbar</code> and <code>geom_bar</code> using <code>position_dodge</code>. If we don’t do this, <code>ggplot2</code> will produce a stacked bar chart and the error bars will end up in the wrong place (the value of 0.9 used in <code>position_dodge(0.9)</code> ensures the error bars appear in the centre of each bar).</p>
 </div>

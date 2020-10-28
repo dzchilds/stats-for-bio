@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="principles-experimental-design.html"/>
 <link rel="next" href="anova-for-randomised-block-designs.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -745,7 +746,7 @@ Figure 20.2: Data from glycolipid study, ignoring paired design.
 <p>It should be clear why a paired-sample design might be useful, but how do we actually construct the right test? The ‘trick’ is to work directly with the differences between pairs of values. In the case of the glycolipid levels illustrated in the first diagram, we noted that there was a greater decrease of glycolipids in 75% of patients using Drug B compared with Drug A.</p>
 <p>If we calculate the actual differences (i.e. subtracted the value for Drug A from the value for Drug B) for each patient we might see something like: -3.9, -4.1, 2.5, -4.7, 0.5, -3.7, -6.9, -2.4. Notice that there are only two positive values in this sample of differences, one of which is fairly close to 0. The mean difference is -2.8, i.e. on average, glycolipid levels are lower with Drug B. Another way of stating this observation is that <em>within subjects</em> (patients), the mean difference between drug B and drug A is negative. A paired-sample design focusses on the within-subject (or more generally, within-item) change.</p>
 <p>If, on the other hand, the two drugs had had similar effects then what would we expect to see? We would expect no consistent difference in glycolipid levels between the Drug A and Drug B treatments. Glycolipid levels are unlikely to remain exactly the same over time, but there shouldn’t be any pattern to these changes with respect to the drug treatment: some patients will show increases, some decreases, and some no change at all. The mean of the differences in this case should be somewhere around zero (though sampling variation will ensure it isn’t exactly equal to zero).</p>
-<p>So, to carry out a <em>t</em>-test on paired-sample data we have to: 1) find the mean of the difference of all the pairs and 2) evaluate whether this is significantly different from zero. We already know how to do this! <strong>This is just an application of the one-sample <em>t</em>-test</strong>, where the expected value (i.e. the null hypothesis) is 0. The thing to realise here, is that although we started out with two sets of values, what matters is the sample of differences between pairs and the population we’re interested in a ‘population of differences’.</p>
+<p>So, to carry out a <em>t</em>-test on paired-sample data we have to: 1) find the mean of the difference of all the pairs and 2) evaluate whether this is significantly different from zero. We already know how to do this! <strong>This is just an application of the one-sample <em>t</em>-test</strong>, where the expected value (i.e. the null hypothesis) is 0. The thing to realise here, is that although we started out with two sets of values, what matters is the sample of differences between pairs and the population we’re interested in a ‘population of differences.’</p>
 <p>When used to analyse paired data in this way, the test is referred to as a paired-sample <em>t</em>-test. This is not wrong, but it important to remember that a paired-sample <em>t</em>-test is just a one-sample <em>t</em>-test applied to the sample of differences between pairs of associated observations. A paired-sample <em>t</em>-test isn’t really a new kind of test. Instead, it is a one-sample <em>t</em>-test applied to <em>a new kind of situation</em>.</p>
 <div id="assumptions-of-the-paired-sample-t-test" class="section level3" number="20.3.1">
 <h3><span class="header-section-number">20.3.1</span> Assumptions of the paired-sample <em>t</em>-test</h3>
@@ -762,7 +763,7 @@ You should work through the example in this section.
 </div>
 <p>Staying with the problem of trials of two drugs for controlling glycolipid levels, the serum glycolipid concentration data from the trial illustrated above are stored in the GLYCOLIPID.CSV file. Download the this file from MOLE and place it in the working directory. Read GLYCOLIPID.CSV into an R data frame, giving it the name <code>glycolipid</code>.</p>
 <p>As always, we should start by looking at the raw data:</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="paired-sample-t-test.html#cb105-1"></a><span class="kw">glimpse</span>(glycolipid)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="paired-sample-t-test.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(glycolipid)</span></code></pre></div>
 <pre><code>## Rows: 16
 ## Columns: 4
 ## $ Patient    &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8
@@ -771,12 +772,12 @@ You should work through the example in this section.
 ## $ Glycolipid &lt;dbl&gt; 142.9, 140.6, 144.7, 144.0, 142.4, 146.0, 149.1, 150.4, 13…</code></pre>
 <p>There are four variables in this data set: <code>Patient</code> indexes the patient identity, <code>Sex</code> is the sex of the patient (we don’t need this), <code>Drug</code> denotes the drug treatment, and <code>Glycolipid</code> is the glycolipid level.</p>
 <p>Next, we need to calculate the differences between each pair. We can do this with the <code>dplyr</code> functions <code>group_by</code> and <code>summarise</code>:</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="paired-sample-t-test.html#cb107-1"></a>glycolipid_diffs &lt;-<span class="st"> </span></span>
-<span id="cb107-2"><a href="paired-sample-t-test.html#cb107-2"></a><span class="st">  </span>glycolipid <span class="op">%&gt;%</span></span>
-<span id="cb107-3"><a href="paired-sample-t-test.html#cb107-3"></a><span class="st">  </span><span class="kw">group_by</span>(Patient) <span class="op">%&gt;%</span></span>
-<span id="cb107-4"><a href="paired-sample-t-test.html#cb107-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Difference =</span> <span class="kw">diff</span>(Glycolipid))</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="paired-sample-t-test.html#cb107-1" aria-hidden="true" tabindex="-1"></a>glycolipid_diffs <span class="ot">&lt;-</span> </span>
+<span id="cb107-2"><a href="paired-sample-t-test.html#cb107-2" aria-hidden="true" tabindex="-1"></a>  glycolipid <span class="sc">%&gt;%</span></span>
+<span id="cb107-3"><a href="paired-sample-t-test.html#cb107-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Patient) <span class="sc">%&gt;%</span></span>
+<span id="cb107-4"><a href="paired-sample-t-test.html#cb107-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Difference =</span> <span class="fu">diff</span>(Glycolipid))</span></code></pre></div>
 <p>What we did was group the data by the values of <code>Patient</code>, and then used a function called <code>diff</code> to calculate the difference between the two Glycolipid concentrations <em>within each patient</em>. We stored the result of this calculation in a new data frame called <code>glycolipid_diffs</code>. This is the data we’ll use to carry out the paired-sample <em>t</em>-test:</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="paired-sample-t-test.html#cb108-1"></a>glycolipid_diffs</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="paired-sample-t-test.html#cb108-1" aria-hidden="true" tabindex="-1"></a>glycolipid_diffs</span></code></pre></div>
 <pre><code>## # A tibble: 8 x 2
 ##   Patient Difference
 ##     &lt;int&gt;      &lt;dbl&gt;
@@ -789,8 +790,8 @@ You should work through the example in this section.
 ## 7       7     -7    
 ## 8       8     -2.5</code></pre>
 <p>We should try to check that the differences could plausibly have been drawn from a normal distribution, though normality is quite hard to assess with only 8 observations:</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="paired-sample-t-test.html#cb110-1"></a><span class="kw">ggplot</span>(glycolipid_diffs, <span class="kw">aes</span>(<span class="dt">x =</span> Difference)) <span class="op">+</span></span>
-<span id="cb110-2"><a href="paired-sample-t-test.html#cb110-2"></a><span class="st">  </span><span class="kw">geom_dotplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_grey</span>(<span class="dt">base_size =</span> <span class="dv">22</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="paired-sample-t-test.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(glycolipid_diffs, <span class="fu">aes</span>(<span class="at">x =</span> Difference)) <span class="sc">+</span></span>
+<span id="cb110-2"><a href="paired-sample-t-test.html#cb110-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>() <span class="sc">+</span> <span class="fu">theme_grey</span>(<span class="at">base_size =</span> <span class="dv">22</span>)</span></code></pre></div>
 <pre><code>## `stat_bindot()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:glyco-diffs"></span>
 <img src="stats-for-bio_files/figure-html/glyco-diffs-1.png" alt="Within-individual differences from glycolipid study" width="50%" />
@@ -798,8 +799,8 @@ You should work through the example in this section.
 Figure 20.3: Within-individual differences from glycolipid study
 </p>
 </div>
-<p>OK, there really isn’t a lot of data to work with here but there’s nothing in that plot that screams ‘non-normal’, which means the assumptions have been met as best they can be. Let’s proceed to carry out a one-sample <em>t</em>-test on the calculated differences. This is easy to do in R:</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="paired-sample-t-test.html#cb112-1"></a><span class="kw">t.test</span>(glycolipid_diffs<span class="op">$</span>Difference)</span></code></pre></div>
+<p>OK, there really isn’t a lot of data to work with here but there’s nothing in that plot that screams ‘non-normal,’ which means the assumptions have been met as best they can be. Let’s proceed to carry out a one-sample <em>t</em>-test on the calculated differences. This is easy to do in R:</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="paired-sample-t-test.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(glycolipid_diffs<span class="sc">$</span>Difference)</span></code></pre></div>
 <pre><code>## 
 ## 	One Sample t-test
 ## 
@@ -825,7 +826,7 @@ Figure 20.3: Within-individual differences from glycolipid study
 <div id="using-the-paired-true-argument" class="section level3" number="20.4.1">
 <h3><span class="header-section-number">20.4.1</span> Using the <code>paired = TRUE</code> argument</h3>
 <p>R does have a built in procedure for doing paired-sample <em>t</em>-tests. Now that we’ve done it the hard way, let’s try carrying out the test using the built in procedure. This looks very similar to a two-sample <em>t</em>-test, except that we have to set the <code>paired</code> argument of the <code>t.test</code> function to <code>TRUE</code>:</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="paired-sample-t-test.html#cb114-1"></a><span class="kw">t.test</span>(Glycolipid <span class="op">~</span><span class="st"> </span>Drug, <span class="dt">data =</span> glycolipid, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="paired-sample-t-test.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Glycolipid <span class="sc">~</span> Drug, <span class="at">data =</span> glycolipid, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ## 	Paired t-test
 ## 

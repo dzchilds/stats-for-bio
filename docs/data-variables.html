@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="scientific-process.html"/>
 <link rel="next" href="learning-from-data.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -730,7 +731,7 @@ material and obvious things.</em></p>
 <strong>Data and variables in R</strong>
 </p>
 <p>
-Data sets are often stored in data frames when working with R. A data frame can be thought of as having rows and columns. Each column in a data frame has to be one of R’s many types of ‘vector’. Typically, these are simple things, like numeric or character vectors, but other kinds of vector can be used (e.g. dates and intervals of times). The data it contains are said to be <a href="https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html">tidy</a> when each column of a data frame corresponds to statistical variable, and each row corresponds to a single observation (a cell, a tissue sample, an animal, etc).
+Data sets are often stored in data frames when working with R. A data frame can be thought of as having rows and columns. Each column in a data frame has to be one of R’s many types of ‘vector.’ Typically, these are simple things, like numeric or character vectors, but other kinds of vector can be used (e.g. dates and intervals of times). The data it contains are said to be <a href="https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html">tidy</a> when each column of a data frame corresponds to statistical variable, and each row corresponds to a single observation (a cell, a tissue sample, an animal, etc).
 </p>
 <p>
 This simple connection between abstract statistical concepts and concrete objects in R is not coincidence. Its structures and abstractions reflect the fact that R was designed first and foremost to analyse data.
@@ -741,7 +742,7 @@ This simple connection between abstract statistical concepts and concrete object
 <strong>The data are or the data is?</strong>
 </p>
 <p>
-Strictly speaking, the word data is the plural of datum (a single piece of information), so we should say “the data are…” not “the data is…”. That said, the use of the word in the singular is becoming more widespread, despite the objections of <a href="http://www.urbandictionary.com/define.php?term=Grammar%20Nazi">Grammar Nazis</a>, and to be perfectly honest either usage is fine these days. We lean towards plural data but we do use both forms in this book…
+Strictly speaking, the word data is the plural of datum (a single piece of information), so we should say “the data are…” not “the data is….” That said, the use of the word in the singular is becoming more widespread, despite the objections of <a href="http://www.urbandictionary.com/define.php?term=Grammar%20Nazi">Grammar Nazis</a>, and to be perfectly honest either usage is fine these days. We lean towards plural data but we do use both forms in this book…
 </p>
 </div>
 </div>
@@ -750,7 +751,7 @@ Strictly speaking, the word data is the plural of datum (a single piece of infor
 <p>When it comes to designing an experiment or carrying out some data analysis, it is very important to understand what sort of data we need, or have, as this affects what we can do with it. The variables in a data set are often classified as being either <strong>numeric</strong> or <strong>categorical</strong>:</p>
 <ul>
 <li><p>numeric variables have values that describe a measurable quantity as a number, like ‘how many’ or ‘how much’;</p></li>
-<li><p>categorical variables have values that describe a characteristic of an observation, like ‘what type’ or ‘which category’.</p></li>
+<li><p>categorical variables have values that describe a characteristic of an observation, like ‘what type’ or ‘which category.’</p></li>
 </ul>
 <p>Numeric variables can be further characterised according to the type of scale they are measured on (<strong>interval</strong> vs. <strong>ratio</strong> scales). Categorical variables can be further characterised according to whether or not they have a natural order (<strong>nominal</strong> vs. <strong>ordinal</strong> variables).</p>
 <p>This is probably the minimal classification scheme we need to learn if we want to analyse our data well. Let’s take a closer look at this scheme…</p>

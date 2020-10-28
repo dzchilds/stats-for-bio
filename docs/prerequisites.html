@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="expected-learning.html"/>
 <link rel="next" href="scientific-process.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,7 +51,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
 
 .warning-box {
@@ -752,11 +753,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>R packages extend the basic functionality of R so that we can do more with it. In a nutshell, an R package bundles together R code, data, and documentation in a standardised way that is easy to use and share with other users. This book uses a subset of the <a href="https://www.tidyverse.org">tidyverse</a> ecosystem of packages: the <code>readr</code> package for reading data into R, the <code>dplyr</code> package for data manipulation, and the <code>ggplot2</code> package for making plots. We need to understand how R’s package system works to use these.</p>
 <p>Here’s the key point: Installing a package, and then loading and attaching the package, are different operations. We only have to install a package once onto our computer, but we have to load and attach the package every time we want to use it in a new R session (i.e. every time we start RStudio). If that doesn’t make any sense, revise the <a href="https://dzchilds.github.io/eda-for-bio/packages.html">package system</a> chapter Exploratory Data Analysis in R book.</p>
 <p>Installing a package can be done via the <code>install.packages</code> function, e.g. use this code to install the <strong>dplyr</strong> package:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="prerequisites.html#cb1-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;dplyr&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="prerequisites.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;dplyr&quot;</span>)</span></code></pre></div>
 <p>Alternatively, you can use RStudio’s menu interface via the packages tab in the bottom right window.</p>
 <p>Either way is fine. However, the <code>install.packages</code> route should be carried by typing the install commands directly into the Console (this is pretty much the only time we work this way). <strong>Do not leave <code>install.packages</code> statements in your R scripts.</strong> We only have to install a package once onto our computer to make it available. Because installing packages can be slow, we’d rather not do that every time we have to run a script.</p>
 <p>Loading and attaching a package so that it can actually be used happens via the <code>library</code> function, e.g.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="prerequisites.html#cb2-1"></a><span class="kw">library</span>(<span class="st">&quot;dplyr&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="prerequisites.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;dplyr&quot;</span>)</span></code></pre></div>
 <p>We do usually leave <code>library</code> statements at the beginning of scripts to ensure that all the package functions we need are available to the rest of the script.</p>
 </div>
 <div id="reading-data-into-r" class="section level2" number="3.3">
