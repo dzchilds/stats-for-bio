@@ -84,7 +84,7 @@ Return to the slug molluscicide exercise and rerun the analysis using `lm` and `
 Would a Tukey HSD test be appropriate here? Why?
 ```
 
-Regrdless of you answer to this question, carry out the Tukey HSD test on the movement rates of slugs following different doses of Slugit.
+Regardless of you answer to this question, carry out the Tukey HSD test on the movement rates of slugs following different doses of Slugit.
 
 ```{block, type='do-something'}
 **MOLE question**
