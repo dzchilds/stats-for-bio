@@ -16,18 +16,19 @@ A data set containing information about the sizes of Norway rat skulls in the pe
 As always start by loading the necessary packages.
 
 ```{r, message = FALSE, warning=FALSE}
+library(readr)
 library(dplyr)
 library(ggplot2)
 ```
 
-Set your working directory (using Session tab, Set working Directory, Choose Directory). This must be set to the folder containing the data set that you want to work with. Then read the data into R (remember to assign it a name).
+Either create an RStudio project or set your working directory to the folder containing the data set that you want to work with. Then read the data into R (remember to assign it a name):
 
 ```{r setup, include = FALSE}
 knitr::opts_knit$set(root.dir = "../data_csv")
 ```
 
 ```{r}
-rats <- read.csv("RATSKULL.CSV")  
+rats <- read_csv("RATSKULL.CSV")  
 ```
 
 Start by having a quick look at the data. How many variables are there? How many observations? Is the focal variable (`Weight`) on a ratio or interval scale? 

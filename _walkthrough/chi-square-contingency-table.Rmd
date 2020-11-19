@@ -12,8 +12,11 @@ The prey of eagle owls can be established by examination of the pellets containi
 These data are in the file EAGLES.CSV.
 
 ### First steps
-As always start by loading the necessary packages.
+
+As always start by loading the necessary packages:
+
 ```{r, message = FALSE, warning = FALSE}
+library(readr)
 library(dplyr)
 library(ggplot2)
 ```
@@ -22,13 +25,14 @@ library(ggplot2)
 knitr::opts_knit$set(root.dir = "../data_csv")
 ```
 
-Set your working directory (using Session tab, Set working Directory, Choose Directory). This must be set to the folder containing the data set that you want to work with. Then read the data into R (remember to assign it a name).
+Either create an RStudio project or set your working directory to the folder containing the data set that you want to work with. Then read the data into R (remember to assign it a name):
 
 ```{r}
-eagles <- read.csv("EAGLES.CSV")
+eagles <- read_csv("EAGLES.CSV")
 ```
 
 Have a look at the data using both `glimpse` and `View`- how are they organised? Remember that data for a $\chi^2$ contingency table can be formatted in multiple different ways. Here, the data are total counts.
+
 ```{r}
 glimpse(eagles)
 ```

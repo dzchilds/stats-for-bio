@@ -11,26 +11,27 @@ output:
 
 Garden slugs of the same species and approximately the same size were given either a full dose, a half strength dose, or a one tenth strength dose of a molluscicide (‘Slugit’) dissolved in water. A control group were treated with just water. The rate of movement of the slugs on a moist wooden board after treatment was recorded (cm per min). There were 8 replicate slugs for each treatment.
 
-The data are stored in a CSV file SLUGIT.CSV. The rate of movement is stored in the Distance variable and the treatment codes are in the SlugitTreat variable (levels: ‘full dose’, ‘half dose’, ‘one tenth dose’, ‘control’).
+The data are stored in a CSV file SLUGIT.CSV. The rate of movement is stored in the `Distance` variable and the treatment codes are in the  `SlugitTreat` variable (levels: ‘full dose’, ‘half dose’, ‘one tenth dose’, ‘control’).
 
 ### First steps
 
 As always start by loading the necessary packages.
 
 ```{r, message = FALSE, warning = FALSE}
+library(readr)
 library(dplyr)
 library(ggplot2)
 library(agricolae)
 ```
 
-Set your working directory (using Session tab, Set working Directory, Choose Directory). This must be set to the folder containing the data set that you want to work with. Then read the data into R (remember to assign it a name).
+Either create an RStudio project or set your working directory to the folder containing the data set that you want to work with. Then read the data into R (remember to assign it a name):
 
 ```{r setup, include = FALSE}
 knitr::opts_knit$set(root.dir = "../data_csv")
 ```
 
 ```{r}
-slug <- read.csv("SLUGIT.CSV")  
+slug <- read_csv("SLUGIT.CSV")  
 ```
 
 Start by having a quick look at the data. How many variables are there? How many observations? Is the focal variable (`Distance`) on a ratio or interval scale?
