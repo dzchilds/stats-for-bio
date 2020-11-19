@@ -139,17 +139,21 @@ Notice that some of the fitted values are below zero. Why do we see negative fit
 The linearity assumption states that the general relationship between the response and predictor variable should look like a straight line. We can evaluate this assumption by constructing a **residuals vs. fitted values** plot. 
 
 This is a two-step process. First use the `fitted` and `resid` functions to construct a data frame containing the fitted values and residuals from the model:
+
 ```{r}
 plt_data <- 
   data.frame(Fitted = fitted(partridge_model), 
              Resids =  resid(partridge_model))
 ```
+
 We called the data frame `plt_data`. Once we have made this data frame, we use `ggplot2` to plot the residuals against the fitted values:
+
 ```{r, fig.align='center', fig.asp=1, fig.width=4}
 ggplot(plt_data, aes(x = Fitted, y = Resids)) + 
   geom_point() + 
   xlab("Fitted values") + ylab("Residuals")
 ```
+
 This plot indicates that the residuals tend to be positive at the largest and smallest fitted values, and that they are generally negative in the middle of the range. This U-shaped pattern is indicative of a problem with our model. It tells us that there is some kind of pattern in the association between the two variables that is not being accommodated by the linear regression model we fitted. The U-shape indicates that the relationship is non-linear, and that it 'curves upward'. We can see where this pattern comes from when we look at the raw data and fitted model again:
 
 ```{r, , fig.align='center', fig.asp=1, fig.width=4, echo = FALSE}
