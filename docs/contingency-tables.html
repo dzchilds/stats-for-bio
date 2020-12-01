@@ -488,7 +488,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="24.1" data-path="data-transformations.html"><a href="data-transformations.html#transforms-introduction"><i class="fa fa-check"></i><b>24.1</b> Data that violate ANOVA assumptions</a></li>
 <li class="chapter" data-level="24.2" data-path="data-transformations.html"><a href="data-transformations.html#ant-eg"><i class="fa fa-check"></i><b>24.2</b> Data transformation: ANOVAs and <em>t</em>-tests</a>
 <ul>
-<li class="chapter" data-level="24.2.1" data-path="data-transformations.html"><a href="data-transformations.html#the-data-foraging-in-ants"><i class="fa fa-check"></i><b>24.2.1</b> The data: foraging in ants</a></li>
+<li class="chapter" data-level="24.2.1" data-path="data-transformations.html"><a href="data-transformations.html#the-dataforaging-in-ants"><i class="fa fa-check"></i><b>24.2.1</b> The data—foraging in ants</a></li>
 <li class="chapter" data-level="24.2.2" data-path="data-transformations.html"><a href="data-transformations.html#fit-the-model-and-checking-the-assumptions"><i class="fa fa-check"></i><b>24.2.2</b> Fit the model and checking the assumptions</a></li>
 </ul></li>
 <li class="chapter" data-level="24.3" data-path="data-transformations.html"><a href="data-transformations.html#carry-on"><i class="fa fa-check"></i><b>24.3</b> Carrying on anyway</a></li>
@@ -932,48 +932,52 @@ You should work through the example in this section.
 </p>
 </div>
 <p>Let’s carry on with the ladybird colour and habitat type example. You need to download three data sets to work through this section: LADYBIRDS1.CSV, LADYBIRDS2.CSV, and LADYBIRDS3.CSV. These all contain the same information—it is just organised differently in each case.</p>
-<p>Carrying out a <span class="math inline">\(\chi^{2}\)</span> contingency table test in R is very simple: we use the <code>chisq.test</code> function again. The only slight snag is that we have to ensure the data is formatted correctly before it can be used. Whenever we read data into R using <code>read.csv</code> we end up with a data frame. Unfortunately, the <code>chisq.test</code> function is one of the few statistical functions not designed to work with data frames. This means we first have to use a function called <code>xtabs</code> to construct something called a contingency table object.<a href="#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a>. The <code>xtabs</code> function does categorical ‘cross tabulation’<a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a>, i.e., it sums up the number of occurrences of different combinations of categories among variables.</p>
+<p>Carrying out a <span class="math inline">\(\chi^{2}\)</span> contingency table test in R is very simple: we use the <code>chisq.test</code> function again. The only slight snag is that we have to ensure the data is formatted correctly before it can be used. Whenever we read data into R using <code>read.csv</code> or <code>read_csv</code> we end up with a data frame. Unfortunately, the <code>chisq.test</code> function is one of the few statistical functions not designed to work with data frames. This means we first have to use a function called <code>xtabs</code> to construct something called a contingency table object.<a href="#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a>. The <code>xtabs</code> function does categorical ‘cross tabulation’<a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a>, i.e., it sums up the number of occurrences of different combinations of categories among variables.</p>
 <p>We’ll look at how to use <code>xtabs</code> before running through the actual test…</p>
 <div id="step-1.-getting-the-data-into-the-correct-format" class="section level3" number="32.3.1">
 <h3><span class="header-section-number">32.3.1</span> Step 1. Getting the data into the correct format</h3>
 <p>It is not difficult to use, but the precise usage of <code>xtabs</code> depends upon how the raw data are organised. We’ll examine the three main cases in turn.</p>
 <p><strong>Case 1…</strong></p>
 <p>Data suitable for analysis with a <span class="math inline">\(\chi^{2}\)</span> contingency table test are often represented in a data set with one column per categorical variable, and one row per observation. The <code>LADYBIRDS1.CSV</code> file contains the data in this format. Read it into an R data frame:</p>
-<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="contingency-tables.html#cb254-1" aria-hidden="true" tabindex="-1"></a>lady_bird_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&quot;LADYBIRDS1.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="contingency-tables.html#cb253-1" aria-hidden="true" tabindex="-1"></a>lady_bird_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">&quot;LADYBIRDS1.CSV&quot;</span>)</span></code></pre></div>
 <p>We called the data <code>lady_bird_df</code> to emphasise that they are stored in a data frame at this point. We can use <code>glimpse</code>, <code>head</code> and <code>tail</code> to get a sense of how the data are organised:</p>
-<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="contingency-tables.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(lady_bird_df)</span></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="contingency-tables.html#cb254-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(lady_bird_df)</span></code></pre></div>
 <pre><code>## Rows: 300
 ## Columns: 2
 ## $ Habitat &lt;chr&gt; &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;…
 ## $ Colour  &lt;chr&gt; &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;…</code></pre>
-<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="contingency-tables.html#cb257-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lady_bird_df, <span class="dv">10</span>)</span></code></pre></div>
-<pre><code>##    Habitat Colour
-## 1    Rural  Black
-## 2    Rural  Black
-## 3    Rural  Black
-## 4    Rural  Black
-## 5    Rural  Black
-## 6    Rural  Black
-## 7    Rural  Black
-## 8    Rural  Black
-## 9    Rural  Black
-## 10   Rural  Black</code></pre>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="contingency-tables.html#cb259-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(lady_bird_df, <span class="dv">10</span>)</span></code></pre></div>
-<pre><code>##        Habitat Colour
-## 291 Industrial    Red
-## 292 Industrial    Red
-## 293 Industrial    Red
-## 294 Industrial    Red
-## 295 Industrial    Red
-## 296 Industrial    Red
-## 297 Industrial    Red
-## 298 Industrial    Red
-## 299 Industrial    Red
-## 300 Industrial    Red</code></pre>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="contingency-tables.html#cb256-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lady_bird_df, <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 10 x 2
+##    Habitat Colour
+##    &lt;chr&gt;   &lt;chr&gt; 
+##  1 Rural   Black 
+##  2 Rural   Black 
+##  3 Rural   Black 
+##  4 Rural   Black 
+##  5 Rural   Black 
+##  6 Rural   Black 
+##  7 Rural   Black 
+##  8 Rural   Black 
+##  9 Rural   Black 
+## 10 Rural   Black</code></pre>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="contingency-tables.html#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(lady_bird_df, <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 10 x 2
+##    Habitat    Colour
+##    &lt;chr&gt;      &lt;chr&gt; 
+##  1 Industrial Red   
+##  2 Industrial Red   
+##  3 Industrial Red   
+##  4 Industrial Red   
+##  5 Industrial Red   
+##  6 Industrial Red   
+##  7 Industrial Red   
+##  8 Industrial Red   
+##  9 Industrial Red   
+## 10 Industrial Red</code></pre>
 <p>We only showed you the first and last 10 values—you should take a full look at the data with the <code>View</code> function. You will see that the data frame contains 300 rows—one for each ladybird—and two variables (<code>Habitat</code> and <code>Colour</code>). The two variables obviously contain the information about the categorisation of each ladybird in the sample.</p>
 <p>We require a two-way table that contains the total counts in each combination of categories. This is what <code>xtabs</code> does. It takes two arguments: the first is a formula (involving the <code>~</code> symbol) that specifies the required contingency table; the second is the name of the data frame containing the raw data. When working with data in the above format—one observation per row—we use a formula that only contains the names of the categorical variables on the right hand side of the <code>~</code> (i.e., <code>~ Habitat + Colour</code>):</p>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="contingency-tables.html#cb261-1" aria-hidden="true" tabindex="-1"></a>lady_bird_table <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Habitat <span class="sc">+</span> Colour, <span class="at">data =</span> lady_bird_df)</span>
-<span id="cb261-2"><a href="contingency-tables.html#cb261-2" aria-hidden="true" tabindex="-1"></a>lady_bird_table</span></code></pre></div>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="contingency-tables.html#cb260-1" aria-hidden="true" tabindex="-1"></a>lady_bird_table <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Habitat <span class="sc">+</span> Colour, <span class="at">data =</span> lady_bird_df)</span>
+<span id="cb260-2"><a href="contingency-tables.html#cb260-2" aria-hidden="true" tabindex="-1"></a>lady_bird_table</span></code></pre></div>
 <pre><code>##             Colour
 ## Habitat      Black Red
 ##   Industrial   115  85
@@ -981,39 +985,41 @@ You should work through the example in this section.
 <p>When used like this, <code>xtabs</code> will sum up the number of observations with different combinations of <code>Habitat</code> and <code>Colour</code>. We called the output <code>lady_bird_table</code> to emphasise that the data from <code>xtabs</code> are now stored in a contingency table. When we print this to the console we see that <code>lady_bird_table</code> does indeed refer to something that looks like a 2 x 2 contingency table of counts.</p>
 <p><strong>Case 2…</strong></p>
 <p>Sometimes data suitable for analysis with a <span class="math inline">\(\chi^{2}\)</span> contingency table test are partially summarised into counts. For example, imagine that we had visited five rural sites and five urban sites and recorded the numbers of red and black colour forms found at each site. Data in this format are stored in the <code>LADYBIRDS2.CSV</code> file. Read this into an R data frame and examine this with the <code>View</code> function:</p>
-<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="contingency-tables.html#cb263-1" aria-hidden="true" tabindex="-1"></a>lady_bird_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&quot;LADYBIRDS2.CSV&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="contingency-tables.html#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(lady_bird_df)</span></code></pre></div>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="contingency-tables.html#cb262-1" aria-hidden="true" tabindex="-1"></a>lady_bird_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">&quot;LADYBIRDS2.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="contingency-tables.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(lady_bird_df)</span></code></pre></div>
 <pre><code>## Rows: 20
 ## Columns: 4
 ## $ Habitat &lt;chr&gt; &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;, &quot;Rural&quot;…
 ## $ Site    &lt;chr&gt; &quot;R1&quot;, &quot;R2&quot;, &quot;R3&quot;, &quot;R4&quot;, &quot;R5&quot;, &quot;R1&quot;, &quot;R2&quot;, &quot;R3&quot;, &quot;R4&quot;, &quot;R5&quot;, &quot;…
 ## $ Colour  &lt;chr&gt; &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;, &quot;Black&quot;, &quot;Red&quot;, &quot;Red&quot;, &quot;R…
-## $ Number  &lt;int&gt; 10, 3, 4, 7, 6, 15, 18, 9, 12, 16, 32, 25, 25, 17, 16, 17, 23…</code></pre>
-<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="contingency-tables.html#cb266-1" aria-hidden="true" tabindex="-1"></a>lady_bird_df</span></code></pre></div>
-<pre><code>##       Habitat Site Colour Number
-## 1       Rural   R1  Black     10
-## 2       Rural   R2  Black      3
-## 3       Rural   R3  Black      4
-## 4       Rural   R4  Black      7
-## 5       Rural   R5  Black      6
-## 6       Rural   R1    Red     15
-## 7       Rural   R2    Red     18
-## 8       Rural   R3    Red      9
-## 9       Rural   R4    Red     12
-## 10      Rural   R5    Red     16
-## 11 Industrial   U1  Black     32
-## 12 Industrial   U2  Black     25
-## 13 Industrial   U3  Black     25
-## 14 Industrial   U4  Black     17
-## 15 Industrial   U5  Black     16
-## 16 Industrial   U1    Red     17
-## 17 Industrial   U2    Red     23
-## 18 Industrial   U3    Red     21
-## 19 Industrial   U4    Red      9
-## 20 Industrial   U5    Red     15</code></pre>
+## $ Number  &lt;dbl&gt; 10, 3, 4, 7, 6, 15, 18, 9, 12, 16, 32, 25, 25, 17, 16, 17, 23…</code></pre>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="contingency-tables.html#cb265-1" aria-hidden="true" tabindex="-1"></a>lady_bird_df</span></code></pre></div>
+<pre><code>## # A tibble: 20 x 4
+##    Habitat    Site  Colour Number
+##    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;
+##  1 Rural      R1    Black      10
+##  2 Rural      R2    Black       3
+##  3 Rural      R3    Black       4
+##  4 Rural      R4    Black       7
+##  5 Rural      R5    Black       6
+##  6 Rural      R1    Red        15
+##  7 Rural      R2    Red        18
+##  8 Rural      R3    Red         9
+##  9 Rural      R4    Red        12
+## 10 Rural      R5    Red        16
+## 11 Industrial U1    Black      32
+## 12 Industrial U2    Black      25
+## 13 Industrial U3    Black      25
+## 14 Industrial U4    Black      17
+## 15 Industrial U5    Black      16
+## 16 Industrial U1    Red        17
+## 17 Industrial U2    Red        23
+## 18 Industrial U3    Red        21
+## 19 Industrial U4    Red         9
+## 20 Industrial U5    Red        15</code></pre>
 <p>This time we printed at the whole dataset (it’s easier to use <code>View</code>, but that won’t render in this book). The counts at each site are in the <code>Number</code> variable, and the site identities are in the <code>Site</code> variable. We need to sum over the sites to get the total number within each combination of <code>Habitat</code> and <code>Colour</code>. We use <code>xtabs</code> again, but this time we have to tell it which variable to sum over:</p>
-<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="contingency-tables.html#cb268-1" aria-hidden="true" tabindex="-1"></a>lady_bird_table <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(Number <span class="sc">~</span> Habitat <span class="sc">+</span> Colour, <span class="at">data =</span> lady_bird_df)</span>
-<span id="cb268-2"><a href="contingency-tables.html#cb268-2" aria-hidden="true" tabindex="-1"></a>lady_bird_table</span></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="contingency-tables.html#cb267-1" aria-hidden="true" tabindex="-1"></a>lady_bird_table <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(Number <span class="sc">~</span> Habitat <span class="sc">+</span> Colour, <span class="at">data =</span> lady_bird_df)</span>
+<span id="cb267-2"><a href="contingency-tables.html#cb267-2" aria-hidden="true" tabindex="-1"></a>lady_bird_table</span></code></pre></div>
 <pre><code>##             Colour
 ## Habitat      Black Red
 ##   Industrial   115  85
@@ -1021,16 +1027,18 @@ You should work through the example in this section.
 <p>When working with data in this format—more than one observation per row—we use a formula where the name of the variable containing the counts is on left hand side of the <code>~</code>, and the names of the categorical variables to sum over are on the right hand side of the <code>~</code> (i.e., <code>Number ~ Habitat + Colour</code>). When used like this <code>xtabs</code> will sum up the counts associated with different combinations of <code>Habitat</code> and <code>Colour</code>. The <code>lady_bird_table</code> object produced by <code>xtabs</code> is no different than before. Good! These are the same data.</p>
 <p><strong>Case 3…</strong></p>
 <p>Data suitable for analysis with a <span class="math inline">\(\chi^{2}\)</span> contingency table test are sometimes already summarised into total counts. Data in this format are stored in the <code>LADYBIRDS3.CSV</code> file. Read this into an R data frame and print it to the console (it’s very small, so there’s no need to use <code>View</code>):</p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="contingency-tables.html#cb270-1" aria-hidden="true" tabindex="-1"></a>lady_bird_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&quot;LADYBIRDS3.CSV&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="contingency-tables.html#cb271-1" aria-hidden="true" tabindex="-1"></a>lady_bird_df</span></code></pre></div>
-<pre><code>##      Habitat Colour Number
-## 1 Industrial  Black    115
-## 2 Industrial    Red     85
-## 3      Rural  Black     30
-## 4      Rural    Red     70</code></pre>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="contingency-tables.html#cb269-1" aria-hidden="true" tabindex="-1"></a>lady_bird_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">&quot;LADYBIRDS3.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="contingency-tables.html#cb270-1" aria-hidden="true" tabindex="-1"></a>lady_bird_df</span></code></pre></div>
+<pre><code>## # A tibble: 4 x 3
+##   Habitat    Colour Number
+##   &lt;chr&gt;      &lt;chr&gt;   &lt;dbl&gt;
+## 1 Industrial Black     115
+## 2 Industrial Red        85
+## 3 Rural      Black      30
+## 4 Rural      Red        70</code></pre>
 <p>The total counts are already in the <code>Number</code> variable so there is no real need to sum over anything to get the total for each combination of <code>Habitat</code> and <code>Colour</code>. However, we still need to convert the data from a data frame to a contingency table. There are various ways to do this, but it is easiest to use <code>xtabs</code>. The R code is identical to the previous case:</p>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="contingency-tables.html#cb273-1" aria-hidden="true" tabindex="-1"></a>lady_bird_table <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(Number <span class="sc">~</span> Habitat <span class="sc">+</span> Colour, <span class="at">data =</span> lady_bird_df)</span>
-<span id="cb273-2"><a href="contingency-tables.html#cb273-2" aria-hidden="true" tabindex="-1"></a>lady_bird_table</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="contingency-tables.html#cb272-1" aria-hidden="true" tabindex="-1"></a>lady_bird_table <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(Number <span class="sc">~</span> Habitat <span class="sc">+</span> Colour, <span class="at">data =</span> lady_bird_df)</span>
+<span id="cb272-2"><a href="contingency-tables.html#cb272-2" aria-hidden="true" tabindex="-1"></a>lady_bird_table</span></code></pre></div>
 <pre><code>##             Colour
 ## Habitat      Black Red
 ##   Industrial   115  85
@@ -1040,7 +1048,7 @@ You should work through the example in this section.
 <div id="step-2.-doing-the-test" class="section level3" number="32.3.2">
 <h3><span class="header-section-number">32.3.2</span> Step 2. Doing the test</h3>
 <p>Once we have the data in the form of a contingency table the associated <span class="math inline">\(\chi^{2}\)</span> test of independence between the two categorical variables is easy to carry out with <code>chisq.test</code>:</p>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="contingency-tables.html#cb275-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(lady_bird_table)</span></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="contingency-tables.html#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(lady_bird_table)</span></code></pre></div>
 <pre><code>## 
 ## 	Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
 ## 
@@ -1057,7 +1065,7 @@ We need to know the degrees of freedom associated with the test: in a two-way <s
 </p>
 </div>
 <p>What was that “Yates’ continuity correction” all about? The reasoning behind using this correction is a bit beyond this course, but in a nutshell, it generates more reliable <em>p</em>-values under certain circumstances. By default, the <code>chisq.test</code> function applies this correction to all 2 x 2 contingency tables. We can force R to use the standard calculation by setting <code>correct = FALSE</code> if we want to:</p>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="contingency-tables.html#cb277-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(lady_bird_table, <span class="at">correct =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="contingency-tables.html#cb276-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(lady_bird_table, <span class="at">correct =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## 
 ## 	Pearson&#39;s Chi-squared test
 ## 

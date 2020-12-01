@@ -488,7 +488,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="24.1" data-path="data-transformations.html"><a href="data-transformations.html#transforms-introduction"><i class="fa fa-check"></i><b>24.1</b> Data that violate ANOVA assumptions</a></li>
 <li class="chapter" data-level="24.2" data-path="data-transformations.html"><a href="data-transformations.html#ant-eg"><i class="fa fa-check"></i><b>24.2</b> Data transformation: ANOVAs and <em>t</em>-tests</a>
 <ul>
-<li class="chapter" data-level="24.2.1" data-path="data-transformations.html"><a href="data-transformations.html#the-data-foraging-in-ants"><i class="fa fa-check"></i><b>24.2.1</b> The data: foraging in ants</a></li>
+<li class="chapter" data-level="24.2.1" data-path="data-transformations.html"><a href="data-transformations.html#the-dataforaging-in-ants"><i class="fa fa-check"></i><b>24.2.1</b> The data—foraging in ants</a></li>
 <li class="chapter" data-level="24.2.2" data-path="data-transformations.html"><a href="data-transformations.html#fit-the-model-and-checking-the-assumptions"><i class="fa fa-check"></i><b>24.2.2</b> Fit the model and checking the assumptions</a></li>
 </ul></li>
 <li class="chapter" data-level="24.3" data-path="data-transformations.html"><a href="data-transformations.html#carry-on"><i class="fa fa-check"></i><b>24.3</b> Carrying on anyway</a></li>
@@ -904,11 +904,11 @@ You should work through the example from here.
 </p>
 </div>
 <p>The data from the damselfly experiment are in a file called DAMSELS.CSV.</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="anova-for-randomised-block-designs.html#cb116-1" aria-hidden="true" tabindex="-1"></a>damsels <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;./DAMSELS.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="anova-for-randomised-block-designs.html#cb116-1" aria-hidden="true" tabindex="-1"></a>damsels <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;./DAMSELS.CSV&quot;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="anova-for-randomised-block-designs.html#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(damsels)</span></code></pre></div>
 <pre><code>## Rows: 12
 ## Columns: 3
-## $ Midge   &lt;int&gt; 304, 464, 320, 578, 509, 458, 680, 740, 630, 356, 390, 350
+## $ Midge   &lt;dbl&gt; 304, 464, 320, 578, 509, 458, 680, 740, 630, 356, 390, 350
 ## $ Species &lt;chr&gt; &quot;Enallagma&quot;, &quot;Lestes&quot;, &quot;Pyrrhosoma&quot;, &quot;Enallagma&quot;, &quot;Lestes&quot;, &quot;…
 ## $ Block   &lt;chr&gt; &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;C&quot;, &quot;C&quot;, &quot;C&quot;, &quot;D&quot;, &quot;D&quot;, &quot;D&quot;</code></pre>
 <p>The density of midge larvae in each enclosure, after running the experiment for 3 weeks, are in the <code>Midge</code> variable (number m<span class="math inline">\(^{-2}\)</span>); codes for species in the <code>Species</code> variable (levels: <em>Enallagma</em>, <em>Lestes</em> and <em>Pyrrhosoma</em>), and the block identities (A, B, C, D) in the third column.</p>
