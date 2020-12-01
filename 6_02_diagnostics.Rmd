@@ -1,4 +1,4 @@
-# Using regression diagnostics {#regression-diagnostics}
+# Regression diagnostics in R {#regression-diagnostics}
 
 ## Introduction 
 
