@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 23 Using regression diagnostics | APS 240: Data Analysis and Statistics with R</title>
+  <title>Chapter 23 Regression diagnostics in R | APS 240: Data Analysis and Statistics with R</title>
   <meta name="description" content="Course book for Data Analysis and Statistics with R (APS 240) in the Department of Animal and Plant Sciences, University of Sheffield" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 23 Using regression diagnostics | APS 240: Data Analysis and Statistics with R" />
+  <meta property="og:title" content="Chapter 23 Regression diagnostics in R | APS 240: Data Analysis and Statistics with R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="dzchilds/stats-for-bio" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 23 Using regression diagnostics | APS 240: Data Analysis and Statistics with R" />
+  <meta name="twitter:title" content="Chapter 23 Regression diagnostics in R | APS 240: Data Analysis and Statistics with R" />
   
   <meta name="twitter:description" content="Course book for Data Analysis and Statistics with R (APS 240) in the Department of Animal and Plant Sciences, University of Sheffield" />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Dylan Z. Childs, Bethan J. Hindle and Philip H. Warren" />
 
 
-<meta name="date" content="2020-11-19" />
+<meta name="date" content="2020-12-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="assumptions-diagnostics.html"/>
 <link rel="next" href="data-transformations.html"/>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,7 +51,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <style type="text/css">
@@ -79,19 +79,22 @@
 </style>
 
 
+
+
+
+
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -111,7 +114,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -160,9 +163,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">APS 240</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Course information and overview</a><ul>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Course information and overview</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-data-analysis"><i class="fa fa-check"></i><b>1.1</b> Why do a data analysis course?</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#overview"><i class="fa fa-check"></i><b>1.2</b> Course overview</a><ul>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#overview"><i class="fa fa-check"></i><b>1.2</b> Course overview</a>
+<ul>
 <li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#aims"><i class="fa fa-check"></i><b>1.2.1</b> Aims</a></li>
 <li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#objectives"><i class="fa fa-check"></i><b>1.2.2</b> Objectives</a></li>
 <li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#assumed-background"><i class="fa fa-check"></i><b>1.2.3</b> Assumed background</a></li>
@@ -170,7 +175,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.2.5" data-path="index.html"><a href="index.html#what-do-you-need-to-learn"><i class="fa fa-check"></i><b>1.2.5</b> What do you need to learn?</a></li>
 <li class="chapter" data-level="1.2.6" data-path="index.html"><a href="index.html#what-is-required-of-you"><i class="fa fa-check"></i><b>1.2.6</b> What is required of you?</a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#how-to-use-the-teaching-material"><i class="fa fa-check"></i><b>1.3</b> How to use the teaching material</a><ul>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#how-to-use-the-teaching-material"><i class="fa fa-check"></i><b>1.3</b> How to use the teaching material</a>
+<ul>
 <li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#printed-material"><i class="fa fa-check"></i><b>1.3.1</b> The online course book</a></li>
 <li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#how-to-make-best-use-of-it"><i class="fa fa-check"></i><b>1.3.2</b> How to make best use of the teaching material</a></li>
 <li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#conventions"><i class="fa fa-check"></i><b>1.3.3</b> Conventions used in the course material</a></li>
@@ -179,7 +185,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#health-and-safety"><i class="fa fa-check"></i><b>1.4</b> Health and safety using display screen equipment</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="expected-learning.html"><a href="expected-learning.html"><i class="fa fa-check"></i><b>2</b> Expected learning outcomes</a><ul>
+<li class="chapter" data-level="2" data-path="expected-learning.html"><a href="expected-learning.html"><i class="fa fa-check"></i><b>2</b> Expected learning outcomes</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="expected-learning.html"><a href="expected-learning.html#collecting-and-using-data"><i class="fa fa-check"></i><b>2.1</b> Collecting and using data</a></li>
 <li class="chapter" data-level="2.2" data-path="expected-learning.html"><a href="expected-learning.html#statistical-concepts"><i class="fa fa-check"></i><b>2.2</b> Statistical Concepts</a></li>
 <li class="chapter" data-level="2.3" data-path="expected-learning.html"><a href="expected-learning.html#simple-parametric-statistics"><i class="fa fa-check"></i><b>2.3</b> Simple parametric statistics</a></li>
@@ -189,14 +196,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.7" data-path="expected-learning.html"><a href="expected-learning.html#beyond-simple-models"><i class="fa fa-check"></i><b>2.7</b> Beyond simple models</a></li>
 <li class="chapter" data-level="2.8" data-path="expected-learning.html"><a href="expected-learning.html#frequency-data-and-non-parameteric-tests"><i class="fa fa-check"></i><b>2.8</b> Frequency data and non-parameteric tests</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>3</b> Programming prerequisites</a><ul>
+<li class="chapter" data-level="3" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>3</b> Programming prerequisites</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="prerequisites.html"><a href="prerequisites.html#starting-a-learnr-tutorial"><i class="fa fa-check"></i><b>3.1</b> Starting a <strong>learnr</strong> tutorial</a></li>
 <li class="chapter" data-level="3.2" data-path="prerequisites.html"><a href="prerequisites.html#using-packages"><i class="fa fa-check"></i><b>3.2</b> Using packages</a></li>
 <li class="chapter" data-level="3.3" data-path="prerequisites.html"><a href="prerequisites.html#reading-data-into-r"><i class="fa fa-check"></i><b>3.3</b> Reading data into R</a></li>
 </ul></li>
 <li class="part"><span><b>I Collecting and Using Data</b></span></li>
-<li class="chapter" data-level="4" data-path="scientific-process.html"><a href="scientific-process.html"><i class="fa fa-check"></i><b>4</b> The scientific process</a><ul>
-<li class="chapter" data-level="4.1" data-path="scientific-process.html"><a href="scientific-process.html#stages-scientific-process"><i class="fa fa-check"></i><b>4.1</b> Stages in the scientific process</a><ul>
+<li class="chapter" data-level="4" data-path="scientific-process.html"><a href="scientific-process.html"><i class="fa fa-check"></i><b>4</b> The scientific process</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="scientific-process.html"><a href="scientific-process.html#stages-scientific-process"><i class="fa fa-check"></i><b>4.1</b> Stages in the scientific process</a>
+<ul>
 <li class="chapter" data-level="4.1.1" data-path="scientific-process.html"><a href="scientific-process.html#stages-observations"><i class="fa fa-check"></i><b>4.1.1</b> Observations</a></li>
 <li class="chapter" data-level="4.1.2" data-path="scientific-process.html"><a href="scientific-process.html#stages-questions"><i class="fa fa-check"></i><b>4.1.2</b> Questions</a></li>
 <li class="chapter" data-level="4.1.3" data-path="scientific-process.html"><a href="scientific-process.html#stages-hypotheses"><i class="fa fa-check"></i><b>4.1.3</b> Hypotheses</a></li>
@@ -206,9 +216,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.3" data-path="scientific-process.html"><a href="scientific-process.html#hypothesis-testing"><i class="fa fa-check"></i><b>4.3</b> Hypothesis testing</a></li>
 <li class="chapter" data-level="4.4" data-path="scientific-process.html"><a href="scientific-process.html#are-we-sure"><i class="fa fa-check"></i><b>4.4</b> Don’t we ever know anything for sure?</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="data-variables.html"><a href="data-variables.html"><i class="fa fa-check"></i><b>5</b> Data and variables</a><ul>
+<li class="chapter" data-level="5" data-path="data-variables.html"><a href="data-variables.html"><i class="fa fa-check"></i><b>5</b> Data and variables</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="data-variables.html"><a href="data-variables.html#observations-on-material-and-obvious-things"><i class="fa fa-check"></i><b>5.1</b> “Observations on material and obvious things”</a></li>
-<li class="chapter" data-level="5.2" data-path="data-variables.html"><a href="data-variables.html#var-types"><i class="fa fa-check"></i><b>5.2</b> Revision: Types of variable</a><ul>
+<li class="chapter" data-level="5.2" data-path="data-variables.html"><a href="data-variables.html#var-types"><i class="fa fa-check"></i><b>5.2</b> Revision: Types of variable</a>
+<ul>
 <li class="chapter" data-level="5.2.1" data-path="data-variables.html"><a href="data-variables.html#nominal-categorical-variables"><i class="fa fa-check"></i><b>5.2.1</b> Nominal (categorical) variables</a></li>
 <li class="chapter" data-level="5.2.2" data-path="data-variables.html"><a href="data-variables.html#ordinal-categorical-data"><i class="fa fa-check"></i><b>5.2.2</b> Ordinal (categorical) data</a></li>
 <li class="chapter" data-level="5.2.3" data-path="data-variables.html"><a href="data-variables.html#ratio-scale-numeric-variables"><i class="fa fa-check"></i><b>5.2.3</b> Ratio scale (numeric) variables</a></li>
@@ -216,100 +228,123 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2.5" data-path="data-variables.html"><a href="data-variables.html#why-does-the-distinction-matter"><i class="fa fa-check"></i><b>5.2.5</b> Why does the distinction matter?</a></li>
 <li class="chapter" data-level="5.2.6" data-path="data-variables.html"><a href="data-variables.html#which-is-best"><i class="fa fa-check"></i><b>5.2.6</b> Which is best?</a></li>
 </ul></li>
-<li class="chapter" data-level="5.3" data-path="data-variables.html"><a href="data-variables.html#accuracy-precision"><i class="fa fa-check"></i><b>5.3</b> Accuracy and precision</a><ul>
+<li class="chapter" data-level="5.3" data-path="data-variables.html"><a href="data-variables.html#accuracy-precision"><i class="fa fa-check"></i><b>5.3</b> Accuracy and precision</a>
+<ul>
 <li class="chapter" data-level="5.3.1" data-path="data-variables.html"><a href="data-variables.html#what-do-they-mean"><i class="fa fa-check"></i><b>5.3.1</b> What do they mean?</a></li>
 <li class="chapter" data-level="5.3.2" data-path="data-variables.html"><a href="data-variables.html#implied-precision-significant-figures"><i class="fa fa-check"></i><b>5.3.2</b> Implied precision – significant figures</a></li>
 <li class="chapter" data-level="5.3.3" data-path="data-variables.html"><a href="data-variables.html#how-precise-should-measurements-be"><i class="fa fa-check"></i><b>5.3.3</b> How precise should measurements be?</a></li>
 <li class="chapter" data-level="5.3.4" data-path="data-variables.html"><a href="data-variables.html#error-bias-and-prejudice"><i class="fa fa-check"></i><b>5.3.4</b> Error, bias and prejudice</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="learning-from-data.html"><a href="learning-from-data.html"><i class="fa fa-check"></i><b>6</b> Learning from data</a><ul>
+<li class="chapter" data-level="6" data-path="learning-from-data.html"><a href="learning-from-data.html"><i class="fa fa-check"></i><b>6</b> Learning from data</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="learning-from-data.html"><a href="learning-from-data.html#populations"><i class="fa fa-check"></i><b>6.1</b> Populations</a></li>
 <li class="chapter" data-level="6.2" data-path="learning-from-data.html"><a href="learning-from-data.html#learning-about-populations"><i class="fa fa-check"></i><b>6.2</b> Learning about populations</a></li>
 <li class="chapter" data-level="6.3" data-path="learning-from-data.html"><a href="learning-from-data.html#morph-example"><i class="fa fa-check"></i><b>6.3</b> A simple example</a></li>
 <li class="chapter" data-level="6.4" data-path="learning-from-data.html"><a href="learning-from-data.html#now-what"><i class="fa fa-check"></i><b>6.4</b> Now what?</a></li>
 </ul></li>
 <li class="part"><span><b>II Statistical Concepts</b></span></li>
-<li class="chapter" data-level="7" data-path="sampling-error.html"><a href="sampling-error.html"><i class="fa fa-check"></i><b>7</b> Sampling error</a><ul>
+<li class="chapter" data-level="7" data-path="sampling-error.html"><a href="sampling-error.html"><i class="fa fa-check"></i><b>7</b> Sampling error</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="sampling-error.html"><a href="sampling-error.html#sampling-error-1"><i class="fa fa-check"></i><b>7.1</b> Sampling error</a></li>
 <li class="chapter" data-level="7.2" data-path="sampling-error.html"><a href="sampling-error.html#sampling-distributions"><i class="fa fa-check"></i><b>7.2</b> Sampling distributions</a></li>
 <li class="chapter" data-level="7.3" data-path="sampling-error.html"><a href="sampling-error.html#the-effect-of-sample-size"><i class="fa fa-check"></i><b>7.3</b> The effect of sample size</a></li>
 <li class="chapter" data-level="7.4" data-path="sampling-error.html"><a href="sampling-error.html#the-standard-error"><i class="fa fa-check"></i><b>7.4</b> The standard error</a></li>
 <li class="chapter" data-level="7.5" data-path="sampling-error.html"><a href="sampling-error.html#what-is-the-point-of-all-this"><i class="fa fa-check"></i><b>7.5</b> What is the point of all this?</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="statistical-significance-and-p-values.html"><a href="statistical-significance-and-p-values.html"><i class="fa fa-check"></i><b>8</b> Statistical significance and <em>p</em>-values</a><ul>
-<li class="chapter" data-level="8.1" data-path="statistical-significance-and-p-values.html"><a href="statistical-significance-and-p-values.html#bootstrap"><i class="fa fa-check"></i><b>8.1</b> Estimating a sampling distribution</a><ul>
+<li class="chapter" data-level="8" data-path="statistical-significance-and-p-values.html"><a href="statistical-significance-and-p-values.html"><i class="fa fa-check"></i><b>8</b> Statistical significance and <em>p</em>-values</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="statistical-significance-and-p-values.html"><a href="statistical-significance-and-p-values.html#bootstrap"><i class="fa fa-check"></i><b>8.1</b> Estimating a sampling distribution</a>
+<ul>
 <li class="chapter" data-level="8.1.1" data-path="statistical-significance-and-p-values.html"><a href="statistical-significance-and-p-values.html#bootstrap-overview"><i class="fa fa-check"></i><b>8.1.1</b> Overview of bootstrapping</a></li>
 <li class="chapter" data-level="8.1.2" data-path="statistical-significance-and-p-values.html"><a href="statistical-significance-and-p-values.html#doing-it-for-real"><i class="fa fa-check"></i><b>8.1.2</b> Doing it for real</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="statistical-significance-and-p-values.html"><a href="statistical-significance-and-p-values.html#statistical-significance"><i class="fa fa-check"></i><b>8.2</b> Statistical significance</a><ul>
+<li class="chapter" data-level="8.2" data-path="statistical-significance-and-p-values.html"><a href="statistical-significance-and-p-values.html#statistical-significance"><i class="fa fa-check"></i><b>8.2</b> Statistical significance</a>
+<ul>
 <li class="chapter" data-level="" data-path="statistical-significance-and-p-values.html"><a href="statistical-significance-and-p-values.html#carrying-out-the-assessment"><i class="fa fa-check"></i>Carrying out the assessment</a></li>
 <li class="chapter" data-level="" data-path="statistical-significance-and-p-values.html"><a href="statistical-significance-and-p-values.html#interpreting-the-p-value"><i class="fa fa-check"></i>Interpreting the p-value</a></li>
 </ul></li>
 <li class="chapter" data-level="8.3" data-path="statistical-significance-and-p-values.html"><a href="statistical-significance-and-p-values.html#concluding-remarks"><i class="fa fa-check"></i><b>8.3</b> Concluding remarks</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="statistical-comparisons.html"><a href="statistical-comparisons.html"><i class="fa fa-check"></i><b>9</b> Statistical comparisons</a><ul>
-<li class="chapter" data-level="9.1" data-path="statistical-comparisons.html"><a href="statistical-comparisons.html#making-comparisons"><i class="fa fa-check"></i><b>9.1</b> Making comparisons</a><ul>
+<li class="chapter" data-level="9" data-path="statistical-comparisons.html"><a href="statistical-comparisons.html"><i class="fa fa-check"></i><b>9</b> Statistical comparisons</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="statistical-comparisons.html"><a href="statistical-comparisons.html#making-comparisons"><i class="fa fa-check"></i><b>9.1</b> Making comparisons</a>
+<ul>
 <li class="chapter" data-level="9.1.1" data-path="statistical-comparisons.html"><a href="statistical-comparisons.html#morph-weights-eg"><i class="fa fa-check"></i><b>9.1.1</b> A new example</a></li>
 <li class="chapter" data-level="9.1.2" data-path="statistical-comparisons.html"><a href="statistical-comparisons.html#examine-the-data"><i class="fa fa-check"></i><b>9.1.2</b> Examine the data</a></li>
 </ul></li>
-<li class="chapter" data-level="9.2" data-path="statistical-comparisons.html"><a href="statistical-comparisons.html#constructing-a-test"><i class="fa fa-check"></i><b>9.2</b> Constructing a test</a><ul>
+<li class="chapter" data-level="9.2" data-path="statistical-comparisons.html"><a href="statistical-comparisons.html#constructing-a-test"><i class="fa fa-check"></i><b>9.2</b> Constructing a test</a>
+<ul>
 <li class="chapter" data-level="9.2.1" data-path="statistical-comparisons.html"><a href="statistical-comparisons.html#permutation-tests"><i class="fa fa-check"></i><b>9.2.1</b> Permutation tests</a></li>
 <li class="chapter" data-level="9.2.2" data-path="statistical-comparisons.html"><a href="statistical-comparisons.html#carrying-out-a-permutation-test"><i class="fa fa-check"></i><b>9.2.2</b> Carrying out a permutation test</a></li>
 <li><a href="statistical-comparisons.html#calculating-the-p-value">Calculating the <em>p</em>-value</a></li>
 </ul></li>
 <li class="chapter" data-level="9.3" data-path="statistical-comparisons.html"><a href="statistical-comparisons.html#what-have-we-learned"><i class="fa fa-check"></i><b>9.3</b> What have we learned?</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html"><i class="fa fa-check"></i><b>10</b> Hypotheses and <em>p</em>-values</a><ul>
-<li class="chapter" data-level="10.1" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#a-few-words-about-the-null-hypothesis"><i class="fa fa-check"></i><b>10.1</b> A few words about the null hypothesis</a><ul>
+<li class="chapter" data-level="10" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html"><i class="fa fa-check"></i><b>10</b> Hypotheses and <em>p</em>-values</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#a-few-words-about-the-null-hypothesis"><i class="fa fa-check"></i><b>10.1</b> A few words about the null hypothesis</a>
+<ul>
 <li class="chapter" data-level="10.1.1" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#hypotheses-and-null-hypotheses"><i class="fa fa-check"></i><b>10.1.1</b> Hypotheses and null hypotheses</a></li>
 <li class="chapter" data-level="10.1.2" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#report-the-null-hypothesis"><i class="fa fa-check"></i><b>10.1.2</b> Report the null hypothesis?</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#interpreting-and-reporting-p-values"><i class="fa fa-check"></i><b>10.2</b> Interpreting and reporting <em>p</em>-values</a><ul>
+<li class="chapter" data-level="10.2" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#interpreting-and-reporting-p-values"><i class="fa fa-check"></i><b>10.2</b> Interpreting and reporting <em>p</em>-values</a>
+<ul>
 <li class="chapter" data-level="10.2.1" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#careful-with-those-p-values"><i class="fa fa-check"></i><b>10.2.1</b> Careful with those <em>p</em>-values</a></li>
 <li class="chapter" data-level="10.2.2" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#presenting-p-values"><i class="fa fa-check"></i><b>10.2.2</b> Presenting <em>p</em>-values</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="hypotheses-and-p-values.html"><a href="hypotheses-and-p-values.html#biological-vs.-statistical-significance"><i class="fa fa-check"></i><b>10.3</b> Biological vs. statistical significance</a></li>
 </ul></li>
 <li class="part"><span><b>III Simple Statistics</b></span></li>
-<li class="chapter" data-level="11" data-path="parametric-statistics.html"><a href="parametric-statistics.html"><i class="fa fa-check"></i><b>11</b> Parametric statistics</a><ul>
+<li class="chapter" data-level="11" data-path="parametric-statistics.html"><a href="parametric-statistics.html"><i class="fa fa-check"></i><b>11</b> Parametric statistics</a>
+<ul>
 <li class="chapter" data-level="11.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>11.1</b> Introduction</a></li>
 <li class="chapter" data-level="11.2" data-path="parametric-statistics.html"><a href="parametric-statistics.html#math-models"><i class="fa fa-check"></i><b>11.2</b> Mathematical models</a></li>
-<li class="chapter" data-level="11.3" data-path="parametric-statistics.html"><a href="parametric-statistics.html#parametric-stats"><i class="fa fa-check"></i><b>11.3</b> The normal distribution</a><ul>
+<li class="chapter" data-level="11.3" data-path="parametric-statistics.html"><a href="parametric-statistics.html#parametric-stats"><i class="fa fa-check"></i><b>11.3</b> The normal distribution</a>
+<ul>
 <li class="chapter" data-level="11.3.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#standard-error-of-the-mean"><i class="fa fa-check"></i><b>11.3.1</b> Standard error of the mean</a></li>
 <li class="chapter" data-level="11.3.2" data-path="parametric-statistics.html"><a href="parametric-statistics.html#the-t-distribution"><i class="fa fa-check"></i><b>11.3.2</b> The <em>t</em> distribution</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html"><i class="fa fa-check"></i><b>12</b> One sample <em>t</em>-tests</a><ul>
+<li class="chapter" data-level="12" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html"><i class="fa fa-check"></i><b>12</b> One sample <em>t</em>-tests</a>
+<ul>
 <li class="chapter" data-level="12.1" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#when-do-we-use-one-sample-t-test"><i class="fa fa-check"></i><b>12.1</b> When do we use one-sample <em>t</em>-test?</a></li>
-<li class="chapter" data-level="12.2" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#how-does-the-one-sample-t-test-work"><i class="fa fa-check"></i><b>12.2</b> How does the one-sample <em>t</em>-test work?</a><ul>
+<li class="chapter" data-level="12.2" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#how-does-the-one-sample-t-test-work"><i class="fa fa-check"></i><b>12.2</b> How does the one-sample <em>t</em>-test work?</a>
+<ul>
 <li class="chapter" data-level="12.2.1" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#assumptions-of-the-one-sample-t-test"><i class="fa fa-check"></i><b>12.2.1</b> Assumptions of the one-sample <em>t</em>-test</a></li>
 <li class="chapter" data-level="12.2.2" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#evaluating-the-assumptions"><i class="fa fa-check"></i><b>12.2.2</b> Evaluating the assumptions</a></li>
 </ul></li>
-<li class="chapter" data-level="12.3" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#carrying-out-a-one-sample-t-test-in-r"><i class="fa fa-check"></i><b>12.3</b> Carrying out a one-sample <em>t</em>-test in R</a><ul>
+<li class="chapter" data-level="12.3" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#carrying-out-a-one-sample-t-test-in-r"><i class="fa fa-check"></i><b>12.3</b> Carrying out a one-sample <em>t</em>-test in R</a>
+<ul>
 <li class="chapter" data-level="12.3.1" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#visualising-the-data-and-checking-the-assumptions"><i class="fa fa-check"></i><b>12.3.1</b> Visualising the data and checking the assumptions</a></li>
 <li class="chapter" data-level="12.3.2" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#carrying-out-the-test"><i class="fa fa-check"></i><b>12.3.2</b> Carrying out the test</a></li>
 <li class="chapter" data-level="12.3.3" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#summarising-the-result"><i class="fa fa-check"></i><b>12.3.3</b> Summarising the result</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html"><i class="fa fa-check"></i><b>13</b> Two-sample <em>t</em>-test</a><ul>
+<li class="chapter" data-level="13" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html"><i class="fa fa-check"></i><b>13</b> Two-sample <em>t</em>-test</a>
+<ul>
 <li class="chapter" data-level="13.1" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#when-do-we-use-a-two-sample-t-test"><i class="fa fa-check"></i><b>13.1</b> When do we use a two-sample <em>t</em>-test?</a></li>
-<li class="chapter" data-level="13.2" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#how-does-the-two-sample-t-test-work"><i class="fa fa-check"></i><b>13.2</b> How does the two-sample <em>t</em>-test work?</a><ul>
+<li class="chapter" data-level="13.2" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#how-does-the-two-sample-t-test-work"><i class="fa fa-check"></i><b>13.2</b> How does the two-sample <em>t</em>-test work?</a>
+<ul>
 <li class="chapter" data-level="13.2.1" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#assumptions-of-the-two-sample-t-test"><i class="fa fa-check"></i><b>13.2.1</b> Assumptions of the two-sample <em>t</em>-test</a></li>
 <li class="chapter" data-level="13.2.2" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#evaluating-the-assumptions"><i class="fa fa-check"></i><b>13.2.2</b> Evaluating the assumptions</a></li>
 <li class="chapter" data-level="13.2.3" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#what-about-the-equal-variance-assumption"><i class="fa fa-check"></i><b>13.2.3</b> What about the <em>equal variance</em> assumption?</a></li>
 </ul></li>
-<li class="chapter" data-level="13.3" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#carrying-out-a-two-sample-t-test-in-r"><i class="fa fa-check"></i><b>13.3</b> Carrying out a two-sample <em>t</em>-test in R</a><ul>
+<li class="chapter" data-level="13.3" data-path="two-sample-t-test.html"><a href="two-sample-t-test.html#carrying-out-a-two-sample-t-test-in-r"><i class="fa fa-check"></i><b>13.3</b> Carrying out a two-sample <em>t</em>-test in R</a>
+<ul>
 <li class="chapter" data-level="13.3.1" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#visualising-the-data-and-checking-the-assumptions"><i class="fa fa-check"></i><b>13.3.1</b> Visualising the data and checking the assumptions</a></li>
 <li class="chapter" data-level="13.3.2" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#carrying-out-the-test"><i class="fa fa-check"></i><b>13.3.2</b> Carrying out the test</a></li>
 <li class="chapter" data-level="13.3.3" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#summarising-the-result"><i class="fa fa-check"></i><b>13.3.3</b> Summarising the result</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="a-correlation-test.html"><a href="a-correlation-test.html"><i class="fa fa-check"></i><b>14</b> A correlation test</a><ul>
-<li class="chapter" data-level="14.1" data-path="a-correlation-test.html"><a href="a-correlation-test.html#pearsons-product-moment-correlation"><i class="fa fa-check"></i><b>14.1</b> Pearson’s product-moment correlation</a><ul>
+<li class="chapter" data-level="14" data-path="a-correlation-test.html"><a href="a-correlation-test.html"><i class="fa fa-check"></i><b>14</b> A correlation test</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="a-correlation-test.html"><a href="a-correlation-test.html#pearsons-product-moment-correlation"><i class="fa fa-check"></i><b>14.1</b> Pearson’s product-moment correlation</a>
+<ul>
 <li class="chapter" data-level="14.1.1" data-path="a-correlation-test.html"><a href="a-correlation-test.html#pearsons-correlation-test"><i class="fa fa-check"></i><b>14.1.1</b> Pearson’s correlation test</a></li>
 </ul></li>
-<li class="chapter" data-level="14.2" data-path="a-correlation-test.html"><a href="a-correlation-test.html#pearsons-product-moment-correlation-coefficient-in-r"><i class="fa fa-check"></i><b>14.2</b> Pearson’s product-moment correlation coefficient in R</a><ul>
+<li class="chapter" data-level="14.2" data-path="a-correlation-test.html"><a href="a-correlation-test.html#pearsons-product-moment-correlation-coefficient-in-r"><i class="fa fa-check"></i><b>14.2</b> Pearson’s product-moment correlation coefficient in R</a>
+<ul>
 <li class="chapter" data-level="14.2.1" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#visualising-the-data-and-checking-the-assumptions"><i class="fa fa-check"></i><b>14.2.1</b> Visualising the data and checking the assumptions</a></li>
 <li class="chapter" data-level="14.2.2" data-path="a-correlation-test.html"><a href="a-correlation-test.html#doing-the-test"><i class="fa fa-check"></i><b>14.2.2</b> Doing the test</a></li>
 <li class="chapter" data-level="14.2.3" data-path="a-correlation-test.html"><a href="a-correlation-test.html#reporting-the-result"><i class="fa fa-check"></i><b>14.2.3</b> Reporting the result</a></li>
@@ -317,46 +352,57 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.3" data-path="a-correlation-test.html"><a href="a-correlation-test.html#next-steps"><i class="fa fa-check"></i><b>14.3</b> Next steps</a></li>
 </ul></li>
 <li class="part"><span><b>IV Regression and ANOVA</b></span></li>
-<li class="chapter" data-level="15" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html"><i class="fa fa-check"></i><b>15</b> Relationships and regression</a><ul>
+<li class="chapter" data-level="15" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html"><i class="fa fa-check"></i><b>15</b> Relationships and regression</a>
+<ul>
 <li class="chapter" data-level="15.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>15.1</b> Introduction</a></li>
 <li class="chapter" data-level="15.2" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#what-does-linear-regression-do"><i class="fa fa-check"></i><b>15.2</b> What does linear regression do?</a></li>
-<li class="chapter" data-level="15.3" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#how-does-simple-linear-regression-work"><i class="fa fa-check"></i><b>15.3</b> How does simple linear regression work?</a><ul>
+<li class="chapter" data-level="15.3" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#how-does-simple-linear-regression-work"><i class="fa fa-check"></i><b>15.3</b> How does simple linear regression work?</a>
+<ul>
 <li class="chapter" data-level="15.3.1" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#finding-the-best-fit-line"><i class="fa fa-check"></i><b>15.3.1</b> Finding the best fit line</a></li>
 </ul></li>
-<li class="chapter" data-level="15.4" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#what-do-you-get-out-of-a-regression"><i class="fa fa-check"></i><b>15.4</b> What do you get out of a regression?</a><ul>
+<li class="chapter" data-level="15.4" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#what-do-you-get-out-of-a-regression"><i class="fa fa-check"></i><b>15.4</b> What do you get out of a regression?</a>
+<ul>
 <li class="chapter" data-level="15.4.1" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#interpreting-a-regression"><i class="fa fa-check"></i><b>15.4.1</b> Interpreting a regression</a></li>
 <li class="chapter" data-level="15.4.2" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#evaluating-hypotheses-inference"><i class="fa fa-check"></i><b>15.4.2</b> Evaluating hypotheses (‘inference’)</a></li>
 </ul></li>
 <li class="chapter" data-level="15.5" data-path="relationships-and-regression.html"><a href="relationships-and-regression.html#correlation-or-regression"><i class="fa fa-check"></i><b>15.5</b> Correlation or regression?</a></li>
 </ul></li>
-<li class="chapter" data-level="16" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html"><i class="fa fa-check"></i><b>16</b> Simple regression in R</a><ul>
+<li class="chapter" data-level="16" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html"><i class="fa fa-check"></i><b>16</b> Simple regression in R</a>
+<ul>
 <li class="chapter" data-level="16.1" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#regression-in-R"><i class="fa fa-check"></i><b>16.1</b> Carrying out a simple linear regression in R</a></li>
-<li class="chapter" data-level="16.2" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#first-steps"><i class="fa fa-check"></i><b>16.2</b> First steps</a><ul>
+<li class="chapter" data-level="16.2" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#first-steps"><i class="fa fa-check"></i><b>16.2</b> First steps</a>
+<ul>
 <li class="chapter" data-level="16.2.1" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#visualising-the-data"><i class="fa fa-check"></i><b>16.2.1</b> Visualising the data</a></li>
 </ul></li>
-<li class="chapter" data-level="16.3" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#model-fitting-and-significance-tests"><i class="fa fa-check"></i><b>16.3</b> Model fitting and significance tests</a><ul>
+<li class="chapter" data-level="16.3" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#model-fitting-and-significance-tests"><i class="fa fa-check"></i><b>16.3</b> Model fitting and significance tests</a>
+<ul>
 <li class="chapter" data-level="16.3.1" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#extracting-a-little-more-information"><i class="fa fa-check"></i><b>16.3.1</b> Extracting a little more information</a></li>
 </ul></li>
-<li class="chapter" data-level="16.4" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#present-results"><i class="fa fa-check"></i><b>16.4</b> Presenting results</a><ul>
+<li class="chapter" data-level="16.4" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#present-results"><i class="fa fa-check"></i><b>16.4</b> Presenting results</a>
+<ul>
 <li class="chapter" data-level="16.4.1" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#plotting-the-fitted-line-and-the-data"><i class="fa fa-check"></i><b>16.4.1</b> Plotting the fitted line and the data</a></li>
 </ul></li>
 <li class="chapter" data-level="16.5" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#regression-causation"><i class="fa fa-check"></i><b>16.5</b> What about causation?</a></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html"><i class="fa fa-check"></i><b>17</b> Introduction to one-way ANOVA</a><ul>
+<li class="chapter" data-level="17" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html"><i class="fa fa-check"></i><b>17</b> Introduction to one-way ANOVA</a>
+<ul>
 <li class="chapter" data-level="17.1" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html#intro"><i class="fa fa-check"></i><b>17.1</b> Introduction</a></li>
 <li class="chapter" data-level="17.2" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html#why-do-we-need-anova-models"><i class="fa fa-check"></i><b>17.2</b> Why do we need ANOVA models?</a></li>
-<li class="chapter" data-level="17.3" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html#how-does-anova-work"><i class="fa fa-check"></i><b>17.3</b> How does ANOVA work?</a><ul>
+<li class="chapter" data-level="17.3" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html#how-does-anova-work"><i class="fa fa-check"></i><b>17.3</b> How does ANOVA work?</a>
+<ul>
 <li class="chapter" data-level="17.3.1" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html#degrees-of-freedom"><i class="fa fa-check"></i><b>17.3.1</b> Degrees of freedom</a></li>
 <li class="chapter" data-level="17.3.2" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html#mean-squares-variance-ratios-and-f-tests"><i class="fa fa-check"></i><b>17.3.2</b> Mean squares, variance ratios, and F-tests</a></li>
 </ul></li>
 <li class="chapter" data-level="17.4" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html#different-kinds-of-anova-model"><i class="fa fa-check"></i><b>17.4</b> Different kinds of ANOVA model</a></li>
-<li class="chapter" data-level="17.5" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html#questions"><i class="fa fa-check"></i><b>17.5</b> Some common questions about ANOVA</a><ul>
+<li class="chapter" data-level="17.5" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html#questions"><i class="fa fa-check"></i><b>17.5</b> Some common questions about ANOVA</a>
+<ul>
 <li class="chapter" data-level="17.5.1" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html#can-anova-only-be-applied-to-experimental-data"><i class="fa fa-check"></i><b>17.5.1</b> Can ANOVA only be applied to experimental data?</a></li>
 <li class="chapter" data-level="17.5.2" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html#do-we-need-equal-replication"><i class="fa fa-check"></i><b>17.5.2</b> Do we need equal replication?</a></li>
 <li class="chapter" data-level="17.5.3" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html#can-anova-be-done-with-only-two-treatments"><i class="fa fa-check"></i><b>17.5.3</b> Can ANOVA be done with only two treatments?</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="18" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html"><i class="fa fa-check"></i><b>18</b> One-way ANOVA in R</a><ul>
+<li class="chapter" data-level="18" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html"><i class="fa fa-check"></i><b>18</b> One-way ANOVA in R</a>
+<ul>
 <li class="chapter" data-level="18.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>18.1</b> Introduction</a></li>
 <li class="chapter" data-level="18.2" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#factors-in-r"><i class="fa fa-check"></i><b>18.2</b> Factors in R</a></li>
 <li class="chapter" data-level="18.3" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#visualising-the-data"><i class="fa fa-check"></i><b>18.3</b> Visualising the data</a></li>
@@ -365,18 +411,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="18.6" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#summarise-results"><i class="fa fa-check"></i><b>18.6</b> Summarising and presenting the results of ANOVA</a></li>
 </ul></li>
 <li class="part"><span><b>V Experimental Design</b></span></li>
-<li class="chapter" data-level="19" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html"><i class="fa fa-check"></i><b>19</b> Principles of experimental design</a><ul>
+<li class="chapter" data-level="19" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html"><i class="fa fa-check"></i><b>19</b> Principles of experimental design</a>
+<ul>
 <li class="chapter" data-level="19.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>19.1</b> Introduction</a></li>
 <li class="chapter" data-level="19.2" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#jargon-busting"><i class="fa fa-check"></i><b>19.2</b> Jargon busting</a></li>
-<li class="chapter" data-level="19.3" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#replication"><i class="fa fa-check"></i><b>19.3</b> Replication</a><ul>
+<li class="chapter" data-level="19.3" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#replication"><i class="fa fa-check"></i><b>19.3</b> Replication</a>
+<ul>
 <li class="chapter" data-level="19.3.1" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#independence"><i class="fa fa-check"></i><b>19.3.1</b> Independence and pseudoreplication</a></li>
 </ul></li>
 <li class="chapter" data-level="19.4" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#controls"><i class="fa fa-check"></i><b>19.4</b> Controls</a></li>
-<li class="chapter" data-level="19.5" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#confounded-and-noisy-experiments"><i class="fa fa-check"></i><b>19.5</b> Confounded and noisy experiments</a><ul>
+<li class="chapter" data-level="19.5" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#confounded-and-noisy-experiments"><i class="fa fa-check"></i><b>19.5</b> Confounded and noisy experiments</a>
+<ul>
 <li class="chapter" data-level="19.5.1" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#confounding"><i class="fa fa-check"></i><b>19.5.1</b> Confounding</a></li>
 <li class="chapter" data-level="19.5.2" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#noise"><i class="fa fa-check"></i><b>19.5.2</b> Noise</a></li>
 </ul></li>
-<li class="chapter" data-level="19.6" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#dealing-with-confounding-effects-and-noise"><i class="fa fa-check"></i><b>19.6</b> Dealing with confounding effects and noise</a><ul>
+<li class="chapter" data-level="19.6" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#dealing-with-confounding-effects-and-noise"><i class="fa fa-check"></i><b>19.6</b> Dealing with confounding effects and noise</a>
+<ul>
 <li class="chapter" data-level="19.6.1" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#randomisation"><i class="fa fa-check"></i><b>19.6.1</b> Randomisation</a></li>
 <li class="chapter" data-level="19.6.2" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#blocking"><i class="fa fa-check"></i><b>19.6.2</b> Blocking</a></li>
 <li class="chapter" data-level="19.6.3" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#experimental-control"><i class="fa fa-check"></i><b>19.6.3</b> Experimental control</a></li>
@@ -385,31 +435,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="19.7" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#ethics-and-practicality"><i class="fa fa-check"></i><b>19.7</b> Ethics and practicality</a></li>
 <li class="chapter" data-level="19.8" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#further-reading"><i class="fa fa-check"></i><b>19.8</b> Further reading</a></li>
 </ul></li>
-<li class="chapter" data-level="20" data-path="paired-sample-t-test.html"><a href="paired-sample-t-test.html"><i class="fa fa-check"></i><b>20</b> Paired-sample t-test</a><ul>
+<li class="chapter" data-level="20" data-path="paired-sample-t-test.html"><a href="paired-sample-t-test.html"><i class="fa fa-check"></i><b>20</b> Paired-sample t-test</a>
+<ul>
 <li class="chapter" data-level="20.1" data-path="paired-sample-t-test.html"><a href="paired-sample-t-test.html#when-do-we-use-a-paired-sample-t-test"><i class="fa fa-check"></i><b>20.1</b> When do we use a paired-sample <em>t</em>-test?</a></li>
 <li class="chapter" data-level="20.2" data-path="paired-sample-t-test.html"><a href="paired-sample-t-test.html#why-do-we-use-a-paired-sample-design"><i class="fa fa-check"></i><b>20.2</b> Why do we use a paired-sample design?</a></li>
-<li class="chapter" data-level="20.3" data-path="paired-sample-t-test.html"><a href="paired-sample-t-test.html#how-do-you-carry-out-a-t-test-on-paired-samples"><i class="fa fa-check"></i><b>20.3</b> How do you carry out a <em>t</em>-test on paired-samples?</a><ul>
+<li class="chapter" data-level="20.3" data-path="paired-sample-t-test.html"><a href="paired-sample-t-test.html#how-do-you-carry-out-a-t-test-on-paired-samples"><i class="fa fa-check"></i><b>20.3</b> How do you carry out a <em>t</em>-test on paired-samples?</a>
+<ul>
 <li class="chapter" data-level="20.3.1" data-path="paired-sample-t-test.html"><a href="paired-sample-t-test.html#assumptions-of-the-paired-sample-t-test"><i class="fa fa-check"></i><b>20.3.1</b> Assumptions of the paired-sample <em>t</em>-test</a></li>
 </ul></li>
-<li class="chapter" data-level="20.4" data-path="paired-sample-t-test.html"><a href="paired-sample-t-test.html#carrying-out-a-paired-sample-t-test-in-r"><i class="fa fa-check"></i><b>20.4</b> Carrying out a paired-sample <em>t</em>-test in R</a><ul>
+<li class="chapter" data-level="20.4" data-path="paired-sample-t-test.html"><a href="paired-sample-t-test.html#carrying-out-a-paired-sample-t-test-in-r"><i class="fa fa-check"></i><b>20.4</b> Carrying out a paired-sample <em>t</em>-test in R</a>
+<ul>
 <li class="chapter" data-level="20.4.1" data-path="paired-sample-t-test.html"><a href="paired-sample-t-test.html#using-the-paired-true-argument"><i class="fa fa-check"></i><b>20.4.1</b> Using the <code>paired = TRUE</code> argument</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="21" data-path="anova-for-randomised-block-designs.html"><a href="anova-for-randomised-block-designs.html"><i class="fa fa-check"></i><b>21</b> ANOVA for randomised block designs</a><ul>
+<li class="chapter" data-level="21" data-path="anova-for-randomised-block-designs.html"><a href="anova-for-randomised-block-designs.html"><i class="fa fa-check"></i><b>21</b> ANOVA for randomised block designs</a>
+<ul>
 <li class="chapter" data-level="21.1" data-path="anova-for-randomised-block-designs.html"><a href="anova-for-randomised-block-designs.html#randomized-complete-block-designs"><i class="fa fa-check"></i><b>21.1</b> Randomized Complete Block Designs</a></li>
 <li class="chapter" data-level="21.2" data-path="anova-for-randomised-block-designs.html"><a href="anova-for-randomised-block-designs.html#designs-without-replication"><i class="fa fa-check"></i><b>21.2</b> Designs without replication</a></li>
 <li class="chapter" data-level="21.3" data-path="anova-for-randomised-block-designs.html"><a href="anova-for-randomised-block-designs.html#analysing-an-rcbd-experiment"><i class="fa fa-check"></i><b>21.3</b> Analysing an RCBD experiment</a></li>
-<li class="chapter" data-level="21.4" data-path="anova-for-randomised-block-designs.html"><a href="anova-for-randomised-block-designs.html#carrying-out-the-analysis-with-r"><i class="fa fa-check"></i><b>21.4</b> Carrying out the analysis with R</a><ul>
+<li class="chapter" data-level="21.4" data-path="anova-for-randomised-block-designs.html"><a href="anova-for-randomised-block-designs.html#carrying-out-the-analysis-with-r"><i class="fa fa-check"></i><b>21.4</b> Carrying out the analysis with R</a>
+<ul>
 <li class="chapter" data-level="21.4.1" data-path="anova-for-randomised-block-designs.html"><a href="anova-for-randomised-block-designs.html#multiple-comparisons-anyone"><i class="fa fa-check"></i><b>21.4.1</b> Multiple comparisons anyone?</a></li>
 </ul></li>
 <li class="chapter" data-level="21.5" data-path="anova-for-randomised-block-designs.html"><a href="anova-for-randomised-block-designs.html#are-there-disadvantages-to-randomised-block-designs"><i class="fa fa-check"></i><b>21.5</b> Are there disadvantages to randomised block designs?</a></li>
 <li class="chapter" data-level="21.6" data-path="anova-for-randomised-block-designs.html"><a href="anova-for-randomised-block-designs.html#multiple-blocking-factors"><i class="fa fa-check"></i><b>21.6</b> Multiple blocking factors</a></li>
 </ul></li>
 <li class="part"><span><b>VI Doing More with Models</b></span></li>
-<li class="chapter" data-level="22" data-path="assumptions-diagnostics.html"><a href="assumptions-diagnostics.html"><i class="fa fa-check"></i><b>22</b> Assumptions and diagnostics</a><ul>
+<li class="chapter" data-level="22" data-path="assumptions-diagnostics.html"><a href="assumptions-diagnostics.html"><i class="fa fa-check"></i><b>22</b> Assumptions and diagnostics</a>
+<ul>
 <li class="chapter" data-level="22.1" data-path="assumptions-diagnostics.html"><a href="assumptions-diagnostics.html#understanding-data"><i class="fa fa-check"></i><b>22.1</b> Understanding data</a></li>
 <li class="chapter" data-level="22.2" data-path="assumptions-diagnostics.html"><a href="assumptions-diagnostics.html#assumptions-of-regression"><i class="fa fa-check"></i><b>22.2</b> Assumptions of regression</a></li>
-<li class="chapter" data-level="22.3" data-path="assumptions-diagnostics.html"><a href="assumptions-diagnostics.html#regres-diagnose"><i class="fa fa-check"></i><b>22.3</b> Regression diagnostics</a><ul>
+<li class="chapter" data-level="22.3" data-path="assumptions-diagnostics.html"><a href="assumptions-diagnostics.html#regres-diagnose"><i class="fa fa-check"></i><b>22.3</b> Regression diagnostics</a>
+<ul>
 <li class="chapter" data-level="22.3.1" data-path="assumptions-diagnostics.html"><a href="assumptions-diagnostics.html#fitted-values"><i class="fa fa-check"></i><b>22.3.1</b> Fitted values</a></li>
 <li class="chapter" data-level="22.3.2" data-path="assumptions-diagnostics.html"><a href="assumptions-diagnostics.html#checking-the-linearity-assumption"><i class="fa fa-check"></i><b>22.3.2</b> Checking the linearity assumption</a></li>
 <li class="chapter" data-level="22.3.3" data-path="assumptions-diagnostics.html"><a href="assumptions-diagnostics.html#checking-the-normality-assumption"><i class="fa fa-check"></i><b>22.3.3</b> Checking the normality assumption</a></li>
@@ -417,25 +474,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="22.4" data-path="assumptions-diagnostics.html"><a href="assumptions-diagnostics.html#assumptions-of-one-way-anova"><i class="fa fa-check"></i><b>22.4</b> Assumptions of one-way ANOVA</a></li>
 </ul></li>
-<li class="chapter" data-level="23" data-path="regression-diagnostics.html"><a href="regression-diagnostics.html"><i class="fa fa-check"></i><b>23</b> Using regression diagnostics</a><ul>
+<li class="chapter" data-level="23" data-path="regression-diagnostics.html"><a href="regression-diagnostics.html"><i class="fa fa-check"></i><b>23</b> Regression diagnostics in R</a>
+<ul>
 <li class="chapter" data-level="23.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>23.1</b> Introduction</a></li>
 <li class="chapter" data-level="23.2" data-path="regression-diagnostics.html"><a href="regression-diagnostics.html#diagnostics-for-regression"><i class="fa fa-check"></i><b>23.2</b> Diagnostics for regression</a></li>
-<li class="chapter" data-level="23.3" data-path="regression-diagnostics.html"><a href="regression-diagnostics.html#diagnostics-for-one-way-anova"><i class="fa fa-check"></i><b>23.3</b> Diagnostics for one-way ANOVA</a><ul>
+<li class="chapter" data-level="23.3" data-path="regression-diagnostics.html"><a href="regression-diagnostics.html#diagnostics-for-one-way-anova"><i class="fa fa-check"></i><b>23.3</b> Diagnostics for one-way ANOVA</a>
+<ul>
 <li class="chapter" data-level="23.3.1" data-path="regression-diagnostics.html"><a href="regression-diagnostics.html#aside-formal-test-of-equality-of-variance"><i class="fa fa-check"></i><b>23.3.1</b> Aside: formal test of equality of variance</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="24" data-path="data-transformations.html"><a href="data-transformations.html"><i class="fa fa-check"></i><b>24</b> Data transformations</a><ul>
+<li class="chapter" data-level="24" data-path="data-transformations.html"><a href="data-transformations.html"><i class="fa fa-check"></i><b>24</b> Data transformations</a>
+<ul>
 <li class="chapter" data-level="24.1" data-path="data-transformations.html"><a href="data-transformations.html#transforms-introduction"><i class="fa fa-check"></i><b>24.1</b> Data that violate ANOVA assumptions</a></li>
-<li class="chapter" data-level="24.2" data-path="data-transformations.html"><a href="data-transformations.html#ant-eg"><i class="fa fa-check"></i><b>24.2</b> Data transformation: ANOVAs and <em>t</em>-tests</a><ul>
+<li class="chapter" data-level="24.2" data-path="data-transformations.html"><a href="data-transformations.html#ant-eg"><i class="fa fa-check"></i><b>24.2</b> Data transformation: ANOVAs and <em>t</em>-tests</a>
+<ul>
 <li class="chapter" data-level="24.2.1" data-path="data-transformations.html"><a href="data-transformations.html#the-data-foraging-in-ants"><i class="fa fa-check"></i><b>24.2.1</b> The data: foraging in ants</a></li>
 <li class="chapter" data-level="24.2.2" data-path="data-transformations.html"><a href="data-transformations.html#fit-the-model-and-checking-the-assumptions"><i class="fa fa-check"></i><b>24.2.2</b> Fit the model and checking the assumptions</a></li>
 </ul></li>
 <li class="chapter" data-level="24.3" data-path="data-transformations.html"><a href="data-transformations.html#carry-on"><i class="fa fa-check"></i><b>24.3</b> Carrying on anyway</a></li>
-<li class="chapter" data-level="24.4" data-path="data-transformations.html"><a href="data-transformations.html#transform"><i class="fa fa-check"></i><b>24.4</b> Transforming the data</a><ul>
+<li class="chapter" data-level="24.4" data-path="data-transformations.html"><a href="data-transformations.html#transform"><i class="fa fa-check"></i><b>24.4</b> Transforming the data</a>
+<ul>
 <li class="chapter" data-level="24.4.1" data-path="data-transformations.html"><a href="data-transformations.html#the-logarithmic-transformation"><i class="fa fa-check"></i><b>24.4.1</b> The logarithmic transformation</a></li>
 <li class="chapter" data-level="24.4.2" data-path="data-transformations.html"><a href="data-transformations.html#presenting-results-from-analyses-of-transformed-data"><i class="fa fa-check"></i><b>24.4.2</b> Presenting results from analyses of transformed data</a></li>
 </ul></li>
-<li class="chapter" data-level="24.5" data-path="data-transformations.html"><a href="data-transformations.html#trans-types"><i class="fa fa-check"></i><b>24.5</b> Types of transformations</a><ul>
+<li class="chapter" data-level="24.5" data-path="data-transformations.html"><a href="data-transformations.html#trans-types"><i class="fa fa-check"></i><b>24.5</b> Types of transformations</a>
+<ul>
 <li class="chapter" data-level="24.5.1" data-path="data-transformations.html"><a href="data-transformations.html#logarithms"><i class="fa fa-check"></i><b>24.5.1</b> Logarithms</a></li>
 <li class="chapter" data-level="24.5.2" data-path="data-transformations.html"><a href="data-transformations.html#square-roots"><i class="fa fa-check"></i><b>24.5.2</b> Square roots</a></li>
 <li class="chapter" data-level="24.5.3" data-path="data-transformations.html"><a href="data-transformations.html#arcsine-square-root"><i class="fa fa-check"></i><b>24.5.3</b> Arcsine square root</a></li>
@@ -445,7 +508,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="24.6" data-path="data-transformations.html"><a href="data-transformations.html#what-about-other-kinds-of-models"><i class="fa fa-check"></i><b>24.6</b> What about other kinds of models?</a></li>
 <li class="chapter" data-level="24.7" data-path="data-transformations.html"><a href="data-transformations.html#final-thoughts"><i class="fa fa-check"></i><b>24.7</b> Final thoughts</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html"><i class="fa fa-check"></i><b>25</b> Multiple comparison tests</a><ul>
+<li class="chapter" data-level="25" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html"><i class="fa fa-check"></i><b>25</b> Multiple comparison tests</a>
+<ul>
 <li class="chapter" data-level="25.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>25.1</b> Introduction</a></li>
 <li class="chapter" data-level="25.2" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#mult-comp-R"><i class="fa fa-check"></i><b>25.2</b> Tukey’s HSD in R</a></li>
 <li class="chapter" data-level="25.3" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#how-to-summarise-multiple-comparison-results"><i class="fa fa-check"></i><b>25.3</b> How to summarise multiple-comparison results</a></li>
@@ -454,35 +518,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="25.6" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#significant-anova-but-no-differences-in-a-tukey-test"><i class="fa fa-check"></i><b>25.6</b> Significant ANOVA but no differences in a Tukey test?</a></li>
 </ul></li>
 <li class="part"><span><b>VII Beyond Simple Models</b></span></li>
-<li class="chapter" data-level="26" data-path="two-way-anova-intro.html"><a href="two-way-anova-intro.html"><i class="fa fa-check"></i><b>26</b> Introduction to two-way ANOVA</a><ul>
+<li class="chapter" data-level="26" data-path="two-way-anova-intro.html"><a href="two-way-anova-intro.html"><i class="fa fa-check"></i><b>26</b> Introduction to two-way ANOVA</a>
+<ul>
 <li class="chapter" data-level="26.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>26.1</b> Introduction</a></li>
 <li class="chapter" data-level="26.2" data-path="two-way-anova-intro.html"><a href="two-way-anova-intro.html#degrees-of-freedom-mean-squares-and-f-statistics"><i class="fa fa-check"></i><b>26.2</b> Degrees of freedom, mean squares, and <em>F</em>-statistics</a></li>
 <li class="chapter" data-level="26.3" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#multiple-comparison-tests"><i class="fa fa-check"></i><b>26.3</b> Multiple comparison tests</a></li>
 <li class="chapter" data-level="26.4" data-path="two-way-anova-intro.html"><a href="two-way-anova-intro.html#beyond-two-way-anova"><i class="fa fa-check"></i><b>26.4</b> Beyond two-way ANOVA</a></li>
 </ul></li>
-<li class="chapter" data-level="27" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html"><i class="fa fa-check"></i><b>27</b> Two-way ANOVA in R</a><ul>
+<li class="chapter" data-level="27" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html"><i class="fa fa-check"></i><b>27</b> Two-way ANOVA in R</a>
+<ul>
 <li class="chapter" data-level="27.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>27.1</b> Introduction</a></li>
 <li class="chapter" data-level="27.2" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#competition-between-calluna-and-festuca"><i class="fa fa-check"></i><b>27.2</b> Competition between <em>Calluna</em> and <em>Festuca</em></a></li>
 <li class="chapter" data-level="27.3" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#visualising-the-data"><i class="fa fa-check"></i><b>27.3</b> Visualising the data</a></li>
 <li class="chapter" data-level="27.4" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#fitting-the-anova-model"><i class="fa fa-check"></i><b>27.4</b> Fitting the ANOVA model</a></li>
 <li class="chapter" data-level="27.5" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#diagnostics"><i class="fa fa-check"></i><b>27.5</b> Diagnostics</a></li>
-<li class="chapter" data-level="27.6" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#interpreting-the-results"><i class="fa fa-check"></i><b>27.6</b> Interpreting the results</a><ul>
+<li class="chapter" data-level="27.6" data-path="one-way-anova-in-r.html"><a href="one-way-anova-in-r.html#interpreting-the-results"><i class="fa fa-check"></i><b>27.6</b> Interpreting the results</a>
+<ul>
 <li class="chapter" data-level="27.6.1" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#understanding-the-model-graphically"><i class="fa fa-check"></i><b>27.6.1</b> Understanding the model graphically</a></li>
 </ul></li>
 <li class="chapter" data-level="27.7" data-path="multiple-comparison-tests.html"><a href="multiple-comparison-tests.html#multiple-comparison-tests"><i class="fa fa-check"></i><b>27.7</b> Multiple comparison tests</a></li>
-<li class="chapter" data-level="27.8" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#drawing-conclusions-and-presenting-results"><i class="fa fa-check"></i><b>27.8</b> Drawing conclusions and presenting results</a><ul>
+<li class="chapter" data-level="27.8" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#drawing-conclusions-and-presenting-results"><i class="fa fa-check"></i><b>27.8</b> Drawing conclusions and presenting results</a>
+<ul>
 <li class="chapter" data-level="27.8.1" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#a-little-more-customisation"><i class="fa fa-check"></i><b>27.8.1</b> A little more customisation</a></li>
 </ul></li>
 <li class="chapter" data-level="27.9" data-path="two-way-anova-in-r.html"><a href="two-way-anova-in-r.html#balanced-or-orthogonal-designs"><i class="fa fa-check"></i><b>27.9</b> Balanced or orthogonal designs</a></li>
 </ul></li>
-<li class="chapter" data-level="28" data-path="introduction-to-ancova.html"><a href="introduction-to-ancova.html"><i class="fa fa-check"></i><b>28</b> Introduction to ANCOVA</a><ul>
+<li class="chapter" data-level="28" data-path="introduction-to-ancova.html"><a href="introduction-to-ancova.html"><i class="fa fa-check"></i><b>28</b> Introduction to ANCOVA</a>
+<ul>
 <li class="chapter" data-level="28.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>28.1</b> Introduction</a></li>
 <li class="chapter" data-level="28.2" data-path="introduction-to-ancova.html"><a href="introduction-to-ancova.html#why-do-we-need-ancova-models"><i class="fa fa-check"></i><b>28.2</b> Why do we need ANCOVA models?</a></li>
 <li class="chapter" data-level="28.3" data-path="introduction-to-ancova.html"><a href="introduction-to-ancova.html#how-does-ancova-work"><i class="fa fa-check"></i><b>28.3</b> How does ANCOVA work?</a></li>
 <li class="chapter" data-level="28.4" data-path="two-way-anova-intro.html"><a href="two-way-anova-intro.html#degrees-of-freedom-mean-squares-and-f-statistics"><i class="fa fa-check"></i><b>28.4</b> Degrees of freedom, mean squares and F-statistics</a></li>
 <li class="chapter" data-level="28.5" data-path="introduction-to-ancova.html"><a href="introduction-to-ancova.html#assumptions-of-ancova"><i class="fa fa-check"></i><b>28.5</b> Assumptions of ANCOVA</a></li>
 </ul></li>
-<li class="chapter" data-level="29" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html"><i class="fa fa-check"></i><b>29</b> Two-way ANCOVA in R</a><ul>
+<li class="chapter" data-level="29" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html"><i class="fa fa-check"></i><b>29</b> Two-way ANCOVA in R</a>
+<ul>
 <li class="chapter" data-level="29.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>29.1</b> Introduction</a></li>
 <li class="chapter" data-level="29.2" data-path="simple-regression-in-r.html"><a href="simple-regression-in-r.html#visualising-the-data"><i class="fa fa-check"></i><b>29.2</b> Visualising the data</a></li>
 <li class="chapter" data-level="29.3" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html#fitting-an-ancova"><i class="fa fa-check"></i><b>29.3</b> Fitting an ANCOVA</a></li>
@@ -491,87 +561,108 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="29.6" data-path="two-way-ancova-in-r.html"><a href="two-way-ancova-in-r.html#presenting-the-results"><i class="fa fa-check"></i><b>29.6</b> Presenting the results</a></li>
 </ul></li>
 <li class="part"><span><b>VIII Frequency Data and Non-parametric Tests</b></span></li>
-<li class="chapter" data-level="30" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html"><i class="fa fa-check"></i><b>30</b> Working with frequencies</a><ul>
+<li class="chapter" data-level="30" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html"><i class="fa fa-check"></i><b>30</b> Working with frequencies</a>
+<ul>
 <li class="chapter" data-level="30.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>30.1</b> Introduction</a></li>
 <li class="chapter" data-level="30.2" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html#a-new-kind-of-distribution"><i class="fa fa-check"></i><b>30.2</b> A new kind of distribution</a></li>
-<li class="chapter" data-level="30.3" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html#types-of-test"><i class="fa fa-check"></i><b>30.3</b> Types of test</a><ul>
+<li class="chapter" data-level="30.3" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html#types-of-test"><i class="fa fa-check"></i><b>30.3</b> Types of test</a>
+<ul>
 <li class="chapter" data-level="30.3.1" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html#chi2-goodness-of-fit-test"><i class="fa fa-check"></i><b>30.3.1</b> <span class="math inline">\(\chi^{2}\)</span> goodness of fit test</a></li>
 <li class="chapter" data-level="30.3.2" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html#chi2-contingency-table-test"><i class="fa fa-check"></i><b>30.3.2</b> <span class="math inline">\(\chi^{2}\)</span> contingency table test</a></li>
 <li class="chapter" data-level="30.3.3" data-path="working-with-frequencies.html"><a href="working-with-frequencies.html#the-assumptions-and-requirements-of-chi2-tests"><i class="fa fa-check"></i><b>30.3.3</b> The assumptions and requirements of <span class="math inline">\(\chi^{2}\)</span> tests</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="31" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html"><i class="fa fa-check"></i><b>31</b> Goodness of fit tests</a><ul>
+<li class="chapter" data-level="31" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html"><i class="fa fa-check"></i><b>31</b> Goodness of fit tests</a>
+<ul>
 <li class="chapter" data-level="31.1" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#when-do-we-use-a-chi-square-goodness-of-fit-test"><i class="fa fa-check"></i><b>31.1</b> When do we use a chi-square goodness of fit test?</a></li>
-<li class="chapter" data-level="31.2" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#how-does-the-chi-square-goodness-of-fit-test-work"><i class="fa fa-check"></i><b>31.2</b> How does the chi-square goodness of fit test work?</a><ul>
+<li class="chapter" data-level="31.2" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#how-does-the-chi-square-goodness-of-fit-test-work"><i class="fa fa-check"></i><b>31.2</b> How does the chi-square goodness of fit test work?</a>
+<ul>
 <li class="chapter" data-level="31.2.1" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#assumptions-of-the-chi-square-goodness-of-fit-test"><i class="fa fa-check"></i><b>31.2.1</b> Assumptions of the chi-square goodness of fit test</a></li>
 </ul></li>
-<li class="chapter" data-level="31.3" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#carrying-out-a-chi-square-goodness-of-fit-test-in-r"><i class="fa fa-check"></i><b>31.3</b> Carrying out a chi-square goodness of fit test in R</a><ul>
+<li class="chapter" data-level="31.3" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#carrying-out-a-chi-square-goodness-of-fit-test-in-r"><i class="fa fa-check"></i><b>31.3</b> Carrying out a chi-square goodness of fit test in R</a>
+<ul>
 <li class="chapter" data-level="31.3.1" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#summarising-the-result"><i class="fa fa-check"></i><b>31.3.1</b> Summarising the result</a></li>
 <li class="chapter" data-level="31.3.2" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#a-bit-more-about-goodness-of-fit-tests-in-r"><i class="fa fa-check"></i><b>31.3.2</b> A bit more about goodness of fit tests in R</a></li>
 <li class="chapter" data-level="31.3.3" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#doing-it-the-long-way"><i class="fa fa-check"></i><b>31.3.3</b> Doing it the long way…</a></li>
 </ul></li>
 <li class="chapter" data-level="31.4" data-path="goodness-of-fit-tests.html"><a href="goodness-of-fit-tests.html#determining-appropriate-expected-values"><i class="fa fa-check"></i><b>31.4</b> Determining appropriate expected values</a></li>
 </ul></li>
-<li class="chapter" data-level="32" data-path="contingency-tables.html"><a href="contingency-tables.html"><i class="fa fa-check"></i><b>32</b> Contingency tables</a><ul>
+<li class="chapter" data-level="32" data-path="contingency-tables.html"><a href="contingency-tables.html"><i class="fa fa-check"></i><b>32</b> Contingency tables</a>
+<ul>
 <li class="chapter" data-level="32.1" data-path="contingency-tables.html"><a href="contingency-tables.html#when-do-we-use-a-chi-square-contingency-table-test"><i class="fa fa-check"></i><b>32.1</b> When do we use a chi-square contingency table test?</a></li>
-<li class="chapter" data-level="32.2" data-path="contingency-tables.html"><a href="contingency-tables.html#how-does-the-chi-square-contingency-table-test-work"><i class="fa fa-check"></i><b>32.2</b> How does the chi-square contingency table test work?</a><ul>
+<li class="chapter" data-level="32.2" data-path="contingency-tables.html"><a href="contingency-tables.html#how-does-the-chi-square-contingency-table-test-work"><i class="fa fa-check"></i><b>32.2</b> How does the chi-square contingency table test work?</a>
+<ul>
 <li class="chapter" data-level="32.2.1" data-path="contingency-tables.html"><a href="contingency-tables.html#assumptions-of-the-chi-square-contingency-table-test"><i class="fa fa-check"></i><b>32.2.1</b> Assumptions of the chi-square contingency table test</a></li>
 </ul></li>
-<li class="chapter" data-level="32.3" data-path="contingency-tables.html"><a href="contingency-tables.html#carrying-out-a-chi-square-contingency-table-test-in-r"><i class="fa fa-check"></i><b>32.3</b> Carrying out a chi-square contingency table test in R</a><ul>
+<li class="chapter" data-level="32.3" data-path="contingency-tables.html"><a href="contingency-tables.html#carrying-out-a-chi-square-contingency-table-test-in-r"><i class="fa fa-check"></i><b>32.3</b> Carrying out a chi-square contingency table test in R</a>
+<ul>
 <li class="chapter" data-level="32.3.1" data-path="contingency-tables.html"><a href="contingency-tables.html#step-1.-getting-the-data-into-the-correct-format"><i class="fa fa-check"></i><b>32.3.1</b> Step 1. Getting the data into the correct format</a></li>
 <li class="chapter" data-level="32.3.2" data-path="contingency-tables.html"><a href="contingency-tables.html#step-2.-doing-the-test"><i class="fa fa-check"></i><b>32.3.2</b> Step 2. Doing the test</a></li>
 <li class="chapter" data-level="32.3.3" data-path="one-sample-t-tests.html"><a href="one-sample-t-tests.html#summarising-the-result"><i class="fa fa-check"></i><b>32.3.3</b> Summarising the result</a></li>
 </ul></li>
 <li class="chapter" data-level="32.4" data-path="contingency-tables.html"><a href="contingency-tables.html#working-with-larger-tables"><i class="fa fa-check"></i><b>32.4</b> Working with larger tables</a></li>
 </ul></li>
-<li class="chapter" data-level="33" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html"><i class="fa fa-check"></i><b>33</b> Non-parametric tests</a><ul>
+<li class="chapter" data-level="33" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html"><i class="fa fa-check"></i><b>33</b> Non-parametric tests</a>
+<ul>
 <li class="chapter" data-level="33.1" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#what-is-non-par"><i class="fa fa-check"></i><b>33.1</b> What is a non-parametric test?</a></li>
 <li class="chapter" data-level="33.2" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#non-par-intro"><i class="fa fa-check"></i><b>33.2</b> How does a non-parametric test work?</a></li>
 <li class="chapter" data-level="33.3" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#non-parametric-equivalents"><i class="fa fa-check"></i><b>33.3</b> Non-parametric equivalents</a></li>
-<li class="chapter" data-level="33.4" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#wilcoxon-signed-rank-test"><i class="fa fa-check"></i><b>33.4</b> Wilcoxon signed-rank test</a><ul>
+<li class="chapter" data-level="33.4" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#wilcoxon-signed-rank-test"><i class="fa fa-check"></i><b>33.4</b> Wilcoxon signed-rank test</a>
+<ul>
 <li class="chapter" data-level="33.4.1" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#leaf-damage-plant-defences-and-feeding-by-winter-moth-larvae"><i class="fa fa-check"></i><b>33.4.1</b> Leaf damage, plant defences and feeding by winter moth larvae</a></li>
 </ul></li>
-<li class="chapter" data-level="33.5" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#mann-whitney"><i class="fa fa-check"></i><b>33.5</b> The Mann-Whitney <em>U</em>-test</a><ul>
+<li class="chapter" data-level="33.5" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#mann-whitney"><i class="fa fa-check"></i><b>33.5</b> The Mann-Whitney <em>U</em>-test</a>
+<ul>
 <li class="chapter" data-level="33.5.1" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#ant-foraging"><i class="fa fa-check"></i><b>33.5.1</b> Ant foraging</a></li>
 </ul></li>
-<li class="chapter" data-level="33.6" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#the-kruskal-wallis-test"><i class="fa fa-check"></i><b>33.6</b> The Kruskal-Wallis test</a><ul>
+<li class="chapter" data-level="33.6" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#the-kruskal-wallis-test"><i class="fa fa-check"></i><b>33.6</b> The Kruskal-Wallis test</a>
+<ul>
 <li class="chapter" data-level="33.6.1" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#learning-in-cuttlefish"><i class="fa fa-check"></i><b>33.6.1</b> Learning in cuttlefish</a></li>
 </ul></li>
-<li class="chapter" data-level="33.7" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#spearmans-rank-correlation"><i class="fa fa-check"></i><b>33.7</b> Spearman’s rank correlation</a><ul>
+<li class="chapter" data-level="33.7" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#spearmans-rank-correlation"><i class="fa fa-check"></i><b>33.7</b> Spearman’s rank correlation</a>
+<ul>
 <li class="chapter" data-level="33.7.1" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#grouse-lekking"><i class="fa fa-check"></i><b>33.7.1</b> Grouse lekking</a></li>
 </ul></li>
-<li class="chapter" data-level="33.8" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#why-when"><i class="fa fa-check"></i><b>33.8</b> Why use non-parametric tests … and when?</a><ul>
+<li class="chapter" data-level="33.8" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#why-when"><i class="fa fa-check"></i><b>33.8</b> Why use non-parametric tests … and when?</a>
+<ul>
 <li class="chapter" data-level="33.8.1" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#what-are-the-advantages"><i class="fa fa-check"></i><b>33.8.1</b> What are the advantages?</a></li>
 <li class="chapter" data-level="33.8.2" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#what-are-the-disadvantages"><i class="fa fa-check"></i><b>33.8.2</b> What are the disadvantages?</a></li>
 <li class="chapter" data-level="33.8.3" data-path="non-parametric-tests.html"><a href="non-parametric-tests.html#parting-words"><i class="fa fa-check"></i><b>33.8.3</b> Parting words</a></li>
 </ul></li>
 </ul></li>
 <li class="appendix"><span><b>Supplementary Material</b></span></li>
-<li class="chapter" data-level="A" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html"><i class="fa fa-check"></i><b>A</b> Choosing models and tests</a><ul>
-<li class="chapter" data-level="A.1" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html#intro"><i class="fa fa-check"></i><b>A.1</b> Introduction</a><ul>
+<li class="chapter" data-level="A" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html"><i class="fa fa-check"></i><b>A</b> Choosing models and tests</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="introduction-to-one-way-anova.html"><a href="introduction-to-one-way-anova.html#intro"><i class="fa fa-check"></i><b>A.1</b> Introduction</a>
+<ul>
 <li class="chapter" data-level="A.1.1" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#do-we-need-to-carry-out-a-statistical-analysis"><i class="fa fa-check"></i><b>A.1.1</b> Do we need to carry out a statistical analysis?</a></li>
 </ul></li>
 <li class="chapter" data-level="A.2" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#getting-started"><i class="fa fa-check"></i><b>A.2</b> Getting started…</a></li>
 <li class="chapter" data-level="A.3" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#a-key-to-choosing-statistical-models-and-tests"><i class="fa fa-check"></i><b>A.3</b> A key to choosing statistical models and tests</a></li>
 <li class="chapter" data-level="A.4" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#four-questions"><i class="fa fa-check"></i><b>A.4</b> Four main types of question</a></li>
-<li class="chapter" data-level="A.5" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#qu1"><i class="fa fa-check"></i><b>A.5</b> Question 1 –- Comparison of group means or medians</a><ul>
+<li class="chapter" data-level="A.5" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#qu1"><i class="fa fa-check"></i><b>A.5</b> Question 1 –- Comparison of group means or medians</a>
+<ul>
 <li class="chapter" data-level="A.5.1" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#question-1-how-many-groups"><i class="fa fa-check"></i><b>A.5.1</b> Question 1 How many groups?</a></li>
 <li class="chapter" data-level="A.5.2" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#question-1-single-group"><i class="fa fa-check"></i><b>A.5.2</b> [Question 1] Single group</a></li>
 <li class="chapter" data-level="A.5.3" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#question-1-two-groups"><i class="fa fa-check"></i><b>A.5.3</b> [Question 1] Two groups</a></li>
 <li class="chapter" data-level="A.5.4" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#question-1-more-than-two-groups"><i class="fa fa-check"></i><b>A.5.4</b> [Question 1] More than two groups</a></li>
 </ul></li>
-<li class="chapter" data-level="A.6" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#qu2"><i class="fa fa-check"></i><b>A.6</b> Question 2 – Associations between two variables?</a><ul>
+<li class="chapter" data-level="A.6" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#qu2"><i class="fa fa-check"></i><b>A.6</b> Question 2 – Associations between two variables?</a>
+<ul>
 <li class="chapter" data-level="A.6.1" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#question-2-testing-y-as-a-function-of-x-or-an-association-between-x-and-y"><i class="fa fa-check"></i><b>A.6.1</b> [Question 2] Testing <span class="math inline">\(y\)</span> as a function of <span class="math inline">\(x\)</span>, or an association between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>?</a></li>
 </ul></li>
 <li class="chapter" data-level="A.7" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#qu4"><i class="fa fa-check"></i><b>A.7</b> Question 3 -– Frequencies of categorical data</a></li>
-<li class="chapter" data-level="A.8" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#var-cat"><i class="fa fa-check"></i><b>A.8</b> Variables or categories?</a><ul>
+<li class="chapter" data-level="A.8" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#var-cat"><i class="fa fa-check"></i><b>A.8</b> Variables or categories?</a>
+<ul>
 <li class="chapter" data-level="A.8.1" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#anova-vs.-regression"><i class="fa fa-check"></i><b>A.8.1</b> ANOVA vs. regression</a></li>
 <li class="chapter" data-level="A.8.2" data-path="choosing-models-and-tests.html"><a href="choosing-models-and-tests.html#making-categories-out-of-continuous-measures"><i class="fa fa-check"></i><b>A.8.2</b> Making categories out of continuous measures</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html"><i class="fa fa-check"></i><b>B</b> Writing a scientific report</a><ul>
+<li class="chapter" data-level="B" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html"><i class="fa fa-check"></i><b>B</b> Writing a scientific report</a>
+<ul>
 <li class="chapter" data-level="B.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>B.1</b> Introduction</a></li>
-<li class="chapter" data-level="B.2" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#the-structure-of-a-scientific-report"><i class="fa fa-check"></i><b>B.2</b> The structure of a scientific report</a><ul>
+<li class="chapter" data-level="B.2" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#the-structure-of-a-scientific-report"><i class="fa fa-check"></i><b>B.2</b> The structure of a scientific report</a>
+<ul>
 <li class="chapter" data-level="B.2.1" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#title"><i class="fa fa-check"></i><b>B.2.1</b> Title</a></li>
 <li class="chapter" data-level="B.2.2" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#abstract-or-summary"><i class="fa fa-check"></i><b>B.2.2</b> Abstract or Summary</a></li>
 <li class="chapter" data-level="B.2.3" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#introduction-1"><i class="fa fa-check"></i><b>B.2.3</b> Introduction</a></li>
@@ -582,15 +673,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="B.2.8" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#literature-cited-references"><i class="fa fa-check"></i><b>B.2.8</b> Literature cited / References</a></li>
 <li class="chapter" data-level="B.2.9" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#appendices"><i class="fa fa-check"></i><b>B.2.9</b> Appendices</a></li>
 </ul></li>
-<li class="chapter" data-level="B.3" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#presenting-species-names"><i class="fa fa-check"></i><b>B.3</b> Presenting species names</a><ul>
+<li class="chapter" data-level="B.3" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#presenting-species-names"><i class="fa fa-check"></i><b>B.3</b> Presenting species names</a>
+<ul>
 <li class="chapter" data-level="B.3.1" data-path="writing-a-scientific-report.html"><a href="writing-a-scientific-report.html#a-last-piece-of-advice"><i class="fa fa-check"></i><b>B.3.1</b> A last piece of advice…</a></li>
 </ul></li>
 <li class="chapter" data-level="B.4" data-path="principles-experimental-design.html"><a href="principles-experimental-design.html#further-reading"><i class="fa fa-check"></i><b>B.4</b> Further reading</a></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="one-two-tailed-tests.html"><a href="one-two-tailed-tests.html"><i class="fa fa-check"></i><b>C</b> One-tailed vs. two-tailed tests</a><ul>
+<li class="chapter" data-level="C" data-path="one-two-tailed-tests.html"><a href="one-two-tailed-tests.html"><i class="fa fa-check"></i><b>C</b> One-tailed vs. two-tailed tests</a>
+<ul>
 <li class="chapter" data-level="C.1" data-path="parametric-statistics.html"><a href="parametric-statistics.html#introduction"><i class="fa fa-check"></i><b>C.1</b> Introduction</a></li>
 <li class="chapter" data-level="C.2" data-path="one-two-tailed-tests.html"><a href="one-two-tailed-tests.html#an-example-of-a-one-tailed-hypothesis"><i class="fa fa-check"></i><b>C.2</b> An example of a one-tailed hypothesis</a></li>
-<li class="chapter" data-level="C.3" data-path="one-two-tailed-tests.html"><a href="one-two-tailed-tests.html#so-how-do-we-perform-a-one-tailed-t-test"><i class="fa fa-check"></i><b>C.3</b> So how do we perform a one-tailed <em>t</em>-test?</a><ul>
+<li class="chapter" data-level="C.3" data-path="one-two-tailed-tests.html"><a href="one-two-tailed-tests.html#so-how-do-we-perform-a-one-tailed-t-test"><i class="fa fa-check"></i><b>C.3</b> So how do we perform a one-tailed <em>t</em>-test?</a>
+<ul>
 <li class="chapter" data-level="C.3.1" data-path="one-two-tailed-tests.html"><a href="one-two-tailed-tests.html#carrying-out-one-tailed-t-tests-in-r"><i class="fa fa-check"></i><b>C.3.1</b> Carrying out one-tailed <em>t</em>-tests in R</a></li>
 <li class="chapter" data-level="C.3.2" data-path="one-two-tailed-tests.html"><a href="one-two-tailed-tests.html#when-to-use-and-not-to-use-one-tailed-t-tests"><i class="fa fa-check"></i><b>C.3.2</b> When to use, and not to use, one-tailed <em>t</em>-tests</a></li>
 </ul></li>
@@ -615,13 +709,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="regression-diagnostics" class="section level1">
-<h1><span class="header-section-number">Chapter 23</span> Using regression diagnostics</h1>
-<div id="introduction" class="section level2">
+<div id="regression-diagnostics" class="section level1" number="23">
+<h1><span class="header-section-number">Chapter 23</span> Regression diagnostics in R</h1>
+<div id="introduction" class="section level2" number="23.1">
 <h2><span class="header-section-number">23.1</span> Introduction</h2>
 <p>In the last chapter we learnt how to carry out regression diagnostics. Fortunately we don’t have to do all of that work each time we fit a model. R has a built in facility to make these plots for us. In this chapter we’ll walk through how to use this with regression and one-way ANOVA models.</p>
 </div>
-<div id="diagnostics-for-regression" class="section level2">
+<div id="diagnostics-for-regression" class="section level2" number="23.2">
 <h2><span class="header-section-number">23.2</span> Diagnostics for regression</h2>
 <p>We’ll use the glucose release example from the [Simple regression in R] chapter to step through the easy way to make diagnostic plots.</p>
 <div class="do-something">
@@ -633,19 +727,19 @@ You should work through the example in the next few sections.
 </p>
 </div>
 <p>You’ll need to read in the GLUCOSE.CSV file again and fit the regression using the <code>lm</code> function as before.</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="regression-diagnostics.html#cb141-1"></a>vicia_germ &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;GLUCOSE.CSV&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="regression-diagnostics.html#cb142-1"></a>vicia_model &lt;-<span class="st"> </span><span class="kw">lm</span>(Glucose <span class="op">~</span><span class="st"> </span>Temperature, <span class="dt">data =</span> vicia_germ)</span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="regression-diagnostics.html#cb141-1" aria-hidden="true" tabindex="-1"></a>vicia_germ <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&quot;GLUCOSE.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="regression-diagnostics.html#cb142-1" aria-hidden="true" tabindex="-1"></a>vicia_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Glucose <span class="sc">~</span> Temperature, <span class="at">data =</span> vicia_germ)</span></code></pre></div>
 <p>The built in facility for diagnostic plots in R works via a function called <code>plot</code>. For example, to produce a residuals vs fitted values plot, we use:</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="regression-diagnostics.html#cb143-1"></a><span class="kw">plot</span>(vicia_model, <span class="dt">which =</span> <span class="dv">1</span>, <span class="dt">add.smooth =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="regression-diagnostics.html#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vicia_model, <span class="at">which =</span> <span class="dv">1</span>, <span class="at">add.smooth =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/unnamed-chunk-210-1.png" width="384" style="display: block; margin: auto;" /></p>
-<p>The first argument is the name of fitted model object. The second argument controls the output of the <code>plot</code> function: <code>which = 1</code> argument tells it to produce a residuals vs. fitted values plot. The <code>add.smooth = FALSE</code> is telling the function not to add a line called a ‘loess smooth’. This line is supposed to help us pick out patterns, but it tends to over fit the relationship and leads people to see problems that aren’t there. If we can’t see a clear pattern without the line, it probably isn’t there, so it’s better not to include it at all.</p>
+<p>The first argument is the name of fitted model object. The second argument controls the output of the <code>plot</code> function: <code>which = 1</code> argument tells it to produce a residuals vs. fitted values plot. The <code>add.smooth = FALSE</code> is telling the function not to add a line called a ‘loess smooth.’ This line is supposed to help us pick out patterns, but it tends to over fit the relationship and leads people to see problems that aren’t there. If we can’t see a clear pattern without the line, it probably isn’t there, so it’s better not to include it at all.</p>
 <p>Remember that this plot allows us to evaluate the linearity assumption. Here, we’re looking for any evidence of a systematic trend (e.g. a hump or U-shaped curve) here. As there’s no obvious pattern we can accept the linearity assumption and move on to the normality assumption.</p>
 <p>We use the <code>plot</code> function to plot a normal probability diagnostic by setting <code>which = 2</code>:</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="regression-diagnostics.html#cb144-1"></a><span class="kw">plot</span>(vicia_model, <span class="dt">which =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="regression-diagnostics.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vicia_model, <span class="at">which =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/unnamed-chunk-211-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>This produces essentially the same kind of normal probability plot we made in the previous chapter, with one small difference. Rather than drawing a 1:1 line, the ‘plot’ function shows us a line of best fit. This just allows us to pick out the curvature a little more easily. There’s nothing here to make us worry about this assumption - the points are close to the line with no systematic trend away from it.</p>
 <p>Finally, we can produce a scale-location diagnostic plot using the <code>plot</code> function to assess the constant variance assumption. Here we use <code>which = 3</code> and again we suppress the line (using <code>add.smooth = FALSE</code>) to avoid finding spurious patterns:</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="regression-diagnostics.html#cb145-1"></a><span class="kw">plot</span>(vicia_model, <span class="dt">add.smooth =</span> <span class="ot">FALSE</span>, <span class="dt">which =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="regression-diagnostics.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vicia_model, <span class="at">add.smooth =</span> <span class="cn">FALSE</span>, <span class="at">which =</span> <span class="dv">3</span>)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/unnamed-chunk-212-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>Remember in this plot we’re looking for any sign of the size of the transformed residuals either increasing or decreasing as the fitted values get larger. This plot looks good - as the relationship here looks pretty flat we can conclude that the variability in the residuals is constant.</p>
 <div class="advanced-box">
@@ -657,7 +751,7 @@ The good news about regression is that it is quite a robust technique. It will o
 </p>
 </div>
 </div>
-<div id="diagnostics-for-one-way-anova" class="section level2">
+<div id="diagnostics-for-one-way-anova" class="section level2" number="23.3">
 <h2><span class="header-section-number">23.3</span> Diagnostics for one-way ANOVA</h2>
 <p>The term ‘regression diagnostic’ is a bit of a misnomer. A more accurate term might be ‘linear model diagnostic’ but no one really uses this. Regression diagnostics can be used with many different kinds of models. In fact, the diagnostic plots we have introduced above can be applied to any model fitted by the <code>lm</code> function, including ANOVA models.</p>
 <div class="do-something">
@@ -669,18 +763,18 @@ You should work through the example in the next few sections.
 </p>
 </div>
 <p>Let’s step through the diagnostics for a one way ANOVA now, using the corncrake hatchlings example from the [One-way ANOVA in R] chapter. Read the data into R again and fit the model as before.</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="regression-diagnostics.html#cb146-1"></a>corn_crake &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;CORN_CRAKE.CSV&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="regression-diagnostics.html#cb147-1"></a>corncrake_model &lt;-<span class="st"> </span><span class="kw">lm</span>(WeightGain <span class="op">~</span><span class="st"> </span>Supplement, <span class="dt">data =</span> corn_crake)</span></code></pre></div>
-<p>The first diagnostic plot we produced for the regression model above is the residuals vs. fitted values plot. In a regression this is used to evaluate the linearity assumption. What does it do in a one-way ANOVA? Not much of use to be honest. There isn’t much point making a residuals vs. fitted values plot for a one-way ANOVA. Why? Because the residuals will never show a trend with respect to the ‘fitted values’, which are just the group-specific means. That’s one thing less to worry about.</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="regression-diagnostics.html#cb146-1" aria-hidden="true" tabindex="-1"></a>corn_crake <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&quot;CORN_CRAKE.CSV&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="regression-diagnostics.html#cb147-1" aria-hidden="true" tabindex="-1"></a>corncrake_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(WeightGain <span class="sc">~</span> Supplement, <span class="at">data =</span> corn_crake)</span></code></pre></div>
+<p>The first diagnostic plot we produced for the regression model above is the residuals vs. fitted values plot. In a regression this is used to evaluate the linearity assumption. What does it do in a one-way ANOVA? Not much of use to be honest. There isn’t much point making a residuals vs. fitted values plot for a one-way ANOVA. Why? Because the residuals will never show a trend with respect to the ‘fitted values,’ which are just the group-specific means. That’s one thing less to worry about.</p>
 <p>The normal probability plot is used to identify departures from normality. This plot allows us to check whether the deviations from the group means (the residuals) are likely to have been drawn from a normal distribution. Here’s the normal probability plot for our example:</p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="regression-diagnostics.html#cb148-1"></a><span class="kw">plot</span>(corncrake_model, <span class="dt">which =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="regression-diagnostics.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(corncrake_model, <span class="at">which =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/diet-diag-2-1.png" width="384" style="display: block; margin: auto;" />
 This looks very good. The points don’t deviate from the line in a systematic way (except for a couple at the lower end—this is nothing to worry about) so it looks like the normality assumption is satisfied.</p>
 <p>The scale-location plot allows us to evaluate the constant variance assumption. This allows us to see whether or not the variability of the residuals is roughly constant within each group. Here’s the scale-location plot for the corn crake example:</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="regression-diagnostics.html#cb149-1"></a><span class="kw">plot</span>(corncrake_model, <span class="dt">which =</span> <span class="dv">3</span>, <span class="dt">add.smooth =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="regression-diagnostics.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(corncrake_model, <span class="at">which =</span> <span class="dv">3</span>, <span class="at">add.smooth =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="stats-for-bio_files/figure-html/diet-diag-3-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>The warning sign we’re looking for here is a systematic pattern. We want to see if the magnitude of the residuals tends to increase or decrease with the fitted values. If such a pattern is apparent then it suggests that variance changes with the mean. There is no such pattern in the above plot so it looks like the constant variance assumption is satisfied.</p>
-<div id="aside-formal-test-of-equality-of-variance" class="section level3">
+<div id="aside-formal-test-of-equality-of-variance" class="section level3" number="23.3.1">
 <h3><span class="header-section-number">23.3.1</span> Aside: formal test of equality of variance</h3>
 <div class="do-something">
 <p>
@@ -688,7 +782,7 @@ It is not critical that you learn the material in this short section. It is prov
 </p>
 </div>
 <p>Looking back over the scale-location plot, it seems like three of the treatment groups exhibit similar variability, while the remaining two are more variable. They aren’t wildly different, so it is reasonable to assume the differences are due to sampling variation. People are sometimes uncomfortable using this sort of visual assessment. They want to see a <em>p</em>-value… A number of statistical tests have been designed to evaluate the equality of variance assumption. The most widely used is the Bartlett test (the <code>bartlett.test</code> function in R). Here is how to use it:</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="regression-diagnostics.html#cb150-1"></a><span class="kw">bartlett.test</span>(WeightGain <span class="op">~</span><span class="st"> </span>Supplement, <span class="dt">data =</span> corn_crake)</span></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="regression-diagnostics.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(WeightGain <span class="sc">~</span> Supplement, <span class="at">data =</span> corn_crake)</span></code></pre></div>
 <pre><code>## 
 ## 	Bartlett test of homogeneity of variances
 ## 
