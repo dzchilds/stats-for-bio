@@ -143,7 +143,7 @@ Write a statistically supported conclusion from the test:
 
 Consider the following scenarios and decide whether the data are suitable for linear regression, Pearson's product-moment correlation or neither:
 
--   Shoe size and height of students in a class. We want to know if shoe size is associated with the height of male students in a class. We measure the shoe size and height from 120 students. You may assume that shoe size is (approximately) measured onn an interval scale. 
+-   Shoe size and height of students in a class. We want to know if shoe size is associated with the height of male students in a class. We measure the shoe size and height from 120 students. You may assume that shoe size is (approximately) measured on an interval scale. 
 
 -   Heart rate and age in the crustacean *Daphnia* reared in the lab. We want to know how, on average, heart rate depends on age. Six groups of 10 *Daphnia* are reared to ages 2, 4, 6, 8, 10, 12 days old. The heart rate of each individual is then assayed at their target age.
 
