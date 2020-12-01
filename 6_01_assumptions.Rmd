@@ -54,7 +54,7 @@ A special set of tools called 'regression diagnostics' allow us to evaluate the 
 
 ```{r, echo = FALSE, eval = FALSE}
 set.seed(27081980)
-partridge <- read.csv(file = "./course-data/PARTRIDG.CSV")
+partridge <- readr::read_csv(file = "./course-data/PARTRIDG.CSV")
 
 partridge_model <- 
   partridge %>% 
@@ -85,8 +85,8 @@ Why do you think we averaged the dawn and dusk partridge counts rather than incl
 
 As hedges cannot move there should be relatively little measurement error in the values of the predictor variable in this study. This leaves assumptions 3 (linearity), 4 (constant variance) and 5 (normality). There is a specific diagnostic plot for each of these.
 
-```{r, echo=FALSE}
-partridge <- read.csv(file = "./data_csv/PARTRIDG_BIGSTUDY.CSV")
+```{r, include=FALSE}
+partridge <- readr::read_csv(file = "./data_csv/PARTRIDG_BIGSTUDY.CSV")
 ```
 
 The data are stored in a CSV file PARTRIDG_BIGSTUDY.CSV (not PARTRIDG.CSV!). The density of hedgerows (km per km^2^) is in the `Hedgerow` variable and the density of partridges (no. per km^2^) is in the `Partridge` variable. Read the data into R, calling it `partridge`. As always we'll start by plotting our data.

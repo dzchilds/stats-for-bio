@@ -127,7 +127,7 @@ You should work through the example in this section.
 
 Let's carry on with the ladybird colour and habitat type example. You need to download three data sets to work through this section: LADYBIRDS1.CSV, LADYBIRDS2.CSV, and LADYBIRDS3.CSV. These all contain the same information---it is just organised differently in each case.
 
-Carrying out a $\chi^{2}$ contingency table test in R is very simple: we use the `chisq.test` function again. The only slight snag is that we have to ensure the data is formatted correctly before it can be used. Whenever we read data into R using `read.csv` we end up with a data frame. Unfortunately, the `chisq.test` function is one of the few statistical functions not designed to work with data frames. This means we first have to use a function called `xtabs` to construct something called a contingency table object.[^chi_sqr_cont_tables-3]. The `xtabs` function does categorical 'cross tabulation'[^chi_sqr_cont_tables-4], i.e., it sums up the number of occurrences of different combinations of categories among variables.
+Carrying out a $\chi^{2}$ contingency table test in R is very simple: we use the `chisq.test` function again. The only slight snag is that we have to ensure the data is formatted correctly before it can be used. Whenever we read data into R using `read.csv` or `read_csv` we end up with a data frame. Unfortunately, the `chisq.test` function is one of the few statistical functions not designed to work with data frames. This means we first have to use a function called `xtabs` to construct something called a contingency table object.[^chi_sqr_cont_tables-3]. The `xtabs` function does categorical 'cross tabulation'[^chi_sqr_cont_tables-4], i.e., it sums up the number of occurrences of different combinations of categories among variables.
 
 [^chi_sqr_cont_tables-3]: The table objects produced by `xtabs` are **not** the same as the `dplyr` table-like objects: 'tibbles'. This is one of the reasons that dplyr adopted the name 'tibble'. The overlap in names is unfortunate, but we'll have to live with it---there are only so many ways to name things that look like tables.
 
@@ -141,14 +141,14 @@ It is not difficult to use, but the precise usage of `xtabs` depends upon how th
 
 **Case 1...**
 
-```{r, echo=FALSE}
-lady_bird_df <- read.csv(file = "./data_csv/LADYBIRDS1.CSV")
+```{r, include=FALSE}
+lady_bird_df <- readr::read_csv(file = "./data_csv/LADYBIRDS1.CSV")
 ```
 
 Data suitable for analysis with a $\chi^{2}$ contingency table test are often represented in a data set with one column per categorical variable, and one row per observation. The `LADYBIRDS1.CSV` file contains the data in this format. Read it into an R data frame:
 
 ```{r, eval=FALSE}
-lady_bird_df <- read.csv(file = "LADYBIRDS1.CSV")
+lady_bird_df <- read_csv(file = "LADYBIRDS1.CSV")
 ```
 
 We called the data `lady_bird_df` to emphasise that they are stored in a data frame at this point. We can use `glimpse`, `head` and `tail` to get a sense of how the data are organised:
@@ -172,14 +172,14 @@ When used like this, `xtabs` will sum up the number of observations with differe
 
 **Case 2...**
 
-```{r, echo=FALSE}
-lady_bird_df <- read.csv(file = "./data_csv/LADYBIRDS2.CSV")
+```{r, include=FALSE}
+lady_bird_df <- readr::read_csv(file = "./data_csv/LADYBIRDS2.CSV")
 ```
 
 Sometimes data suitable for analysis with a $\chi^{2}$ contingency table test are partially summarised into counts. For example, imagine that we had visited five rural sites and five urban sites and recorded the numbers of red and black colour forms found at each site. Data in this format are stored in the `LADYBIRDS2.CSV` file. Read this into an R data frame and examine this with the `View` function:
 
 ```{r, eval=FALSE}
-lady_bird_df <- read.csv(file = "LADYBIRDS2.CSV")
+lady_bird_df <- read_csv(file = "LADYBIRDS2.CSV")
 ```
 
 ```{r}
@@ -198,14 +198,14 @@ When working with data in this format---more than one observation per row---we u
 
 **Case 3...**
 
-```{r, echo=FALSE, warning=FALSE}
-lady_bird_df <- read.csv(file = "./data_csv/LADYBIRDS3.CSV")
+```{r, include=FALSE, warning=FALSE}
+lady_bird_df <- readr::read_csv(file = "./data_csv/LADYBIRDS3.CSV")
 ```
 
 Data suitable for analysis with a $\chi^{2}$ contingency table test are sometimes already summarised into total counts. Data in this format are stored in the `LADYBIRDS3.CSV` file. Read this into an R data frame and print it to the console (it's very small, so there's no need to use `View`):
 
-```{r, eval=FALSE, warning=FALSE}
-lady_bird_df <- read.csv(file = "LADYBIRDS3.CSV")
+```{r, eval=FALSE}
+lady_bird_df <- read_csv(file = "LADYBIRDS3.CSV")
 ```
 
 ```{r, warning=FALSE}

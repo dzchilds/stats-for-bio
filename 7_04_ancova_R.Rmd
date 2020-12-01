@@ -12,8 +12,8 @@ You should begin working through the example from this point.
 
 You need to download the OTTERS.CSV file from MOLE and place it in your working directory. Read the data into an R data frame, giving it the name `seaotters`. Make sure you have a look at the data before you proceed.
 
-```{r, echo=FALSE}
-seaotters <- read.csv(file = "./data_csv/OTTERS.CSV")
+```{r, include=FALSE}
+seaotters <- readr::read_csv(file = "./data_csv/OTTERS.CSV")
 ```
 
 The data are laid out with the response variable in one column and two additional columns for the predictor variables: one contains the codes for the categorical variable, the other contains the values of the numeric variable. Thus, the first column (`Otters`) contains the sea otter abundances, the second column (`Location`) contains the codes for the study population (levels: 'Lagoon' and 'Bay'), and the third column (`Year`) contains the observation year (1993-2004).
@@ -21,8 +21,9 @@ The data are laid out with the response variable in one column and two additiona
 ## Visualising the data
 
 As always we should start by visualising our data. 
-```{r, echo=FALSE}
-seaotters <- read.csv(file = "./data_csv/OTTERS.CSV")
+
+```{r, include=FALSE}
+seaotters <- readr::read_csv(file = "./data_csv/OTTERS.CSV")
 ```
 
 ```{r, fig.align='center', fig.width = 6, fig.height = 4}

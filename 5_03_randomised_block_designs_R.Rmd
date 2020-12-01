@@ -78,13 +78,13 @@ What are the consequences of the two alternatives? If the cages are distributed 
 You should work through the example from here.
 ```
 
-```{r, echo = FALSE}
-damsels <- read.csv("./data_csv/DAMSELS.CSV")
+```{r, include=FALSE}
+damsels <- readr::read_csv("./data_csv/DAMSELS.CSV")
 ```
 
 The data from the damselfly experiment are in a file called DAMSELS.CSV. 
-```{r, eval = FALSE}
-damsels <- read.csv("./DAMSELS.CSV")
+```{r, eval=FALSE}
+damsels <- read_csv("./DAMSELS.CSV")
 ```
 ```{r}
 glimpse(damsels)

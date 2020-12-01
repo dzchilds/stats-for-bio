@@ -12,9 +12,9 @@ There is one line of thinking that says post hoc multiple comparisons tests of a
 
 ## Tukey's HSD in R {#mult-comp-R}
 
-```{r, echo=FALSE, warning = FALSE}
+```{r, include=FALSE, warning = FALSE}
 library("agricolae")
-corn_crake <- read.csv(file = "./data_csv/CORN_CRAKE.CSV")
+corn_crake <- readr::read_csv(file = "./data_csv/CORN_CRAKE.CSV")
 corncrake_model <- lm(WeightGain ~ Supplement, data = corn_crake)
 ```
 
@@ -25,22 +25,28 @@ We are going to work with the corn crake example again. If you kept the CORN_CRA
 ```
 
 Let's work through the corn crake example again. Read the data into R we and fit an ANOVA model using the `lm` function. 
+
 ```{r, eval=FALSE}
 # 1. read in data
-corn_crake <- read.csv(file = "CORN_CRAKE.CSV")
+corn_crake <- read_csv(file = "CORN_CRAKE.CSV")
 # 2. fit anova model
 corncrake_model <- lm(WeightGain ~ Supplement, data = corn_crake)
 ```
+
 We stored the model object in `corncrake_model`. In the [One-way ANOVA in R] chapter we saw how to evaluate whether the means differ using  `anova` on this object. We use a couple of new functions to carry out a Tukey HSD test. First, we have to convert the linear model object into a different kind of model object using the `aov` function:
+
 ```{r}
 corncrake_aov <- aov(corncrake_model)
 ```
+
 We don't really need to understand what this is doing---`aov` prepares the model so that we can perform a Tukey HSD test. Notice that we gave the new object its own name (`corncrake_aov`) because we need to use it in the next step.
 
-It is easy to perform a Tukey HSD test once we have the 'aov' version of our model. There are a few different options. Here is how to do this using the `TukeyHSD` function:  
+It is easy to perform a Tukey HSD test once we have the 'aov' version of our model. There are a few different options. Here is how to do this using the `TukeyHSD` function:
+
 ```{r, eval=FALSE}
 TukeyHSD(corncrake_aov, ordered = TRUE)
 ```
+
 Pay attention! We applied the `TukeyHSD` function to the 'aov' object, *not* the original `lm` object. We have suppressed the output for now. Before we review it we need to get an idea of what it is going to show us.
 
 The `ordered = TRUE` tells `TukeyHSD` that we want to order the treatment means from smallest to largest, and then apply every pairwise comparison, starting with the smallest mean ('Allvit') and working up through the order. Here are the means ordered from smallest to largest, working left to right:

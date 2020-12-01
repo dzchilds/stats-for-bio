@@ -10,8 +10,8 @@ An experimental design that sets out to produce paired-data is known as a *paire
 
 ## Why do we use a paired-sample design?
 
-```{r, echo = FALSE}
-drug_data <- read.csv(file = "./data_csv/GLYCOLIPID.CSV")
+```{r, include=FALSE}
+drug_data <- readr::read_csv(file = "./data_csv/GLYCOLIPID.CSV")
 ```
 
 Consider the following. A drug company wishes to test two drugs for their effectiveness in treating a rare illness in which glycolipids are poorly metabolised. An effective drug is one that lowers glycolipid concentrations in patients. The company is only able to find 8 patients willing to cooperate in the early trials of the two drugs. What's more, the 8 patients vary in their age, sex, body weight, severity of symptoms and other health problems.
@@ -78,8 +78,8 @@ R offers the option of a paired-sample *t*-test to save us the effort of calcula
 You should work through the example in this section.
 ```
 
-```{r, echo=FALSE}
-glycolipid <- read.csv(file = "./data_csv/GLYCOLIPID.CSV")
+```{r, include=FALSE}
+glycolipid <- readr::read_csv(file = "./data_csv/GLYCOLIPID.CSV")
 ```
 
 Staying with the problem of trials of two drugs for controlling glycolipid levels, the serum glycolipid concentration data from the trial illustrated above are stored in the GLYCOLIPID.CSV file. Download the this file from MOLE and place it in the working directory. Read GLYCOLIPID.CSV into an R data frame, giving it the name `glycolipid`.

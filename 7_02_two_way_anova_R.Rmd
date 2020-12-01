@@ -6,8 +6,8 @@ Our goal in this chapter is to learn how to work with two-way ANOVA models in R,
 
 ## Competition between *Calluna* and *Festuca*
 
-```{r, echo=FALSE}
-festuca <- read.csv(file = "./data_csv/FESTUCA.CSV")
+```{r, include=FALSE}
+festuca <- readr::read_csv(file = "./data_csv/FESTUCA.CSV")
 ```
 
 Plants have an optimal soil pH for growth, and this varies between species. Consequently we would expect that if we grow two plants in competition with each other at different pH values the effect of competition might vary according to the soil pH. In a recent study the growth of the grass *Festuca ovina* (Sheep’s Fescue) in competition with the heather *Calluna vulgaris* (Ling) was investigated in soils with different pH. *Calluna* is well adapted to grow on very acidic soils such as on the Millstone grit and blanket bogs around Sheffield. *Festuca* grows on soils with a much wider range of pH. We might hypothesise that *Calluna* will be a better competitor of *Festuca* in very acid soils than in moderately acid soils.
@@ -33,13 +33,16 @@ The following data are the yields of *Festuca* from each treatment (dry weight i
 You should begin working through the *Festuca* example from this point.
 ```
 
-The data are in a CSV file called FESTUCA.CSV. We'll read the data into an R data frame, giving it the name `festuca`, and then print *the whole data frame to the Console* (`View` is another option here):
+The data are in a CSV file called FESTUCA.CSV. We'll read the data into an R data frame, giving it the name `festuca`, and then print *the whole data frame* (`View` is another option here):
+
 ```{r, eval=FALSE}
-festuca <- read.csv(file = "FESTUCA.CSV")
+festuca <- read_csv(file = "FESTUCA.CSV")
 ```
+
 ```{r, echo=FALSE}
 festuca
 ```
+
 Notice that the data for a two-factor experiment can be laid out in a very similar manner to those from a one factor experiment, with the response variable in one column, but now there are two additional columns containing the codes for the treatments, one for pH and one for *Calluna*. The first column (`Weight`) contains the *Festuca* dry weights, the second column (`pH`) contains the codes for the pH treatment (levels: pH3.5, pH5.5), the third column (`Calluna`) contains the codes for the presence or absence of *Calluna* (levels: Present, Absent). 
 
 A couple of points are worth noting at this point:

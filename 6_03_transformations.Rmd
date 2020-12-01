@@ -16,10 +16,10 @@ In these cases steps may need to be taken to deal with the problem. This chapter
 
 ## Data transformation: ANOVAs and *t*-tests {#ant-eg}
 
-### The data: foraging in ants 
+### The data---foraging in ants 
 
-```{r}
-ants <- read.csv("./data_csv/ANTS1.CSV")
+```{r, include=FALSE}
+ants <- readr::read_csv("./data_csv/ANTS1.CSV")
 ```
 
 Red wood ants, *Formica rufa*, forage for food (mainly insects and ‘honeydew’ produced by aphids) both on the ground and in the canopies of trees. Rowan, oak and sycamore support very different communities of insect herbivores (including aphids) and it would be interesting to know whether the foraging efficiency of ant colonies is affected by the type of trees available to them. As part of an investigation of the foraging of *Formica rufa* observations were made of the prey being carried by ants down trunks of rowan, oak and sycamore trees. The total biomass of prey being transported was measured over a 30 minute sampling period and the data were expressed as the biomass (dry weight in mg) of prey divided by the total number of ants leaving the tree to give the rate of food collection per ant per half hour. Observations were made on 28 rowan, 26 sycamore, and 27 oak trees.
@@ -31,23 +31,29 @@ Work through the ants example.
 ```
 
 The data are the file ANTS1.CSV. The `Tree` variable contains the tree identities and the `Food` variable contains the food collection rates:
+
 ```{r, eval = FALSE}
-ants <- read.csv("ANTS1.CSV")
+ants <- read_csv("ANTS1.CSV")
 ```
+
 ```{r}
 glimpse(ants)
 ```
 
 Let's examine the data. We could make a dot plot...
+
 ```{r ants-quick-plot1, fig.align='center', fig.asp=0.4}
 ggplot(ants, aes(x = Food)) + 
   geom_dotplot(binwidth = 6) + facet_wrap(~ Tree)
 ```
+
 ...or we could construct a box and whiskers plot:
+
 ```{r ants-quick-plot2, fig.align='center', fig.asp=1, fig.width=4}
 ggplot(ants, aes(x = Tree, y = Food)) + 
   geom_boxplot()
 ```
+
 It doesn't matter which plot we use. They tell the same story. The food collection rate is generally highest in Oaks and lowest in Rowans (Sycamores are in between). Notice too that the sample distribution of food collection rate is right-skewed. The test we are most likely to want to use with these data is an ANOVA, i.e. we want to assess whether the mean food collection rates are different among the three tree species. Already we have an indication that an ANOVA with the raw food values may be problematic. 
 
 ### Fit the model and checking the assumptions
@@ -62,14 +68,18 @@ This chapter is about fixing models when the assumptions are not satisfied. What
 
 4. **Equal variance.** The variance in each level of the grouping factor is the same.
 
-We'll have to assume the first assumption is satisfied and the food collection rate (second assumption) is obviously measured on a ratio scale. The distributional assumptions (normality and equality of variance) are the ones we can address with a transformation. Let's fit the ANOVA model and produce regression diagnostics to evaluate these---remember, we make these kinds of plots *after* we have fitted a statistical model: 
+We'll have to assume the first assumption is satisfied and the food collection rate (second assumption) is obviously measured on a ratio scale. The distributional assumptions (normality and equality of variance) are the ones we can address with a transformation. Let's fit the ANOVA model and produce regression diagnostics to evaluate these---remember, we make these kinds of plots *after* we have fitted a statistical model:
+
 ```{r}
 ant_mod <- lm(Food ~ Tree, data = ants)
 ```
+
 We need to produce a 'normal probability plot' to assess the normality assumption:
+
 ```{r ants-diagnostic1, fig.align='center', fig.asp=1.1, fig.width=4}
 plot(ant_mod, which = 2)
 ```
+
 This plot exhibits the accelerating curvature that is indicative of right-skewed residuals. This probably isn't just sampling variation because there is a systematic departure from the dashed line everywhere along it. So... it looks like there is a problem. This sort of pattern is quite common in biological data, especially when it involves counts. Clearly we might be a bit worried about using an ANOVA with these data since it assumes the residuals to be at least approximately normally distributed.
 
 Are the variances significantly different? Look at the box plots above. The data from the three samples seem to have rather different scatter. The sample from the rowan has less variation than that from the sycamore, and the sycamore has less variation than the oak. Does the scale-location plot tell the same story?

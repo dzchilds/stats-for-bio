@@ -23,8 +23,8 @@ seaotters %<>% mutate(Year = 1992 + Year) %>% select(Otters, Location, Year)
 write.csv(seaotters, file = "./course-data/OTTERS.CSV", row.names = FALSE)
 ```
 
-```{r, echo = FALSE}
-seaotters <- read.csv(file = "./data_csv/OTTERS.CSV")
+```{r, include=FALSE}
+seaotters <- readr::read_csv(file = "./data_csv/OTTERS.CSV")
 ```
 
 Let's consider an example of when an ANCOVA might be useful. Following a period of recovery from overhunting, sea otter (*Enhydra lutris*) populations in western Alaska began declining in 1990s. A team of marine scientists hypothesised that rising killer whale abundances---leading to greater rates of predation---was driving this change. They set out to evaluate the impact of killer whales on sea otter populations at Plah Island, Alaska, by contrasting sea otter trends between Holdi Lagoon, an area inaccessible to killer whales, and the adjacent Handae Bay, an open coastal environment.

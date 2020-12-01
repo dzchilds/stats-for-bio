@@ -16,12 +16,12 @@ You should work through the example in the next few sections.
 
 You'll need to read in the GLUCOSE.CSV file again and fit the regression using the `lm` function as before. 
 
-```{r, echo = FALSE}
-vicia_germ <- read.csv(file = "./data_csv/GLUCOSE.CSV")
+```{r, include=FALSE}
+vicia_germ <- readr::read_csv(file = "./data_csv/GLUCOSE.CSV")
 ```
 
 ```{r, eval = FALSE}
-vicia_germ <- read.csv(file = "GLUCOSE.CSV")
+vicia_germ <- read_csv(file = "GLUCOSE.CSV")
 ```
 
 ```{r}
@@ -72,12 +72,12 @@ You should work through the example in the next few sections.
 
 Let's step through the diagnostics for a one way ANOVA now, using the corncrake hatchlings example from the [One-way ANOVA in R] chapter. Read the data into R again and fit the model as before. 
 
-```{r, echo=FALSE}
-corn_crake <- read.csv(file = "./data_csv/CORN_CRAKE.CSV")
+```{r, include=FALSE}
+corn_crake <- readr::read_csv(file = "./data_csv/CORN_CRAKE.CSV")
 ```
 
 ```{r, eval=FALSE}
-corn_crake <- read.csv(file = "CORN_CRAKE.CSV")
+corn_crake <- read_csv(file = "CORN_CRAKE.CSV")
 
 ```
 
