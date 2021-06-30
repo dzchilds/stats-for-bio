@@ -119,7 +119,7 @@ DON’T:
 
 -   Skip preparatory work or get behind schedule — there is too much material to assimilate all at once. 
 
-Like all skills, data analysis is something you have practice. It often feels difficult and confusing at first but it does get easier with practise.
+Like all skills, data analysis is something you have to practise. It often feels difficult and confusing at first but it does get easier with practice.
 
 ### Conventions used in the course material {#conventions}
 
