@@ -70,7 +70,7 @@ This step is often straightforward, though some effort may be required to pick a
 
 Once we have decided which variables to study, we have to decide which **population parameters** are relevant. A population parameter is simple a numeric quantity that describes the variable(s) we want to learn about. A population parameter describes a property of that variable in the population. It's not a property of our actual data.
 
-A simple population parameter familiar to many people is the population mean. We often study means because they allows us to answer questions like, "how much, on average, of something is present?". Quite a number of the statistical tests in this book biol down to asking questions of population means. That doesn't mean we can't ask questions about other kinds of population parameters:
+A simple population parameter familiar to many people is the population mean. We often study means because they allows us to answer questions like, "how much, on average, of something is present?". Quite a number of the statistical tests in this book boil down to asking questions of population means. That doesn't mean we can't ask questions about other kinds of population parameters:
 
 -   Statistical genetics aims to partition *variability* among individuals---we want to know how much phenotypic variation is due to genetic vs. non-genetic sources. In this case it is population *variances* we want to learn about.
 
